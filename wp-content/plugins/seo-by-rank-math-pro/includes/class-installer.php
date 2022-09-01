@@ -175,6 +175,18 @@ class Installer {
 			];
 		}
 
+		$podcast_options = [
+			'podcast_title'       => '%sitename%',
+			'podcast_description' => '%sitedesc%',
+			'podcast_explicit'    => 'off',
+		];
+
+		foreach ( $podcast_options as $key => $value ) {
+			if ( empty( $general[ $key ] ) ) {
+				$general[ $key ] = $value;
+			}
+		}
+
 		Helper::update_all_settings( $general, null, $sitemap );
 	}
 }

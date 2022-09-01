@@ -32,7 +32,7 @@ class Comment_Audit extends Audit_Event {
 				'action_type' => self::ACTION_FLOOD,
 				'context'     => self::CONTEXT_COMMENT,
 				'text'        => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user */
 					esc_html__( '%1$s User %2$s flooded comment', 'wpdef' ),
 					'{{blog_name}}',
 					'{{wp_user}}'
@@ -120,7 +120,7 @@ class Comment_Audit extends Audit_Event {
 		$post_type_label = strtolower( $post_type->labels->singular_name );
 		$blog_name       = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
 		$text            = sprintf(
-		/* translators: */
+		/* translators: 1: Blog name, 2: Comment author, 3: Post type, 4: Post title */
 			esc_html__( '%1$s User %2$s submitted a duplicate comment on %3$s "%4$s"', 'wpdef' ),
 			$blog_name,
 			is_user_logged_in() ? $this->get_user_display( get_current_user_id() ) : $comment_data['comment_author'],
@@ -146,7 +146,7 @@ class Comment_Audit extends Audit_Event {
 		$text            = false;
 		if ( 'unapproved' === $old_stat && 'approved' === $new_stat ) {
 			$text = sprintf(
-			/* translators: */
+			/* translators: 1: Blog name, 2: User's display name, 3: Comment ID, 4: Comment author, 5: Post type, 6: Post title */
 				esc_html__( '%1$s %2$s approved comment ID %3$s from %4$s, on %5$s "%6$s"', 'wpdef' ),
 				$blog_name,
 				$this->get_user_display( get_current_user_id() ),
@@ -157,7 +157,7 @@ class Comment_Audit extends Audit_Event {
 			);
 		} elseif ( 'unapproved' === $new_stat && 'approved' === $old_stat ) {
 			$text = sprintf(
-			/* translators: */
+			/* translators: 1: Blog name, 2: User's display name, 3: Comment ID, 4: Comment author, 5: Post type, 6: Post title */
 				esc_html__( '%1$s %2$s unapproved comment ID %3$s from %4$s, on %5$s "%6$s"', 'wpdef' ),
 				$blog_name,
 				$this->get_user_display( get_current_user_id() ),
@@ -211,7 +211,7 @@ class Comment_Audit extends Audit_Event {
 				}
 				if ( 0 == $comment['comment_parent'] ) {
 					$text = sprintf(
-					/* translators: */
+					/* translators: 1: Blog name, 2: Comment author, 3: Post type, 4: Post title, 5: Comment status */
 						__( '%1$s %2$s commented on %3$s "%4$s" - comment status: %5$s', 'wpdef' ),
 						$blog_name,
 						$comment['comment_author'],
@@ -222,7 +222,7 @@ class Comment_Audit extends Audit_Event {
 				} else {
 					$parent_comment = get_comment( $comment['comment_parent'] );
 					$text           = sprintf(
-					/* translators: */
+					/* translators: 1: Blog name, 2: Comment author, 3: Parent comment author, 4: Post type, 5: Post title, 6: Comment status */
 						__( "%1\$s %2\$s replied to %3\$s's comment on %4\$s \"%5\$s\" - comment status: %6\$s", 'wpdef' ),
 						$blog_name,
 						$comment['comment_author'],
@@ -235,7 +235,7 @@ class Comment_Audit extends Audit_Event {
 				break;
 			case 'deleted_comment':
 				$text = sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Comment author, 3: Parent comment author, 4: Post type, 5: Post title, 6: Comment status */
 					__( '%1$s %2$s deleted comment ID %3$s, comment author: %4$s on %5$s "%6$s"', 'wpdef' ),
 					$blog_name,
 					$this->get_user_display( get_current_user_id() ),
@@ -247,7 +247,7 @@ class Comment_Audit extends Audit_Event {
 				break;
 			case 'trash_comment':
 				$text = sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: User's display name, 3: Comment ID, 4: Comment author, 5: Post type, 6: Post title */
 					__( '%1$s %2$s trashed comment ID %3$s, comment author: %4$s on %5$s "%6$s"', 'wpdef' ),
 					$blog_name,
 					$this->get_user_display( get_current_user_id() ),
@@ -259,7 +259,7 @@ class Comment_Audit extends Audit_Event {
 				break;
 			case 'untrash_comment':
 				$text = sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: User's display name, 3: Comment ID, 4: Comment author, 5: Post type, 6: Post title */
 					__( '%1$s %2$s untrashed comment ID %3$s, comment author: %4$s on %5$s "%6$s"', 'wpdef' ),
 					$blog_name,
 					$this->get_user_display( get_current_user_id() ),
@@ -271,7 +271,7 @@ class Comment_Audit extends Audit_Event {
 				break;
 			case 'spam_comment':
 				$text = sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: User's display name, 3: Comment ID, 4: Comment author, 5: Post type, 6: Post title */
 					__( '%1$s %2$s marked comment ID %3$s, comment author: %4$s on %5$s "%6$s" as spam', 'wpdef' ),
 					$blog_name,
 					$this->get_user_display( get_current_user_id() ),
@@ -283,7 +283,7 @@ class Comment_Audit extends Audit_Event {
 				break;
 			case 'unspam_comment':
 				$text = sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: User's display name, 3: Comment ID, 4: Comment author, 5: Post type, 6: Post title */
 					__( '%1$s %2$s unmarked comment ID %3$s, comment author: %4$s on %5$s "%6$s" as spam', 'wpdef' ),
 					$blog_name,
 					$this->get_user_display( get_current_user_id() ),
@@ -295,7 +295,7 @@ class Comment_Audit extends Audit_Event {
 				break;
 			case 'edit_comment':
 				$text = sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: User's display name, 3: Comment ID, 4: Comment author, 5: Post type, 6: Post title */
 					__( '%1$s %2$s edited comment ID %3$s, comment author: %4$s on %5$s "%6$s"', 'wpdef' ),
 					$blog_name,
 					$this->get_user_display( get_current_user_id() ),

@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.6.12
+Version: 3.6.13
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -35,9 +35,9 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
     require_once dirname(__FILE__).'/includes/Integrations/LoadLegacy.php';
 
     $legacyLoader = new NF_LoadLegacy();
-    
+
     add_action('plugins_loaded',array($legacyLoader,'handle'));
-    
+
 } else {
 
     include_once 'lib/NF_Upgrade.php';
@@ -55,8 +55,8 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
          * @since 3.0
          */
 
-        const VERSION = '3.6.12';
-        
+        const VERSION = '3.6.13';
+
         /**
          * @since 3.4.0
          */
@@ -77,10 +77,10 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
          * @var string $dir
          */
         public static $dir = '';
-        
+
         /**
          * Plugin Database Version
-         * 
+         *
          * This may be overwritten at a later point in this file.
          *
          * @since 3.4.0
@@ -341,6 +341,11 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
                  */
                 self::$instance->preview = new NF_Display_Preview();
 
+                /**
+                 * Admin Footer Text
+                 */
+                new NF_Admin_FooterMessage();
+
                 /*
                  * Public Form Link
                  */
@@ -363,7 +368,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
                  */
 
                 require_once Ninja_Forms::$dir . 'blocks/ninja-forms-blocks.php';
-                
+
                 /*
                  * Submission Metabox
                  */
@@ -420,7 +425,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
                  * Fieldset Repeater Handler
                  */
                 self::$instance->fieldsetRepeater =  new NF_Handlers_FieldsetRepeater();
-                
+
                 self::$instance->submission_expiration_cron = new NF_Database_SubmissionExpirationCron();
 
                 /*
@@ -453,7 +458,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
                     require_once( self::$dir . 'includes/Integrations/EDD/EDD_SL_Plugin_Updater.php');
                 }
                 require_once self::$dir . 'includes/Integrations/EDD/class-extension-updater.php';
-                
+
                 // If Ninja Forms was just upgraded...
                 if ( $plugin_upgrade ) {
                     // Ensure all of our tables have been defined.
@@ -465,7 +470,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
                     $settings = Ninja_Forms()->get_settings();
                     if( ! isset($settings['builder_dev_mode'])){
                         Ninja_Forms()->update_setting('builder_dev_mode', 1);
-                    } 
+                    }
                 }
             }
 
@@ -474,7 +479,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
             add_action( 'plugins_loaded', array( self::$instance, 'plugins_loaded' ) );
 
             add_action( 'ninja_forms_available_actions', array( self::$instance, 'scrub_available_actions' ) );
-            
+
             add_action( 'init', array( self::$instance, 'init' ), 5 );
             add_action( 'admin_init', array( self::$instance, 'admin_init' ), 5 );
 
@@ -486,7 +491,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
                 // Pulls in the whip notice if the user is.
                 add_action( 'admin_init', array( self::$instance, 'nf_php_version_whip_notice' ) );
             }
-            
+
             add_action( 'admin_init', array( self::$instance, 'nf_do_telemetry' ) );
             add_action( 'admin_init', array( self::$instance, 'nf_plugin_add_suggested_privacy_content' ), 20 );
 
@@ -524,7 +529,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
             add_filter( 'ninja_forms_required_updates', array( $this, 'remove_completed_updates' ), 99 );
             add_filter( 'ninja_forms_required_updates', array( $this, 'remove_bad_updates' ), 99 );
 
-           // Sets up a weekly cron to run the promotion manager. 
+           // Sets up a weekly cron to run the promotion manager.
             if ( ! wp_next_scheduled( 'nf_weekly_promotion_update' ) ) {
                 wp_schedule_event( current_time( 'timestamp' ), 'nf-weekly', 'nf_weekly_promotion_update' );
             }
@@ -543,7 +548,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
             // AND If we have any forms on the site...
             // AND If the gate is open...
             // To avoid errors on older upgrades, ignore the gatekeeper if the db version is the baseline (1.0)...
-            elseif ( ! empty( $required_updates ) 
+            elseif ( ! empty( $required_updates )
                 && 0 < $result[ 0 ][ 'total' ]
                 &&  ( WPN_Helper::gated_release( $threshold )
                 || '1.0' == self::$db_version ) ) {
@@ -567,7 +572,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
                 $page_template = get_page_template();
                 if( ! empty( $page_template ) )
                     $template = $page_template;
-                
+
                 new NF_Display_PagePublicLink($form_id);
             }
             return $template;
@@ -609,7 +614,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
             require_once self::$dir . '/includes/Libraries/Whip/NF_Php_Version_Whip.php';
             return new NF_Php_Version_Whip();
         }
-        
+
         /**
          * Function to launch our various telemetry calls on admin_init.
          */
@@ -643,7 +648,8 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
                 unset(
                     $items[ 'apps' ],
                     $items[ 'memberships' ],
-                    $items[ 'services' ]
+                    $items[ 'services' ],
+                    $items[ 'user_access' ],
                 );
             }
 			if ( 1 == get_option( 'ninja_forms_needs_updates' ) ) {
@@ -651,7 +657,8 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
                     $items[ 'widgets' ],
                     $items[ 'apps' ],
                     $items[ 'memberships' ],
-                    $items[ 'services' ]
+                    $items[ 'services' ],
+                    $items[ 'user_access' ],
 				);
 			}
             return $items;
@@ -667,9 +674,9 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
         }
 
         /**
-         * Call back function for the promo manager cron. 
-         * Grabs a fresh copy of the promotions and stores them in an option. 
-         * 
+         * Call back function for the promo manager cron.
+         * Grabs a fresh copy of the promotions and stores them in an option.
+         *
          * @return void
          */
         public function nf_run_promotion_manager()
@@ -680,23 +687,23 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
         }
 
         /**
-         * Listens for plugin activation and runs check to see if any 
+         * Listens for plugin activation and runs check to see if any
          * promotions need to be added or removed.
          *
-         * @return void 
+         * @return void
          */
-        public function nf_bust_promotion_cache_on_plugin_activation( $plugin, $network_activation ) 
+        public function nf_bust_promotion_cache_on_plugin_activation( $plugin, $network_activation )
         {
             $addons_with_promotions = $this->get_promotion_addons_lookup_table();
-            $plugin = explode( '/', $plugin ); 
+            $plugin = explode( '/', $plugin );
             $this->nf_maybe_bust_promotion_cache( $addons_with_promotions, $plugin[ 0 ] );
         }
 
         /**
          * Build a look up table for the add-ons that have promotions.
-         * TODO: maybe come up with a better name for this class. 
-         * 
-         * @return array of promotions.  
+         * TODO: maybe come up with a better name for this class.
+         *
+         * @return array of promotions.
          */
         public function get_promotion_addons_lookup_table()
         {
@@ -704,7 +711,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
             $nf_promotion_addons = array(
                 'ninja-forms-conditional-logic', // Account for development environments.
                 'ninja-forms-conditionals',
-                'ninja-forms-uploads', 
+                'ninja-forms-uploads',
                 'ninja-forms-multi-part',
                 'ninja-forms-layout-styles', // Account for development environments.
                 'ninja-forms-style',
@@ -715,9 +722,9 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
         }
 
         /**
-         * Loops over our add-ons that have promotions and 
-         * runs the promotion manager class. 
-         * 
+         * Loops over our add-ons that have promotions and
+         * runs the promotion manager class.
+         *
          * @return void
          */
         public function nf_maybe_bust_promotion_cache( $promo_addons, $plugin_being_activated )
@@ -1094,12 +1101,12 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
                 }
             }
         }
-		
+
 		/**
 		 * Function to deregister already completed updates from the list of required updates.
-		 * 
+		 *
 		 * @since 3.3.14
-		 * 
+		 *
 		 * @param $updates (Array) Our array of required updates.
 		 * @return $updates (Array) Our array of required updates.
 		 */
@@ -1113,9 +1120,9 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
 					unset( $updates[ $slug ] );
 				}
             }
-            
-            if( isset( $updates[ 'CacheCollateFields' ] ) 
-                && isset( $updates[ 'CacheFieldReconcilliation' ] ) 
+
+            if( isset( $updates[ 'CacheCollateFields' ] )
+                && isset( $updates[ 'CacheFieldReconcilliation' ] )
                 && !isset( $processed[ 'CacheFieldReconcilliation' ] ) ) {
 
                 unset( $updates[ 'CacheFieldReconcilliation' ] );
@@ -1130,15 +1137,15 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
 
 			return $updates;
         }
-        
+
         /**
          * Function to deregister updates that have required updates that either
          * don't exist, or are malformed
-		 * 
+		 *
 		 * @since UPDATE_TO_LATEST version
-		 * 
+		 *
 		 * @param $updates (Array) Our array of required updates.
-		 * @return $updates (Array) Our array of required updates. 
+		 * @return $updates (Array) Our array of required updates.
          */
         public function remove_bad_updates( $updates ) {
 
@@ -1166,12 +1173,12 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
 
                                     $nf_bad_update_transient = get_transient( 'nf_bad_update_requirement' );
 
-                                    if( ! $nf_bad_update_transient ) { 
+                                    if( ! $nf_bad_update_transient ) {
                                         // send telemetry so we can keep up with these
                                         Ninja_Forms()->dispatcher()->send( 'incomplete_update',
-                                            array( 
+                                            array(
                                                     'update' => $slug,
-                                                    'missing_requirement' => $requirement 
+                                                    'missing_requirement' => $requirement
                                                 )
                                         );
 
@@ -1268,11 +1275,11 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
 
     /**
      * Function to register our Custom Cron Recurrences.
-     * 
+     *
      * @param $schedules (Array) The available cron recurrences.
      * @return (Array) The filtered cron recurrences.
-     * 
-     * @since 
+     *
+     * @since
      * @updated 3.3.17
      */
     function nf_custom_cron_job_recurrence( $schedules ) {
@@ -1295,10 +1302,10 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
         }
     }
     add_action( 'wp', 'nf_optin_send_admin_email_cron_job' );
-    
+
     /**
      * Function called via weekly wp_cron to update our marketing feeds.
-     * 
+     *
      * @since 3.3.17
      */
     function nf_update_marketing_feed() {
@@ -1315,7 +1322,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
 
     /**
      * Function called by our marketing feed cron.
-     * 
+     *
      * @since 3.3.17
      */
     function nf_marketing_feed_cron_job() {

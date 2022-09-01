@@ -306,6 +306,9 @@ class Upgrader {
 		if ( version_compare( $db_version, '3.1.0', '<' ) ) {
 			$this->upgrade_3_1_0();
 		}
+		if ( version_compare( $db_version, '3.2.0', '<' ) ) {
+			$this->upgrade_3_2_0();
+		}
 
 		defender_no_fresh_install();
 		// Don't run any function below this line.
@@ -915,5 +918,22 @@ Your temporary password is {{passcode}}. To finish logging in, copy and paste th
 	private function upgrade_3_1_0() {
 		// Add the modal "What's new".
 		update_site_option( Feature_Modal::FEATURE_SLUG, true );
+	}
+
+	/**
+	 * Upgrade to 3.2.0.
+	 *
+	 * @since 3.2.0
+	 * @return void
+	 */
+	private function upgrade_3_2_0(): void {
+		$model = wd_di()->get( Two_Fa_Settings::class );
+
+		if ( ! empty( $model->app_title ) ) {
+			$model->app_title = wp_specialchars_decode( $model->app_title, ENT_QUOTES );
+		}
+
+		$model->custom_graphic_type = Two_Fa_Settings::CUSTOM_GRAPHIC_TYPE_UPLOAD;
+		$model->save();
 	}
 }

@@ -5,7 +5,7 @@ namespace NinjaForms\Includes\Entities;
 use NinjaForms\Includes\Entities\SimpleEntity;
 
 /**
- * Define paramters used to filter submissions
+ * Define parameters used to filter submissions
  */
 class SubmissionFilter extends SimpleEntity
 {
@@ -51,6 +51,17 @@ class SubmissionFilter extends SimpleEntity
      */
     protected $submissionsIDs = [];
     
+    /**
+     * Filter submissions by user ID
+     *
+     * Default value is null, signifying that no filter for user ID is to be
+     * applied.  This is to differentiate from a user Id of 0, which indicates
+     * that the submission was created by a non-logged in user.
+     * 
+     * @var integer
+     */
+    protected $userId = null;
+
     /**
      * Construct entity from associative array
      *
@@ -185,6 +196,30 @@ class SubmissionFilter extends SimpleEntity
     public function setStatus(array $status):SubmissionFilter
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get user Id for filter submissions
+     *
+     * @return  int
+     */
+    public function getUserId(): ?int
+    {
+        return $this->userId;
+    }
+
+    /**
+     * Set user Id for filter submissions
+     *
+     * @param  int  $userId  User Id for filter submissions
+     *
+     * @return  SubmissionFilter
+     */
+    public function setUserId(int $userId): SubmissionFilter
+    {
+        $this->userId = $userId;
 
         return $this;
     }

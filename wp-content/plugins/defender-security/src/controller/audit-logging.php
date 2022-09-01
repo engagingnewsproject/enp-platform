@@ -410,19 +410,6 @@ class Audit_Logging extends Controller {
 	}
 
 	/**
-	 * Setup config for audit.
-	 * Todo: need?
-	 */
-	public function optimize_configs() {
-		$settings          = new \WP_Defender\Model\Setting\Audit_Logging();
-		$settings->enabled = true;
-		$settings->save();
-
-		$report = new Audit_Report();
-		$report->save();
-	}
-
-	/**
 	 * All the variables that we will show on frontend, both in the main page, or dashboard widget.
 	 *
 	 * @return array

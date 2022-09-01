@@ -99,14 +99,12 @@ class Security_Headers extends Setting {
 	public $data = array();
 
 	/**
-	 * Define labels for settings key
+	 * Define settings labels.
 	 *
-	 * @param  string|null $key
-	 *
-	 * @return string|array|null
+	 * @return array
 	 */
-	public function labels( $key = null ) {
-		$labels = array(
+	public function labels() {
+		return array(
 			'sh_xframe'                    => __( 'Enable X-Frame-Options', 'wpdef' ),
 			'sh_xframe_mode'               => __( 'X-Frame-Options mode', 'wpdef' ),
 			'sh_xss_protection'            => __( 'Enable X-XSS-Protection', 'wpdef' ),
@@ -123,16 +121,10 @@ class Security_Headers extends Setting {
 			'sh_feature_policy_mode'       => __( 'Permissions-Policy mode', 'wpdef' ),
 			'sh_feature_policy_urls'       => __( 'Specific Origins', 'wpdef' ),
 		);
-
-		if ( ! is_null( $key ) ) {
-			return $labels[ $key ] ?? null;
-		}
-
-		return $labels;
 	}
 
 	/**
-	 * Get headers
+	 * Get headers.
 	 *
 	 * @return array
 	 */
@@ -148,7 +140,7 @@ class Security_Headers extends Setting {
 	}
 
 	/**
-	 * Filter the security headers and return data as array
+	 * Filter the security headers and return data as array.
 	 *
 	 * @param bool $sort
 	 *
@@ -198,26 +190,20 @@ class Security_Headers extends Setting {
 		$this->save();
 	}
 
-	public function after_validate() {
+	protected function after_validate(): void {
 		if ( true === $this->sh_xframe
 			&& ( empty( $this->sh_xframe_mode )
 			|| ! in_array( $this->sh_xframe_mode, array( 'sameorigin', 'deny' ), true ) )
 		) {
 			$this->errors[] = __( 'X-Frame-Options mode is invalid', 'wpdef' );
-
-			return false;
 		}
-
-		if ( true === $this->sh_xss_protection
+		elseif ( true === $this->sh_xss_protection
 			&& ( empty( $this->sh_xss_protection_mode )
 				|| ! in_array( $this->sh_xss_protection_mode, array( 'sanitize', 'block', 'none' ), true ) )
 		) {
 			$this->errors[] = __( 'X-XSS-Protection mode is invalid', 'wpdef' );
-
-			return false;
 		}
-
-		if ( true === $this->sh_referrer_policy
+		elseif ( true === $this->sh_referrer_policy
 			&& ( empty( $this->sh_referrer_policy_mode )
 				|| ! in_array(
 					$this->sh_referrer_policy_mode,
@@ -236,8 +222,6 @@ class Security_Headers extends Setting {
 			)
 		) {
 			$this->errors[] = __( 'Referrer Policy mode is invalid', 'wpdef' );
-
-			return false;
 		}
 	}
 

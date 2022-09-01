@@ -235,7 +235,7 @@ class Webauthn extends Two_Factor_Provider {
 		}
 
 		$browser_extension_message = sprintf(
-			/* translators: ... */
+			/* translators: %s: Browser version */
 			__(
 				'<span class="browser-incompatible-msg">The current browser version <span class="browser-version">%s</span> is not compatible with this feature, please update your browser version, or try a different one. </span>',
 				'wpdef'
@@ -315,29 +315,21 @@ class Webauthn extends Two_Factor_Provider {
 	 */
 	private function get_extension_warning_message(): string {
 		$message = '';
-
 		$failed_extensions = $this->get_failed_extension();
+		$failed_extensions_count = count( $failed_extensions );
 
-		if ( count( $failed_extensions ) > 0 ) {
-			$extension = __( 'extension', 'wpdef' );
-			$verb = __( 'is', 'wpdef' );
-
-			if ( count( $failed_extensions ) > 1 ) {
-				$extension = __( 'extensions', 'wpdef' );
-				$verb = __( 'are', 'wpdef' );
-			}
-
+		if ( $failed_extensions_count > 0 ) {
 			$extension_string = $this->concatenate_failed_extensions( $failed_extensions );
 
 			$message .= sprintf(
-				/* translators: ... */
-				__(
-					'The <span class="extensions">%1$s %2$s</span> %3$s not active on your server. ',
+				/* translators: %s: Missing PHP extension(s) */
+				_n(
+					'The <strong>%s extension</strong> is not active on your server. ',
+					'The <strong>%s extensions</strong> are not active on your server. ',
+					$failed_extensions_count,
 					'wpdef'
 				),
-				$extension_string,
-				$extension,
-				$verb
+				$extension_string
 			);
 		}
 
@@ -370,7 +362,7 @@ class Webauthn extends Two_Factor_Provider {
 
 		if ( ( new WPMUDEV() )->show_support_links() ) {
 			$warning_suffix = sprintf(
-				/* translators: ... */
+				/* translators: %s: Support link */
 				__(
 					'Still, having trouble? <a target="_blank" href="%s">Open a support ticket</a>.',
 					'wpdef'
@@ -381,5 +373,4 @@ class Webauthn extends Two_Factor_Provider {
 
 		return $warning_suffix;
 	}
-
 }

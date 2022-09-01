@@ -78,6 +78,13 @@ class SingleSubmission extends SimpleEntity
     protected $submissionHandlers=[];
 
     /**
+     * User ID of the submitter, "0" if user non logged-in
+     *
+     * @var string
+     */
+    protected $submitterId = "";
+
+    /**
      * Get a field value by the field slug
      *
      * @param string $fieldSlug

@@ -5,180 +5,135 @@
 
 namespace WP_Defender\Component\Audit;
 
-use WP_Defender\Behavior\Utils;
 use WP_Defender\Model\Audit_Log;
+use WP_Upgrader;
 
 class Core_Audit extends Audit_Event {
 	public const ACTION_ACTIVATED = 'activated', ACTION_DEACTIVATED = 'deactivated', ACTION_INSTALLED = 'installed', ACTION_UPGRADED = 'upgraded';
-	public const FILE_ADDED       = 'file_added', FILE_MODIFIED = 'file_modified';
-	public const CONTEXT_THEME    = 'ct_theme', CONTEXT_PLUGIN = 'ct_plugin', CONTEXT_CORE = 'ct_core';
+	public const FILE_ADDED = 'file_added', FILE_MODIFIED = 'file_modified';
+	public const CONTEXT_THEME = 'ct_theme', CONTEXT_PLUGIN = 'ct_plugin', CONTEXT_CORE = 'ct_core';
 
-	public function get_hooks() {
-		$data = array(
-			'switch_theme'              => array(
-				'args'        => array( 'new_name', 'new_theme' ),
-				'callback'    => array( self::class, 'process_activate_theme' ),
-				'event_type'  => Audit_Log::EVENT_TYPE_SYSTEM,
+	/**
+	 * @return array
+	 */
+	public function get_hooks(): array {
+		$data = [
+			'switch_theme' => [
+				'args' => [ 'new_name', 'new_theme' ],
+				'callback' => [ self::class, 'process_activate_theme' ],
+				'event_type' => Audit_Log::EVENT_TYPE_SYSTEM,
 				'action_type' => self::ACTION_ACTIVATED,
-			),
-			'activated_plugin'          => array(
-				'args'         => array( 'plugin' ),
-				'text'         => sprintf(
-				/* translators: */
+			],
+			'activated_plugin' => [
+				'args' => [ 'plugin' ],
+				'text' => sprintf(
+				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Plugin name, 4: Plugin version. */
 					esc_html__( '%1$s %2$s activated plugin: %3$s, version %4$s', 'wpdef' ),
 					'{{blog_name}}',
 					'{{wp_user}}',
 					'{{plugin_name}}',
 					'{{plugin_version}}'
 				),
-				'event_type'   => Audit_Log::EVENT_TYPE_SYSTEM,
-				'action_type'  => self::ACTION_ACTIVATED,
-				'context'      => self::CONTEXT_PLUGIN,
-				'program_args' => array(
-					'plugin_abs_path' => array(
-						'callable' => array( self::class, 'get_plugin_abs_path' ),
-						'params'   => array(
+				'event_type' => Audit_Log::EVENT_TYPE_SYSTEM,
+				'action_type' => self::ACTION_ACTIVATED,
+				'context' => self::CONTEXT_PLUGIN,
+				'program_args' => [
+					'plugin_abs_path' => [
+						'callable' => [ self::class, 'get_plugin_abs_path' ],
+						'params' => [
 							'{{plugin}}',
-						),
-					),
-					'plugin_name'     => array(
-						'callable'        => 'get_plugin_data',
-						'params'          => array(
+						],
+					],
+					'plugin_name' => [
+						'callable' => 'get_plugin_data',
+						'params' => [
 							'{{plugin_abs_path}}',
-						),
+						],
 						'result_property' => 'Name',
-					),
-					'plugin_version'  => array(
-						'callable'        => 'get_plugin_data',
-						'params'          => array(
+					],
+					'plugin_version' => [
+						'callable' => 'get_plugin_data',
+						'params' => [
 							'{{plugin_abs_path}}',
-						),
+						],
 						'result_property' => 'Version',
-					),
-				),
-			),
-			'deleted_plugin'            => array(
-				'args'        => array( 'plugin_file', 'deleted' ),
-				'callback'    => array( self::class, 'process_delete_plugin' ),
+					],
+				],
+			],
+			'deleted_plugin' => [
+				'args' => [ 'plugin_file', 'deleted' ],
+				'callback' => [ self::class, 'process_delete_plugin' ],
 				'action_type' => self::ACTION_DEACTIVATED,
-				'event_type'  => Audit_Log::EVENT_TYPE_SYSTEM,
-			),
-			'deactivated_plugin'        => array(
-				'args'         => array( 'plugin' ),
-				'text'         => sprintf(
-				/* translators: */
+				'event_type' => Audit_Log::EVENT_TYPE_SYSTEM,
+			],
+			'deactivated_plugin' => [
+				'args' => [ 'plugin' ],
+				'text' => sprintf(
+				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Plugin name, 4: Plugin version. */
 					esc_html__( '%1$s %2$s deactivated plugin: %3$s, version %4$s', 'wpdef' ),
 					'{{blog_name}}',
 					'{{wp_user}}',
 					'{{plugin_name}}',
 					'{{plugin_version}}'
 				),
-				'action_type'  => self::ACTION_DEACTIVATED,
-				'event_type'   => Audit_Log::EVENT_TYPE_SYSTEM,
-				'context'      => self::CONTEXT_PLUGIN,
-				'program_args' => array(
-					'plugin_abs_path' => array(
-						'callable' => array( self::class, 'get_plugin_abs_path' ),
-						'params'   => array(
+				'action_type' => self::ACTION_DEACTIVATED,
+				'event_type' => Audit_Log::EVENT_TYPE_SYSTEM,
+				'context' => self::CONTEXT_PLUGIN,
+				'program_args' => [
+					'plugin_abs_path' => [
+						'callable' => [ self::class, 'get_plugin_abs_path' ],
+						'params' => [
 							'{{plugin}}',
-						),
-					),
-					'plugin_name'     => array(
-						'callable'        => 'get_plugin_data',
-						'params'          => array(
+						],
+					],
+					'plugin_name' => [
+						'callable' => 'get_plugin_data',
+						'params' => [
 							'{{plugin_abs_path}}',
-						),
+						],
 						'result_property' => 'Name',
-					),
-					'plugin_version'  => array(
-						'callable'        => 'get_plugin_data',
-						'params'          => array(
+					],
+					'plugin_version' => [
+						'callable' => 'get_plugin_data',
+						'params' => [
 							'{{plugin_abs_path}}',
-						),
+						],
 						'result_property' => 'Version',
-					),
-				),
-			),
-			'upgrader_process_complete' => array(
-				'args'        => array( 'upgrader', 'options' ),
-				'callback'    => array( self::class, 'process_installer' ),
+					],
+				],
+			],
+			'upgrader_process_complete' => [
+				'args' => [ 'upgrader', 'options' ],
+				'callback' => [ self::class, 'process_installer' ],
 				'action_type' => self::ACTION_UPGRADED,
-				'event_type'  => Audit_Log::EVENT_TYPE_SYSTEM,
-			),
-			'wd_plugin/theme_changed'   => array(
-				'args'        => array( 'type', 'object', 'file' ),
-				'action_type' => 'update',
-				'event_type'  => Audit_Log::EVENT_TYPE_SYSTEM,
-				'callback'    => array( self::class, 'process_content_changed' ),
-			),
-			'wd_checksum/new_file'      => array(
-				'args'        => array( 'file' ),
-				'action_type' => self::FILE_ADDED,
-				'event_type'  => Audit_Log::EVENT_TYPE_SYSTEM,
-				'context'     => self::CONTEXT_CORE,
-				'text'        => sprintf(
-				/* translators: */
-					esc_html__( '%1$s A new file added, path %2$s', 'wpdef' ),
-					'{{blog_name}}',
-					'{{file}}'
-				),
-			),
-			'wd_checksum_file_modified' => array(
-				'args'        => array( 'file' ),
-				'action_type' => self::FILE_MODIFIED,
-				'event_type'  => Audit_Log::EVENT_TYPE_SYSTEM,
-				'context'     => self::CONTEXT_CORE,
-				'text'        => sprintf(
-				/* translators: */
-					esc_html__( '%1$s A file has been modified, path %2$s', 'wpdef' ),
-					'{{blog_name}}',
-					'{{file}}'
-				),
-			),
-		);
+				'event_type' => Audit_Log::EVENT_TYPE_SYSTEM,
+			],
+		];
 
 		global $wp_version;
 		// @since 2.7.0 Add hook for deleted theme. Use 'deleted_theme' hook that was added since WP v5.8.0.
 		if ( version_compare( $wp_version, '5.8.0', '>=' ) ) {
-			$data['deleted_theme'] = array(
-				'args'        => array( 'stylesheet', 'deleted' ),
-				'text'        => sprintf(
-				/* translators: */
+			$data['deleted_theme'] = [
+				'args' => [ 'stylesheet', 'deleted' ],
+				'text' => sprintf(
+				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Stylesheet of the theme. */
 					esc_html__( '%1$s %2$s deleted theme: %3$s', 'wpdef' ),
 					'{{blog_name}}',
 					'{{wp_user}}',
 					'{{stylesheet}}'
 				),
 				'action_type' => self::ACTION_DEACTIVATED,
-				'event_type'  => Audit_Log::EVENT_TYPE_SYSTEM,
-				'context'     => self::CONTEXT_THEME,
-			);
+				'event_type' => Audit_Log::EVENT_TYPE_SYSTEM,
+				'context' => self::CONTEXT_THEME,
+			];
 		}
 
 		return $data;
 	}
 
-	public function process_content_changed() {
-		$args      = func_get_args();
-		$type      = $args[1]['type'];
-		$object    = $args[1]['object'];
-		$file      = $args[1]['file'];
-		$blog_name = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
-
-		return array(
-			sprintf(
-			/* translators: */
-				esc_html__( '%1$s %2$s updated file %3$s of %4$s %5$s', 'wpdef' ),
-				$blog_name,
-				$this->get_source_of_action(),
-				$file,
-				$type,
-				$object
-			),
-			'plugin' === $type ? self::CONTEXT_PLUGIN : self::CONTEXT_THEME,
-		);
-	}
-
+	/**
+	 * @return array|bool
+	 */
 	public function upgrade_core() {
 		$update_core = get_site_transient( 'update_core' );
 		if ( is_object( $update_core ) ) {
@@ -187,23 +142,29 @@ class Core_Audit extends Audit_Event {
 			if ( is_object( $updates ) && property_exists( $updates, 'version' ) ) {
 				$blog_name = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
 
-				return array(
+				return [
 					sprintf(
-					/* translators: */
+					/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Wordpress version. */
 						esc_html__( '%1$s %2$s updated WordPress to %3$s', 'wpdef' ),
 						$blog_name,
 						$this->get_source_of_action(),
 						$updates->version
 					),
 					self::CONTEXT_CORE,
-				);
+				];
 			}
 		}
 
 		return false;
 	}
 
-	public function bulk_upgrade( $upgrader, $options ) {
+	/**
+	 * @param WP_Upgrader $upgrader
+	 * @param array $options
+	 *
+	 * @return array|bool|void
+	 */
+	public function bulk_upgrade( WP_Upgrader $upgrader, array $options ) {
 		if ( ! is_object( $upgrader->skin ) ) {
 			return false;
 		}
@@ -216,78 +177,86 @@ class Core_Audit extends Audit_Event {
 		}
 
 		if ( 'theme' === $options['type'] ) {
-			$texts = array();
+			$texts = [];
 			foreach ( $options['themes'] as $slug ) {
 				$theme = wp_get_theme( $slug );
 				if ( is_object( $theme ) ) {
 					$texts[] = sprintf(
-					/* translators: */
-						esc_html( '%1$s %2$s %3$s' ),
+					/* translators: 1: Theme name, 2: Theme version. */
+						$failed_result ? esc_html( '%1$s version %2$s' ) : esc_html( '%1$s to %2$s' ),
 						$theme->Name,
-						$failed_result ? __( 'version', 'wpdef' ) : __( 'to', 'wpdef' ),
 						$theme->get( 'Version' )
 					);
 				}
 			}
 			if ( count( $texts ) ) {
-				return array(
+				return [
 					sprintf(
-					/* translators: */
-						esc_html__( '%1$s %2$s %3$s themes: %4$s', 'wpdef' ),
+						$failed_result ?
+							/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Translated status for themes. */
+							esc_html__( '%1$s %2$s was unable to update themes: %3$s', 'wpdef' ) :
+							/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Translated status for themes. */
+							esc_html__( '%1$s %2$s updated themes: %3$s', 'wpdef' ),
 						$blog_name,
 						$this->get_source_of_action(),
-						$failed_result ? __( 'was unable to update', 'wpdef' ) : __( 'updated', 'wpdef' ),
 						implode( ', ', $texts )
 					),
 					self::CONTEXT_THEME,
-				);
+				];
 			} else {
 				return false;
 			}
 		} elseif ( 'plugin' === $options['type'] ) {
-			$texts = array();
+			$texts = [];
 			foreach ( $options['plugins'] as $slug ) {
 				$plugin = get_plugin_data( WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $slug );
 				if ( is_array( $plugin ) && isset( $plugin['Name'] ) && ! empty( $plugin['Name'] ) ) {
 					$texts[] = sprintf(
-					/* translators: */
-						esc_html( '%1$s %2$s %3$s' ),
+					/* translators: 1: Plugin name, 2: Plugin version. */
+						$failed_result ? esc_html( '%1$s version %2$s' ) : esc_html( '%1$s to %2$s' ),
 						$plugin['Name'],
-						$failed_result ? __( 'version', 'wpdef' ) : __( 'to', 'wpdef' ),
 						$plugin['Version']
 					);
 				}
 			}
 			if ( count( $texts ) ) {
-				return array(
+				return [
 					sprintf(
-					/* translators: */
-						esc_html__( '%1$s %2$s %3$s plugins: %4$s', 'wpdef' ),
+						$failed_result ?
+							/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Translated status for plugins. */
+							esc_html__( '%1$s %2$s was unable to update plugins: %3$s', 'wpdef' ) :
+							/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Translated status for plugins. */
+							esc_html__( '%1$s %2$s updated plugins: %3$s', 'wpdef' ),
 						$blog_name,
 						$this->get_source_of_action(),
-						$failed_result ? __( 'was unable to update', 'wpdef' ) : __( 'updated', 'wpdef' ),
 						implode( ', ', $texts )
 					),
 					self::CONTEXT_PLUGIN,
-				);
+				];
 			} else {
 				return false;
 			}
 		}
 	}
 
-	public function single_upgrade( $upgrader, $options ) {
+	/**
+	 * @param WP_Upgrader $upgrader
+	 * @param array $options
+	 *
+	 * @return array|bool|void
+	 */
+	public function single_upgrade( WP_Upgrader $upgrader, array $options ) {
 		$blog_name = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
 
 		if ( 'theme' === $options['type'] ) {
 			$theme = wp_get_theme( $options['theme'] );
 			if ( is_object( $theme ) ) {
-				$name    = $theme->Name;
+				$name = $theme->Name;
 				$version = $theme->get( 'Version' );
 
-				return array(
+				return [
 					sprintf(
-					/* translators: */
+					/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Theme name, 4: Theme version. */
 						esc_html__( '%1$s %2$s updated theme: %3$s, version %4$s', 'wpdef' ),
 						$blog_name,
 						$this->get_source_of_action(),
@@ -295,7 +264,7 @@ class Core_Audit extends Audit_Event {
 						$version
 					),
 					self::CONTEXT_THEME,
-				);
+				];
 			} else {
 				return false;
 			}
@@ -303,12 +272,12 @@ class Core_Audit extends Audit_Event {
 			$slug = $options['plugin'];
 			$data = get_plugin_data( WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $slug );
 			if ( is_array( $data ) ) {
-				$name    = $data['Name'];
+				$name = $data['Name'];
 				$version = $data['Version'];
 
-				return array(
+				return [
 					sprintf(
-					/* translators: */
+					/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Plugin name, 4: Plugin version. */
 						esc_html__( '%1$s %2$s updated plugin: %3$s, version %4$s', 'wpdef' ),
 						$blog_name,
 						$this->get_source_of_action(),
@@ -316,7 +285,7 @@ class Core_Audit extends Audit_Event {
 						$version
 					),
 					self::CONTEXT_PLUGIN,
-				);
+				];
 			} else {
 				return false;
 			}
@@ -327,14 +296,17 @@ class Core_Audit extends Audit_Event {
 	 * Install process.
 	 * Log in the format: {BLOG_NAME} {USERNAME} installed {theme/plugin}: {theme/plugin name}, version {VERSION}.
 	 *
+	 * @param WP_Upgrader $upgrader
+	 * @param array $options
+	 *
 	 * @return bool|array
 	*/
-	private function single_install( $upgrader, $options ) {
+	private function single_install( WP_Upgrader $upgrader, array $options ) {
 		if ( ! is_object( $upgrader->skin ) ) {
 			return false;
 		}
 		// Only for plugins, themes. No for translation, core.
-		if ( ! in_array( $options['type'], array( 'theme', 'plugin' ), true ) ) {
+		if ( ! in_array( $options['type'], [ 'theme', 'plugin' ], true ) ) {
 			return false;
 		}
 
@@ -362,7 +334,7 @@ class Core_Audit extends Audit_Event {
 
 		$blog_name = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
 		if ( 'theme' === $options['type'] ) {
-			return array(
+			return [
 				sprintf(
 				/* translators: %s - blog name, %s - username, %s - theme name */
 					esc_html__( '%1$s %2$s installed theme: %3$s', 'wpdef' ),
@@ -372,9 +344,9 @@ class Core_Audit extends Audit_Event {
 				),
 				self::CONTEXT_THEME,
 				self::ACTION_INSTALLED,
-			);
+			];
 		} else {
-			return array(
+			return [
 				sprintf(
 				/* translators: %s - blog name, %s - username, %s - plugin name */
 					esc_html__( '%1$s %2$s installed plugin: %3$s', 'wpdef' ),
@@ -384,7 +356,7 @@ class Core_Audit extends Audit_Event {
 				),
 				self::CONTEXT_PLUGIN,
 				self::ACTION_INSTALLED,
-			);
+			];
 		}
 
 		return false;
@@ -400,12 +372,12 @@ class Core_Audit extends Audit_Event {
 	 * 'themes' (array) The theme slugs.
 	 * 'translations' (array) Array of translations update data: 'language', 'type', 'slug', 'version'.
 	 *
-	 * @return mixed
+	 * @return mixed|void
 	 */
 	public function process_installer() {
-		$args     = func_get_args();
+		$args = func_get_args();
 		$upgrader = $args[1]['upgrader'];
-		$options  = $args[1]['options'];
+		$options = $args[1]['options'];
 		if ( 'core' === $options['type'] ) {
 			return $this->upgrade_core();
 			// If this is core, we just create text and return.
@@ -423,20 +395,22 @@ class Core_Audit extends Audit_Event {
 
 	/**
 	 * Fires after the theme is switched.
+	 *
+	 * @return array|bool
 	*/
 	public function process_activate_theme() {
-		$args      = func_get_args();
+		$args = func_get_args();
 		$new_theme = $args[1]['new_theme'];
 		if ( ! is_object( $new_theme ) ) {
 			return false;
 		}
-		$new_name  = $args[1]['new_name'];
-		$version   = $new_theme->get( 'Version' );
+		$new_name = $args[1]['new_name'];
+		$version = $new_theme->get( 'Version' );
 		$blog_name = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
 
-		return array(
+		return [
 			sprintf(
-			/* translators: */
+			/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Theme name, 4: Theme version. */
 				esc_html__( '%1$s %2$s activated theme: %3$s, version %4$s', 'wpdef' ),
 				$blog_name,
 				$this->get_source_of_action(),
@@ -444,7 +418,7 @@ class Core_Audit extends Audit_Event {
 				$version
 			),
 			self::CONTEXT_THEME,
-		);
+		];
 	}
 
 	/**
@@ -453,8 +427,9 @@ class Core_Audit extends Audit_Event {
 	 *
 	 * @return array
 	*/
-	public function process_delete_plugin() {
+	public function process_delete_plugin(): array {
 		$args = func_get_args();
+
 		// If 'deleted'-arg is false then the plugin deletion wasn't successful.
 		if ( empty( $args[1]['deleted'] ) ) {
 			// Todo: extend Audit table with a new column for the result of the process and divide it into success and failure.
@@ -463,37 +438,46 @@ class Core_Audit extends Audit_Event {
 			$failed_result = false;
 		}
 		$plugin_file = $args[1]['plugin_file'];
-		$blog_name   = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
+		$blog_name = is_multisite() ? '[' . get_bloginfo( 'name' ) . ']' : '';
 
-		return array(
+		return [
 			sprintf(
-			/* translators: */
-				esc_html__( '%1$s %2$s %3$s plugin: %4$s', 'wpdef' ),
+				$failed_result ?
+					/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Plugin file. */
+					esc_html__( '%1$s %2$s was unable to delete plugin: %3$s', 'wpdef' ) :
+					/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Plugin file. */
+					esc_html__( '%1$s %2$s deleted plugin: %3$s', 'wpdef' ),
 				$blog_name,
 				$this->get_source_of_action(),
-				$failed_result ? __( 'was unable to delete', 'wpdef' ) : __( 'deleted', 'wpdef' ),
 				$plugin_file
 			),
 			self::CONTEXT_PLUGIN,
-		);
+		];
 	}
 
-	public function dictionary() {
-
-		return array(
+	/**
+	 * @return array
+	 */
+	public function dictionary(): array {
+		return [
 			self::ACTION_DEACTIVATED => esc_html__( 'deactivated', 'wpdef' ),
-			self::ACTION_UPGRADED    => esc_html__( 'upgraded', 'wpdef' ),
-			self::ACTION_ACTIVATED   => esc_html__( 'activated', 'wpdef' ),
-			self::ACTION_INSTALLED   => esc_html__( 'installed', 'wpdef' ),
-			self::CONTEXT_THEME      => esc_html__( 'theme', 'wpdef' ),
-			self::CONTEXT_PLUGIN     => esc_html__( 'plugin', 'wpdef' ),
-			self::CONTEXT_CORE       => esc_html__( 'WordPress', 'wpdef' ),
-			self::FILE_ADDED         => esc_html__( 'File Added', 'wpdef' ),
-			self::FILE_MODIFIED      => esc_html__( 'File Modified', 'wpdef' ),
-		);
+			self::ACTION_UPGRADED => esc_html__( 'upgraded', 'wpdef' ),
+			self::ACTION_ACTIVATED => esc_html__( 'activated', 'wpdef' ),
+			self::ACTION_INSTALLED => esc_html__( 'installed', 'wpdef' ),
+			self::CONTEXT_THEME => esc_html__( 'theme', 'wpdef' ),
+			self::CONTEXT_PLUGIN => esc_html__( 'plugin', 'wpdef' ),
+			self::CONTEXT_CORE => esc_html__( 'WordPress', 'wpdef' ),
+			self::FILE_ADDED => esc_html__( 'File Added', 'wpdef' ),
+			self::FILE_MODIFIED => esc_html__( 'File Modified', 'wpdef' ),
+		];
 	}
 
-	public function get_plugin_abs_path( $slug ) {
+	/**
+	 * @param string $slug
+	 *
+	 * @return string
+	 */
+	public function get_plugin_abs_path( string $slug ): string {
 		if ( ! is_file( $slug ) ) {
 			$slug = WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $slug;
 		}

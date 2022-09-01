@@ -239,7 +239,7 @@ class Analytics {
 		<div class="cmb-row-col">
 			<label for="site-console-country"><?php esc_html_e( 'Country', 'rank-math-pro' ); ?></label>
 			<select class="cmb2_select site-console-country notrack" name="site-console-country" id="site-console-country" disabled="disabled">
-				<?php foreach ( Helper::choices_countries_3() as $code => $label ) : ?>
+				<?php foreach ( ProAdminHelper::choices_countries_3() as $code => $label ) : ?>
 					<option value="<?php echo esc_attr( $code ); ?>"<?php selected( $profile['country'], $code ); ?>>
 						<?php echo esc_html( $label ); ?>
 					</option>
@@ -258,7 +258,7 @@ class Analytics {
 		<div class="cmb-row-col country-option">
 			<label for="site-analytics-country"><?php esc_html_e( 'Country', 'rank-math-pro' ); ?></label>
 			<select class="cmb2_select site-analytics-country notrack" name="site-analytics-country" id="site-analytics-country" disabled="disabled">
-				<?php foreach ( Helper::choices_countries() as $code => $label ) : ?>
+				<?php foreach ( ProAdminHelper::choices_countries() as $code => $label ) : ?>
 					<option value="<?php echo esc_attr( $code ); ?>"<?php selected( $analytics['country'], $code ); ?>>
 						<?php echo esc_html( $label ); ?>
 					</option>

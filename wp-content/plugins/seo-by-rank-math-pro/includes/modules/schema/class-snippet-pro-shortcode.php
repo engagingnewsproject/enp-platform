@@ -27,6 +27,7 @@ class Snippet_Pro_Shortcode extends Snippet_Shortcode {
 	 */
 	public function __construct() {
 		$this->filter( 'rank_math/snippet/html', 'add_shortcode_view', 10, 4 );
+		$this->filter( 'rank_math/snippet/after_schema_content', 'show_review_notes' );
 		$this->filter( 'shortcode_atts_rank_math_rich_snippet', 'register_fields_attribute', 10, 4 );
 		$this->filter( 'rank_math/schema/shortcode/filter_attributes', 'filter_attributes', 10, 2 );
 	}
@@ -75,19 +76,55 @@ class Snippet_Pro_Shortcode extends Snippet_Shortcode {
 	 * @return string Shortcode Content.
 	 */
 	public function add_shortcode_view( $html, $schema, $post, $shortcode ) { // phpcs:ignore
+		wp_enqueue_style( 'rank-math-review-pro-snippet', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/css/rank-math-snippet.css', null, rank_math_pro()->version );
+
 		$type = \strtolower( $schema['@type'] );
-		if ( ! in_array( $type, [ 'dataset', 'movie', 'claimreview', 'faqpage', 'howto', 'jobposting', 'product', 'recipe' ], true ) ) {
+		if ( ! in_array( $type, [ 'dataset', 'movie', 'claimreview', 'faqpage', 'howto', 'jobposting', 'product', 'recipe', 'podcastepisode' ], true ) ) {
 			return $html;
 		}
-
-		wp_enqueue_style( 'rank-math-review-pro-snippet', RANK_MATH_PRO_URL . 'includes/modules/schema/assets/css/rank-math-snippet.css', null, rank_math_pro()->version );
 
 		ob_start();
 
 		echo '<div id="rank-math-rich-snippet-wrapper">';
 		include "shortcode/$type.php";
+		$this->show_review_notes( $shortcode );
 		echo '</div>';
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * Display Pros & Cons.
+	 *
+	 * @since 3.0.18
+	 */
+	public function show_review_notes( $shortcode ) {
+		$positive_notes = ! empty( $shortcode->get_field_value( 'positiveNotes' ) ) ? $shortcode->get_field_value( 'positiveNotes' ) : $shortcode->get_field_value( 'review.positiveNotes' );
+		if ( ! empty( $positive_notes['itemListElement'] ) ) {
+			?>
+			<div class="rank-math-review-notes rank-math-review-pros">
+				<h4><?php echo esc_html__( 'Pros', 'rank-math' ); ?></h4>
+				<ul>
+					<?php foreach ( $positive_notes['itemListElement'] as $positive_note ) { ?>
+						<li><?php echo esc_html( $positive_note['name'] ); ?></li>
+					<?php } ?>
+				</ul>
+			</div>
+			<?php
+		}
+
+		$negative_notes = ! empty( $shortcode->get_field_value( 'negativeNotes' ) ) ? $shortcode->get_field_value( 'negativeNotes' ) : $shortcode->get_field_value( 'review.negativeNotes' );
+		if ( ! empty( $negative_notes['itemListElement'] ) ) {
+			?>
+			<div class="rank-math-review-notes rank-math-review-cons">
+				<h4><?php echo esc_html__( 'Cons', 'rank-math' ); ?></h4>
+				<ul>
+					<?php foreach ( $negative_notes['itemListElement'] as $negative_note ) { ?>
+						<li><?php echo esc_html( $negative_note['name'] ); ?></li>
+					<?php } ?>
+				</ul>
+			</div>
+			<?php
+		}
 	}
 }

@@ -54,7 +54,6 @@ class Security_Tweaks extends Controller {
 	 */
 	private $prevent_enum_users;
 
-
 	public const STATUS_ISSUES = 'issues', STATUS_RESOLVE = 'fixed', STATUS_IGNORE = 'ignore', STATUS_RESTORE = 'restore';
 
 	public function __construct() {
@@ -506,7 +505,7 @@ class Security_Tweaks extends Controller {
 		[$processed, $unprocessed] = $this->security_tweaks_auto_action( $slugs, $intention );
 
 		$message = sprintf(
-		/* translators: ... */
+		/* translators: 1: Either ignored or resolved, 2: Count security recommendations */
 			__( 'You have bulk %1$s %2$s security recommendations.', 'wpdef' ),
 			'ignore' === $intention ? 'ignored' : 'resolved',
 			$processed
@@ -515,7 +514,7 @@ class Security_Tweaks extends Controller {
 		if ( isset( $unprocessed ) && $unprocessed > 0 ) {
 			// If we have this case this mean the intention is resolved.
 			$message = sprintf(
-			/* translators: ... */
+			/* translators: Count security tweaks */
 				__(
 					'You have bulk actioned %d security recommendations. You still have a few unresolved security recommendations, which cannot be bulk actioned automatically, so please address them below.',
 					'wpdef'
@@ -565,7 +564,7 @@ class Security_Tweaks extends Controller {
 					$data = $tweak->to_array();
 					$this->ajax_response(
 						sprintf(
-						/* translators: ... */
+						/* translators: 1: Security tweak title, 2: Error message */
 							__(
 								'There is an error while processing recommendation %1$s, error message: %2$s',
 								'wpdef'
@@ -781,7 +780,7 @@ class Security_Tweaks extends Controller {
 						$data = $tweak->to_array();
 
 						return sprintf(
-						/* translators: ... */
+						/* translators: 1: Security tweak title, 2: Error message */
 							__( 'There is an error while processing recommendation %1$s, error message: %2$s', 'wpdef' ),
 							$data['title'],
 							$ret->get_error_message()
@@ -811,7 +810,7 @@ class Security_Tweaks extends Controller {
 						$data = $tweak->to_array();
 
 						return sprintf(
-						/* translators: ... */
+						/* translators: 1: Security tweak title, 2: Error message */
 							__( 'There is an error while processing recommendation %1$s, error message: %2$s', 'wpdef' ),
 							$data['title'],
 							$ret->get_error_message()
@@ -869,7 +868,7 @@ class Security_Tweaks extends Controller {
 			$strings[] = __( 'All available recommendations activated', 'wpdef' );
 		} else {
 			$strings[] = sprintf(
-			/* translators: ... */
+			/* translators: 1: Total security tweaks activated, 2: Total security tweaks */
 				__( '%1$d/%2$d recommendations activated', 'wpdef' ),
 				count( $settings->fixed ),
 				$count_all
@@ -896,7 +895,7 @@ class Security_Tweaks extends Controller {
 			$strings[] = __( 'All available recommendations activated', 'wpdef' );
 		} else {
 			$strings[] = sprintf(
-			/* translators: ... */
+			/* translators: 1: Total security tweaks activated, 2: Total security tweaks */
 				__( '%1$d/%2$d recommendations activated', 'wpdef' ),
 				is_array($config['fixed']) || $config['fixed'] instanceof \Countable ? count( $config['fixed'] ) : 0,
 				(is_array($config['fixed']) || $config['fixed'] instanceof \Countable ? count( $config['fixed'] ) : 0) + (is_array($config['issues']) || $config['issues'] instanceof \Countable ? count( $config['issues'] ) : 0) + (is_array($config['ignore']) || $config['ignore'] instanceof \Countable ? count( $config['ignore'] ) : 0)

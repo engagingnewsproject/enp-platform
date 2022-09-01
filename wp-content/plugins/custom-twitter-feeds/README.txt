@@ -5,7 +5,7 @@ Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Twitter Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 4.1
 Tested up to: 6.0
-Stable tag: 2.0.1
+Stable tag: 2.0.3
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -234,6 +234,13 @@ If you're still having trouble displaying your Tweets after trying the common is
 7. To display a Twitter feed just copy and paste the shortcode into a Twitter widget or page
 
 == Changelog ==
+= 2.0.3 =
+* Fix: For GDPR plugins that Custom Twitter Feeds integrates with, other plugins that also integrate with those GDPR plugins would not work properly when Custom Twitter Feeds was active.
+
+= 2.0.2 =
+* Fix: Added code to help with debugging issues.
+* Fix: The descriptions of feed types were incorrect.
+
 = 2.0.1 =
 * Fix: When GDPR features were active, avatars would not display even after consent had been given.
 * Fix: Fixed a PHP error that would occur with specific kinds of tweets being displayed.

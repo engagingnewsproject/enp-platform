@@ -2,7 +2,7 @@
 
 
 use NinjaForms\Includes\Factories\SubmissionAggregateFactory;
-use NinjaForms\Includes\Entities\SubmissionFilter;
+use NinjaForms\Includes\Factories\SubmissionFilterFactory;
 
 /**
  * Class NF_Abstracts_Batch_Process
@@ -87,7 +87,7 @@ class NF_Admin_Processes_ExportSubmissions extends NF_Abstracts_BatchProcess
         $this->terminator = apply_filters('nf_sub_csv_terminator', $this->terminator);
 
         // Construct a new submission aggregate.
-        $params = (new SubmissionFilter())->setNfFormIds([$this->form]);
+        $params = (new SubmissionFilterFactory())->maybeLimitByLoggedInUser()->setNfFormIds([$this->form]);
         $params->setEndDate(time());
         $params->setStartDate(0);
         $params->setStatus(["active", "publish"]);

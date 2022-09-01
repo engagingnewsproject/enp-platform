@@ -546,3 +546,23 @@ function defender_maybe_echo_json( $data, $success, $return ) {
 		$success ? wp_send_json_success( $data ) : wp_send_json_error( $data );
 	}
 }
+
+/**
+ * Find all the strings from .mo file.
+ * `wpdef` is our text domain.
+ */
+function defender_gettext_translations() {
+	global $l10n;
+
+	if ( ! isset( $l10n['wpdef'] ) ) {
+		return array();
+	}
+
+	$items = array();
+
+	foreach ( $l10n['wpdef']->entries as $key => $value ) {
+		$items[ $key ] = count( $value->translations ) ? $value->translations[0] : $key;
+	}
+
+	return $items;
+}

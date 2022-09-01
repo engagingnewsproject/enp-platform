@@ -39,7 +39,10 @@ class Frontend {
 		$this->filter( 'rank_math/snippet/rich_snippet_itemlist_entity', 'filter_item_list_schema' );
 		$this->filter( 'rank_math/schema/valid_types', 'valid_types' );
 		$this->filter( 'rank_math/snippet/rich_snippet_product_entity', 'add_manufacturer_property' );
+		$this->filter( 'rank_math/snippet/rich_snippet_product_entity', 'remove_empty_offers' );
 		$this->filter( 'rank_math/snippet/rich_snippet_videoobject_entity', 'convert_familyfriendly_property' );
+		$this->filter( 'rank_math/snippet/rich_snippet_podcastepisode_entity', 'convert_familyfriendly_property' );
+		$this->filter( 'rank_math/snippet/rich_snippet_entity', 'schema_entity' );
 
 		new Display_Conditions();
 		new Snippet_Pro_Shortcode();
@@ -490,6 +493,59 @@ class Frontend {
 		$type = 'company' === $type ? 'organization' : 'person';
 
 		$schema['manufacturer'] = [ '@id' => home_url( "/#{$type}" ) ];
+		return $schema;
+	}
+
+	/**
+	 * Remove empty offers data from the Product schema.
+	 *
+	 * @param array $schema Product schema data.
+	 * @return array
+	 */
+	public function remove_empty_offers( $schema ) {
+		if (
+			empty( $schema['offers'] ) ||
+			empty( $schema['review'] ) ||
+			(
+				empty( $schema['review']['positiveNotes'] ) &&
+				empty( $schema['review']['negativeNotes'] )
+			)
+		) {
+			return $schema;
+		}
+
+		if ( ! empty( $schema['offers']['price'] ) ) {
+			return $schema;
+		}
+
+		unset( $schema['offers'] );
+
+		return $schema;
+	}
+
+	/**
+	 * Backward compatibility code to move the positiveNotes & negativeNotes properties in review.
+	 *
+	 * @param array $schema Schema data.
+	 * @return array
+	 *
+	 * @since 3.0.19
+	 */
+	public function schema_entity( $schema ) {
+		if ( empty( $schema['review'] ) ) {
+			return $schema;
+		}
+
+		if ( ! empty( $schema['positiveNotes'] ) ) {
+			$schema['review']['positiveNotes'] = $schema['positiveNotes'];
+			unset( $schema['positiveNotes'] );
+		}
+
+		if ( ! empty( $schema['negativeNotes'] ) ) {
+			$schema['review']['negativeNotes'] = $schema['negativeNotes'];
+			unset( $schema['negativeNotes'] );
+		}
+
 		return $schema;
 	}
 

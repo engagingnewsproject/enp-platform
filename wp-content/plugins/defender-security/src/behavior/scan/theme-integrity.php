@@ -278,7 +278,7 @@ class Theme_Integrity extends Behavior {
 				update_site_option( self::THEME_PREMIUM_SLUGS, $this->premium_slugs );
 			}
 		}
-		// Todo: add file and time limit improvement.
+
 		return ! $theme_files->valid();
 	}
 }

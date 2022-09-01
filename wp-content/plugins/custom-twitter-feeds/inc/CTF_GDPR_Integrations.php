@@ -22,8 +22,8 @@ class CTF_GDPR_Integrations {
 	 * @since 1.7/1.12
 	 */
 	public static function init() {
-		add_filter( 'wt_cli_third_party_scripts', array( 'CTF_GDPR_Integrations', 'undo_script_blocking' ), 11 );
-		add_filter( 'cmplz_known_script_tags', array( 'CTF_GDPR_Integrations', 'undo_script_blocking' ), 11  );
+		add_filter( 'wt_cli_third_party_scripts', array( 'TwitterFeed\CTF_GDPR_Integrations', 'undo_script_blocking' ), 11 );
+		add_filter( 'cmplz_known_script_tags', array( 'TwitterFeed\CTF_GDPR_Integrations', 'undo_script_blocking' ), 11 );
 	}
 
 	/**
@@ -36,17 +36,17 @@ class CTF_GDPR_Integrations {
 	 *
 	 * @since 1.7/1.12
 	 */
-    public static function undo_script_blocking( $return ) {
-        $settings = ctf_get_database_settings();
-        if ( ! CTF_GDPR_Integrations::doing_gdpr( $settings ) ) {
-            return $return;
-        } unset( $return['twitter-feed'] );
+	public static function undo_script_blocking( $return ) {
+		$settings = ctf_get_database_settings();
+		if ( ! self::doing_gdpr( $settings ) ) {
+			return $return;
+		} unset( $return['twitter-feed'] );
 
-        remove_filter( 'wt_cli_third_party_scripts', 'wt_cli_twitter_feed_script' );
+		remove_filter( 'wt_cli_third_party_scripts', 'wt_cli_twitter_feed_script' );
 		remove_filter( 'cmplz_known_script_tags', 'cmplz_twitter_feed_script' );
 
-        return $return;
-    }
+		return $return;
+	}
 
 	/**
 	 * Whether or not consent plugins that Twitter Feed
@@ -69,7 +69,7 @@ class CTF_GDPR_Integrations {
 		if ( class_exists( 'COMPLIANZ' ) ) {
 			return 'Complianz by Really Simple Plugins';
 		}
-		if ( function_exists('BorlabsCookieHelper') ) {
+		if ( function_exists( 'BorlabsCookieHelper' ) ) {
 			return 'Borlabs Cookie by Borlabs';
 		}
 
@@ -94,7 +94,7 @@ class CTF_GDPR_Integrations {
 		if ( $gdpr === 'yes' ) {
 			return true;
 		}
-		return (CTF_GDPR_Integrations::gdpr_plugins_active() !== false);
+		return ( self::gdpr_plugins_active() !== false );
 	}
 
 	/**
@@ -119,6 +119,13 @@ class CTF_GDPR_Integrations {
 	 */
 	public static function gdpr_tests_error_message() {
 		return array();
+	}
+
+	public static function statuses() {
+		$statuses_option = get_option( 'ctf_statuses', array() );
+
+		$return = isset( $statuses_option['gdpr'] ) ? $statuses_option['gdpr'] : array();
+		return $return;
 	}
 
 }

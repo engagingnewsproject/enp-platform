@@ -59,7 +59,7 @@ class Totp extends Two_Factor_Provider {
 	public function authentication_form() {
 		?>
 		<p class="wpdef-2fa-label"><?php echo $this->get_login_label(); ?></p>
-		<p class="wpdef-2fa-text def-otp-text"><?php esc_html_e( $this->get_model()->app_text ); ?></p>
+		<p class="wpdef-2fa-text def-otp-text"><?php echo esc_html( $this->get_model()->app_text ); ?></p>
 		<input type="text" autofocus value="" autocomplete="off" name="otp" />
 		<button class="button button-primary float-r" type="submit"><?php _e( "Authenticate", 'wpdef' ) ?></button>
 		<?php

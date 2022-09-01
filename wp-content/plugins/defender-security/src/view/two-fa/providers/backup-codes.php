@@ -17,7 +17,7 @@
 <div class="wpdef-2fa-backup-codes-wrapper" style="display: none">
 	<p class="description"><?php esc_html_e( 'Ensure your backup codes are saved in a safe and accessible place. You won’t be able to view these codes again.', 'wpdef' ); ?></p>
 	<p class="download-button">
-		<a class="button button-primary button-wpdef-2fa-backup-codes-download button-secondary hide-if-no-js" href="javascript:void(0);" id="wpdef-2fa-backup-codes-download-link" download="defender-backup-codes.txt"><?php esc_html_e( 'Download Codes', 'wpdef' ); ?></a>
+		<a class="button button-primary button-wpdef-2fa-backup-codes-download button-secondary hide-if-no-js" href="javascript:void(0);" id="wpdef-2fa-backup-codes-download-link" download="<?php echo $filename; ?>"><?php esc_html_e( 'Download Codes', 'wpdef' ); ?></a>
 	<p>
 	<div class="wpdef-2fa-backup-codes-unused-codes"></div>
 </div>

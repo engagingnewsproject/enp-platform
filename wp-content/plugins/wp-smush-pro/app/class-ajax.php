@@ -68,7 +68,7 @@ class Ajax {
 		add_action( 'wp_ajax_hide_api_message', array( $this, 'hide_api_message' ) );
 		add_action( 'wp_ajax_smush_show_warning', array( $this, 'show_warning_ajax' ) );
 		// Detect conflicting plugins.
-		add_action( 'wp_ajax_dismiss_check_for_conflicts', array( $this, 'dismiss_check_for_conflicts' ) );
+		add_action( 'wp_ajax_smush_dismiss_notice', array( $this, 'dismiss_notice' ) );
 
 		/**
 		 * SMUSH
@@ -292,9 +292,20 @@ class Ajax {
 	 *
 	 * @since 3.6.0
 	 */
-	public function dismiss_check_for_conflicts() {
-		update_option( 'wp-smush-hide-conflict-notice', true );
+	public function dismiss_notice() {
+		if ( empty( $_GET['key'] ) ) {
+			wp_send_json_error();
+		}
+
+		$this->set_notice_dismissed( $_GET['key'] );
 		wp_send_json_success();
+	}
+
+	private function set_notice_dismissed( $notice ) {
+		$option_id                    = 'wp-smush-dismissed-notices';
+		$dismissed_notices            = get_option( $option_id, array() );
+		$dismissed_notices[ $notice ] = true;
+		update_option( $option_id, $dismissed_notices );
 	}
 
 	/***************************************

@@ -63,6 +63,7 @@ class CTF_Upgrader {
 			'author'     => 'SmashBalloon',
 			'url'        => home_url(),
 			'beta'       => false,
+			'nocache'    => '1'
 		);
 
 		$api_url = trailingslashit( self::STORE_URL );

@@ -196,7 +196,7 @@ class Security_Key extends Component implements Security_Key_Const_Interface {
 		if ( is_wp_error( $response ) ) {
 			return new WP_Error(
 				'defender_salts_not_found',
-				__( 'Unable to generate salts. Please try again.', 'wpdf' )
+				__( 'Unable to generate salts. Please try again.', 'wpdef' )
 			);
 		}
 

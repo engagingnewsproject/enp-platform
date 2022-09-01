@@ -1042,15 +1042,15 @@ class CTF_Feed_Builder {
 				'usertimeline' => [
 					'heading' 			=> __( 'User Timeline', 'custom-twitter-feeds' ),
 					'icon' 				=> 'user',
-					'description' 		=> __( 'Add one or more Twitter handles separated by comma', 'custom-twitter-feeds' ),
-					'placeHolder'		=> __( '@gopro, @wpbeginner', 'custom-twitter-feeds' ),
+					'description' 		=> __( 'Add a Twitter handle for any account', 'custom-twitter-feeds' ),
+					'placeHolder'		=> __( '@wpbeginner', 'custom-twitter-feeds' ),
 					'actionType' 		=> 'inputField'
 				],
 				'hashtag' => [
 					'heading' => __( 'Hashtag', 'custom-twitter-feeds' ),
 					'icon' => 'hashtag',
-					'description' => __( 'Add one or more hashtag separated by comma.', 'custom-twitter-feeds' ),
-					'placeHolder'		=> __( '#hashtag1, #hashtag2', 'custom-twitter-feeds' ),
+					'description' => __( 'Add any hashtag found on Twitter.', 'custom-twitter-feeds' ),
+					'placeHolder'		=> __( '#hashtag', 'custom-twitter-feeds' ),
 					'actionType' 		=> 'inputField'
 				],
 				'hometimeline' => [
@@ -1982,19 +1982,19 @@ class CTF_Feed_Builder {
 		    [
 			    'type' => 'usertimeline',
 			    'title'=> __( 'User Timeline', 'custom-twitter-feeds' ),
-			    'description'=> __( 'A brief description about the feed type', 'custom-twitter-feeds' ),
+			    'description'=> __( 'A timeline of Tweets from any Twitter user', 'custom-twitter-feeds' ),
 			    'icon'	=>  'usertimelineIcon'
 		    ],
 		    [
 			    'type' => 'hashtag',
 			    'title' => __( 'Hashtag', 'custom-twitter-feeds' ),
-			    'description'=> __( 'A brief description about the feed type', 'custom-twitter-feeds' ),
+			    'description'=> __( 'Public Tweets which contain a specific hashtag', 'custom-twitter-feeds' ),
 			    'icon'	=>  'hashtagIcon'
 		    ],
 		    [
 			    'type' => 'hometimeline',
 			    'title' => __( 'Home Timeline', 'custom-twitter-feeds' ),
-			    'description'=> __( 'A brief description about the feed type', 'custom-twitter-feeds' ),
+			    'description'=> __( 'The home timeline from your Twitter account', 'custom-twitter-feeds' ),
 			    'icon'	=>  'homeTimelineIcon'
 		    ],
 		    /*

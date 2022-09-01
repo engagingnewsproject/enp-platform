@@ -96,7 +96,7 @@ class Mask_Login extends Component {
 	 * @param string $path
 	 * @param null   $scheme
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	private function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 		if ( empty( $blog_id ) || ! is_multisite() ) {
@@ -114,36 +114,6 @@ class Mask_Login extends Component {
 		}
 
 		return $url;
-	}
-
-	/**
-	 * Generate a random unique onetime pass and store in user meta.
-	 * Later we can use it to bypass the mask admin.
-	 *
-	 * @return bool
-	 */
-	public function generate_ticket() {
-		$otp                               = wp_generate_password( 12, false );
-		$settings                          = new \WP_Defender\Model\Setting\Mask_Login();
-		$settings->express_tickets[ $otp ] = array(
-			'otp'     => $otp,
-			'bind_to' => null,
-			'expiry'  => strtotime( '+3 day' ),
-			'used'    => 0,
-		);
-		$settings->save();
-
-		return $otp;
-	}
-
-	/**
-	 * Todo: need if express_tickets are not saved?
-	 * @param string $url
-	 *
-	 * @return string
-	 */
-	public function maybe_append_ticket_to_url( $url ) {
-		return add_query_arg( 'ticket', $this->generate_ticket(), $url );
 	}
 
 	/**

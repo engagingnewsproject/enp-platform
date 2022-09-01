@@ -2,6 +2,8 @@
 
 use TwitterFeed\CTF_Feed;
 use TwitterFeed\CtfFeed;
+use TwitterFeed\CTF_Settings;
+use TwitterFeed\CTF_GDPR_Integrations;
 /**
  * May include support for templates in theme folders in the future
  *
@@ -240,3 +242,82 @@ function ctf_maybe_ajax_theme_html( $twitter_feed, $feed_id ) {
 	}
 }
 add_action( 'ctf_before_feed_end', 'ctf_maybe_ajax_theme_html', 10, 2 );
+
+/**
+ * Debug report added at the end of the feed when sbi_debug query arg is added to a page
+ * that has the feed on it.
+ *
+ * @param object $twitter_feed
+ * @param string $feed_id
+ */
+function ctf_debug_report( $twitter_feed, $feed_id ) {
+
+	if ( ! isset( $_GET['sbi_debug'] ) && ! isset( $_GET['sb_debug'] ) ) {
+		return;
+	}
+
+	$settings_obj = new CTF_Settings( array(), array() );
+
+	$settings = $twitter_feed->feed_options;
+
+	$public_settings_keys = CTF_Settings::get_public_db_settings_keys();
+	?>
+
+	<p>Status</p>
+	<ul>
+		<li>Time: <?php echo esc_html( date( 'Y-m-d H:i:s', time() ) ); ?></li>
+
+	</ul>
+	<p>Settings</p>
+	<ul>
+		<?php
+		foreach ( $public_settings_keys as $key ) :
+			if ( isset( $settings[ $key ] ) ) :
+				?>
+				<li>
+					<small><?php echo esc_html( $key ); ?>:</small>
+					<?php
+					if ( ! is_array( $settings[ $key ] ) ) :
+						echo esc_html( $settings[ $key ] );
+					else :
+						?>
+						<ul>
+							<?php
+							foreach ( $settings[ $key ] as $sub_key => $value ) {
+								echo '<li><small>' . esc_html( $sub_key ) . ':</small> ' . esc_html( $value ) . '</li>';
+							}
+							?>
+						</ul>
+					<?php endif; ?>
+				</li>
+
+			<?php
+			endif;
+		endforeach;
+		?>
+	</ul>
+	<p>GDPR</p>
+	<ul>
+		<?php
+		$statuses = CTF_GDPR_Integrations::statuses();
+		foreach ( $statuses as $status_key => $value ) :
+			?>
+			<li>
+				<small><?php echo esc_html( $status_key ); ?>:</small>
+				<?php
+				if ( $value == 1 ) {
+					echo 'success';
+				} else {
+					echo 'failed'; }
+				?>
+			</li>
+
+		<?php endforeach; ?>
+		<li>
+			<small>Enabled:</small>
+			<?php echo CTF_GDPR_Integrations::doing_gdpr( $settings ); ?>
+		</li>
+	</ul>
+	<?php
+}
+add_action( 'ctf_before_feed_end', 'ctf_debug_report', 99, 2 );

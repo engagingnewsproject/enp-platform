@@ -167,15 +167,15 @@ class Notification extends Controller {
 		foreach ( $m->in_house_recipients as &$recipient ) {
 			$email = $recipient['email'];
 			if ( hash_equals( $hash, hash( 'sha256', $email . AUTH_SALT ) ) ) {
-				if ( ! is_user_logged_in() ) {
-					auth_redirect();
-				}
-				if ( $email !== $this->get_current_user_email() ) {
-					wp_die( __( 'Invalid request.', 'wpdef' ) );
+				// We skip even an un-logged user, because the admin can change the user's access without notice.
+				if ( is_user_logged_in() ) {
+					if ( $email !== $this->get_current_user_email() ) {
+						wp_die( __( 'Invalid request.', 'wpdef' ) );
+					}
+					$inhouse = true;
 				}
 				$recipient['status'] = Model_Notification::USER_SUBSCRIBE_CANCELED;
 				$m->save();
-				$inhouse = true;
 				// Send email.
 				$this->service->send_unsubscribe_email( $m, $email, $inhouse, $recipient['name'] );
 				break;

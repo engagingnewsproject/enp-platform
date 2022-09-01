@@ -1,10 +1,11 @@
 <?php
 declare( strict_types = 1 );
 
+$admin_class = $is_admin ? 'admin_area' : '';
 wp_nonce_field( 'wpdef_2fa_user_options', '_wpdef_2fa_nonce_user_options', false );
 ?>
 <input type="hidden" name="<?php echo esc_attr( $enabled_providers_key ); ?>[]" value=""/>
-<h2><?php _e( 'Security', 'wpdef' ); ?></h2>
+<h2 class="defender-header"><?php _e( 'Security', 'wpdef' ); ?></h2>
 <table class="form-table" id="defender-security">
 	<tr class="user-sessions-wrap hide-if-no-js">
 		<th>
@@ -20,9 +21,9 @@ wp_nonce_field( 'wpdef_2fa_user_options', '_wpdef_2fa_nonce_user_options', false
 			<table class="auth-methods-table">
 				<thead>
 					<tr>
-						<th class="col-enabled" scope="col"><?php esc_html_e( 'Default', 'two-factor' ); ?></th>
+						<th class="col-enabled" scope="col"><?php esc_html_e( 'Default', 'wpdef' ); ?></th>
 						<th class="col-primary" scope="col" colspan="2">
-							<?php esc_html_e( '2FA Method', 'two-factor' ); ?>
+							<?php esc_html_e( '2FA Method', 'wpdef' ); ?>
 						</th>
 					</tr>
 				</thead>
@@ -106,8 +107,12 @@ wp_nonce_field( 'wpdef_2fa_user_options', '_wpdef_2fa_nonce_user_options', false
 		</tfoot>
 	</table>
 	<div class="wpdef-control">
-		<button type="button" class="button wpdef-new-btn wpdef-device-btn"><?php esc_html_e( 'Register Device', 'wpdef' ); ?></button>
-		<button type="button" class="button wpdef-verify-btn wpdef-device-btn"><?php esc_html_e( 'Authenticate Device', 'wpdef' ); ?></button>
+		<button type="button" class="button wpdef-new-btn wpdef-device-btn <?php echo esc_attr( $admin_class ); ?>">
+			<?php esc_html_e( 'Register Device', 'wpdef' ); ?>
+		</button>
+		<button type="button" class="button wpdef-verify-btn wpdef-device-btn <?php echo esc_attr( $admin_class ); ?>">
+			<?php esc_html_e( 'Authenticate Device', 'wpdef' ); ?>
+		</button>
 	</div>
 	<div class="process-auth-desc"></div>
 	<div class="register-authenticator-box" style="display:none;">
