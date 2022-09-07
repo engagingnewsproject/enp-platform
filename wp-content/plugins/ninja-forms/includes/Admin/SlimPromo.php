@@ -33,8 +33,8 @@ class NF_Admin_SlimPromo
 		}
 
 		if (
-			! str_contains( $_REQUEST[ 'page' ], 'nf' ) &&
-			! str_contains( $_REQUEST[ 'page' ], 'ninja-forms' )
+			strpos( 'nf', $_REQUEST[ 'page' ] ) === false &&
+			strpos( 'ninja-forms', $_REQUEST[ 'page' ] ) === false
 		) {
 			return false;
 		}

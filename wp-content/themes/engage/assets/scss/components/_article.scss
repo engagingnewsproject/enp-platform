@@ -370,6 +370,23 @@
 			}
 		}
 	}
+	.article__meta__data {
+		@include media($phablet) {
+			padding: 2rem 0;
+			grid-row: 2;
+			grid-column: 1;
+			display: flex;
+			flex-direction: column;
+		}
+		.article-meta__item {
+			display: flex;
+			align-items: center;
+
+			svg {
+				margin-right: 0.5em;
+			}
+		}
+	}
 	// CONTENT
 	.article__content {
 		@include media($phablet) {

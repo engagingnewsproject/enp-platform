@@ -108,6 +108,7 @@
 		order: 4;
 		@include media($phablet) {
 			grid-column: 2;
+			grid-row-start: 6;
 			padding-left: 0;
 		}
 	}
