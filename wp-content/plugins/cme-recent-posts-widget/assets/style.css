@@ -1,17 +1,17 @@
 
-.cme_recent_posts .post {
+.cme_widget_recent_posts .post {
     list-style: none;
     margin-bottom: 1em;
     margin-left: 0;
     padding-bottom: 1em;
     border-bottom: 1px solid #eee;
 }
-.cme_recent_posts .post-link {
+.cme_widget_recent_posts .post-link {
     display: flex;
     flex-direction: column;
     text-decoration: none;
 }
-.cme_recent_posts .post-date {
+.cme_widget_recent_posts .post-date {
         border: 0;
         font: inherit;
         margin: 0;

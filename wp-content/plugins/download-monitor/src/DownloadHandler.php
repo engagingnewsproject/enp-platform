@@ -719,6 +719,7 @@ class DLM_Download_Handler {
 	 * @return   mixed
 	 */
 	public function readfile_chunked( $file, $retbytes = true, $range = false ) {
+		
 		$chunksize = 1 * ( 1024 * 1024 );
 		$buffer    = '';
 		$cnt       = 0;

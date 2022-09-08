@@ -9,7 +9,6 @@
             <article class="article post-type-{{ post.post_type }} {{ hasFeaturedImage ? 'article--has-featured-img' }} {{ hasVideo ? 'article--has-video'}}" id="post-{{ post.ID }}">
                 <h1 class="article__title article__title--{{ post.post_type }}">{{ post.title }}</h1>
 
-                {% include "partial/article-meta-data.twig" %}
                 {% include "partial/article-meta.twig" %}
 
                 {% if post.post_type != "team" and post.post_type != "board" %}

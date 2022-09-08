@@ -251,12 +251,12 @@
             },
             "installation-source": "dist",
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Ctype\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Ctype\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -447,30 +447,30 @@
         },
         {
             "name": "upstatement/routes",
-            "version": "0.8.1",
-            "version_normalized": "0.8.1.0",
+            "version": "0.9.1",
+            "version_normalized": "0.9.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Upstatement/routes.git",
-                "reference": "02eb866668f5478d794547aa79e73dd92a989ad9"
+                "reference": "cac3c844ab824e4039fd26edbea5402415aa6d0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Upstatement/routes/zipball/02eb866668f5478d794547aa79e73dd92a989ad9",
-                "reference": "02eb866668f5478d794547aa79e73dd92a989ad9",
+                "url": "https://api.github.com/repos/Upstatement/routes/zipball/cac3c844ab824e4039fd26edbea5402415aa6d0a",
+                "reference": "cac3c844ab824e4039fd26edbea5402415aa6d0a",
                 "shasum": ""
             },
             "require": {
                 "altorouter/altorouter": "^2.0.2",
-                "composer/installers": "~1.0",
-                "php": ">=5.6.0"
+                "composer/installers": "^1.0 || ^2.0",
+                "php": ">=5.6.0|7.*"
             },
             "require-dev": {
                 "phpunit/phpunit": "5.7.16",
                 "satooshi/php-coveralls": "*",
                 "wp-cli/wp-cli": "*"
             },
-            "time": "2021-10-16T00:12:03+00:00",
+            "time": "2022-06-22T19:53:51+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
