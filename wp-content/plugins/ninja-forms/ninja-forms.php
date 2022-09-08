@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.6.13
+Version: 3.6.14
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -55,7 +55,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
          * @since 3.0
          */
 
-        const VERSION = '3.6.13';
+        const VERSION = '3.6.14';
 
         /**
          * @since 3.4.0
@@ -644,23 +644,26 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
         public function maybe_hide_dashboard_items( $items )
         {
             $disable_marketing = false;
+
             if ( apply_filters( 'ninja_forms_disable_marketing', $disable_marketing ) ) {
                 unset(
                     $items[ 'apps' ],
                     $items[ 'memberships' ],
                     $items[ 'services' ],
-                    $items[ 'user_access' ],
+                    $items[ 'user_access' ]
                 );
             }
+
 			if ( 1 == get_option( 'ninja_forms_needs_updates' ) ) {
 				unset(
                     $items[ 'widgets' ],
                     $items[ 'apps' ],
                     $items[ 'memberships' ],
                     $items[ 'services' ],
-                    $items[ 'user_access' ],
+                    $items[ 'user_access' ]
 				);
 			}
+
             return $items;
         }
 

@@ -47,6 +47,7 @@
     "lodash.debounce": "^4.0.8",
     "node-sass": "^7.0.1",
     "postcss-cli": "github:postcss/postcss-cli",
+    "scss-tokenizer": "^0.4.3",
     "tailwindcss": "^2.1.4"
   },
   "repository": {
