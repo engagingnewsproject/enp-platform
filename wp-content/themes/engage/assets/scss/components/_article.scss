@@ -372,7 +372,7 @@
 	}
 	.article__meta__data {
 		@include media($phablet) {
-			padding: 2rem 0;
+			padding-bottom: 2rem;
 			grid-row: 2;
 			grid-column: 1;
 			display: flex;
