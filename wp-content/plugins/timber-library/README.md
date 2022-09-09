@@ -14,7 +14,6 @@ By
 [![Coverage Status](https://img.shields.io/coveralls/timber/timber.svg?style=flat-square)](https://coveralls.io/github/timber/timber)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/timber/timber.svg?style=flat-square)](https://scrutinizer-ci.com/g/timber/timber/?branch=master)
 [![Latest Stable Version](https://img.shields.io/packagist/v/timber/timber.svg?style=flat-square)](https://packagist.org/packages/timber/timber)
-[![WordPress Download Count](https://img.shields.io/wordpress/plugin/dt/timber-library.svg?style=flat-square)](https://wordpress.org/plugins/timber-library/)
 [![WordPress Rating](https://img.shields.io/wordpress/plugin/r/timber-library.svg?style=flat-square)](https://wordpress.org/support/plugin/timber-library/reviews/)
 
 ### Because WordPress is awesome, but the_loop isn't
@@ -118,6 +117,7 @@ Timber is great for any WordPress developer who cares about writing good, mainta
 #### Helpful Links
 * [**CSS Tricks**](https://css-tricks.com/timber-and-twig-reignited-my-love-for-wordpress/) introduction to Timber by [@tjFogarty](https://github.com/tjFogarty)
 * [**Twig for Timber Cheatsheet**](http://notlaura.com/the-twig-for-timber-cheatsheet/) by [@laras126](https://github.com/laras126)
+* [**Timber Cheatsheet**](https://gist.github.com/taotiwordpress/266fd95513f97f3c17748288579c56b9) by [@taotiwordpress](https://github.com/taotiwordpress)
 * [**TutsPlus**](http://code.tutsplus.com/articles/kick-start-wordpress-development-with-twig-introduction--cms-24781) A guide to getting started by [@ahmadawais](https://github.com/ahmadawais)
 
 #### Support
