@@ -40,8 +40,6 @@ class Research extends PostTypes {
 			'supports'            => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
 			'has_archive'         => true,
 			'exclude_from_search' => false,
-			'show_in_rest'        => true,
-            'supports'            => array('editor')
 		);
 		register_post_type( 'research', $args );
 	}
