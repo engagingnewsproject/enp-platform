@@ -16,6 +16,9 @@
 		word-break: break-word;
 	}
 }
+.article__featured-img {
+	margin: 0;
+}
 .article__post-type {
 	font-size: $font-size-small;
 	margin-bottom: 0;
@@ -80,6 +83,9 @@
 .article-meta__item {
 	margin-bottom: $spacer-xs;
 }
+.article-meta__date {
+	padding: 1.6rem 0;
+}
 .article__title--team {
 	font-weight: 400;
 	padding-top: $spacer-sm;
@@ -107,7 +113,7 @@
 }
 .article__title {
 	font-weight: 400;
-	padding: $spacer 0;
+	padding-top: $spacer;
 	display: block;
 }
 // END base styles
