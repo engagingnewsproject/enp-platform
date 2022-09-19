@@ -1,6 +1,5 @@
 {% if post.post_type == "research" or post.post_type == "blogs" %}
     <div class="article__meta article__meta__data">
-        <time class="article-meta__item">{% include 'assets/img/clock-regular.svg' %}{{ post.date }}</time>
         <p class="article__post-type article-meta__item article__post-type--{{ post.post_type }}">{% include 'assets/img/bookmark-regular.svg' %}{{ post.type.labels.singular_name }}</p>
     </div>
 {% endif %}

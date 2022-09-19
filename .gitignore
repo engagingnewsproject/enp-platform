@@ -28,7 +28,6 @@ wp-content/plugins/show-current-template*
 wp-content/plugins/classic-editor
 node_modules
 .idea/
-webpack.mix.js
 .wpe-devkit/
 _wpeprivate/
 enp_prod
@@ -66,4 +65,4 @@ wp-content/plugins/query-monitor-twig-profile
 *.code-workspace
 wp-content/themes/engage/mediaengagement.code-workspace
 wp-content/plugins/hummingbird-performance/core/modules/dummy/dummy-media.mp3
-wp-content/themes/engage/mediaengagementorg.code-workspace
+wp-content/themes/engage/webpack.mix.js
