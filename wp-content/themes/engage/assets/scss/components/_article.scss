@@ -71,6 +71,9 @@
 		}
 	}
 }
+.article-meta__dateline {
+	padding: 1.5rem 0rem;
+}
 .article__video {
 	width: 100%;
 	height: 100%;
@@ -82,9 +85,6 @@
 }
 .article-meta__item {
 	margin-bottom: $spacer-xs;
-}
-.article-meta__date {
-	padding: 1.6rem 0;
 }
 .article__title--team {
 	font-weight: 400;
