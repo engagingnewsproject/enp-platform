@@ -36,9 +36,13 @@
                         {% endif %}
                     </figure>
                   {% endif %}
-                  <div class="article__meta article-meta__dateline">
-                    <time class="article-meta__item">{% include 'assets/img/clock-regular.svg' %} {{ post.date }}</time>
-                  </div>
+
+                  {% if post.post_type == "blogs" or post.post_type == "research" %}
+                    <div class="article__meta article-meta__dateline">
+                      <time class="article-meta__item">{% include 'assets/img/clock-regular.svg' %} {{ post.date }}</time>
+                    </div>
+                  {% endif %}
+
                   {% if post.vertical.slug == "media-ethics" %}
                   {% if post.meta('case_study_title') is not empty %}
                   <h3>
