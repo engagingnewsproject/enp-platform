@@ -80,44 +80,36 @@ class TeamArchive extends TileArchive
   // Used to reorder the team members for the media ethics vertical.
   public function regroupForMediaEthics() {
     
-    $groups = array();
+    $media_ethics = array();
     // Slug used to group leadership for top of media ethics page
-    $leadership_slug = "leadership";
-    $groups[$leadership_slug] = array();
-    
-    // Splits the queried posts by designation, using the slugs as keys
+    $leadership= array();
+
+    // Splits the posts between leadership positions and remaining staff
     foreach($this->posts as $post) {
-      $cat_slug = $post->getCategory()[0]->slug;
         // Check to see if current member should be included in leadership array
         if (in_array($post->name, ['Scott R. Stroud', 
         'Finja Augsburg', 'Kat Williams'], true)) {
-            array_push($groups[$leadership_slug], $post);
+          array_push($leadership, $post);
         } else {
-          // Initiate array used to store the remaining media ethics staff
-          if (!array_key_exists ($cat_slug, $groups)) {
-            $groups[$cat_slug] = array($post);
-          }
-          else {
-            array_push($groups[$cat_slug], $post);
-          }
+          array_push($media_ethics, $post);
         }
-      }
-    // Merge the two groups (leadership and remaining members) into one array
-    $this->posts = array();
-    usort($groups[$leadership_slug], array($this, "regroupByMediaLeadership"));
-    usort($groups[$cat_slug], array($this, "lastNameCompare"));
-    $this->posts = array_merge($groups[$leadership_slug], $groups[$cat_slug]);                                         
-  }
-
-  // Organizes team members who will appear at top of media ethics staff page.
-  public function regroupByMediaLeadership() {
-    $order = array('Kat Williams', 'Finja Augsburg', "Scott R. Stroud");
-    usort($this->posts, function ($a, $b) use ($order) {
+    }
+    
+    // Orders leadership team.
+    $order = array("Kat Williams", "Finja Augsburg", "Scott R. Stroud");
+    usort($leadership, function ($a, $b) use ($order) {
       $pos_a = array_search($a->name, $order);
       $pos_b = array_search($b->name, $order);
       return $pos_b - $pos_a;
     });
-  }  
+
+    // Merge the two groups (leadership and remaining members) into one array
+    $this->posts = array();
+    usort($media_ethics, array($this, "lastNameCompare"));
+    $this->posts = array_merge($leadership, $media_ethics);                             
+  }
+
+
 
   public function regroupByLeadershipPosition() {
     $order = array("Katalina Deaven", "Samuel C. Woolley", "Scott R. Stroud", "Anthony Dudo", "Melody Avant", "Gina M. Masullo", "Natalie (Talia) Jomini Stroud");
