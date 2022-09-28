@@ -18,6 +18,8 @@ class TeamArchive extends TileArchive
         
         } else if ($vertical == "media-ethics") {
           $this->regroupForMediaEthics();
+        } else if ($vertical == "propaganda") {
+          $this->regroupForPropaganda();
         } else {
           $this->regroupByDesignation();
         }
@@ -106,6 +108,35 @@ class TeamArchive extends TileArchive
     $this->posts = array();
     usort($media_ethics, array($this, "lastNameCompare"));
     $this->posts = array_merge($leadership, $media_ethics);                             
+  }
+
+  // regroups team members for propaganda vertical.
+  public function regroupForPropaganda() {
+    
+    $prop = array();
+    $leadership = array();
+    
+    foreach($this->posts as $post) {
+        // Check to see if current member should be included in leadership array
+        if (in_array($post->name, ['Samuel C. Woolley', 
+        'Inga Kristina Trauthig', 'Martin J. Riedl','Jo Lukito', 'Craig R. Scott'], true)) {
+          array_push($leadership, $post);
+        } else {
+          array_push($prop, $post);
+        }
+      }
+    $order = array('Samuel C. Woolley', 
+    'Inga Kristina Trauthig', 'Martin J. Riedl','Jo Lukito', 'Craig R. Scott');
+    usort($leadership, function ($a, $b) use ($order) {
+      $pos_a = array_search($a->name, $order);
+      $pos_b = array_search($b->name, $order);
+      return $pos_a - $pos_b;
+    });
+    // Merge the two groups (leadership and remaining members) into one array
+    $this->posts = array();
+    usort($groups, array($this, "lastNameCompare"));
+    $this->posts = array_merge($leadership, $prop); 
+                                          
   }
 
 
