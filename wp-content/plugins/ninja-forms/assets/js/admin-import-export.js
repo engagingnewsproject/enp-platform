@@ -8,7 +8,8 @@ jQuery( document ).ready( function( $ ) {
 	 */
 	var importFormFile = {
 		name: '',
-		content: ''
+		content: '',
+		extraChecksOff: false
 	};
 
 	/**
@@ -22,6 +23,8 @@ jQuery( document ).ready( function( $ ) {
 	$( document ).on( 'click', '#nf-import-form-submit', function( e ) {
 		// Make sure that our file field isn't empty.
 		if ( '' == importFormFile.name ) return false;
+		//Get status of trusted source checkbox
+		importFormFile.extraChecksOff = document.querySelector('#nf_import_form_turn_off_extra_checks').checked;
 
 		// Settings object for our batch processor
 		var settings = {
@@ -32,7 +35,7 @@ jQuery( document ).ready( function( $ ) {
     			// If we don't get back a form ID, then bail.
     			if ( 'undefined' == typeof response.form_id ) return false;
 
-    			jQuery( '#nf-import-file' ).val('');;
+    			jQuery( '#nf-import-file' ).val('');
 				jQuery( '#nf-import-url' ).attr( 'href', nfAdmin.builderURL + response.form_id );
 				var blockingErrors = false;
 				// If we have errors...

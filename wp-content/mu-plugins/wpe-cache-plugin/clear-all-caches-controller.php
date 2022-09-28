@@ -7,6 +7,7 @@ namespace wpengine\cache_plugin;
 require_once __DIR__ . '/security/security-checks.php';
 require_once __DIR__ . '/wpe-common-adapter.php';
 require_once __DIR__ . '/logging-trait.php';
+require_once __DIR__ . '/max-cdn-provider.php';
 
 \wpengine\cache_plugin\check_security();
 
@@ -45,7 +46,9 @@ class ClearAllCachesController {
 	public function clear_all_caches() {
 		try {
 			$this->wpe_common_adapter->purge_memcached();
-			$this->wpe_common_adapter->clear_maxcdn_cache();
+			if ( $this->is_max_cdn_enabled() ) {
+				$this->wpe_common_adapter->clear_maxcdn_cache();
+			}
 			$this->wpe_common_adapter->purge_varnish_cache();
 
 			$this->log_info( 'event=clear-all-cache' );
@@ -71,11 +74,27 @@ class ClearAllCachesController {
 	}
 
 	public function is_rate_limit_expired() {
+		if ( $this->should_rate_limit_be_skipped() ) {
+			return true;
+		}
 		$last_date_time          = $this->get_later_date_last_cleared_or_last_error();
 		$last_date_time_plus_5_m = $this->date_time_helper->add_minutes_to_date( $last_date_time, 5 );
 		$now_utc                 = $this->date_time_helper->now_date_time_utc();
 
 		return $now_utc > $last_date_time_plus_5_m;
+	}
+
+	public function should_rate_limit_be_skipped() {
+		if ( ! $this->is_max_cdn_enabled() ) {
+			return true;
+		}
+		return false;
+	}
+
+	public function is_max_cdn_enabled() {
+		$cdn_provider = new MaxCDNProvider();
+
+		return $cdn_provider->is_enabled();
 	}
 
 	private function get_later_date_last_cleared_or_last_error() {

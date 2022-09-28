@@ -21,7 +21,7 @@ class Media_Audit extends Audit_Event {
 				'event_type'   => Audit_Log::EVENT_TYPE_MEDIA,
 				'action_type'  => self::ACTION_UPLOADED,
 				'text'         => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: File path */
 					__( '%1$s %2$s uploaded a file: "%3$s" to Media Library', 'wpdef' ),
 					'{{blog_name}}',
 					'{{wp_user}}',
@@ -50,7 +50,7 @@ class Media_Audit extends Audit_Event {
 				'action_type'  => self::ACTION_UPDATED,
 				'event_type'   => Audit_Log::EVENT_TYPE_MEDIA,
 				'text'         => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: File path */
 					__( '%1$s %2$s updated a file: "%3$s" from Media Library', 'wpdef' ),
 					'{{blog_name}}',
 					'{{wp_user}}',
@@ -79,7 +79,7 @@ class Media_Audit extends Audit_Event {
 				'action_type'  => self::ACTION_DELETED,
 				'event_type'   => Audit_Log::EVENT_TYPE_MEDIA,
 				'text'         => sprintf(
-				/* translators: */
+				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: File path */
 					__( '%1$s %2$s deleted a file: "%3$s" from Media Library', 'wpdef' ),
 					'{{blog_name}}',
 					'{{wp_user}}',

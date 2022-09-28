@@ -3,11 +3,11 @@
 namespace Calotes\Base;
 
 /**
- * This class use for
- *  1. Register admin page
- *  2. Register sub page
- *  3. Help to queue scripts & output script data for frontend
- *  4. Render frontend view
+ * This class use for:
+ *  1. Register admin page.
+ *  2. Register sub page.
+ *  3. Help to queue scripts & output script data for frontend.
+ *  4. Render frontend view.
  *
  * Class Controller
  *
@@ -18,22 +18,24 @@ class Controller extends Component {
 	protected $layout = null;
 
 	/**
-	 * A helper to quickly create a page or sub page
+	 * A helper to quickly create a page or subpage.
 	 *
-	 * @param $title
-	 * @param $slug
-	 * @param $callback
-	 * @param null     $icon
-	 * @param null     $parent_slug
+	 * @param string      $title
+	 * @param string      $slug
+	 * @param callable    $callback
+	 * @param null|string $icon
+	 * @param null|string $parent_slug
+	 * @param string      $menu_title
 	 */
-	public function register_page( $title, $slug, $callback, $parent_slug = null, $icon = null ) {
+	public function register_page( $title, $slug, $callback, $parent_slug = null, $icon = null, $menu_title = '' ) {
 		$hook     = is_multisite() ? 'network_admin_menu' : 'admin_menu';
-		$function = function () use ( $title, $slug, $callback, $hook, $parent_slug, $icon ) {
+		$menu_title = '' !== $menu_title ? $menu_title : $title;
+		$function = function () use ( $title, $slug, $callback, $hook, $parent_slug, $icon, $menu_title ) {
 			$cap = is_multisite() ? 'manage_network_options' : 'manage_options';
 			if ( null === $parent_slug ) {
-				add_menu_page( $title, $title, $cap, $slug, $callback, $icon );
+				add_menu_page( $title, $menu_title, $cap, $slug, $callback, $icon );
 			} else {
-				add_submenu_page( $parent_slug, $title, $title, $cap, $slug, $callback );
+				add_submenu_page( $parent_slug, $title, $menu_title, $cap, $slug, $callback );
 			}
 		};
 
@@ -41,9 +43,9 @@ class Controller extends Component {
 	}
 
 	/**
-	 * @param $view_file
-	 * @param array     $params
-	 * @param bool      $echo
+	 * @param string|array $view_file
+	 * @param array        $params
+	 * @param bool         $echo
 	 *
 	 * @return bool|string
 	 */
@@ -56,7 +58,7 @@ class Controller extends Component {
 
 		$base_path = $this->get_base_path();
 		$view      = new View( $base_path . 'view' );
-		// assign controller to this
+		// Assign controller to this.
 		if ( ! isset( $params['controller'] ) ) {
 			$params['controller'] = $this;
 		}
@@ -90,7 +92,7 @@ class Controller extends Component {
 	}
 
 	/**
-	 * This will guess the called class path, and return the base
+	 * This will guess the called class path, and return the base.
 	 *
 	 * @return bool|string
 	 */

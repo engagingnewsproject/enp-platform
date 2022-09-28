@@ -1,4 +1,5 @@
 <?php
+declare( strict_types=1 );
 
 namespace WP_Defender\Model\Setting;
 
@@ -99,39 +100,31 @@ class Scan extends Setting {
 	public $time;
 
 	/**
-	 * Define labels for settings key
+	 * Define settings labels.
 	 *
-	 * @param  string|null $key
-	 *
-	 * @return string|array|null
+	 * @return array
 	 */
-	public function labels( $key = null ) {
-		$labels = array(
-			'integrity_check'    => __( 'File change detection', 'wpdef' ),
-			'check_core'         => __( 'Scan core files', 'wpdef' ),
-			'check_plugins'      => __( 'Scan plugin files', 'wpdef' ),
-			'check_known_vuln'   => __( 'Known vulnerabilities', 'wpdef' ),
-			'scan_malware'       => __( 'Suspicious Code', 'wpdef' ),
-			'filesize'           => __( 'Max included file size', 'wpdef' ),
+	public function labels(): array {
+		return [
+			'integrity_check' => __( 'File change detection', 'wpdef' ),
+			'check_core' => __( 'Scan core files', 'wpdef' ),
+			'check_plugins' => __( 'Scan plugin files', 'wpdef' ),
+			'check_known_vuln' => __( 'Known vulnerabilities', 'wpdef' ),
+			'scan_malware' => __( 'Suspicious Code', 'wpdef' ),
+			'filesize' => __( 'Max included file size', 'wpdef' ),
 			'scheduled_scanning' => __( 'Scheduled Scanning', 'wpdef' ),
-			'frequency'          => __( 'Frequency', 'wpdef' ),
-			'day'                => __( 'Day of the week', 'wpdef' ),
-			'day_n'              => __( 'Day of the month', 'wpdef' ),
-			'time'               => __( 'Time of day', 'wpdef' ),
-		);
-
-		if ( ! is_null( $key ) ) {
-			return $labels[ $key ] ?? null;
-		}
-
-		return $labels;
+			'frequency' => __( 'Frequency', 'wpdef' ),
+			'day' => __( 'Day of the week', 'wpdef' ),
+			'day_n' => __( 'Day of the month', 'wpdef' ),
+			'time' => __( 'Time of day', 'wpdef' ),
+		];
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function is_any_filetypes_checked() {
-		if ( ! $this->integrity_check) {
+	public function is_any_filetypes_checked(): bool {
+		if ( ! $this->integrity_check ) {
 			return false;
 		} elseif ( $this->integrity_check && ! $this->check_core && ! $this->check_plugins ) {
 			return false;
@@ -140,26 +133,22 @@ class Scan extends Setting {
 		return true;
 	}
 
-	public function after_validate() {
+	protected function after_validate(): void {
 		// Case#1: all child types of File change detection are unchecked BUT parent type is checked.
 		if ( $this->integrity_check && ! $this->check_core && ! $this->check_plugins ) {
 			$this->errors[] = __( 'You have not selected a scan type for the <strong>File change detection</strong>. Please choose at least one and save the settings again.', 'wpdef' );
-
-			return false;
-		// Case#2: all scan types are unchecked and Scheduled Scanning is checked.
+			// Case#2: all scan types are unchecked and Scheduled Scanning is checked.
 		} elseif ( ! $this->integrity_check && ! $this->check_known_vuln && ! $this->scan_malware
 			&& $this->scheduled_scanning
 		) {
 			$this->errors[] = __( 'You have not selected a scan type. Please enable at least one scan type and save the settings again.', 'wpdef' );
-
-			return false;
 		}
 	}
 
-	protected function before_load() {
+	protected function before_load(): void {
 		$this->frequency = 'weekly';
-		$this->day       = 'sunday';
-		$this->day_n     = '1';
-		$this->time      = '4:00';
+		$this->day = 'sunday';
+		$this->day_n = '1';
+		$this->time = '4:00';
 	}
 }

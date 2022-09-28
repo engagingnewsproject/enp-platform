@@ -238,7 +238,7 @@ class Audit_Log extends DB {
 	 * @throws \ReflectionException
 	 */
 	public static function mass_insert( $data ) {
-		// Todo: use raw sql for faster.
+		// Use raw sql for faster.
 		foreach ( $data as $datum ) {
 			$item = new Audit_Log();
 			$item->import( $datum );

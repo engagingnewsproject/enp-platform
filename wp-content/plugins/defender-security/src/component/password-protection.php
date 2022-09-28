@@ -16,12 +16,13 @@ use WP_User;
 class Password_Protection extends Component {
 
 	/**
-	 * The Pwned API URL
-	 * API source website: http://haveibeenpwned.com/
-	 * API version: v3
+	 * The Pwned API URL.
+	 * API source website: http://haveibeenpwned.com/. API version: v3.
+	 *
 	 * @var string
 	 */
 	protected $pwned_api;
+
 	/**
 	 * @var \WP_Defender\Model\Setting\Password_Reset
 	 */
@@ -62,8 +63,7 @@ class Password_Protection extends Component {
 	}
 
 	/**
-	 * Makes an API request to the remote server and
-	 * Checks if the password is pwned.
+	 * Makes an API request to the remote server and checks if the password is pwned.
 	 *
 	 * @param string $password
 	 *
@@ -98,7 +98,7 @@ class Password_Protection extends Component {
 				break;
 			}
 		}
-		// Found Pwned password or not
+		// Found Pwned password or not.
 		return $pwned_count > 0;
 	}
 
@@ -106,7 +106,7 @@ class Password_Protection extends Component {
 	 * Check if the specified user role is enabled.
 
 	 * @param WP_User $user
-	 * @param array $selected_user_roles
+	 * @param array   $selected_user_roles
 	 *
 	 * @return bool
 	 */
@@ -117,23 +117,37 @@ class Password_Protection extends Component {
 		}
 
 		if ( empty( $user->roles ) ) {
+			// WP_User does have data about roles sometimes, e.g. on the Profile page, so we get it from userdata.
 			$user_id = $user->ID;
 			if ( ! is_multisite() ) {
-				// User should have roles.
-				$this->log( sprintf( "User ID: %d doesn't have roles", $user_id ), 'password.log' );
-				return false;
+				$user_meta = get_userdata( $user_id );
+				if ( empty( $user_meta->roles ) ) {
+					// User should have roles.
+					$this->log( sprintf( "User ID: %d doesn't have roles.", $user_id ), 'password.log' );
+
+					return false;
+				}
+				$user_roles = $user_meta->roles;
 			} else {
 				$arr_user_blogs = get_blogs_of_user( $user_id );
 				if ( empty( $arr_user_blogs ) ) {
 					// User should be associated with some site.
-					$this->log( sprintf( 'User ID: %d is not associated with any site', $user_id ), 'password.log' );
+					$this->log( sprintf( 'User ID: %d is not associated with any site.', $user_id ), 'password.log' );
+
 					return false;
 				}
 				$user_blog_id = array_key_first( $arr_user_blogs );
 				$user         = new WP_User( $user_id, '', $user_blog_id );
+				if ( empty( $user->roles ) ) {
+					$this->log( sprintf( "User ID: %d doesn't have roles on MU.", $user->ID ), 'password.log' );
+
+					return false;
+				}
+				$user_roles = $user->roles;
 			}
+		} else {
+			$user_roles = $user->roles;
 		}
-		$user_roles = $user->roles;
 
 		return ! empty( array_intersect( $selected_user_roles, $user_roles ) );
 	}
@@ -158,7 +172,7 @@ class Password_Protection extends Component {
 				),
 				wp_login_url()
 			);
-			// extra hosting checks
+			// Extra hosting checks.
 			$this->hosting_compatibility( $key, $user->user_login );
 		}
 
@@ -197,7 +211,7 @@ class Password_Protection extends Component {
 	}
 
 	/**
-	 * Remove cookie notice
+	 * Remove cookie notice.
 	 *
 	 * @param string $name
 	 * @param int $time
@@ -390,7 +404,7 @@ class Password_Protection extends Component {
 	 *
 	 * @since 2.6.1
 	 *
-	 * @param WP_User $user     WP_User object.
+	 * @param WP_User $user WP_User object.
 	 *
 	 * @return bool If password expired then true else false.
 	 */

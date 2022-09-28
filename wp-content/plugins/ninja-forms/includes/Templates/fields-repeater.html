@@ -5,14 +5,14 @@
         data-field-id="{{{ data.id }}}"
     >
     </div>
-    <button type="button" class="nf-add-fieldset">{{{nfRepeater.add_repeater_child_field_text}}} {{{ _.escape( data.label ) }}}</button>
+    <button type="button" class="nf-add-fieldset">{{{nfRepeater.add_repeater_child_field_text}}} {{{ ( data.maybeFilterHTML() === 'true' ) ? _.escape( data.label ) : data.label }}}</button>
     <div>{{{ data.description }}}</div>
     
 </script>
 
 <script id="tmpl-nf-field-repeater-set" type="text/template">
 
-    <legend>{{{ _.escape( data.label ) }}} {{{ data.index }}}</legend>
+    <legend>{{{ ( data.maybeFilterHTML() === 'true' ) ? _.escape( data.label ) : data.label }}} {{{ data.index }}}</legend>
     <# if(data.index > 1 ) { #>
     <button class="nf-remove-fieldset" type="button" title="Remove Fieldset">&times;</button>
     <# } #>

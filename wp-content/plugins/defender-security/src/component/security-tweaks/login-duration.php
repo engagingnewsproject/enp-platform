@@ -1,5 +1,7 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace WP_Defender\Component\Security_Tweaks;
 
 use WP_Error;
@@ -20,7 +22,7 @@ class Login_Duration extends Component {
 	 *
 	 * @return bool
 	 */
-	public function check() {
+	public function check(): bool {
 		return $this->resolved;
 	}
 
@@ -29,34 +31,37 @@ class Login_Duration extends Component {
 	 *
 	 * @return bool
 	 */
-	private function is_incorect_duration( $duration ) {
+	private function is_incorect_duration( $duration ): bool {
 		return ( ! is_numeric( $duration ) || 0 >= (int) $duration );
 	}
 
 	/**
 	 * Here is the code for processing, if the return is true, we add it to resolve list, WP_Error if any error.
 	 *
-	 * @return bool|\WP_Error
+	 * @return bool|WP_Error
 	 */
 	public function process() {
 		$duration = HTTP::post( 'duration' );
 
 		if ( $this->is_incorect_duration( $duration ) ) {
+			$this->resolved = false;
+
 			return new WP_Error(
 				'defender_invalid_duration',
-				__( 'Duration can only be a number and greater than 0', 'wpdef' )
+				__( 'Duration can only be a number and greater than 0.', 'wpdef' )
 			);
 		}
+		$this->resolved = true;
 
 		return update_site_option( "defender_security_tweeks_{$this->slug}", $duration );
 	}
 
 	/**
-	 * This is for un-do stuff that has be done in @process.
+	 * This is for un-do stuff that were done in @process.
 	 *
-	 * @return bool|\WP_Error
+	 * @return bool
 	 */
-	public function revert() {
+	public function revert(): bool {
 		return delete_site_option( "defender_security_tweeks_{$this->slug}" );
 	}
 
@@ -66,6 +71,8 @@ class Login_Duration extends Component {
 	public function shield_up() {
 		$duration = get_site_option( "defender_security_tweeks_{$this->slug}" );
 		if ( empty( $duration ) || $this->is_incorect_duration( $duration ) ) {
+			$this->resolved = false;
+
 			return $this->revert();
 		}
 		$this->resolved = true;
@@ -82,7 +89,7 @@ class Login_Duration extends Component {
 	 *
 	 * @return int
 	 */
-	public function cookie_duration( $duration, $user_id, $remember ) {
+	public function cookie_duration( $duration, $user_id, $remember ): int {
 		$saved_duration = $this->get_duration( true );
 
 		// When remember is set or saved_duration is smaller than 2 days, return saved_duration.
@@ -108,15 +115,13 @@ class Login_Duration extends Component {
 	 *
 	 * @return int
 	 */
-	private function get_duration( $in_seconds = false ) {
-		$duration = apply_filters( "defender_security_tweaks_{$this->slug}_get_duration",
-			get_site_option( "defender_security_tweeks_{$this->slug}" ), $in_seconds );
+	private function get_duration( $in_seconds = false ): int {
+		$duration = apply_filters(
+			"defender_security_tweaks_{$this->slug}_get_duration",
+			get_site_option( "defender_security_tweeks_{$this->slug}" ), $in_seconds
+		);
 
-		if ( ! $in_seconds ) {
-			return $duration;
-		}
-
-		return $in_seconds ? $duration * DAY_IN_SECONDS : $duration;
+		return $in_seconds ? $duration * DAY_IN_SECONDS : (int) $duration;
 	}
 
 	/**
@@ -124,20 +129,23 @@ class Login_Duration extends Component {
 	 *
 	 * @return array
 	 */
-	public function to_array() {
+	public function to_array(): array {
+		$duration = $this->get_duration();
+
 		return [
-			'slug'             => $this->slug,
-			'title'            => __( 'Manage Login Duration', 'wpdef' ),
-			'errorReason'      => sprintf( __( 'Your current login duration is the default %d days.', 'wpdef' ),
-				self::DEFAULT_DAYS ),
-			'successReason'    => sprintf( __( 'You\'ve adjusted the default login duration to %d days.', 'wpdef' ),
-				$this->get_duration() ),
-			'misc'             => [
-				'duration' => $this->get_duration()
-			],
-			'bulk_description' => __( 'Users who select the \'remember me\' option will stay logged in for 14 days.It’s good practice to reduce this default time to reduce the risk of someone gaining access to your automatically logged in account. We’ll set the login duration to 7 days.',
-				'wpdef' ),
-			'bulk_title'       => __( 'Login Duration', 'wpdef' )
+			'slug' => $this->slug,
+			'title' => __( 'Manage Login Duration', 'wpdef' ),
+			'errorReason' => sprintf(
+				__( 'Your current login duration is the default %d days.', 'wpdef' ),
+				self::DEFAULT_DAYS
+			),
+			'successReason' => sprintf(
+				__( 'You\'ve adjusted the default login duration to %d days.', 'wpdef' ),
+				$duration
+			),
+			'misc' => [ 'duration' => $duration ],
+			'bulk_description' => __( 'Users who select the \'remember me\' option will stay logged in for 14 days.It’s good practice to reduce this default time to reduce the risk of someone gaining access to your automatically logged in account. We’ll set the login duration to 7 days.', 'wpdef' ),
+			'bulk_title' => __( 'Login Duration', 'wpdef' ),
 		];
 	}
 }

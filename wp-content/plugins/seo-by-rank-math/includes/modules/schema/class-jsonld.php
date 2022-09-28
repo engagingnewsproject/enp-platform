@@ -100,7 +100,7 @@ class JsonLD {
 		 *
 		 * @param array $unsigned An array of data to output in JSON-LD.
 		 */
-		$data = $this->do_filter( 'schema/preview/validate', $this->validate_schema( $data ) );
+		$data = $this->do_filter( 'schema/preview/validate', $this->do_filter( 'schema/validated_data', $this->validate_schema( $data ) ) );
 
 		echo wp_json_encode( array_values( $data ) );
 	}
@@ -148,7 +148,7 @@ class JsonLD {
 		 * @param JsonLD $unsigned JsonLD instance.
 		 */
 		$data = $this->do_filter( 'json_ld', [], $this );
-		$data = $this->validate_schema( $data );
+		$data = $this->do_filter( 'schema/validated_data', $this->validate_schema( $data ) );
 		if ( is_array( $data ) && ! empty( $data ) ) {
 
 			$class = defined( 'RANK_MATH_PRO_FILE' ) ? 'schema-pro' : 'schema';
@@ -236,8 +236,8 @@ class JsonLD {
 			'\\RankMath\\Schema\\Website'       => $can_add_global,
 			'\\RankMath\\Schema\\PrimaryImage'  => is_singular() && ! post_password_required() && $can_add_global,
 			'\\RankMath\\Schema\\Breadcrumbs'   => $this->can_add_breadcrumb(),
-			'\\RankMath\\Schema\\Author'        => is_author() || ( is_singular() && $can_add_global ),
 			'\\RankMath\\Schema\\Webpage'       => $can_add_global,
+			'\\RankMath\\Schema\\Author'        => is_author() || ( is_singular() && $can_add_global ),
 			'\\RankMath\\Schema\\Products_Page' => $is_product_archive,
 			'\\RankMath\\Schema\\Singular'      => ! post_password_required() && is_singular(),
 		];
@@ -284,10 +284,10 @@ class JsonLD {
 
 			// Need this conditions to convert date to valid ISO 8601 format.
 			if ( 'datePublished' === $key && '%date(Y-m-dTH:i:sP)%' === $schema ) {
-				$schema =  '%date(Y-m-d\TH:i:sP)%';
+				$schema = '%date(Y-m-d\TH:i:sP)%';
 			}
 			if ( 'dateModified' === $key && '%modified(Y-m-dTH:i:sP)%' === $schema ) {
-				$schema =  '%modified(Y-m-d\TH:i:sP)%';
+				$schema = '%modified(Y-m-d\TH:i:sP)%';
 			}
 
 			$new_schemas[ $key ] = Str::contains( '%', $schema ) ? Helper::replace_vars( $schema, $object ) : $schema;
@@ -312,11 +312,14 @@ class JsonLD {
 			return;
 		}
 
-		if ( empty( $schema['author'] ) || ! isset( $schema['author']['name'] ) || '%name%' !== $schema['author']['name'] ) {
+		if ( empty( $schema['author'] ) || ! isset( $schema['author']['name'] ) || ! in_array( $schema['author']['name'], [ '%name%', '%post_author%' ], true ) ) {
 			return;
 		}
 
-		$schema['author'] = [ '@id' => $data['ProfilePage']['@id'] ];
+		$schema['author'] = [
+			'@id'  => $data['ProfilePage']['@id'],
+			'name' => get_the_author(),
+		];
 	}
 
 	/**
@@ -346,10 +349,12 @@ class JsonLD {
 			$pre = $this->do_filter( $hook, false, $jsonld->parts, $data );
 			if ( false !== $pre ) {
 				$new_schemas[ $key ] = $this->do_filter( $hook . '_entity', $pre );
+				$new_schemas[ $key ] = $this->do_filter( 'snippet/rich_snippet_entity', $new_schemas[ $key ] );
 				continue;
 			}
 
 			$new_schemas[ $key ] = $this->do_filter( $hook . '_entity', $schema );
+			$new_schemas[ $key ] = $this->do_filter( 'snippet/rich_snippet_entity', $new_schemas[ $key ] );
 		}
 
 		return $new_schemas;
@@ -446,14 +451,20 @@ class JsonLD {
 	private function add_prop_image( &$entity ) {
 		$logo = Helper::get_settings( 'titles.knowledgegraph_logo' );
 		if ( ! $logo ) {
+			$logo_id = \get_option( 'site_logo' );
+			$logo    = $logo_id ? wp_get_attachment_image_url( $logo_id ) : '';
+		}
+
+		if ( ! $logo ) {
 			return;
 		}
 
 		$entity['logo'] = [
-			'@type'   => 'ImageObject',
-			'@id'     => home_url( '/#logo' ),
-			'url'     => $logo,
-			'caption' => $this->get_website_name(),
+			'@type'      => 'ImageObject',
+			'@id'        => home_url( '/#logo' ),
+			'url'        => $logo,
+			'contentUrl' => $logo,
+			'caption'    => $this->get_website_name(),
 		];
 		$this->add_prop_language( $entity['logo'] );
 

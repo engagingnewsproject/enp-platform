@@ -331,10 +331,14 @@ class WebP extends Abstract_Module {
 		if ( 0 === strpos( $upload['basedir'], ABSPATH ) ) {
 			// Environments like Flywheel have an ABSPATH that's not used in the paths.
 			$root_path_base = ABSPATH;
-		} elseif ( isset( $_SERVER['DOCUMENT_ROOT'] ) && 0 === strpos( $upload['basedir'], $_SERVER['DOCUMENT_ROOT'] ) ) {
-			// This gets called when scanning for uncompressed images.
-			// When ran from certain contexts, $_SERVER['DOCUMENT_ROOT'] might not be set.
-			$root_path_base = $_SERVER['DOCUMENT_ROOT'];
+		} elseif ( ! empty( $_SERVER['DOCUMENT_ROOT'] ) && 0 === strpos( $upload['basedir'], $_SERVER['DOCUMENT_ROOT'] ) ) {
+			/**
+			 * This gets called when scanning for uncompressed images.
+			 * When ran from certain contexts, $_SERVER['DOCUMENT_ROOT'] might not be set.
+			 *
+			 * We are removing this part from the path later on.
+			 */
+			$root_path_base = realpath( wp_unslash( $_SERVER['DOCUMENT_ROOT'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		} elseif ( 0 === strpos( $upload['basedir'], dirname( WP_CONTENT_DIR ) ) ) {
 			// We're assuming WP_CONTENT_DIR is only one level deep into the document root.
 			// This might not be true in customized sites. A bit edgy.

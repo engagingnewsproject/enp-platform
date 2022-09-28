@@ -209,7 +209,7 @@ class User_Agent extends Component {
 		$fp   = fopen( $file, 'r' );
 		$data = array();
 		while ( ( $line = fgetcsv( $fp ) ) !== false ) { //phpcs:ignore
-			if ( 2 !== count( $line ) ) {
+			if ( 2 !== count( (array) $line ) ) {
 				return false;
 			}
 

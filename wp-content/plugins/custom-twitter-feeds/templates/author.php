@@ -50,8 +50,8 @@ if ( isset( $retweeter ) && ctf_show( 'retweeter', $feed_options ) ) :
 				<?php if( ctf_show( 'avatar', $feed_options ) ): ?>
 					<!--style="' . $feed_options['authortextsize'] . $feed_options['authortextweight'] . $feed_options['textcolor'] . '"-->
 					<a href="https://twitter.com/<?php echo $author_screen_name ?>" class="ctf-author-avatar" target="_blank" rel="noopener noreferrer" <?php echo $avatar_attr  ?>>
-						<?php if( CTF_GDPR_Integrations::doing_gdpr( $feed_options )  ): ?>
-							<span data-avatar="<?php echo esc_url( $avatar_src ) ?>" data-alt="<?php echo $author_screen_name ?>">Avatar</span>
+						<?php if ( CTF_GDPR_Integrations::doing_gdpr( $feed_options ) ) : ?>
+							<span data-avatar="<?php echo esc_url( CTF_Parse::get_avatar( $post ) ) ?>" data-alt="<?php echo $author_screen_name ?>">Avatar</span>
 						<?php else: ?>
 							<img src="<?php echo esc_url( $avatar_src ) ?>" alt="<?php echo $author_screen_name ?>" width="48" height="48">
 						<?php endif; ?>

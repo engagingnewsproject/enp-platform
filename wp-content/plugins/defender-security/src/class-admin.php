@@ -1,4 +1,5 @@
 <?php
+declare( strict_types=1 );
 
 namespace WP_Defender;
 
@@ -25,34 +26,32 @@ class Admin {
 	 */
 	public function init() {
 		$this->is_pro = ( new WPMUDEV() )->is_pro();
-		$is_def_page  = defender_current_page();
+		$is_def_page = defender_current_page();
 		// Display plugin links.
-		add_filter( 'network_admin_plugin_action_links_' . DEFENDER_PLUGIN_BASENAME, array( $this, 'settings_link' ) );
-		add_filter( 'plugin_action_links_' . DEFENDER_PLUGIN_BASENAME, array( $this, 'settings_link' ) );
-		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 3 );
-		// Only for wordpress.org members.
-		if ( ! $this->is_pro ) {
-			// Add plugin upgrade notification.
-			add_action( 'in_plugin_update_message-' . DEFENDER_PLUGIN_BASENAME, array( $this, 'show_upgrade_notice' ), 10, 2 );
-			if ( $is_def_page && ! is_multisite() ) {
-				add_action( 'admin_notices', array( $this, 'show_rating_notice' ) );
-			} elseif ( $is_def_page && is_multisite() && is_main_site() ) {
-				add_action( 'network_admin_notices', array( $this, 'show_rating_notice' ) );
-			}
-			add_action( 'wp_ajax_defender_dismiss_notification', array( $this, 'dismiss_notice' ) );
-			add_action( 'admin_init', array( $this, 'register_free_modules' ), 20 );
-		} else {
-			// For Pro version.
+		add_filter( 'network_admin_plugin_action_links_' . DEFENDER_PLUGIN_BASENAME, [ $this, 'settings_link' ] );
+		add_filter( 'plugin_action_links_' . DEFENDER_PLUGIN_BASENAME, [ $this, 'settings_link' ] );
+		add_filter( 'plugin_row_meta', [ $this, 'plugin_row_meta' ], 10, 3 );
+		// WP_DEFENDER_PRO sometimes doesn't match $this->is_pro, e.g. WPMU DEV Dashboard is deactivated.
+		if ( defined( 'WP_DEFENDER_PRO' ) && WP_DEFENDER_PRO ) {
+			// This area is only for Pro version.
 			add_action(
 				'load-plugins.php',
 				function () {
-					add_action( 'after_plugin_row_' . DEFENDER_PLUGIN_BASENAME, array(
-						$this,
-						'show_upgrade_notice'
-					), 10, 2 );
+					add_action( 'after_plugin_row_' . DEFENDER_PLUGIN_BASENAME, [ $this, 'show_upgrade_notice' ], 10, 2 );
 				},
 				22
 			);
+		} else {
+			// This area is only for wordpress.org members.
+			// Add plugin upgrade notification.
+			add_action( 'in_plugin_update_message-' . DEFENDER_PLUGIN_BASENAME, [ $this, 'show_upgrade_notice' ], 10, 2 );
+			if ( $is_def_page && ! is_multisite() ) {
+				add_action( 'admin_notices', [ $this, 'show_rating_notice' ] );
+			} elseif ( $is_def_page && is_multisite() && is_main_site() ) {
+				add_action( 'network_admin_notices', [ $this, 'show_rating_notice' ] );
+			}
+			add_action( 'wp_ajax_defender_dismiss_notification', [ $this, 'dismiss_notice' ] );
+			add_action( 'admin_init', [ $this, 'register_free_modules' ], 20 );
 		}
 	}
 
@@ -65,9 +64,9 @@ class Admin {
 	 *
 	 * @return string
 	 */
-	public function get_link( $link_for, $campaign = '', $adv_path = '' ) {
-		$domain  = 'https://wpmudev.com';
-		$wp_org   = 'https://wordpress.org';
+	public function get_link( $link_for, $campaign = '', $adv_path = '' ): string {
+		$domain = 'https://wpmudev.com';
+		$wp_org = 'https://wordpress.org';
 		$utm_tags = "?utm_source=defender&utm_medium=plugin&utm_campaign={$campaign}";
 		switch ( $link_for ) {
 			case 'docs':
@@ -96,7 +95,6 @@ class Admin {
 		return $link;
 	}
 
-
 	/**
 	 * Adds a settings link on plugin page.
 	 *
@@ -104,18 +102,18 @@ class Admin {
 	 *
 	 * @return array
 	 */
-	public function settings_link( $links ) {
+	public function settings_link( $links ): array {
 		$action_links = [];
 		$wpmu_dev = new WPMUDEV();
 		// Settings link.
-		$action_links['dashboard']   = '<a href="' . network_admin_url( 'admin.php?page=wdf-setting' ) . '" aria-label="' . esc_attr( __( 'Go to Defender Settings', 'wpdef' ) ) . '">' . esc_html__( 'Settings', 'wpdef' ) . '</a>';
+		$action_links['dashboard'] = '<a href="' . network_admin_url( 'admin.php?page=wdf-setting' ) . '" aria-label="' . esc_attr( __( 'Go to Defender Settings', 'wpdef' ) ) . '">' . esc_html__( 'Settings', 'wpdef' ) . '</a>';
 		// Documentation link.
-		$action_links['docs']        = '<a target="_blank" href="' . $this->get_link('docs', 'defender_pluginlist_docs') . '" aria-label="' . esc_attr(__('Docs', 'wpdef')) . '">' . esc_html__('Docs', 'wpdef') . '</a>';
+		$action_links['docs'] = '<a target="_blank" href="' . $this->get_link( 'docs', 'defender_pluginlist_docs' ) . '" aria-label="' . esc_attr( __( 'Docs', 'wpdef' ) ) . '">' . esc_html__( 'Docs', 'wpdef' ) . '</a>';
 		if ( ! $wpmu_dev->is_member() ) {
 			if ( WP_DEFENDER_PRO_PATH !== DEFENDER_PLUGIN_BASENAME ) {
 				$action_links['upgrade'] = '<a style="color: #8D00B1;" target="_blank" href="' . $this->get_link( 'plugin', 'defender_pluginlist_upgrade' ) . '" aria-label="' . esc_attr( __( 'Upgrade to Defender Pro', 'wpdef' ) ) . '">' . esc_html__( 'Upgrade', 'wpdef' ) . '</a>';
 			} else {
-				$action_links['renew']   = '<a style="color: #8D00B1;" target="_blank" href="' . $this->get_link( 'plugin', 'defender_pluginlist_renew' ) . '" aria-label="' . esc_attr( __( 'Renew Your Membership', 'wpdef' ) ) . '">' . esc_html__( 'Renew Membership', 'wpdef' ) . '</a>';
+				$action_links['renew'] = '<a style="color: #8D00B1;" target="_blank" href="' . $this->get_link( 'plugin', 'defender_pluginlist_renew' ) . '" aria-label="' . esc_attr( __( 'Renew Your Membership', 'wpdef' ) ) . '">' . esc_html__( 'Renew Membership', 'wpdef' ) . '</a>';
 			}
 		}
 
@@ -125,13 +123,13 @@ class Admin {
 	/**
 	 * Show row meta on the plugin screen.
 	 *
-	 * @param mixed $links       Plugin Row Meta.
-	 * @param mixed $file        Plugin Base file.
-	 * @param array $plugin_data Plugin data.
+	 * @param string[] $links       Plugin Row Meta.
+	 * @param string   $file        Plugin Base file.
+	 * @param array    $plugin_data Plugin data.
 	 *
 	 * @return array
 	 */
-	public function plugin_row_meta( $links, $file, $plugin_data ) {
+	public function plugin_row_meta( $links, $file, $plugin_data ): array {
 		$row_meta = [];
 		if ( ! defined( 'DEFENDER_PLUGIN_BASENAME' ) || DEFENDER_PLUGIN_BASENAME !== $file ) {
 			return $links;
@@ -143,9 +141,12 @@ class Admin {
 			$author_uri = sprintf(
 				'<a href="%s" target="_blank">%s</a>',
 				$author_uri,
-				__( 'WPMU DEV' )
+				__( 'WPMU DEV', 'wpdef' )
 			);
-			$links[1]   = sprintf( /* translators: ... */ __( 'By %s' ), $author_uri );
+			$links[1] = sprintf(
+					/* translators: %s - author URI */
+				__( 'By %s', 'wpdef' ), $author_uri
+			);
 		}
 
 		if ( ! $this->is_pro ) {
@@ -161,15 +162,15 @@ class Admin {
 							)
 						),
 						/* translators: %s: Plugin name. */
-						esc_attr( sprintf( __( 'More information about %s' ), $plugin_data['Name'] ) ),
+						esc_attr( sprintf( __( 'More information about %s', 'wpdef' ), $plugin_data['Name'] ) ),
 						esc_attr( $plugin_data['Name'] ),
-						__( 'View details' )
+						__( 'View details', 'wpdef' )
 					);
 				} else {
 					$links[2] = str_replace( 'href=', 'target="_blank" href=', $links[2] );
 				}
 			}
-			$row_meta['rate']    = '<a href="' . esc_url( $this->get_link( 'rate' ) ) . '" aria-label="' . esc_attr__( 'Rate Defender', 'wpdef' ) . '" target="_blank">' . esc_html__( 'Rate Defender', 'wpdef' ) . '</a>';
+			$row_meta['rate'] = '<a href="' . esc_url( $this->get_link( 'rate' ) ) . '" aria-label="' . esc_attr__( 'Rate Defender', 'wpdef' ) . '" target="_blank">' . esc_html__( 'Rate Defender', 'wpdef' ) . '</a>';
 			$row_meta['support'] = '<a href="' . esc_url( $this->get_link( 'support' ) ) . '" aria-label="' . esc_attr__( 'Support', 'wpdef' ) . '" target="_blank">' . esc_html__( 'Support', 'wpdef' ) . '</a>';
 		} else {
 			// Change 'Visit plugins' link to 'View details'.
@@ -177,7 +178,7 @@ class Admin {
 				$links[2] = sprintf(
 					'<a href="%s" target="_blank">%s</a>',
 					esc_url( $this->get_link( 'pro_link', '', 'project/wp-defender/' ) ),
-					__( 'View details' )
+					__( 'View details', 'wpdef' )
 				);
 			}
 			$row_meta['support'] = '<a href="' . esc_url( $this->get_link( 'support' ) ) . '" aria-label="' . esc_attr__( 'Premium Support', 'wpdef' ) . '" target="_blank">' . esc_html__( 'Premium Support', 'wpdef' ) . '</a>';
@@ -193,18 +194,14 @@ class Admin {
 	public function dismiss_notice() {
 		if ( ! current_user_can( 'manage_options' ) || ! check_ajax_referer( 'defender_dismiss_notification' ) ) {
 			wp_send_json_error(
-				array(
-					'message' => __( 'Invalid request, you are not allowed to do that action.', 'wpdef' ),
-				)
+				[ 'message' => __( 'Invalid request, you are not allowed to do that action.', 'wpdef' ) ]
 			);
 		}
 
 		$notification_name = ! empty( $_POST['prop'] ) ? sanitize_text_field( $_POST['prop'] ) : false;
 		if ( false === $notification_name ) {
 			wp_send_json_error(
-				array(
-					'message' => __( 'Invalid request, allowed data not provided.', 'wpdef' ),
-				)
+				[ 'message' => __( 'Invalid request, allowed data not provided.', 'wpdef' ) ]
 			);
 		}
 		update_site_option( $notification_name, true );
@@ -242,11 +239,11 @@ class Admin {
 			'wpmudev-recommended-plugins-register-notice',
 			DEFENDER_PLUGIN_BASENAME, // Plugin basename
 			'Defender', // Plugin Name
-			array(
+			[
 				'toplevel_page_wp-defender',
 				'toplevel_page_wp-defender-network',
-			),
-			array( 'after', '.sui-wrap .sui-header' )
+			],
+			[ 'after', '.sui-wrap .sui-header' ]
 		);
 	}
 
@@ -259,9 +256,10 @@ class Admin {
 			return;
 		}
 
-		$install_date       = get_site_option( 'defender_free_install_date', false );
+		$install_date = (int) get_site_option( 'defender_free_install_date', false );
 		// @since 2.6.1
-		$days_later_dismiss = get_site_option( 'defender_days_rating_later_dismiss',
+		$days_later_dismiss = get_site_option(
+			'defender_days_rating_later_dismiss',
 			apply_filters( 'wd_dismiss_rating', false )
 		);
 
@@ -332,7 +330,7 @@ class Admin {
 		if ( isset( $plugin_data->new_version )
 			&& '3' === substr( trim( $plugin_data->new_version ), 0, 1 )
 			&& version_compare( DEFENDER_VERSION, '3', '<' )
-		){
+		) {
 			// Major plugin version or subsequent versions.
 			$new_version = ( '3' === $plugin_data->new_version ) ? '3.0.0' : $plugin_data->new_version;
 			// Collect notice.
@@ -350,7 +348,7 @@ class Admin {
 
 			echo "<script type='text/javascript'>
             (function ($) {
-               $(document).ready(function () {
+               $( function () {
                    $( '.wp-list-table tr[data-plugin=\"" . esc_attr( $plugin_data->plugin ) . "\"] .notice-warning' ).html( '" . addslashes( $notice ) . "' ).css('padding-bottom', '10px');
                });
             })(jQuery);

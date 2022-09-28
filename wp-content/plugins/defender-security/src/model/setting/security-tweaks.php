@@ -82,25 +82,17 @@ class Security_Tweaks extends Setting {
 	}
 
 	/**
-	 * Define labels for settings key.
+	 * Define settings labels.
 	 *
-	 * @param  string|null $key
-	 *
-	 * @return string|array|null
+	 * @return array
 	 */
-	public function labels( $key = null ) {
-		$labels = array(
+	public function labels() {
+		return array(
 			'data'     => 'data',
 			'fixed'    => __( 'Actioned', 'wpdef' ),
 			'issues'   => __( 'Recommendations', 'wpdef' ),
 			'ignore'   => __( 'Ignored', 'wpdef' ),
 			'automate' => 'automate',
 		);
-
-		if ( ! is_null( $key ) ) {
-			return $labels[ $key ] ?? null;
-		}
-
-		return $labels;
 	}
 }

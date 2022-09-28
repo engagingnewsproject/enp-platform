@@ -2,10 +2,11 @@
 
 use NinjaForms\Includes\Admin\Processes\DeleteBatchFile;
 use NinjaForms\Includes\Contracts\SubmissionHandler;
-use NinjaForms\Includes\Entities\SubmissionFilter;
+
 use NinjaForms\Includes\Entities\SingleSubmission;
 use NinjaForms\Includes\Entities\SubmissionExtraHandlerResponse;
 use NinjaForms\Includes\Factories\SubmissionAggregateFactory;
+use NinjaForms\Includes\Factories\SubmissionFilterFactory;
 
 
 /**
@@ -401,7 +402,7 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
         if ('filterByDates' === $requestType) {
 
             foreach ($form_ids as $formId) {
-                $params = (new SubmissionFilter())
+                $params = (new SubmissionFilterFactory())->maybeLimitByLoggedInUser()
                     ->setStartDate($start_date)
                     ->setEndDate($end_date)
                     ->setNfFormIds([$formId])
@@ -426,7 +427,7 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
 
             $csv[$formId] = $csvObject->handle();
         } elseif ('getSubmissions' === $requestType) {
-            $params = (new SubmissionFilter())
+            $params = (new SubmissionFilterFactory())->maybeLimitByLoggedInUser()
                 ->setNfFormIds($form_ids)
                 ->setStartDate(0)
                 ->setEndDate(time())
@@ -607,7 +608,8 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
         }
 
         //Get aggregated submissions
-        $params = (new SubmissionFilter())->setNfFormIds([$form_ids]);
+        $params = (new SubmissionFilterFactory())->maybeLimitByLoggedInUser()->setNfFormIds([$form_ids]);
+
         if(!empty($start_date) && !empty($end_date)){
             $params->setStartDate($start_date);
             $params->setEndDate($end_date);
@@ -655,10 +657,9 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
         $setting = $data['settingName'];
         $new_data = $data['data'];
         $form_id = $data['formID'];
-        //Get data stored and create the new vamue for the correct setting
+        //Get data stored and create the new value for the correct setting
         $option = get_option( 'ninja_forms_submissions_settings' );
-        $current_form_option = $current_form_option[$form_id];
-        $current_setting_value = $current_form_option[$setting];
+        $current_setting_value = $option[$form_id][$setting];
         $updated_option = $option;
         $updated_option[$form_id][$setting] = $new_data;
 

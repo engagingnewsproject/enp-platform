@@ -2,7 +2,7 @@
 /**
  * Plugin Name:  Defender
  * Plugin URI:   https://wpmudev.com/project/wp-defender/
- * Version:      3.0.0
+ * Version:      3.2.0
  * Description:  Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps.
  * Author:       WPMU DEV
  * Author URI:   https://wpmudev.com/
@@ -12,7 +12,7 @@
  * Requires PHP: 7.2
  */
 /*
-Copyright 2007-2022 Incsub (http://incsub.com)
+Copyright 2007-2022 Incsub (https://incsub.com)
 Author - Hoang Ngo, Anton Shulga
 
 This program is free software; you can redistribute it and/or modify
@@ -33,10 +33,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die;
 }
 if ( ! defined( 'DEFENDER_VERSION' ) ) {
-	define( 'DEFENDER_VERSION', '3.0.0' );
+	define( 'DEFENDER_VERSION', '3.2.0' );
 }
 if ( ! defined( 'DEFENDER_DB_VERSION' ) ) {
-	define( 'DEFENDER_DB_VERSION', '3.0.0' );
+	define( 'DEFENDER_DB_VERSION', '3.2.0' );
 }
 if ( ! defined( 'DEFENDER_SUI' ) ) {
 	define( 'DEFENDER_SUI', '2-12-8' );
@@ -55,6 +55,12 @@ if ( ! defined( 'WP_DEFENDER_MIN_PHP_VERSION' ) ) {
 }
 if ( ! defined( 'WP_DEFENDER_PRO_PATH' ) ) {
 	define( 'WP_DEFENDER_PRO_PATH', 'wp-defender/wp-defender.php' );
+}
+if ( ! defined( 'WP_DEFENDER_PRO' ) ) {
+	define( 'WP_DEFENDER_PRO', false );
+}
+if ( ! defined( 'WP_DEFENDER_SUPPORT_LINK' ) ) {
+	define( 'WP_DEFENDER_SUPPORT_LINK', 'https://wpmudev.com/hub2/support/#get-support' );
 }
 // If PHP version is downgraded while the plugin is running, deactivate the plugin.
 if ( version_compare( PHP_VERSION, WP_DEFENDER_MIN_PHP_VERSION, '<' ) ) {

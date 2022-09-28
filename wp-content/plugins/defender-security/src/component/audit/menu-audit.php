@@ -149,7 +149,7 @@ class Menu_Audit extends Audit_Event {
 						) {
 							return array(
 								sprintf(
-								/* translators: */
+								/* translators: 1: Blog name, 2: User's display name, 3: Menu item, 4: Menu name */
 									__( '%1$s %2$s updated item "%3$s" from menu "%4$s"', 'wpdef' ),
 									$blog_name,
 									$this->get_user_display( get_current_user_id() ),
@@ -169,7 +169,7 @@ class Menu_Audit extends Audit_Event {
 			if ( in_array( $menu_item_db_id, $added_items, true ) ) {
 				return array(
 					sprintf(
-					/* translators: */
+					/* translators: 1: Blog name, 2: User's display name, 3: Menu item, 4: Menu name */
 						__( '%1$s %2$s added item "%3$s" to menu "%4$s"', 'wpdef' ),
 						$blog_name,
 						$this->get_user_display( get_current_user_id() ),
@@ -206,7 +206,7 @@ class Menu_Audit extends Audit_Event {
 				$key = array_search( $menu_item_db_id, $old_items, true );
 				return array(
 					sprintf(
-					/* translators: */
+					/* translators: 1: Blog name, 2: User's display name, 3: Menu item, 4: Menu name */
 						__( '%1$s %2$s removed item "%3$s" from menu "%4$s"', 'wpdef' ),
 						$blog_name,
 						$this->get_user_display( get_current_user_id() ),
@@ -231,7 +231,7 @@ class Menu_Audit extends Audit_Event {
 
 		return array(
 			sprintf(
-			/* translators: */
+			/* translators: 1: Blog name, 2: User's display name, 3: Menu name */
 				__( '%1$s %2$s created a new menu "%3$s"', 'wpdef' ),
 				$blog_name,
 				$this->get_user_display( get_current_user_id() ),
@@ -274,7 +274,7 @@ class Menu_Audit extends Audit_Event {
 
 				return array(
 					sprintf(
-					/* translators: */
+					/* translators: 1: Blog name, 2: User's display name, 3: Menu name */
 						__( '%1$s %2$s updated menu "%3$s"', 'wpdef' ),
 						$blog_name,
 						$this->get_user_display( get_current_user_id() ),
@@ -299,7 +299,7 @@ class Menu_Audit extends Audit_Event {
 
 		return array(
 			sprintf(
-			/* translators: */
+			/* translators: 1: Blog name, 2: User's display name, 3: Menu name */
 				__( '%1$s %2$s deleted menu "%3$s"', 'wpdef' ),
 				$blog_name,
 				$this->get_user_display( get_current_user_id() ),

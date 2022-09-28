@@ -420,9 +420,10 @@ class Bootstrap {
 			'is_whitelabel'         => $wpmu_dev->is_whitelabel_enabled() ? 'enabled' : 'disabled',
 			'opcache_save_comments' => $wp_defender_central->is_opcache_save_comments_disabled() ? 'disabled' : 'enabled',
 			'wpmudev_url'           => 'https://wpmudev.com/docs/wpmu-dev-plugins/defender/',
+			'wpmudev_support_url'   => WP_DEFENDER_SUPPORT_LINK,
 		] );
 
-		wp_localize_script( 'defender', 'defenderGetText', $this->defender_gettext_translations() );
+		wp_localize_script( 'defender', 'defenderGetText', defender_gettext_translations() );
 
 		do_action( 'defender_enqueue_assets' );
 	}
@@ -452,26 +453,6 @@ class Bootstrap {
 		}
 
 		$this->create_database_tables();
-	}
-
-	/**
-	 * Find all the strings from .mo file.
-	 * `wpdef` is our text domain.
-	 */
-	private function defender_gettext_translations() {
-		global $l10n;
-
-		if ( ! isset( $l10n['wpdef'] ) ) {
-			return array();
-		}
-
-		$items = array();
-
-		foreach ( $l10n['wpdef']->entries as $key => $value ) {
-			$items[ $key ] = count( $value->translations ) ? $value->translations[0] : $key;
-		}
-
-		return $items;
 	}
 
 	/**

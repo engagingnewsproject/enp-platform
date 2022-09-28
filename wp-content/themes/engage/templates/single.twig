@@ -7,7 +7,6 @@
             {% set hasFeaturedImage = post.thumbnail.src and post.post_type != 'team' and post.post_type != 'board' %}
             {% set hideFeaturedImage = post.hide_feature_image %}
             <article class="article post-type-{{ post.post_type }} {{ hasFeaturedImage ? 'article--has-featured-img' }} {{ hasVideo ? 'article--has-video'}}" id="post-{{ post.ID }}">
-                <p class="article__post-type article__post-type--{{ post.post_type }}">{{ post.type.labels.singular_name }}</p>
                 <h1 class="article__title article__title--{{ post.post_type }}">{{ post.title }}</h1>
 
                 {% include "partial/article-meta.twig" %}
@@ -37,6 +36,26 @@
                         {% endif %}
                     </figure>
                   {% endif %}
+
+                  {% if post.post_type == "blogs" or post.post_type == "research" %}
+                    <div class="article__meta article-meta__dateline">
+                      <time class="article-meta__item">{% include 'assets/img/clock-regular.svg' %} {{ post.date }}</time>
+                    </div>
+                  {% endif %}
+
+                  {% if post.vertical.slug == "media-ethics" %}
+                  {% if post.meta('case_study_title') is not empty %}
+                  <h3>
+                    <strong>CASE STUDY: {{post.meta('case_study_title')|raw|striptags('<em>')}} </strong>
+                  </h3>
+                  
+                  <h4>
+                    <strong><a href="{{ post.getReport }}" filename="{{ post.vertical.slug}} {{post.title}}"></use>Case Study PDF</a> | </strong>
+                    <strong><a href="{{ post.vertical.link }}">Additional Case Studies</a></strong>
+                  </h4>
+                  <hr>
+                  {% endif %}
+                  {% endif %}
                     {{ post.content }}
                 </div>
               {% if post.post_type != "team" and post.post_type != "board" %}
@@ -47,19 +66,19 @@
             </article>
             <!-- comment box -->
             {# if post.comment_status != "closed" or post.comments %}
-			<section class="comments container container--md">
-			    {% if post.comments %}
-				<h3 class="comments__title">Comments</h3>
-				{% for cmt in post.comments %}
-				    {% include "comment.twig" with {comment:cmt} %}
-				{% endfor %}
-			    {% endif %}
+            <section class="comments container container--md">
+                {% if post.comments %}
+                <h3 class="comments__title">Comments</h3>
+                {% for cmt in post.comments %}
+                    {% include "comment.twig" with {comment:cmt} %}
+                {% endfor %}
+                {% endif %}
 
-				{% if post.comment_status != "closed" %}
-				    {% include "comment-form.twig" %}
-				{% endif %}
-			</section>
-			{% endif #}
+                {% if post.comment_status != "closed" %}
+                    {% include "comment-form.twig" %}
+                {% endif %}
+            </section>
+            {% endif #}
         </div>
     </div>
 {% endblock %}

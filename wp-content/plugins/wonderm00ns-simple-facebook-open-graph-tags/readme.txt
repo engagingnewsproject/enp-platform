@@ -1,10 +1,13 @@
 === Open Graph and Twitter Card Tags ===
-Contributors: webdados, wonderm00n
+Contributors: webdados, ptwooplugins, wonderm00n
 Donate link: http://bit.ly/donate_fb_opengraph
 Tags: facebook, open graph, twitter card, social media, open graph protocol, share, social, meta, rss, twitter, google, image, like, seo, search engine optimization, woocommerce, yoast seo, wordpress seo, woocommerce, subheading, php7, webdados
-Requires at least: 4.5
-Tested up to: 5.9
-Stable tag: 3.1.2
+Author: PT Woo Plugins (by Webdados)
+Author URI: https://ptwooplugins.com
+Requires at least: 5.0
+Tested up to: 6.0
+Requires PHP: 7.0
+Stable tag: trunk
 
 Improve social media sharing by inserting Facebook Open Graph, Twitter Card, and SEO Meta Tags on your WordPress website pages, posts, WooCommerce products, or any other custom post type.
 
@@ -68,7 +71,7 @@ Our settings page is discreetly kept under "Options".
 = 3rd Party Integration: =
 
 * **[Yoast SEO](https://wordpress.org/plugins/wordpress-seo/)**: Allows you to use the title, URL (canonical), and description from the Yoast SEO plugin.
-* **[Rank Math](https://wordpress.org/plugins/seo-by-rank-math/)**: Allows you to use the title, URL (canonical), and description from the Rank Math plugin [only with the PRO add-on](https://shop.webdados.com/product/open-graph-and-twitter-card-tags-pro-add-on/)
+* **[Rank Math](https://wordpress.org/plugins/seo-by-rank-math/)**: Allows you to use the title, URL (canonical), and description from the Rank Math plugin [only with the PRO add-on](https://ptwooplugins.com/product/open-graph-and-twitter-card-tags-pro-add-on/)
 * **[WooCommerce](https://wordpress.org/plugins/woocommerce/)**: On product pages sets `og:type` to "product" and adds the price including tax to the `product:price` and `product:availability` tags. Also allows you to use the Product Category thumbnails as Open Graph Image and have Product Gallery images as additional Open Graph Images
 * **[WooCommerce Brands](https://woocommerce.com/products/brands/)**: On brand pages uses the brand image as Open Graph Image 
 * **[SubHeading](https://wordpress.org/extend/plugins/subheading/)**: Add the SubHeading to the post/page title.
@@ -76,7 +79,7 @@ Our settings page is discreetly kept under "Options".
 
 = NEW PRO add-on: =
 
-To implement new features, we’ve released a new [PRO add-on](https://shop.webdados.com/product/open-graph-and-twitter-card-tags-pro-add-on/) that you can use alongside this plugin.
+To implement new features, we’ve released a new [PRO add-on](https://ptwooplugins.com/product/open-graph-and-twitter-card-tags-pro-add-on/) that you can use alongside this plugin.
 
 From version 3.0.0 forward, for sustainability reasons, some advanced functionalities might be removed from the free plugin and move to the PRO add-on, with the proper deprecation notice with some versions in advance.
 
@@ -88,7 +91,7 @@ The current PRO add-on features are:
 * Technical support (limited to the PRO add-on features)
 * Good karma and support the development of new features
 
-[Get it now for the promotional price of 20&euro;](https://shop.webdados.com/product/open-graph-and-twitter-card-tags-pro-add-on/) on the first year (and 12&euro; on renewals), or as low as 10&euro; on the first year (and 6&euro; on renewals) if you buy a license for 10 websites.
+[Get it now](https://ptwooplugins.com/product/open-graph-and-twitter-card-tags-pro-add-on/) for 39&euro;, or as low as 19,65&euro; if you buy a license for 10 websites.
 
 == Installation ==
 
@@ -109,7 +112,7 @@ If you reach us by email or any other direct contact means, we’ll assume you a
 If some company wants to make a proposal to take ownership of this plugin, please contact us to info @ webdados .pt
 We’ll not pass ownership of the plugin to anyone (person or company) that does not have a solid roadmap and business model for this plugin, to guarantee the current users that development and support will be resumed.
 
-We also released a [PRO add-on](https://shop.webdados.com/product/open-graph-and-twitter-card-tags-pro-add-on/) with some extra features and technical support (except for the free plugin features).
+We also released a [PRO add-on](https://ptwooplugins.com/product/open-graph-and-twitter-card-tags-pro-add-on/) with some extra features and technical support (except for the free plugin features).
 
 = Facebook is not showing up the correct image when I share a post. What can I do? =
 
@@ -170,6 +173,11 @@ We like to work with everybody, so (if you want to) our plugin can even integrat
 It’s similar, yes. They’ve forked our plugin and gave no credits whatsoever for our original work.
 
 == Changelog ==
+
+= 3.2.0 - 2022-06-29 =
+* Are you a developer looking to add plugins to your portfolio? Like this plugin? [Contact us](https://www.webdados.pt/contactos/)!
+* Requires WordPress 5.0, WooCommerce 3.0 and PHP 7.0
+* Tested with WordPress 6.1-alpha-53556 and WooCommerce 6.7.0-beta.2
 
 = 3.1.2 =
 * Fix a bug when integrating with Yoast SEO 17.8 or above

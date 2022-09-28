@@ -1,26 +1,28 @@
 <?php
+declare( strict_types=1 );
 
 namespace Calotes\Base;
 
 use Valitron\Validator;
 
-abstract class Model extends Component {
+abstract class Model extends \Calotes\Base\Component {
 
 	/**
-	 * Table name | option name | post type name
+	 * Table name | option name | post type name.
 	 *
 	 * @var string
 	 */
 	protected $table;
+
 	/**
-	 * Let validate to run on special scenario
+	 * Let validate to run on special scenario.
 	 *
-	 * @string
+	 * @var string
 	 */
 	protected $scenario;
 
 	/**
-	 * Rules for validator, example
+	 * Rules, e.g. for validator.
 	 * If scenario is use, must be last position
 	 * [
 	 *      [['name','slug','url' ],'required'],
@@ -32,61 +34,62 @@ abstract class Model extends Component {
 	 * @var array
 	 * @deprecated
 	 */
-	protected $rules = array();
+	protected $rules = [];
 
 	/**
-	 * Validation errors
+	 * Validation errors.
 	 *
 	 * @var array
 	 */
-	protected $errors = array();
+	protected $errors = [];
 
 	/**
-	 * Array of safe properties allow for mass assign, default is empty, mean accept all
+	 * Array of safe properties allow for mass assign, default is empty, mean accept all.
 	 *
 	 * @var array
 	 */
-	protected $safe = array();
+	protected $safe = [];
 
 	/**
-	 * Store the attribute that should not be export
+	 * Store the attribute that should not be export.
 	 *
 	 * @var array
 	 */
-	protected $exclude = array();
+	protected $exclude = [];
 
 	/**
-	 * An array hold info to map class attributes to db field name
+	 * An array hold info to map class attributes to db field name.
 	 *
 	 * @var array
 	 */
-	protected $mapping = array();
+	protected $mapping = [];
 
 	/**
-	 * Run the validation
+	 * Run the validation.
 	 *
 	 * @return bool
 	 * @throws \ReflectionException
 	 */
-	public function validate() {
+	public function validate(): bool {
 		$this->before_validate();
 		if ( empty( $this->annotations ) ) {
 			$this->validate_oldway();
 		}
 		$validate = $this->get_validate_rules();
 		$validate->validate();
-		$this->errors = $validate->errors();
+		$this->errors = is_array( $validate->errors() ) ? $validate->errors() : [];
 		$this->after_validate();
 
 		return ! count( $this->errors );
 	}
 
 	/**
-	 * Backward compatibility
+	 * Backward compatibility.
 	 *
+	 * @return void
 	 * @deprecated
 	 */
-	private function validate_oldway() {
+	private function validate_oldway(): void {
 		if ( ! empty( $this->rules ) ) {
 			$v = new Validator( $this->export() );
 			foreach ( $this->rules as $item ) {
@@ -99,39 +102,39 @@ abstract class Model extends Component {
 					continue;
 				}
 				$fields = $item[0];
-				$rule   = $item[1];
+				$rule = $item[1];
 				unset( $item[0], $item[1] );
 				foreach ( $fields as $field ) {
 					$v->rule( $rule, $field, ...$item );
 				}
 			}
 			$v->validate();
-			$this->errors = $v->errors();
+			$this->errors = is_array( $v->errors() ) ? $v->errors() : [];
 		}
 	}
 
 	/**
-	 * Override this if you want to trigger something before validation process
+	 * Override this if you want to trigger something before validation process.
 	 */
-	protected function before_validate() {
+	protected function before_validate(): void {
 	}
 
 	/**
-	 * Override this if you want to trigger something after validation process
+	 * Override this if you want to trigger something after validation process.
 	 */
-	protected function after_validate() {
+	protected function after_validate(): void {
 	}
 
 	/**
-	 * Export the class data
+	 * Export the class data.
 	 *
 	 * @return array
 	 */
-	public function export() {
+	public function export(): array {
 		if ( empty( $this->annotations ) ) {
 			return $this->export_oldway();
 		}
-		$return = array();
+		$return = [];
 		foreach ( array_keys( $this->annotations ) as $property ) {
 			if ( $this->has_property( $property ) ) {
 				$return[ $property ] = $this->$property;
@@ -142,15 +145,15 @@ abstract class Model extends Component {
 	}
 
 	/**
-	 * This is for backward compatibility
+	 * This is for backward compatibility.
 	 *
 	 * @return array
 	 */
-	private function export_oldway() {
+	private function export_oldway(): array {
 		try {
 			$reflection = new \ReflectionClass( $this );
-			$props      = $reflection->getProperties( \ReflectionProperty::IS_PUBLIC );
-			$values     = array();
+			$props = $reflection->getProperties( \ReflectionProperty::IS_PUBLIC );
+			$values = [];
 			foreach ( $props as $prop ) {
 				if ( 'annotations' === $prop->getName() ) {
 					continue;
@@ -167,32 +170,32 @@ abstract class Model extends Component {
 				$values[ $prop->getName() ] = $value;
 			}
 
-			$this->exclude = array();
+			$this->exclude = [];
 
 			return $values;
 		} catch ( \Exception $e ) {
-			return array();
+			return [];
 		}
 	}
 
 	/**
 	 * @return array
 	 */
-	public function get_errors() {
+	public function get_errors(): array {
 		return $this->errors;
 	}
 
 	/**
-	 * Get error as formatted string
+	 * Get error as formatted string.
 	 *
 	 * @return string
 	 */
-	public function get_formatted_errors() {
+	public function get_formatted_errors(): string {
 		return implode( '<br/>', $this->errors );
 	}
 
 	/**
-	 * Set properties that we should not return on export. Note that this will be wiped after an export done
+	 * Set properties that we should not return on export. Note that this will be wiped after an export done.
 	 *
 	 * @param array $properties
 	 */
@@ -201,7 +204,7 @@ abstract class Model extends Component {
 	}
 
 	/**
-	 * Set properties allow for mass assign
+	 * Set properties allow for mass assign.
 	 *
 	 * @param array $properties
 	 */
@@ -213,16 +216,17 @@ abstract class Model extends Component {
 	 * @param array $data
 	 *
 	 * @throws \ReflectionException
+	 * @return void
 	 */
-	public function import_old_way( $data ) {
+	public function import_old_way( $data ): void {
 		foreach ( $data as $key => $val ) {
-			// check if we have a safe list
+			// Check if we have a safe list.
 			if ( ! empty( $this->safe ) && ! in_array( $key, $this->safe, true ) ) {
 				continue;
 			}
 
 			$allowed = array_keys( $this->export() );
-			if ( ! in_array( $key, $allowed ) ) {
+			if ( ! in_array( $key, $allowed, true ) ) {
 				continue;
 			}
 
@@ -236,33 +240,34 @@ abstract class Model extends Component {
 	 * @param $data
 	 *
 	 * @throws \ReflectionException
+	 * @return void
 	 */
-	public function import( $data ) {
+	public function import( $data ): void {
 		if ( empty( $this->annotations ) ) {
-			return $this->import_old_way( $data );
-		}
-
-		foreach ( array_keys( $this->annotations ) as $property ) {
-			if ( isset( $data[ $property ] ) && $this->has_property( $property ) ) {
-				$this->$property = $data[ $property ];
+			$this->import_old_way( $data );
+		} else {
+			foreach ( array_keys( $this->annotations ) as $property ) {
+				if ( isset( $data[ $property ] ) && $this->has_property( $property ) ) {
+					$this->$property = $data[ $property ];
+				}
 			}
-		}
 
-		$this->sanitize();
+			$this->sanitize();
+		}
 	}
 
 	/**
-	 * This will return the key=>field for saving db, can be different with class attribute base on map
+	 * This will return the key=>field for saving db, can be different with class attribute base on map.
 	 *
 	 * @param array $data
 	 *
 	 * @return array
 	 * @throws \ReflectionException
 	 */
-	protected function prepare_data( $data = array() ) {
+	protected function prepare_data( $data = [] ): array {
 		$scenario = 'import';
 		if ( ! count( $data ) ) {
-			$data     = $this->export();
+			$data = $this->export();
 			$scenario = 'export';
 		}
 		if ( empty( $this->mapping ) ) {
@@ -282,7 +287,7 @@ abstract class Model extends Component {
 	}
 
 	/**
-	 * Run a filter for casting type and
+	 * Run a filter for casting type.
 	 *
 	 * @return void
 	 */
@@ -293,18 +298,18 @@ abstract class Model extends Component {
 
 		foreach ( $this->annotations as $property => $meta ) {
 			if ( ! $this->has_property( $property ) ) {
-				// todo log it as this is not a good behavior
+				// Todo: log it as this is not a good behavior.
 				continue;
 			}
 			$type = $meta['type'];
 			if ( false === $type ) {
-				// without a type, wont allow it
+				// Without a type, won't allow it.
 				$this->$property = null;
 				continue;
 			}
 
 			$value = $this->$property;
-			// cast it first
+			// Cast it first.
 			if ( 'boolean' === $type || 'bool' === $type ) {
 				$value = filter_var( $value, FILTER_VALIDATE_BOOLEAN );
 			} else {
@@ -314,7 +319,7 @@ abstract class Model extends Component {
 			if ( $meta['sanitize'] !== false ) {
 				$func = $meta['sanitize'];
 				if ( ! function_exists( $func ) ) {
-					// the formatting.php still need to be include
+					// The formatting.php still need to be included.
 					include_once ABSPATH . WPINC . '/formatting.php';
 				}
 				if ( is_array( $value ) ) {
@@ -347,12 +352,12 @@ abstract class Model extends Component {
 	}
 
 	/**
-	 * Prepare the validation object
+	 * Prepare the validation object.
 	 *
 	 * @return Validator
 	 * @throws \ReflectionException
 	 */
-	protected function get_validate_rules() {
+	protected function get_validate_rules(): Validator {
 		$v = new Validator( $this->export() );
 		foreach ( $this->annotations as $property => $meta ) {
 			if ( ! $this->has_property( $property ) ) {

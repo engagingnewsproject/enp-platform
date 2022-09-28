@@ -1,4 +1,5 @@
 <?php
+declare( strict_types=1 );
 
 namespace WP_Defender\Behavior\Scan;
 
@@ -14,8 +15,8 @@ use WP_Defender\Traits\Plugin;
 class Plugin_Integrity extends Behavior {
 	use IO, Plugin;
 
-	public const URL_PLUGIN_VCS       = 'https://downloads.wordpress.org/plugin-checksums/';
-	public const PLUGIN_SLUGS         = 'wd_plugin_slugs_changes';
+	public const URL_PLUGIN_VCS = 'https://downloads.wordpress.org/plugin-checksums/';
+	public const PLUGIN_SLUGS = 'wd_plugin_slugs_changes';
 	public const PLUGIN_PREMIUM_SLUGS = 'wd_plugin_premium_slugs';
 	/**
 	 * List of premium plugin slugs.
@@ -31,7 +32,7 @@ class Plugin_Integrity extends Behavior {
 	 *
 	 * @return bool
 	 */
-	private function is_valid_wporg_slug( $slug ) {
+	private function is_valid_wporg_slug( $slug ): bool {
 		return ! empty( $slug ) && '.' !== $slug;
 	}
 
@@ -44,8 +45,8 @@ class Plugin_Integrity extends Behavior {
 	 *
 	 * @return array
 	 */
-	private function pluck( $array, $field, $prefix = '' ) {
-		$new_list = array();
+	private function pluck( $array, $field, $prefix = '' ): array {
+		$new_list = [];
 
 		foreach ( $array as $key => $value ) {
 			if ( is_object( $value ) ) {
@@ -66,36 +67,42 @@ class Plugin_Integrity extends Behavior {
 	 *
 	 * @return array
 	 */
-	private function get_plugin_hash( $slug, $version ) {
+	private function get_plugin_hash( $slug, $version ): array {
 		if ( ! $this->is_valid_wporg_slug( $slug ) ) {
 			$this->premium_slugs[] = $slug;
-			return array();
+
+			return [];
 		}
 		// Get original from wp.org e.g. https://downloads.wordpress.org/plugin-checksums/hello-dolly/1.6.json.
 		$response = wp_remote_get( self::URL_PLUGIN_VCS . $slug . '/' . $version . '.json' );
 
 		if ( is_wp_error( $response ) ) {
 			$this->premium_slugs[] = $slug;
-			return array();
+			return [];
 		}
 
 		if ( 404 === (int) wp_remote_retrieve_response_code( $response ) ) {
-			// This plugin is not found on wordpress.org.
+			// This plugin is not found on WordPress.org.
 			$this->premium_slugs[] = $slug;
-			return  array();
+			return  [];
 		}
 
 		$body = wp_remote_retrieve_body( $response );
-
 		if ( ! $body ) {
 			$this->premium_slugs[] = $slug;
-			return array();
+			return [];
 		}
 
 		$data = json_decode( $body, true );
 
 		if ( ! $data || empty( $data['files'] ) ) {
-			return array();
+			return [];
+		}
+
+		if ( ! $this->is_likely_wporg_slug( $slug ) ) {
+			$this->premium_slugs[] = $slug;
+
+			return [];
 		}
 
 		return $this->pluck( $data['files'], 'md5', $slug . DIRECTORY_SEPARATOR );
@@ -106,8 +113,16 @@ class Plugin_Integrity extends Behavior {
 	 *
 	 * @return array
 	 */
-	protected function plugin_checksum() {
-		$all_plugin_hashes = array();
+	protected function plugin_checksum(): array {
+		$all_plugin_hashes = [];
+		/**
+		 * Exclude plugin slugs.
+		 *
+		 * @param array $slugs Slugs of excluded plugins.
+		 * @since 3.1.0
+		 */
+		$excluded_slugs = (array) apply_filters( 'wd_scan_excluded_plugin_slugs', [] );
+
 		foreach ( $this->get_plugins() as $slug => $plugin ) {
 			if ( false === strpos( $slug, '/' ) ) {
 				// Todo: get correct hashes for single-file plugins.
@@ -118,10 +133,10 @@ class Plugin_Integrity extends Behavior {
 				$base_slug = array_shift( $base_slug );
 			}
 
-			// Todo: fix global case if premium and free plugins has the same slug, e.g. 'forminator'.
-			if ( 'forminator' === $base_slug && 'Forminator Pro' === $plugin['Name'] ) {
+			if ( in_array( $base_slug, $excluded_slugs, true ) ) {
 				continue;
 			}
+
 			$plugin_hashes = $this->get_plugin_hash( $base_slug, $plugin['Version'] );
 
 			if ( ! empty( $plugin_hashes ) ) {
@@ -132,17 +147,13 @@ class Plugin_Integrity extends Behavior {
 		return $all_plugin_hashes;
 	}
 
-	public function plugin_integrity_check() {
+	public function plugin_integrity_check(): bool {
 		$plugins = new File(
 			WP_PLUGIN_DIR,
 			true,
 			false,
-			array(),
-			array(
-				'filename' => array(
-					'index.php',
-				),
-			),
+			[],
+			[ 'filename' => [ 'index.php' ] ],
 			true,
 			true
 		);
@@ -151,14 +162,14 @@ class Plugin_Integrity extends Behavior {
 		$plugin_files = array_filter( $plugin_files );
 
 		$plugin_files = new \ArrayIterator( $plugin_files );
-		$checksums    = $this->plugin_checksum();
-		$timer        = new Timer();
-		$model        = $this->owner->scan;
-		$pos          = (int) $model->task_checkpoint;
+		$checksums = $this->plugin_checksum();
+		$timer = new Timer();
+		$model = $this->owner->scan;
+		$pos = (int) $model->task_checkpoint;
 		$plugin_files->seek( $pos );
-		$slugs_of_edited_plugins = array();
-		$integration_smush       = wd_di()->get( \WP_Defender\Integrations\Smush::class );
-		$exist_smush_images      = $integration_smush->exist_image_table();
+		$slugs_of_edited_plugins = [];
+		$integration_smush = wd_di()->get( \WP_Defender\Integrations\Smush::class );
+		$exist_smush_images = $integration_smush->exist_image_table();
 		while ( $plugin_files->valid() ) {
 			if ( ! $timer->check() ) {
 				$this->log( 'break out cause too long', 'scan.log' );
@@ -183,7 +194,10 @@ class Plugin_Integrity extends Behavior {
 				&& file_is_valid_image( $plugin_files->current() )
 				&& $integration_smush->exist_image_path( $plugin_files->current() )
 			) {
-				$this->log( sprintf( 'skip %s because of Smush optimized file', $plugin_files->current() ), 'scan.log' );
+				$this->log(
+					sprintf( 'skip %s because of Smush optimized file', $plugin_files->current() ),
+					'scan.log'
+				);
 				$plugin_files->next();
 				continue;
 			}
@@ -201,21 +215,20 @@ class Plugin_Integrity extends Behavior {
 			$rev_file = str_replace( DIRECTORY_SEPARATOR, '/', $rev_file );
 			// Remove the first / on path.
 			$rev_file = ltrim( $rev_file, '/' );
+			// Verify files only from wp.org. No Premium-things.
 			if ( isset( $checksums[ $rev_file ] ) ) {
 				if ( ! $this->compare_hashes( $file, $checksums[ $rev_file ] ) ) {
-					$base_slug                 = explode( '/', $rev_file );
+					$base_slug = explode( '/', $rev_file );
 					$slugs_of_edited_plugins[] = array_shift( $base_slug );
 					$this->log( sprintf( 'modified %s', $file ), 'scan.log' );
 					$model->add_item(
 						Scan_Item::TYPE_PLUGIN_CHECK,
-						array(
+						[
 							'file' => $file,
 							'type' => 'modified',
-						)
+						]
 					);
 				}
-			} else {
-				// Todo: no verify from wp.org.
 			}
 			$model->calculate_percent( $plugin_files->key() * 100 / $plugin_files->count(), 3 );
 			if ( 0 === $plugin_files->key() % 100 ) {
@@ -252,7 +265,7 @@ class Plugin_Integrity extends Behavior {
 				update_site_option( self::PLUGIN_PREMIUM_SLUGS, $this->premium_slugs );
 			}
 		}
-		// Todo: add file and time limit improvement.
+
 		return ! $plugin_files->valid();
 	}
 }

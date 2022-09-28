@@ -4,12 +4,12 @@ if ( ! function_exists( 'login_header_otp' ) ) {
 /**
  * Output the login page header.
  *
- * @param  string  $title  Optional. WordPress login Page title to display in the `<title>` element.
- *                           Default 'Log In'.
- * @param  string  $message  Optional. Message to display in header. Default empty.
- * @param  WP_Error  $wp_error  Optional. The error to pass. Default empty.
+ * @param  string   $title     Optional. WordPress login Page title to display in the `<title>` element. Default 'Log In'.
+ * @param  string   $message   Optional. Message to display in header. Default empty.
+ * @param  bool     $show_logo Optional. Show/hide header logo. Default true.
+ * @param  WP_Error $wp_error  Optional. The error to pass. Default empty.
  */
-function login_header_otp( $title = 'Log In', $message = '', $wp_error = '' ) {
+function login_header_otp( $title = 'Log In', $message = '', $show_logo = true, $wp_error = '' ) {
 global $error, $interim_login, $action;
 
 if ( empty( $wp_error ) ) {
@@ -56,6 +56,7 @@ language_attributes(); ?>>
           content="<?php
 	      bloginfo( 'html_type' ); ?>; charset=<?php
 	      bloginfo( 'charset' ); ?>"/>
+    <meta name="viewport" content="width=device-width">
     <title><?php
 		echo get_bloginfo( 'name', 'display' ) . $separator . $title; ?></title>
 	<?php
@@ -101,8 +102,8 @@ language_attributes(); ?>>
 		$login_header_url   = network_home_url();
 		$login_header_title = get_network()->site_name;
 	} else {
-		$login_header_url   = __( 'https://wordpress.org/' );
-		$login_header_title = __( 'Powered by WordPress' );
+		$login_header_url   = 'https://wordpress.org/';
+		$login_header_title = __( 'Powered by WordPress', 'wpdef' );
 	}
 
 	/**
@@ -165,13 +166,15 @@ echo esc_attr( implode( ' ', $classes ) ); ?>">
 do_action( 'login_header' );
 ?>
 <div id="login">
-
-    <h1><a id="otp-logo" href="<?php
-		echo esc_url( $login_header_url ); ?>" title="<?php
-		echo esc_attr( $login_header_title ); ?>"
-           tabindex="-1"><?php
-			bloginfo( 'name' ); ?></a></h1>
-	<?php
+	<?php if ( true === $show_logo ) { ?>
+	<h1>
+		<a id="otp-logo"
+		   href="<?php echo esc_url( $login_header_url ); ?>"
+		   title="<?php echo esc_attr( $login_header_title ); ?>"
+		   tabindex="-1"
+		><?php bloginfo( 'name' ); ?></a>
+	</h1>
+	<?php }
 	unset( $login_header_url, $login_header_title );
 	/**
 	 * Filters the message to display above the login form.
@@ -230,8 +233,9 @@ do_action( 'login_header' );
 }
 }
 
+$show_logo = $custom_graphic_type !== WP_Defender\Model\Setting\Two_Fa::CUSTOM_GRAPHIC_TYPE_NO;
 if ( isset( $interim_login ) && 'success' === $interim_login ) {
-	login_header_otp( '', $message );
+	login_header_otp( '', $message, $show_logo );
 
 	$modal_close_script = <<<END
 		<script>
@@ -248,11 +252,11 @@ END;
 		}
 	);
 } else {
-    login_header_otp( '', '', $error );
+    login_header_otp( '', '', $show_logo, $error );
 
 	if ( ! empty( $providers ) ) {
 		foreach ( $providers as $slug => $provider ) { ?>
-			<form method="post" class="wpdef-2fa-form" id="wpdef-2fa-form-<?php esc_attr_e( $slug ); ?>"
+			<form method="post" class="wpdef-2fa-form" id="wpdef-2fa-form-<?php echo esc_attr( $slug ); ?>"
 			      action="<?php
 			      echo esc_url( add_query_arg( 'action', 'defender-verify-otp', site_url( 'wp-login.php', 'login_post' ) ) );
 			      ?>">
@@ -276,8 +280,8 @@ END;
 				<p><?php _e('Having problems? Try another way to log in', 'wpdef' ); ?></p>
 				<ul id="nav">
 				<?php foreach ( $providers as $slug => $provider ) { ?>
-					<li class="wpdef-2fa-link" id="wpdef-2fa-link-<?php esc_attr_e( $slug ); ?>"
-						data-slug="<?php esc_attr_e( $slug ); ?>">
+					<li class="wpdef-2fa-link" id="wpdef-2fa-link-<?php echo esc_attr( $slug ); ?>"
+						data-slug="<?php echo esc_attr( $slug ); ?>">
 
 						<?php echo $provider->get_login_label(); ?>
 
@@ -392,7 +396,7 @@ END;
         <p id="backtoblog"><a href="<?php
 			echo esc_url( home_url( '/' ) ); ?>"><?php
 				/* translators: %s: site title */
-				printf( _x( '&larr; Back to %s', 'site' ), get_bloginfo( 'title', 'display' ) );
+				printf( _x( '&larr; Back to %s', 'site', 'wpdef' ), get_bloginfo( 'title', 'display' ) );
 				?></a></p>
 	<?php
 	endif; ?>

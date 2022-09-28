@@ -1,4 +1,5 @@
 <?php
+declare( strict_types=1 );
 
 namespace WP_Defender\Model\Setting;
 
@@ -44,7 +45,7 @@ class Blacklist_Lockout extends Setting {
 	 * @var array
 	 * @defender_property
 	 */
-	public $country_blacklist = array();
+	public $country_blacklist = [];
 
 	/**
 	 * This uses when you want to block all and allow some countries, it will have less priority than the IP
@@ -53,7 +54,7 @@ class Blacklist_Lockout extends Setting {
 	 * @var array
 	 * @defender_property
 	 */
-	public $country_whitelist = array();
+	public $country_whitelist = [];
 
 	/**
 	 * Path to downloaded GeoDB.
@@ -75,18 +76,17 @@ class Blacklist_Lockout extends Setting {
 	/**
 	 * @return array
 	 */
-	public function get_default_values() {
-
-		return array(
+	public function get_default_values(): array {
+		return [
 			'message' => __( 'The administrator has blocked your IP from accessing this website.', 'wpdef' ),
-		);
+		];
 	}
 
-	protected function before_load() {
-		$default_values           = $this->get_default_values();
-		$whitelist                = $this->get_list( 'allowlist' );
-		$whitelist                = array_filter( $whitelist );
-		$this->ip_whitelist       = implode( PHP_EOL, $whitelist );
+	protected function before_load(): void {
+		$default_values = $this->get_default_values();
+		$whitelist = $this->get_list( 'allowlist' );
+		$whitelist = array_filter( $whitelist );
+		$this->ip_whitelist = implode( PHP_EOL, $whitelist );
 		$this->ip_lockout_message = $default_values['message'];
 	}
 
@@ -102,7 +102,7 @@ class Blacklist_Lockout extends Setting {
 		$arr = $this->get_list( $list );
 		if ( $this->validate_ip( $ip ) ) {
 			$arr[] = trim( $ip );
-			$arr   = array_unique( $arr );
+			$arr = array_unique( $arr );
 			if ( 'blocklist' === $list ) {
 				$this->ip_blacklist = implode( PHP_EOL, $arr );
 			} elseif ( 'allowlist' === $list ) {
@@ -119,9 +119,9 @@ class Blacklist_Lockout extends Setting {
 	 *
 	 * @return bool
 	 */
-	public function is_ip_in_list( $ip, $list ) {
+	public function is_ip_in_list( $ip, $list ): bool {
 		$arr = $this->get_list( $list );
-		if ( $this->validate_ip( $ip ) && in_array( $ip, $arr ) ) {
+		if ( $this->validate_ip( $ip ) && in_array( $ip, $arr, true ) ) {
 			return true;
 		}
 
@@ -154,12 +154,12 @@ class Blacklist_Lockout extends Setting {
 	/**
 	 * We're going to use this for filter the IPs, as we use textarea to submit, so it can contain some un-valid IPs.
 	 */
-	public function after_validate() {
-		$lists  = array(
+	protected function after_validate(): void {
+		$lists = [
 			'ip_blacklist' => $this->get_list( 'blocklist' ),
-			'ip_whitelist' => $this->get_list( 'allowlist' )
-		);
-		$errors = array();
+			'ip_whitelist' => $this->get_list( 'allowlist' ),
+		];
+		$errors = [];
 
 		foreach ( $lists as $key => &$list ) {
 			foreach ( $list as $i => $v ) {
@@ -174,9 +174,7 @@ class Blacklist_Lockout extends Setting {
 
 		if ( ! empty( $errors ) ) {
 			$this->errors[] = __( 'Invalid IP addresses detected. Please fix the following errors:', 'wpdef' );
-			$this->errors   = array_merge( $this->errors, $errors );
-
-			return false;
+			$this->errors = array_merge( $this->errors, $errors );
 		}
 	}
 
@@ -187,12 +185,12 @@ class Blacklist_Lockout extends Setting {
 	 *
 	 * @return array
 	 */
-	public function get_list( $type = 'blocklist' ) {
+	public function get_list( $type = 'blocklist' ): array {
 		// The list should be always strings.
 		$list = ( 'blocklist' === $type ) ? $this->ip_blacklist : $this->ip_whitelist;
-		$arr  = array_filter( explode( PHP_EOL, $list ) );
-		$arr  = array_map( 'trim', $arr );
-		$arr  = array_map( 'strtolower', $arr );
+		$arr = array_filter( explode( PHP_EOL, $list ) );
+		$arr = array_map( 'trim', $arr );
+		$arr = array_map( 'strtolower', $arr );
 
 		return $arr;
 	}
@@ -202,7 +200,7 @@ class Blacklist_Lockout extends Setting {
 	 *
 	 * @return array
 	 */
-	public function get_country_blacklist() {
+	public function get_country_blacklist(): array {
 		return $this->country_blacklist;
 	}
 
@@ -211,31 +209,44 @@ class Blacklist_Lockout extends Setting {
 	 *
 	 * @return array
 	 */
-	public function get_country_whitelist() {
+	public function get_country_whitelist(): array {
 		return $this->country_whitelist;
 	}
 
 	/**
-	 * Define labels for settings key.
+	 * Define settings labels.
 	 *
-	 * @param  string|null $key
-	 *
-	 * @return string|array|null
+	 * @return array
 	 */
-	public function labels( $key = null ) {
-		$labels = array(
-			'ip_blacklist'        => __( 'IP Banning - IP Addresses Blocklist', 'wpdef' ),
-			'ip_whitelist'        => __( 'IP Banning - IP Addresses Allowlist', 'wpdef' ),
-			'country_blacklist'   => __( 'IP Banning - Country Allowlist', 'wpdef' ),
-			'country_whitelist'   => __( 'IP Banning - Country Blocklist', 'wpdef' ),
-			'ip_lockout_message'  => __( 'IP Banning - Lockout Message', 'wpdef' ),
+	public function labels(): array {
+		return [
+			'ip_blacklist' => __( 'IP Banning - IP Addresses Blocklist', 'wpdef' ),
+			'ip_whitelist' => __( 'IP Banning - IP Addresses Allowlist', 'wpdef' ),
+			'country_blacklist' => __( 'IP Banning - Country Allowlist', 'wpdef' ),
+			'country_whitelist' => __( 'IP Banning - Country Blocklist', 'wpdef' ),
+			'ip_lockout_message' => __( 'IP Banning - Lockout Message', 'wpdef' ),
 			'maxmind_license_key' => __( 'MaxMind license key', 'wpdef' ),
-		);
+		];
+	}
 
-		if ( ! is_null( $key ) ) {
-			return $labels[ $key ] ?? null;
+	protected function after_load(): void {
+		if (
+			! empty( $this->geodb_path ) &&
+			is_string( $this->geodb_path ) &&
+			strlen( $this->geodb_path ) > 0
+		) {
+			$maxmind_relative_path = DIRECTORY_SEPARATOR .
+			'wp-defender' .
+			DIRECTORY_SEPARATOR .
+			'maxmind' .
+			DIRECTORY_SEPARATOR;
+
+			$upload_dir = wp_upload_dir()['basedir'];
+			$maxmind_base_dir = $upload_dir . $maxmind_relative_path;
+
+			preg_match( '#.*\/(.*\/.*)$#', $this->geodb_path, $matches );
+
+			$this->geodb_path = $maxmind_base_dir . $matches[1];
 		}
-
-		return $labels;
 	}
 }

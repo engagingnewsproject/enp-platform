@@ -1,0 +1,8 @@
+{
+    "php.suggest.basic": false,
+    "phpcs.standard": "WordPress",
+    "php-cs-fixer.executablePath": "${extensionPath}/php-cs-fixer.phar",
+    "phpcs.showWarnings": false,
+    "php-cs-fixer.formatHtml": true,
+    "php-cs-fixer.onsave": true
+}

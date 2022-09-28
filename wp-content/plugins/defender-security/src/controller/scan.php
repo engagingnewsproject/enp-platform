@@ -33,21 +33,21 @@ class Scan extends Controller {
 		$this->register_page(
 			esc_html__( 'Malware Scanning', 'wpdef' ),
 			$this->slug,
-			array(
+			[
 				&$this,
 				'main_view',
-			),
+			],
 			$this->parent_slug
 		);
-		$this->model   = new \WP_Defender\Model\Setting\Scan();
+		$this->model = new \WP_Defender\Model\Setting\Scan();
 		$this->service = new \WP_Defender\Component\Scan();
 		$this->register_routes();
-		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
-		add_action( 'wp_ajax_defender_process_scan', array( &$this, 'process' ) );
-		add_action( 'wp_ajax_nopriv_defender_process_scan', array( &$this, 'process' ) );
-		add_action( 'defender/async_scan', array( &$this, 'process' ) );
+		add_action( 'defender_enqueue_assets', [ &$this, 'enqueue_assets' ] );
+		add_action( 'wp_ajax_defender_process_scan', [ &$this, 'process' ] );
+		add_action( 'wp_ajax_nopriv_defender_process_scan', [ &$this, 'process' ] );
+		add_action( 'defender/async_scan', [ &$this, 'process' ] );
 		// Clean up data after successful core update.
-		add_action( '_core_updated_successfully', array( &$this, 'clean_up_data' ) );
+		add_action( '_core_updated_successfully', [ &$this, 'clean_up_data' ] );
 
 		global $pagenow;
 		// @since 2.6.2
@@ -63,7 +63,7 @@ class Scan extends Controller {
 		if ( ! wp_next_scheduled( 'wpdef_clear_scan_logs' ) ) {
 			wp_schedule_event( time(), 'weekly', 'wpdef_clear_scan_logs' );
 		}
-		add_action( 'wpdef_clear_scan_logs', array( $this, 'clear_scan_logs' ) );
+		add_action( 'wpdef_clear_scan_logs', [ $this, 'clear_scan_logs' ] );
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Scan extends Controller {
 	 * @throws \Exception
 	 * @defender_route
 	 */
-	public function start( Request $request ) {
+	public function start( Request $request ): Response {
 		$model = Model_Scan::create();
 		if ( is_object( $model ) && ! is_wp_error( $model ) ) {
 			$this->log( 'Initial ping self', 'scan.log' );
@@ -90,19 +90,19 @@ class Scan extends Controller {
 
 			return new Response(
 				true,
-				array(
-					'status'      => $model->status,
+				[
+					'status' => $model->status,
 					'status_text' => $model->get_status_text(),
-					'percent'     => 0,
-				)
+					'percent' => 0,
+				]
 			);
 		}
 
 		return new Response(
 			false,
-			array(
+			[
 				'message' => __( 'A scan is already in progress', 'wpdef' ),
-			)
+			]
 		);
 	}
 
@@ -132,6 +132,10 @@ class Scan extends Controller {
 			$this->service->remove_lock();
 			$this->process();
 		} else {
+			if ( ! wp_next_scheduled( 'defender_hub_sync' ) ) {
+				wp_schedule_single_event( time(), 'defender_hub_sync' );
+			}
+
 			$this->service->remove_lock();
 		}
 	}
@@ -142,7 +146,7 @@ class Scan extends Controller {
 	 * @return Response
 	 * @defender_route
 	 */
-	public function status() {
+	public function status(): Response {
 		$idle_scan = wd_di()->get( Model_Scan::class )->get_idle();
 
 		if ( is_object( $idle_scan ) ) {
@@ -164,9 +168,9 @@ class Scan extends Controller {
 
 		return new Response(
 			false,
-			array(
+			[
 				'message' => __( 'Error during scanning', 'wpdef' ),
-			)
+			]
 		);
 	}
 
@@ -176,7 +180,7 @@ class Scan extends Controller {
 	 * @return Response
 	 * @defender_route
 	 */
-	public function cancel() {
+	public function cancel(): Response {
 		$component = new \WP_Defender\Component\Scan();
 		$component->cancel_a_scan();
 		$last = Model_Scan::get_last();
@@ -186,9 +190,9 @@ class Scan extends Controller {
 
 		return new Response(
 			true,
-			array(
+			[
 				'scan' => $last,
-			)
+			]
 		);
 	}
 
@@ -200,31 +204,31 @@ class Scan extends Controller {
 	 * @return Response
 	 * @defender_route
 	 */
-	public function item_hub( Request $request ) {
-		$data      = $request->get_data(
-			array(
-				'id'        => array(
-					'type'     => 'int',
+	public function item_hub( Request $request ): Response {
+		$data = $request->get_data(
+			[
+				'id' => [
+					'type' => 'int',
 					'sanitize' => 'sanitize_text_field',
-				),
-				'intention' => array(
-					'type'     => 'string',
+				],
+				'intention' => [
+					'type' => 'string',
 					'sanitize' => 'sanitize_text_field',
-				),
-			)
+				],
+			]
 		);
-		$id        = $data['id'] ?? false;
+		$id = $data['id'] ?? false;
 		$intention = $data['intention'] ?? false;
 		if ( false === $id || false === $intention || ! in_array(
-				$intention,
-				array(
-					'pull_src',
-					'resolve',
-					'ignore',
-					'delete',
-					'unignore',
-				)
-			) ) {
+			$intention,
+			[
+				'pull_src',
+				'resolve',
+				'ignore',
+				'delete',
+				'unignore',
+			]
+		) ) {
 			wp_die();
 		}
 
@@ -236,9 +240,9 @@ class Scan extends Controller {
 			if ( is_wp_error( $result ) ) {
 				return new Response(
 					false,
-					array(
+					[
 						'message' => $result->get_error_message(),
-					)
+					]
 				);
 			} elseif ( isset( $result['type_notice'] ) ) {
 				return new Response(
@@ -246,14 +250,19 @@ class Scan extends Controller {
 					$result
 				);
 			}
+
+			if ( ! wp_next_scheduled( 'defender_hub_sync' ) ) {
+				wp_schedule_single_event( time(), 'defender_hub_sync' );
+			}
+
 			// Refresh scan instance.
-			$scan           = Model_Scan::get_last();
+			$scan = Model_Scan::get_last();
 			$result['scan'] = $scan->to_array();
 
 			return new Response( true, $result );
 		}
 
-		return new Response( false, array() );
+		return new Response( false, [] );
 	}
 
 	/**
@@ -265,35 +274,34 @@ class Scan extends Controller {
 	 * @defender_route
 	 * @return Response
 	 */
-	public function bulk_hub( Request $request ) {
-		$data      = $request->get_data(
-			array(
-				'items' => array(
-					'type'     => 'array',
+	public function bulk_hub( Request $request ): Response {
+		$data = $request->get_data(
+			[
+				'items' => [
+					'type' => 'array',
 					'sanitize' => 'sanitize_text_field',
-				),
-				'bulk'  => array(
-					'type'     => 'string',
+				],
+				'bulk' => [
+					'type' => 'string',
 					'sanitize' => 'sanitize_text_field',
-				),
-			)
+				],
+			]
 		);
-		$items     = $data['items'] ?? array();
+		$items = $data['items'] ?? [];
 		$intention = $data['bulk'] ?? false;
 
 		if (
 			empty( $items )
 			|| ! is_array( $items )
 			|| false === $intention
-			|| ! in_array( $intention, array( 'ignore', 'unignore', 'delete' ), true )
+			|| ! in_array( $intention, [ 'ignore', 'unignore', 'delete' ], true )
 		) {
 
-			return new Response( false, array() );
+			return new Response( false, [] );
 		}
 		$scan = Model_Scan::get_last();
 		if ( ! is_object( $scan ) ) {
-
-			return new Response( false, array() );
+			return new Response( false, [] );
 		}
 
 		foreach ( $items as $id ) {
@@ -311,9 +319,9 @@ class Scan extends Controller {
 
 		return new Response(
 			true,
-			array(
+			[
 				'scan' => $scan->to_array(),
-			)
+			]
 		);
 	}
 
@@ -327,7 +335,7 @@ class Scan extends Controller {
 	 * @defender_route
 	 * @return Response
 	 */
-	public function save_settings( Request $request ) {
+	public function save_settings( Request $request ): Response {
 		$data = $request->get_data_by_model( $this->model );
 		// Case#1: enable all child options, if parent and all child options are disabled, so that there is no notice when saving.
 		if (
@@ -335,38 +343,38 @@ class Scan extends Controller {
 			&& ! $data['check_core']
 			&& ! $data['check_plugins']
 		) {
-			$data['check_core']    = true;
+			$data['check_core'] = true;
 			$data['check_plugins'] = true;
 		}
 
 		// Case#2: Suspicious code is activated BUT File change detection is deactivated then show the notice.
-		if ( $data['scan_malware'] && ! $data['integrity_check'] ){
-			$response = array(
+		if ( $data['scan_malware'] && ! $data['integrity_check'] ) {
+			$response = [
 				'type_notice' => 'info',
-				'message'     => __( "To reduce false-positive results, we recommend enabling" .
-					" <strong>File change detection</strong> options for all scan types while the" .
-					" <strong>Suspicious code</strong> option is enabled.", 'wpdef' ),
-			);
+				'message' => __( 'To reduce false-positive results, we recommend enabling' .
+					' <strong>File change detection</strong> options for all scan types while the' .
+					' <strong>Suspicious code</strong> option is enabled.', 'wpdef' ),
+			];
 		} else {
 			// Prepare response message for usual successful case.
-			$response = array(
+			$response = [
 				'message' => __( 'Your settings have been updated.', 'wpdef' ),
-			);
+			];
 		}
 		// Additional cases are in the Scan model.
 		$report_change = false;
 		// If 'Scheduled Scanning' is checked then need to change Malware_Report.
 		if ( true === $data['scheduled_scanning'] ) {
-			$report            = new Malware_Report();
-			$report_change     = true;
+			$report = new Malware_Report();
+			$report_change = true;
 			$report->frequency = $data['frequency'];
-			$report->day       = $data['day'];
-			$report->day_n     = $data['day_n'];
-			$report->time      = $data['time'];
+			$report->day = $data['day'];
+			$report->day_n = $data['day_n'];
+			$report->time = $data['time'];
 			// Disable 'Scheduled Scanning'.
 		} elseif ( true === $this->model->scheduled_scanning && false === $data['scheduled_scanning'] ) {
-			$report         = new Malware_Report();
-			$report_change  = true;
+			$report = new Malware_Report();
+			$report_change = true;
 			$report->status = \WP_Defender\Model\Notification::STATUS_DISABLED;
 		}
 
@@ -388,9 +396,9 @@ class Scan extends Controller {
 			return new Response(
 				false,
 				array_merge(
-					array(
+					[
 						'message' => $this->model->get_formatted_errors(),
-					),
+					],
 					$this->data_frontend()
 				)
 			);
@@ -405,51 +413,51 @@ class Scan extends Controller {
 	 * @return Response
 	 * @defender_route
 	 */
-	public function get_issues( Request $request ) {
-		$data      = $request->get_data(
-			array(
-				'scenario' => array(
-					'type'     => 'string',
+	public function get_issues( Request $request ): Response {
+		$data = $request->get_data(
+			[
+				'scenario' => [
+					'type' => 'string',
 					'sanitize' => 'sanitize_text_field',
-				),
-				'type' => array(
-					'type'     => 'string',
+				],
+				'type' => [
+					'type' => 'string',
 					'sanitize' => 'sanitize_text_field',
-				),
-				'per_page'  => array(
-					'type'     => 'string',
+				],
+				'per_page' => [
+					'type' => 'string',
 					'sanitize' => 'sanitize_text_field',
-				),
-				'paged'  	=> array(
-					'type'     => 'int',
+				],
+				'paged' => [
+					'type' => 'int',
 					'sanitize' => 'sanitize_text_field',
-				),
-			)
+				],
+			]
 		);
 
 		// Validate the request.
-		$v = new Validator( $data, array() );
-		$v->rule( 'required', array( 'scenario', 'type', 'per_page', 'paged' ) );
+		$v = new Validator( $data, [] );
+		$v->rule( 'required', [ 'scenario', 'type', 'per_page', 'paged' ] );
 		if ( ! $v->validate() ) {
 			return new Response(
 				false,
-				array(
+				[
 					'message' => '',
-				)
+				]
 			);
 		}
 
-		$scan   = Model_Scan::get_last();
+		$scan = Model_Scan::get_last();
 		$issues = $scan->to_array( $data['per_page'], $data['paged'], $data['type'] );
 
 		return new Response(
 			true,
-			array(
+			[
 				'issue' => $issues['issues_items'],
 				'ignored' => $issues['ignored_items'],
 				'paging' => $issues['paging'],
 				'count' => $issues['count'],
-			)
+			]
 		);
 	}
 
@@ -538,13 +546,13 @@ class Scan extends Controller {
 		}
 
 		return array_merge(
-			array(
-				'scan'   => $scan,
-				'report' => array(
-					'enabled'   => true,
+			[
+				'scan' => $scan,
+				'report' => [
+					'enabled' => true,
 					'frequency' => 'weekly',
-				),
-			),
+				],
+			],
 			$this->dump_routes_and_nonces()
 		);
 	}
@@ -558,40 +566,28 @@ class Scan extends Controller {
 	}
 
 	/**
-	 * This should set up optimizing configurations for this module.
-	 * Todo: need?
-	 */
-	public function optimize_configs() {
-		$settings = new \WP_Defender\Model\Setting\Scan();
-		$settings->save();
-		// Schedule it.
-		$report = new Malware_Report();
-		$report->save();
-	}
-
-	/**
 	 * @return array
 	 */
-	public function data_frontend() {
-		$scan     = Model_Scan::get_active();
-		$last     = Model_Scan::get_last();
+	public function data_frontend(): array {
+		$scan = Model_Scan::get_active();
+		$last = Model_Scan::get_last();
 		$per_page = 10;
-		$paged    = 1;
+		$paged = 1;
 		if ( ! is_object( $scan ) && ! is_object( $last ) ) {
 			$scan = null;
 		} else {
 			$scan = is_object( $scan ) ? $scan->to_array( $per_page, $paged ) : $last->to_array( $per_page, $paged );
 		}
-		$settings    = new \WP_Defender\Model\Setting\Scan();
-		$report      = wd_di()->get( Malware_Report::class );
+		$settings = new \WP_Defender\Model\Setting\Scan();
+		$report = wd_di()->get( Malware_Report::class );
 		$report_text = __( 'Automatic scans are disabled', 'wpdef' );
 		if ( $settings->scheduled_scanning && isset( $settings->frequency ) ) {
 			$report_text = sprintf( __( 'Automatic scans are <br/>running %s', 'wpdef' ), $settings->frequency );
 		}
 		$misc = ( new \WP_Defender\Behavior\WPMUDEV() )->is_pro()
-			? array(
-				'days_of_week'  => $this->get_days_of_week(),
-				'times_of_day'  => $this->get_times(),
+			? [
+				'days_of_week' => $this->get_days_of_week(),
+				'times_of_day' => $this->get_times(),
 				'timezone_text' => sprintf(
 				/* translators: %s - timezone, %s - time */
 					__(
@@ -601,25 +597,25 @@ class Scan extends Controller {
 					wp_timezone_string(),
 					date( 'H:i', current_time( 'timestamp' ) )// phpcs:ignore
 				),
-				'show_notice'   => ! $settings->scheduled_scanning
+				'show_notice' => ! $settings->scheduled_scanning
 								&& isset( $_GET['enable'] ) && 'scheduled_scanning' === $_GET['enable'],
-			)
-			: array();
+			]
+			: [];
 		// Todo: add logic for deactivated scan settings. Maybe display some notice.
-		$data = array(
-			'scan'         => $scan,
-			'settings'     => $settings->export(),
-			'report'       => $report_text,
-			'active_tools' => array(
-				'integrity_check'    => $settings->integrity_check,
-				'check_known_vuln'   => $settings->check_known_vuln,
-				'scan_malware'       => $settings->scan_malware,
+		$data = [
+			'scan' => $scan,
+			'settings' => $settings->export(),
+			'report' => $report_text,
+			'active_tools' => [
+				'integrity_check' => $settings->integrity_check,
+				'check_known_vuln' => $settings->check_known_vuln,
+				'scan_malware' => $settings->scan_malware,
 				'scheduled_scanning' => $settings->scheduled_scanning,
-			),
+			],
 			'notification' => $report->to_string(),
-			'next_run'     => $report->get_next_run_as_string(),
-			'misc'         => $misc,
-		);
+			'next_run' => $report->get_next_run_as_string(),
+			'misc' => $misc,
+		];
 
 		return array_merge( $data, $this->dump_routes_and_nonces() );
 	}
@@ -638,7 +634,7 @@ class Scan extends Controller {
 	 *
 	 * @return bool
 	 */
-	private function is_any_active( $is_pro ) {
+	private function is_any_active( bool $is_pro ): bool {
 		$settings = new \WP_Defender\Model\Setting\Scan();
 		$integrity_check = $settings->is_any_filetypes_checked();
 		if ( ! $integrity_check && ! $is_pro ) {
@@ -656,16 +652,16 @@ class Scan extends Controller {
 	/**
 	 * @return array
 	 */
-	public function export_strings() {
-		$strings = array();
-		$is_pro  = ( new \WP_Defender\Behavior\WPMUDEV() )->is_pro();
+	public function export_strings(): array {
+		$strings = [];
+		$is_pro = ( new \WP_Defender\Behavior\WPMUDEV() )->is_pro();
 		if ( $this->is_any_active( $is_pro ) ) {
 			$strings[] = __( 'Active', 'wpdef' );
 		} else {
 			$strings[] = __( 'Inactive', 'wpdef' );
 		}
 
-		$scan_report       = new Malware_Report();
+		$scan_report = new Malware_Report();
 		$scan_notification = new \WP_Defender\Model\Notification\Malware_Notification();
 		if ( 'enabled' === $scan_notification->status ) {
 			$strings[] = __( 'Email notifications active', 'wpdef' );
@@ -691,7 +687,7 @@ class Scan extends Controller {
 	 *
 	 * @return array
 	 */
-	public function config_strings( $config, $is_pro ) {
+	public function config_strings( array $config, bool $is_pro ): array {
 		$strings = [];
 		$strings[] = $this->service->is_any_scan_active( $config, $is_pro )
 			? __( 'Active', 'wpdef' )
@@ -721,15 +717,17 @@ class Scan extends Controller {
 	 * Triggers the asynchronous scan.
 	 *
 	 * @param string $type Denotes type of the scan from the following four possible values scan, install, hub or report.
+	 *
+	 * @return void
 	 */
-	public function do_async_scan( $type ) {
+	public function do_async_scan( string $type ): void {
 		wd_di()->get( Model_Scan::class )->delete_idle();
 
 		as_enqueue_async_action(
 			'defender/async_scan',
-			array(
-				'type' => $type
-			),
+			[
+				'type' => $type,
+			],
 			'defender'
 		);
 	}
@@ -737,10 +735,11 @@ class Scan extends Controller {
 	/**
 	 * Clear completed action scheduler logs.
 	 *
+	 * @return void
 	 * @since 2.6.5
 	 */
-	public function clear_scan_logs() {
-		$result  = \WP_Defender\Component\Scan::clear_logs();
+	public function clear_scan_logs(): void {
+		$result = \WP_Defender\Component\Scan::clear_logs();
 
 		if ( isset( $result['error'] ) ) {
 			$this->log( 'WP CRON Error : ' . $result['error'], 'scan.log' );

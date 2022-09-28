@@ -3,6 +3,66 @@
     margin: 0;
 }
 
+.nf-notice-promo {
+	background-color: #ef4748;
+    margin-left: -20px;
+	padding: 8px 0;
+    padding-right: 20px;
+	width: 100%;
+}
+
+.nf-notice-promo .wrap {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin: auto;
+    margin-left: 20px;
+	width: 100%;
+}
+
+.nf-notice-promo strong {
+	color: white;
+	display: block;
+}
+
+.nf-notice-promo strong a {
+	color: white;
+	text-decoration: none;
+}
+
+.nf-notice-promo strong a:hover {
+	text-decoration: underline;
+}
+
+.nf-notice-promo a {
+	background: none;
+	box-shadow: none;
+	border: none;
+	color: white;
+	cursor: pointer;
+	height: 16px;
+    margin-right: 20px;
+	width: 16px;
+}
+
+.nf-notice-promo a svg {
+	height: 16px;
+	width: 16px;
+}
+
+.nf-notice-promo a .sr-only {
+	border-width: 0;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
 .nf-loading-spinner {
     width: 40px;
     height: 40px;

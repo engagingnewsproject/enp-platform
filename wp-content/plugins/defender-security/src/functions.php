@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * @param $path
+ * @param string $path
  *
  * @return string
  */
@@ -15,7 +15,7 @@ function defender_asset_url( $path ) {
 }
 
 /**
- * @param $path
+ * @param string $path
  *
  * @return string
  */
@@ -28,7 +28,7 @@ function defender_path( $path ) {
 /**
  * Sanitize submitted data.
  *
- * @param  array  $data
+ * @param array $data
  *
  * @return array
  */
@@ -369,7 +369,6 @@ function defender_white_label_status() {
  * Indicate this is not fresh install.
  *
  * @since 2.5.5
- * @return void
  */
 function defender_no_fresh_install() {
 	if ( empty( get_site_option( 'wd_nofresh_install' ) ) ) {
@@ -390,6 +389,8 @@ if ( ! function_exists( 'array_key_first' ) ) {
 
 /**
  * Fetch request url.
+ *
+ * @return string
  */
 function defender_get_request_url() {
 	return home_url( esc_url( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
@@ -544,4 +545,24 @@ function defender_maybe_echo_json( $data, $success, $return ) {
 	} else {
 		$success ? wp_send_json_success( $data ) : wp_send_json_error( $data );
 	}
+}
+
+/**
+ * Find all the strings from .mo file.
+ * `wpdef` is our text domain.
+ */
+function defender_gettext_translations() {
+	global $l10n;
+
+	if ( ! isset( $l10n['wpdef'] ) ) {
+		return array();
+	}
+
+	$items = array();
+
+	foreach ( $l10n['wpdef']->entries as $key => $value ) {
+		$items[ $key ] = count( $value->translations ) ? $value->translations[0] : $key;
+	}
+
+	return $items;
 }

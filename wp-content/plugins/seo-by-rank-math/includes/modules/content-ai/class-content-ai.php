@@ -41,6 +41,19 @@ class Content_AI {
 		$this->action( 'cmb2_admin_init', 'add_content_ai_metabox', 11 );
 		$this->action( 'rank_math/deregister_site', 'remove_credits_data' );
 		$this->ajax( 'get_content_ai_credits', 'update_content_ai_credits' );
+		$this->filter( 'rank_math/elementor/dark_styles', 'add_dark_style' );
+	}
+
+	/**
+	 * Add dark style
+	 *
+	 * @param array $styles The dark mode styles.
+	 */
+	public function add_dark_style( $styles = [] ) {
+
+		$styles['rank-math-content-ai-dark'] = rank_math()->plugin_url() . 'includes/modules/content-ai/assets/css/content-ai-dark.css';
+
+		return $styles;
 	}
 
 	/**
@@ -87,7 +100,8 @@ class Content_AI {
 				'content-ai' => [
 					'icon'  => 'rm-icon rm-icon-target',
 					'title' => esc_html__( 'Content AI', 'rank-math' ),
-					'desc'  => esc_html__( 'Get sophisticated AI suggestions for related Keywords, Questions & Links to include in the SEO meta & Content Area. Supports 80+ Countries.', 'rank-math' ),
+					/* translators: Link to kb article */
+					'desc'  => sprintf( esc_html__( 'Get sophisticated AI suggestions for related Keywords, Questions & Links to include in the SEO meta & Content Area. %s.', 'rank-math' ), '<a href="' . \RankMath\KB::get( 'content-ai-settings' ) . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math' ) . '</a>' ),
 					'file'  => dirname( __FILE__ ) . '/views/options.php',
 				],
 			],

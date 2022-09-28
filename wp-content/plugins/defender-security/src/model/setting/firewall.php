@@ -24,22 +24,14 @@ class Firewall extends Setting {
 	public $storage_days = 30;
 
 	/**
-	 * Define labels for settings key
+	 * Define settings labels.
 	 *
-	 * @param  string|null $key
-	 *
-	 * @return string|array|null
+	 * @return array
 	 */
-	public function labels( $key = null ) {
-		$labels = array(
+	public function labels() {
+		return array(
 			'storage_days'                  => __( 'Days to keep logs', 'wpdef' ),
 			'ip_blocklist_cleanup_interval' => __( 'Clear Temporary IP Block List', 'wpdef' ),
 		);
-
-		if ( ! is_null( $key ) ) {
-			return $labels[ $key ] ?? null;
-		}
-
-		return $labels;
 	}
 }

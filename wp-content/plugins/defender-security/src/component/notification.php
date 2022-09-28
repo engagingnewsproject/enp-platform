@@ -206,6 +206,8 @@ class Notification extends Component {
 			array(
 				'title'             => preg_replace('/ - Notification$/', '', $model->title ),
 				'content_body'      => $content_body,
+				// An empty value because this is a confirmation email.
+				'unsubscribe_link' => '',
 			),
 			false
 		);
@@ -243,6 +245,8 @@ class Notification extends Component {
 			array(
 				'title'        => preg_replace( '/ - Notification$/', '', $m->title ),
 				'content_body' => $content_body,
+				// An empty value because this is a subscribed email.
+				'unsubscribe_link' => '',
 			),
 			false
 		);
@@ -279,6 +283,8 @@ class Notification extends Component {
 			array(
 				'title'        => $title,
 				'content_body' => $content_body,
+				// An empty value because this is an unsubscribed email.
+				'unsubscribe_link' => '',
 			),
 			false
 		);

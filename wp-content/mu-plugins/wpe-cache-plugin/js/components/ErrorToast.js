@@ -9,6 +9,12 @@ class ErrorToast extends JQElement {
             this.element.attr('style', 'display: block');
         }
     }
+
+    hideToast() {
+        if (this.element.length) {
+            this.element.attr('style', 'display: none');
+        }
+    }
 }
 
 export default ErrorToast;

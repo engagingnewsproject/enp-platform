@@ -1,10 +1,13 @@
 <?php
 
+declare( strict_types=1 );
+
 namespace WP_Defender\Model;
 
 use Calotes\Model\Setting;
 use WP_Defender\Traits\Formats;
 use WP_Defender\Traits\User;
+use WP_Defender\Model\Email_Track;
 
 /**
  *
@@ -103,7 +106,7 @@ abstract class Notification extends Setting {
 	 * @defender_property
 	 * @sanitize_text_field
 	 */
-	public $in_house_recipients = array();
+	public $in_house_recipients = [];
 
 	/**
 	 * For additional users, this should contain a list of email and name.
@@ -112,7 +115,7 @@ abstract class Notification extends Setting {
 	 * @defender_property
 	 * @sanitize_text_field
 	 */
-	public $out_house_recipients = array();
+	public $out_house_recipients = [];
 
 	/**
 	 * This when we want to run the report/notification without any email sending.
@@ -128,7 +131,7 @@ abstract class Notification extends Setting {
 	 * @var array
 	 * @defender_property
 	 */
-	public $configs = array();
+	public $configs = [];
 
 	/**
 	 * Tracking.
@@ -149,35 +152,39 @@ abstract class Notification extends Setting {
 	 *
 	 * @return array
 	 */
-	protected function get_default_user() {
+	protected function get_default_user(): array {
 		$user_id = get_current_user_id();
 
-		return array(
-			'name'   => $this->get_user_display( $user_id ),
-			'id'     => $user_id,
-			'email'  => $this->get_current_user_email( $user_id ),
-			'role'   => $this->get_current_user_role( $user_id ),
+		return [
+			'name' => $this->get_user_display( $user_id ),
+			'id' => $user_id,
+			'email' => $this->get_current_user_email( $user_id ),
+			'role' => $this->get_current_user_role( $user_id ),
 			'avatar' => get_avatar_url( $this->get_current_user_email( $user_id ) ),
 			'status' => self::USER_SUBSCRIBED,
-		);
+		];
 	}
 
 	/**
 	 * Check if the current moment is right for sending.
 	 *
-	 * @return bool|void
+	 * @return bool
 	 */
 	public function maybe_send() {
 		// @since 2.7.0 We can remove 'dry_run'-condition in the next version.
 		if ( true === $this->dry_run ) {
 			// No send, but need to track as sent, so we can requeue it.
 			if ( 'report' === $this->type ) {
-				$this->last_sent     = $this->est_timestamp;
-				$this->est_timestamp = $this->get_next_run()->getTimestamp();
+				$this->last_sent = $this->est_timestamp;
+
+				if ( $this->get_next_run() instanceof \DateTime ) {
+					$this->est_timestamp = $this->get_next_run()->getTimestamp();
+				}
+
 				$this->save();
 			}
 
-			return;
+			return false;
 		}
 
 		if ( ! $this->check_active_status() ) {
@@ -192,7 +199,7 @@ abstract class Notification extends Setting {
 			return false;
 		}
 
-		$now  = new \DateTime( 'now', wp_timezone() );
+		$now = new \DateTime( 'now', \wp_timezone() );
 		$time = apply_filters( 'defender_current_time_for_report', $now );
 		// Testing.
 		if ( defined( 'WP_DEFENDER_TESTING' ) && true === constant( 'WP_DEFENDER_TESTING' ) ) {
@@ -215,18 +222,18 @@ abstract class Notification extends Setting {
 		}
 
 		// Create estimate object.
-		$est = new \DateTime( 'now', wp_timezone() );
+		$est = new \DateTime( 'now', \wp_timezone() );
 		if ( ! empty( $this->last_sent ) ) {
 			//set the timestamp of previous
 			$est->setTimestamp( $this->last_sent );
 		}
 
 		// Est should be set as the last send. Create now timestamp.
-		$now      = new \DateTime( 'now', wp_timezone() );
+		$now = new \DateTime( 'now', \wp_timezone() );
 		$interval = \DateInterval::createFromDateString( (string) $est->getOffset() . 'seconds' );
 		[$hour, $min] = explode( ':', $this->time );
 		$hour = (int) $hour;
-		$min  = (int) $min;
+		$min = (int) $min;
 		switch ( $this->frequency ) {
 			case 'daily':
 				// Set the time.
@@ -249,9 +256,9 @@ abstract class Notification extends Setting {
 				break;
 			case 'monthly':
 				// We will need to check if the date is passed today, if not, use this, if yes, then queue for next month.
-				$est->setDate( $est->format( 'Y' ), $est->format( 'm' ), 1 );
+				$est->setDate( (int) $est->format( 'Y' ), (int) $est->format( 'm' ), 1 );
 				if ( 31 === (int) $this->day_n ) {
-					$this->day_n = $est->format( 't' );
+					$this->day_n = (int) $est->format( 't' );
 				}
 				$est->add( new \DateInterval( 'P' . ( $this->day_n - 1 ) . 'D' ) );
 				$est->setTime( $hour, $min, 0 );
@@ -271,15 +278,15 @@ abstract class Notification extends Setting {
 	 *
 	 * @param string $email
 	 */
-	public function save_log( $email ) {
-		$track            = new Email_Track();
+	public function save_log( $email ): void {
+		$track = new Email_Track();
 		$track->timestamp = time();
-		$track->source    = $this->slug;
-		$track->to        = $email;
+		$track->source = $this->slug;
+		$track->to = $email;
 		$track->save();
 	}
 
-	public function check_active_status() {
+	public function check_active_status(): bool {
 		// Exception after migrating Scheduled scanning to Scan settings.
 		if ( 'malware-report' === $this->slug && true === ( new \WP_Defender\Model\Setting\Scan() )->scheduled_scanning ) {
 			return true;
@@ -292,32 +299,34 @@ abstract class Notification extends Setting {
 	 *
 	 * @return string
 	 */
-	public function to_string() {
+	public function to_string(): string {
 		if ( ! $this->check_active_status() ) {
 			return '-';
 		}
-		$date = new \DateTime( 'now', wp_timezone() );
+		$date = new \DateTime( 'now', \wp_timezone() );
 		$date->setTimestamp( $this->est_timestamp );
 		switch ( $this->frequency ) {
 			case 'daily':
-				return sprintf( __( '%s at %s', 'wpdef' ), ucfirst( $this->frequency ), $date->format( 'h:i A' ) );
+				/* translators: 1: Notification sending frequency, 2: Time of a day. */
+				return sprintf( __( '%1$s at %2$s', 'wpdef' ), ucfirst( $this->frequency ), $date->format( 'h:i A' ) );
 			case 'weekly':
-				return sprintf( __( '%s on %s at %s', 'wpdef' ), ucfirst( $this->frequency ), ucfirst( $this->day ), $date->format( 'h:i A' ) );
+				/* translators: 1: Notification sending frequency, 2: Day of the week, 3: Time of a day. */
+				return sprintf( __( '%1$s on %2$s at %3$s', 'wpdef' ), ucfirst( $this->frequency ), ucfirst( $this->day ), $date->format( 'h:i A' ) );
 			case 'monthly':
 			default:
-				return sprintf( __( '%s/%d, %s', 'wpdef' ), ucfirst( $this->frequency ), $this->day_n, $date->format( 'h:i A' ) );
+				/* translators: 1: Notification sending frequency, 2: Day of the month, 3: Time of a day. */
+				return sprintf( __( '%1$s/%2$d, %3$s', 'wpdef' ), ucfirst( $this->frequency ), $this->day_n, $date->format( 'h:i A' ) );
 		}
 	}
 
 	/**
-	 * @param false $for_hub
+	 * @param boolean $for_hub
 	 *
 	 * @return false|string|void
 	 * @throws \Exception
 	 */
 	public function get_next_run_as_string( $for_hub = false ) {
 		if ( 'notification' === $this->type ) {
-
 			return $for_hub ? false : __( 'Never', 'wpdef' );
 		}
 
@@ -328,8 +337,8 @@ abstract class Notification extends Setting {
 		} else {
 			if ( $this->check_active_status() ) {
 				$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-				$date   = new \DateTime( 'now', wp_timezone() );
-				$date->setTimestamp( $this->est_timestamp );
+				$date = new \DateTime( 'now', \wp_timezone() );
+				$date->setTimestamp( (int) $this->est_timestamp );
 
 				return $date->format( $format );
 			} else {
@@ -341,19 +350,20 @@ abstract class Notification extends Setting {
 	/**
 	 * We still need to validate the out house recipients email.
 	 */
-	public function after_validate() {
+	protected function after_validate(): void {
 		foreach ( $this->out_house_recipients as $recipient ) {
 			$recipient['email'] = trim( $recipient['email'] );
 			if ( empty( $recipient['email'] ) ) {
 				continue;
 			}
 			if ( ! filter_var( $recipient['email'], FILTER_VALIDATE_EMAIL ) ) {
+				/* translators: Email address of a recipient. */
 				$this->errors[] = sprintf( __( 'Email %s is invalid format', 'wpdef' ), $recipient['email'] );
 			}
 		}
 	}
 
-	public function save() {
+	public function save(): void {
 		if ( empty( $this->last_sent ) ) {
 			$this->last_sent = time();
 		}
@@ -369,20 +379,54 @@ abstract class Notification extends Setting {
 	 *
 	 * @return array
 	 */
-	public function export() {
-
+	public function export(): array {
 		$data = parent::export();
 
 		global $l10n;
 
 		if ( isset( $l10n['wpdef'] ) ) {
-			$data['title']       = __( $data['title'], 'wpdef' );
+			$data['title'] = __( $data['title'], 'wpdef' );
 			$data['description'] = __( $data['description'], 'wpdef' );
 		}
 
-		$data['next_run']        = $this->get_next_run_as_string();
+		$data['next_run'] = $this->get_next_run_as_string();
 		$data['all_subscribers'] = array_merge( $this->in_house_recipients, $this->out_house_recipients );
 
 		return $data;
+	}
+
+	/**
+	 * Overrided method to manipulate user details dynamically.
+	 */
+	protected function after_load(): void {
+		$in_house_recipients = [];
+
+		foreach ( $this->in_house_recipients as $recipient ) {
+			$id = $recipient['id'];
+			$user_data = get_userdata( $id );
+
+			if ( $user_data instanceof \WP_User ) {
+
+				$role = '';
+
+				if (
+					! empty( $user_data->roles ) &&
+					is_array( $user_data->roles )
+				) {
+					$role = ucfirst( array_shift( $user_data->roles ) );
+				}
+
+				$in_house_recipients[] = [
+					'name' => $user_data->display_name,
+					'id' => $user_data->ID,
+					'email' => $user_data->user_email,
+					'role' => $role,
+					'avatar' => get_avatar_url( $id ),
+					'status' => $recipient['status'],
+				];
+			}
+		}
+
+		$this->in_house_recipients = $in_house_recipients;
 	}
 }

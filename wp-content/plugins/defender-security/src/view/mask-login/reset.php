@@ -29,7 +29,7 @@ login_header( __( 'Reset Password', 'wpdef' ), '<p class="message reset-pass">' 
 	<div class="wp-pwd">
 		<input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1" id="pass1" class="input password-input" size="24" value="" autocomplete="off" aria-describedby="pass-strength-result" />
 
-		<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password' ); ?>">
+		<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Hide password', 'wpdef' ); ?>">
 			<span class="dashicons dashicons-hidden" aria-hidden="true"></span>
 		</button>
 		<div id="pass-strength-result" class="hide-if-no-js" aria-live="polite"><?php _e( 'Strength indicator', 'wpdef' ); ?></div>

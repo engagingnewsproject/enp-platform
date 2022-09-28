@@ -242,15 +242,27 @@ class CalderaSubmissionDataSource implements ContractsSubmissionDataSource
         global $wpdb;
         
         $submissionRecordIdQuery = "select * from " . $wpdb->prefix . "cf_form_entries posts where form_id=%s";
+        $args[] = $formId;
+        
+        $userId = $this->submissionFilter->getUserId();
 
-        $recordCollection = $wpdb->get_results($wpdb->prepare($submissionRecordIdQuery, $formId));
+        // Filter on post author as submitter's user id
+        if (!\is_null($userId)) {
+
+            $submissionRecordIdQuery .= " AND user_id = %d";
+            $args[]=$userId;
+        }
+        
+        $recordCollection = $wpdb->get_results($wpdb->prepare($submissionRecordIdQuery, $args));
         $statuses = $this->submissionFilter->getStatus();
+
         foreach ($recordCollection as $queryObject) {
             //filter by status
             if( empty($statuses) || in_array( $queryObject->status, $statuses ) ){
                 $submissionRecordId = $queryObject->id;
                 $subDate = $queryObject->datestamp;
                 $status = $queryObject->status;
+                $submitterId = $queryObject->user_id;
 
                 $include = $this->includeByDateFilter($subDate);
 
@@ -263,7 +275,8 @@ class CalderaSubmissionDataSource implements ContractsSubmissionDataSource
                     'timestamp' => $subDate,
                     'formId' => $formId,
                     'dataSource' => $this->dataSource,
-                    'status'    =>  $status
+                    'status'    =>  $status,
+                    'submitterId'   => $submitterId
                 ]);
             }
         }

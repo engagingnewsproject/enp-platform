@@ -78,7 +78,7 @@ class Firewall_Logs extends Controller {
 		switch ( $data['action'] ) {
 			case 'allowlist':
 				$messages = sprintf(
-				/* translators: ... */
+				/* translators: 1: IP Address(es), 2: URL for Defender > Firewall > IP Banning */
 					__(
 						'IP %1$s has been added to your allowlist. You can control your allowlist in <a href="%2$s">IP Lockouts.</a>',
 						'wpdef'
@@ -89,7 +89,7 @@ class Firewall_Logs extends Controller {
 				break;
 			case 'ban':
 				$messages = sprintf(
-				/* translators: ... */
+				/* translators: 1: IP Address(es), 2: URL for Defender > Firewall > IP Banning */
 					__(
 						'IP %1$s has been added to your blocklist You can control your blocklist in <a href="%2$s">IP Lockouts.</a>',
 						'wpdef'
@@ -100,7 +100,7 @@ class Firewall_Logs extends Controller {
 				break;
 			case 'delete':
 				$messages = sprintf(
-				/* translators: ... */
+				/* translators: IP Address(es) */
 					__( 'IP %s has been deleted', 'wpdef' ),
 					implode( ', ', $ips )
 				);
@@ -244,14 +244,14 @@ class Firewall_Logs extends Controller {
 		$model = wd_di()->get( Blacklist_Lockout::class );
 		if ( $model->is_ip_in_list( $ip, $list ) ) {
 			$model->remove_from_list( $ip, $list );
-			/* translators: ... */
+			/* translators: 1: IP address, 2: IP address list, 3: IP address list, 4: URL for Defender > Firewall > IP Banning */
 			$message = __(
 				'IP %1$s has been removed from your %2$s You can control your %3$s in <a href="%4$s">IP Lockouts.</a>',
 				'wpdef'
 			);
 		} else {
 			$model->add_to_list( $ip, $list );
-			/* translators: ... */
+			/* translators: 1: IP address, 2: IP address list, 3: IP address list, 4: URL for Defender > Firewall > IP Banning */
 			$message = __(
 				'IP %1$s has been added to your %2$s You can control your %3$s in <a href="%4$s">IP Lockouts.</a>',
 				'wpdef'
@@ -346,14 +346,14 @@ class Firewall_Logs extends Controller {
 
 		if ( 'remove' === $action && $model->is_ua_in_list( $ua, $list ) ) {
 			$model->remove_from_list( $ua, $list );
-			/* translators: ... */
+			/* translators: 1: User agent, 2: User agent list, 3: User agent list, 4: URL for Defender > Firewall > User Agent Banning */
 			$message = __(
 				'User agent <strong>%1$s</strong> has been removed from your %2$s You can control your %3$s in <a href="%4$s">User Agent Banning.</a>',
 				'wpdef'
 			);
 		} elseif ( 'add' === $action && ! $model->is_ua_in_list( $ua, $list ) ) {
 			$model->add_to_list( $ua, $list );
-			/* translators: ... */
+			/* translators: 1: User agent, 2: User agent list, 3: User agent list, 4: URL for Defender > Firewall > User Agent Banning */
 			$message = __(
 				'User agent <strong>%1$s</strong> has been added to your %2$s You can control your %3$s in <a href="%4$s">User Agent Banning.</a>',
 				'wpdef'

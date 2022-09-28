@@ -79,7 +79,7 @@ class Table_Lockout extends Component {
 	 *
 	 * @param string $type
 	 *
-	 * @return mixed|null
+	 * @return string
 	 */
 	public function get_type( $type ) {
 		$types = array(
@@ -91,11 +91,7 @@ class Table_Lockout extends Component {
 			Lockout_Log::LOCKOUT_UA       => __( 'User Agent Lockout', 'wpdef' ),
 		);
 
-		if ( isset( $types[ $type ] ) ) {
-			return $types[ $type ];
-		}
-
-		return null;
+		return $types[ $type ] ?? '';
 	}
 
 	/**

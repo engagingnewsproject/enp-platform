@@ -19,20 +19,20 @@ class HTTP {
 	}
 
 	/**
-	 * @param $key
-	 * @param null $default
-	 * @param bool $strict
+	 * @param string $key
+	 * @param mixed  $default
+	 * @param bool   $strict
 	 *
 	 * @return string
 	 */
 	public static function get( $key, $default = null, $strict = false ) {
-		$value = isset( $_GET[ $key ] ) ? $_GET[ $key ] : $default;
+		$value = $_GET[ $key ] ?? $default;
 		if ( true === $strict && empty( $value ) ) {
 			$value = $default;
 		}
 		if ( ! is_array( $value ) ) {
 			$value = sanitize_textarea_field( $value );
-		} elseif ( is_array( $value ) ) {
+		} else {
 			$value = defender_sanitize_data( $value );
 		}
 
@@ -40,16 +40,16 @@ class HTTP {
 	}
 
 	/**
-	 * @param $key
-	 * @param null $default
+	 * @param string $key
+	 * @param mixed  $default
 	 *
-	 * @return null
+	 * @return string
 	 */
 	public static function post( $key, $default = null ) {
 		$value = isset( $_POST[ $key ] ) ? wp_unslash( $_POST[ $key ] ) : $default;
 		if ( ! is_array( $value ) ) {
 			$value = sanitize_textarea_field( $value );
-		} elseif ( is_array( $value ) ) {
+		} else {
 			$value = defender_sanitize_data( $value );
 		}
 
@@ -60,17 +60,13 @@ class HTTP {
 	 * @return array
 	 */
 	public static function gets() {
-		$data = defender_sanitize_data( $_GET );
-
-		return $data;
+		return defender_sanitize_data( $_GET );
 	}
 
 	/**
 	 * @return array
 	 */
 	public static function posts() {
-		$data = defender_sanitize_data( $_POST );
-
-		return $data;
+		return defender_sanitize_data( $_POST );
 	}
 }

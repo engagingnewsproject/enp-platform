@@ -118,7 +118,7 @@ class DLM_File_Manager {
 			}
 		}
 
-		return array( $file_path, $remote_file );
+		return array( str_replace( DIRECTORY_SEPARATOR, '/', $file_path ), $remote_file );
 	}
 
 	/**
@@ -257,9 +257,9 @@ class DLM_File_Manager {
 	 * Return the secured file path or url of the downloadable file. Should not let restricted files or out of root files to be downloaded.
 	 *
 	 * @param string $file The file path/url
-	 * @param bool $relative Wheter or not to return a relative path. Default is false 
-	 * 
-	 * @return string The secured file path/url
+	 * @param bool $relative Wheter or not to return a relative path. Default is false
+	 *
+	 * @return array The secured file path/url and restriction status
 	 * @since 4.5.9
 	 */
 	public function get_secure_path( $file, $relative = false ) {
@@ -270,6 +270,16 @@ class DLM_File_Manager {
 		}
 
 		list( $file_path, $remote_file ) = $this->parse_file_path( $file );
+
+		// Let's see if the file path is dirty
+		$file_scheme = parse_url( $file_path, PHP_URL_SCHEME );
+		// Default defined URL schemes
+		$allowed_schemes = array( 'http', 'https', 'ftp', 'ftps' );
+
+		if ( ! is_null( $file_scheme ) && ! in_array( $file_scheme, $allowed_schemes ) ) {
+			$restriction = true;
+			return array( $file_path, $remote_file, $restriction );
+		}
 
 		// If the file is remote, return the file path. If the file is not located on local server, return the file path.
 		// This is available even if the file is one of the restricted files below. The plugin will let the user download the file,
@@ -324,6 +334,7 @@ class DLM_File_Manager {
 		}
 
 		$restriction = false;
+
 		return array( $file_path, $remote_file, $restriction );
 
 	}
@@ -336,12 +347,12 @@ class DLM_File_Manager {
 	 */
 	public function get_allowed_paths() {
 
-		$abspath_sub       = untrailingslashit( ABSPATH );
-		$user_defined_path = get_option( 'dlm_downloads_path' );
+		$abspath_sub       = str_replace(DIRECTORY_SEPARATOR, '/', untrailingslashit( ABSPATH ) );
+		$user_defined_path = str_replace(DIRECTORY_SEPARATOR, '/', get_option( 'dlm_downloads_path' ) );
 		$allowed_paths     = array();
 
 		if ( false === strpos( WP_CONTENT_DIR, ABSPATH ) ) {
-			$content_dir   = str_replace( 'wp-content', '', untrailingslashit( WP_CONTENT_DIR ) );
+			$content_dir   = str_replace(DIRECTORY_SEPARATOR, '/', str_replace( 'wp-content', '', untrailingslashit( WP_CONTENT_DIR ) ) );
 			$allowed_paths = array( $abspath_sub, $content_dir );
 		} else {
 			$allowed_paths = array( $abspath_sub );
@@ -358,7 +369,7 @@ class DLM_File_Manager {
 	 *
 	 * @param string $file_path The current path of the file
 	 * @param array $allowed_paths The allowed paths of the files
-	 * 
+	 *
 	 * @return string The correct path of the file
 	 * @since 4.5.92
 	 */
@@ -371,7 +382,6 @@ class DLM_File_Manager {
 
 		if ( ! empty( $allowed_paths ) ) {
 			foreach ( $allowed_paths as $allowed_path ) {
-
 				// If we encounter a scenario where the file is in the allowed path, we can trust it is in the correct path so we should break the loop.
 				if ( false !== strpos( $file_path, $allowed_path ) ) {
 					$correct_path = $allowed_path;
@@ -383,4 +393,34 @@ class DLM_File_Manager {
 		return $correct_path;
 	}
 
+	/**
+	 * Check for symbolik links in the file path.
+	 *
+	 * @param string $file_path The file's path
+	 * @param bool $redirect Whether or not to redirect the user to the correct path. Default is false.
+	 *
+	 * @return array|mixed|string|string[]
+	 */
+	public function check_symbolic_links( $file_path, $redirect = false ) {
+		// On Pantheon hosted sites the upload dir is a symbolic link to another location.
+		// Make a filter of all shortcuts/symbolik links so that users can attach to them because we do not know what how the server
+		// is configured.
+		$shortcuts     = apply_filters( 'dlm_upload_shortcuts', array( wp_get_upload_dir()['basedir'] ) );
+		$scheme        = wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME );
+		$allowed_paths = download_monitor()->service( 'file_manager' )->get_allowed_paths();
+		$correct_path  = download_monitor()->service( 'file_manager' )->get_correct_path( $file_path, $allowed_paths );
+
+		if ( ! empty( $shortcuts ) ) {
+			foreach ( $shortcuts as $shortcut ) {
+				if ( is_link( $shortcut ) && readlink( $shortcut ) === $correct_path ) {
+					$file_path = str_replace( $correct_path, $shortcut, $file_path );
+					if ( $redirect ) {
+						$file_path = str_replace( ABSPATH, site_url( '/', $scheme ), $file_path );
+					}
+				}
+			}
+		}
+
+		return $file_path;
+	}
 }

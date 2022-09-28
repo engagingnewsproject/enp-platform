@@ -75,7 +75,7 @@ trait Formats {
 			array( 60 * 60 * 24 * 365, esc_html__( 'year', 'wpdef' ) ),
 			array( 60 * 60 * 24 * 30, esc_html__( 'month', 'wpdef' ) ),
 			array( 60 * 60 * 24 * 7, esc_html__( 'week', 'wpdef' ) ),
-			array( 60 * 60 * 24, esc_html__( 'day' ) ),
+			array( 60 * 60 * 24, esc_html__( 'day', 'wpdef' ) ),
 			array( 60 * 60, esc_html__( 'hour', 'wpdef' ) ),
 			array( 60, esc_html__( 'minute', 'wpdef' ) ),
 			array( 1, esc_html__( 'second', 'wpdef' ) ),

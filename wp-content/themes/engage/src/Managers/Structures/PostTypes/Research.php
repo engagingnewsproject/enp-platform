@@ -32,14 +32,14 @@ class Research extends PostTypes {
 			'rewrite' 			 => array('slug' => 'research'),
 		);
 		$args = array(
-			'labels'        => $labels,
-			'description'   => '',
-			'public'        => true,
-			'menu_position' => 5,
-			'menu_icon'		=> 'dashicons-media-document',
-			'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
-			'has_archive'   => true,
-			'exclude_from_search' => false
+			'labels'              => $labels,
+			'description'         => '',
+			'public'              => true,
+			'menu_position'       => 5,
+			'menu_icon'		      => 'dashicons-media-document',
+			'supports'            => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
+			'has_archive'         => true,
+			'exclude_from_search' => false,
 		);
 		register_post_type( 'research', $args );
 	}

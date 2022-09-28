@@ -16,6 +16,9 @@
 		word-break: break-word;
 	}
 }
+.article__featured-img {
+	margin: 0;
+}
 .article__post-type {
 	font-size: $font-size-small;
 	margin-bottom: 0;
@@ -68,6 +71,9 @@
 		}
 	}
 }
+.article-meta__dateline {
+	padding: 1.5rem 0rem;
+}
 .article__video {
 	width: 100%;
 	height: 100%;
@@ -107,7 +113,7 @@
 }
 .article__title {
 	font-weight: 400;
-	padding: $spacer 0;
+	padding-top: $spacer;
 	display: block;
 }
 // END base styles
@@ -367,6 +373,23 @@
 			@include media($phablet) {
 				grid-column: 1;
 				grid-row: 2;
+			}
+		}
+	}
+	.article__meta__data {
+		@include media($phablet) {
+			padding-bottom: 2rem;
+			grid-row: 2;
+			grid-column: 1;
+			display: flex;
+			flex-direction: column;
+		}
+		.article-meta__item {
+			display: flex;
+			align-items: center;
+
+			svg {
+				margin-right: 0.5em;
 			}
 		}
 	}

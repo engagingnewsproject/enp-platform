@@ -359,6 +359,7 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             'home_url_host'     => $home_url[ 'host' ],
             'publicLinkStructure' => $public_link_structure,
             'devMode'           => (bool) $dev_mode,
+            'filter_esc_status'  =>    json_encode( WPN_Helper::maybe_disallow_unfiltered_html_for_escaping() ),
         ));
         wp_localize_script( 'nf-builder', 'nfRepeater', array(
             'add_repeater_child_field_text' => __( 'Add ', 'ninja-forms' )
@@ -570,6 +571,34 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             );
         }
 
+        $external_fields = $this->_fetch_field_feed();
+        foreach( $external_fields as $field){
+
+            if( ! isset( $field[ 'name' ] ) || ! $field[ 'name' ] ) continue;
+
+            $section = ( isset( $field['section'] ) ) ? $field['section'] : '';
+            $name = $field[ 'name' ];
+            $nicename = ( isset( $field[ 'nicename' ] ) ) ? $field[ 'nicename' ] : '';
+            $link = ( isset( $field[ 'link' ] ) ) ? $field[ 'link' ] : '';
+            $modal_content = ( isset( $field[ 'modal_content' ] ) ) ? $field[ 'modal_content' ] : '';
+
+            if( isset( $field_type_settings[ $name ] ) ) continue;
+
+            $field_type_settings[ $name ] = array(
+                'id' => $name,
+                'nicename' => $nicename,
+                'alias' => array(),
+                'parentType' => '',
+                'section' => $section,
+                'icon' => 'arrow-circle-o-down',
+                'type' => $name,
+                'link' => $link,
+                'modal_content' => $modal_content,
+                'settingGroups' => array(),
+                'settingDefaults' => array()
+            );
+        }
+
         $saved_fields = Ninja_Forms()->form()->get_fields( array( 'saved' => 1) );
 
         foreach( $saved_fields as $saved_field ){
@@ -713,6 +742,28 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             $form_settings_types[ $id ]['settingGroups'] = $this->_group_settings($form_settings[ $id ], $groups);
             $form_settings_types[ $id ]['settingDefaults'] = $this->_setting_defaults($unique_settings);
         }
+
+        $external_settings = $this->_fetch_settings_feed();
+        foreach( $external_settings as $setting){
+
+            if( ! isset( $setting[ 'id' ] ) || ! $setting[ 'id' ] ) continue;
+
+            $name = $setting[ 'id' ];
+            $nicename = ( isset( $setting[ 'nicename' ] ) ) ? $setting[ 'nicename' ] : '';
+            $link = ( isset( $setting[ 'link' ] ) ) ? $setting[ 'link' ] : '';
+            $modal_content = ( isset( $setting[ 'modal_content' ] ) ) ? $setting[ 'modal_content' ] : '';
+
+            if( isset( $form_settings_types[ $name ] ) ) continue;
+
+            $form_settings_types[ $name ] = array(
+                'id' => $name,
+                'nicename' => $nicename,
+                'link' => $link,
+                'modal_content' => $modal_content,
+                'settingGroups' => array(),
+                'settingDefaults' => array()
+            );
+        }
         ?>
         <script>
         var formSettingTypeData = <?php echo wp_json_encode( array_values( $form_settings_types ) )?>;
@@ -822,6 +873,16 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
     protected function _fetch_action_feed()
     {
         return Ninja_Forms::config( 'AvailableActions' );
+    }
+
+    protected function _fetch_settings_feed()
+    {
+        return Ninja_Forms::config( 'AvailableSettings' );
+    }
+    
+    protected function _fetch_field_feed()
+    {
+        return Ninja_Forms::config( 'AvailableFields' );
     }
 
     protected function setting_group_priority( $a, $b )

@@ -1,4 +1,5 @@
 <?php
+declare( strict_types=1 );
 
 namespace WP_Defender\Model\Setting;
 
@@ -76,25 +77,24 @@ class Login_Lockout extends \Calotes\Model\Setting {
 	 *
 	 * @var array
 	 */
-	protected $rules = array(
-		array( array( 'enabled' ), 'boolean' ),
-		array( array( 'attempt', 'timeframe', 'duration' ), 'integer' ),
-		array( array( 'lockout_type' ), 'in', array( 'timeframe', 'permanent' ) ),
-		array( array( 'duration_unit' ), 'in', array( 'seconds', 'minutes', 'hours' ) ),
-	);
+	protected $rules = [
+		[ [ 'enabled' ], 'boolean' ],
+		[ [ 'attempt', 'timeframe', 'duration' ], 'integer' ],
+		[ [ 'lockout_type' ], 'in', [ 'timeframe', 'permanent' ] ],
+		[ [ 'duration_unit' ], 'in', [ 'seconds', 'minutes', 'hours' ] ],
+	];
 
 	/**
 	 * @return array
 	 */
-	public function get_default_values() {
-
-		return array(
+	public function get_default_values(): array {
+		return [
 			'message' => __( 'You have been locked out due to too many invalid login attempts.', 'wpdef' ),
-		);
+		];
 	}
 
-	protected function before_load() {
-		$default_values        = $this->get_default_values();
+	protected function before_load(): void {
+		$default_values = $this->get_default_values();
 		$this->lockout_message = $default_values['message'];
 	}
 
@@ -103,11 +103,11 @@ class Login_Lockout extends \Calotes\Model\Setting {
 	 *
 	 * @return array
 	 */
-	public function get_blacklisted_username() {
+	public function get_blacklisted_username(): array {
 		// Since 2.4.7
 		$usernames = apply_filters( 'wp_defender_banned_usernames', $this->username_blacklist );
 		if ( empty( $usernames ) ) {
-			return array();
+			return [];
 		}
 		$usernames = str_replace( PHP_EOL, ' ', $this->username_blacklist );
 		$usernames = explode( ' ', $usernames );
@@ -117,35 +117,27 @@ class Login_Lockout extends \Calotes\Model\Setting {
 	}
 
 	/**
-	 * Define labels for settings key.
+	 * Define settings labels.
 	 *
-	 * @param  string|null $key
-	 *
-	 * @return string|array|null
+	 * @return array
 	 */
-	public function labels( $key = null ) {
-		$labels = array(
+	public function labels(): array {
+		return [
 			// New key: enabled.
-			'login_protection'                       => __( 'Login Protection', 'wpdef' ),
+			'login_protection' => __( 'Login Protection', 'wpdef' ),
 			// New key: attempt.
-			'login_protection_login_attempt'         => __( 'Login Protection - Threshold', 'wpdef' ),
+			'login_protection_login_attempt' => __( 'Login Protection - Threshold', 'wpdef' ),
 			// New key: timeframe.
-			'login_protection_lockout_timeframe'     => __( 'Login Protection - Timeframe', 'wpdef' ),
+			'login_protection_lockout_timeframe' => __( 'Login Protection - Timeframe', 'wpdef' ),
 			// New key: lockout_type.
-			'login_protection_lockout_ban'           => __( 'Login Protection - Duration Type', 'wpdef' ),
+			'login_protection_lockout_ban' => __( 'Login Protection - Duration Type', 'wpdef' ),
 			// New key: duration.
-			'login_protection_lockout_duration'      => __( 'Login Protection - Duration', 'wpdef' ),
+			'login_protection_lockout_duration' => __( 'Login Protection - Duration', 'wpdef' ),
 			// New key: duration_unit.
 			'login_protection_lockout_duration_unit' => __( 'Login Protection - Duration units', 'wpdef' ),
 			// New key: lockout_message.
-			'login_protection_lockout_message'       => __( 'Login Protection - Lockout Message', 'wpdef' ),
-			'username_blacklist'                     => __( 'Login Protection - Banned Usernames', 'wpdef' ),
-		);
-
-		if ( ! is_null( $key ) ) {
-			return $labels[ $key ] ?? null;
-		}
-
-		return $labels;
+			'login_protection_lockout_message' => __( 'Login Protection - Lockout Message', 'wpdef' ),
+			'username_blacklist' => __( 'Login Protection - Banned Usernames', 'wpdef' ),
+		];
 	}
 }

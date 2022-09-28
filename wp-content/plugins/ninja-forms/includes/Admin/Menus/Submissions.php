@@ -29,7 +29,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
      * Constructor
      */
     public function __construct()
-    {   
+    {
         parent::__construct();
 
         $this->load_legacy = intval( Ninja_Forms()->get_setting( 'load_legacy_submissions' ) );
@@ -43,21 +43,21 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
             add_filter( 'manage_nf_sub_posts_columns', array( $this, 'change_columns' ) );
 
             add_action( 'manage_posts_custom_column', array( $this, 'custom_columns' ), 10, 2 );
-    
+
             add_filter('months_dropdown_results', array( $this, 'remove_filter_show_all_dates' ), 9999 );
-    
+
             add_action( 'restrict_manage_posts', array( $this, 'add_filters' ) );
-    
+
             add_filter( 'parse_query', array( $this, 'table_filter' ) );
-    
+
             add_filter( 'posts_clauses', array( $this, 'search' ), 20, 1 );
-    
+
             add_filter( 'bulk_actions-edit-nf_sub', array( $this, 'remove_bulk_edit' ) );
-    
+
             add_action( 'admin_footer-edit.php', array( $this, 'bulk_admin_footer' ) );
-    
+
             add_action( 'load-edit.php', array( $this, 'export_listen' ) );
-    
+
             add_action('admin_head', array( $this, 'hide_page_title_action' ) );
 
             // This will only run on our post type.
@@ -81,11 +81,11 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
         }
 
     }
-    
+
     /**
      * Remove the old Submissions page link when legacy mode is not enabled
-     * 
-     * @param $screen object of current screen details 
+     *
+     * @param $screen object of current screen details
      */
     public function remove_legacy_submissions_page( $screen ) {
         if ( "nf_sub" === $screen->post_type && $screen->id === "edit-nf_sub") {
@@ -607,9 +607,9 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                                 if($action->get_settings('type') === 'email'){
                                     $form_email_actions[$action->get_id()] = $action->get_settings();
                                 }
-                            
+
                             }
-                        } 
+                        }
                         if( !empty($form_email_actions) ){
                             $forms[$form->get_id()] = [
                                 'formID' => absint($form->get_id()),
@@ -628,7 +628,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                     'restUrl'       =>  esc_url_raw( get_rest_url() ),
                     'token'         =>  wp_create_nonce( 'wp_rest' )
                 ]);
-                
+
                 //Date Picker CSS
                 wp_enqueue_style( 'nf-submissions-flatpickr', Ninja_Forms::$url . 'assets/css/flatpickr.css' );
             }
@@ -646,8 +646,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
      */
     public function display()
     {
-        if ( ! $this->load_legacy )
-        {
+        if ( ! $this->load_legacy ) {
             echo '<div id="nf-submissions-element"></div>';
         }
     }
@@ -668,7 +667,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
 	public function enqueue_scripts( $page ) {
 		// let's check and make sure we're on the submissions page.
 		if( isset( $page ) && substr( $page, -strlen( "_page_nf-submissions" ) ) === "_page_nf-submissions") {
-            
+
 			wp_enqueue_style( 'nf-admin-settings', Ninja_Forms::$url . 'assets/css/admin-settings.css', ['wp-components'] );
 			wp_register_script( 'ninja_forms_admin_submissions', Ninja_Forms::$url . 'assets/js/admin-submissions.js', array( 'jquery' ), false, true );
             wp_enqueue_script( 'ninja_forms_admin_submissions' );
@@ -693,7 +692,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                     $asset_scss = include( Ninja_Forms::$dir . "build/submissions.scss.asset.php" );
                 }
                 $submissions_asset_scss_version = isset($asset_scss) ? $asset_scss["version"] : Ninja_Forms::VERSION;
-               
+
                 //Register Submission script
                 wp_register_script( 'ninja_forms_admin_submissions_actions', Ninja_Forms::$url . 'build/submissions.js',  $submissions_asset_php["dependencies"], $submissions_asset_php["version"], false );
                 wp_enqueue_script( 'ninja_forms_admin_submissions_actions' );
@@ -708,14 +707,14 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                         $actions = Ninja_Forms()->form( $form->get_id() )->get_actions();
 
                         $form_email_actions = [];
-                        
+
                         foreach( $actions as $action ){
                             // If the action is set.
                             if ( ! is_null( $action ) && ! empty( $action ) ) {
                                 if($action->get_settings('type') === 'email'){
                                     $form_email_actions[$action->get_id()] = $action->get_settings();
                                 }
-                            
+
                             }
                         }
 
@@ -726,11 +725,11 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                             'formTitle' => esc_textarea($form->get_setting('title')),
                             'emailActions'   => $form_email_actions
                         ];
-                        
+
                     }
                 }
                 $date_format = !empty( Ninja_Forms()->get_setting('date_format') ) ? Ninja_Forms()->get_setting('date_format') : get_option('date_format');
-                wp_localize_script('ninja_forms_admin_submissions_actions', 'nf_submissions', [
+                $localized_data_array = apply_filters("ninja_forms_submissions_view_localize_data", [
                     'forms'                 =>  $forms,//array keys escaped above
                     'dateFormat'            =>  esc_attr( $date_format ),
                     'timeFormat'            =>  esc_attr( get_option('time_format') ),
@@ -740,7 +739,10 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                     'token'                 =>  wp_create_nonce( 'wp_rest' ),
                     'submissionsSettings'   =>  get_option( 'ninja_forms_submissions_settings' )
                 ]);
+
+                wp_localize_script('ninja_forms_admin_submissions_actions', 'nf_submissions', $localized_data_array);
                 
+
                 //Date Picker CSS
                 wp_enqueue_style( 'nf-submissions-flatpickr', Ninja_Forms::$url . 'assets/css/flatpickr.css' );
             }

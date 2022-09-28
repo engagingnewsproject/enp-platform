@@ -559,7 +559,37 @@ final class WPN_Helper
             $value = self::sanitize_text_field($value);
         }
 
+
         return $value;
+    }
+
+    /**
+     * Check the DISALLOW_UNFILTERED_HTML constant value and return early if true. 
+     * If false, return opposite for 'unfiltered_html' current user capability
+     * 
+     * @return bool
+    */
+    public static function maybe_disallow_unfiltered_html_for_sanitization():bool {
+
+        /**
+         * Exit early if the config setting is TRUE to mimic WordPress capability check.
+         */
+        if( defined( 'DISALLOW_UNFILTERED_HTML' ) && DISALLOW_UNFILTERED_HTML ) return true;
+
+        $disallow_unfiltered_html = ! current_user_can( 'unfiltered_html' );
+        return $disallow_unfiltered_html;
+    }
+
+    /**
+     * Check the DISALLOW_UNFILTERED_HTML constant value only on the escaping side
+     * 
+     * @return bool
+    */
+    public static function maybe_disallow_unfiltered_html_for_escaping():bool {
+
+        $disallow_unfiltered_html = defined( 'DISALLOW_UNFILTERED_HTML' ) ? DISALLOW_UNFILTERED_HTML : false;
+
+        return $disallow_unfiltered_html;
     }
     
 } // End Class WPN_Helper

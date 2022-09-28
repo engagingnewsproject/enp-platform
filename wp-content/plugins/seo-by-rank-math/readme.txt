@@ -5,9 +5,9 @@ Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
 Tested up to: 6.0
 Requires at least: 5.6
 Requires PHP: 7.2
-Stable tag: 1.0.91
-License: GPL-2.0+
-License URI: https://www.gnu.org/licenses/gpl-2.0.txt
+Stable tag: 1.0.96
+License: GPLv3 or later
+License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
 Rank Math SEO is the Best WordPress SEO plugin combines the features of many SEO tools in a single package & helps you multiply your SEO traffic.
 
@@ -580,19 +580,11 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.91 [Jun 15, 2022] =
-* Added: [HUGE!] Synced [Content Analysis tests](https://rankmath.com/kb/score-100-in-tests/) with the recommendations provided by the [Content AI](https://rankmath.com/kb/how-to-use-content-ai/)
-* Improved: Added a new column on the [Redirections page](https://rankmath.com/kb/setting-up-redirections/#redirections) to show the Created date of the redirect
-* Improved: [Search Preview & Mobile Search Preview](https://rankmath.com/kb/seo-analysis/#search-preview) shown in the SEO Analysis tool
-* Improved: Image SEO code to make it FASTER
-* Fixed: Some string translations were not working well
-* Fixed: Unable to connect account when WordPress is installed in a subfolder
-* Fixed: [Connect to Rank Math account](https://rankmath.com/kb/free-account-benefits/) was not working properly when the URL contained special characters
-* Fixed: [Debug Redirections option](https://rankmath.com/kb/general-settings/#debug-redirections) was not working well
-* Fixed: Some Schema properties were missing in the [EDD Product Schema](https://rankmath.com/kb/edd-product-schema/)
-* Fixed: Analytics data was not getting imported correctly when domain property was selected in the [Site Profile](https://rankmath.com/kb/general-settings/#search-console-settings)
-* Fixed: The maintenance page created using Elementor editor was not working well when the Rank Math plugin is active on the site
-* Fixed: Hash links added in the Elementor Accordion were counted as internal links
-* Fixed: JS errors on the Categories list page
+= 1.0.96 [Aug 24, 2022] =
+* Improved: [Open Graph image](https://rankmath.com/kb/open-graph-meta-tags/#og-image) generation code to execute faster on the front-end
+* Improved: File structure by moving page builder-related assets to their respective folders
+* Fixed: All Redirection rules were not getting exported to the [.htaccess & Nginx .conf file](https://rankmath.com/kb/setting-up-redirections/#backing-up-your-redirects)
+* Fixed: [Local SEO Sitemap](https://rankmath.com/kb/kml-sitemap/) was showing the wrong date format on non-English sites
+* Fixed: Incompatibility with the Oxygen plugin
 
 Full changelog can be found here - **[Rank Math SEO changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

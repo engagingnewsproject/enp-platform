@@ -140,6 +140,10 @@ class Admin extends Base {
 
 		$schemas['new-9999']['headline']    = $name ? $name : '';
 		$schemas['new-9999']['description'] = $description ? $description : '';
+		$schemas['new-9999']['author']      = [
+			'@type' => 'Person',
+			'name'  => '%name%',
+		];
 
 		return $schemas;
 	}
@@ -201,6 +205,10 @@ class Admin extends Base {
 			}
 
 			$schema = maybe_unserialize( $value );
+			if ( empty( $schema['@type'] ) ) {
+				continue;
+			}
+
 			if ( ! is_array( $schema['@type'] ) ) {
 				$types[] = Helper::sanitize_schema_title( $schema['@type'] );
 				continue;

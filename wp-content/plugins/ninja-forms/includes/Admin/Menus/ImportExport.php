@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 
-final class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
+class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
 {
     public $parent_slug = 'ninja-forms';
 
@@ -11,7 +11,7 @@ final class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
      */
     public $position = 4;
 
-    public function __construct()
+    final public function __construct()
     {   
         add_action( 'init', array( $this, 'import_form_listener' ), 0 );
         add_action( 'init', array( $this, 'export_form_listener' ), 0 );
@@ -29,7 +29,7 @@ final class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
     /**
      * If we have required updates, redirect to the main Ninja Forms page
      */
-    public function nf_upgrade_redirect() {
+    final public function nf_upgrade_redirect() {
         global $pagenow;
         
         if( "1" == get_option( 'ninja_forms_needs_updates' ) ) {
@@ -42,12 +42,12 @@ final class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
         }
     }
 
-    public function get_page_title()
+    final public function get_page_title()
     {
         return esc_html__( 'Import / Export', 'ninja-forms' );
     }
 
-    public function import_form_listener()
+    final public function import_form_listener()
     {
         $capability = apply_filters( 'ninja_forms_admin_import_export_capabilities', 'manage_options' );
         $capability = apply_filters( 'ninja_forms_admin_import_form_capabilities',   $capability      );
@@ -85,7 +85,7 @@ final class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
         }
     }
 
-    public function export_form_listener()
+    final public function export_form_listener()
     {
         $capability = apply_filters( 'ninja_forms_admin_import_export_capabilities', 'manage_options' );
         $capability = apply_filters( 'ninja_forms_admin_export_form_capabilities',   $capability      );
@@ -97,7 +97,7 @@ final class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
         }
     }
 
-    public function import_fields_listener()
+    final public function import_fields_listener()
     {
         if( ! current_user_can( apply_filters( 'ninja_forms_admin_import_fields_capabilities', 'manage_options' ) ) ) return;
 
@@ -110,14 +110,27 @@ final class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
 
         $import = file_get_contents( $_FILES[ 'nf_import_fields' ][ 'tmp_name' ] );
 
-        $fields = unserialize( $import );
+        $fields = $this->sanitizeUnserialize($import);
 
         foreach( $fields as $settings ){
             Ninja_Forms()->form()->import_field( $settings );
         }
     }
 
-    public function export_fields_listener()
+    /**
+     * Ensure unserialized value is sanitized against malicious objects
+     *
+     * @param string $serializedValue
+     * @return array Expected return is indexed array
+     */
+    protected function sanitizeUnserialize( $serializedValue)
+    {
+        $return = unserialize($serializedValue,['allowed_classes'=>false]);
+        
+        return $return;
+    }
+
+    final public function export_fields_listener()
     {
         if( ! current_user_can( apply_filters( 'ninja_forms_admin_export_fields_capabilities', 'manage_options' ) ) ) return;
 
@@ -144,7 +157,7 @@ final class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
     }
 
 
-    public function display()
+    final public function display()
     {
         $tabs = apply_filters( 'ninja_forms_import_export_tabs', array(
             'forms' => esc_html__( 'Form', 'ninja-forms' ),
@@ -192,7 +205,7 @@ final class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
         Ninja_Forms::template( 'admin-menu-import-export.html.php', compact( 'tabs', 'active_tab' ) );
     }
 
-    public function add_meta_boxes()
+    final public function add_meta_boxes()
     {
         /*
          * Forms
@@ -229,12 +242,12 @@ final class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
         );
     }
 
-    public function template_import_forms()
+    final public function template_import_forms()
     {
         Ninja_Forms::template( 'admin-metabox-import-export-forms-import.html.php' );
     }
 
-    public function template_export_forms()
+    final public function template_export_forms()
     {
     	/**
 	     * we're gonna create a new array so that we can select a form in the
@@ -259,12 +272,12 @@ final class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
         Ninja_Forms::template( 'admin-metabox-import-export-forms-export.html.php', compact( 'forms' ) );
     }
 
-    public function template_import_favorite_fields()
+    final public function template_import_favorite_fields()
     {
         Ninja_Forms::template( 'admin-metabox-import-export-favorite-fields-import.html.php' );
     }
 
-    public function template_export_favorite_fields()
+    final public function template_export_favorite_fields()
     {
         $fields = Ninja_Forms()->form()->get_fields( array( 'saved' => 1) );
         Ninja_Forms::template( 'admin-metabox-import-export-favorite-fields-export.html.php', compact( 'fields' ) );
@@ -276,7 +289,7 @@ final class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
     |--------------------------------------------------------------------------
     */
 
-    public function import_fields_backwards_compatibility( $field )
+    final public function import_fields_backwards_compatibility( $field )
     {
         //TODO: This was copied over. Instead need to abstract backwards compatibility for re-use.
         // Flatten field settings array
@@ -467,7 +480,7 @@ final class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
         wp_die( $message, $args[ 'title' ], array( 'back_link' => TRUE ) );
     }
 
-    public function get_capability()
+    final public function get_capability()
     {
         return apply_filters( 'ninja_forms_admin_import_export_capabilities', $this->capability );
     }
