@@ -18,6 +18,12 @@ class TeamArchive extends TileArchive
         
         } else if ($vertical == "media-ethics") {
           $this->regroupForMediaEthics();
+        } else if ($vertical == "science-communication") {
+          $this->regroupForScienceComm();
+        } else if ($this->category && $this->slug == "administrative-and-technology") {
+          $this->regroupForTech();
+        } else if ($vertical == "propaganda") {
+          $this->regroupForPropaganda();
         } else if ($vertical == "journalism") {
           $this->regroupForJournalism();
         } else {
@@ -78,6 +84,70 @@ class TeamArchive extends TileArchive
     }
   }
 
+    // Used to reorder the team members for the admin and tech vertical.
+    public function regroupForTech() {
+    
+      $tech = array();
+      // Slug used to group leadership for top of tech page
+      $leadership= array();
+  
+      // Splits the posts between leadership positions and remaining staff
+      foreach($this->posts as $post) {
+          // Check to see if current member should be included in leadership array
+          if (in_array($post->name, ['Ellery Wadman-Goetsch', 'Victoria Hernandez'], true)) {
+            array_push($leadership, $post);
+          } else {
+            array_push($tech, $post);
+          }
+      }
+      
+      // Orders leadership team.
+      $order = array('Ellery Wadman-Goetsch', 'Victoria Hernandez');
+      usort($leadership, function ($a, $b) use ($order) {
+        $pos_a = array_search($a->name, $order);
+        $pos_b = array_search($b->name, $order);
+        return $pos_b - $pos_a;
+      });
+  
+      // Merge the two groups (leadership and remaining members) into one array
+      $this->posts = array();
+      usort($tech, array($this, "lastNameCompare"));
+      $this->posts = array_merge($leadership, $tech);                             
+    }
+
+    
+  // Used to reorder the team members for the science communication vertical.
+  public function regroupForScienceComm() {
+    
+    $science_comm = array();
+    // Slug used to group leadership for top of science comm page
+    $leadership= array();
+
+    // Splits the posts between leadership positions and remaining staff
+    foreach($this->posts as $post) {
+        // Check to see if current member should be included in leadership array
+        if (in_array($post->name, ['Anthony Dudo', 
+        'Lucy Atkinson', 'Lee Ann Kahlor'], true)) {
+          array_push($leadership, $post);
+        } else {
+          array_push($science_comm, $post);
+        }
+    }
+    
+    // Orders leadership team.
+    $order = array('Lee Ann Kahlor', 'Lucy Atkinson', 'Anthony Dudo' );
+    usort($leadership, function ($a, $b) use ($order) {
+      $pos_a = array_search($a->name, $order);
+      $pos_b = array_search($b->name, $order);
+      return $pos_b - $pos_a;
+    });
+
+    // Merge the two groups (leadership and remaining members) into one array
+    $this->posts = array();
+    usort($science_comm, array($this, "lastNameCompare"));
+    $this->posts = array_merge($leadership, $science_comm);                             
+  }
+
   // Used to reorder the team members for the media ethics vertical.
   public function regroupForMediaEthics() {
     
@@ -110,8 +180,36 @@ class TeamArchive extends TileArchive
     $this->posts = array_merge($leadership, $media_ethics);                             
   }
 
-  public function regroupForJournalism() {
+  // regroups team members for propaganda vertical.
+  public function regroupForPropaganda() {
     
+    $prop = array();
+    $leadership = array();
+    
+    foreach($this->posts as $post) {
+        // Check to see if current member should be included in leadership array
+        if (in_array($post->name, ['Samuel C. Woolley', 
+        'Inga Kristina Trauthig', 'Martin J. Riedl','Jo Lukito', 'Craig R. Scott'], true)) {
+          array_push($leadership, $post);
+        } else {
+          array_push($prop, $post);
+        }
+      }
+    $order = array('Samuel C. Woolley', 
+    'Inga Kristina Trauthig', 'Martin J. Riedl','Jo Lukito', 'Craig R. Scott');
+    usort($leadership, function ($a, $b) use ($order) {
+      $pos_a = array_search($a->name, $order);
+      $pos_b = array_search($b->name, $order);
+      return $pos_a - $pos_b;
+    });
+    // Merge the two groups (leadership and remaining members) into one array
+    $this->posts = array();
+    usort($groups, array($this, "lastNameCompare"));
+    $this->posts = array_merge($leadership, $prop); 
+                                          
+  }
+
+  public function regroupForJournalism() {
     $journalism = array();
     // Slug used to group leadership for top of media ethics page
     $leadership= array();
@@ -126,7 +224,7 @@ class TeamArchive extends TileArchive
           array_push($journalism, $post);
         }
     }
-    
+
     // Orders leadership team.
     $order = array("Anita Varma", "Matt Lease", "Gina M. Masullo", "Natalie (Talia) Jomini Stroud");
     usort($leadership, function ($a, $b) use ($order) {
@@ -140,7 +238,6 @@ class TeamArchive extends TileArchive
     usort($journalism, array($this, "lastNameCompare"));
     $this->posts = array_merge($leadership, $journalism);                             
   }
-
 
   public function regroupByLeadershipPosition() {
     $order = array("Katalina Deaven", "Samuel C. Woolley", "Scott R. Stroud", "Anthony Dudo", "Melody Avant", "Gina M. Masullo", "Natalie (Talia) Jomini Stroud");

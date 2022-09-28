@@ -99,3 +99,10 @@ After pulling from the live production site is complete, in the Local App click 
         ```
         `localhost:10038` is on the local app as "Site Host"
         `mediaengagementorg` is the directory name where your site lives
+
+# SSH
+
+ssh into production site
+`
+ssh -i ~/.ssh/wpengine_rsa -o IdentitiesOnly=yes cmengage@cmengage.ssh.wpengine.net
+`
