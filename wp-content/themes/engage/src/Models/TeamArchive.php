@@ -195,16 +195,15 @@ class TeamArchive extends TileArchive
           array_push($prop, $post);
         }
       }
-    $order = array('Samuel C. Woolley', 
-    'Inga Kristina Trauthig', 'Martin J. Riedl','Jo Lukito', 'Craig R. Scott');
+    $order = array('Craig R. Scott', 'Jo Lukito', 'Martin J. Riedl','Inga Kristina Trauthig','Samuel C. Woolley');
     usort($leadership, function ($a, $b) use ($order) {
       $pos_a = array_search($a->name, $order);
       $pos_b = array_search($b->name, $order);
-      return $pos_a - $pos_b;
+      return $pos_b - $pos_a;
     });
     // Merge the two groups (leadership and remaining members) into one array
     $this->posts = array();
-    usort($groups, array($this, "lastNameCompare"));
+    usort($prop, array($this, "lastNameCompare"));
     $this->posts = array_merge($leadership, $prop); 
                                           
   }
