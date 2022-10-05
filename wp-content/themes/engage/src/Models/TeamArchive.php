@@ -217,7 +217,7 @@ class TeamArchive extends TileArchive
     foreach($this->posts as $post) {
         // Check to see if current member should be included in leadership array
         if (in_array($post->name, ['Natalie (Talia) Jomini Stroud', 
-        'Gina M. Masullo', 'Matt Lease', 'Anita Varma'], true)) {
+        'Gina M. Masullo', 'Matt Lease', 'Ashwin Rajadesingan', 'Anita Varma'], true)) {
           array_push($leadership, $post);
         } else {
           array_push($journalism, $post);
@@ -225,7 +225,7 @@ class TeamArchive extends TileArchive
     }
 
     // Orders leadership team.
-    $order = array("Anita Varma", "Matt Lease", "Gina M. Masullo", "Natalie (Talia) Jomini Stroud");
+    $order = array("Anita Varma", "Ashwin Rajadesingan", "Matt Lease", "Gina M. Masullo", "Natalie (Talia) Jomini Stroud");
     usort($leadership, function ($a, $b) use ($order) {
       $pos_a = array_search($a->name, $order);
       $pos_b = array_search($b->name, $order);
