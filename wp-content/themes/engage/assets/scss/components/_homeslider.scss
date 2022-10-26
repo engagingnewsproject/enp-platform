@@ -213,7 +213,10 @@ see file: assets/scss/plugins/_flickity.scss
 		}
 	}
 }
-
+// position relative so absolute anchor remains inside image
+.hero__1 {
+	position: relative;
+}
 @supports not (display: flex) {
 	.hero__1 {
 		@include media($laptop) {

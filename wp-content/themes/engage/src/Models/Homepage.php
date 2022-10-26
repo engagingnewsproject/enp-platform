@@ -6,18 +6,15 @@ use Timber\PostQuery;
 use Timber\Post;
 use \WP_Query;
 
-function console_log($output, $with_script_tags = true)
-{
-    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
-');';
+function console_log($output, $with_script_tags = true) {
+    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . ');';
     if ($with_script_tags) {
         $js_code = '<script>' . $js_code . '</script>';
     }
     echo $js_code;
 }
 
-class Homepage extends Post
-{
+class Homepage extends Post {
     public $funders;
     public $verticals;
     public $Query;
@@ -25,8 +22,7 @@ class Homepage extends Post
     public $moreRecent;
     public $allQueriedPosts;
 
-    public function __construct($pid = null)
-    {
+    public function __construct($pid = null) {
         parent::__construct($pid);
         $this->Query = new Queries();
         $this->setFunders();
@@ -34,8 +30,7 @@ class Homepage extends Post
         $this->getRecent();
     }
 
-    public function setFunders()
-    {
+    public function setFunders() {
         $this->funders = new PostQuery(
             ['post_type' => 'funders', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => 'ASC'],
             'Engage\Models\Funder'
@@ -43,8 +38,7 @@ class Homepage extends Post
     }
 
     // Function to get the most recent posts from each vertical
-    public function getRecent()
-    {
+    public function getRecent() {
         // Get an array of all of the verticals
         $verticals = $this->Query->getVerticals();
 
@@ -71,8 +65,7 @@ class Homepage extends Post
     }
 
     //get the most recent featured research
-    public function getRecentFeaturedResearch($verticalName)
-    {
+    public function getRecentFeaturedResearch($verticalName) {
         $featuredPosts = $this->queryPosts(true, $verticalName, 1);
         $recentFeaturedPosts = array();
         //only show one featured research per vertical;
@@ -84,8 +77,7 @@ class Homepage extends Post
     }
 
     //get the more research posts
-    public function getMoreRecentResearch($featuredSliderPosts, $verticalName)
-    {
+    public function getMoreRecentResearch($featuredSliderPosts, $verticalName) {
         // how many more_research_posts should be display on the home page for each vertical
         $numFeaturedPerVertical = [
             "journalism" => 3,
@@ -99,8 +91,7 @@ class Homepage extends Post
     }
 
     // query the posts with the given arguments
-    public function queryPosts($is_featured, $verticalName, $numberOfPosts)
-    {
+    public function queryPosts($is_featured, $verticalName, $numberOfPosts) {
         $args = [
             'postType' => 'research',
             'vertical' => $verticalName,
@@ -132,8 +123,7 @@ class Homepage extends Post
     }
 
     // sort by the date
-    public function sortByDate($is_slider)
-    {
+    public function sortByDate($is_slider) {
         if ($is_slider) {
             usort($this->recent, function ($a, $b) {
                 return strtotime($b->post_date) - strtotime($a->post_date);
@@ -148,16 +138,13 @@ class Homepage extends Post
         }
     }
 
-
-    public function sortSliderByTopFeatured()
-    {
+    public function sortSliderByTopFeatured() {
         usort($this->recent, function ($a, $b) {
             return strcmp($b->top_featured_research, $a->top_featured_research);
         });
     }
 
-    public function setVerticals()
-    {
+    public function setVerticals() {
         $this->verticals = $this->Query->getVerticals();
     }
 }
