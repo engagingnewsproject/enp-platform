@@ -155,7 +155,7 @@ $lightGrey: #fbfbfb;
 	position: relative;
 	z-index: 9;
 	text-align: center;
-	margin-top: $spacer-lg;
+	padding: $spacer 0;
 
 	@include media($laptop) {
 		padding-bottom: 50px;
