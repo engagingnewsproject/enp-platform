@@ -3,7 +3,7 @@ Contributors: wpchill, silkalns, barrykooij, mikejolley
 Tags: download manager, document management, file manager, digital store, ecommerce, document management plugin,  download monitor, download counter, password protection, download protection, password, protect downloads, tracker, sell, shop, ecommerce, paypal
 Requires at least: 5.4
 Tested up to: 6.0
-Stable tag: 4.7.2
+Stable tag: 4.5.98
 License: GPLv3
 Text Domain: -
 Requires PHP: 5.6
@@ -120,88 +120,6 @@ More documentation can be found in our [Knowledge Base](https://www.download-mon
 4. The quick add panel can be opened via a link about the post editor. This lets you quickly add a file and insert it into a post.
 
 == Changelog ==
-
-= 4.7.2 - 24.10.2022 =
-Fixed: Possible overload of server on the Reports page ( [#1102](https://github.com/WPChill/download-monitor/issues/1102) )
-Changed: Plugin Logo ( [#1101](https://github.com/WPChill/download-monitor/issues/1101) )
-Fixed: Log query strings for download location ( [#1099](https://github.com/WPChill/download-monitor/issues/1099) )
-Fixed: Version's number of downloads wrong ( [#1097](https://github.com/WPChill/download-monitor/issues/1097) )
-Added: Protection functionality for Media Library files ( [#1096](https://github.com/WPChill/download-monitor/issues/1096) )
-Fixed: Redirect to file when unicode chars are present ( [#1095](https://github.com/WPChill/download-monitor/issues/1095) )
-Fixed: Front-end CSS was not enqueued for Gutenberg blocks ( [#1094](https://github.com/WPChill/download-monitor/issues/1094) )
-
-= 4.7.1 - 18.10.2022 =
-Fixed: Top Downloads widget wrong URL ( [#1087](https://github.com/WPChill/download-monitor/issues/1087) )
-Fixed: Error when getting version download ( [#1090](https://github.com/WPChill/download-monitor/issues/1090) )
-Fixed: Unicode file names downloaded with wrong name ( [#1069](https://github.com/WPChill/download-monitor/issues/1069) )
-Added: Timestamp to download link ( [#1092](https://github.com/WPChill/download-monitor/issues/1092) )
-
-= 4.7.0 - 14.10.2022 =
-Fixed: Quick add - recreate Uploader if file upload ended in error ( [#1079](https://github.com/WPChill/download-monitor/issues/1079) )
-Changed: Show grouped dates as period instead of a single day on repoprt chart tooltip ( [#1082](https://github.com/WPChill/download-monitor/issues/1082) )
-Fixed: Performance issues on larga databases ( [#1081](https://github.com/WPChill/download-monitor/issues/1081) )
-Changed: Get user data first ( [#1086](https://github.com/WPChill/download-monitor/issues/1086) )
-Fixed: Downloading big files error ( [#1084](https://github.com/WPChill/download-monitor/issues/1084) )
-Changed: Get chart data un chunks ( [#1083](https://github.com/WPChill/download-monitor/issues/1083) )
-
-= 4.6.5 - 10.10.2022 =
-Fixed: Elementor compatibility error ( [#1073](https://github.com/WPChill/download-monitor/issues/1073) )
-Fixed: Log meta data not saved ( [#1076](https://github.com/WPChill/download-monitor/issues/1076) )
-Fixed: Sending headers through XHR ( [#1075](https://github.com/WPChill/download-monitor/issues/1075) )
-Fixed: Shortcode copy on admin downloads table ( [#1072](https://github.com/WPChill/download-monitor/issues/1072) )
-Fixed: Adding Download via the Quick Add button ( [#1071](https://github.com/WPChill/download-monitor/issues/1071) )
-Fixed: Adding products to cart through XHR ( [#1077](https://github.com/WPChill/download-monitor/issues/1073) )
-
-= 4.6.4 - 07.10.2022 =
-Fixed: Take target attribute into consideration when redirecting ( [#1049](https://github.com/WPChill/download-monitor/issues/1049) )
-Changed: Removed caching of reports data, for instant data updates ( [#1070](https://github.com/WPChill/download-monitor/issues/1070) )
-Fixed: Failsafe for XHR requests ( [#1067](https://github.com/WPChill/download-monitor/issues/1067) )
-Fixed: Relevant XHR responses ( [#1066](https://github.com/WPChill/download-monitor/issues/1066) )
-Fixed: Stop checking for file extensions when redirect ( [#1065](https://github.com/WPChill/download-monitor/issues/1065) )
-Fixed: Reports data continuous retrieval when table download_log not present ( [#1064](https://github.com/WPChill/download-monitor/issues/1064) )
-Fixed: Time zones logging error ( [#1063](https://github.com/WPChill/download-monitor/issues/1063) )
-Added: Meta tag with Download Monitor version ( [#1062](https://github.com/WPChill/download-monitor/issues/1062) )
-Fixed: Error when no button class present ( [#1061](https://github.com/WPChill/download-monitor/issues/1061) )
-Fixed: Failsafe for failed database upgrade ( [#1060](https://github.com/WPChill/download-monitor/issues/1060) )
-Fixed: Better display of guest downloads on Reports page ( [#1056](https://github.com/WPChill/download-monitor/issues/1056) )
-Added: Reports page numbers ( [#1054](https://github.com/WPChill/download-monitor/issues/1054) )
-Added: Reports page entries per page ( [#1053](https://github.com/WPChill/download-monitor/issues/1053) )
-Fixed: Redirect to file when link target is _blank ( [#1049](https://github.com/WPChill/download-monitor/issues/1049) )
-Added: Media Library filters for Download Monitor files ( [#1047](https://github.com/WPChill/download-monitor/issues/1047) )
-Fixed: Ordering when postmeta is taken into consideration ( [#1046](https://github.com/WPChill/download-monitor/issues/1046) )
-
-= 4.6.3 - 03.10.2022 =
-Fixed: Double sized downloads ( [#1059](https://github.com/WPChill/download-monitor/issues/1059) )
-Fixed: Failsafe logging for unsuccessful database upgrade ( [#1060](https://github.com/WPChill/download-monitor/issues/1060) )
-Fixed: Password protected Downloads could not be opened ( [#1055](https://github.com/WPChill/download-monitor/issues/1055) )
-
-= 4.6.2 - 29.09.2022 =
-Fixed: WP VIP servers bug ( [#1052](https://github.com/WPChill/download-monitor/issues/1052) ) thanks to @jesusfreak3
-Fixed: Progress loader for external sources ( [#1051](https://github.com/WPChill/download-monitor/issues/1051) )
-Fixed: Reports Page Most downloaded Download not shown correctly ( [#1048](https://github.com/WPChill/download-monitor/issues/1048) )
-
-= 4.6.1 - 26.09.2022 =
-Fixed: User reports user fetching and displaying was broken ( [#1040](https://github.com/WPChill/download-monitor/issues/1040) ).
-Fixed: Versions did not add the meta to the count ( [#1041](https://github.com/WPChill/download-monitor/issues/1041) ).
-Fixed: Increase meta count if user wants ( [#1042](https://github.com/WPChill/download-monitor/issues/1042) )
-Fixed: Add ordering to tables ( [#1044](https://github.com/WPChill/download-monitor/issues/1044) )
-Fixed: XHR loader animation and visibility ( [#1045](https://github.com/WPChill/download-monitor/issues/1045) )
-
-= 4.6.0 - 20.09.2022 =
-Fixed: Flush permalinks on install/update to prevent 404s ( [#1036](https://github.com/WPChill/download-monitor/issues/1036) )
-Changed: Don't display DLM Uploads in Media Library ( [#1014](https://github.com/WPChill/download-monitor/issues/1014) )
-Changed: Downloading a file is now beeing handled by XHR ( [#1013](https://github.com/WPChill/download-monitor/issues/1013), [#832](https://github.com/WPChill/download-monitor/issues/832), [#781](https://github.com/WPChill/download-monitor/issues/781) )
-Fixed: Stop creating image sub-sizes for images uploaded to DLM ( [#1012](https://github.com/WPChill/download-monitor/issues/1012) )
-Fixed: Order complete download button templates missing attributes ( [#1010](https://github.com/WPChill/download-monitor/issues/1010) )
-Changed: Change checking from IP to new column added UUID ( [#987](https://github.com/WPChill/download-monitor/issues/987) )
-Changed: Beautify Download Monitor's settings and UI ( [#971](https://github.com/WPChill/download-monitor/issues/971) )
-Changed: Reports page and functionalities ( [#968](https://github.com/WPChill/download-monitor/issues/968) )
-Changed: Update datepicker library ( [#736](https://github.com/WPChill/download-monitor/issues/736) )
-Fixed: Double escaping on form attributes ( [#1032](https://github.com/WPChill/download-monitor/issues/1032) )
-Fixed: open_basedir warnings & errors for trying to open relative path ( [#981](https://github.com/WPChill/download-monitor/issues/981), [#890](https://github.com/WPChill/download-monitor/issues/890) )
-
-= 4.5.99 - 12.09.2022 =
-Fixed: Restricted schemes ( [#1035](https://github.com/WPChill/download-monitor/issues/1035))
 
 = 4.5.98 - 08.09.2022 =
 Fixed: Un-approved file download bug/security issue ( [#1021](https://github.com/WPChill/download-monitor/issues/1021) )

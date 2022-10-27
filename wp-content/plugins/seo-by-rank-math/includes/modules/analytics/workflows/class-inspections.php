@@ -15,14 +15,13 @@ use MyThemeShop\Helpers\DB;
 use RankMath\Traits\Hooker;
 use RankMath\Analytics\DB as AnalyticsDB;
 use RankMath\Analytics\Url_Inspection;
-use RankMath\Google\Console;
 
 use function as_unschedule_all_actions;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Inspections class.
+ * Console class.
  */
 class Inspections {
 
@@ -44,11 +43,8 @@ class Inspections {
 	 * Constructor.
 	 */
 	public function __construct() {
-
-		$this->create_tables();
-
 		// If console is not connected, ignore all, no need to proceed.
-		if ( ! Console::is_console_connected() ) {
+		if ( ! \RankMath\Google\Console::is_console_connected() ) {
 			return;
 		}
 
@@ -155,7 +151,7 @@ class Inspections {
 				$time       = strtotime( "+{$delay_days} days", $time );
 			}
 
-			as_schedule_single_action( $time, 'rank_math/analytics/get_inspections_data', [ $object->page ], 'rank-math' );
+			as_schedule_single_action( $time, 'rank_math/analytics/get_inspections_data', [ $object->page ], 'rank_math/analytics/get_inspections_data' );
 		}
 	}
 

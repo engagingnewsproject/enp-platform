@@ -1,8 +1,8 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Services;
+namespace Never5\DownloadMonitor\Shop\Services;
 
-use WPChill\DownloadMonitor\Dependencies\Pimple;
+use Never5\DownloadMonitor\Dependencies\Pimple;
 
 class Services {
 

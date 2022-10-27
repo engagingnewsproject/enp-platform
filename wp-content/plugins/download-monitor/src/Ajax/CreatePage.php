@@ -1,6 +1,6 @@
 <?php
 
-use \WPChill\DownloadMonitor\Util;
+use \Never5\DownloadMonitor\Util;
 
 class DLM_Ajax_CreatePage extends DLM_Ajax {
 

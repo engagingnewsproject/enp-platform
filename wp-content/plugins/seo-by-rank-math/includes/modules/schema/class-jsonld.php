@@ -264,6 +264,7 @@ class JsonLD {
 	public function replace_variables( $schemas, $object = [], $data = [] ) {
 		$new_schemas = [];
 		$object      = empty( $object ) ? get_queried_object() : $object;
+
 		foreach ( $schemas as $key => $schema ) {
 			if ( 'metadata' === $key ) {
 				$new_schemas['isPrimary'] = ! empty( $schema['isPrimary'] );
@@ -289,7 +290,7 @@ class JsonLD {
 				$schema = '%modified(Y-m-d\TH:i:sP)%';
 			}
 
-			$new_schemas[ $key ] = is_string( $schema ) && Str::contains( '%', $schema ) ? Helper::replace_vars( $schema, $object ) : $schema;
+			$new_schemas[ $key ] = Str::contains( '%', $schema ) ? Helper::replace_vars( $schema, $object ) : $schema;
 			if ( '' === $new_schemas[ $key ] ) {
 				unset( $new_schemas[ $key ] );
 			}
@@ -523,7 +524,7 @@ class JsonLD {
 	 * @param  array  $data  Schema Data.
 	 */
 	public function add_prop_publisher( &$entity, $key, $data ) {
-		if ( empty( $data['publisher'] ) ) {
+		if ( ! isset( $data['publisher'] ) ) {
 			return;
 		}
 
@@ -698,13 +699,7 @@ class JsonLD {
 			return $description;
 		}
 
-		$product_object = get_post( $product->get_id() );
-		$description    = Paper::get_from_options( 'pt_product_description', $product_object, '%excerpt%' );
-
-		if ( ! $description ) {
-			$description = $product->get_short_description() ? $product->get_short_description() : $product->get_description();
-		}
-
+		$description = $product->get_short_description() ? $product->get_short_description() : $product->get_description();
 		$description = $this->do_filter( 'product_description/apply_shortcode', false ) ? do_shortcode( $description ) : WordPress::strip_shortcodes( $description );
 		return wp_strip_all_tags( $description, true );
 	}
@@ -724,10 +719,7 @@ class JsonLD {
 			return $title;
 		}
 
-		$product_object = get_post( $product->get_id() );
-
-		$title = Paper::get_from_options( 'pt_product_title', $product_object, '%title% %sep% %sitename%' );
-		return $title ? $title : $product->get_name();
+		return $product->get_name();
 	}
 
 	/**

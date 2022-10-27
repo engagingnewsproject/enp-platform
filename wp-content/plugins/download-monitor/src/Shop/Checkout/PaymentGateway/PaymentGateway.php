@@ -1,8 +1,8 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway;
+namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway;
 
-use WPChill\DownloadMonitor\Shop\Services\Services;
+use Never5\DownloadMonitor\Shop\Services\Services;
 
 abstract class PaymentGateway {
 

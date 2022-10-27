@@ -1,13 +1,13 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Email;
+namespace Never5\DownloadMonitor\Shop\Email;
 
 class Handler {
 
 	/**
 	 * Send new order email to customer.
 	 *
-	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
+	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
 	 */
 	public function send_new_order( $order ) {
 
@@ -19,7 +19,7 @@ class Handler {
 	/**
 	 * Send new order notification email to shop owner
 	 *
-	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
+	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
 	 */
 	public function send_new_order_admin( $order ) {
 		$subject = sprintf( __( '%s: New order', 'download-monitor' ), get_bloginfo( 'name' ) );
@@ -33,7 +33,7 @@ class Handler {
 	 * @param string $to
 	 * @param string $subject
 	 * @param string $template
-	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
+	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 */
 	public function send_email( $to, $subject, $template, $order ) {

@@ -172,21 +172,18 @@ see file: assets/scss/plugins/_flickity.scss
 		flex-direction: row;
 		justify-content: space-between;
 	}
-	& img {
-		min-width: 100%;
-		object-fit: contain;
-		@include media($phablet) {
-			max-height: 400px;
-		}
-		@include media($tablet) {
-			max-height: 400px;
-		}
-	}
-	& .tile__label {
-		padding-left: 0;
-	}
 }
 
+.carousel-cell img {
+	min-width: 100%;
+	object-fit: contain;
+	@include media($phablet) {
+		max-height: 400px;
+	}
+	@include media($tablet) {
+		max-height: 400px;
+	}
+}
 .hero__1,
 .carousel-cell img {
 	height: 200px;

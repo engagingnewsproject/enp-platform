@@ -139,8 +139,11 @@ class Post_Screen implements IScreen {
 			'postName'               => get_post_field( 'post_name', get_post() ),
 			'permalinkFormat'        => $this->get_permalink_format(),
 			'assessor'               => [
-				'focusKeywordLink' => admin_url( 'edit.php?focus_keyword=%focus_keyword%&post_type=%post_type%' ),
 				'hasTOCPlugin'     => $this->has_toc_plugin(),
+				'sentimentKbLink'  => KB::get( 'sentiments' ),
+				'focusKeywordLink' => admin_url( 'edit.php?focus_keyword=%focus_keyword%&post_type=%post_type%' ),
+				'isUserEdit'       => Admin_Helper::is_user_edit(),
+				'socialPanelLink'  => Helper::get_admin_url( 'options-titles#setting-panel-social' ),
 				'primaryTaxonomy'  => $this->get_primary_taxonomy(),
 			],
 		];

@@ -121,12 +121,13 @@ class Admin_Header {
 			'sitemap-general'        => 'rank-math-options-sitemap' === Param::get( 'page' ),
 			'role-manager'           => 'rank-math-role-manager' === Param::get( 'page' ),
 			'seo-analysis'           => 'rank-math-seo-analysis' === Param::get( 'page' ),
+			'seo-analysis'           => 'rank-math-seo-analysis' === Param::get( 'page' ),
 		];
 
-		$link = KB::get( 'knowledgebase', 'RM Header KB Icon' );
+		$link = 'https://rankmath.com/kb/?utm_source=Plugin&utm_medium=RM%20Header%20KB%20Icon&utm_campaign=WP';
 		foreach ( $links as $key => $value ) {
 			if ( $value ) {
-				$link = KB::get( $key, 'Admin Bar ' . ucwords( str_replace( '-', ' ', $key ) ) );
+				$link = KB::get( $key );
 				break;
 			}
 		}

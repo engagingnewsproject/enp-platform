@@ -1,8 +1,8 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Order;
+namespace Never5\DownloadMonitor\Shop\Order;
 
-use WPChill\DownloadMonitor\Shop\Services\Services;
+use Never5\DownloadMonitor\Shop\Services\Services;
 
 class Manager {
 
@@ -15,13 +15,13 @@ class Manager {
 
 		$order_items = array();
 
-		/** @var \WPChill\DownloadMonitor\Shop\Cart\Cart $cart */
+		/** @var \Never5\DownloadMonitor\Shop\Cart\Cart $cart */
 		$cart = Services::get()->service( 'cart' )->get_cart();
 
 		$cart_items = $cart->get_items();
 
 		if ( ! empty( $cart_items ) ) {
-			/** @var \WPChill\DownloadMonitor\Shop\Cart\Item\Item $cart_item */
+			/** @var \Never5\DownloadMonitor\Shop\Cart\Item\Item $cart_item */
 			foreach ( $cart_items as $cart_item ) {
 				$order_item = new OrderItem();
 

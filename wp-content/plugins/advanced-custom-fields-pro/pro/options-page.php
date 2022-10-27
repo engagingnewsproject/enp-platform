@@ -134,7 +134,7 @@ if ( ! class_exists( 'acf_options_page' ) ) :
 			$page = $this->validate_page( $page );
 			$slug = $page['menu_slug'];
 
-			// bail early if already exists
+			// bail ealry if already exists
 			if ( isset( $this->pages[ $slug ] ) ) {
 				return false;
 			}

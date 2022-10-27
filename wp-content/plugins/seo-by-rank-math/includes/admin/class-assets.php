@@ -10,7 +10,6 @@
 
 namespace RankMath\Admin;
 
-use RankMath\KB;
 use RankMath\Helper;
 use RankMath\Runner;
 use RankMath\Traits\Hooker;
@@ -116,11 +115,6 @@ class Assets implements Runner {
 			[
 				'url' => 'https://rankmathapi.com/ltkw/v1/',
 			]
-		);
-
-		Helper::add_json(
-			'links',
-			KB::get_links()
 		);
 
 		Helper::add_json(

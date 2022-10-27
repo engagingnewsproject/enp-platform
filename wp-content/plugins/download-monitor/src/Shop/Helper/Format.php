@@ -1,8 +1,8 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Helper;
+namespace Never5\DownloadMonitor\Shop\Helper;
 
-use WPChill\DownloadMonitor\Shop\Services\Services;
+use Never5\DownloadMonitor\Shop\Services\Services;
 
 class Format {
 

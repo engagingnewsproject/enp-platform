@@ -144,26 +144,7 @@ if ( ! function_exists( 'tribe_get_request_var' ) ) {
 	 * @return mixed
 	 */
 	function tribe_get_request_var( $var, $default = null ) {
-		$requests = [];
-
-		// Prevent a slew of warnings every time we call this.
-		if ( isset( $_REQUEST ) ) {
-			$requests[] = (array) $_REQUEST;
-		}
-
-		if ( isset( $_GET ) ) {
-			$requests[] = (array) $_GET;
-		}
-
-		if ( isset( $_POST ) ) {
-			$requests[] = (array) $_POST;
-		}
-
-		if ( empty( $requests ) ) {
-			return $default;
-		}
-
-		$unsafe = Tribe__Utils__Array::get_in_any( $requests, $var, $default );
+		$unsafe = Tribe__Utils__Array::get_in_any( [ $_GET, $_POST, $_REQUEST ], $var, $default );
 		return tribe_sanitize_deep( $unsafe );
 	}
 }
@@ -260,7 +241,6 @@ if ( ! function_exists( 'tribe_is_truthy' ) ) {
 			'yes',
 			'true',
 		] );
-
 		// Makes sure we are dealing with lowercase for testing
 		if ( is_string( $var ) ) {
 			$var = strtolower( $var );
@@ -1127,7 +1107,7 @@ if ( ! function_exists( 'tribe_sanitize_deep' ) ) {
 			return $value;
 		}
 		if ( is_string( $value ) ) {
-			$value = filter_var( $value, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES );
+			$value = filter_var( $value, FILTER_UNSAFE_RAW );
 			return $value;
 		}
 		if ( is_int( $value ) ) {

@@ -130,7 +130,7 @@ class Image {
 		$og_image = $image_meta['url'];
 		if ( $overlay && ! empty( $image_meta['id'] ) ) {
 			$secret   = $this->generate_secret( $image_meta['id'], $overlay );
-			$og_image = admin_url( "admin-ajax.php?action=rank_math_overlay_thumb&id={$image_meta['id']}&type={$overlay}&hash={$secret}" );
+			$og_image = admin_url( "admin-ajax.php?action=rank_math_overlay_thumb&id={$image_meta['id']}&type={$overlay}&secret={$secret}" );
 		}
 		$this->opengraph->tag( 'og:image', esc_url_raw( $og_image ) );
 
@@ -210,31 +210,11 @@ class Image {
 	 *
 	 * @param string $attachment Source URL to the image.
 	 */
-	public function add_image( $attachment = '' ) {
+	public function add_image( $attachment ) {
 		// In the past `add_image` accepted an image url, so leave this for backwards compatibility.
 		if ( Str::is_non_empty( $attachment ) ) {
 			$attachment = [ 'url' => $attachment ];
 		}
-
-		/**
-		 * Allow changing the OpenGraph image.
-		 * The dynamic part of the hook name, $this->network, is the network slug (facebook, twitter).
-		 *
-		 * @param string $img The image we are about to add.
-		 */
-		$filter_image_url = trim( $this->do_filter( "opengraph/{$this->network}/image", isset( $attachment['url'] ) ? $attachment['url'] : '' ) );
-		if ( ! empty( $filter_image_url ) && $filter_image_url !== $attachment['url'] ) {
-			$attachment = [ 'url' => $filter_image_url ];
-		}
-
-		/**
-		 * Secondary filter to allow changing the whole array.
-		 * The dynamic part of the hook name, $this->network, is the network slug (facebook, twitter).
-		 * This makes it possible to change the image ID too, to allow for image overlays.
-		 *
-		 * @param array $attachment The image we are about to add.
-		 */
-		$attachment = $this->do_filter( "opengraph/{$this->network}/image_array", $attachment );
 
 		if ( ! is_array( $attachment ) || empty( $attachment['url'] ) ) {
 			return;
@@ -250,7 +230,14 @@ class Image {
 			return;
 		}
 
-		$image_url = $attachment['url'];
+		/**
+		 * Allow changing the OpenGraph image.
+		 *
+		 * The dynamic part of the hook name. $this->network, is the network slug.
+		 *
+		 * @param string $img The image we are about to add.
+		 */
+		$image_url = trim( $this->do_filter( "opengraph/{$this->network}/image", $attachment['url'] ) );
 		if ( empty( $image_url ) ) {
 			return;
 		}
@@ -349,13 +336,8 @@ class Image {
 
 		// If not, get default image.
 		$image_id = Helper::get_settings( 'titles.open_graph_image_id' );
-		if ( ! $this->has_images() ) {
-			if ( $image_id > 0 ) {
-				$this->add_image_by_id( $image_id );
-				return;
-			}
-
-			$this->add_image(); // This allows "opengraph/{$this->network}/image" filter to be used even if no image is set.
+		if ( ! $this->has_images() && $image_id > 0 ) {
+			$this->add_image_by_id( $image_id );
 		}
 	}
 

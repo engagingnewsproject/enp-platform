@@ -1,8 +1,8 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Util;
+namespace Never5\DownloadMonitor\Shop\Util;
 
-use WPChill\DownloadMonitor\Shop\Services\Services;
+use Never5\DownloadMonitor\Shop\Services\Services;
 
 class Page {
 

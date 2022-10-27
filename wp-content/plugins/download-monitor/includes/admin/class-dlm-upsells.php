@@ -104,20 +104,14 @@ class DLM_Upsells {
 	 * @param       $extension
 	 * @param null  $utm_source
 	 * @param array $features
-	 * @param string $utm_source
-	 * @param string $icon
 	 *
 	 * @return string
 	 *
 	 * @since 4.4.5
 	 */
-	public function generate_upsell_box( $title, $description, $tab, $extension, $features = array(), $utm_source = null, $icon = false ) {
+	public function generate_upsell_box( $title, $description, $tab, $extension, $features = array(), $utm_source = null ) {
 
 		echo '<div class="wpchill-upsell">';
-
-		if ( $icon ) {
-			echo '<img src="' . esc_url( DLM_URL . 'assets/images/upsells/' . $icon ) . '">';
-		}
 
 		if ( ! empty( $title ) ) {
 			echo '<h2>' . esc_html( $title ) . '</h2>';
@@ -146,10 +140,15 @@ class DLM_Upsells {
 		}
 
 		echo '<p class="wpchill-upsell-description">' . esc_html( $description ) . '</p>';
-		echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( !empty( $extension ) ? esc_html( $extension ). '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( !empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '"><div class="dlm-available-with-pro"><span class="dashicons dashicons-lock"></span><span>' . esc_html__( 'AVAILABLE WITH PRO', 'download-monitor' ) . '</span></div></a>';
+		echo '<p>';
+		$buttons = '<a target="_blank" href="' . admin_url( 'edit.php?post_type=dlm_download&page=dlm-lite-vs-pro' ) . '" class="button">' . esc_html__( 'LITE vs PRO', 'download-monitor' ) . '</a>';
+		$buttons .= '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( !empty( $extension ) ? esc_html( $extension ). '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( !empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '" class="button-primary button">' . esc_html__( 'Get PRO!', 'download-monitor' ) . '</a>';
+
+		echo wp_kses_post( apply_filters( 'dlm_upsell_buttons', $buttons, $tab ) );
 
 		echo '</p>';
 		echo '</div>';
+
 	}
 
 	/**
@@ -368,10 +367,7 @@ class DLM_Upsells {
 				__( 'Email notifications', 'download-monitor' ),
 				__( 'Create an email alert to be notified each time one of your files has been downloaded.', 'download-monitor' ),
 				'general',
-				'email-notification',
-				false,
-				false,
-				'email_notification.png'
+				'email-notification'
 			);
 		}
 

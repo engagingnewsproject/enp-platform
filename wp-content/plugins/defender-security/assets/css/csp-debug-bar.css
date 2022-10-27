@@ -1,0 +1,66 @@
+#defender-csp-debug {
+    width: 100%;
+    position: fixed;
+    top: 32px;
+    padding: 15px 30px;
+    margin-left: 160px;
+    box-sizing: border-box;
+    text-align: left;
+    background-color: #FFFFFF;
+    box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.15);
+}
+
+#defender-csp-debug > div {
+    max-width: 95%;
+}
+
+#defender-csp-debug p {
+    display: inline-block;
+    width: 80%;
+    float: left;
+    padding: 0;
+    margin: 0;
+    color: #333333
+}
+
+#defender-csp-debug form {
+    display: inline-block;
+}
+
+#defender-csp-debug form button {
+    border-color: #DDDDDD;
+    background-color: white;
+    color: #888888;
+    width: auto;
+    min-width: 80px;
+    padding: 5px 14px;
+    font: 500 12px/16px "Roboto", Arial, sans-serif;
+    letter-spacing: -0.25px;
+    text-transform: uppercase;
+    cursor: pointer;
+    outline: none;
+    box-shadow: none;
+    border-width: 2px;
+    border-radius: 4px;
+}
+
+#defender-csp-debug form button:hover {
+    outline: none;
+    box-shadow: none;
+    border-radius: 4px;
+    border-color: transparent;
+    background-color: #6f6f6f;
+    color: #fff
+}
+
+#defender-csp-debug form button.is-button-blue {
+    background-color: #17A8E3;
+    color: #fff;
+    outline: none;
+    box-shadow: none;
+    border-color: transparent;
+}
+
+#defender-csp-debug form button.is-button-blue:hover {
+    background-color: #1286b5;
+}

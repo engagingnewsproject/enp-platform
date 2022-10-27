@@ -2,14 +2,13 @@
  * WordPress dependencies
  */
 import { MediaUpload } from '@wordpress/block-editor';
-import { Button, TextControl, BaseControl } from '@wordpress/components';
-import { createInterpolateElement, useRef, useState } from '@wordpress/element';
+import { Button, TextControl, BaseControl, RangeControl } from '@wordpress/components';
+import { createInterpolateElement, useEffect, useRef, useState } from '@wordpress/element';
 import { escapeHTML } from '@wordpress/escape-html';
 import { __ } from '@wordpress/i18n';
 import { Icon } from '@wordpress/icons';
 import classNames from 'classnames';
-import playIcon from '../../../../../components/icons/play-icon';
-import VideoFrameSelector from '../../../../../components/video-frame-selector';
+import { PlayIcon } from '../icons';
 
 const VIDEO_POSTER_ALLOWED_MEDIA_TYPES = [ 'image' ];
 
@@ -30,24 +29,58 @@ const PosterImage = ( { videoPosterImageUrl } ) => {
 };
 
 const Poster = ( { file, videoPosterImageData, onVideoFrameSelected } ) => {
+	const [ maxDuration, setMaxDuration ] = useState( 0 );
+	const videoPlayer = useRef( null );
 	const hasPosterImage = Boolean( videoPosterImageData?.url );
 
-	// - Avoid recreate the object on every render
-	// - Support attachment from Media Library or File instance
-	const src = useRef( file?.url ?? URL.createObjectURL( file ) );
+	useEffect( () => {
+		// Support File from library or File instance
+		const src = file?.url ?? URL.createObjectURL( file );
+		videoPlayer.current.src = src;
+	}, [ file ] );
+
+	const onDurationChange = event => {
+		const newDuration = event.target.duration;
+		setMaxDuration( newDuration );
+
+		if ( videoPlayer.current ) {
+			videoPlayer.current.currentTime = newDuration / 2;
+		}
+	};
+
+	const onRangeChange = newRangeValue => {
+		onVideoFrameSelected( newRangeValue * 1000 );
+		if ( videoPlayer.current ) {
+			videoPlayer.current.currentTime = newRangeValue;
+		}
+	};
 
 	return (
-		<div className={ classNames( 'uploading-editor__poster-container' ) }>
-			<VideoFrameSelector
-				src={ src?.current }
-				onVideoFrameSelected={ onVideoFrameSelected }
-				className={ classNames( { 'uploading-editor__hide': hasPosterImage } ) }
+		<div
+			className={ classNames( 'uploading-editor__video-container', {
+				[ 'uploading-editor__video-container--enabled' ]: ! hasPosterImage,
+			} ) }
+		>
+			<video
+				ref={ videoPlayer }
+				muted
+				className={ classNames( 'uploading-editor__video', {
+					[ 'uploading-editor__video--hide' ]: hasPosterImage,
+				} ) }
+				onDurationChange={ onDurationChange }
 			/>
-			{ hasPosterImage && (
-				<>
-					<PosterImage videoPosterImageUrl={ videoPosterImageData?.url } />
-					<Icon className="uploading-editor__play-icon" icon={ playIcon } />
-				</>
+			{ hasPosterImage && <PosterImage videoPosterImageUrl={ videoPosterImageData?.url } /> }
+			<Icon className="uploading-editor__play-icon" icon={ PlayIcon } />
+			{ ! hasPosterImage && (
+				<RangeControl
+					className="uploading-editor__range"
+					min="0"
+					step="0.1"
+					max={ maxDuration }
+					showTooltip={ false }
+					withInputField={ false }
+					onChange={ onRangeChange }
+				/>
 			) }
 		</div>
 	);

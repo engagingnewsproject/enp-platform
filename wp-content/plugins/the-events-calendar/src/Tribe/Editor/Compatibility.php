@@ -19,9 +19,6 @@ class Tribe__Events__Editor__Compatibility {
 	 * Key we store the toggle under in the tribe_events_calendar_options array.
 	 *
 	 * @since 15.4.0
-	 * @since 6.0.1
-	 *
-	 * @deprecated Using the \Tribe__Cache object instead of caching locally.
 	 *
 	 * @var string
 	 */
@@ -58,12 +55,8 @@ class Tribe__Events__Editor__Compatibility {
 	 * @return bool
 	 */
 	public function is_blocks_editor_toggled_on() {
-		$cache     = tribe( 'cache' );
-		$cache_key = 'tec_editor_compatibility_' . static::$blocks_editor_key;
-
-		$is_on = $cache->get( $cache_key, '', null );
-		if ( $is_on !== null ) {
-			return tribe_is_truthy( $is_on );
+		if ( null !== static::$blocks_editor_value ) {
+			return static::$blocks_editor_value;
 		}
 
 		$is_on = tribe_get_option( static::$blocks_editor_key, false );
@@ -75,11 +68,9 @@ class Tribe__Events__Editor__Compatibility {
 		 *
 		 * @param bool $is_on Whether the Blocks Editor is on or not.
 		 */
-		$is_on = (bool) apply_filters( 'tribe_events_blocks_editor_is_on', $is_on );
+		static::$blocks_editor_value = (bool) apply_filters( 'tribe_events_blocks_editor_is_on', $is_on );
 
-		$cache->set( $cache_key, $is_on, \Tribe__Cache::NON_PERSISTENT );
-
-		return tribe_is_truthy( $is_on );
+		return tribe_is_truthy( static::$blocks_editor_value );
 	}
 
 	/**

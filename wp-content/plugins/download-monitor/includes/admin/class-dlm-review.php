@@ -166,3 +166,5 @@ class DLM_Review {
 		return $options;
 	}
 }
+
+new DLM_Review();

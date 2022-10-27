@@ -1,4 +1,4 @@
-# Copyright (C) 2022 Recent Posts Widget Extended
+# Copyright (C) 2021 Recent Posts Widget Extended
 # This file is distributed under the same license as the Recent Posts Widget Extended package.
 msgid ""
 msgstr ""
@@ -6,7 +6,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-10-14 04:07+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -14,263 +13,178 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: classes/class-rpwe-widget.php:22
+#: classes/widget.php:19
 msgid "An advanced widget that gives you total control over the output of your site’s most recent Posts."
 msgstr ""
 
-#: classes/class-rpwe-widget.php:34
+#: classes/widget.php:31
 msgid "Recent Posts Extended"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:237
-msgid "General"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:238
-msgid "Posts"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:239
-msgid "Image"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:240
-msgid "Excerpt"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:241
-msgid "Control"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:242
-msgid "Style"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:243
-msgid "Support"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:251, classes/class-rpwe-widget.php:350
+#: includes/form.php:12
 msgid "Title"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:258
+#: includes/form.php:19
 msgid "Title URL"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:265
-msgid "Container ID"
+#: includes/form.php:26
+msgid "CSS ID"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:272
-msgid "Container Class"
+#: includes/form.php:33
+msgid "CSS Class"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:279
+#: includes/form.php:40
 msgid "HTML or text before the recent posts"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:286
+#: includes/form.php:47
 msgid "HTML or text after the recent posts"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:297
+#: includes/form.php:56
 msgid "Ignore sticky posts"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:304
+#: includes/form.php:63
 msgid "Exclude current post"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:310
+#: includes/form.php:69
 msgid "Post Types"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:324
+#: includes/form.php:83
 msgid "Post Status"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:335
+#: includes/form.php:94
 msgid "Order"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:338
-msgid "Descending"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:339
-msgid "Ascending"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:345
+#: includes/form.php:104
 msgid "Orderby"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:348
-msgid "ID"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:349
-msgid "Author"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:351
-msgid "Date"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:352
-msgid "Modified"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:353
-msgid "Random"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:354
-msgid "Comment Count"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:355
-msgid "Menu Order"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:361
+#: includes/form.php:120
 msgid "Limit to Category"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:376
+#: includes/form.php:135
 msgid "Limit to Tag"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:390
+#: includes/form.php:149
 msgid "Limit to Taxonomy"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:394
-msgid "Ex: category=1,2,4&amp;post_tag=6,12. "
-msgstr ""
-
-#: classes/class-rpwe-widget.php:396
-msgid "Available: "
-msgstr ""
-
-#: classes/class-rpwe-widget.php:404
+#: includes/form.php:159
 msgid "Number of posts to show"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:411
+#: includes/form.php:166
 msgid "Offset"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:414
+#: includes/form.php:169
 msgid "The number of posts to skip"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:424
+#: includes/form.php:177
 msgid "Display Thumbnail"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:430
+#: includes/form.php:183
 msgid "Thumbnail (height,width,align)"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:438
+#: includes/form.php:191
 msgid "Left"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:439
+#: includes/form.php:192
 msgid "Right"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:440
+#: includes/form.php:193
 msgid "Center"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:446
+#: includes/form.php:199
 msgid "Default Thumbnail"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:449
+#: includes/form.php:202
 msgid "Leave it blank to disable."
 msgstr ""
 
-#: classes/class-rpwe-widget.php:459
+#: includes/form.php:210
 msgid "Display Excerpt"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:465
+#: includes/form.php:216
 msgid "Excerpt Length"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:473
+#: includes/form.php:224
 msgid "Display Readmore"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:479
+#: includes/form.php:230
 msgid "Readmore Text"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:489
-msgid "Display post title"
+#: includes/form.php:238
+msgid "Display Comment Count"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:495
-msgid "Display comment count"
+#: includes/form.php:245
+msgid "Display Date"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:502
-msgid "Display date"
+#: includes/form.php:252
+msgid "Display Modification Date"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:509
-msgid "Use a modification date"
+#: includes/form.php:259
+msgid "Use Relative Date. eg: 5 days ago"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:516
-msgid "Use relative date. eg: 5 days ago"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:523
-msgid "Open links in new tab"
-msgstr ""
-
-#: classes/class-rpwe-widget.php:532
+#: includes/form.php:267
 msgid "Use Default Styles"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:538
+#: includes/form.php:273
 msgid "Custom CSS"
 msgstr ""
 
-#: classes/class-rpwe-widget.php:541
+#: includes/form.php:276
 msgid "If you turn off the default styles, you can use these css code to customize the recent posts style."
 msgstr ""
 
-#: classes/class-rpwe-widget.php:549
-msgid "Donate Now"
-msgstr ""
-
-#: includes/defaults.php:16
-msgid "Recent Posts"
-msgstr ""
-
-#: includes/defaults.php:42
+#: includes/functions.php:43
 msgid "Read More &raquo;"
 msgstr ""
 
-#. translators: %s: current time
-#: includes/functions.php:137, includes/functions.php:130
+#: includes/functions.php:166
+msgid "Permalink to %s"
+msgstr ""
+
+#: includes/functions.php:177, includes/functions.php:171
 msgid "%s ago"
 msgstr ""
 
-#: includes/functions.php:149
+#: includes/functions.php:188
 msgid "1 Comment"
 msgstr ""
 
-#: includes/functions.php:147
+#: includes/functions.php:186
 msgid "%s Comments"
 msgstr ""
 
-#: includes/functions.php:144
+#: includes/functions.php:184
 msgid "No Comments"
 msgstr ""

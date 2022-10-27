@@ -247,8 +247,14 @@ abstract class Base_Admin_Menu {
 	 * Enqueues scripts and styles.
 	 */
 	public function enqueue_scripts() {
+		$is_wpcom = defined( 'IS_WPCOM' ) && IS_WPCOM;
+
 		if ( $this->is_rtl() ) {
-			$css_path = 'admin-menu-rtl.css';
+			if ( $is_wpcom ) {
+				$css_path = 'rtl/admin-menu-rtl.css';
+			} else {
+				$css_path = 'admin-menu-rtl.css';
+			}
 		} else {
 			$css_path = 'admin-menu.css';
 		}

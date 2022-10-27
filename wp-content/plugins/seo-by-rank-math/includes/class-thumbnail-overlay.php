@@ -45,11 +45,7 @@ class Thumbnail_Overlay {
 	public function generate_overlay_thumbnail() {
 		$thumbnail_id = Param::request( 'id', 0, FILTER_VALIDATE_INT );
 		$type         = Param::request( 'type', 'play' );
-		$secret       = Param::request( 'hash', '' );
-		if ( ! $secret ) {
-			$secret = Param::request( 'secret', '' );
-		}
-
+		$secret       = Param::request( 'secret', '' );
 		$choices      = Helper::choices_overlay_images();
 		if ( ! isset( $choices[ $type ] ) ) {
 			die();

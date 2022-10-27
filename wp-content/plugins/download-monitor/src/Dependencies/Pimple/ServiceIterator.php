@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace WPChill\DownloadMonitor\Dependencies\Pimple;
+namespace Never5\DownloadMonitor\Dependencies\Pimple;
 
 /**
  * Lazy service iterator.

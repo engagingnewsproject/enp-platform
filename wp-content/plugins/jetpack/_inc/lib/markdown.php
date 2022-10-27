@@ -8,7 +8,7 @@
  */
 
 if ( ! class_exists( 'MarkdownExtra_Parser' ) ) {
-	require_once JETPACK__PLUGIN_DIR . '/_inc/lib/markdown/extra.php';
+	jetpack_require_lib( 'markdown/extra' );
 }
 
-require_once JETPACK__PLUGIN_DIR . '/_inc/lib/markdown/gfm.php';
+jetpack_require_lib( 'markdown/gfm' );

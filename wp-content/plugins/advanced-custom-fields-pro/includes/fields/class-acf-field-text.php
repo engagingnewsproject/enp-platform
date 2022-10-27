@@ -87,7 +87,10 @@ if ( ! class_exists( 'acf_field_text' ) ) :
 		*  @since   3.6
 		*  @date    23/01/13
 		*/
+
 		function render_field_settings( $field ) {
+
+			// default_value
 			acf_render_field_setting(
 				$field,
 				array(
@@ -97,37 +100,8 @@ if ( ! class_exists( 'acf_field_text' ) ) :
 					'name'         => 'default_value',
 				)
 			);
-		}
 
-		/**
-		 * Renders the field settings used in the "Validation" tab.
-		 *
-		 * @since 6.0
-		 *
-		 * @param array $field The field settings array.
-		 * @return void
-		 */
-		function render_field_validation_settings( $field ) {
-			acf_render_field_setting(
-				$field,
-				array(
-					'label'        => __( 'Character Limit', 'acf' ),
-					'instructions' => __( 'Leave blank for no limit', 'acf' ),
-					'type'         => 'number',
-					'name'         => 'maxlength',
-				)
-			);
-		}
-
-		/**
-		 * Renders the field settings used in the "Presentation" tab.
-		 *
-		 * @since 6.0
-		 *
-		 * @param array $field The field settings array.
-		 * @return void
-		 */
-		function render_field_presentation_settings( $field ) {
+			// placeholder
 			acf_render_field_setting(
 				$field,
 				array(
@@ -138,6 +112,7 @@ if ( ! class_exists( 'acf_field_text' ) ) :
 				)
 			);
 
+			// prepend
 			acf_render_field_setting(
 				$field,
 				array(
@@ -148,6 +123,7 @@ if ( ! class_exists( 'acf_field_text' ) ) :
 				)
 			);
 
+			// append
 			acf_render_field_setting(
 				$field,
 				array(
@@ -157,6 +133,18 @@ if ( ! class_exists( 'acf_field_text' ) ) :
 					'name'         => 'append',
 				)
 			);
+
+			// maxlength
+			acf_render_field_setting(
+				$field,
+				array(
+					'label'        => __( 'Character Limit', 'acf' ),
+					'instructions' => __( 'Leave blank for no limit', 'acf' ),
+					'type'         => 'number',
+					'name'         => 'maxlength',
+				)
+			);
+
 		}
 
 		/**

@@ -1,9 +1,9 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Ajax;
+namespace Never5\DownloadMonitor\Shop\Ajax;
 
-use WPChill\DownloadMonitor\Shop\Order;
-use WPChill\DownloadMonitor\Shop\Services\Services;
+use Never5\DownloadMonitor\Shop\Order;
+use Never5\DownloadMonitor\Shop\Services\Services;
 
 class PlaceOrder extends Ajax {
 
@@ -72,7 +72,7 @@ class PlaceOrder extends Ajax {
 		// get gateway
 		$enabled_gateways = Services::get()->service( 'payment_gateway' )->get_enabled_gateways();
 
-		/** @var \WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
+		/** @var \Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
 		$gateway = ( isset( $_POST['payment_gateway'] ) && isset( $enabled_gateways[ $_POST['payment_gateway'] ] ) ? $enabled_gateways[ sanitize_text_field( wp_unslash( $_POST['payment_gateway'] ) ) ] : null );
 
 		/**
@@ -97,7 +97,7 @@ class PlaceOrder extends Ajax {
 		$is_new_order = true;
 
 		if ( $order_id > 0 && ! empty( $order_hash ) ) {
-			/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $op */
+			/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $op */
 			try {
 				$op        = Services::get()->service( 'order_repository' );
 				$tmp_order = $op->retrieve_single( $order_id );

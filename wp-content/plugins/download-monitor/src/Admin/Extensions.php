@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-use \WPChill\DownloadMonitor\Util;
+use \Never5\DownloadMonitor\Util;
 
 /**
  * DLM_Admin_Extensions Class

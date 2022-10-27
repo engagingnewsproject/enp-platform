@@ -182,7 +182,7 @@ class Image_Parser {
 		 * @param string $content The raw/unprocessed post content.
 		 */
 		$content = $this->do_filter( 'sitemap/content_before_parse_html_images', $this->post->post_content, $this->post->ID );
-		$content = do_blocks( $content );
+		$content = apply_filters( 'the_content', $content );
 
 		foreach ( $this->parse_html_images( $content ) as $image ) {
 			$this->get_image_item( $image['src'] );

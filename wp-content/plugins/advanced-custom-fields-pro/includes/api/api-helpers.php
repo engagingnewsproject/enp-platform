@@ -144,7 +144,7 @@ function acf_append_setting( $name, $value ) {
 	// vars
 	$setting = acf_raw_setting( $name );
 
-	// bail early if not array
+	// bail ealry if not array
 	if ( ! is_array( $setting ) ) {
 		$setting = array();
 	}
@@ -460,7 +460,7 @@ function acf_get_view( $view_path = '', $view_args = array() ) {
 
 function acf_merge_atts( $atts, $extra = array() ) {
 
-	// bail early if no $extra
+	// bail ealry if no $extra
 	if ( empty( $extra ) ) {
 		return $atts;
 	}
@@ -785,8 +785,11 @@ function acf_verify_nonce( $value ) {
 
 function acf_verify_ajax() {
 
+	// vars
+	$nonce = isset( $_REQUEST['nonce'] ) ? $_REQUEST['nonce'] : '';
+
 	// bail early if not acf nonce
-	if ( empty( $_REQUEST['nonce'] ) || ! wp_verify_nonce( $_REQUEST['nonce'], 'acf_nonce' ) ) {
+	if ( ! $nonce || ! wp_verify_nonce( $nonce, 'acf_nonce' ) ) {
 		return false;
 	}
 
@@ -1358,7 +1361,7 @@ function _acf_query_remove_post_type( $sql ) {
 	// global
 	global $wpdb;
 
-	// bail early if no 'wp_posts.ID IN'
+	// bail ealry if no 'wp_posts.ID IN'
 	if ( strpos( $sql, "$wpdb->posts.ID IN" ) === false ) {
 
 		return $sql;
@@ -1812,7 +1815,7 @@ function acf_get_grouped_users( $args = array() ) {
 		// populate $this_posts
 		foreach ( array_keys( $users ) as $key ) {
 
-			// bail early if not correct role
+			// bail ealry if not correct role
 			if ( ! in_array( $user_role_name, $users[ $key ]->roles ) ) {
 				continue;
 			}
@@ -1823,7 +1826,7 @@ function acf_get_grouped_users( $args = array() ) {
 			// increase
 			$i++;
 
-			// bail early if too low
+			// bail ealry if too low
 			if ( $min && $i < $min ) {
 				continue;
 			}
@@ -2673,7 +2676,7 @@ acf_log( acf_get_post_id_info('options') );
 
 function acf_isset_termmeta( $taxonomy = '' ) {
 
-	// bail early if no table
+	// bail ealry if no table
 	if ( get_option( 'db_version' ) < 34370 ) {
 		return false;
 	}
@@ -2750,8 +2753,9 @@ function acf_upload_files( $ancestors = array() ) {
 
 	$field_key  = end( $ancestors );
 	$nonce_name = $field_key . '_file_nonce';
+	$file_nonce = isset( $_REQUEST['acf'][ $nonce_name ] ) ? $_REQUEST['acf'][ $nonce_name ] : false;
 
-	if ( empty( $_REQUEST['acf'][ $nonce_name ] ) || ! wp_verify_nonce( $_REQUEST['acf'][ $nonce_name ], 'acf/file_uploader_nonce/' . $field_key ) ) {
+	if ( ! $file_nonce || ! wp_verify_nonce( $file_nonce, 'acf/file_uploader_nonce/' . $field_key ) ) {
 		return;
 	}
 
@@ -2794,7 +2798,7 @@ function acf_upload_file( $uploaded_file ) {
 	// upload
 	$file = wp_handle_upload( $uploaded_file, $upload_overrides );
 
-	// bail early if upload failed
+	// bail ealry if upload failed
 	if ( isset( $file['error'] ) ) {
 
 		return $file['error'];
@@ -2932,13 +2936,13 @@ function acf_maybe_get( $array = array(), $key = 0, $default = null ) {
 
 function acf_maybe_get_POST( $key = '', $default = null ) {
 
-	return isset( $_POST[ $key ] ) ? $_POST[ $key ] : $default; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing -- Checked elsewhere.
+	return isset( $_POST[ $key ] ) ? $_POST[ $key ] : $default;
 
 }
 
 function acf_maybe_get_GET( $key = '', $default = null ) {
 
-	return isset( $_GET[ $key ] ) ? $_GET[ $key ] : $default; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Checked elsewhere.
+	return isset( $_GET[ $key ] ) ? $_GET[ $key ] : $default;
 
 }
 
@@ -3486,7 +3490,7 @@ function acf_translate_keys( $array, $keys ) {
 	// translate
 	foreach( $keys as $k ) {
 
-		// bail early if not exists
+		// bail ealry if not exists
 		if( !isset($array[ $k ]) ) continue;
 
 
@@ -3804,10 +3808,9 @@ function acf_is_ajax( $action = '' ) {
 
 	}
 
-	// phpcs:disable WordPress.Security.NonceVerification.Missing
 	// check $action
 	if ( $action && acf_maybe_get( $_POST, 'action' ) !== $action ) {
-	// phpcs:enable WordPress.Security.NonceVerification.Missing
+
 		$is_ajax = false;
 
 	}
@@ -4096,7 +4099,7 @@ function acf_send_ajax_results( $response ) {
 
 function acf_is_sequential_array( $array ) {
 
-	// bail early if not array
+	// bail ealry if not array
 	if ( ! is_array( $array ) ) {
 		return false;
 	}
@@ -4104,7 +4107,7 @@ function acf_is_sequential_array( $array ) {
 	// loop
 	foreach ( $array as $key => $value ) {
 
-		// bail early if is string
+		// bail ealry if is string
 		if ( is_string( $key ) ) {
 			return false;
 		}
@@ -4132,7 +4135,7 @@ function acf_is_sequential_array( $array ) {
 
 function acf_is_associative_array( $array ) {
 
-	// bail early if not array
+	// bail ealry if not array
 	if ( ! is_array( $array ) ) {
 		return false;
 	}
@@ -4140,7 +4143,7 @@ function acf_is_associative_array( $array ) {
 	// loop
 	foreach ( $array as $key => $value ) {
 
-		// bail early if is string
+		// bail ealry if is string
 		if ( is_string( $key ) ) {
 			return true;
 		}
@@ -4261,12 +4264,12 @@ function acf_strip_protocol( $url ) {
 */
 function acf_connect_attachment_to_post( $attachment_id = 0, $post_id = 0 ) {
 
-	// bail early if $attachment_id is not valid.
+	// Bail ealry if $attachment_id is not valid.
 	if ( ! $attachment_id || ! is_numeric( $attachment_id ) ) {
 		return false;
 	}
 
-	// bail early if $post_id is not valid.
+	// Bail ealry if $post_id is not valid.
 	if ( ! $post_id || ! is_numeric( $post_id ) ) {
 		return false;
 	}
@@ -4325,7 +4328,7 @@ function acf_connect_attachment_to_post( $attachment_id = 0, $post_id = 0 ) {
 
 function acf_encrypt( $data = '' ) {
 
-	// bail early if no encrypt function
+	// bail ealry if no encrypt function
 	if ( ! function_exists( 'openssl_encrypt' ) ) {
 		return base64_encode( $data );
 	}
@@ -4361,7 +4364,7 @@ function acf_encrypt( $data = '' ) {
 
 function acf_decrypt( $data = '' ) {
 
-	// bail early if no decrypt function
+	// bail ealry if no decrypt function
 	if ( ! function_exists( 'openssl_decrypt' ) ) {
 		return base64_decode( $data );
 	}

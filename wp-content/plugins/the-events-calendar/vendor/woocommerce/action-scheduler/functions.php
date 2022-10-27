@@ -1,8 +1,7 @@
 <?php
+
 /**
  * General API functions for scheduling actions
- *
- * @package ActionScheduler.
  */
 
 /**
@@ -11,61 +10,57 @@
  * @param string $hook The hook to trigger.
  * @param array  $args Arguments to pass when the hook triggers.
  * @param string $group The group to assign this job to.
- * @param bool   $unique Whether the action should be unique.
- *
  * @return int The action ID.
  */
-function as_enqueue_async_action( $hook, $args = array(), $group = '', $unique = false ) {
+function as_enqueue_async_action( $hook, $args = array(), $group = '' ) {
 	if ( ! ActionScheduler::is_initialized( __FUNCTION__ ) ) {
 		return 0;
 	}
-	return ActionScheduler::factory()->async_unique( $hook, $args, $group, $unique );
+	return ActionScheduler::factory()->async( $hook, $args, $group );
 }
 
 /**
  * Schedule an action to run one time
  *
- * @param int    $timestamp When the job will run.
+ * @param int $timestamp When the job will run.
  * @param string $hook The hook to trigger.
- * @param array  $args Arguments to pass when the hook triggers.
+ * @param array $args Arguments to pass when the hook triggers.
  * @param string $group The group to assign this job to.
- * @param bool   $unique Whether the action should be unique.
  *
  * @return int The action ID.
  */
-function as_schedule_single_action( $timestamp, $hook, $args = array(), $group = '', $unique = false ) {
+function as_schedule_single_action( $timestamp, $hook, $args = array(), $group = '' ) {
 	if ( ! ActionScheduler::is_initialized( __FUNCTION__ ) ) {
 		return 0;
 	}
-	return ActionScheduler::factory()->single_unique( $hook, $args, $timestamp, $group, $unique );
+	return ActionScheduler::factory()->single( $hook, $args, $timestamp, $group );
 }
 
 /**
  * Schedule a recurring action
  *
- * @param int    $timestamp When the first instance of the job will run.
- * @param int    $interval_in_seconds How long to wait between runs.
+ * @param int $timestamp When the first instance of the job will run.
+ * @param int $interval_in_seconds How long to wait between runs.
  * @param string $hook The hook to trigger.
- * @param array  $args Arguments to pass when the hook triggers.
+ * @param array $args Arguments to pass when the hook triggers.
  * @param string $group The group to assign this job to.
- * @param bool   $unique Whether the action should be unique.
  *
  * @return int The action ID.
  */
-function as_schedule_recurring_action( $timestamp, $interval_in_seconds, $hook, $args = array(), $group = '', $unique = false ) {
+function as_schedule_recurring_action( $timestamp, $interval_in_seconds, $hook, $args = array(), $group = '' ) {
 	if ( ! ActionScheduler::is_initialized( __FUNCTION__ ) ) {
 		return 0;
 	}
-	return ActionScheduler::factory()->recurring_unique( $hook, $args, $timestamp, $interval_in_seconds, $group, $unique );
+	return ActionScheduler::factory()->recurring( $hook, $args, $timestamp, $interval_in_seconds, $group );
 }
 
 /**
  * Schedule an action that recurs on a cron-like schedule.
  *
- * @param int    $timestamp The first instance of the action will be scheduled
- *           to run at a time calculated after this timestamp matching the cron
- *           expression. This can be used to delay the first instance of the action.
- * @param string $schedule A cron-link schedule string.
+ * @param int $base_timestamp The first instance of the action will be scheduled
+ *        to run at a time calculated after this timestamp matching the cron
+ *        expression. This can be used to delay the first instance of the action.
+ * @param string $schedule A cron-link schedule string
  * @see http://en.wikipedia.org/wiki/Cron
  *   *    *    *    *    *    *
  *   ┬    ┬    ┬    ┬    ┬    ┬
@@ -77,17 +72,16 @@ function as_schedule_recurring_action( $timestamp, $interval_in_seconds, $hook, 
  *   |    +-------------------- hour (0 - 23)
  *   +------------------------- min (0 - 59)
  * @param string $hook The hook to trigger.
- * @param array  $args Arguments to pass when the hook triggers.
+ * @param array $args Arguments to pass when the hook triggers.
  * @param string $group The group to assign this job to.
- * @param bool   $unique Whether the action should be unique.
  *
  * @return int The action ID.
  */
-function as_schedule_cron_action( $timestamp, $schedule, $hook, $args = array(), $group = '', $unique = false ) {
+function as_schedule_cron_action( $timestamp, $schedule, $hook, $args = array(), $group = '' ) {
 	if ( ! ActionScheduler::is_initialized( __FUNCTION__ ) ) {
 		return 0;
 	}
-	return ActionScheduler::factory()->cron_unique( $hook, $args, $timestamp, $schedule, $group, $unique );
+	return ActionScheduler::factory()->cron( $hook, $args, $timestamp, $schedule, $group );
 }
 
 /**
@@ -101,7 +95,7 @@ function as_schedule_cron_action( $timestamp, $schedule, $hook, $args = array(),
  * by this method also.
  *
  * @param string $hook The hook that the job will trigger.
- * @param array  $args Args that would have been passed to the job.
+ * @param array $args Args that would have been passed to the job.
  * @param string $group The group the job is assigned to.
  *
  * @return int|null The scheduled action ID if a scheduled action was found, or null if no matching action found.
@@ -147,7 +141,7 @@ function as_unschedule_action( $hook, $args = array(), $group = '' ) {
  * Cancel all occurrences of a scheduled action.
  *
  * @param string $hook The hook that the job will trigger.
- * @param array  $args Args that would have been passed to the job.
+ * @param array $args Args that would have been passed to the job.
  * @param string $group The group the job is assigned to.
  */
 function as_unschedule_all_actions( $hook, $args = array(), $group = '' ) {
@@ -178,9 +172,9 @@ function as_unschedule_all_actions( $hook, $args = array(), $group = '' ) {
  * returned. Or there may be no async, in-progress or pending action for this hook, in which case,
  * boolean false will be the return value.
  *
- * @param string $hook Name of the hook to search for.
- * @param array  $args Arguments of the action to be searched.
- * @param string $group Group of the action to be searched.
+ * @param string $hook
+ * @param array $args
+ * @param string $group
  *
  * @return int|bool The timestamp for the next occurrence of a pending scheduled action, true for an async or in-progress action or false if there is no matching action.
  */
@@ -216,7 +210,7 @@ function as_next_scheduled_action( $hook, $args = null, $group = '' ) {
 	$scheduled_date = $action->get_schedule()->get_date();
 	if ( $scheduled_date ) {
 		return (int) $scheduled_date->format( 'U' );
-	} elseif ( null === $scheduled_date ) { // pending async action with NullSchedule.
+	} elseif ( null === $scheduled_date ) { // pending async action with NullSchedule
 		return true;
 	}
 
@@ -229,7 +223,7 @@ function as_next_scheduled_action( $hook, $args = null, $group = '' ) {
  * It's recommended to use this function when you need to know whether a specific action is currently scheduled
  * (pending or in-progress).
  *
- * @since 3.3.0
+ * @since x.x.x
  *
  * @param string $hook  The hook of the action.
  * @param array  $args  Args that have been passed to the action. Null will matches any args.
@@ -243,10 +237,10 @@ function as_has_scheduled_action( $hook, $args = null, $group = '' ) {
 	}
 
 	$query_args = array(
-		'hook'    => $hook,
-		'status'  => array( ActionScheduler_Store::STATUS_RUNNING, ActionScheduler_Store::STATUS_PENDING ),
-		'group'   => $group,
-		'orderby' => 'none',
+		'hook'     => $hook,
+		'status'   => array( ActionScheduler_Store::STATUS_RUNNING, ActionScheduler_Store::STATUS_PENDING ),
+		'group'    => $group,
+		'orderby'  => 'none',
 	);
 
 	if ( null !== $args ) {
@@ -255,26 +249,26 @@ function as_has_scheduled_action( $hook, $args = null, $group = '' ) {
 
 	$action_id = ActionScheduler::store()->query_action( $query_args );
 
-	return null !== $action_id;
+	return $action_id !== null;
 }
 
 /**
  * Find scheduled actions
  *
- * @param array  $args Possible arguments, with their default values.
- *         'hook' => '' - the name of the action that will be triggered.
- *         'args' => NULL - the args array that will be passed with the action.
- *         'date' => NULL - the scheduled date of the action. Expects a DateTime object, a unix timestamp, or a string that can parsed with strtotime(). Used in UTC timezone.
- *         'date_compare' => '<=' - operator for testing "date". accepted values are '!=', '>', '>=', '<', '<=', '='.
- *         'modified' => NULL - the date the action was last updated. Expects a DateTime object, a unix timestamp, or a string that can parsed with strtotime(). Used in UTC timezone.
- *         'modified_compare' => '<=' - operator for testing "modified". accepted values are '!=', '>', '>=', '<', '<=', '='.
- *         'group' => '' - the group the action belongs to.
- *         'status' => '' - ActionScheduler_Store::STATUS_COMPLETE or ActionScheduler_Store::STATUS_PENDING.
- *         'claimed' => NULL - TRUE to find claimed actions, FALSE to find unclaimed actions, a string to find a specific claim ID.
- *         'per_page' => 5 - Number of results to return.
- *         'offset' => 0.
- *         'orderby' => 'date' - accepted values are 'hook', 'group', 'modified', 'date' or 'none'.
- *         'order' => 'ASC'.
+ * @param array $args Possible arguments, with their default values:
+ *        'hook' => '' - the name of the action that will be triggered
+ *        'args' => NULL - the args array that will be passed with the action
+ *        'date' => NULL - the scheduled date of the action. Expects a DateTime object, a unix timestamp, or a string that can parsed with strtotime(). Used in UTC timezone.
+ *        'date_compare' => '<=' - operator for testing "date". accepted values are '!=', '>', '>=', '<', '<=', '='
+ *        'modified' => NULL - the date the action was last updated. Expects a DateTime object, a unix timestamp, or a string that can parsed with strtotime(). Used in UTC timezone.
+ *        'modified_compare' => '<=' - operator for testing "modified". accepted values are '!=', '>', '>=', '<', '<=', '='
+ *        'group' => '' - the group the action belongs to
+ *        'status' => '' - ActionScheduler_Store::STATUS_COMPLETE or ActionScheduler_Store::STATUS_PENDING
+ *        'claimed' => NULL - TRUE to find claimed actions, FALSE to find unclaimed actions, a string to find a specific claim ID
+ *        'per_page' => 5 - Number of results to return
+ *        'offset' => 0
+ *        'orderby' => 'date' - accepted values are 'hook', 'group', 'modified', 'date' or 'none'
+ *        'order' => 'ASC'
  *
  * @param string $return_format OBJECT, ARRAY_A, or ids.
  *
@@ -285,25 +279,25 @@ function as_get_scheduled_actions( $args = array(), $return_format = OBJECT ) {
 		return array();
 	}
 	$store = ActionScheduler::store();
-	foreach ( array( 'date', 'modified' ) as $key ) {
-		if ( isset( $args[ $key ] ) ) {
-			$args[ $key ] = as_get_datetime_object( $args[ $key ] );
+	foreach ( array('date', 'modified') as $key ) {
+		if ( isset($args[$key]) ) {
+			$args[$key] = as_get_datetime_object($args[$key]);
 		}
 	}
 	$ids = $store->query_actions( $args );
 
-	if ( 'ids' === $return_format || 'int' === $return_format ) {
+	if ( $return_format == 'ids' || $return_format == 'int' ) {
 		return $ids;
 	}
 
 	$actions = array();
 	foreach ( $ids as $action_id ) {
-		$actions[ $action_id ] = $store->fetch_action( $action_id );
+		$actions[$action_id] = $store->fetch_action( $action_id );
 	}
 
-	if ( ARRAY_A == $return_format ) {
+	if ( $return_format == ARRAY_A ) {
 		foreach ( $actions as $action_id => $action_object ) {
-			$actions[ $action_id ] = get_object_vars( $action_object );
+			$actions[$action_id] = get_object_vars($action_object);
 		}
 	}
 
@@ -322,7 +316,7 @@ function as_get_scheduled_actions( $args = array(), $return_format = OBJECT ) {
  * timezone when instantiating datetimes rather than leaving it up to
  * the PHP default.
  *
- * @param mixed  $date_string A date/time string. Valid formats are explained in http://php.net/manual/en/datetime.formats.php.
+ * @param mixed $date_string A date/time string. Valid formats are explained in http://php.net/manual/en/datetime.formats.php.
  * @param string $timezone A timezone identifier, like UTC or Europe/Lisbon. The list of valid identifiers is available http://php.net/manual/en/timezones.php.
  *
  * @return ActionScheduler_DateTime

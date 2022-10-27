@@ -5,34 +5,29 @@ import { Button, useBreakpointMatch, Text } from '@automattic/jetpack-components
 import { __ } from '@wordpress/i18n';
 import { Icon, cloudUpload } from '@wordpress/icons';
 import classnames from 'classnames';
-import { DragEvent, useCallback, useState, useRef, ChangeEvent } from 'react';
+import { DragEvent, useCallback, useState, useRef } from 'react';
 /**
  * Internal dependencies
  */
-import { ReactNode } from 'react';
-import { VIDEO_EXTENSIONS } from '../../../state/constants';
 import styles from './style.module.scss';
 import { VideoUploadAreaProps } from './types';
-
-const inputExtensions = VIDEO_EXTENSIONS.map( extension => `.${ extension }` ).join( ',' );
+import type React from 'react';
 
 /**
  * Video Upload Area component
  *
  * @param {VideoUploadAreaProps} props - Component props.
- * @returns {ReactNode} - VideoUploadArea react component.
+ * @returns {React.ReactNode} - VideoUploadArea react component.
  */
-const VideoUploadArea = ( { className, onSelectFiles }: VideoUploadAreaProps ) => {
+const VideoUploadArea: React.FC< VideoUploadAreaProps > = ( { className, onSelectFiles } ) => {
 	const [ isSm ] = useBreakpointMatch( 'sm' );
 	const [ isDraggingOver, setIsDraggingOver ] = useState( false );
 	const inputRef = useRef( null );
 
-	const handleFileInputChangeEvent = useCallback(
-		( e: ChangeEvent< HTMLInputElement > ) => {
-			onSelectFiles( Array.from( e.currentTarget.files ) );
-		},
-		[ onSelectFiles ]
-	);
+	const handleFileInputChangeEvent = useCallback( ( e: Event ) => {
+		const target = e.target as HTMLInputElement;
+		onSelectFiles( target.files );
+	} );
 
 	const handleClickEvent = useCallback( () => {
 		inputRef.current.click();
@@ -52,11 +47,7 @@ const VideoUploadArea = ( { className, onSelectFiles }: VideoUploadAreaProps ) =
 			event.preventDefault();
 			setIsDraggingOver( false );
 
-			const files = Array.from( event.dataTransfer.files ).filter( file => {
-				return VIDEO_EXTENSIONS.some( extension => file.name.endsWith( extension ) );
-			} );
-
-			onSelectFiles( files );
+			onSelectFiles( event.dataTransfer.files );
 		},
 		[ onSelectFiles ]
 	);
@@ -74,7 +65,6 @@ const VideoUploadArea = ( { className, onSelectFiles }: VideoUploadAreaProps ) =
 			<input
 				ref={ inputRef }
 				type="file"
-				accept={ inputExtensions }
 				className={ classnames( styles[ 'file-input' ] ) }
 				onChange={ handleFileInputChangeEvent }
 			/>

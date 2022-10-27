@@ -24,9 +24,9 @@
  * THE SOFTWARE.
  */
 
-namespace WPChill\DownloadMonitor\Dependencies\Pimple\Exception;
+namespace Never5\DownloadMonitor\Dependencies\Pimple\Exception;
 
-use WPChill\DownloadMonitor\Dependencies\Psr\Container\ContainerExceptionInterface;
+use Never5\DownloadMonitor\Dependencies\Psr\Container\ContainerExceptionInterface;
 
 /**
  * A closure or invokable object was expected.

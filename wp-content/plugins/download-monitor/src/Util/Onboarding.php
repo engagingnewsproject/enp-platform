@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Util;
+namespace Never5\DownloadMonitor\Util;
 
 class Onboarding {
 
@@ -193,7 +193,7 @@ class Onboarding {
 				$welcome = \WPChill_Welcome::get_instance();
 				?>
 				<div id="wpchill-welcome">
-					<div class="dlm-onboarding-section dlm-onboarding-section-one-col wpchill-text-center">
+					<div class="dlm-onboarding-section dlm-onboarding-section-one-col">
 						<img src="<?php echo esc_url( DLM_URL ); ?>assets/images/banner-dlm.png" alt="<?php esc_attr_e( 'Watch how to', 'strong-testimonials' ); ?>" class="video-thumbnail">
 						<?php $welcome->display_empty_space(); ?>
 						<div class="button-wrap-single">

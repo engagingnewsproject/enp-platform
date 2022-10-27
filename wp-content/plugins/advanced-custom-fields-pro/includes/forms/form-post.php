@@ -50,8 +50,6 @@ if ( ! class_exists( 'ACF_Form_Post' ) ) :
 			// globals
 			global $typenow;
 
-			remove_meta_box( 'submitdiv', 'acf-field-group', 'side' );
-
 			// restrict specific post types
 			$restricted = array( 'acf-field-group', 'attachment' );
 			if ( in_array( $typenow, $restricted ) ) {
@@ -302,7 +300,7 @@ if ( ! class_exists( 'ACF_Form_Post' ) ) :
 
 		function save_post( $post_id, $post ) {
 
-			// bail early if no allowed to save this post type
+			// bail ealry if no allowed to save this post type
 			if ( ! $this->allow_save_post( $post ) ) {
 				return $post_id;
 			}

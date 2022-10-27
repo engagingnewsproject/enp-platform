@@ -12,7 +12,6 @@ namespace RankMath\Analytics\Workflow;
 
 use Exception;
 use MyThemeShop\Helpers\DB;
-use RankMath\Google\Console as GoogleConsole;
 use function as_unschedule_all_actions;
 
 defined( 'ABSPATH' ) || exit;
@@ -26,11 +25,8 @@ class Console extends Base {
 	 * Constructor.
 	 */
 	public function __construct() {
-
-		$this->create_tables();
-
 		// If console is not connected, ignore all no need to proceed.
-		if ( ! GoogleConsole::is_console_connected() ) {
+		if ( ! \RankMath\Google\Console::is_console_connected() ) {
 			return;
 		}
 

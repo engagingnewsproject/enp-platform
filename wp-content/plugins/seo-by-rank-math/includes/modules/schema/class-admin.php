@@ -95,7 +95,9 @@ class Admin extends Base {
 		Helper::add_json(
 			'assessor',
 			[
+				'articleKBLink'       => KB::get( 'article' ),
 				'reviewConverterLink' => Helper::get_admin_url( 'status', 'view=tools' ),
+				'richSnippetsKBLink'  => KB::get( 'rich-snippets' ),
 			]
 		);
 	}

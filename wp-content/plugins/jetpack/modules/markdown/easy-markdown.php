@@ -389,7 +389,7 @@ class WPCom_Markdown {
 	public function get_parser() {
 
 		if ( ! self::$parser ) {
-			require_once JETPACK__PLUGIN_DIR . '/_inc/lib/markdown.php';
+			jetpack_require_lib( 'markdown' );
 			self::$parser = new WPCom_GHF_Markdown_Parser();
 		}
 

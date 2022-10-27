@@ -32,8 +32,10 @@ if ( ! class_exists( 'acf_pro' ) ) :
 			acf_include( 'pro/updates.php' );
 
 			if ( is_admin() ) {
+
 				acf_include( 'pro/admin/admin-options-page.php' );
 				acf_include( 'pro/admin/admin-updates.php' );
+
 			}
 
 			// actions
@@ -45,19 +47,29 @@ if ( ! class_exists( 'acf_pro' ) ) :
 
 		}
 
-		/**
-		 * Includes any files necessary for field types.
-		 *
-		 * @date  21/10/2015
-		 * @since 5.2.3
-		 */
+
+		/*
+		*  include_field_types
+		*
+		*  description
+		*
+		*  @type    function
+		*  @date    21/10/2015
+		*  @since   5.2.3
+		*
+		*  @param   $post_id (int)
+		*  @return  $post_id (int)
+		*/
+
 		function include_field_types() {
-			acf_include( 'pro/fields/class-acf-repeater-table.php' );
+
 			acf_include( 'pro/fields/class-acf-field-repeater.php' );
 			acf_include( 'pro/fields/class-acf-field-flexible-content.php' );
 			acf_include( 'pro/fields/class-acf-field-gallery.php' );
 			acf_include( 'pro/fields/class-acf-field-clone.php' );
+
 		}
+
 
 		/*
 		*  include_location_rules

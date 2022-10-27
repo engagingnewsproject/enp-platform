@@ -1,12 +1,12 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Session;
+namespace Never5\DownloadMonitor\Shop\Session;
 
-use WPChill\DownloadMonitor\Shop\Services\Services;
+use Never5\DownloadMonitor\Shop\Services\Services;
 
 /**
  * Class Cookie
- * @package WPChill\DownloadMonitor\Shop\Session
+ * @package Never5\DownloadMonitor\Shop\Session
  *
  * This class handles all cookie related things for the session cookie
  */

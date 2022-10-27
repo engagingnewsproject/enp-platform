@@ -1,16 +1,16 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Admin\Fields;
+namespace Never5\DownloadMonitor\Shop\Admin\Fields;
 
 class GatewayOverview extends \DLM_Admin_Fields_Field {
 
-	/** @var \WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway[] */
+	/** @var \Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway[] */
 	private $gateways;
 
 	/**
 	 * GatewayOverview constructor.
 	 *
-	 * @param \WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway[] $gateways
+	 * @param \Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway[] $gateways
 	 */
 	public function __construct( $gateways ) {
 		$this->gateways = $gateways;

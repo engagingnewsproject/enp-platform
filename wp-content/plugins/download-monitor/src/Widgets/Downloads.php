@@ -71,7 +71,8 @@ class DLM_Widget_Downloads extends WP_Widget {
 		);
 
 		if ( $orderby == 'download_count' ) {
-			$args['order_by_count']  = '1';
+			$args['orderby']  = 'meta_value_num';
+			$args['meta_key'] = '_download_count';
 		}
 
 		if ( $featured == 'yes' ) {

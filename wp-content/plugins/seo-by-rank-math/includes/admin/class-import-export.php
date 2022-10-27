@@ -138,8 +138,6 @@ class Import_Export implements Runner {
 			return;
 		}
 
-		\RankMath\Tools\Update_Score::get()->enqueue();
-
 		wp_enqueue_script( 'rank-math-import-export', rank_math()->plugin_url() . 'assets/admin/js/import-export.js', [], rank_math()->version, true );
 		wp_enqueue_style( 'cmb2-styles' );
 		wp_enqueue_style( 'rank-math-common' );
@@ -606,7 +604,7 @@ class Import_Export implements Runner {
 	 * @return bool
 	 */
 	private function is_action_allowed( $perform ) {
-		$allowed = [ 'settings', 'postmeta', 'termmeta', 'usermeta', 'redirections', 'blocks', 'deactivate', 'locations', 'news', 'video', 'recalculate' ];
+		$allowed = [ 'settings', 'postmeta', 'termmeta', 'usermeta', 'redirections', 'blocks', 'deactivate', 'locations', 'news', 'video' ];
 		return $perform && in_array( $perform, $allowed, true );
 	}
 }

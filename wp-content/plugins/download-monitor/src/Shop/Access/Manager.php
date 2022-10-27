@@ -1,9 +1,9 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Access;
+namespace Never5\DownloadMonitor\Shop\Access;
 
-use WPChill\DownloadMonitor\Shop\Admin\DownloadOption;
-use WPChill\DownloadMonitor\Shop\Services\Services;
+use Never5\DownloadMonitor\Shop\Admin\DownloadOption;
+use Never5\DownloadMonitor\Shop\Services\Services;
 
 class Manager {
 
@@ -41,10 +41,10 @@ class Manager {
 				return $has_access;
 			}
 
-			/** @var \WPChill\DownloadMonitor\Shop\Order\Repository $order_repo */
+			/** @var \Never5\DownloadMonitor\Shop\Order\Repository $order_repo */
 			$order_repo = Services::get()->service( 'order_repository' );
 
-			/** @var \WPChill\DownloadMonitor\Shop\Product\Repository $product_repo */
+			/** @var \Never5\DownloadMonitor\Shop\Product\Repository $product_repo */
 			$product_repo = Services::get()->service( 'product_repository' );
 
 			// try to fetch order with given order ID

@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Util;
+namespace Never5\DownloadMonitor\Shop\Util;
 
 class Redirect {
 

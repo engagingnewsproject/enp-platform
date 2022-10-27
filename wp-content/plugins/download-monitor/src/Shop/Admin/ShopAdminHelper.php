@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Admin;
+namespace Never5\DownloadMonitor\Shop\Admin;
 
 class ShopAdminHelper {
 

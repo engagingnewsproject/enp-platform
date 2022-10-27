@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
-/** @var \WPChill\DownloadMonitor\Shop\Product\Product $product */
+/** @var \Never5\DownloadMonitor\Shop\Product\Product $product */
 /** @var string $atc_url */
 ?>
 <aside class="download-box">

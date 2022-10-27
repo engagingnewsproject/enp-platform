@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the The Events Calendar package.
 msgid ""
 msgstr ""
-"Project-Id-Version: The Events Calendar 6.0.2\n"
+"Project-Id-Version: The Events Calendar 6.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/the-events-"
 "calendar\n"
-"POT-Creation-Date: 2022-10-18 16:00:32+00:00\n"
+"POT-Creation-Date: 2022-08-25 17:54:43+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2022-10-18 16:00\n"
+"PO-Revision-Date: 2022-08-25 17:54\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 
@@ -488,7 +488,7 @@ msgid "Add %s"
 msgstr ""
 
 #: src/Tribe/Admin/Bar/Default_Configurator.php:64
-#: src/Tribe/Linked_Posts/Chooser_Meta_Box.php:216 src/Tribe/Main.php:2063
+#: src/Tribe/Linked_Posts/Chooser_Meta_Box.php:210 src/Tribe/Main.php:2063
 #: src/Tribe/Organizer.php:93 src/Tribe/Organizer.php:801
 #: src/Tribe/Venue.php:129 src/Tribe/Venue.php:915
 msgid "Edit %s"
@@ -556,7 +556,7 @@ msgid ""
 msgstr ""
 
 #: src/Tribe/Admin/Notice/Timezones.php:151
-#: src/Tribe/Editor/Compatibility.php:138 src/Tribe/Google/Maps_API_Key.php:77
+#: src/Tribe/Editor/Compatibility.php:129 src/Tribe/Google/Maps_API_Key.php:77
 msgid "Read more"
 msgstr ""
 
@@ -2589,15 +2589,15 @@ msgstr ""
 msgid "Add Button Text"
 msgstr ""
 
-#: src/Tribe/Editor/Compatibility.php:144
+#: src/Tribe/Editor/Compatibility.php:135
 msgid "Activate Block Editor for Events"
 msgstr ""
 
-#: src/Tribe/Editor/Compatibility.php:145
+#: src/Tribe/Editor/Compatibility.php:136
 msgid "Enable the Gutenberg block editor interface for creating events."
 msgstr ""
 
-#: src/Tribe/Editor/Compatibility.php:152
+#: src/Tribe/Editor/Compatibility.php:143
 msgid "Hidden Blocks Editor Config"
 msgstr ""
 
@@ -3124,12 +3124,6 @@ msgstr ""
 msgid "Powered by"
 msgstr ""
 
-#: src/Tribe/Integrations/Restrict_Content_Pro/Service_Provider.php:66
-msgctxt ""
-"Text label for control to hide restricted events on main calendar views."
-msgid "Hide restricted events on calendar views."
-msgstr ""
-
 #: src/Tribe/Integrations/WPML/Defaults.php:117
 msgid ""
 "The Events Calendar could not write WPML default config file: please create "
@@ -3148,11 +3142,11 @@ msgstr ""
 msgid "%s:"
 msgstr ""
 
-#: src/Tribe/Linked_Posts/Chooser_Meta_Box.php:263
+#: src/Tribe/Linked_Posts/Chooser_Meta_Box.php:257
 msgid "Add another %s"
 msgstr ""
 
-#: src/Tribe/Linked_Posts/Chooser_Meta_Box.php:286
+#: src/Tribe/Linked_Posts/Chooser_Meta_Box.php:280
 msgid "Delete this"
 msgstr ""
 
@@ -3244,13 +3238,13 @@ msgctxt ""
 msgid "Create or Find %s"
 msgstr ""
 
-#. #-#-#-#-#  the-events-calendar.pot (The Events Calendar 6.0.2)  #-#-#-#-#
+#. #-#-#-#-#  the-events-calendar.pot (The Events Calendar 6.0.0)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#. #-#-#-#-#  the-events-calendar.pot (The Events Calendar 6.0.2)  #-#-#-#-#
+#. #-#-#-#-#  the-events-calendar.pot (The Events Calendar 6.0.0)  #-#-#-#-#
 #. Author of the plugin/theme
 #: src/Tribe/Main.php:953 src/Tribe/Main.php:1482 src/Tribe/Privacy.php:29
 #: src/admin-views/admin-welcome-message.php:29
-#: src/functions/template-tags/general.php:1455 the-events-calendar.php:55
+#: src/functions/template-tags/general.php:1413 the-events-calendar.php:55
 msgid "The Events Calendar"
 msgstr ""
 
@@ -4219,7 +4213,7 @@ msgid "Returns all the event categories matching the search criteria"
 msgstr ""
 
 #: src/Tribe/REST/V1/Endpoints/Archive_Category.php:40
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:470
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:411
 #: src/Tribe/REST/V1/Endpoints/Archive_Organizer.php:68
 #: src/Tribe/REST/V1/Endpoints/Archive_Tag.php:57
 #: src/Tribe/REST/V1/Endpoints/Archive_Venue.php:65
@@ -4227,14 +4221,14 @@ msgid "One or more of the specified query variables has a bad format"
 msgstr ""
 
 #: src/Tribe/REST/V1/Endpoints/Archive_Category.php:43
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:473
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:414
 #: src/Tribe/REST/V1/Endpoints/Archive_Organizer.php:71
 #: src/Tribe/REST/V1/Endpoints/Archive_Venue.php:68
 msgid "The requested page was not found."
 msgstr ""
 
 #: src/Tribe/REST/V1/Endpoints/Archive_Category.php:97
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:494
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:435
 #: src/Tribe/REST/V1/Endpoints/Archive_Organizer.php:208
 #: src/Tribe/REST/V1/Endpoints/Archive_Tag.php:114
 #: src/Tribe/REST/V1/Endpoints/Archive_Venue.php:207
@@ -4296,102 +4290,80 @@ msgstr ""
 msgid "Limit result set to terms with a specific slug"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:458
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:399
 msgid "Returns all the upcoming events matching the search criteria"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:502
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:443
 msgid "The number of events to return on each page"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:509
-msgid "Events that start on the specified date"
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:450
+msgid "Events should start after the specified date"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:516
-msgid "Events that end on the specified date"
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:457
+msgid "Events should start before the specified date"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:522
-msgid "Events that start before the specified date"
-msgstr ""
-
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:528
-msgid "Events that start after the specified date"
-msgstr ""
-
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:534
-msgid "Events that end before the specified date"
-msgstr ""
-
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:540
-msgid "Events that end after the specified date"
-msgstr ""
-
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:547
-msgid ""
-"Dates set using the start_date/end_date, starts_*/ends_* are set to start at "
-"the specified times. The default behavior is to include the entire days."
-msgstr ""
-
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:553
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:463
 msgid "Events should contain the specified string in the title or description"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:559
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:469
 msgid "Events should be assigned one of the specified categories slugs or IDs"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:567
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:477
 msgid "Events should be assigned one of the specified tags slugs or IDs"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:575
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:485
 msgid "Events should be assigned one of the specified venue IDs"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:583
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:493
 msgid "Events should be assigned one of the specified organizer IDs"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:591
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:501
 msgid "Events should be filtered by their featured status"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:598
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:508
 #: src/Tribe/REST/V1/Endpoints/Single_Event.php:271
 msgid "The event post status"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:603
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:513
 msgid ""
 "Requires Events Calendar Pro. Events should be filtered by whether their "
 "venue has geolocation data"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:609
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:519
 msgid ""
 "Requires Events Calendar Pro. Events should be filtered by their venue "
 "latitude location, must also provide geoloc_lng"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:615
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:525
 msgid ""
 "Requires Events Calendar Pro. Events should be filtered by their venue "
 "longitude location, must also provide geoloc_lat"
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:619
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:529
 msgid ""
 "Include events with one of the post IDs specified in the array of CSV list, "
 "date filters will be ignored."
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:629
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:539
 msgid "Events should be filtered by their post_parent being the specified one."
 msgstr ""
 
-#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:635
+#: src/Tribe/REST/V1/Endpoints/Archive_Event.php:545
 msgid "Filter events with or without tickets."
 msgstr ""
 
@@ -5468,50 +5440,38 @@ msgstr ""
 msgid "Custom Color"
 msgstr ""
 
-#: src/Tribe/Views/V2/Hooks.php:568
+#: src/Tribe/Views/V2/Hooks.php:565
 msgid "We recommend a 16:9 aspect ratio for featured images."
 msgstr ""
 
-#: src/Tribe/Views/V2/Hooks.php:645
+#: src/Tribe/Views/V2/Hooks.php:642
 msgid "Recommended for all sites using the updated calendar views."
 msgstr ""
 
-#: src/Tribe/Views/V2/Hooks.php:660
+#: src/Tribe/Views/V2/Hooks.php:657
 msgid "The Events Calendar - View V2"
 msgstr ""
 
-#: src/Tribe/Views/V2/Hooks.php:976
+#: src/Tribe/Views/V2/Hooks.php:973
 msgctxt "Capitalized label for the event website link."
 msgid "View %s Website"
 msgstr ""
 
-#: src/Tribe/Views/V2/Hooks.php:1004
+#: src/Tribe/Views/V2/Hooks.php:1001
 msgctxt "Capitalized label for the venue website link."
 msgid "View %s Website"
 msgstr ""
 
-#: src/Tribe/Views/V2/Hooks.php:1032
+#: src/Tribe/Views/V2/Hooks.php:1029
 msgctxt "Capitalized label for the organizer website link."
 msgid "View %s Website"
 msgstr ""
 
-#: src/Tribe/Views/V2/Hooks.php:1096
-msgctxt "The default text label for the \"today\" button on the Month View."
-msgid "This Month"
-msgstr ""
-
-#: src/Tribe/Views/V2/Hooks.php:1116
-msgctxt ""
-"The default text for the 'today' button's title and aria-label on the Week "
-"View."
-msgid "Click to select the current month"
-msgstr ""
-
-#: src/Tribe/Views/V2/Hooks.php:1210
+#: src/Tribe/Views/V2/Hooks.php:1167
 msgid "Enabled"
 msgstr ""
 
-#: src/Tribe/Views/V2/Hooks.php:1210
+#: src/Tribe/Views/V2/Hooks.php:1167
 #: src/admin-views/tribe-options-general.php:182
 #: src/admin-views/tribe-options-general.php:200
 msgid "Disabled"
@@ -5559,44 +5519,39 @@ msgstr ""
 
 #. translators: %s: events label plural
 #: src/Tribe/Views/V2/Template/Featured_Title.php:41
-#: src/functions/template-tags/loop.php:148
+#: src/functions/template-tags/loop.php:133
 msgctxt "featured events title"
 msgid "Featured %s"
 msgstr ""
 
 #: src/Tribe/Views/V2/Template/Title.php:123
-#: src/functions/template-tags/loop.php:158
+#: src/functions/template-tags/loop.php:143
 msgid "Upcoming %s"
 msgstr ""
 
 #: src/Tribe/Views/V2/Template/Title.php:133
-#: src/functions/template-tags/loop.php:175
+#: src/functions/template-tags/loop.php:160
 msgid "Past %s"
 msgstr ""
 
 #: src/Tribe/Views/V2/Template/Title.php:228
-#: src/functions/template-tags/loop.php:173
+#: src/functions/template-tags/loop.php:158
 msgid "%1$s for %2$s - %3$s"
 msgstr ""
 
 #: src/Tribe/Views/V2/Template/Title.php:329
-#: src/functions/template-tags/loop.php:180
+#: src/functions/template-tags/loop.php:165
 msgctxt "month view"
 msgid "%1$s for %2$s"
 msgstr ""
 
 #: src/Tribe/Views/V2/Template/Title.php:356
-#: src/functions/template-tags/loop.php:189
+#: src/functions/template-tags/loop.php:174
 msgctxt "day_view"
 msgid "%1$s for %2$s"
 msgstr ""
 
-#: src/Tribe/Views/V2/View.php:1497
-msgctxt "The default title text for the today button."
-msgid "Click to select today's date"
-msgstr ""
-
-#: src/Tribe/Views/V2/View.php:2095 src/views/v2/day/event/date/featured.php:27
+#: src/Tribe/Views/V2/View.php:2056 src/views/v2/day/event/date/featured.php:27
 #: src/views/v2/day/event/date/featured.php:32
 #: src/views/v2/latest-past/event/date/featured.php:27
 #: src/views/v2/latest-past/event/date/featured.php:32
@@ -5822,14 +5777,12 @@ msgstr ""
 
 #: src/admin-views/admin-welcome-message.php:14
 #: src/admin-views/admin-welcome-message.php:20
-#: src/admin-views/updates/6.0.0.php:18
+#: src/admin-views/updates/6.0.0.php:17
 msgid "Shapes and lines for visual interest"
 msgstr ""
 
 #: src/admin-views/admin-welcome-message.php:27
-#: src/admin-views/aggregator/origins/csv.php:88
-#: src/admin-views/aggregator/origins/csv.php:97
-#: src/admin-views/updates/6.0.0.php:25
+#: src/admin-views/updates/6.0.0.php:24
 msgid "The Events Calendar logo"
 msgstr ""
 
@@ -5908,7 +5861,7 @@ msgstr ""
 #: src/admin-views/admin-welcome-message.php:73
 #: src/admin-views/aggregator/banners/eventbrite-upsell.php:17
 #: src/admin-views/notices/update-6-0-0.php:29
-#: src/admin-views/updates/6.0.0.php:66 src/admin-views/updates/6.0.0.php:100
+#: src/admin-views/updates/6.0.0.php:64 src/admin-views/updates/6.0.0.php:98
 msgid "Learn more"
 msgstr ""
 
@@ -6057,36 +6010,36 @@ msgid ""
 "event files."
 msgstr ""
 
-#: src/admin-views/aggregator/origins/csv.php:40
+#: src/admin-views/aggregator/origins/csv.php:39
 #: src/admin-views/aggregator/origins/ics.php:5
 msgid "Choose File:"
 msgstr ""
 
-#: src/admin-views/aggregator/origins/csv.php:41
+#: src/admin-views/aggregator/origins/csv.php:40
 msgid "Choose a CSV file"
 msgstr ""
 
-#: src/admin-views/aggregator/origins/csv.php:42
+#: src/admin-views/aggregator/origins/csv.php:41
 msgid ""
 "Select your .CSV file from the WordPress media library. You may need to "
 "first upload the file from your computer to the library."
 msgstr ""
 
-#: src/admin-views/aggregator/origins/csv.php:43
+#: src/admin-views/aggregator/origins/csv.php:42
 #: src/admin-views/aggregator/origins/ics.php:9
 msgid "Upload"
 msgstr ""
 
-#: src/admin-views/aggregator/origins/csv.php:44
+#: src/admin-views/aggregator/origins/csv.php:43
 msgid "Upload a CSV File"
 msgstr ""
 
-#: src/admin-views/aggregator/origins/csv.php:69
+#: src/admin-views/aggregator/origins/csv.php:68
 #: src/admin-views/aggregator/origins/ics.php:35
 msgid "No file chosen"
 msgstr ""
 
-#: src/admin-views/aggregator/origins/csv.php:77
+#: src/admin-views/aggregator/origins/csv.php:76
 #: src/admin-views/aggregator/origins/eventbrite.php:219
 #: src/admin-views/aggregator/origins/gcal.php:123
 #: src/admin-views/aggregator/origins/ical.php:119
@@ -6095,18 +6048,6 @@ msgstr ""
 #: src/admin-views/aggregator/origins/url.php:127
 #: src/deprecated/facebook.php:147
 msgid "Preview"
-msgstr ""
-
-#: src/admin-views/aggregator/origins/csv.php:83
-msgid "Need assistance? You can find more information here:"
-msgstr ""
-
-#: src/admin-views/aggregator/origins/csv.php:91
-msgid "Importing Calendar Data From a CSV File"
-msgstr ""
-
-#: src/admin-views/aggregator/origins/csv.php:100
-msgid "CSV File Formatting and Examples "
 msgstr ""
 
 #: src/admin-views/aggregator/origins/eventbrite.php:6
@@ -7254,7 +7195,7 @@ msgid "contact support"
 msgstr ""
 
 #: src/admin-views/notices/legacy-views-updated.php:18
-#: src/admin-views/updates/6.0.0.php:99
+#: src/admin-views/updates/6.0.0.php:97
 msgid "View your calendar"
 msgstr ""
 
@@ -8109,157 +8050,148 @@ msgstr ""
 msgid "Step 2 of 2"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:29
+#: src/admin-views/updates/6.0.0.php:28
 msgid "Welcome to"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:30
+#: src/admin-views/updates/6.0.0.php:29
 msgid "The Events Calendar 6.0"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:31 src/admin-views/updates/6.0.0.php:120
-msgid "Take me to Settings ›"
-msgstr ""
-
-#: src/admin-views/updates/6.0.0.php:41
+#: src/admin-views/updates/6.0.0.php:39
 msgid "What’s New in The Events Calendar 6.0"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:44
+#: src/admin-views/updates/6.0.0.php:42
 msgid "Video describing features on The Events Calendar 6.0"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:50
+#: src/admin-views/updates/6.0.0.php:48
 msgid ""
 "We’re excited to bring all of our users faster event creation and editing in "
 "the WordPress dashboard as well as quicker loading times for your website’s "
 "calendar."
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:51
+#: src/admin-views/updates/6.0.0.php:49
 msgid ""
 "Watch the video or check out the <a href=\"%s\">release notes</a> to learn "
 "more."
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:53
+#: src/admin-views/updates/6.0.0.php:51
 msgid ""
 "Be sure to <a href=\"%s\">migrate</a> to the new data storage system so you "
 "can take advantage of the improved performance."
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:59
+#: src/admin-views/updates/6.0.0.php:57
 msgid "Lightening bolt icon"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:60
+#: src/admin-views/updates/6.0.0.php:58
 msgid "New Features for Events Calendar Pro"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:64
+#: src/admin-views/updates/6.0.0.php:62
 msgid ""
 "A game-changing ✨new✨ post type, Series, allows you to group and display any "
 "single or recurring events together like never before."
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:65
+#: src/admin-views/updates/6.0.0.php:63
 msgid ""
 "With Series, you can edit an individual occurrence of a recurring event "
 "without disconnecting it from the others, allowing you to build complex "
 "event Series with different venues, images, and more."
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:66
+#: src/admin-views/updates/6.0.0.php:64
 msgid "Watch a video"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:66
+#: src/admin-views/updates/6.0.0.php:64
 msgid "See a demo"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:70 src/admin-views/updates/6.0.0.php:75
-#: src/admin-views/updates/6.0.0.php:79 src/admin-views/updates/6.0.0.php:85
+#: src/admin-views/updates/6.0.0.php:68 src/admin-views/updates/6.0.0.php:73
+#: src/admin-views/updates/6.0.0.php:77 src/admin-views/updates/6.0.0.php:83
 msgid "Event series graphic"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:76
+#: src/admin-views/updates/6.0.0.php:74
 msgid "Advanced editing options"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:76
+#: src/admin-views/updates/6.0.0.php:74
 msgid ""
 "for recurring events give you more possibilities for complex event "
 "management."
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:80
+#: src/admin-views/updates/6.0.0.php:78
 msgid "With the Duplicate Event Tool"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:80
+#: src/admin-views/updates/6.0.0.php:78
 msgid ""
 "you can replicate and modify any events in seconds, making event creation a "
 "breeze."
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:86
+#: src/admin-views/updates/6.0.0.php:84
 msgid ""
 "Upgrade to <a href=\"%s\">Events Calendar Pro</a> to unlock these features."
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:95
+#: src/admin-views/updates/6.0.0.php:93
 msgid "Light bulb icon"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:96
+#: src/admin-views/updates/6.0.0.php:94
 msgid "Legacy Views"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:98
+#: src/admin-views/updates/6.0.0.php:96
 msgid ""
 "We have fully removed the legacy views from The Events Calendar 6.0. Your "
 "views have been automatically updated."
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:103
+#: src/admin-views/updates/6.0.0.php:101
 msgid "Resources"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:105
+#: src/admin-views/updates/6.0.0.php:103
 msgid "Migrating Your Site"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:106
+#: src/admin-views/updates/6.0.0.php:104
 msgid "Event Series"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:107
+#: src/admin-views/updates/6.0.0.php:105
 msgid "Creating Recurring Events"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:108
+#: src/admin-views/updates/6.0.0.php:106
 msgid "Duplicating Events"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:109
+#: src/admin-views/updates/6.0.0.php:107
 msgid "Recurring Events & Tickets"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:110
+#: src/admin-views/updates/6.0.0.php:108
 msgid "Community Events & Series"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:111
+#: src/admin-views/updates/6.0.0.php:109
 msgid "Release Notes"
 msgstr ""
 
-#: src/admin-views/updates/6.0.0.php:112
+#: src/admin-views/updates/6.0.0.php:110
 msgid "Get Support"
-msgstr ""
-
-#: src/admin-views/updates/6.0.0.php:119
-msgid ""
-"We won't post this page again once you skip to The Events Calendar Settings."
 msgstr ""
 
 #: src/admin-views/venue-meta-box.php:265
@@ -8331,36 +8263,30 @@ msgstr ""
 msgid "The function needs to be passed an $event or used in the loop."
 msgstr ""
 
-#: src/functions/template-tags/general.php:170
-msgctxt ""
-"The default text label for the \"today\" button on main calendar views."
-msgid "Today"
-msgstr ""
-
 #. translators: %s is the singular translation of "Event"
-#: src/functions/template-tags/general.php:556
+#: src/functions/template-tags/general.php:513
 msgctxt "category list label"
 msgid "%s Category"
 msgid_plural "%s Categories"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/functions/template-tags/general.php:596
-#: src/functions/template-tags/general.php:678
+#: src/functions/template-tags/general.php:553
+#: src/functions/template-tags/general.php:635
 msgid "Tags:"
 msgstr ""
 
-#: src/functions/template-tags/general.php:794
+#: src/functions/template-tags/general.php:751
 msgid "Loading %s"
 msgstr ""
 
-#: src/functions/template-tags/general.php:1350
+#: src/functions/template-tags/general.php:1308
 #: src/views/v2/widgets/widget-events-list/event/date.php:26
 msgctxt "All day label for event"
 msgid "All day"
 msgstr ""
 
-#: src/functions/template-tags/general.php:1455
+#: src/functions/template-tags/general.php:1413
 msgid "Calendar powered by %s"
 msgstr ""
 
@@ -8427,13 +8353,13 @@ msgstr ""
 msgid "In a location"
 msgstr ""
 
-#: src/views/single-event/back-link.php:18 src/views/single-event.php:78
+#: src/views/single-event/back-link.php:18 src/views/single-event.php:69
 msgctxt "%s Events plural label"
 msgid "All %s"
 msgstr ""
 
-#: src/views/single-event/footer.php:21 src/views/single-event.php:96
-#: src/views/single-event.php:130
+#: src/views/single-event/footer.php:21 src/views/single-event.php:87
+#: src/views/single-event.php:121
 msgid "%s Navigation"
 msgstr ""
 
@@ -8486,6 +8412,20 @@ msgstr ""
 
 #: src/views/v2/components/subscribe-links/list.php:25
 msgid "Subscribe to calendar"
+msgstr ""
+
+#: src/views/v2/components/top-bar/today.php:21
+#: src/views/v2/components/top-bar/today.php:22
+#: src/views/v2/list/nav/today.php:23 src/views/v2/list/nav/today.php:24
+#: src/views/v2/month/mobile-events/nav/today.php:23
+#: src/views/v2/month/mobile-events/nav/today.php:24
+msgid "Click to select today's date"
+msgstr ""
+
+#: src/views/v2/components/top-bar/today.php:24
+#: src/views/v2/list/nav/today.php:26
+#: src/views/v2/month/mobile-events/nav/today.php:26
+msgid "Today"
 msgstr ""
 
 #: src/views/v2/day/nav/next-disabled.php:19
@@ -8613,10 +8553,6 @@ msgstr ""
 #: src/views/v2/month/top-bar/nav/prev.php:22
 #: src/views/v2/month/top-bar/nav/prev.php:23
 msgid "Previous month"
-msgstr ""
-
-#: tests/_data/classes/Tribe__Events__Aggregator__Record__Manual_Test.php:12
-msgid "Manual Test"
 msgstr ""
 
 #. Description of the plugin/theme

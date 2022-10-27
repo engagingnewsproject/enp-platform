@@ -5,9 +5,6 @@
  * Display functions (template-tags) for use in WordPress templates.
  */
 
-use Tribe\Events\Views\V2\Views\Day_View;
-use Tribe\Events\Views\V2\Views\Month_View;
-
 /**
  * Past Loop View Test
  *
@@ -80,32 +77,20 @@ function tribe_is_showing_all() : bool {
 /**
  * Date View Test
  *
- * Check if current display is a date-based View.
+ *  Check if current display is "bydate"
  *
  * @return bool
  */
 function tribe_is_by_date() {
-	$by_date_views = [
-		tribe( Month_View::class )->get_slug(),
-		tribe( Day_View::class )->get_slug(),
-	];
-
-	$context = tribe_context();
-	$context_view = $context->get( 'view' );
-
-	$tribe_is_by_date = in_array(
-		$context_view,
-		$by_date_views
-	);
+	$tribe_ecp        = Tribe__Events__Main::instance();
+	$tribe_is_by_date = ( $tribe_ecp->displaying == 'bydate' ) ? true : false;
 
 	/**
-	 * Allows for customization of the result of whether or not a "by date" view is being viewed.
-	 * Events PRO hooks in here to indicate that Week View is a by-date-view at 10.
+	 * Allows for customization of the result of whether or not a "bydate" view is being viewed.
 	 *
-	 * @param bool $tribe_is_by_date Whether a "by date" calendar view is currently being displayed.
-	 * @param Tribe__Context The global context object.
+	 * @param bool $tribe_is_by_date Whether a "bydate" calendar view is currently being displayed.
 	 */
-	return (bool) apply_filters( 'tribe_is_by_date', (bool) $tribe_is_by_date, $context );
+	return apply_filters( 'tribe_is_by_date', $tribe_is_by_date );
 }
 
 /**

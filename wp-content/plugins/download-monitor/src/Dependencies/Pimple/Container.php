@@ -24,12 +24,12 @@
  * THE SOFTWARE.
  */
 
-namespace WPChill\DownloadMonitor\Dependencies\Pimple;
+namespace Never5\DownloadMonitor\Dependencies\Pimple;
 
-use WPChill\DownloadMonitor\Dependencies\Pimple\Exception\ExpectedInvokableException;
-use WPChill\DownloadMonitor\Dependencies\Pimple\Exception\FrozenServiceException;
-use WPChill\DownloadMonitor\Dependencies\Pimple\Exception\InvalidServiceIdentifierException;
-use WPChill\DownloadMonitor\Dependencies\Pimple\Exception\UnknownIdentifierException;
+use Never5\DownloadMonitor\Dependencies\Pimple\Exception\ExpectedInvokableException;
+use Never5\DownloadMonitor\Dependencies\Pimple\Exception\FrozenServiceException;
+use Never5\DownloadMonitor\Dependencies\Pimple\Exception\InvalidServiceIdentifierException;
+use Never5\DownloadMonitor\Dependencies\Pimple\Exception\UnknownIdentifierException;
 
 /**
  * Container main class.

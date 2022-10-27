@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Product;
+namespace Never5\DownloadMonitor\Shop\Product;
 
 class Factory {
 

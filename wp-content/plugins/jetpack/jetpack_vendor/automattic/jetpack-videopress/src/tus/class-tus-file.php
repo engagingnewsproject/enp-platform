@@ -107,20 +107,6 @@ class Tus_File {
 	}
 
 	/**
-	 * Returns an integer if it's castable. Otherwise it throws
-	 *
-	 * @param string|int $number Number to cast.
-	 * @throws InvalidArgumentException If argument is invalid.
-	 * @return int
-	 */
-	public function ensure_integer( $number ) {
-		if ( ! is_numeric( $number ) ) {
-			throw new InvalidArgumentException( 'argument needs to be an integer. Check stacktrace' );
-		}
-		return (int) $number;
-	}
-
-	/**
 	 * Set file meta.
 	 *
 	 * @param int    $offset Offset.
@@ -132,9 +118,12 @@ class Tus_File {
 	 * @return $this
 	 */
 	public function set_meta( $offset, $file_size, $file_path, $location = null ) {
-		$offset    = $this->ensure_integer( $offset );
-		$file_size = $this->ensure_integer( $file_size );
-
+		if ( ! is_int( $offset ) ) {
+			throw new InvalidArgumentException( '$offset needs to be an integer' );
+		}
+		if ( ! is_int( $file_size ) ) {
+			throw new InvalidArgumentException( '$file_size needs to be an integer' );
+		}
 		if ( ! is_string( $file_path ) ) {
 			throw new InvalidArgumentException( '$file_path needs to be a string' );
 		}
@@ -183,7 +172,9 @@ class Tus_File {
 	 * @return Tus_File
 	 */
 	public function set_file_size( $size ) {
-		$size            = $this->ensure_integer( $size );
+		if ( ! is_int( $size ) ) {
+			throw new InvalidArgumentException( '$size needs to be an integer' );
+		}
 		$this->file_size = $size;
 
 		return $this;
@@ -259,7 +250,9 @@ class Tus_File {
 	 * @return self
 	 */
 	public function set_offset( $offset ) {
-		$offset       = $this->ensure_integer( $offset );
+		if ( ! is_int( $offset ) ) {
+			throw new InvalidArgumentException( '$offset needs to be an integer' );
+		}
 		$this->offset = absint( $offset );
 
 		return $this;
@@ -497,11 +490,14 @@ class Tus_File {
 	 * @param int      $whence The whence.
 	 *
 	 * @throws File_Exception Exc.
+	 * @throws InvalidArgumentException If argument is invalid.
 	 *
 	 * @return int
 	 */
 	public function seek( $handle, $offset, $whence = SEEK_SET ) {
-		$offset   = $this->ensure_integer( $offset );
+		if ( ! is_int( $offset ) ) {
+			throw new InvalidArgumentException( '$offset needs to be an integer' );
+		}
 		$position = fseek( $handle, $offset, $whence );
 
 		if ( -1 === $position ) {
@@ -519,9 +515,12 @@ class Tus_File {
 	 *
 	 * @return string
 	 * @throws File_Exception If no data is read.
+	 * @throws InvalidArgumentException If argument is invalid.
 	 */
 	public function read( $handle, $chunk_size ) {
-		$chunk_size = $this->ensure_integer( $chunk_size );
+		if ( ! is_int( $chunk_size ) ) {
+			throw new InvalidArgumentException( '$chunk_size needs to be an integer' );
+		}
 		// phpcs:disable WordPress.WP.AlternativeFunctions.file_system_read_fread
 		$data = fread( $handle, $chunk_size );
 

@@ -22,19 +22,21 @@
 	} );
 
 	recommendationsBannerContinue.on( 'click', function () {
-		var fieldNames = [ 'builder', 'store', 'personal' ];
+		var fieldNames = [ 'personal', 'business', 'store', 'other' ];
 		var formData = {};
 		fieldNames.forEach( function ( name ) {
 			formData[ name ] = $( "input[name='" + name + "']" ).prop( 'checked' );
 		} );
+
 		$.post(
 			jp_banner.ajax_url,
 			{
 				action: 'jetpack_recommendations_banner',
 				nonce: jp_banner.nonce,
 				personal: formData.personal,
-				builder: formData.builder,
+				business: formData.business,
 				store: formData.store,
+				other: formData.other,
 			},
 			function ( response ) {
 				if ( true === response.success ) {

@@ -96,7 +96,7 @@ if ( ! class_exists( 'acf_pro_updates' ) ) :
 			}
 
 			// display message
-			echo '<br />' . sprintf( __( 'To enable updates, please enter your license key on the <a href="%1$s">Updates</a> page. If you don\'t have a licence key, please see <a href="%2$s" target="_blank">details & pricing</a>.', 'acf' ), admin_url( 'edit.php?post_type=acf-field-group&page=acf-settings-updates' ), acf_add_url_utm_tags( 'https://www.advancedcustomfields.com/pro/', 'ACF upgrade', 'updates' ) );
+			echo '<br />' . sprintf( __( 'To enable updates, please enter your license key on the <a href="%1$s">Updates</a> page. If you don\'t have a licence key, please see <a href="%2$s" target="_blank">details & pricing</a>.', 'acf' ), admin_url( 'edit.php?post_type=acf-field-group&page=acf-settings-updates' ), 'https://www.advancedcustomfields.com/pro/?utm_source=ACF%2Bpro%2Bplugin&utm_medium=insideplugin&utm_campaign=ACF%2Bupgrade&utm_content=updates' );
 
 		}
 
@@ -272,8 +272,8 @@ function acf_pro_display_activation_error() {
 	}
 
 	// Append a retry link if we're not already on the settings page.
-	global $plugin_page;
-	if ( ! $plugin_page || 'acf-settings-updates' !== $plugin_page ) {
+	$current_screen = get_current_screen();
+	if ( $current_screen && isset( $current_screen->id ) && 'custom-fields_page_acf-settings-updates' !== $current_screen->id ) {
 		$nonce                    = wp_create_nonce( 'acf_retry_activation' );
 		$check_again_url          = admin_url( 'edit.php?post_type=acf-field-group&page=acf-settings-updates&acf_retry_nonce=' . $nonce );
 		$activation_data['error'] = $activation_data['error'] . ' <a href="' . $check_again_url . '">' . __( 'Check Again', 'acf' ) . '</a>';
@@ -315,39 +315,6 @@ function acf_pro_get_license() {
 
 }
 
-/**
- * An ACF specific getter to replace `home_url` in our licence checks to ensure we can avoid third party filters.
- *
- * @since 6.0.1
- *
- * @return string $home_url The output from home_url, sans known third party filters which cause licence activation issues.
- */
-function acf_get_home_url() {
-	// Disable WPML's home url overrides for our license check.
-	add_filter( 'wpml_get_home_url', 'acf_licence_wpml_intercept', 99, 2 );
-
-	$home_url = home_url();
-
-	// Re-enable WPML's home url overrides.
-	remove_filter( 'wpml_get_home_url', 'acf_licence_wpml_intercept', 99 );
-
-	return $home_url;
-}
-
-/**
- * Return the original home url inside ACF's home url getter.
- *
- * @since 6.0.1
- *
- * @param string $home_url the WPML converted home URL.
- * @param string $url the original home URL.
- *
- * @return string $url
- */
-function acf_licence_wpml_intercept( $home_url, $url ) {
-	return $url;
-}
-
 
 /**
  *  This function will return the license key
@@ -361,8 +328,9 @@ function acf_licence_wpml_intercept( $home_url, $url ) {
  */
 function acf_pro_get_license_key( $skip_url_check = false ) {
 
+	// vars
 	$license  = acf_pro_get_license();
-	$home_url = acf_get_home_url();
+	$home_url = home_url();
 
 	// bail early if empty
 	if ( ! $license || ! $license['key'] ) {
@@ -401,7 +369,7 @@ function acf_pro_update_license( $key = '' ) {
 		// vars
 		$data = array(
 			'key' => $key,
-			'url' => acf_get_home_url(),
+			'url' => home_url(),
 		);
 
 		// encode
@@ -452,7 +420,7 @@ function acf_pro_activate_license( $license_key, $silent = false ) {
 		'acf_license' => trim( $license_key ),
 		'acf_version' => acf_get_setting( 'version' ),
 		'wp_name'     => get_bloginfo( 'name' ),
-		'wp_url'      => acf_get_home_url(),
+		'wp_url'      => home_url(),
 		'wp_version'  => get_bloginfo( 'version' ),
 		'wp_language' => get_bloginfo( 'language' ),
 		'wp_timezone' => get_option( 'timezone_string' ),
@@ -533,7 +501,7 @@ function acf_pro_deactivate_license( $silent = false ) {
 	// Connect to API.
 	$post     = array(
 		'acf_license' => $license,
-		'wp_url'      => acf_get_home_url(),
+		'wp_url'      => home_url(),
 	);
 	$response = acf_updates()->request( 'v2/plugins/deactivate?p=pro', $post );
 

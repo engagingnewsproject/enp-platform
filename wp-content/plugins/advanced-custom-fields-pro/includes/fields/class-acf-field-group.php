@@ -180,7 +180,7 @@ if ( ! class_exists( 'acf_field__group' ) ) :
 				return null;
 			}
 
-			// bail early if no sub fields
+			// bail ealry if no sub fields
 			if ( empty( $field['sub_fields'] ) ) {
 				return null;
 			}
@@ -372,7 +372,7 @@ if ( ! class_exists( 'acf_field__group' ) ) :
 				// prepare field (allow sub fields to be removed)
 				$sub_field = acf_prepare_field( $sub_field );
 
-				// bail early if no field
+				// bail ealry if no field
 				if ( ! $sub_field ) {
 					continue;
 				}
@@ -393,7 +393,7 @@ if ( ! class_exists( 'acf_field__group' ) ) :
 				}
 
 				?>
-			<th <?php echo acf_esc_attrs( $atts ); ?>>
+			<th <?php acf_esc_attr_e( $atts ); ?>>
 				<?php acf_render_field_label( $sub_field ); ?>
 				<?php acf_render_field_instructions( $sub_field ); ?>
 			</th>
@@ -436,24 +436,23 @@ if ( ! class_exists( 'acf_field__group' ) ) :
 
 			// vars
 			$args = array(
-				'fields'      => $field['sub_fields'],
-				'parent'      => $field['ID'],
-				'is_subfield' => true,
+				'fields' => $field['sub_fields'],
+				'parent' => $field['ID'],
 			);
 
 			?>
-			<div class="acf-field acf-field-setting-sub_fields" data-setting="group" data-name="sub_fields">
-				<div class="acf-label">
-					<label><?php _e( 'Sub Fields', 'acf' ); ?></label>	
-				</div>
-				<div class="acf-input acf-input-sub">
-					<?php
+		<tr class="acf-field acf-field-setting-sub_fields" data-setting="group" data-name="sub_fields">
+			<td class="acf-label">
+				<label><?php _e( 'Sub Fields', 'acf' ); ?></label>	
+			</td>
+			<td class="acf-input">
+				<?php
 
-					acf_get_view( 'field-group-fields', $args );
+				acf_get_view( 'field-group-fields', $args );
 
-					?>
-				</div>
-			</div>
+				?>
+			</td>
+		</tr>
 			<?php
 
 			// layout
@@ -625,7 +624,7 @@ if ( ! class_exists( 'acf_field__group' ) ) :
 
 		function delete_value( $post_id, $meta_key, $field ) {
 
-			// bail early if no sub fields
+			// bail ealry if no sub fields
 			if ( empty( $field['sub_fields'] ) ) {
 				return null;
 			}

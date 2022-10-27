@@ -31,7 +31,7 @@ class DLM_Gutenberg {
 
 		wp_register_style(
 			'dlm_gutenberg_blocks-editor',
-			plugins_url( '/assets/css/gb-editor.min.css', download_monitor()->get_plugin_file() ),
+			plugins_url( '/assets/css/gb-editor.css', download_monitor()->get_plugin_file() ),
 			array( 'wp-edit-blocks' ),
 			DLM_VERSION
 		);
@@ -114,11 +114,6 @@ class DLM_Gutenberg {
 		}
 
 		$template_handler = new DLM_Template_Handler();
-		// enqueue style only on shortcode use
-		wp_enqueue_style( 'dlm-frontend' );
-
-		// Action to allow the adition of extra scripts and code related to the shortcode
-		do_action( 'dlm_download_shortcode_scripts' );
 
 		// do the output
 		ob_start();

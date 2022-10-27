@@ -1,9 +1,9 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Admin;
+namespace Never5\DownloadMonitor\Shop\Admin;
 
-use WPChill\DownloadMonitor\Shop\Services\Services;
-use WPChill\DownloadMonitor\Shop\Util\PostType;
+use Never5\DownloadMonitor\Shop\Services\Services;
+use Never5\DownloadMonitor\Shop\Util\PostType;
 
 if ( ! class_exists( '\WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
@@ -77,7 +77,7 @@ class OrderTable extends \WP_List_Table {
 	/**
 	 * The checkbox column
 	 *
-	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
+	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
 	 *
 	 * @return string
 	 */
@@ -107,7 +107,7 @@ class OrderTable extends \WP_List_Table {
 	 *
 	 * @access public
 	 *
-	 * @param \WPChill\DownloadMonitor\Shop\Order\Order $order
+	 * @param \Never5\DownloadMonitor\Shop\Order\Order $order
 	 * @param mixed $column_name
 	 *
 	 * @return string
@@ -201,10 +201,10 @@ class OrderTable extends \WP_List_Table {
                 </li>
 				<?php
 
-				/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $order_repo */
+				/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $order_repo */
 				$order_repo = Services::get()->service( 'order_repository' );
 				$statuses   = Services::get()->service( 'order_status' )->get_available_statuses();
-				/** @var \WPChill\DownloadMonitor\Shop\Order\Status\OrderStatus $status */
+				/** @var \Never5\DownloadMonitor\Shop\Order\Status\OrderStatus $status */
 				foreach ( $statuses as $status ) {
 
 					$count = $order_repo->num_rows( array(
@@ -363,7 +363,7 @@ class OrderTable extends \WP_List_Table {
 			$order = 'ASC';
 		}
 
-		/** @var \WPChill\DownloadMonitor\Shop\Order\WordPressRepository $order_repository */
+		/** @var \Never5\DownloadMonitor\Shop\Order\WordPressRepository $order_repository */
 		$order_repository = Services::get()->service( 'order_repository' );
 
 		$total_items = $order_repository->num_rows( $filters );

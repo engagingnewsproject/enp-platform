@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Session;
+namespace Never5\DownloadMonitor\Shop\Session;
 
 class WordPressRepository implements Repository {
 

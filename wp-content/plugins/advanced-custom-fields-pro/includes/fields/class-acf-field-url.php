@@ -91,7 +91,10 @@ if ( ! class_exists( 'acf_field_url' ) ) :
 		*
 		*  @param   $field  - an array holding all the field's data
 		*/
+
 		function render_field_settings( $field ) {
+
+			// default_value
 			acf_render_field_setting(
 				$field,
 				array(
@@ -101,17 +104,8 @@ if ( ! class_exists( 'acf_field_url' ) ) :
 					'name'         => 'default_value',
 				)
 			);
-		}
 
-		/**
-		 * Renders the field settings used in the "Presentation" tab.
-		 *
-		 * @since 6.0
-		 *
-		 * @param array $field The field settings array.
-		 * @return void
-		 */
-		function render_field_presentation_settings( $field ) {
+			// placeholder
 			acf_render_field_setting(
 				$field,
 				array(
@@ -121,6 +115,7 @@ if ( ! class_exists( 'acf_field_url' ) ) :
 					'name'         => 'placeholder',
 				)
 			);
+
 		}
 
 

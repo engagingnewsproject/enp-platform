@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Cart;
+namespace Never5\DownloadMonitor\Shop\Cart;
 
 class Cart {
 

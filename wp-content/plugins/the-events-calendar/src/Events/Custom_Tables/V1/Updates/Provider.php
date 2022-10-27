@@ -235,11 +235,7 @@ class Provider extends Service_Provider implements Provider_Contract {
 	 * @param WP_REST_Request $request       A reference to the REST Request that is being
 	 *                                       processed.
 	 */
-	public function commit_rest_update( $post, $request ) {
-		if ( ! ( $post instanceof WP_Post && $request instanceof WP_REST_Request ) ) {
-			return;
-		}
-
+	public function commit_rest_update( WP_Post $post, WP_REST_Request $request ) {
 		$this->container->make( Controller::class )->commit_post_rest_update( $post, $request );
 	}
 
@@ -277,13 +273,9 @@ class Provider extends Service_Provider implements Provider_Contract {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @param int $post_id The deleted Event post ID.
+	 * @param int     $post_id The deleted Event post ID.
 	 */
-	public function delete_custom_tables_data( $post_id ) {
-		if ( ! is_int( $post_id ) ) {
-			return;
-		}
-
+	public function delete_custom_tables_data( int $post_id ) {
 		$this->container->make( Controller::class )->delete_custom_tables_data( $post_id );
 	}
 

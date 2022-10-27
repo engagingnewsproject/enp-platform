@@ -151,19 +151,25 @@ if ( ! class_exists( 'ACF_Updates' ) ) :
 			return $json;
 		}
 
-		/**
-		 *  Returns update information for the given plugin id.
-		 *
-		 *  @since   5.5.10
-		 *
-		 *  @param   string  $id The plugin id such as 'pro'.
-		 *  @param   boolean $force_check Bypasses cached result. Defaults to false.
-		 *  @return  array|WP_Error
-		 */
-		public function get_plugin_info( $id = '', $force_check = false ) {
+		/*
+		*  get_plugin_info
+		*
+		*  Returns update information for the given plugin id.
+		*
+		*  @date    9/4/17
+		*  @since   5.5.10
+		*
+		*  @param   string $id The plugin id such as 'pro'.
+		*  @param   boolean $force_check Bypasses cached result. Defaults to false.
+		*  @return  array|WP_Error
+		*/
+
+		function get_plugin_info( $id = '', $force_check = false ) {
+
+			// var
 			$transient_name = 'acf_plugin_info_' . $id;
 
-			// check cache but allow for $force_check override.
+			// check cache but allow for $force_check override
 			if ( ! $force_check ) {
 				$transient = get_transient( $transient_name );
 				if ( $transient !== false ) {
@@ -171,19 +177,21 @@ if ( ! class_exists( 'ACF_Updates' ) ) :
 				}
 			}
 
+			// connect
 			$response = $this->request( 'v2/plugins/get-info?p=' . $id );
 
-			// convert string (misc error) to WP_Error object.
+			// convert string (misc error) to WP_Error object
 			if ( is_string( $response ) ) {
 				$response = new WP_Error( 'server_error', esc_html( $response ) );
 			}
 
-			// allow json to include expiration but force minimum and max for safety.
+			// allow json to include expiration but force minimum and max for safety
 			$expiration = $this->get_expiration( $response, DAY_IN_SECONDS, MONTH_IN_SECONDS );
 
-			// update transient.
+			// update transient
 			set_transient( $transient_name, $response, $expiration );
 
+			// return
 			return $response;
 		}
 
@@ -296,8 +304,11 @@ if ( ! class_exists( 'ACF_Updates' ) ) :
 		}
 
 		/**
+		 *  get_expiration
+		 *
 		 *  This function safely gets the expiration value from a response.
 		 *
+		 *  @date    8/7/18
 		 *  @since   5.6.9
 		 *
 		 *  @param   mixed $response The response from the server. Default false.
@@ -305,29 +316,28 @@ if ( ! class_exists( 'ACF_Updates' ) ) :
 		 *  @param   int   $max The maximum expiration limit. Default 0.
 		 *  @return  int
 		 */
-		public function get_expiration( $response = false, $min = 0, $max = 0 ) {
+
+		function get_expiration( $response = false, $min = 0, $max = 0 ) {
+
+			// vars
 			$expiration = 0;
 
-			// check possible error conditions.
-			if ( is_wp_error( $response ) || is_string( $response ) ) {
-				return 5 * MINUTE_IN_SECONDS;
-			}
-
-			// use the server requested expiration if present.
+			// check
 			if ( is_array( $response ) && isset( $response['expiration'] ) ) {
 				$expiration = (int) $response['expiration'];
 			}
 
-			// use the minimum if neither check matches, or ensure the server expiration isn't lower than our minimum.
+			// min
 			if ( $expiration < $min ) {
 				return $min;
 			}
 
-			// ensure the server expiration isn't higher than our max.
+			// max
 			if ( $expiration > $max ) {
 				return $max;
 			}
 
+			// return
 			return $expiration;
 		}
 
@@ -368,7 +378,7 @@ if ( ! class_exists( 'ACF_Updates' ) ) :
 			}
 
 			// force-check (only once)
-			$force_check = ( $this->checked == 0 ) ? ! empty( $_GET['force-check'] ) : false; // phpcs:ignore -- False positive, value not used.
+			$force_check = ( $this->checked == 0 ) ? ! empty( $_GET['force-check'] ) : false;
 
 			// fetch updates (this filter is called multiple times during a single page load)
 			$updates = $this->get_plugin_updates( $force_check );

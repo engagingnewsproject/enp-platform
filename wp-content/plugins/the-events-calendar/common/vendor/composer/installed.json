@@ -1,34 +1,26 @@
 [
     {
         "name": "firebase/php-jwt",
-        "version": "v6.3.0",
-        "version_normalized": "6.3.0.0",
+        "version": "v5.0.0",
+        "version_normalized": "5.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/firebase/php-jwt.git",
-            "reference": "018dfc4e1da92ad8a1b90adc4893f476a3b41cb8"
+            "reference": "9984a4d3a32ae7673d6971ea00bae9d0a1abba0e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/firebase/php-jwt/zipball/018dfc4e1da92ad8a1b90adc4893f476a3b41cb8",
-            "reference": "018dfc4e1da92ad8a1b90adc4893f476a3b41cb8",
+            "url": "https://api.github.com/repos/firebase/php-jwt/zipball/9984a4d3a32ae7673d6971ea00bae9d0a1abba0e",
+            "reference": "9984a4d3a32ae7673d6971ea00bae9d0a1abba0e",
             "shasum": ""
         },
         "require": {
-            "php": "^7.1||^8.0"
+            "php": ">=5.3.0"
         },
         "require-dev": {
-            "guzzlehttp/guzzle": "^6.5||^7.4",
-            "phpspec/prophecy-phpunit": "^1.1",
-            "phpunit/phpunit": "^7.5||^9.5",
-            "psr/cache": "^1.0||^2.0",
-            "psr/http-client": "^1.0",
-            "psr/http-factory": "^1.0"
+            "phpunit/phpunit": " 4.8.35"
         },
-        "suggest": {
-            "paragonie/sodium_compat": "Support EdDSA (Ed25519) signatures when libsodium is not present"
-        },
-        "time": "2022-07-15T16:48:45+00:00",
+        "time": "2017-06-27T22:17:23+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -53,11 +45,7 @@
             }
         ],
         "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
-        "homepage": "https://github.com/firebase/php-jwt",
-        "keywords": [
-            "jwt",
-            "php"
-        ]
+        "homepage": "https://github.com/firebase/php-jwt"
     },
     {
         "name": "lucatume/di52",
@@ -235,20 +223,20 @@
     },
     {
         "name": "xrstf/composer-php52",
-        "version": "v1.0.21",
-        "version_normalized": "1.0.21.0",
+        "version": "v1.0.20",
+        "version_normalized": "1.0.20.0",
         "source": {
             "type": "git",
             "url": "https://github.com/composer-php52/composer-php52.git",
-            "reference": "670ac996f93792f8de0427605cfef342b3429ff3"
+            "reference": "bd41459d5e27df8d33057842b32377c39e97a5a8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/composer-php52/composer-php52/zipball/670ac996f93792f8de0427605cfef342b3429ff3",
-            "reference": "670ac996f93792f8de0427605cfef342b3429ff3",
+            "url": "https://api.github.com/repos/composer-php52/composer-php52/zipball/bd41459d5e27df8d33057842b32377c39e97a5a8",
+            "reference": "bd41459d5e27df8d33057842b32377c39e97a5a8",
             "shasum": ""
         },
-        "time": "2022-06-08T03:23:46+00:00",
+        "time": "2016-04-16T21:52:24+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

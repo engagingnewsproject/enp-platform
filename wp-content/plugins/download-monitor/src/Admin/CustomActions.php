@@ -149,10 +149,9 @@ class DLM_Custom_Actions {
 			if ( 'download_id' == $vars['orderby'] ) {
 				$vars['orderby'] = 'ID';
 			} elseif ( 'download_count' == $vars['orderby'] ) {
-				$vars = array_merge(
-					$vars,
-					array(
-						'order_by_count' => '1',
+				$vars = array_merge( $vars, array(
+					'meta_key' => '_download_count',
+					'orderby'  => 'meta_value_num'
 				) );
 
 			} elseif ( 'featured' == $vars['orderby'] ) {
@@ -179,14 +178,6 @@ class DLM_Custom_Actions {
 				) );
 			}
 		}
-
-		/**
-		 * Add arguments to query before querying
-		 * @hooked ( DLM_Backwards_Compatibility, orderby_compatibility )
-		 * 
-		 * @since 4.6.0
-		 */
-		do_action( 'dlm_query_args', $vars );
 
 		return apply_filters( 'dlm_admin_sort_columns', $vars);
 	}

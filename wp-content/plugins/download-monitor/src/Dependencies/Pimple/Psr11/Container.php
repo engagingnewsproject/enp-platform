@@ -24,10 +24,10 @@
  * THE SOFTWARE.
  */
 
-namespace WPChill\DownloadMonitor\Dependencies\Pimple\Psr11;
+namespace Never5\DownloadMonitor\Dependencies\Pimple\Psr11;
 
-use WPChill\DownloadMonitor\Dependencies\Pimple\Container as PimpleContainer;
-use WPChill\DownloadMonitor\Dependencies\Psr\Container\ContainerInterface;
+use Never5\DownloadMonitor\Dependencies\Pimple\Container as PimpleContainer;
+use Never5\DownloadMonitor\Dependencies\Psr\Container\ContainerInterface;
 
 /**
  * PSR-11 compliant wrapper.

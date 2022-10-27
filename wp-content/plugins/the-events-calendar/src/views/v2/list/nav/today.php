@@ -20,9 +20,9 @@
 		href="<?php echo esc_url( $today_url ); ?>"
 		class="tribe-events-c-nav__today tribe-common-b2"
 		data-js="tribe-events-view-link"
-		aria-label="<?php echo esc_attr( $today_title ); ?>"
-		title="<?php echo esc_attr( $today_title ); ?>"
+		aria-label="<?php esc_attr_e( 'Click to select today\'s date', 'the-events-calendar' ); ?>"
+		title="<?php esc_attr_e( 'Click to select today\'s date', 'the-events-calendar' ); ?>"
 	>
-		<?php echo esc_html( $today_label ); ?>
+		<?php esc_html_e( 'Today', 'the-events-calendar' ); ?>
 	</a>
 </li>

@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Rank Math\n"
 "Last-Translator: Rank Math\n"
-"POT-Creation-Date: 2022-10-19 05:13+0000\n"
+"POT-Creation-Date: 2022-08-24 04:18+0000\n"
 "Project-Id-Version: undefined\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -101,6 +101,9 @@ msgid "Rank Math Team"
 msgstr ""
 
 msgid "Rank Math Free"
+msgstr ""
+
+msgid "https://rankmath.com/changelog/free"
 msgstr ""
 
 #. translators: placeholders are the old and new version numbers.
@@ -1826,12 +1829,6 @@ msgstr ""
 msgid "Output list of categories associated to the current post, with customization options."
 msgstr ""
 
-msgid "Primary Terms"
-msgstr ""
-
-msgid "Output list of terms from the primary taxonomy associated to the current post."
-msgstr ""
-
 msgid "Post Tag"
 msgstr ""
 
@@ -2083,10 +2080,6 @@ msgstr ""
 msgid "Imported blocks from posts %1$s - %2$s out of %3$s "
 msgstr ""
 
-#. translators: start, end, total
-msgid "Recalculating scores for posts %1$s - %2$s... "
-msgstr ""
-
 msgid "Settings import failed."
 msgstr ""
 
@@ -2272,9 +2265,6 @@ msgid "Start Import"
 msgstr ""
 
 msgid "Input Data From:"
-msgstr ""
-
-msgid "Recalculate SEO Scores"
 msgstr ""
 
 #. translators: 1 is plugin name
@@ -2894,30 +2884,6 @@ msgid "Delete the schema data from the old format (<1.0.48). Note: This process 
 msgstr ""
 
 msgid "Are you sure you want to delete the old schema data? This action is irreversible."
-msgstr ""
-
-msgid "Update SEO Scores"
-msgstr ""
-
-msgid "This tool will calculate the SEO score for the posts/pages that have a Focus Keyword set. Note: This process may take some time and the browser tab must be kept open while it is running."
-msgstr ""
-
-msgid "Recalculate Scores"
-msgstr ""
-
-msgid "Recalculating SEO Scores"
-msgstr ""
-
-msgid "This process may take a while. Please keep this window open until the process is complete."
-msgstr ""
-
-msgid "Calculated:"
-msgstr ""
-
-msgid "The SEO Scores have been recalculated successfully!"
-msgstr ""
-
-msgid "Close"
 msgstr ""
 
 #. translators: placeholder is the number of modified posts.
@@ -4086,7 +4052,7 @@ msgid "Google Search Console"
 msgstr ""
 
 #. translators: Google Search Console Link
-msgid "Enter your Google Search Console verification HTML code or ID. Learn how to get it: %s"
+msgid "Enter your Google Search Console verification HTML code or ID. Get it from here: %s"
 msgstr ""
 
 msgid "Search Console Verification Page"
@@ -4106,14 +4072,14 @@ msgid "Baidu Webmaster Tools"
 msgstr ""
 
 #. translators: Baidu webmaster link
-msgid "Enter your Baidu Webmaster Tools verification HTML code or ID. Learn how to get it: %s"
+msgid "Enter your Baidu Webmaster Tools verification HTML code or ID. Get it from here: %s"
 msgstr ""
 
 msgid "Yandex Verification ID"
 msgstr ""
 
 #. translators: Yandex webmaster link
-msgid "Enter your Yandex verification HTML code or ID. Learn how to get it: %s"
+msgid "Enter your Yandex verification HTML code or ID. Get it from here: %s"
 msgstr ""
 
 msgid "Yandex.Webmaster Page"
@@ -4123,7 +4089,7 @@ msgid "Pinterest Verification ID"
 msgstr ""
 
 #. translators: Pinterest webmaster link
-msgid "Enter your Pinterest verification HTML code or ID. Learn how to get it: %s"
+msgid "Enter your Pinterest verification HTML code or ID. Get it from here: %s"
 msgstr ""
 
 msgid "Pinterest Account"
@@ -4133,7 +4099,7 @@ msgid "Norton Safe Web Verification ID"
 msgstr ""
 
 #. translators: Norton webmaster link
-msgid "Enter your Norton Safe Web verification HTML code or ID. Learn how to get it: %s"
+msgid "Enter your Norton Safe Web verification HTML code or ID. Get it from here: %s"
 msgstr ""
 
 msgid "Norton Ownership Verification Page"
@@ -4633,9 +4599,6 @@ msgstr ""
 msgid "If you were using another plugin to add important SEO information to your website before switching to Rank Math SEO, you can import the settings and data here. %s"
 msgstr ""
 
-msgid "Calculate SEO Scores"
-msgstr ""
-
 msgid "Clean"
 msgstr ""
 
@@ -4661,13 +4624,13 @@ msgstr ""
 msgid "Recommended: PHP 7.4 or later"
 msgstr ""
 
-msgid "Rank Math is compatible with your PHP version but we recommend updating to PHP 7.4 for increased speed and security."
+msgid "Rank Math is compatible with your PHP version but we recommend updating to PHP 7.2 for increased speed and security."
 msgstr ""
 
 msgid "More information"
 msgstr ""
 
-msgid "This plugin is compatible with your PHP version but we recommend updating to PHP 7.4 for increased speed and security."
+msgid "This plugin is compatible with your PHP version but we recommend updating to PHP 7.2 for increased speed and security."
 msgstr ""
 
 msgid "You are using the recommended WordPress version."

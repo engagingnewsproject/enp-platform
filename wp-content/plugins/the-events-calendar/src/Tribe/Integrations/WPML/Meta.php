@@ -24,11 +24,10 @@ class Tribe__Events__Integrations__WPML__Meta {
 	 * @param string $value
 	 * @param int    $object_id
 	 * @param string $meta_key
-	 * @param bool   $single
 	 *
 	 * @return mixed The translated id for _EventOrganizerID & _EventVenueID or false.
 	 */
-	public function translate_post_id( $value, $object_id, $meta_key, $single ) {
+	public function translate_post_id( $value, $object_id, $meta_key ) {
 		if ( ! empty( $_POST ) ) {
 			return $value;
 		}
@@ -39,18 +38,10 @@ class Tribe__Events__Integrations__WPML__Meta {
 			return $value;
 		}
 
-		$cache = tribe_cache();
-
-		$cache_key = 'wpml_meta_translate_post_id_' . $object_id . '-' . $meta_key;
-
-		if ( isset( $cache[ $cache_key ] ) ) {
-			return $cache[ $cache_key ];
-		}
-
 		$value = $this->get_post_meta( $object_id, $meta_key );
 
 		if ( empty( $value ) ) {
-			return $single ? [ $value ] : $value;
+			return false;
 		}
 
 		$type = false !== strpos( $meta_key, 'Organizer' )
@@ -68,7 +59,7 @@ class Tribe__Events__Integrations__WPML__Meta {
 					 * @param string $type The type of element the ID belongs to.
 					 * @param bool    true   If set to true it will always return a value (the original value, if translation is missing)
 					 */
-					$id = (string) apply_filters( 'wpml_object_id', $id, $type, true );
+					$id = apply_filters( 'wpml_object_id', $id, $type, true );
 				}
 				$post_id = $ids;
 			} else {
@@ -79,11 +70,9 @@ class Tribe__Events__Integrations__WPML__Meta {
 				 * @param string $type    The type of element the ID belongs to.
 				 * @param bool    true       If set to true it will always return a value (the original value, if translation is missing)
 				 */
-				$post_id = (string) apply_filters( 'wpml_object_id', $post_id, $type, true );
+				$post_id = apply_filters( 'wpml_object_id', $post_id, $type, true );
 			}
 		}
-
-		$cache[ $cache_key ] = $value;
 
 		return $value;
 	}

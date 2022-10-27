@@ -34,7 +34,7 @@ class Detector {
 	 * @return array List of plugins we can import from.
 	 */
 	public function detect() {
-		$this->requirements();
+		$this->requirments();
 		if ( ! is_null( self::$plugins ) ) {
 			return self::$plugins;
 		}
@@ -153,7 +153,7 @@ class Detector {
 	/**
 	 * Check requirements.
 	 */
-	private function requirements() {
+	private function requirments() {
 		if ( ! function_exists( 'is_plugin_active' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}

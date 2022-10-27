@@ -121,7 +121,7 @@ class Workflow {
 				$prev,
 				$new,
 			],
-			'rank-math'
+			'workflow'
 		);
 	}
 

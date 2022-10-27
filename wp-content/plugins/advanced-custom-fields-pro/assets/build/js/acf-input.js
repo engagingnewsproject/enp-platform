@@ -1,11 +1,11 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/advanced-custom-fields-pro/assets/src/js/_acf-compatibility.js":
 /*!****************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-compatibility.js ***!
   \****************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   /**
@@ -684,7 +684,7 @@
 /*!******************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-condition-types.js ***!
   \******************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var __ = acf.__;
@@ -1111,7 +1111,7 @@
 /*!************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-condition.js ***!
   \************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   // vars
@@ -1189,7 +1189,7 @@
     var target = conditions.get('field'); // use the 'target' to find the 'trigger' field.
     // - this field is used to setup the conditional logic events
 
-    var field = target.getField(rule.field); // bail early if no target or no field (possible if field doesn't exist due to HTML error)
+    var field = target.getField(rule.field); // bail ealry if no target or no field (possible if field doesn't exist due to HTML error)
 
     if (!target || !field) {
       return false;
@@ -1345,7 +1345,7 @@
 /*!*************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-conditions.js ***!
   \*************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   // vars
@@ -1400,15 +1400,6 @@
       fields = acf.getFields({
         key: key,
         parent: field.$el.parent(),
-        suppressFilters: true
-      });
-    } // Check for fields on other settings tabs (probably less fast).
-
-
-    if (!fields.length && $('.acf-field-settings').length) {
-      fields = acf.getFields({
-        key: key,
-        parent: field.$el.parents('.acf-field-settings:first'),
         suppressFilters: true
       });
     } // return
@@ -1589,7 +1580,7 @@
       } // instantiate
 
 
-      var condition = acf.newCondition(rule, this); // bail early if condition failed (field did not exist)
+      var condition = acf.newCondition(rule, this); // bail ealry if condition failed (field did not exist)
 
       if (!condition) {
         return false;
@@ -1615,7 +1606,7 @@
 /*!******************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-accordion.js ***!
   \******************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var i = 0;
@@ -1746,9 +1737,9 @@
       // Use SVG inside Gutenberg editor.
       if (acf.isGutenberg()) {
         if (props.open) {
-          return '<svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="acf-accordion-icon components-panel__arrow" aria-hidden="true" focusable="false"><path d="M6.5 12.4L12 8l5.5 4.4-.9 1.2L12 10l-4.5 3.6-1-1.2z"></path></svg>';
+          return '<svg class="acf-accordion-icon" width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><g><path fill="none" d="M0,0h24v24H0V0z"></path></g><g><path d="M12,8l-6,6l1.41,1.41L12,10.83l4.59,4.58L18,14L12,8z"></path></g></svg>';
         } else {
-          return '<svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class=" acf-accordion-icon components-panel__arrow" aria-hidden="true" focusable="false"><path d="M17.5 11.6L12 16l-5.5-4.4.9-1.2L12 14l4.5-3.6 1 1.2z"></path></svg>';
+          return '<svg class="acf-accordion-icon" width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false"><g><path fill="none" d="M0,0h24v24H0V0z"></path></g><g><path d="M7.41,8.59L12,13.17l4.59-4.58L18,10l-6,6l-6-6L7.41,8.59z"></path></g></svg>';
         }
       } else {
         if (props.open) {
@@ -1828,7 +1819,7 @@
 /*!*********************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-button-group.js ***!
   \*********************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -1869,7 +1860,7 @@
 /*!*****************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-checkbox.js ***!
   \*****************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -1964,7 +1955,7 @@
 /*!*********************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-color-picker.js ***!
   \*********************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -2030,7 +2021,7 @@
 /*!********************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-date-picker.js ***!
   \********************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -2123,11 +2114,11 @@
       // vars
       var locale = acf.get('locale');
       var rtl = acf.get('rtl');
-      var l10n = acf.get('datePickerL10n'); // bail early if no l10n
+      var l10n = acf.get('datePickerL10n'); // bail ealry if no l10n
 
       if (!l10n) {
         return false;
-      } // bail early if no datepicker library
+      } // bail ealry if no datepicker library
 
 
       if (typeof $.datepicker === 'undefined') {
@@ -2143,7 +2134,7 @@
   }); // add
 
   acf.newDatePicker = function ($input, args) {
-    // bail early if no datepicker library
+    // bail ealry if no datepicker library
     if (typeof $.datepicker === 'undefined') {
       return false;
     } // defaults
@@ -2165,7 +2156,7 @@
 /*!*************************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-date-time-picker.js ***!
   \*************************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.models.DatePickerField.extend({
@@ -2210,11 +2201,11 @@
       // vars
       var locale = acf.get('locale');
       var rtl = acf.get('rtl');
-      var l10n = acf.get('dateTimePickerL10n'); // bail early if no l10n
+      var l10n = acf.get('dateTimePickerL10n'); // bail ealry if no l10n
 
       if (!l10n) {
         return false;
-      } // bail early if no datepicker library
+      } // bail ealry if no datepicker library
 
 
       if (typeof $.timepicker === 'undefined') {
@@ -2230,7 +2221,7 @@
   }); // add
 
   acf.newDateTimePicker = function ($input, args) {
-    // bail early if no datepicker library
+    // bail ealry if no datepicker library
     if (typeof $.timepicker === 'undefined') {
       return false;
     } // defaults
@@ -2252,7 +2243,7 @@
 /*!*************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-file.js ***!
   \*************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.models.ImageField.extend({
@@ -2358,7 +2349,7 @@
 /*!*******************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-google-map.js ***!
   \*******************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -2871,7 +2862,7 @@
 /*!**************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-image.js ***!
   \**************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -3044,7 +3035,7 @@
 /*!*************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-link.js ***!
   \*************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -3205,7 +3196,7 @@
 /*!***************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-oembed.js ***!
   \***************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -3348,7 +3339,7 @@
 /*!******************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-page-link.js ***!
   \******************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.models.SelectField.extend({
@@ -3363,7 +3354,7 @@
 /*!********************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-post-object.js ***!
   \********************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.models.SelectField.extend({
@@ -3378,7 +3369,7 @@
 /*!**************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-radio.js ***!
   \**************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -3440,7 +3431,7 @@
 /*!**************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-range.js ***!
   \**************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -3479,7 +3470,7 @@
 /*!*********************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-relationship.js ***!
   \*********************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -3784,7 +3775,7 @@
 /*!***************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-select.js ***!
   \***************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -3844,7 +3835,7 @@
 /*!************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-tab.js ***!
   \************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   // vars
@@ -3858,17 +3849,7 @@
       duplicateField: 'onDuplicate'
     },
     findFields: function () {
-      let filter = '.acf-field';
-
-      if (this.get('key') === 'acf_field_settings_tabs') {
-        filter = '.acf-field-settings-main';
-      }
-
-      if (this.get('key') === 'acf_field_group_settings_tabs') {
-        filter = '.field-group-settings-tab';
-      }
-
-      return this.$el.nextUntil('.acf-field-tab', filter);
+      return this.$el.nextUntil('.acf-field-tab', '.acf-field');
     },
     getFields: function () {
       return acf.getFields(this.findFields());
@@ -4014,13 +3995,7 @@
       if ($before.is('tr')) {
         this.$el = $('<tr class="acf-tab-wrap"><td colspan="2"><ul class="acf-hl acf-tab-group"></ul></td></tr>');
       } else {
-        let ulClass = 'acf-hl acf-tab-group';
-
-        if (this.get('key') === 'acf_field_settings_tabs') {
-          ulClass = 'acf-field-settings-tab-bar';
-        }
-
-        this.$el = $('<div class="acf-tab-wrap -' + placement + '"><ul class="' + ulClass + '"></ul></div>');
+        this.$el = $('<div class="acf-tab-wrap -' + placement + '"><ul class="acf-hl acf-tab-group"></ul></div>');
       } // append
 
 
@@ -4103,10 +4078,7 @@
     },
     addTab: function ($a, field) {
       // create <li>
-      var $li = $('<li>' + $a.outerHTML() + '</li>'); // add settings type class.
-
-      var classes = $a.attr('class').replace('acf-tab-button', '');
-      $li.addClass(classes); // append
+      var $li = $('<li>' + $a.outerHTML() + '</li>'); // append
 
       this.$('ul').append($li); // initialize
 
@@ -4207,7 +4179,6 @@
       prepare: 'render',
       append: 'render',
       unload: 'onUnload',
-      show: 'render',
       invalid_field: 'onInvalidField'
     },
     findTabs: function () {
@@ -4267,7 +4238,7 @@
 /*!*****************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-taxonomy.js ***!
   \*****************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -4533,7 +4504,7 @@
 /*!********************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-time-picker.js ***!
   \********************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.models.DatePickerField.extend({
@@ -4578,7 +4549,7 @@
   acf.registerFieldType(Field); // add
 
   acf.newTimePicker = function ($input, args) {
-    // bail early if no datepicker library
+    // bail ealry if no datepicker library
     if (typeof $.timepicker === 'undefined') {
       return false;
     } // defaults
@@ -4600,7 +4571,7 @@
 /*!*******************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-true-false.js ***!
   \*******************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -4625,13 +4596,13 @@
     },
     render: function () {
       // vars
-      var $switch = this.$switch(); // bail early if no $switch
+      var $switch = this.$switch(); // bail ealry if no $switch
 
       if (!$switch.length) return; // vars
 
       var $on = $switch.children('.acf-switch-on');
       var $off = $switch.children('.acf-switch-off');
-      var width = Math.max($on.width(), $off.width()); // bail early if no width
+      var width = Math.max($on.width(), $off.width()); // bail ealry if no width
 
       if (!width) return; // set widths
 
@@ -4680,7 +4651,7 @@
 /*!************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-url.js ***!
   \************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -4739,7 +4710,7 @@
 /*!*************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-user.js ***!
   \*************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.models.SelectField.extend({
@@ -4767,7 +4738,7 @@
 /*!****************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field-wysiwyg.js ***!
   \****************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   var Field = acf.Field.extend({
@@ -4854,7 +4825,7 @@
 /*!********************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-field.js ***!
   \********************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   // vars
@@ -5319,7 +5290,7 @@
 /*!*********************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-fields.js ***!
   \*********************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   /**
@@ -5387,11 +5358,7 @@
 
 
     if (args.visible) {
-      selector += ':visible, .acf-field-acf-field-settings-tabs';
-    }
-
-    if (!args.suppressFilters) {
-      selector = acf.applyFilters('find_fields_selector', selector, args);
+      selector += ':visible';
     } // query
 
 
@@ -5706,7 +5673,7 @@
 /*!**********************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-helpers.js ***!
   \**********************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   /**
@@ -5949,7 +5916,7 @@
 
       if (!$fields.length) {
         return false;
-      } // bail early if is .-left
+      } // bail ealry if is .-left
 
 
       if ($el.hasClass('-left')) {
@@ -6050,7 +6017,7 @@
 /*!********************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-media.js ***!
   \********************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   /**
@@ -6752,7 +6719,7 @@
 /*!**********************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-postbox.js ***!
   \**********************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   /**
@@ -6966,7 +6933,7 @@
 /*!*********************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-screen.js ***!
   \*********************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   acf.screen = new acf.Model({
@@ -7280,14 +7247,8 @@
           if (data.sorted) {
             // Loop over each position (acf_after_title, side, normal).
             for (var position in data.sorted) {
-              let order = data.sorted[position];
-
-              if (typeof order !== 'string') {
-                continue;
-              } // Explode string into array of ids.
-
-
-              order = order.split(','); // Position metabox relative to order.
+              // Explode string into array of ids.
+              var order = data.sorted[position].split(','); // Position metabox relative to order.
 
               if (sortMetabox(result.id, order)) {
                 break;
@@ -7481,7 +7442,7 @@
 /*!**********************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-select2.js ***!
   \**********************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   /**
@@ -8062,7 +8023,7 @@
       var locale = acf.get('locale');
       var rtl = acf.get('rtl');
       var l10n = acf.get('select2L10n');
-      var version = getVersion(); // bail early if no l10n
+      var version = getVersion(); // bail ealry if no l10n
 
       if (!l10n) {
         return false;
@@ -8204,7 +8165,7 @@
 /*!**********************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-tinymce.js ***!
   \**********************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   acf.tinymce = {
@@ -8497,7 +8458,7 @@
     },
     enableTinymce: function (id) {
       // bail early
-      if (typeof switchEditors === 'undefined') return false; // bail early if not initialized
+      if (typeof switchEditors === 'undefined') return false; // bail ealry if not initialized
 
       if (typeof tinyMCEPreInit.mceInit[id] === 'undefined') return false; // Ensure textarea element is visible
       // - Fixes bug in block editor when switching between "Block" and "Document" tabs.
@@ -8555,7 +8516,7 @@
 /*!*********************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-unload.js ***!
   \*********************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   acf.unload = new acf.Model({
@@ -8580,7 +8541,7 @@
       this.stopListening();
     },
     startListening: function () {
-      // bail early if already changed, not active
+      // bail ealry if already changed, not active
       if (this.changed || !this.active) {
         return;
       } // update
@@ -8608,7 +8569,7 @@
 /*!*************************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/_acf-validation.js ***!
   \*************************************************************************/
-/***/ (function() {
+/***/ (() => {
 
 (function ($, undefined) {
   /**
@@ -9180,7 +9141,7 @@
   acf.lockForm = function ($form) {
     // vars
     var $wrap = findSubmitWrap($form);
-    var $submit = $wrap.find('.button, [type="submit"]').not('.acf-nav, .acf-repeater-add-row');
+    var $submit = $wrap.find('.button, [type="submit"]');
     var $spinner = $wrap.find('.spinner, .acf-spinner'); // hide all spinners (hides the preview spinner)
 
     acf.hideSpinner($spinner); // lock
@@ -9205,7 +9166,7 @@
   acf.unlockForm = function ($form) {
     // vars
     var $wrap = findSubmitWrap($form);
-    var $submit = $wrap.find('.button, [type="submit"]').not('.acf-nav, .acf-repeater-add-row');
+    var $submit = $wrap.find('.button, [type="submit"]');
     var $spinner = $wrap.find('.spinner, .acf-spinner'); // unlock
 
     acf.enableSubmit($submit);
@@ -9735,49 +9696,49 @@
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = function(module) {
+/******/ 		__webpack_require__.n = (module) => {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				function() { return module['default']; } :
-/******/ 				function() { return module; };
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
-!function() {
+(() => {
 "use strict";
 /*!*******************************************************************!*\
   !*** ./src/advanced-custom-fields-pro/assets/src/js/acf-input.js ***!
@@ -9897,7 +9858,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-}();
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=acf-input.js.map

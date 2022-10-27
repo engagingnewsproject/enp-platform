@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures;
+namespace Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures;
 
 /**
  * @author  Igor Wiedler <igor@wiedler.ch>

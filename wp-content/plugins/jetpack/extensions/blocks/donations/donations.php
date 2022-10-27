@@ -109,7 +109,7 @@ function render_block( $attr, $content ) {
 	Jetpack_Gutenberg::load_assets_as_required( FEATURE_NAME, array( 'thickbox' ) );
 	add_thickbox();
 
-	require_once JETPACK__PLUGIN_DIR . '/_inc/lib/class-jetpack-currencies.php';
+	jetpack_require_lib( 'class-jetpack-currencies' );
 
 	$donations = array(
 		'one-time' => array_merge(

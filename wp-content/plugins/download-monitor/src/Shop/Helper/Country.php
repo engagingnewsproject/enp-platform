@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Helper;
+namespace Never5\DownloadMonitor\Shop\Helper;
 
 class Country {
 

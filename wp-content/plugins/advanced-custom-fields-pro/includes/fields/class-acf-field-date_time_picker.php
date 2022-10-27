@@ -47,7 +47,7 @@ if ( ! class_exists( 'acf_field_date_and_time_picker' ) ) :
 
 		function input_admin_enqueue_scripts() {
 
-			// bail early if no enqueue
+			// bail ealry if no enqueue
 			if ( ! acf_get_setting( 'enqueue_datetimepicker' ) ) {
 				return;
 			}
@@ -142,7 +142,7 @@ if ( ! class_exists( 'acf_field_date_and_time_picker' ) ) :
 
 			// Output.
 			?>
-		<div <?php echo acf_esc_attrs( $div ); ?>>
+		<div <?php acf_esc_attr_e( $div ); ?>>
 			<?php acf_hidden_input( $hidden_input ); ?>
 			<?php acf_text_input( $text_input ); ?>
 		</div>
@@ -163,16 +163,19 @@ if ( ! class_exists( 'acf_field_date_and_time_picker' ) ) :
 		*
 		*  @param   $field  - an array holding all the field's data
 		*/
+
 		function render_field_settings( $field ) {
+
+			// global
 			global $wp_locale;
 
+			// vars
 			$d_m_Y = date_i18n( 'd/m/Y g:i a' );
 			$m_d_Y = date_i18n( 'm/d/Y g:i a' );
 			$F_j_Y = date_i18n( 'F j, Y g:i a' );
 			$Ymd   = date_i18n( 'Y-m-d H:i:s' );
 
-			echo '<div class="acf-field-settings-split">';
-
+			// display_format
 			acf_render_field_setting(
 				$field,
 				array(
@@ -191,6 +194,7 @@ if ( ! class_exists( 'acf_field_date_and_time_picker' ) ) :
 				)
 			);
 
+			// return_format
 			acf_render_field_setting(
 				$field,
 				array(
@@ -209,8 +213,7 @@ if ( ! class_exists( 'acf_field_date_and_time_picker' ) ) :
 				)
 			);
 
-			echo '</div>';
-
+			// first_day
 			acf_render_field_setting(
 				$field,
 				array(
@@ -221,7 +224,9 @@ if ( ! class_exists( 'acf_field_date_and_time_picker' ) ) :
 					'choices'      => array_values( $wp_locale->weekday ),
 				)
 			);
+
 		}
+
 
 		/*
 		*  format_value()

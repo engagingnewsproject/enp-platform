@@ -24,10 +24,10 @@
  * THE SOFTWARE.
  */
 
-namespace WPChill\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures;
+namespace Never5\DownloadMonitor\Dependencies\Pimple\Tests\Fixtures;
 
-use WPChill\DownloadMonitor\Dependencies\Pimple\Container;
-use WPChill\DownloadMonitor\Dependencies\Pimple\ServiceProviderInterface;
+use Never5\DownloadMonitor\Dependencies\Pimple\Container;
+use Never5\DownloadMonitor\Dependencies\Pimple\ServiceProviderInterface;
 
 class PimpleServiceProvider implements ServiceProviderInterface
 {

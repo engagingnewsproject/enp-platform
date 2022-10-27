@@ -14,7 +14,7 @@
  */
 function jetpack_load_theme_tools() {
 	if ( current_theme_supports( 'tonesque' ) ) {
-		require_once JETPACK__PLUGIN_DIR . '/_inc/lib/tonesque.php';
+		jetpack_require_lib( 'tonesque' );
 	}
 }
 add_action( 'init', 'jetpack_load_theme_tools', 30 );

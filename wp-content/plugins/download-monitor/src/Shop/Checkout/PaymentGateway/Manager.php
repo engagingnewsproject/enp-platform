@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway;
+namespace Never5\DownloadMonitor\Shop\Checkout\PaymentGateway;
 
 class Manager {
 

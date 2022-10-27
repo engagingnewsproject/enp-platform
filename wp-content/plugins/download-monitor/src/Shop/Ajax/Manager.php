@@ -1,6 +1,6 @@
 <?php
 
-namespace WPChill\DownloadMonitor\Shop\Ajax;
+namespace Never5\DownloadMonitor\Shop\Ajax;
 
 class Manager {
 

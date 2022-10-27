@@ -59,7 +59,11 @@ class Admin_Color_Schemes {
 	 * @return string
 	 */
 	public function get_admin_color_scheme_url( $color_scheme ) {
-		return plugins_url( '_inc/build/masterbar/admin-color-schemes/colors/' . $color_scheme . '/colors.css', JETPACK__PLUGIN_FILE );
+		if ( defined( 'IS_WPCOM' ) && IS_WPCOM ) {
+			return plugins_url( 'colors/' . $color_scheme . '/colors.css', __FILE__ );
+		} else {
+			return plugins_url( '_inc/build/masterbar/admin-color-schemes/colors/' . $color_scheme . '/colors.css', JETPACK__PLUGIN_FILE );
+		}
 	}
 
 	/**
