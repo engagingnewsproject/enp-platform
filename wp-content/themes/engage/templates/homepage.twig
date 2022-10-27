@@ -7,7 +7,9 @@ ACF group name: Homepage Detail
 {% block content %}
 
 	<section class="container container--xl wrapper--pad research-container">
-		{% include 'partial/hero.twig' %}
+		{% include 'partial/hero.twig' with {
+       posts : home.recent
+    } %}
 	</section>
 
 	<section class="home-research home-section">
