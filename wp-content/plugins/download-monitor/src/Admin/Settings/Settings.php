@@ -1,6 +1,6 @@
 <?php
 
-use Never5\DownloadMonitor\Shop\Services\Services;
+use WPChill\DownloadMonitor\Shop\Services\Services;
 
 class DLM_Admin_Settings {
 
@@ -104,7 +104,7 @@ class DLM_Admin_Settings {
 								'name'     => 'dlm_shop_enabled',
 								'std'      => '',
 								'label'    => __( 'Shop Enabled', 'download-monitor' ),
-								'cb_label' => __( 'Enable Shop', 'download-monitor' ),
+								'cb_label' => '',
 								'desc'     => __( 'If enabled, allows you to sell your downloads via Download Monitor.', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
@@ -112,7 +112,7 @@ class DLM_Admin_Settings {
 								'name'     => 'dlm_xsendfile_enabled',
 								'std'      => '',
 								'label'    => __( 'X-Accel-Redirect / X-Sendfile', 'download-monitor' ),
-								'cb_label' => __( 'Enable', 'download-monitor' ),
+								'cb_label' => '',
 								'desc'     => __( 'If supported, <code>X-Accel-Redirect</code> / <code>X-Sendfile</code> can be used to serve downloads instead of PHP (server requires <code>mod_xsendfile</code>).', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
@@ -120,7 +120,7 @@ class DLM_Admin_Settings {
 								'name'     => 'dlm_hotlink_protection_enabled',
 								'std'      => '',
 								'label'    => __( 'Prevent hotlinking', 'download-monitor' ),
-								'cb_label' => __( 'Enable', 'download-monitor' ),
+								'cb_label' => '',
 								'desc'     => __( 'If enabled, the download handler will check the PHP referer to see if it originated from your site and if not, redirect them to the homepage.', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
@@ -128,7 +128,7 @@ class DLM_Admin_Settings {
 								'name'     => 'dlm_allow_x_forwarded_for',
 								'std'      => '0',
 								'label'    => __( 'Allow Proxy IP Override', 'download-monitor' ),
-								'cb_label' => __( 'Enable', 'download-monitor' ),
+								'cb_label' => '',
 								'desc'     => __( 'If enabled, Download Monitor will use the X_FORWARDED_FOR HTTP header set by proxies as the IP address. Note that anyone can set this header, making it less secure.', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
@@ -136,15 +136,15 @@ class DLM_Admin_Settings {
 								'name'     => 'dlm_wp_search_enabled',
 								'std'      => '',
 								'label'    => __( 'Include in Search', 'download-monitor' ),
-								'cb_label' => __( 'Enable', 'download-monitor' ),
+								'cb_label' => '',
 								'desc'     => __( "If enabled, downloads will be included in the site's internal search results.", 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
 							array(
 								'name'     => 'dlm_turn_off_file_browser',
 								'std'      => '',
-								'label'    => __( 'File browser', 'download-monitor' ),
-								'cb_label' => __( 'Turn Off', 'download-monitor' ),
+								'label'    => __( 'Disable file browser', 'download-monitor' ),
+								'cb_label' => '',
 								'desc'     => __( 'Disables the directory file browser.', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
@@ -229,43 +229,45 @@ class DLM_Admin_Settings {
 								'name'     => 'dlm_generate_hash_md5',
 								'std'      => '0',
 								'label'    => __( 'MD5 hashes', 'download-monitor' ),
-								'cb_label' => __( 'Generate MD5 hash for uploaded files', 'download-monitor' ),
-								'desc'     => '',
+								'cb_label' => '',
+								'desc' => __( 'Generate MD5 hash for uploaded files', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
 							array(
 								'name'     => 'dlm_generate_hash_sha1',
 								'std'      => '0',
 								'label'    => __( 'SHA1 hashes', 'download-monitor' ),
-								'cb_label' => __( 'Generate SHA1 hash for uploaded files', 'download-monitor' ),
-								'desc'     => '',
+								'cb_label' => '',
+								'desc' => __( 'Generate SHA1 hash for uploaded files', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
 							array(
 								'name'     => 'dlm_generate_hash_sha256',
 								'std'      => '0',
 								'label'    => __( 'SHA256 hashes', 'download-monitor' ),
-								'cb_label' => __( 'Generate SHA256 hash for uploaded files', 'download-monitor' ),
+								'cb_label' => '',
+								'desc' => __( 'Generate SHA256 hash for uploaded files', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
 							array(
 								'name'     => 'dlm_generate_hash_crc32b',
 								'std'      => '0',
 								'label'    => __( 'CRC32B hashes', 'download-monitor' ),
-								'cb_label' => __( 'Generate CRC32B hash for uploaded files', 'download-monitor' ),
+								'cb_label' => '',
+								'desc' => __( 'Generate CRC32B hash for uploaded files', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
 						),
 					),
 					'logging'    => array(
-						'title'  => __( 'Logging', 'download-monitor' ),
+						'title'  => __( 'Reports', 'download-monitor' ),
 						'fields' => array(
 							array(
-								'name'     => 'dlm_enable_logging',
-								'cb_label' => __( 'Enable', 'download-monitor' ),
+								'name'     => 'dlm_enable_window_logging',
+								'cb_label' => '',
 								'std'      => '1',
-								'label'    => __( 'Download Log', 'download-monitor' ),
-								'desc'     => __( 'Log download attempts, IP addresses and more.', 'download-monitor' ),
+								'label'    => __( 'No duplicate download', 'download-monitor' ),
+								'desc'     => __( 'Don\'t add download to reports if user downloads same file multiple times in a 60 seconds download window.', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
 							array(
@@ -284,7 +286,7 @@ class DLM_Admin_Settings {
 								'name'     => 'dlm_logging_ua',
 								'std'      => '1',
 								'label'    => __( 'User Agent Logging', 'download-monitor' ),
-								'cb_label' => __( 'Enable', 'download-monitor' ),
+								'cb_label' => '',
 								'desc'     => __( 'If enabled, the user agent (browser) the user uses to download the file will be stored in your logs.', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
@@ -292,16 +294,16 @@ class DLM_Admin_Settings {
 								'name'     => 'dlm_count_unique_ips',
 								'std'      => '',
 								'label'    => __( 'Count unique IPs only', 'download-monitor' ),
-								'cb_label' => __( 'Enable', 'download-monitor' ),
+								'cb_label' => '',
 								'desc'     => sprintf( __( 'If enabled, the counter for each download will only increment and create a log entry once per IP address. Note that this option only works if %1$s is set to %2$s.', 'download-monitor' ), '<strong>' . __( 'IP Address Logging', 'download-monitor' ) . '</strong>', '<strong>' . __( 'Store full IP address', 'download-monitor' ) . '</strong>' ),
 								'type'     => 'checkbox',
 							),
 							array(
 								'name'     => 'dlm_log_admin_download_count',
 								'std'      => '1',
-								'label'    => __( 'Admin count', 'download-monitor' ),
-								'cb_label' => __( 'Disable', 'download-monitor' ),
-								'desc'     => __( 'If disabled, the counter for each download will not increment when an administrator downloads a file.', 'download-monitor' ),
+								'label'    => __( 'Ignore admin count', 'download-monitor' ),
+								'cb_label' => '',
+								'desc'     => __( 'If enabled, the counter for each download will not increment when an administrator downloads a file.', 'download-monitor' ),
 								'type'     => 'checkbox',
 							),
 						),
@@ -317,6 +319,15 @@ class DLM_Admin_Settings {
 								'type'  => 'action_button',
 								'link'  => self::get_url() . '&tab=advanced&section=misc',
 								'priority' => 10
+							),
+							array(
+								'name'  => 'dlm_redo_upgrade',
+								'std'   => '0',
+								'label' => __( 'Recreate upgrade environment', 'download-monitor' ),
+								'desc'  => __( 'Delete the new "dlm_reports_log" table and set the environment for database upgrade. This will not redo the upgrade process but recreate the environment requirements for the upgrade process so you can do the upgrade yourself when you consider.', 'download-monitor' ),
+								'type'  => 'action_button',
+								'link'  => self::get_url() . '&tab=advanced&section=misc',
+								'priority' => 15,
 							),
 							array(
 								'name'     => 'dlm_downloads_path',
@@ -682,8 +693,8 @@ class DLM_Admin_Settings {
 	 */
 	private function get_currency_list_with_symbols() {
 
-		/** @var \Never5\DownloadMonitor\Shop\Helper\Currency $currency_helper */
-		$currency_helper = Services::get()->service( 'currency' );
+		/** @var \WPChill\DownloadMonitor\Shop\Helper\Currency $currency_helper */
+		$currency_helper = Services::get()->service( "currency" );
 
 		$currencies = $currency_helper->get_available_currencies();
 
@@ -742,7 +753,7 @@ class DLM_Admin_Settings {
 
 		/** Generate sections for all gateways */
 		if ( ! empty( $gateways ) ) {
-			/** @var \Never5\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
+			/** @var \WPChill\DownloadMonitor\Shop\Checkout\PaymentGateway\PaymentGateway $gateway */
 			foreach ( $gateways as $gateway ) {
 
 				// all gateways have an 'enabled' option by default

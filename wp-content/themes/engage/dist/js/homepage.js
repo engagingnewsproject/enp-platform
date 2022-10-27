@@ -20,18 +20,20 @@ jQuery(document).ready(function ($) {
 			$(this).html(title);
 		}
 	});
-});
 
-// initiate Flickity
-// https://flickity.metafizzy.co/#initialize-with-vanilla-javascript
-
-var elem = document.querySelector(".carousel-main");
-var flkty = new Flickity(elem, {
-	// options
-	wrapAround: true,
-	adaptiveHeight: true,
-	imagesLoaded: true,
-	lazyLoad: 1,
-	percentPosition: true,
-	contain: true,
+	/*
+	 * Initiate Flickity and Focus
+	 * Link: https://flickity.metafizzy.co/#initialize-with-jquery
+	 */
+	$(".carousel-main")
+		.flickity({
+			// options
+			wrapAround: true,
+			adaptiveHeight: true,
+			imagesLoaded: true,
+			lazyLoad: 1,
+			percentPosition: true,
+			contain: true,
+		})
+		.focus();
 });

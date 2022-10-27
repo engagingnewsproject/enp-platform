@@ -1063,7 +1063,7 @@ class Builder {
 	 * @return $this
 	 */
 	public function order_by( $column = null, $order = 'ASC' ) {
-		if ( in_array( $order, [ 'ASC', 'DESC' ], true ) ) {
+		if ( in_array( strtoupper( $order ), [ 'ASC', 'DESC' ], true ) ) {
 			$this->order = [
 				'column' => null === $column ? $this->model->primary_key_name() : $column,
 				'order'  => $order,
@@ -1439,5 +1439,31 @@ class Builder {
 		}
 
 		return $inserted;
+	}
+
+	/**
+	 * Gets the results and plucks a field from each.
+	 *
+	 * @since 6.0.1
+	 *
+	 * @param string $field The field to pluck.
+	 *
+	 * @return array The plucked values.
+	 */
+	public function pluck( string $field ): array {
+		return wp_list_pluck( $this->get(), $field );
+	}
+
+	/**
+	 * Maps from the results of the query to a new array using the callback.
+	 *
+	 * @since 6.0.1
+	 *
+	 * @param callable $callback The callback to use to map the results.
+	 *
+	 * @return array The mapped results.
+	 */
+	public function map( callable $callback ): array {
+		return array_map( $callback, $this->get() );
 	}
 }
