@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		const xhr = new XMLHttpRequest();
 		xhr.open(
 			'POST',
-			ajaxurl + '?action=smush_dismiss_notice&key=' + key,
+			ajaxurl + '?action=smush_dismiss_notice&key=' + key + '&_ajax_nonce=' + smush_global.nonce,
 			true
 		);
 		xhr.onload = () => {

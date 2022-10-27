@@ -13,7 +13,7 @@
  * Plugin Name:       Smush Pro
  * Plugin URI:        http://wpmudev.com/project/wp-smush-pro/
  * Description:       Reduce image file sizes, improve performance and boost your SEO using the <a href="https://wpmudev.com/">WPMU DEV</a> WordPress Smush API.
- * Version:           3.11.1
+ * Version:           3.12.3
  * Author:            WPMU DEV
  * Author URI:        https://wpmudev.com/
  * License:           GPLv2
@@ -48,7 +48,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 if ( ! defined( 'WP_SMUSH_VERSION' ) ) {
-	define( 'WP_SMUSH_VERSION', '3.11.1' );
+	define( 'WP_SMUSH_VERSION', '3.12.3' );
 }
 // Used to define body class.
 if ( ! defined( 'WP_SHARED_UI_VERSION' ) ) {
@@ -86,6 +86,9 @@ if ( ! defined( 'WP_SMUSH_RETRY_WAIT' ) ) {
 }
 if ( ! defined( 'WP_SMUSH_PARALLEL' ) ) {
 	define( 'WP_SMUSH_PARALLEL', true );
+}
+if ( ! defined( 'WP_SMUSH_BACKGROUND' ) ) {
+	define( 'WP_SMUSH_BACKGROUND', true );
 }
 
 /**
@@ -214,6 +217,11 @@ if ( ! class_exists( 'WP_Smush' ) ) {
 		private function __construct() {
 			spl_autoload_register( array( $this, 'autoload' ) );
 
+			/**
+			 * Include vendor dependencies
+			 */
+			require_once __DIR__ . '/vendor/autoload.php';
+
 			add_action( 'admin_init', array( '\\Smush\\Core\\Installer', 'upgrade_settings' ) );
 			add_action( 'current_screen', array( '\\Smush\\Core\\Installer', 'maybe_create_table' ) );
 			add_action( 'admin_init', array( $this, 'register_free_modules' ) );
@@ -275,6 +283,9 @@ if ( ! class_exists( 'WP_Smush' ) ) {
 			} catch ( Exception $e ) {
 				$this->api = '';
 			}
+
+			// Handle failed items, load it before validate the install.
+			new Smush\Core\Error_Handler();
 
 			$this->validate_install();
 
@@ -442,7 +453,7 @@ if ( ! class_exists( 'WP_Smush' ) ) {
 			$api_auth = get_site_option( 'wp_smush_api_auth' );
 
 			// Check if we need to revalidate.
-			if ( ! $api_auth || empty( $api_auth ) || ! is_array( $api_auth ) || empty( $api_auth[ $api_key ] ) ) {
+			if ( empty( $api_auth[ $api_key ] ) ) {
 				$api_auth   = array();
 				$revalidate = true;
 			} else {
