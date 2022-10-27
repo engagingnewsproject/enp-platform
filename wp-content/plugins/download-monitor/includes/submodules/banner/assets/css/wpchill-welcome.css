@@ -279,10 +279,12 @@
 		margin-bottom: 30px;
 		text-align: left;
 	}
-	#wpchill-welcome .button-wrap-single{
-	   width: 50%;
-	   margin: 0 auto;
-   }
+
+	#wpchill-welcome .button-wrap-single {
+		width: auto;
+		margin: 0 auto;
+		display: inline-block;
+	}
 }
 
 /* testimonials section */
@@ -362,4 +364,8 @@
 	height:20px;
 	width:100%;
 	margin:0 auto;
+}
+
+.wpchill-text-center {
+	text-align: center;
 }

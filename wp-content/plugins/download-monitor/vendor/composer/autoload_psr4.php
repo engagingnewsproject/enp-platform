@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Never5\\DownloadMonitor\\' => array($baseDir . '/src'),
+    'WPChill\\DownloadMonitor\\' => array($baseDir . '/src'),
 );

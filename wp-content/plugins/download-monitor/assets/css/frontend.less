@@ -197,3 +197,252 @@ nav.download-monitor-pagination, #content nav.download-monitor-pagination {
 .dlm_widget_downloads ul, .dlm_widget_downloads ul li {
   list-style: none;
 }
+
+.dlm-hidden-info {
+  visibility:hidden;
+}
+
+/**
+* Progress bar
+*/
+
+@keyframes infinite-spinning {
+  from {
+      transform: rotate(0)
+  }
+
+  to {
+      transform: rotate(360deg)
+  }
+}
+
+data.dlm-hidden-info {
+  position: relative;
+  span {
+    font-weight: 700;
+    color: green
+  }
+}
+
+.dlm-hidden-info {
+  .progress {
+
+      &.dlm-visible-spinner {
+        display: inline-block;
+        visibility: visible;
+      }
+
+      &.box {
+        width: 100%;
+        span.download-done {
+          &::after {
+            content: '✓'
+          }
+        }
+
+        .progress-inner {
+          height: 6px;
+          top: 0;
+          width: 0%;
+          -webkit-transition: width .3s, opacity .3s;
+          transition: width .3s, opacity .3s;
+          position: absolute;
+          left: 0;
+          background: #006080;
+          animation: none;
+        }
+
+      }
+
+      .progress-inner {
+      display: none;
+      width: 75px;
+      position: relative;
+      margin-left: 15px;
+      .dlm-visible-spinner {
+        display: inline-block;
+        visibility: visible;
+      }
+    }
+  } 
+}
+/* Comment below lines for the new XHR loader so that we know where to rever*/
+html body a.download-button{
+  position: relative;
+  
+  &.dlm-download-started {
+    text-decoration: none;
+  }
+
+  &.dlm-download-complete {
+    &::after {
+      content: '✓';
+      width:20px;
+      right:-30px;
+      position: absolute;
+      height: 100%;
+      z-index:3;
+      background:transparent;
+      color:green;
+      bottom:0;
+      left:auto;
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    height: 2px;
+    z-index:3;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    background: red;
+    transition: width .5s;
+    box-shadow:0px 0px 3px rgba(255, 0, 0, 0.8);
+    border-radius:5px;
+  }
+
+  &.download-10:before {
+    width: 10%;
+  }
+
+  &.download-20:before {
+    width: 20%;
+  }
+
+  &.download-30:before {
+    width: 30%;
+  }
+
+  &.download-40:before {
+    width: 40%;
+  }
+
+  &.download-50:before {
+    width: 50%;
+  }
+
+  &.download-60:before {
+    width: 60%;
+  }
+
+  &.download-70:before {
+    width: 70%;
+  }
+
+  &.download-80:before {
+    width: 80%;
+  }
+
+  &.download-90:before {
+    width: 90%;
+  }
+
+  &.download-100:before {
+    width:100%;
+  }
+}
+
+a.download-button {
+  
+  &.dlm-download-complete {
+    &::after {
+    height:auto;
+    top:50%;
+    transform: translateY(-50%);
+    }
+  }
+  
+  &::before {
+    z-index: 0;
+  }
+
+
+  & > * {
+    z-index:2;
+    position: relative;
+  }
+}
+
+
+html body a.download-link {
+  position: relative;
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    right: -40px;
+    border-radius: 5px;
+    display: block;
+    background: red;
+    height: 10px;
+    width: 10px;
+    opacity:0;
+    z-index:-1;
+    transform: translateY(-50%);
+    top:calc( 50% - 5px );
+  }
+
+  &::before {
+    animation: lds-ellipsis1 0.6s infinite;
+  }
+
+  &::after {
+    animation: lds-ellipsis2 0.6s infinite;
+  }
+
+  &.dlm-download-started {
+    text-decoration: none;
+
+    &::before, &::after {
+      opacity:1;
+      z-index:99;
+    }
+  }
+
+  &.dlm-download-complete {
+    &::after {
+      content: '✓';
+      opacity:1;
+      z-index:99;
+      background:transparent;
+      animation:none;
+      transform: translateY(-50%);
+      top:calc( 50% - 5px );
+      line-height: initial;
+    }
+
+    &::before {
+     opacity:0;
+      z-index:-1;
+    }
+  }
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+.dlm-xhr-error {
+  font-size:12px;
+  color:red;
+}
+
+.dlm-xhr-progress {
+  min-width:75px;
+  width:auto;
+  display:inline-block;
+  position:relative;
+}
