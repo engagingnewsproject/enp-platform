@@ -2,8 +2,8 @@
 {# {% if intro %}
 	{% include "partial/heros.twig" with { 'tile': intro } %}
 {% endif %} #}
-{% for post in posts %}
-	{% include "partial/hero-content.twig" with { 'tile': post } %}
-{% endfor %}
+	{% for post in Post(home.slider_posts) %}
+		{% include "partial/hero-content.twig" with { 'tile': post } %}
+	{% endfor %}
 </div>
 
