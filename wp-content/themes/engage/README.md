@@ -70,20 +70,15 @@ If it is not [a hotfix](#hotfix-branches), the flow for a normal deployment is:
 
 ## Deployment quick
 
-    #### NEW (super quick)
-    Make sure you have run `npm run production` first to compile files for production.
+    `npm run production` first to compile files for production.
 
     ```
-    // pushes to the dev production site https://cmedev.wpengine.com/
     git push dev master
 
-    // checkout stable & merge master into stable
     git checkout stable && git merge master
 
-    //  tags merge, pushes to stable & pushes stable to the staging site https://cmestaging.wpengine.com/
     git tag -a 1.9.3 -m "sort media ethics team members" && git push origin stable --tags && git push staging stable
-    
-    // push stable to production
+
     git push production stable
     ```
 

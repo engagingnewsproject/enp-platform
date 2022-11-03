@@ -66,6 +66,10 @@
 
 .newsletter-about {
 	// you can swap out this `700px` for the `$phablet` mixin :) as well as any others you found.
+	height: fit-content;
+    padding: $spacer $spacer 0 $spacer;
+	background-color: $gray-lighter;
+	box-shadow: $tile-shadow;
 	@include media(700px) {
 		grid-row: 2;
 	}
