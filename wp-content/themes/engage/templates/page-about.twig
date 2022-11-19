@@ -1,15 +1,22 @@
 {% extends "base.twig" %}
 
+{# Hide title / ACF / Page settings #}
+{% if post.meta('show_header') == false %}
+	{% set show_header = ' sr-text' %} 
+{% endif %}
+
 {% block content %}
 <div class="post__wrapper wrapper--pad">
 		<div class="article__wrapper container container--lg">
 			<article class="article container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}}">
-				<header class="article__header">
+				<header class="article__header{{ show_header }}">
 					<h1 class="article__title">{{post.title}}</h1>
 				</header>
-				<aside class="newsletter-about widget">
-						{{ newsletter }}
-				</aside>
+				{% if post.meta('show_newsletter') %} {# ACF / Page settings #}
+					<aside class="newsletter-about widget">
+							{{ newsletter }}
+					</aside>
+				{% endif %}
 				<div class="article__content">
 					{{post.content}}
 				</div>

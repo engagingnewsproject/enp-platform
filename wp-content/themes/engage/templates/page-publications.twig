@@ -1,8 +1,16 @@
 {% extends "base.twig" %}
 
+{# Hide title / ACF / Page settings #}
+{% if post.meta('show_header') == false %}
+	{% set show_header = ' sr-text' %} 
+{% endif %}
+
 {% block content %}
 <article class="container container--lg full-width post-type--{{post.post_type}}" id="post--{{post.ID}} page-tools">
 
+		<header class="article__header{{ show_header }}">
+			<h1 class="article__title h1">{{post.title}}</h1>
+		</header>
 		
         {% include "partial/tile-intro.twig" with { 'tile': post } %}
 

@@ -1,8 +1,13 @@
 {% extends "base.twig" %}
 
+{# Hide title / ACF / Page settings #}
+{% if post.meta('show_header') == false %}
+	{% set show_header = ' sr-text' %} 
+{% endif %}
+
 {% block content %}
 <article class="container container--lg post-type--{{post.post_type}} press--{{post.post_type}}" id="post--{{post.ID}} page-tools">
-		<header class="article__header">
+		<header class="article__header{{ show_header }}">
 			<h1 class="article__title h1">{{post.title}}</h1>
 		</header>
         <div class="article__content">
