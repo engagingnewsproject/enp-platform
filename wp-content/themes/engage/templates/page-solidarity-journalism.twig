@@ -1,26 +1,52 @@
 {% extends "base.twig" %}
 
+{# Hide title / ACF / Page settings #}
+{% if post.meta('show_header') == false %}
+	{% set show_header = ' sr-text' %} 
+{% endif %}
+
 {% block content %}
-	<article class="article container container--md full-width post-type--{{post.post_type}}" id="post--{{post.ID}}">
-		<header class="article__header">
+	<article class="article--default container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}}">
+		<header class="article__header{{ show_header }}">
 			<h1 class="article__title">{{post.title}}</h1>
 		</header>
-		<div class="article__content">
+
+		<section class="article__content"> {# Content / default wp editor #}
 			{{post.content}}
-		</div>
-		<div class="newsletter__wrapper">
-		  <div class="newsletter-page widget">
-		      {{ newsletter }}
-		  </div>
-		</div>
-        <section class="tiles grid grid--col-12 grid--gap-20">
-            {# newsroom resource posts from the relationship field #}
-            {% for post in Post(resource_posts) %}
-                {# get the tile file since we wont need the tile-intro.twig #}
-                {% include "partial/tile.twig" with { 'tile': post } %}
-            {% endfor %}
-        </section>
-        <p style="font-size:24px"><strong>{{post.meta('title_2')}}</strong></p>
-		<p>{{post.meta('content_2')}}</p>
+		</section>
+
+		{% if post.meta('show_newsletter') %} {# ACF / Page settings #}
+			<div class="newsletter__wrapper">
+				<div class="newsletter-page widget">
+					{{ newsletter }}
+				</div>
+			</div>
+		{% endif %}
+
+		<section class="tiles grid grid--col-12 grid--gap-20"> {# Tiles / ACF #}
+			{# newsroom resource posts from the relationship field #}
+			{% for post in Post(resource_posts) %}
+				{# get the tile file since we wont need the tile-intro.twig #}
+				{% include "partial/tile.twig" with { 'tile': post } %}
+			{% endfor %}
+		</section>
+
+		<section class="article__content"> {# Content / ACF #}
+			{{ post.meta('second_section_content') }} {#  ACF / Solidarity Journalism #}
+		</section>
+
+		{% if post.meta('title_2' != blank) %}
+			<p style="font-size:24px">
+				<strong>
+					{{post.meta('title_2')}} {#  ACF / Solidarity Journalism #}
+				</strong>
+			</p>
+		{% endif %}
+
+		{% if post.meta('content_2' != blank) %}
+			<p>
+				{{post.meta('content_2')}} {#  ACF / Solidarity Journalism #}
+			</p>
+		{% endif %}
 	</article>
 {% endblock %}

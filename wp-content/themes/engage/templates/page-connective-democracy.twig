@@ -1,111 +1,123 @@
 {% extends "base.twig" %}
 
-{% block content %}
-
 {% if post.meta('custom_posts_width') == false %}
 	{% set twoColumns = 'tile-col__half' %}
 {% endif %}
 
-	<div class="post__wrapper wrapper--pad">
-		<div class="article__wrapper container container--lg">
+{# Hide title / ACF / Page settings #}
+{% if post.meta('show_header') == false %}
+	{% set show_header = ' sr-text' %} 
+{% endif %}
 
-			{# header image or video #}
-			{% for header in post.meta('header') %}
-				{% if header.acf_fc_layout == 'image' %}
-					<img src="{{ Image(header.header_image).src }}" srcset="{{ Image(header.header_image).srcset }}" sizes="{{ Image(header.header_image).img_sizes }}" alt="{{ Image(header.header_image).alt }}" class="ann__img-director"/>
-				{% elseif header.acf_fc_layout == 'video' %}
-					<video src="{{ header.header_video }}" loop="true" muted="true" autoplay="true"></video>
-				{% endif %}
-			{% endfor %}
+{% block content %}
 
-			{# content 1 #}
-			{% if post.meta('content_1') %}
-				<p>{{ post.meta('content_1') }}</p>
-			{% endif %}
+	<article class="article--default container container--xl post-type--{{post.post_type}}" id="post--{{post.ID}}">
+		
+		<header class="article__header{{ show_header }}">
+			<h1 class="article__title">{{post.title}}</h1>
+		</header>
 
-			{# title 1 #}
-			{% if post.meta('title_1') %}
-				<h1 class="section-margin">{{ post.meta('title_1') }}</h1>
-			{% endif %}
+		<div class="post__wrapper wrapper--pad">
+			<div class="article__wrapper container container--lg">
 
-			<section
-				class="tiles grid grid--col-12 grid--gap-20">
-				
-				{# newsroom resource posts from the relationship field #}
-				{% if post.meta('newsroom_resource_posts') %}
-					{% for post in Post(newsroom_resource_posts) %}
-						{# get the tile file since we wont need the tile-intro.twig #}
-						{% include "partial/tile.twig" with { 'tile': post } %}
-					{% endfor %}
+				{# header image or video #}
+				{% for header in post.meta('header') %}
+					{% if header.acf_fc_layout == 'image' %}
+						<img src="{{ Image(header.header_image).src }}" srcset="{{ Image(header.header_image).srcset }}" sizes="{{ Image(header.header_image).img_sizes }}" alt="{{ Image(header.header_image).alt }}" class="ann__img-director"/>
+					{% elseif header.acf_fc_layout == 'video' %}
+						<video src="{{ header.header_video }}" loop="true" muted="true" autoplay="true"></video>
+					{% endif %}
+				{% endfor %}
+
+				{# content 1 #}
+				{% if post.meta('content_1') %}
+					<p>{{ post.meta('content_1') }}</p>
 				{% endif %}
 
-				{# custom posts #}
-				{% if post.meta('custom_posts') %}
-					{% for item in post.meta('custom_posts') %}
-<div class="tile tile--has-img {{ twoColumns }} tile--vertical--journalism">
+				{# title 1 #}
+				{% if post.meta('title_1') %}
+					<h1 class="section-margin">{{ post.meta('title_1') }}</h1>
+				{% endif %}
 
-							<div class="tile__img-wrap">
-								<img src="{{ Image(item.image).src }}" srcset="{{ Image(item.image).srcset }}" sizes="{{ Image(item.image).img_sizes }}" alt="{{ Image(item.image).alt }}"/>
-							</div>
-							<div class="tile__title-wrap">
-								<div class="tile__label">
-									<div class="tile__bar"></div>
+				<section class="tiles grid grid--col-12 grid--gap-20">
+					
+					{# newsroom resource posts from the relationship field #}
+					{% if post.meta('newsroom_resource_posts') %}
+						{% for post in Post(newsroom_resource_posts) %}
+							{# get the tile file since we wont need the tile-intro.twig #}
+							{% include "partial/tile.twig" with { 'tile': post } %}
+						{% endfor %}
+					{% endif %}
+
+					{# custom posts #}
+					{% if post.meta('custom_posts') %}
+						{% for item in post.meta('custom_posts') %}
+							<div class="tile tile--has-img {{ twoColumns }} tile--vertical--journalism">
+
+								<div class="tile__img-wrap">
+									<img src="{{ Image(item.image).src }}" srcset="{{ Image(item.image).srcset }}" sizes="{{ Image(item.image).img_sizes }}" alt="{{ Image(item.image).alt }}"/>
 								</div>
-								<h3 class="tile__title h3">{{ item.title }}</h3>
-								<p class="tile__date">{{ item.date }}</p>
-								<div class="tile__excerpt">{{ item.excerpt }}</div>
+								<div class="tile__title-wrap">
+									<div class="tile__label">
+										<div class="tile__bar"></div>
+									</div>
+									<h3 class="tile__title h3">{{ item.title }}</h3>
+									<p class="tile__date">{{ item.date }}</p>
+									<div class="tile__excerpt">{{ item.excerpt }}</div>
+								</div>
+								<a class="tile__link" href="{{ item.link }}" {% if item.link_in_blank %}target="_blank"{% endif %}>
+									<span class="sr-text">{{ item.link_title }}</span>
+								</a>
 							</div>
-							<a class="tile__link" href="{{ item.link }}" {% if item.link_in_blank %}target="_blank"{% endif %}>
-								<span class="sr-text">{{ item.link_title }}</span>
-							</a>
-						</div>
-					{% endfor %}
+						{% endfor %}
+					{% endif %}
+
+				</section>
+
+				{# title 2 #}
+				{% if post.meta('title_2') %}
+					<h1 class="section-margin">{{ post.meta('title_2') }}</h1>
 				{% endif %}
 
-			</section>
+				{# content 2 #}
+				{% if post.meta('content_2') %}
+					<p>{{ post.meta('content_2') }}</p>
+				{% endif %}
 
-			{# title 2 #}
-			{% if post.meta('title_2') %}
-				<h1 class="section-margin">{{ post.meta('title_2') }}</h1>
-			{% endif %}
+				{# featured video #}
+				{% if post.meta('featured_video') %}
+					<iframe class="featured-video" src={{post.meta('featured_video')}} frameborder="0" allowfullscreen></iframe>
+				{% endif %}
 
-			{# content 2 #}
-			{% if post.meta('content_2') %}
-				<p>{{ post.meta('content_2') }}</p>
-			{% endif %}
+				{# video grid #}
+				{% if post.meta('video_1') != blank %}
+					<div class="small-video-container">
+						<iframe class="small-video" src={{post.meta('video_1')}} frameborder="0" allowfullscreen></iframe>
+						{% if post.meta('video_2') != blank %}
+							<iframe class="small-video" src={{post.meta('video_2')}} frameborder="0" allowfullscreen></iframe>
+						{% endif %}
+						{% if post.meta('video_3') != blank %}
+							<iframe class="small-video" src={{post.meta('video_3')}} frameborder="0" allowfullscreen></iframe>
+						{% endif %}
+					</div>
+				{% endif %}
 
-			{# featured video #}
-			{% if post.meta('featured_video') %}
-				<iframe class="featured-video" src={{post.meta('featured_video')}} frameborder="0" allowfullscreen></iframe>
-			{% endif %}
+				{# title 3 #}
+				{% if post.meta('title_3') != blank %}
+					<h1>{{post.meta('title_3')}}</h1>
+				{% endif %}
 
-			{# video grid #}
-			{% if post.meta('video_1') != blank %}
-				<div class="small-video-container">
-					<iframe class="small-video" src={{post.meta('video_1')}} frameborder="0" allowfullscreen></iframe>
-					{% if post.meta('video_2') != blank %}
-						<iframe class="small-video" src={{post.meta('video_2')}} frameborder="0" allowfullscreen></iframe>
-					{% endif %}
-					{% if post.meta('video_3') != blank %}
-						<iframe class="small-video" src={{post.meta('video_3')}} frameborder="0" allowfullscreen></iframe>
-					{% endif %}
-				</div>
-			{% endif %}
+				{# research tiles #}
+				{% if post.meta('show_research_tiles') == true %}
+					{% include 'tiles.twig' with { posts : research }%}
+				{% endif %}
 
-			{# title 3 #}
-			{% if post.meta('title_3') != blank %}
-				<h1>{{post.meta('title_3')}}</h1>
-			{% endif %}
-
-			{# research tiles #}
-			{% if post.meta('show_research_tiles') == true %}
-				{% include 'tiles.twig' with { posts : research }%}
-			{% endif %}
-
-			{# content 3 #}
-			{% if post.meta('content_3') != blank %}
-				{{post.meta('content_3')}}
-			{% endif %}
+				{# content 3 #}
+				{% if post.meta('content_3') != blank %}
+					{{post.meta('content_3')}}
+				{% endif %}
+			</div>
 		</div>
-	</div>
+
+	</article>
 {% endblock %}
