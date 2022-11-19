@@ -27,20 +27,6 @@
 			{{ post.meta('second_section_content') }} {#  ACF / Solidarity Journalism #}
 		</section>
 
-		{% if post.meta('title_2' != blank) %}
-			<p style="font-size:24px">
-				<strong>
-					{{post.meta('title_2')}} {#  ACF / Solidarity Journalism #}
-				</strong>
-			</p>
-		{% endif %}
-
-		{% if post.meta('content_2' != blank) %}
-			<p>
-				{{post.meta('content_2')}} {#  ACF / Solidarity Journalism #}
-			</p>
-		{% endif %}
-
 		{% if post.meta('show_newsletter') %} {# ACF / Page settings #}
 			<div class="newsletter__wrapper">
 				<div class="newsletter-page widget">
