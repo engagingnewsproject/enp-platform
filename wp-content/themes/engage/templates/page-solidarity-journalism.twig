@@ -15,14 +15,6 @@
 			{{post.content}}
 		</section>
 
-		{% if post.meta('show_newsletter') %} {# ACF / Page settings #}
-			<div class="newsletter__wrapper">
-				<div class="newsletter-page widget">
-					{{ newsletter }}
-				</div>
-			</div>
-		{% endif %}
-
 		<section class="tiles grid grid--col-12 grid--gap-20"> {# Tiles / ACF #}
 			{# newsroom resource posts from the relationship field #}
 			{% for post in Post(resource_posts) %}
@@ -48,5 +40,14 @@
 				{{post.meta('content_2')}} {#  ACF / Solidarity Journalism #}
 			</p>
 		{% endif %}
+
+		{% if post.meta('show_newsletter') %} {# ACF / Page settings #}
+			<div class="newsletter__wrapper">
+				<div class="newsletter-page widget">
+					{{ newsletter }}
+				</div>
+			</div>
+		{% endif %}
+
 	</article>
 {% endblock %}
