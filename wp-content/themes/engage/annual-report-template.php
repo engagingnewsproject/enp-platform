@@ -39,4 +39,5 @@ if (isset($post->texas_safe_img) && strlen($post->texas_safe_img)) {
     $post->texas_safe_img = new Timber\Image($post->texas_safe_img);
 }
 $context['post'] = $post;
+$context['the_post_template'] = $post->_wp_page_template;
 Timber::render(['page-annual-report.twig'], $context, ENGAGE_PAGE_CACHE_TIME);

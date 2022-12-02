@@ -352,12 +352,13 @@
 .ann__tile {
 	position: relative;
 	display: grid;
-	grid-template-rows: 1fr 1fr;
+	grid-template-rows: auto 1fr;
 	grid-template-columns: 1fr;
 	row-gap: 0;
+	overflow: hidden;
 
 	@include media($tablet) {
-		grid-template-rows: 1fr 1fr;
+		overflow: scroll;
 		&:nth-child(n + 3) {
 			z-index: 9;
 			background: $white;
@@ -379,10 +380,9 @@
 		align-items: stretch;
 	}
 	.ann__tile_img {
-		-o-object-fit: cover;
-		object-fit: cover;
+		object-fit: contain;
 		width: 100%;
-		object-position: bottom;
+		object-position: center;
 	}
 	.ann__info {
 		display: grid;
@@ -411,8 +411,11 @@
 	text-decoration: none;
 	transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1);
 	background: #000000b8 repeat left top;
-	padding: 0.5em 1em;
+	padding: 1.5em 1em;
 	color: $white;
+	&::-webkit-scrollbar {
+		display: none;
+	}
 	@include media($tablet) {
 		padding: 20px 3em 30px 3em;
 	}

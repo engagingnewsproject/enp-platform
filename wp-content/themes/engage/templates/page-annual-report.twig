@@ -1,16 +1,6 @@
-
-{% block html_head_container %}
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-	{% include 'html-header.twig' %}
-	{% block head %}
-	{% endblock %}
-	</head>
-{% endblock %}
-{% block content %}
-{% endblock %}
-<body class="{{body_class}} ann">
-	
+{% extends "base.twig" %}
+{% block brandbar %}{% endblock %}
+{% block header %}
 	{# HEADER #}
 	<header class="ann__header">
 		<div class="ann__header-wrapper">
@@ -23,12 +13,13 @@
 			{% endif %}
 		</div>
 	</header>
+{% endblock %}
+{% block content %}
 
 	{# MAIN CONTENT #}
-	<main role="main" class="main wrapper grid--flex">
+	<section class="grid--flex">
 
 		{% for main in post.meta('main') %}
-
 			{# DIRECTOR #}
 			{% if main.acf_fc_layout == 'director' %}
 				<section class="ann__sct ann__sct_split wrapper--pad-huge">
@@ -196,6 +187,9 @@
 				
 		{% endfor %}
 
-	</main>
-</body>
-</html>
+	</section>
+	{% block footer %}
+		{{ function('wp_footer') }}
+	{% endblock %}
+
+{% endblock content %}
