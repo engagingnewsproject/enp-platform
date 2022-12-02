@@ -192,6 +192,12 @@ see file: assets/scss/plugins/_flickity.scss
 	}
 }
 .hero__2 {
+	.tile__label {
+		padding-left: 0;
+	}
+	.tile__bar {
+		margin-top: 1em;
+	}
 	a {
 		text-decoration: none;
 	}
@@ -226,23 +232,26 @@ see file: assets/scss/plugins/_flickity.scss
 }
 // arrows top right corner
 .flickity-prev-next-button {
-	top: 200px;
-	transform: none;
+	top: 0;
+	transform: translateY(195px);
+	@include media("max", $mobile) {
+		transform: translateY(200px);
+	}
 	@include media($phablet) {
-		top: 62%;
+		transform: translateY(400px);
 	}
 	@include media($laptop) {
-		top: 0;
+    	transform: translateY(-5px);
 	}
 }
 
 .flickity-prev-next-button.previous {
 	left: auto;
-	right: 60px;
+	right: 55px;
 }
 
 .flickity-prev-next-button.next {
-	right: 10px;
+	right: 0;
 }
 // END arrows top right corner
 
