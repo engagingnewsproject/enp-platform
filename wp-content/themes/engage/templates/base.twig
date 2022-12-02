@@ -21,7 +21,7 @@
 	<!-- End Google Tag Manager (noscript) -->
 		<div class="main-body-wrapper">
 			{% include 'partial/svg.twig' %}
-			{% if brand_bar %}
+			{% if brand_bar == true %}
 				{% include 'partial/brandbar.twig' %}
 			{% endif %}
 			{% block header %}
