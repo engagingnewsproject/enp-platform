@@ -4,7 +4,9 @@
 	{# HEADER #}
 	<header class="ann__header">
 		<div class="ann__header-wrapper">
-			<img src="{{ post.thumbnail.src | resize(500,300) }}" srcset="{{ post.thumbnail.srcset }}" sizes="{{ post.thumbnail.img_sizes }}" alt="{{ post.thumbnail.alt }}" class="ann__header-img"/>
+			{% if post.thumbnail %}
+				<img src="{{ post.thumbnail.src | resize(500,300) }}" srcset="{{ post.thumbnail.srcset }}" sizes="{{ post.thumbnail.img_sizes }}" alt="{{ post.thumbnail.alt }}" class="ann__header-img"/>
+			{% endif %}
 			{% if post.meta('download_report_button_url') %}
 				<a href="{{ post.meta('download_report_button_url') }}" class="btn btn--annual-report" download>
 					{% include "partial/cloud.twig" %}
