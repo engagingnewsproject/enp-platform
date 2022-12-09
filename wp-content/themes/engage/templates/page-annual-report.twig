@@ -25,19 +25,25 @@
 				<section class="ann__sct ann__sct_split wrapper--pad-huge">
 					<div class="ann__block flex_row">
 						<div class="ann__card"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
-							<div class="ann__img-wrap">
-								<img src="{{ Image(main.director_image).src }}" srcset="{{ Image(main.director_image).srcset }}" sizes="{{ Image(main.director_image).img_sizes }}" alt="{{ Image(main.director_image).alt }}" class="ann__img-director"/>
-							</div>
-							<div class="ann__title ann__title_center">
-								<h2 class="m--no"{% if main.title_color %} style="color:{{ main.title_color }};"{% endif %}>{{ main.director_title }}</h2>
-							</div>
+							{% if post.meta('director_image') %}
+								<div class="ann__img-wrap">
+									<img src="{{ Image(main.director_image).src }}" srcset="{{ Image(main.director_image).srcset }}" sizes="{{ Image(main.director_image).img_sizes }}" alt="{{ Image(main.director_image).alt }}" class="ann__img-director"/>
+								</div>
+							{% endif %}
+							{% if post.meta('director_title') %}
+								<div class="ann__title ann__title_center">
+									<h2 class="m--no"{% if main.title_color %} style="color:{{ main.title_color }};"{% endif %}>{{ main.director_title }}</h2>
+								</div>
+							{% endif %}
 						</div>
 					</div>
-					<div class="grid">
-						<div class="ann__content_size_sm">
-							{{ main.director_content }}
+					{% if main.director_content %}
+						<div class="grid">
+							<div class="ann__content_size_sm">
+								{{ main.director_content }}
+							</div>
 						</div>
-					</div>
+					{% endif %}
 				</section>
 
 			{# HIGHLIGHTS #}
@@ -49,11 +55,19 @@
 					<div class="ann__grid grid">
 					{% for item in main.highlight %}
 						<div class="ann__grid_item">
-							<img src="{{ Image(item.highlight_icon).src }}" sizes="{{ Image(item.highlight_icon).img_sizes }}"
-								alt="{{ Image(item.highlight_icon).alt }}" />
-							<h2 class="ann__grid_num">{{ item.highlight_number }}</h2>
-							<h3 class="ann__grid_title">{{ item.highlight_title }}</h3>
-							<p class="ann__grid_text">{{ item.highlight_text }}</p>
+							{% if item.highlight_icon %}
+								<img src="{{ Image(item.highlight_icon).src }}" sizes="{{ Image(item.highlight_icon).img_sizes }}"
+									alt="{{ Image(item.highlight_icon).alt }}" />
+							{% endif %}
+							{% if item.highlight_number %}
+								<h2 class="ann__grid_num">{{ item.highlight_number }}</h2>
+							{% endif %}
+							{% if item.highlight_title %}
+								<h3 class="ann__grid_title">{{ item.highlight_title }}</h3>
+							{% endif %}
+							{% if item.highlight_text %}
+								<p class="ann__grid_text">{{ item.highlight_text }}</p>
+							{% endif %}
 						</div>
 					{% endfor %}
 					</div>
@@ -62,23 +76,31 @@
 			{# NEWSWORTHY #}
 			{% elseif main.acf_fc_layout == 'newsworthy' %}
 				<section class="ann__sct ann__sct_grid wrapper--pad-xlg container--xl">
-					<div class="ann__title">
-						<h2>{{ main.newsworthy_title }}</h2>
-					</div>
+					{% if main.newsworthy_title %}
+						<div class="ann__title">
+							<h2>{{ main.newsworthy_title }}</h2>
+						</div>
+					{% endif %}
 					<div class="tiles grid grid--col-12 grid--gap-30">
 						{% for tile in main.tiles %}
 							<div class="tile tile--has-img tile--research-cat--reader-engagement tile--vertical--bridging-divides">
-								<div class="tile__img-wrap">
-									<img src="{{ Image(tile.image).src }}" 
-										sizes="{{ Image(tile.image).img_sizes }}"
-										alt="{{ Image(tile.image).alt }}" />
-								</div>
+								{% if tile.image %}
+									<div class="tile__img-wrap">
+										<img src="{{ Image(tile.image).src }}" 
+											sizes="{{ Image(tile.image).img_sizes }}"
+											alt="{{ Image(tile.image).alt }}" />
+									</div>
+								{% endif %}
 								<div class="tile__title-wrap">
 									<div class="tile__label">
 										<div class="tile__bar"></div>
 									</div>
-    							<h3 class="tile__title h3">{{ tile.title|length > 50 ? tile.title|slice(0, 50) ~ "..." : tile.title}}</h3>
-									<div class="tile__excerpt">{{ tile.content }}</div>
+									{% if tile.title %}
+										<h3 class="tile__title h3">{{ tile.title|length > 50 ? tile.title|slice(0, 50) ~ "..." : tile.title}}</h3>
+									{% endif %}
+									{% if tile.content %}
+										<div class="tile__excerpt">{{ tile.content }}</div>
+									{% endif %}
 								</div>
 							</div>
 						{% endfor %}
@@ -88,22 +110,31 @@
 			{# FALCULTY #}
 			{% elseif main.acf_fc_layout == 'faculty' %}
 				<section class="ann__sct ann__sct_whole testing ann__sct_grid_pt ann__sct_faculty wrapper--pad-xlg">
-					<div class="ann__title">
-						<h2>{{ main.faculty_title }}</h2>
-					</div>
-
+					{% if main.faculty_title %}
+						<div class="ann__title">
+							<h2>{{ main.faculty_title }}</h2>
+						</div>
+					{% endif %}
 					<ul class="ann__list grid">
 						{% for member in main.members %}
 							<li class="ann__list_item grid">
-								<div class="ann__list_img grid">
-									<img src="{{ Image(member.member_image).src | resize(300) }}"
-										sizes="{{ Image(member.member_image).img_sizes }}"
-										alt="{{ Image(member.member_image).alt }}" />
-								</div>
+								{% if member.member_image %}
+									<div class="ann__list_img grid">
+										<img src="{{ Image(member.member_image).src | resize(300) }}"
+											sizes="{{ Image(member.member_image).img_sizes }}"
+											alt="{{ Image(member.member_image).alt }}" />
+									</div>
+								{% endif %}
 								<div class="ann__list_title">
-									<h4>{{ member.member_name }}</h4>
-									<p>{{ member.member_title }}</p>
-									<a href="{{ member.member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
+									{% if member.member_name %}
+										<h4>{{ member.member_name }}</h4>
+									{% endif %}
+									{% if member.member_title %}
+										<p>{{ member.member_title }}</p>
+									{% endif %}
+									{% if member.member_link %}
+										<a href="{{ member.member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
+									{% endif %}
 								</div>
 							</li>
 						{% endfor %}
@@ -118,16 +149,20 @@
 							<h2>{{ main.title }}</h2>
 						</div>
 					{% endif %}
-					<img src="{{ Image(main.image).src }}" 
-						sizes="{{ Image(main.image).img_sizes }}"
-						alt="{{ Image(main.image).alt }}" />
+					{% if main.image %}
+						<img src="{{ Image(main.image).src }}" 
+							sizes="{{ Image(main.image).img_sizes }}"
+							alt="{{ Image(main.image).alt }}" />
+					{% endif %}
 				</section>
 
 			{# QUOTE #}
 			{% elseif main.acf_fc_layout == 'quote' %}
 				<section class="ann__sct ann__sct_quote">
 				<div class="ann__sect_quote__container" style="{% if main.quote_image %}background-image:url({{ Image(main.quote_image).src }});background-position:center;background-repeat:no-repeat;{% endif %}{% if main.quote_section_background %}background-color:{{ main.quote_section_background }};{% endif %}">
-					<h1 class="ann__sect_quote-img container--xl"{% if main.quote_background %} style="background-color:{{ main.quote_background }};"{% endif %}>{{ main.quote_text }}</h1>
+					{% if main.quote_text %}
+						<h1 class="ann__sect_quote-img container--xl"{% if main.quote_background %} style="background-color:{{ main.quote_background }};"{% endif %}>{{ main.quote_text }}</h1>
+					{% endif %}
 					</div>
 				</section>
 
@@ -138,52 +173,76 @@
 			{# OUTREACH #} 
 			{% elseif main.acf_fc_layout == 'outreach' %}
 				<section class="ann__sct ann__sct_full_content grid wrapper--pad-xlg vert-pad-sm">
-					<div class="ann__title">
-						<h2>{{ main.outreach_title }}</h2>
-					</div>
-					<div class="ann__subtitle">{{ main.outreach_subtext }}</div>
-					<div class="ann__intro">{{ main.row_one_intro }}</div>
-					<div class="ann__col ann__col_first">
-						{{ main.row_one_column_one }}
-					</div>
-					<div class="ann__col ann__col_second">
-						{{ main.row_one_column_two }}
-					</div>
+					{% if main.outreach_title %}
+						<div class="ann__title">
+							<h2>{{ main.outreach_title }}</h2>
+						</div>
+					{% endif %}
+					{% if main.outreach_subtext %}
+						<div class="ann__subtitle">{{ main.outreach_subtext }}</div>
+					{% endif %}
+					{% if main.row_one_intro %}
+						<div class="ann__intro">{{ main.row_one_intro }}</div>
+					{% endif %}
+					{% if main.row_one_column_one %}
+						<div class="ann__col ann__col_first">
+							{{ main.row_one_column_one }}
+						</div>
+					{% endif %}
+					{% if main.row_one_column_two %}
+						<div class="ann__col ann__col_second">
+							{{ main.row_one_column_two }}
+						</div>
+					{% endif %}
 					{# row two #}
-					<div class="ann__intro">{{ main.row_two_intro }}</div>
-					<div class="ann__col ann__col_first">
-						{{ main.row_two_column_one }}
-					</div>
-					<div class="ann__col ann__col_second">
-						{{ main.row_two_column_two }}
-					</div>
-					<div class="ann__intro">{{ main.row_two_footer }}</div>
+					{% if main.row_two_intro %}
+						<div class="ann__intro">{{ main.row_two_intro }}</div>
+					{% endif %}
+					{% if main.row_two_column_one %}
+						<div class="ann__col ann__col_first">
+							{{ main.row_two_column_one }}
+						</div>
+					{% endif %}
+					{% if main.row_two_column_two %}
+						<div class="ann__col ann__col_second">
+							{{ main.row_two_column_two }}
+						</div>
+					{% endif %}
+					{% if main.row_two_footer  %}
+						<div class="ann__intro">{{ main.row_two_footer }}</div>
+					{% endif %}
 				</section>
 
 			{# FOOTER #} 
 			{% elseif main.acf_fc_layout == 'footer' %}
 				<footer class="ann__sct ann__sct_full_content_slim wrapper--pad-huge">
-					<div class="ann__contact_info">
-						{{ main.contact_info }}
-					</div>
+					{% if main.contact_info %}
+						<div class="ann__contact_info">
+							{{ main.contact_info }}
+						</div>
+					{% endif %}
 					<div class="ann__social grid">
 					{% for social in main.socials %}
-						{% set name = social.social_name %}
-						{% set path, name, ending = 'assets/img/icon-', name, '.svg' %}
-						{% set svg = [path, name, ending]|join %}
-						<div class="social">
-							<a href="{{ social.social_url }}" target="_blank">
-								{{ source(svg) }}
-								{{ social.social_handle }}
-							</a>
-						</div>
+						{% if social.social_name %}
+							{% set name = social.social_name %}
+							{% set path, name, ending = 'assets/img/icon-', name, '.svg' %}
+							{% set svg = [path, name, ending]|join %}
+							<div class="social">
+								<a href="{{ social.social_url }}" target="_blank">
+									{{ source(svg) }}
+									{{ social.social_handle }}
+								</a>
+							</div>
+						{% endif %}
 					{% endfor %}
 					</div>
-					<div class="ann__gift_btn">
-						<a href="{{ main.gift_button_url }}" class="btn--ghost">
-							{{ main.gift_button_text }}
-						</a>
-					</div>
+					{% if main.gift_button_text %}
+						<div class="ann__gift_btn">
+							<a href="{{ main.gift_button_url }}" class="btn--ghost">
+								{{ main.gift_button_text }}
+							</a>
+						</div>
+					{% endif %}
 				</footer>
 
 			{% endif %}
