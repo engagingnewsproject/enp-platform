@@ -137,7 +137,7 @@
 
 			{# OUTREACH #} 
 			{% elseif main.acf_fc_layout == 'outreach' %}
-				<section class="ann__sct ann__sct_full_content grid wrapper--pad-xlg">
+				<section class="ann__sct ann__sct_full_content grid wrapper--pad-xlg vert-pad-sm">
 					<div class="ann__title">
 						<h2>{{ main.outreach_title }}</h2>
 					</div>
@@ -157,6 +157,7 @@
 					<div class="ann__col ann__col_second">
 						{{ main.row_two_column_two }}
 					</div>
+					<div class="ann__intro">{{ main.row_two_footer }}</div>
 				</section>
 
 			{# FOOTER #} 
@@ -165,15 +166,17 @@
 					<div class="ann__contact_info">
 						{{ main.contact_info }}
 					</div>
-					{% set count = 1 %}
 					<div class="ann__social grid">
 					{% for social in main.socials %}
-						<div class="ann__social_0{{ count }}">
-							<a href="{{ social.social_url }}">
+						{% set name = social.social_name %}
+						{% set path, name, ending = 'assets/img/icon-', name, '.svg' %}
+						{% set svg = [path, name, ending]|join %}
+						<div class="social">
+							<a href="{{ social.social_url }}" target="_blank">
+								{{ source(svg) }}
 								{{ social.social_handle }}
 							</a>
 						</div>
-						{% set count = count + 1 %}
 					{% endfor %}
 					</div>
 					<div class="ann__gift_btn">
