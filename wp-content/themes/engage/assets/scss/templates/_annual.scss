@@ -468,13 +468,10 @@
 		}
 	}
 	.ann__subtitle {
-		grid-column: 1 / span 14;
+		grid-column: 1 / -1;
 	}
 	.ann__intro {
-		grid-column: 1 / span 12;
-		@include media($tablet) {
-			grid-column: 1 / span 12;
-		}
+		grid-column: 1 / -1;
 	}
 	.ann__col_first {
 		padding-bottom: 1rem;
@@ -572,11 +569,3 @@
 	}
 }
 // END modifiers
-
-footer.ann__sct {
-	height: 100vh;
-	@include media($tablet) {
-		height: 50vh;
-		padding-top: 3rem;
-	}
-}
