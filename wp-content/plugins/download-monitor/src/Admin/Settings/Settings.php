@@ -165,13 +165,13 @@ class DLM_Admin_Settings {
 								'std'         => 'download',
 								'placeholder' => __( 'download', 'download-monitor' ),
 								'label'       => __( 'Download Endpoint', 'download-monitor' ),
-								'desc'        => sprintf( __( 'Define what endpoint should be used for download links. By default this will be <code>%s</code>.', 'download-monitor' ), home_url( '/download/' ) ),
+								'desc'        => sprintf( __( 'Define what endpoint should be used for download links. By default this will be <code>%s</code> ( %s ).', 'download-monitor' ), 'download', esc_url( home_url( ) ) . '<code>/download/</code>' ),
 							),
 							array(
 								'name'    => 'dlm_download_endpoint_value',
 								'std'     => 'ID',
 								'label'   => __( 'Endpoint Value', 'download-monitor' ),
-								'desc'    => sprintf( __( 'Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <code>%s</code>', 'download-monitor' ), home_url( '/download/10/' ) ),
+								'desc'    => sprintf( __( 'Define what unique value should be used on the end of your endpoint to identify the downloadable file. e.g. ID would give a link like <code>10</code> ( %s%s )', 'download-monitor' ), home_url( '/download/' ), '<code>10/</code>' ),
 								'type'    => 'select',
 								'options' => array(
 									'ID'   => __( 'Download ID', 'download-monitor' ),
@@ -198,6 +198,14 @@ class DLM_Admin_Settings {
 								'label'       => __( 'No access message', 'download-monitor' ),
 								'desc'        => __( "The message that will be displayed to visitors when they don't have access to a file.", 'download-monitor' ),
 								'type'        => 'textarea',
+							),
+							array(
+								'name'     => 'dlm_no_access_modal',
+								'std'      => '0',
+								'label'    => __( 'No Access Modal', 'download-monitor' ),
+								'cb_label' => '',
+								'desc' => __( 'Open no access message in a modal (pop-up) window.', 'download-monitor' ),
+								'type'     => 'checkbox',
 							),
 							array(
 								'name'        => 'dlm_ip_blacklist',
@@ -760,7 +768,7 @@ class DLM_Admin_Settings {
 				$fields = array(
 					array(
 						'name'     => 'dlm_gateway_' . esc_attr( $gateway->get_id() ) . '_enabled',
-						'std'      => '0',
+						'std'      => ( $gateway->is_enabled() ) ? '1' : '0',
 						'label'    => __( 'Enabled', 'download-monitor' ),
 						'cb_label' => __( 'Enable Gateway', 'download-monitor' ),
 						'desc'     => __( 'Check this to allow your customers to use this payment method to pay at your checkout page.', 'download-monitor' ),

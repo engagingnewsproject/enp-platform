@@ -2,10 +2,10 @@
 Contributors: rankmath
 Plugin link: https://rankmath.com/?utm_source=LP&utm_campaign=WP
 Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
-Tested up to: 6.0
+Tested up to: 6.1
 Requires at least: 5.6
 Requires PHP: 7.4
-Stable tag: 1.0.100.1
+Stable tag: 1.0.103.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -417,7 +417,10 @@ Rank Math® SEO is a registered trademark. Please use the following format when 
 
 **<a href="https://rankmath.com/kb/wordpress/seo-suite/?utm_source=LP&utm_campaign=WP" target="_blank">3. User Documentation:</a>** Although Rank Math is already easy to set up, we've put together tutorials, guides, and some knowledge bases to help you set up and get started with Rank Math.
 
-**<a href="https://translate.wordpress.org/projects/wp-plugins/seo-by-rank-math/?utm_campaign=Rank+Math" target="_blank">4. Contribute (Sharing is caring):</a>** If you are one of those caring hearts that want to help, go to our <a href="https://github.com/RankMath/seo-by-rank-math/?utm_campaign=Rank+Math" target="_blank">Rank Math's GitHub Repository</a> and see how you can contribute to the SEO community. You can also add a new language via <a href="https://translate.wordpress.org/projects/wp-plugins/seo-by-rank-math/?utm_campaign=Rank+Math" target="_blank">translate.wordpress.org.</a>
+**<a href="https://translate.wordpress.org/projects/wp-plugins/seo-by-rank-math/?utm_campaign=Rank+Math" target="_blank">4. Contribute (Sharing is caring):</a>** If you are one of those caring hearts that want to help, please check the following resources:
+* [Rank Math's GitHub repository](https://github.com/RankMath/seo-by-rank-math/) - Includes all the uncompressed files.
+* [Content Analyzer Code Files](https://github.com/rankmath/content-analyzer) - Includes all supplementary uncompressed files.
+* [Translation](https://translate.wordpress.org/projects/wp-plugins/seo-by-rank-math/) - If you are looking to translate the plugin into your local language.
 
 **<a href="https://mythemeshop.com/wordpress-errors-fixes/?utm_campaign=Rank+Math" target="_blank">5. Fixing Common Errors:</a>** Sometimes, avoidable or common issues can get you stuck. We’ve created a common guide where we discuss all the common issues and how to fix them.
 
@@ -580,14 +583,28 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.100[Oct 19, 2022] =
-* Fixed: Missing [Google Analytics tracking code](https://rankmath.com/kb/install-google-analytics/) on some setups
-* Fixed: [Index Status](https://rankmath.com/kb/analytics/#index-status) was not working well on Arabic language sites
-* Fixed: Filter to change [Opengraph image](https://rankmath.com/kb/filters-hooks-api-developer/#change-opengraph-image) was not working when an image was not added in the settings
-* Fixed: Sitemap was getting timed out on some sites hosted on Cloudflare when the [Include Images in Sitemap](https://rankmath.com/kb/configure-sitemaps/#images-in-sitemaps) option was enabled
+= 1.0.103 [Nov 30, 2022] =
+* Added: [NEW!] [HTML Sitemaps](https://rankmath.com/kb/html-sitemap/?play-video=Euw7qS4IRXM) are here for everyone!
+* Added: Option to enable/disable [Author Sitemap](https://rankmath.com/kb/configure-sitemaps/#authors)
+* Added: Back button in the [Content AI Panel](https://rankmath.com/kb/how-to-use-content-ai/#open-content-ai-panel) to get back to the SEO Controls without reloading the page
+* Improved: [HUGE!] [SEO Tests](https://rankmath.com/kb/score-100-in-tests/) & [Content AI](https://rankmath.com/kb/how-to-use-content-ai/) tests run much faster than ever
+* Improved: [HUGE!] Performance by preventing unnecessary calls for the `getFeaturedImageId` REST endpoint in the [Divi Editor](https://rankmath.com/kb/seo-meta-tags/#divi)
+* Fixed: Visual bug in the date field of [Schema Generator](https://rankmath.com/kb/schema-generator/)
+* Fixed: Query strings added to the attachment URL using the Open Graph Image [filter](https://rankmath.com/kb/filters-hooks-api-developer/#change-opengraph-image) were getting removed
+* Fixed: Incorrect [description](https://rankmath.com/kb/variables-in-seo-title-description/#num-18-post-excerpt) was generated when multiple keywords were used in the post
+* Fixed: [Capitalize Title](https://rankmath.com/kb/titles-and-meta/#capitalize-titles) option was not working well when an apostrophe was used in the title
+* Fixed: [Google Trends tool](https://rankmath.com/kb/keyword-research-with-rank-math/#google-trends) was not displaying the popup in the Elementor Editor after switching tabs
+* Fixed: [Recalculate SEO score tool](https://rankmath.com/kb/seo-score-not-available/#database-tools) was not detecting the ALT text added to the post thumbnail
+* Fixed: Position of the toggle options in [Rank Math's Meta Box](https://rankmath.com/kb/on-page-seo/#num-3-in-classic-editor) at Classic Editor
+* Fixed: Missing font icons in Divi & Elementor Editor when Schema & Content AI modules are disabled
+* Fixed: Content AI REST endpoints were showing 404 error on some setups
+* Fixed: Sitemap cache not being cleared after setting a post to `noindex`
+* Fixed: Deprecated function used in the plugin
 
-= 1.0.100.1[Oct 21, 2022] =
-* Improved: Renamed the secret parameter in the thumbnail overlay URL to hash to avoid any confusion, as this is not a sensitive information
-* Fixed: [Icon Overlay](https://rankmath.com/kb/meta-box-social-tab/#add-icon-overlay-to-thumbnails) was not working after the last update
+= 1.0.103.1 [Dec 02, 2022] =
+* Improved: Refactored the Analytics Token regeneration code to avoid Google account disconnections
+* Improved: The Analytics data fetch will now only import data for dates on which data exists, reducing the time required to import the data
+* Improved: Clear pending background cron jobs related to Analytics if data import fails
+* Fixed: [Keyword in Image Alt attribute](https://rankmath.com/kb/score-100-in-tests/#focus-keyword-in-image-alt-attributes-primary-focus-keyword-only) test now works properly when additional text is present in the Alt tag for improving [Image SEO](https://rankmath.com/kb/image-seo/)
 
 Full changelog can be found here - **[Rank Math changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

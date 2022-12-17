@@ -1,3 +1,61 @@
+= 4.7.70 - 12.12.2022 =
+Fixed: Aditional CSS classes for gutenberg blocks ( [#1146](https://github.com/WPChill/download-monitor/issues/1146) )
+Changed: Removed test paymant gateway as PayPal gateway already has a test solution ( [#666](https://github.com/WPChill/download-monitor/issues/666) )
+Changed: De-prioritize the "DLM Protect file" buttin in Media Library single view ( [#1132](https://github.com/WPChill/download-monitor/issues/1132) )
+Added: Quick copy download link in admin Downloads table ( [#1148](https://github.com/WPChill/download-monitor/issues/1148) )
+Fixed: Reports download date not being displayed correctly based on time zone ( [#1149](https://github.com/WPChill/download-monitor/issues/1149) )
+Fixed: Dashboard widget bugged if manual downloads are removed with filter ( [#1151](https://github.com/WPChill/download-monitor/issues/1151) )
+
+= 4.7.60 - 05.12.2022 =
+Fix: No access logs as redirect ( [#1143](https://github.com/WPChill/download-monitor/issues/1143) )
+Added: Action hook for extensions to hook on Reports page ( [#1140](https://github.com/WPChill/download-monitor/issues/1140) )
+Added: Order top downloads by title ( [#1138](https://github.com/WPChill/download-monitor/issues/1138) )
+Fix: No access logging still present ( [#1139](https://github.com/WPChill/download-monitor/issues/1139) )
+
+= 4.7.54 - 30.11.2022 =
+Fix: Incompatibility with WPML for translated downloads ( [#1144](https://github.com/WPChill/download-monitor/issues/1144) )
+
+= 4.7.53 - 25.11.2022 =
+Fix: Readlink error ( [#1142](https://github.com/WPChill/download-monitor/issues/1142) )
+
+= 4.7.52 - 23.11.2022 =
+Fix: Security fix
+
+= 4.7.51 - 22.11.2022 =
+Fix: Bug on reports when Download deleted ( [#1136](https://github.com/WPChill/download-monitor/issues/1136) )
+
+= 4.7.5 - 22.11.2022 =
+Fix: Installed extensions error - missing class
+
+= 4.7.4 - 21.11.2022 =
+Fix: Sorting by download count did not take into consideration the post meta ( [#1126](https://github.com/WPChill/download-monitor/issues/1126) )
+Fix: Reports Downloads CPT retrieval ( [#1128](https://github.com/WPChill/download-monitor/issues/1128) )
+Fix: Storing IP setting not working ( [#1124](https://github.com/WPChill/download-monitor/issues/1124) )
+Fix: Visual indicator for buttons and non-content headers ( [#1119](https://github.com/WPChill/download-monitor/issues/1119) )
+Changed: Reports display dates are now based on the Date Format and Time Format settings ( [#516](https://github.com/WPChill/download-monitor/issues/516) )
+Added: Option to set category in the Downloads list widget ( [#659](https://github.com/WPChill/download-monitor/issues/659) )
+Fixed: Exclude multiple tags in [downloads] shortcode ( [#660](https://github.com/WPChill/download-monitor/issues/660) )
+Change: Set cookies "secure" flag based on server configuration ( [#687](https://github.com/WPChill/download-monitor/issues/687) )
+Fixed: Bedrock installations redirect to file bug ( [#973](https://github.com/WPChill/download-monitor/issues/973) )
+Fixed: Conflict between WPML and Download CPT REST APIs ( [#1118](https://github.com/WPChill/download-monitor/issues/1118) )
+Fixed: Incompatiblity with WPML when languages added as parameter ( [#1112](https://github.com/WPChill/download-monitor/issues/1122) )
+Fixed: Safari compatibility for filenames ( [#1125](https://github.com/WPChill/download-monitor/issues/1125) )
+Changed: Upsell system for plugins page ( [#875](https://github.com/WPChill/download-monitor/issues/875) )
+Added: Option to display the "No access" message in a popup( modal ) ( [#686](https://github.com/WPChill/download-monitor/issues/686) )
+Fixed: Redirect to file when from uploads / uploadsis a symlink ( [#1100](https://github.com/WPChill/download-monitor/issues/1100) )
+
+= 4.7.3 - 1.11.2022 =
+Fixed: Reports not working when cache is set ( [#1113](https://github.com/WPChill/download-monitor/issues/1113) )
+Fixed: Security update regarding directory traversal ( [#1111](https://github.com/WPChill/download-monitor/issues/1111) )
+Fixed: Admin Downloads list order by title ( [#1110](https://github.com/WPChill/download-monitor/issues/1110) )
+Fixed: Fallback for links that use the XHR triggering classes ( [#1109](https://github.com/WPChill/download-monitor/issues/1109) )
+Fixed: Cannot modify headers error when setting cookie ( [#1108](https://github.com/WPChill/download-monitor/issues/1108) )
+Changed: Media Library - restored default view and kept filter for Download Monitor used files ( [#1107](https://github.com/WPChill/download-monitor/issues/1107) )
+Fixed: Media Library visual indicator for Download Monitor protected files ( [#1106](https://github.com/WPChill/download-monitor/issues/1106) )
+Changed: Reconsider the Download's post meta for download count, priorly used as main download count info ( [#1105](https://github.com/WPChill/download-monitor/issues/1105) )
+Fixed: Warning when trying to read current screen ( [#1104](https://github.com/WPChill/download-monitor/issues/1104) )
+Fixed: Count downloads when the reports/logs are disabled ( [#1103](https://github.com/WPChill/download-monitor/issues/1103) )
+
 = 4.7.2 - 24.10.2022 =
 Fixed: Possible overload of server on the Reports page ( [#1102](https://github.com/WPChill/download-monitor/issues/1102) )
 Changed: Plugin Logo ( [#1101](https://github.com/WPChill/download-monitor/issues/1101) )
