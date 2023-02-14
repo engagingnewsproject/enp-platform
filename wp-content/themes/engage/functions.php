@@ -118,3 +118,5 @@ function add_meta_tags()
 }
 
 add_theme_support('align-wide');
+
+add_post_type_support( 'page', 'excerpt' );
