@@ -1,6 +1,6 @@
 .post-type-dlm_download .dlm-page-header {
   border-bottom: 1px solid #ccc;
-  padding: 15px 60px;
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   background: #fff;
@@ -669,6 +669,9 @@ table.wp-list-table .column-thumb img {
   background: rgba(206, 206, 206, 0.5);
   padding: 3px 5px;
 }
+#download-monitor-file .dlm-metaboxes-wrapper .downloadable_files .downloadable_file .wpchill-tooltip {
+  float: none;
+}
 #download-monitor-file .dlm-metaboxes-wrapper .drag-drop #drag-drop-area {
   border: 4px dashed #c3c4c7;
   height: 140px;
@@ -1216,7 +1219,7 @@ table.wp-list-table .column-thumb img {
   position: relative;
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports {
-  margin: 40px;
+  margin: 40px 20px 0 0;
   position: relative;
   /**
       Reports header and actions
@@ -1255,7 +1258,8 @@ table.wp-list-table .column-thumb img {
   border: 1px solid #e0e0e0;
   box-sizing: border-box;
 }
-.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .half-reports-block {
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .half-reports-block,
+.dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .reports-block.half-reports-block {
   width: calc(50% - 45px);
 }
 .dlm_download_page_download-monitor-reports #wpcontent .dlm-reports .dlm-loading-data {
@@ -2155,9 +2159,21 @@ table.wp-list-table .column-thumb img {
 .dlm_extensions_wrap #available-extensions {
   clear: both;
 }
+.dlm_extensions_wrap #available-extensions .features .feature-list .feature-block a {
+  color: #fff;
+}
 .dlm_extensions_wrap .dlm_extensions {
-  padding: 15px 0;
+  padding: 0;
   overflow: hidden;
+}
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .feature-list {
+  margin-top: 10px;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.dlm_extensions_wrap .dlm_extensions #wpchill-welcome .feature-block {
+  margin: 10px;
+  width: calc(33% - 20px) !important;
 }
 .dlm_extensions_wrap .dlm_extensions .dlm_extension {
   background-color: #FFF;
@@ -2311,6 +2327,14 @@ table.wp-list-table .column-thumb img {
   vertical-align: middle;
   margin: 5px auto;
   margin-left: 15px;
+}
+#installed-extensions #wpchill-welcome .features .feature-list .feature-block {
+  margin: 10px;
+  width: calc(33% - 20px) !important;
+  min-height: 400px;
+}
+#installed-extensions #wpchill-welcome .features .feature-list a {
+  color: #fff;
 }
 #total_downloads_browser_table a.nav-tab {
   text-transform: capitalize;
@@ -2911,4 +2935,35 @@ Toggles
   width: 0;
   padding: 0 !important;
   outline: none;
+}
+.guide-button a:hover {
+  background-color: #fff !important;
+  color: #2271b1 !important;
+}
+#wpchill-welcome .welcome-header .feature-list .block {
+  padding: 20px 20px 0px 0px;
+}
+#wpchill-welcome .pages-creation .block {
+  padding: 0 20px;
+}
+#wpchill-welcome .pages-creation .pages-creation__buttons {
+  box-shadow: none !important;
+}
+#wpchill-welcome .pages-creation .pages-creation__buttons .block {
+  padding: 20px 20px 0px 0px;
+  box-shadow: none !important;
+}
+#wpchill-welcome .pages-creation .pages-creation__buttons .guide-button a:hover {
+  background-color: #2271b1 !important;
+  color: #fff !important;
+}
+#wpchill-welcome .pages-creation .block {
+  padding: 0 20px;
+}
+#wpchill-welcome .pages-creation .pages-creation__buttons {
+  box-shadow: none;
+}
+#wpchill-welcome .pages-creation .pages-creation__buttons .block {
+  padding: 20px 20px 0px 0px;
+  box-shadow: none;
 }

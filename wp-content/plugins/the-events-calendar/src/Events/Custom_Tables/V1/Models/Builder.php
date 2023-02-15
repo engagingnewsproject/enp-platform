@@ -412,7 +412,17 @@ class Builder {
 			$SQL             = $wpdb->prepare( $SQL, ...$validated['values'] );
 			$this->queries[] = $SQL;
 			if ( $this->execute_queries ) {
-				$result += (int) $wpdb->query( $SQL );
+				$query_result = $wpdb->query( $SQL );
+				$result       += (int) $query_result;
+			}
+			// Log our errors.
+			if ( $query_result === false && $wpdb->last_error ) {
+				do_action( 'tribe_log',
+					'error',
+					"ORM Builder mysql error while performing insert on {$this->model->table_name()}.", [
+						'source'      => __METHOD__ . ':' . __LINE__,
+						'mysql error' => $wpdb->last_error,
+					] );
 			}
 		} while ( count( $data ) );
 
@@ -758,15 +768,27 @@ class Builder {
 	 * Limit the results from a query to a single result and return the first instance if available otherwise null.
 	 *
 	 * @since 6.0.0
-	 * @return Model|null
+	 *
+	 * @return Model|array|null The requested model in the required format, or `null` if the model could not be found.
 	 */
 	public function first() {
 		$results = $this->limit( 1 )->get();
+
 		if ( empty( $results ) ) {
 			return null;
 		}
 
-		return reset( $results );
+		$result = reset( $results );
+
+		switch ( $this->output_format ) {
+			case OBJECT:
+			default:
+				return $result instanceof $this->model ? $result : null;
+			case ARRAY_N:
+				return is_array( $result ) ? array_values( $result ) : null;
+			case ARRAY_A:
+				return is_array( $result ) ? $result : null;
+		}
 	}
 
 	/**

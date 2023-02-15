@@ -34,6 +34,9 @@ class DLM_Download {
 	private $download_count = 0;
 
 	/** @var int */
+	private $meta_download_count = 0;
+
+	/** @var int */
 	private $total_download_count = 0;
 
 	/** @var bool */
@@ -312,6 +315,29 @@ class DLM_Download {
 	/**
 	 * @return int
 	 */
+	public function get_meta_download_count() {
+
+		// set default download count
+		$download_count = $this->meta_download_count;
+
+		// set download count of latest version if set
+		if ( null != $this->get_version() && ! $this->get_version()->is_latest() ) {
+			$download_count = $this->get_version()->get_meta_download_count();
+		}
+
+		return $download_count;
+	}
+
+	/**
+	 * @param int $download_count
+	 */
+	public function set_meta_download_count( $download_count ) {
+		$this->meta_download_count = $download_count;
+	}
+
+	/**
+	 * @return int
+	 */
 	public function get_total_download_count() {
 
 		// set default download count
@@ -389,6 +415,18 @@ class DLM_Download {
 				$value = $this->id;
 				break;
 		}
+		// If WPML is active we should return the original home_url to avoid 404 pages.
+		//@todo: If Downloads will be made translatable in the future then this should be removed.
+		// First we need to make sure they are not translated.
+		$wpml_options      = get_option( 'icl_sitepress_settings', false );
+		$is_dlm_translated = false;
+		if ( $wpml_options && isset( $wpml_options['custom_posts_sync_option'] ) && in_array( 'dlm_download', $wpml_options['custom_posts_sync_option'] ) ) {
+			$is_dlm_translated = true;
+		}
+
+		if ( $is_dlm_translated ) {
+			add_filter( 'wpml_get_home_url', array( $this, 'wpml_download_link' ), 15, 2 );
+		}
 
 		if ( get_option( 'permalink_structure' ) ) {
 			// Fix for translation plugins that modify the home_url
@@ -396,6 +434,12 @@ class DLM_Download {
 			$link = $link . '/' . $endpoint . '/' . $value . '/';
 		} else {
 			$link = add_query_arg( $endpoint, $value, home_url( '', $scheme ) );
+		}
+
+		// Now we can remove the filter as the link is generated.
+		//@todo: If Downloads will be made translatable in the future then this should be removed.
+		if ( $is_dlm_translated ) {
+			remove_filter( 'wpml_get_home_url', array( $this, 'wpml_download_link' ), 15, 2 );
 		}
 
 		// Add the timestamp to the Download's link to prevent unwanted behaviour with caching plugins/hosts
@@ -1014,5 +1058,18 @@ class DLM_Download {
 	 */
 	public function get_non_logged_in_downloads() {
 		return $this->non_logged_in_downloads;
+	}
+
+	/**
+	 * Fix for WPML setting language for download links. IF the downloads are made trasnlatable this will need to be deleted.
+	 *
+	 * @param string $home_url Home URL made by WPML.
+	 * @param string $url Original URL.
+	 *
+	 * @return string $home_url The correct home URL for Download Monitor.
+	 */
+	public function wpml_download_link( $home_url, $url ) {
+
+		return $url;
 	}
 }

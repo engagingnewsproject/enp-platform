@@ -166,14 +166,11 @@ class DLM_Logging {
 	 */
 	public function log( $download, $version, $status = 'completed', $cookie = true, $url = '-' ) {
 
-		// Check if logging is enabled.
-		if ( ! self::is_logging_enabled() ) return;
-
 		if ( $this->is_count_unique_ips_only() && true === $this->has_uuid_downloaded_version( $version ) ) {
 			return;
 		}
 
-		// setup new log item object
+		// setup new log item object.
 		if ( ! DLM_Cookie_Manager::exists( $download ) ) {
 			$ip       = DLM_Utils::get_visitor_ip();
 			$log_item = new DLM_Log_Item();

@@ -24,9 +24,7 @@ class DLM_Reports_Page {
 	public function setup() {
 
 		// menu item.
-		if ( DLM_Logging::is_logging_enabled() ) {
-			add_filter( 'dlm_admin_menu_links', array( $this, 'add_admin_menu' ), 30 );
-		}
+		add_filter( 'dlm_admin_menu_links', array( $this, 'add_admin_menu' ), 30 );
 
 		// Set this action on order for other plugins/themes to tap into our tabs.
 		add_action( 'admin_init', array( $this, 'set_tabs' ) );
@@ -78,8 +76,12 @@ class DLM_Reports_Page {
 	 * @return array
 	 */
 	public function add_admin_menu( $links ) {
+		// If Reports are disabled don't add the menu item.
+		if ( ! DLM_Logging::is_logging_enabled() ) {
+			return $links;
+		}
 
-		// Reports page page.
+		// Reports page.
 		$links[] = array(
 			'page_title' => __( 'Reports', 'download-monitor' ),
 			'menu_title' => __( 'Reports', 'download-monitor' ),
@@ -196,6 +198,8 @@ class DLM_Reports_Page {
 			</div>
 			</div>
 		</div>
+		<!-- Textarea used to decode HTML entities that are retrieved from RESTP API -->
+		<textarea id="dlm_reports_decode_area" class="hidden"></textarea>
 		<?php
 	}
 
@@ -319,7 +323,6 @@ class DLM_Reports_Page {
 			</div>
 		</div>
 
-
 		<div id="users_downloads_table_wrapper">
 			<div class="user-downloads-filters">
 				<h3 class="user-downloads-filters__heading"><?php echo esc_html__( 'Filter logs by:', 'download-monitor' ); ?></h3>
@@ -362,6 +365,12 @@ class DLM_Reports_Page {
 
 			ob_start();
 			call_user_func( $tab['callback'] );
+
+			/**
+			 *  Hook mainly used to attach extra content to the tab.
+			 */
+			do_action( 'dlm_reports_' . $key, $tab );
+
 			$response = ob_get_clean();
 
 			// $response should be escaped in callback function.
@@ -408,7 +417,7 @@ class DLM_Reports_Page {
 
 		$settings = apply_filters( 'dlm_reports_settings', array(
 			'dlm_user_reports' => array(
-				'label'       => esc_html__( 'Enable user reports', 'donwload-monitor' ),
+				'label'       => esc_html__( 'Enable user reports', 'download-monitor' ),
 				'description' => esc_html__( 'Toggle to enable or disable the user reports section', 'download-monitor' ),
 				'default'     => '1',
 				'type'        => 'checkbox',

@@ -80,17 +80,20 @@ class DLM_Backwards_Compatibility {
 	/**
 	 * Backwards compatibility function for the total_downloads shortcode.
 	 *
-	 * @param  mixed $total Total downloads to be displayed.
+	 * @param mixed $total Total downloads to be displayed.
+	 *
 	 * @return mixed
 	 *
 	 * @since 4.6.0
 	 */
 	public function total_downloads_shortcode( $total ) {
 
-		if ( false === $total ) {
-			global $wpdb;
+		global $wpdb;
+		$meta_counts = 0;
+		// Apply the meta count to the total downloads.
+		if ( apply_filters( 'dlm_count_meta_downloads', true ) ) {
 
-			$total = $wpdb->get_var(
+			$meta_counts = $wpdb->get_var(
 				"
                 SELECT SUM( meta_value ) FROM $wpdb->postmeta
                 LEFT JOIN $wpdb->posts on $wpdb->postmeta.post_id = $wpdb->posts.ID
@@ -101,8 +104,7 @@ class DLM_Backwards_Compatibility {
 			);
 		}
 
-		return $total;
-
+		return absint( $total ) + absint( $meta_counts );
 	}
 
 	/**
@@ -159,7 +161,7 @@ class DLM_Backwards_Compatibility {
 		add_filter( 'dlm_query_args_filter', array( $this, 'query_args_download_count_compatibility' ), 60 );
 		add_filter( 'posts_join', array( $this, 'join_download_count_compatibility' ) );
 		// @todo: delete this filter and function after feedback, as version 4.7.0 doesn't need it.
-		//add_filter( 'posts_where', array( $this, 'where_download_count_compatibility' ) );
+		// add_filter( 'posts_where', array( $this, 'where_download_count_compatibility' ) );
 		add_filter( 'posts_groupby', array( $this, 'groupby_download_count_compatibility' ) );
 		add_filter( 'posts_fields', array( $this, 'select_download_count_compatibility' ) );
 		add_filter( 'posts_orderby', array( $this, 'orderby_download_count_compatibility' ) );
@@ -177,10 +179,9 @@ class DLM_Backwards_Compatibility {
 	public function join_download_count_compatibility( $join ) {
 		global $wpdb;
 
-		$join .= " LEFT JOIN {$wpdb->dlm_downloads} ON ({$wpdb->posts}.ID = {$wpdb->dlm_downloads}.download_id) ";
+		$join .= " LEFT JOIN {$wpdb->dlm_downloads} ON ({$wpdb->posts}.ID = {$wpdb->dlm_downloads}.download_id) LEFT JOIN ( SELECT {$wpdb->postmeta}.meta_value, {$wpdb->postmeta}.post_id FROM {$wpdb->postmeta} WHERE {$wpdb->postmeta}.meta_key = '_download_count') as meta_downloads  ON ( meta_downloads.post_id = {$wpdb->posts}.ID )";
 
 		return $join;
-
 	}
 
 	/**
@@ -210,8 +211,11 @@ class DLM_Backwards_Compatibility {
 	public function select_download_count_compatibility( $fields ) {
 
 		global $wpdb;
-
-		$fields .= ", {$wpdb->dlm_downloads}.download_count as counts ";
+		if ( apply_filters( 'dlm_count_meta_downloads', true ) ) {
+			$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) +   IFNULL( meta_downloads.meta_value, 0 ) ) total_downloads";
+		} else {
+			$fields .= ", {$wpdb->dlm_downloads}.download_count, (  IFNULL( {$wpdb->dlm_downloads}.download_count, 0 ) ) total_downloads";
+		}
 
 		return $fields;
 	}
@@ -249,7 +253,7 @@ class DLM_Backwards_Compatibility {
 			$order = $this->filters['order'];
 		}
 
-		return ' counts ' . $order;
+		return ' total_downloads ' . $order;
 
 	}
 
@@ -330,7 +334,7 @@ class DLM_Backwards_Compatibility {
 	public function add_meta_download_count( $counts, $download_id ) {
 
 		// Filter to enable adding meta counts to download counts.
-		$count_meta = apply_filters( 'dlm_count_meta_downloads', false );
+		$count_meta = apply_filters( 'dlm_count_meta_downloads', true );
 
 		if ( ( isset( $this->upgrade_option['using_logs'] ) && '0' === $this->upgrade_option['using_logs'] ) || $count_meta ) {
 

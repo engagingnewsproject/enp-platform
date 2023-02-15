@@ -26,7 +26,8 @@ class DLM_Admin_Scripts {
 			'dlm_insert_download',
 			plugins_url( '/assets/js/download-operations' . ( ( ! SCRIPT_DEBUG ) ? '.min' : '' ) . '.js', $dlm->get_plugin_file() ),
 			array( 'jquery' ),
-			DLM_VERSION
+			DLM_VERSION,
+			true
 		);
 
 		// Notices JS
@@ -143,7 +144,7 @@ class DLM_Admin_Scripts {
 				'dlm_download_overview',
 				array(
 					'copy_shortcode'    => esc_html__( 'Copy shortcode', 'download-monitor' ),
-					'shortcode_copied' => esc_html__( 'Shortcode copied', 'download-monitor' ),
+					'shortcode_copied' => esc_html__( 'Copied', 'download-monitor' ),
 				)
 			);
 
@@ -233,11 +234,11 @@ class DLM_Admin_Scripts {
 				'dlm_install_plugins',
 				'dlm_install_plugins_vars',
 				array(
-					'install_plugin'   => esc_html__( 'Installing plugin...', 'dlm-email-lock' ),
-					'activate_plugin'  => esc_html__( 'Activating plugin...', 'dlm-email-lock' ),
-					'no_install'       => esc_html__( 'Plugin could not be installed.', 'dlm-email-lock' ),
-					'no_activated'     => esc_html__( 'Something went wrong, plugin could not be activated.', 'dlm-email-lock' ),
-					'activated_plugin' => esc_html__( 'Plugin activated successfully.', 'dlm-email-lock' ),
+					'install_plugin'   => esc_html__( 'Installing plugin...', 'download-monitor' ),
+					'activate_plugin'  => esc_html__( 'Activating plugin...', 'download-monitor' ),
+					'no_install'       => esc_html__( 'Plugin could not be installed.', 'download-monitor' ),
+					'no_activated'     => esc_html__( 'Something went wrong, plugin could not be activated.', 'download-monitor' ),
+					'activated_plugin' => esc_html__( 'Plugin activated successfully.', 'download-monitor' ),
 				)
 			);
 

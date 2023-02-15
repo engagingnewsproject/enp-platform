@@ -50,13 +50,6 @@ class View implements View_Interface {
 	protected static $container;
 
 	/**
-	 * The slug of the not found view.
-	 *
-	 * @var string
-	 */
-	protected $not_found_slug;
-
-	/**
 	 * An instance of the context the View will use to render, if any.
 	 *
 	 * @var Context
@@ -70,7 +63,7 @@ class View implements View_Interface {
 	 *
 	 * @var string
 	 */
-	protected $slug = '';
+	protected $slug = 'view';
 
 	/**
 	 * The template slug the View instance will use to locate its template files.
@@ -142,6 +135,15 @@ class View implements View_Interface {
 	protected $repository_args = [];
 
 	/**
+	 * Stores the filtered global repository args. These args will be baked into all event queries.
+	 *
+	 * @since 6.0.5
+	 *
+	 * @var null|array<string,mixed> Will be null until compiled by the getter.
+	 */
+	protected $global_repository_args = null;
+
+	/**
 	 * The key that should be used to indicate the page in an archive.
 	 * Extending classes should not need to modify this.
 	 *
@@ -170,7 +172,7 @@ class View implements View_Interface {
 	protected $should_manage_url = true;
 
 	/**
-	 * An collection of user-facing messages the View should display.
+	 * A collection of user-facing messages the View should display.
 	 *
 	 * @since 4.9.11
 	 *
@@ -225,6 +227,16 @@ class View implements View_Interface {
 	protected $cached_urls = [];
 
 	/**
+	 * The translated label string for the view.
+	 * Subject to later filters.
+	 *
+	 * @since 6.0.4
+	 *
+	 * @var string
+	 */
+	protected static $label = 'View';
+
+	/**
 	 * View constructor.
 	 *
 	 * @since 4.9.11
@@ -233,7 +245,8 @@ class View implements View_Interface {
 	 */
 	public function __construct( Messages $messages = null ) {
 		$this->messages = $messages ?: new Messages();
-		$this->rewrite = TEC_Rewrite::instance();
+		$this->rewrite  = TEC_Rewrite::instance();
+
 
 		// For plain permalinks, the pagination variable is "page".
 		if ( $this->rewrite->is_plain_permalink() ) {
@@ -664,10 +677,58 @@ class View implements View_Interface {
 	}
 
 	/**
+	 * Returns the view label value after filtering.
+	 *
+	 * This is the method you want to overwrite to replace the label for a view with translations.
+	 *
+	 * @since 6.0.4
+	 *
+	 * @return string
+	 */
+	public static function get_view_label(): string {
+		return static::filter_view_label( static::$label );
+	}
+
+	/**
+	 * Filters the view label value allowing changes to be made.
+	 *
+	 * @since 6.0.4
+	 *
+	 * @param string $label Which label we are filtering for.
+	 *
+	 * @return string
+	 */
+	protected static function filter_view_label( string $label ): string {
+		/**
+		 * On the next feature version we need to remove.
+		 */
+		$slug = tribe( Manager::class )->get_view_slug_by_class( self::class );
+
+		/**
+		 * Filters the label that will be used on the UI for views listing.
+		 *
+		 * @since 6.0.4
+		 *
+		 * @param string $label        Label of the Current view.
+		 * @param string $slug         Slug of the view we are getting the label for.
+		 */
+		$label = apply_filters( 'tec_events_views_v2_view_label', $label, $slug );
+
+		/**
+		 * Filters the label that will be used on the UI for views listing.
+		 *
+		 * @since 6.0.4
+		 *
+		 * @param string $label        Label of the Current view.
+		 */
+		return (string) apply_filters( "tec_events_views_v2_{$slug}_view_label", $label );
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function get_label() {
-		return tribe( Manager::class )->get_view_label_by_slug( $this->get_slug() );
+		return static::get_view_label();
 	}
 
 	/**
@@ -1183,8 +1244,10 @@ class View implements View_Interface {
 	 * Sets up the View repository arguments from the View context or a provided Context object.
 	 *
 	 * @since 4.9.3
+	 * @since 6.0.5 Now will merge a "global" repository arg filter, which will be applied elsewhere as well as this
+	 * 		        primary repository query.
 	 *
-	 * @param  Context|null $context A context to use to setup the args, or `null` to use the View Context.
+	 * @param Context|null $context A context to use to setup the args, or `null` to use the View Context.
 	 *
 	 * @return array The arguments, ready to be set on the View repository instance.
 	 */
@@ -1214,6 +1277,9 @@ class View implements View_Interface {
 			 */
 			'view_override_offset' => true,
 		];
+
+		// Merge our global repository args with the primary event args.
+		$args = array_merge( $args, $this->get_global_repository_args() );
 
 		add_filter( 'tribe_repository_query_arg_offset_override', [ $this, 'filter_repository_query_arg_offset_override' ], 10, 2 );
 
@@ -2385,11 +2451,6 @@ class View implements View_Interface {
 			return;
 		}
 
-		// If no events found, do not show.
-		if ( 0 === tribe_events()->found() ) {
-			return;
-		}
-
 		$now    = $this->context->get( 'now', time() );
 		$latest = tribe_events_latest_date();
 
@@ -2447,6 +2508,11 @@ class View implements View_Interface {
 
 		// If threshold is less than upcoming events, do not show Recent Past Events.
 		if ( $latest_past_threshold < count( $events ) ) {
+			return;
+		}
+
+		// If no events found, do not show.
+		if ( 0 === tribe_events()->found() ) {
 			return;
 		}
 
@@ -2508,6 +2574,47 @@ class View implements View_Interface {
 		}
 
 		return $this->filter_repository_args( $this->setup_repository_args() );
+	}
+
+	/**
+	 * Compiled the global repository args that should be applied to all events queried for this view.
+	 *
+	 * @since 6.0.5
+	 *
+	 * @return array The global filtered repository args.
+	 */
+	protected function get_global_repository_args() {
+		if ( ! is_array( $this->global_repository_args ) ) {
+			/**
+			 * Will filter any repository args to be applied globally on the various repository queries on
+			 * this view.
+			 *
+			 * @since 6.0.5
+			 *
+			 * @param array<string,mixed> Events Repository args that will be applied globally to all event
+			 *                            repository queries.
+			 * @param View $this The View object being rendered.
+			 *
+			 * @return array<string,mixed> The repository args to be applied.
+			 */
+			$this->global_repository_args = apply_filters( 'tec_events_views_v2_view_global_repository_args', [], $this );
+
+			/**
+			 * A view specific filter for repository args to be applied globally on the various repository
+			 * queries on this view.
+			 *
+			 * @since 6.0.5
+			 *
+			 * @param array<string,mixed> Events Repository args that will be applied globally to all
+			 *                            event repository queries.
+			 * @param View $this The View object being rendered.
+			 *
+			 * @return array<string,mixed> The repository args to be applied.
+			 */
+			$this->global_repository_args = apply_filters( "tec_events_views_v2_{$this->slug}_view_global_repository_args", $this->global_repository_args, $this );
+		}
+
+		return $this->global_repository_args;
 	}
 
 	/**
