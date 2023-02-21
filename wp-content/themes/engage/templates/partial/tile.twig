@@ -23,7 +23,14 @@
       <p class="tile__date">{{ tile.date }}</p>
     {% endif %}
 
-    <div class="tile__excerpt">{{ tile.preview.length(30).read_more('') ~ "..."}}</div>
+    <div class="tile__excerpt">
+    {% if tile.preview.length(30).read_more('') is defined %}
+        {{tile.preview.length(30).read_more('') ~ "..."}}
+    {% else %}
+        {{ tile.preview|striptags|truncate(30)}}
+    {% endif %}
+
+    </div>
 
   </div>
   <a class="tile__link" href="{{ tile.link }}">
