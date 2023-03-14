@@ -111,6 +111,8 @@ class Admin {
 			null,
 			rank_math_pro()->version
 		);
+
+		wp_enqueue_script( 'rank-math-pro-general-options', RANK_MATH_PRO_URL . 'assets/admin/js/general-options.js', null, rank_math_pro()->version );
 	}
 
 	/**

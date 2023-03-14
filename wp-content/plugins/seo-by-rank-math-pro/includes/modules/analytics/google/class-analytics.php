@@ -28,7 +28,7 @@ class Analytics {
 	 *
 	 * @return array
 	 */
-	public static function get_analytics( $start_date, $end_date ) {
+	public static function get_analytics( $start_date, $end_date, $days = false ) {
 		$view_id = self::get_view_id();
 		if ( ! $view_id ) {
 			return false;
@@ -46,14 +46,6 @@ class Analytics {
 						'endDate'   => $end_date,
 					],
 				],
-				'metrics'                => [
-					[ 'expression' => 'ga:pageviews' ],
-					[ 'expression' => 'ga:users' ],
-				],
-				'dimensions'             => [
-					[ 'name' => 'ga:date' ],
-					[ 'name' => 'ga:pagePath' ],
-				],
 				'dimensionFilterClauses' => [
 					[
 						'filters' => [
@@ -65,21 +57,47 @@ class Analytics {
 						],
 					],
 				],
-				'orderBys'               => [
-					[
-						'fieldName' => 'ga:pageviews',
-						'sortOrder' => 'DESCENDING',
-					],
-				],
 			];
 
-			if ( ! empty( $options ) && 'all' !== $options['country'] ) {
-				$args['dimensionFilterClauses'][0]['filters'][] = [
-					'dimensionName' => 'ga:countryIsoCode',
-					'operator'      => 'EXACT',
-					'expressions'   => $options['country'],
-				];
+			if ( true === $days ) {
+				$args = wp_parse_args(
+					[
+						'dimensions' => [
+							[ 'name' => 'ga:date' ],
+						],
+					],
+					$args
+				);
+			} else {
+				$args = wp_parse_args(
+					[
+						'metrics'    => [
+							[ 'expression' => 'ga:pageviews' ],
+							[ 'expression' => 'ga:users' ],
+						],
+						'dimensions' => [
+							[ 'name' => 'ga:date' ],
+							[ 'name' => 'ga:pagePath' ],
+						],
+						'orderBys'   => [
+							[
+								'fieldName' => 'ga:pageviews',
+								'sortOrder' => 'DESCENDING',
+							],
+						],
+					],
+					$args
+				);
+
+				if ( ! empty( $options ) && 'all' !== $options['country'] ) {
+					$args['dimensionFilterClauses'][0]['filters'][] = [
+						'dimensionName' => 'ga:countryIsoCode',
+						'operator'      => 'EXACT',
+						'expressions'   => $options['country'],
+					];
+				}
 			}
+
 			$response = Api::get()->http_post(
 				'https://analyticsreporting.googleapis.com/v4/reports:batchGet',
 				[
@@ -103,14 +121,6 @@ class Analytics {
 					'endDate'   => $end_date,
 				],
 			],
-			'dimensions'      => [
-				[ 'name' => 'pagePathPlusQueryString' ],
-				[ 'name' => 'countryId' ],
-			],
-			'metrics'         => [
-				[ 'name' => 'screenPageViews' ],
-				[ 'name' => 'totalUsers' ],
-			],
 			'dimensionFilter' => [
 				'filter' => [
 					'fieldName'    => 'streamId',
@@ -122,21 +132,50 @@ class Analytics {
 			],
 		];
 
-		if ( 'all' !== $options['country'] ) {
-			$args['dimensionFilter']['filter'] = [
-				'fieldName'    => 'countryId',
-				'stringFilter' => [
-					'matchType' => 'EXACT',
-					'value'     => $options['country'],
+		if ( true === $days ) {
+			$args = wp_parse_args(
+				[
+					'dimensions' => [
+						[ 'name' => 'date' ],
+					],
 				],
-			];
+				$args
+			);
+		} else {
+			$args = wp_parse_args(
+				[
+					'dimensions' => [
+						[ 'name' => 'pagePathPlusQueryString' ],
+						[ 'name' => 'countryId' ],
+					],
+					'metrics'    => [
+						[ 'name' => 'screenPageViews' ],
+						[ 'name' => 'totalUsers' ],
+					],
+				],
+				$args
+			);
+
+			if ( 'all' !== $options['country'] ) {
+				$args['dimensionFilter']['filter'] = [
+					'fieldName'    => 'countryId',
+					'stringFilter' => [
+						'matchType' => 'EXACT',
+						'value'     => $options['country'],
+					],
+				];
+			}
 		}
+
+		$workflow = 'analytics';
+		Api::get()->set_workflow( $workflow );
 
 		$response = Api::get()->http_post(
 			'https://analyticsdata.googleapis.com/v1beta/properties/' . $options['property_id'] . ':runReport',
 			$args
 		);
-		Api::get()->log_failed_request( $response, 'analytics', $start_date, func_get_args() );
+
+		Api::get()->log_failed_request( $response, $workflow, $start_date, func_get_args() );
 
 		if ( ! Api::get()->is_success() || ! isset( $response['rows'] ) ) {
 			return false;

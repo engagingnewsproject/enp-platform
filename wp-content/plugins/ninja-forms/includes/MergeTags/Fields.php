@@ -360,7 +360,7 @@ final class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
         // Iterate submission indexes (each repeated fieldset in the submission)
         foreach ($array as $submissionIndex => $fieldsetArray) {
 
-            $outgoingValue .= '<tr><td><b>Repeated Fieldset #:' . $submissionIndex . '</b></td></tr>';
+            $outgoingValue .= '<tr><td><b>' . $field['label'] . ' #:' . $submissionIndex . '</b></td></tr>';
 
             // Iterate each field within a submission index
             foreach ($fieldsetArray as $fieldsetFieldId => $submissionValueArray) {

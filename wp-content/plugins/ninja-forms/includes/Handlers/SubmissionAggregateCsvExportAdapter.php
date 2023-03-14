@@ -275,51 +275,57 @@ class SubmissionAggregateCsvExportAdapter
         if (empty($repeaterFieldsCollection)) {
             return;
         }
-        
-        $repeatedValueDelimiter = "\r\n";
 
         $deconstructedValues = $this->deconstructRepeaterFieldValue((array)$submissionField->getValue());
-
+       
         // iterate each SubmissionField within the repeater fields collection
         foreach ($repeaterFieldsCollection as $repeaterField) {
+                
+            if( !in_array($repeaterField->type, $this->hiddenFieldTypes) ){
 
-            if($labelsOnly){
+                if($labelsOnly){
 
-                $this->setFieldMetaData($repeaterField);
-                $this->setFieldLabels($repeaterField);
-                continue;
-            }
-
-            $nfField = $this->convertSubmissionFieldToNfField($repeaterField);
-            
-            $filteredValues = [];
-            
-            $id = $repeaterField->getId();
-            $key = $repeaterField->getSlug();
-
-            if(''==$key){
-                $key=$repeaterField->getId();
-            }
-
-            if(isset($deconstructedValues[$id])){
-
-               foreach($deconstructedValues[$id] as $rawRepeatedValueArray){
-    
-                $rawRepeatedValue = $rawRepeatedValueArray['value'];
-
-                $filteredValue = $this->filterRawValue($key,$rawRepeatedValue, $nfField);
-
-                if(\is_array($filteredValue)){
-                    $filteredValue = \implode(',',$filteredValue);
+                    $this->setFieldMetaData($repeaterField);
+                    $this->setFieldLabels($repeaterField);
+                    continue;
                 }
 
-                $filteredValues[]=$filteredValue;
-               }
+                $nfField = $this->convertSubmissionFieldToNfField($repeaterField);
+                
+                $filteredValues = [];
+                $filteredValue = "";
+                $id = $repeaterField->getId();
+                $key = $repeaterField->getSlug();
+
+                if(''==$key){
+                    $key=$repeaterField->getId();
+                }
+
+                if(isset($deconstructedValues[$id])){
+
+                    foreach($deconstructedValues[$id] as $rawRepeatedValueArray){
+            
+                        $rawRepeatedValue = $rawRepeatedValueArray['value'];
+
+                        $filteredValue = $this->filterRawValue($key,$rawRepeatedValue, $nfField);
+
+                        if(\is_array($filteredValue)){
+                            $filteredValue = \implode(',',$filteredValue);
+                        }
+
+                        $filteredValues[] = $filteredValue;
+
+                    }
+                }
+
+                //Construct an array of rows instead of column value if repeater was repeated (index that array by "repeater" for later reference)
+                if( count($filteredValues) > 0){
+                    $this->setColumnValue("repeater", [$key, $filteredValues]);
+                } else {
+                    $this->setColumnValue($key, $filteredValue);
+                }
+
             }
-
-            $consolidatedCellValue = \implode($repeatedValueDelimiter,$filteredValues);
-
-            $this->setColumnValue($key,$consolidatedCellValue);
         }
     }
 
@@ -457,10 +463,10 @@ class SubmissionAggregateCsvExportAdapter
 
         $adminLabel = $submissionField->getAdminLabel();
 
-        $this->labels[$slug] = $label;
+        $this->labels[$slug] = \WPN_Helper::maybe_escape_csv_column( $label );
 
         if ('' !== $adminLabel) {
-            $this->adminLabels[$slug] = $adminLabel;
+            $this->adminLabels[$slug] = \WPN_Helper::maybe_escape_csv_column( $adminLabel );
         } else {
             // set adminLabel default as field label
             $this->adminLabels[$slug] = $this->labels[$slug];
@@ -491,12 +497,18 @@ class SubmissionAggregateCsvExportAdapter
      * Set column value for a given field
      *
      * @param string $key
-     * @param string $value
+     * @param string||array $value
      * @return void
      */
     protected function setColumnValue(string $key, $value): void
     {
-        $this->columnValues[$key]=$value;
+
+        if($key === "repeater" && is_array($value)){
+            $this->columnValues['repeater'][$value[0]] = $value[1];
+        } else {
+            $this->columnValues[$key] = $value;
+        }
+        
     }
 
     protected function filterRawValue( string $key, $rawValue, Field $nfField)

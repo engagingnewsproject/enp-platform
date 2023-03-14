@@ -3,23 +3,18 @@
  * Smash Balloon Custom Twitter Feeds Container Template
  * Information about the person tweeting, replying, or quoting
  *
- * @version 2.0 Custom Twitter Feeds by Smash Balloon
+ * @version 2.0.4 Custom Twitter Feeds by Smash Balloon
  *
  */
 use TwitterFeed\CTF_Display_Elements;
-use TwitterFeed\CTF_Parse;
-// Don't load directly
-if ( ! defined( 'ABSPATH' ) ) {
-	die( '-1' );
-}
 ?>
+
 <!-- Custom Twitter Feeds by Smash Balloon -->
-<!--style="' . $feed_options['width'] . $feed_options['height'] . $feed_options['bgcolor'] . '"-->
 <div id="ctf" <?php echo $ctf_feed_classes ?>  data-ctfshortcode="<?php echo $this->getShortCodeJSON() ?>"  <?php echo $ctf_main_atts ?> data-ctfneeded="<?php echo esc_attr( $ctf_data_needed ) ?>">
 	<?php
 	$showheader = ($feed_options['showheader'] === 'on' || $feed_options['showheader'] === 'true' || $feed_options['showheader'] === true);
 
-	if ( $showheader || ctf_doing_customizer( $feed_options ) ) :
+	if ($showheader || ctf_doing_customizer( $feed_options )) :
         	CTF_Display_Elements::display_header( $feed_options );
     	endif;
     ?>

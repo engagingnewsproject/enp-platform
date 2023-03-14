@@ -12,8 +12,9 @@
                name="nf-field-{{{ data.fieldID }}}"
                class="{{{ data.classes }}} nf-element {{{ ( data.value == data.currentValue  || 1 == data.selected ) ? 'nf-checked' : '' }}}" value="{{{ data.value }}}" {{{ ( data.value == data.currentValue  || 1 == data.selected ) ? 'checked="checked"' : '' }}}
             aria-labelledby="nf-label-class-field-{{{ data.fieldID }}}-{{{ data.index }}}"
+            tabindex="0"
             <# if( data.required ) { #>
-			required
+			required aria-required="true"
 			<# } #>
         >
         <label for="nf-field-{{{ data.fieldID }}}-{{{ data.index }}}"

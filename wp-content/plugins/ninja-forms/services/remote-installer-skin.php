@@ -17,7 +17,7 @@ class Remote_Installer_Skin extends \Plugin_Installer_Skin
       return $this->errors;
     }
 
-    public function feedback( $string ){
+    public function feedback( $feedback, ...$args ){
         // This section intentionally left blank
     }
     public function before(){

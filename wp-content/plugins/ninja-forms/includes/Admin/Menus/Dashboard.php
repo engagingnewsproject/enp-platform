@@ -40,7 +40,7 @@ final class NF_Admin_Menus_Dashboard extends NF_Abstracts_Submenu
      */
     public function enqueue_dashboard_script($page) {
         // let's check and make sure we're on the dashboard page.
-        if( isset( $page ) && $page === "toplevel_page_ninja-forms") {
+        if( isset( $page ) && $page === "toplevel_page_ninja-forms" && ! isset( $_REQUEST['form_id'] ) ) {
             global $wp_version;
             //Enqueue Dashboard element for dashboard
             if( $wp_version >= "5.4" ){

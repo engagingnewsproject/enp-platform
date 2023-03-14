@@ -591,5 +591,21 @@ final class WPN_Helper
 
         return $disallow_unfiltered_html;
     }
+
+    /**
+     * Sanitize output to csv to prevent formula injection.
+     * 
+     * @param String $value The value to be escaped.
+     * @return String
+     */
+    public static function maybe_escape_csv_column( $value ):string {
+        if( 0 < strlen($value ) ) {
+            $first_char = substr( $value, 0, 1 );
+            if( in_array( $first_char, array( '=', '@', '+', '-' ) ) ) {
+                $value = "'" . $value;
+            }
+        }
+        return $value;
+    }
     
 } // End Class WPN_Helper

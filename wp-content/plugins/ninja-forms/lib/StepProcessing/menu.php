@@ -8,7 +8,7 @@
  */
 function nf_register_step_processing_page() {
     // Register our admin page
-    $admin_page = add_submenu_page( NULL, esc_html__( 'Ninja Forms Processing', 'ninja-forms' ), esc_html__( 'Processing', 'ninja-forms' ), apply_filters( 'ninja_forms_admin_menu_capabilities', 'manage_options' ), 'nf-processing', 'nf_output_step_processing_page' );
+    $admin_page = add_submenu_page( 'options.php', esc_html__( 'Ninja Forms Processing', 'ninja-forms' ), esc_html__( 'Processing', 'ninja-forms' ), apply_filters( 'ninja_forms_admin_menu_capabilities', 'manage_options' ), 'nf-processing', 'nf_output_step_processing_page' );
 
     add_action( 'admin_print_styles-' . $admin_page, 'nf_step_processing_css' );
     add_action( 'admin_print_styles-' . $admin_page, 'nf_step_processing_js' );

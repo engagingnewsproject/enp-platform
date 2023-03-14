@@ -24,7 +24,7 @@
 						{{{ data.renderNav() }}}
 				</ul>
 		</nav>
-		<main class="content"></main>
+		<div class="content nf-main-content"></div>
 </script>
 
 <!-- OAuth -->

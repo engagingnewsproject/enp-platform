@@ -92,6 +92,7 @@ class Analytics extends Base {
 		}
 
 		// Fetch now.
-		$this->create_jobs( $days, 'analytics' );
+		$this->schedule_single_action( $days, 'analytics' );
+
 	}
 }

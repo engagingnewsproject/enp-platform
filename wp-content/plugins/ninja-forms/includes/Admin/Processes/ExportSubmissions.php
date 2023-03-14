@@ -184,10 +184,21 @@ class NF_Admin_Processes_ExportSubmissions extends NF_Abstracts_BatchProcess
             $aggregatedKey = $this->indexedLookup[$this->currentPosition];
             $row = $this->csvObject->constructRow($aggregatedKey);
 
-            $constructed = $this->enclosure . implode($glue, $row) . $this->enclosure . $this->terminator;
-            fwrite($file, $constructed);
+            //Catch reference to an array or repeated fieldsets of repeater field to display each entry as a row
+            if( array_key_exists('repeater', $row) && is_array($row['repeater']) ){
+                foreach($row['repeater'] as $eachRow){
+                    $constructed = $this->enclosure . implode($glue, $eachRow) . $this->enclosure . $this->terminator;
+                    fwrite($file, $constructed);        
+                }
+                $this->currentPosition++;
+            } else {
+                $constructed = $this->enclosure . implode($glue, $row) . $this->enclosure . $this->terminator;
+                fwrite($file, $constructed);
 
-            $this->currentPosition++;
+                $this->currentPosition++;
+            }
+
+            
         }
     }
     /**

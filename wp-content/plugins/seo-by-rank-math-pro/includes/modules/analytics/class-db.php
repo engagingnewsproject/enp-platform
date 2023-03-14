@@ -15,7 +15,7 @@ use RankMath\Admin\Admin_Helper;
 use RankMath\Google\Analytics as Analytics_Free;
 use RankMath\Analytics\Stats;
 use RankMathPro\Google\Adsense;
-
+use RankMathPro\Analytics\Keywords;
 use MyThemeShop\Helpers\Str;
 use MyThemeShop\Database\Database;
 
@@ -457,20 +457,16 @@ class DB {
 	/**
 	 * Add adsense records.
 	 *
-	 * @param string $date Date of creation.
-	 * @param array  $rows Data rows to insert.
+	 * @param array $rows Data rows to insert.
 	 */
-	public static function add_adsense( $date, $rows ) {
+	public static function add_adsense( $rows ) {
 		if ( ! \MyThemeShop\Helpers\DB::check_table_exists( 'rank_math_analytics_adsense' ) ) {
 			return;
 		}
 
-		global $wpdb;
 		foreach ( $rows as $row ) {
+			$date     = $row['cells'][0]['value'];
 			$earnings = floatval( $row['cells'][1]['value'] );
-			if ( empty( $earnings ) ) {
-				continue;
-			}
 
 			self::adsense()
 				->insert(
@@ -508,20 +504,22 @@ class DB {
 			return false;
 		}
 
-		global $wpdb;
-
-		$all_keywords = [];
-		$db_keywords  = $wpdb->get_results( "SELECT keyword FROM `{$wpdb->prefix}rank_math_analytics_keyword_manager`" );
-
-		foreach ( $db_keywords as $item ) {
-			$all_keywords[] = $item->keyword;
-		}
-
-		$new_keys = array_diff( $rows, $all_keywords );
-
-		if ( empty( $new_keys ) ) {
+		// Check remain keywords count can be added.
+		$total_keywords = Keywords::get()->get_tracked_keywords_count();
+		$new_keywords   = Keywords::get()->extract_addable_track_keyword( implode( ',', $rows ) );
+		$keywords_count = count( $new_keywords );
+		if ( $keywords_count <= 0 ) {
 			return false;
 		}
+
+		$summary = Keywords::get()->get_tracked_keywords_quota();
+		$remain  = $summary['available'] - $total_keywords;
+		if ( $remain <= 0 ) {
+			return false;
+		}
+
+		// Add remaining limit keywords.
+		$new_keywords = array_slice( $new_keywords, 0, $remain );
 
 		$data         = [];
 		$placeholders = [];
@@ -538,11 +536,12 @@ class DB {
 		];
 
 		// Start building SQL, initialise data and placeholder arrays.
+		global $wpdb;
 		$sql = "INSERT INTO `{$wpdb->prefix}rank_math_analytics_keyword_manager` ( $columns ) VALUES\n";
 
 		// Build placeholders for each row, and add values to data array.
-		foreach ( $new_keys as $key ) {
-			$data[]         = $key;
+		foreach ( $new_keywords as $new_keyword ) {
+			$data[]         = $new_keyword;
 			$data[]         = 'uncategorized';
 			$data[]         = 1;
 			$placeholders[] = '(' . implode( ', ', $placeholder ) . ')';
@@ -570,7 +569,12 @@ class DB {
 	 */
 	public static function get_presence_stats() {
 		$results = self::inspections()
-			->select( [ 'coverage_state', 'COUNT(*)' => 'count' ] )
+			->select(
+				[
+					'coverage_state',
+					'COUNT(*)' => 'count',
+				]
+			)
 			->groupBy( 'coverage_state' )
 			->orderBy( 'count', 'DESC' )
 			->get();

@@ -115,9 +115,9 @@ class NF_Fields_Product extends NF_Abstracts_Input
         // TODO: Replaced this to fix English locales.
         // Other locales are still broken and will need to be addressed in refactor.
 //        $product_price = preg_replace ('/[^\d,\.]/', '', $field[ 'product_price' ] );
-        $product_price =  str_replace( array( ',', '$' ), '', $field[ 'product_price' ] );
+        $product_price = (float) str_replace( array( ',', $this->getCurrencySymbol() ), '', $field[ 'product_price' ] );
 
-        $product_quantity = ( isset( $field[ 'product_use_quantity' ] ) && 1 == $field[ 'product_use_quantity' ] ) ? $value : 1;
+        $product_quantity = ( isset( $field[ 'product_use_quantity' ] ) && 1 == $field[ 'product_use_quantity' ] ) ?(float) $value : 1;
 
         return number_format( $product_price * $product_quantity, 2 );
     }
@@ -213,5 +213,24 @@ class NF_Fields_Product extends NF_Abstracts_Input
         $price = number_format_i18n( $price, 2 );
 
         return "Price: <strong>" . $currency_symbol . $price . "</strong> X Quantity: <input name='fields[$id]' type='number' value='" . $value . "'> = " . $currency_symbol . $total;
+    }
+
+    /**
+     * Determine currency symbol
+     *
+     * @return string
+     */
+    protected function getCurrencySymbol(): string
+    {
+        $currencySymbolLookup = Ninja_Forms::config('CurrencySymbol');
+        $currency = Ninja_Forms()->get_setting('currency');
+
+        if (!is_string($currency)) {
+            return '';
+        }
+
+        $return = isset($currencySymbolLookup[$currency]) ? $currencySymbolLookup[$currency] : '';
+
+        return $return;
     }
 }

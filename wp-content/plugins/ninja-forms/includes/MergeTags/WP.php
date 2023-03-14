@@ -3,7 +3,7 @@
 /**
  * Class NF_MergeTags_WordPress
  */
-final class NF_MergeTags_WP extends NF_Abstracts_MergeTags
+class NF_MergeTags_WP extends NF_Abstracts_MergeTags
 {
     protected $id = 'wp';
 
@@ -21,6 +21,10 @@ final class NF_MergeTags_WP extends NF_Abstracts_MergeTags
      */
     public function replace( $subject )
     {
+        if(is_null($subject)){
+            return '';
+        }
+        
         // Recursively replace merge tags.
 
         if( is_array( $subject ) ){
@@ -55,7 +59,8 @@ final class NF_MergeTags_WP extends NF_Abstracts_MergeTags
          * Replace Custom User Meta
          * {user_meta:foo} --> meta key is 'foo'
          */
-        $user_id = get_current_user_id();
+        $user_id = $this->getCurrentUserId();
+
         preg_match_all( "/{user_meta:(.*?)}/", $subject, $user_meta_matches );
         // if user is logged in and we have user_meta merge tags
         if( ! empty( $user_meta_matches[0] ) && $user_id != 0  ) {
@@ -73,6 +78,18 @@ final class NF_MergeTags_WP extends NF_Abstracts_MergeTags
         	$subject = '';
         }
         return parent::replace( $subject );
+    }
+
+    /**
+     * Return the current user Id
+     *
+     * @return void
+     */
+    protected function getCurrentUserId( ): int
+    {
+        $return = get_current_user_id();
+        
+        return $return;
     }
 
     protected function post_id()

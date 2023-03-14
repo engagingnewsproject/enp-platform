@@ -116,7 +116,7 @@ class Email_Reports {
 		$variables['top_html']          = wp_kses_post( wpautop( Email_Reports_Base::get_setting( 'top_text', '' ) ) );
 		$variables['footer_html']       = wp_kses_post( Email_Reports_Base::get_setting( 'footer_text', $this->get_default_footer_text() ) );
 		$variables['custom_css']        = Email_Reports_Base::get_setting( 'custom_css', '' );
-		$variables['logo_link']         = Email_Reports_Base::get_setting( 'logo_link', KB::get( 'email-reports' ) );
+		$variables['logo_link']         = Email_Reports_Base::get_setting( 'logo_link', KB::get( 'email-reports', 'PRO Email Report Logo' ) );
 
 		// Get Pro stats.
 		$period = Email_Reports_Base::get_period_from_frequency();
@@ -229,7 +229,7 @@ class Email_Reports {
 				'type'        => 'text',
 				'name'        => __( 'Logo Link', 'rank-math-pro' ),
 				'description' => __( 'URL where the logo link should point to.', 'rank-math-pro' ),
-				'default'     => KB::get( 'email-reports-logo' ),
+				'default'     => KB::get( 'email-reports-logo', 'PRO Email Report Logo' ),
 				'dep'         => [ [ 'console_email_reports', 'on' ] ],
 			],
 			++$fields_position

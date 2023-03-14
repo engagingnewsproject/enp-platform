@@ -32,6 +32,13 @@ class Display_Conditions {
 	private static $conditions = [];
 
 	/**
+	 * Insert Schema data.
+	 *
+	 * @var array
+	 */
+	private static $insert_schemas = [];
+
+	/**
 	 * Get Schema data from Schema Templates post type.
 	 *
 	 * @param array  $data   Array of json-ld data.
@@ -40,13 +47,8 @@ class Display_Conditions {
 	 * @return array
 	 */
 	public static function get_schema_templates( $data = [], $jsonld = [] ) {
-		$templates = get_posts(
-			[
-				'post_type'   => 'rank_math_schema',
-				'numberposts' => -1,
-				'fields'      => 'ids',
-			]
-		);
+		global $wpdb;
+		$templates = $wpdb->get_col( "SELECT ID FROM {$wpdb->prefix}posts WHERE post_type='rank_math_schema' AND post_status='publish'" );
 
 		if ( empty( $templates ) ) {
 			return;
@@ -59,7 +61,11 @@ class Display_Conditions {
 				'singular' => '',
 				'archive'  => '',
 			];
-			$schema           = DB::get_schemas( $template );
+
+			$schema = DB::get_schemas( $template );
+
+			self::prepare_inserted_schemas( current( $schema ) );
+
 			if ( ! self::can_add( current( $schema ) ) ) {
 				continue;
 			}
@@ -98,6 +104,11 @@ class Display_Conditions {
 
 		foreach ( $schema['metadata']['displayConditions'] as $condition ) {
 			$operator = $condition['condition'];
+			if ( 'insert' === $operator ) {
+				// We handle the insert condition in the prepare_inserted_schemas() method.
+				continue;
+			}
+
 			$category = $condition['category'];
 			$taxonomy = ! empty( $condition['postTaxonomy'] ) ? $condition['postTaxonomy'] : '';
 			$type     = $condition['type'];
@@ -127,6 +138,65 @@ class Display_Conditions {
 		}
 
 		return ! empty( self::$conditions['general'] );
+	}
+
+	/**
+	 * Prepare inserted schemas: check if they can be added to current page, and if so, add them to the $insert_schemas static array.
+	 *
+	 * @param array $schema Schema Data.
+	 */
+	private static function prepare_inserted_schemas( $schema ) {
+		if ( empty( $schema ) || empty( $schema['metadata']['displayConditions'] ) ) {
+			return;
+		}
+
+		foreach ( $schema['metadata']['displayConditions'] as $condition ) {
+			$operator = $condition['condition'];
+			if ( 'insert' !== $operator ) {
+				continue;
+			}
+
+			if ( empty( $schema['metadata']['title'] ) ) {
+				continue;
+			}
+
+			$in_schema = $condition['category'];
+			if ( 'custom' === $in_schema ) {
+				if ( empty( $condition['value'] ) ) {
+					continue;
+				}
+				$in_schema = $condition['value'];
+			}
+
+			if ( 'ProfilePage' === $in_schema && ! is_singular() ) {
+				continue;
+			}
+
+			if ( 'ProfilePage' === $in_schema && ! empty( $condition['authorID'] ) ) {
+				$author_ids = wp_parse_id_list( $condition['authorID'] );
+				global $post;
+
+				if ( ! in_array( (int) $post->post_author, $author_ids, true ) ) {
+					continue;
+				}
+			}
+
+			$with_key  = $schema['metadata']['title'];
+
+			self::$insert_schemas[ $in_schema ][] = [
+				'key'    => $with_key,
+				'schema' => $schema,
+			];
+		}
+	}
+
+	/**
+	 * Get inserted schemas.
+	 *
+	 * @return array
+	 */
+	public static function get_insertable_schemas() {
+		return self::$insert_schemas;
 	}
 
 	/**

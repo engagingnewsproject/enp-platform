@@ -1,13 +1,12 @@
 === Open Graph and Twitter Card Tags ===
-Contributors: webdados, ptwooplugins, wonderm00n
-Donate link: http://bit.ly/donate_fb_opengraph
-Tags: facebook, open graph, twitter card, social media, open graph protocol, share, social, meta, rss, twitter, google, image, like, seo, search engine optimization, woocommerce, yoast seo, wordpress seo, woocommerce, subheading, php7, webdados
-Author: PT Woo Plugins (by Webdados)
-Author URI: https://ptwooplugins.com
+Contributors: wpexpertsio
+Tags: facebook, open graph, twitter card, social media, open graph protocol, share, social, meta, rss, twitter, google, image, like, seo, search engine optimization, woocommerce, yoast seo, wordpress seo, woocommerce, subheading
+Author: WPExperts
+Author URI: https://wpexperts.io/
 Requires at least: 5.0
 Tested up to: 6.0
 Requires PHP: 7.0
-Stable tag: trunk
+Stable tag: 3.3.0
 
 Improve social media sharing by inserting Facebook Open Graph, Twitter Card, and SEO Meta Tags on your WordPress website pages, posts, WooCommerce products, or any other custom post type.
 
@@ -21,9 +20,9 @@ It also allows you to add the Twitter Card tags for more effective and efficient
 
 You can also choose to insert the "enclosure" and "media:content" tags to the RSS feeds, so that apps like RSS Graffiti and twitterfeed post the image to Facebook correctly.
 
-It allows the user to choose which tags are included, and also the default image if the post/page doesn’t have one.
+It allows the user to choose which tags are included, and also the default image if the post/page doesn't have one.
 
-It’s also possible to add an overlay logo/watermark to the image. The plugin will resize and crop the original image to 1200x630 and then overlay the chosen 1200x630 PNG file over it.
+It's also possible to add an overlay logo/watermark to the image. The plugin will resize and crop the original image to 1200x630 and then overlay the chosen 1200x630 PNG file over it.
 It be usefull to add your brand to the image that shows up on Facebook shared links.
 
 Our settings page is discreetly kept under "Options".
@@ -34,7 +33,7 @@ Our settings page is discreetly kept under "Options".
 * **og:site_name**: From blog title.
 * **og:url**: From the post/page permalink.
 * **og:description**: From our specific custom field of the post/page, or if not set post/page excerpt if it exist, or from post/page content. From category/tag description on its pages, if it exist. From tagline, or custom text, on all the others.
-* **og:image**: From our specific custom field of the post/page, or if not set from the post/page featured/thumbnail image, or if it doesn’t exist from the first image in the post content, or if it doesn’t exist from the first image on the post media gallery, or if it doesn’t exist from the default image defined on the options menu. The same image chosen here will be used and enclosure/media:content on the RSS feed.
+* **og:image**: From our specific custom field of the post/page, or if not set from the post/page featured/thumbnail image, or if it doesn't exist from the first image in the post content, or if it doesn't exist from the first image on the post media gallery, or if it doesn't exist from the default image defined on the options menu. The same image chosen here will be used and enclosure/media:content on the RSS feed.
 * **og:image:url**: Same as **og:image**.
 * **og:image:secure_url**: Same as **og:image** if SSL is being used.
 * **og:image:width** and **og:image:height**: Image dimensions.
@@ -71,70 +70,39 @@ Our settings page is discreetly kept under "Options".
 = 3rd Party Integration: =
 
 * **[Yoast SEO](https://wordpress.org/plugins/wordpress-seo/)**: Allows you to use the title, URL (canonical), and description from the Yoast SEO plugin.
-* **[Rank Math](https://wordpress.org/plugins/seo-by-rank-math/)**: Allows you to use the title, URL (canonical), and description from the Rank Math plugin [only with the PRO add-on](https://ptwooplugins.com/product/open-graph-and-twitter-card-tags-pro-add-on/)
 * **[WooCommerce](https://wordpress.org/plugins/woocommerce/)**: On product pages sets `og:type` to "product" and adds the price including tax to the `product:price` and `product:availability` tags. Also allows you to use the Product Category thumbnails as Open Graph Image and have Product Gallery images as additional Open Graph Images
 * **[WooCommerce Brands](https://woocommerce.com/products/brands/)**: On brand pages uses the brand image as Open Graph Image 
-* **[SubHeading](https://wordpress.org/extend/plugins/subheading/)**: Add the SubHeading to the post/page title.
 * **[Business Directory Plugin](https://wordpress.org/extend/plugins/business-directory-plugin/)** (deprecated): Allows you to use BDP listing contents as Open Graph Tags.
-
-= NEW PRO add-on: =
-
-To implement new features, we’ve released a new [PRO add-on](https://ptwooplugins.com/product/open-graph-and-twitter-card-tags-pro-add-on/) that you can use alongside this plugin.
-
-From version 3.0.0 forward, for sustainability reasons, some advanced functionalities might be removed from the free plugin and move to the PRO add-on, with the proper deprecation notice with some versions in advance.
-
-The current PRO add-on features are:
-
-* [Rank Math](https://wordpress.org/plugins/seo-by-rank-math/) integration: title, description and canonical
-* Set different image size (instead of 1200x630)
-* Fix chunked transfer encoding when using an image overlay
-* Technical support (limited to the PRO add-on features)
-* Good karma and support the development of new features
-
-[Get it now](https://ptwooplugins.com/product/open-graph-and-twitter-card-tags-pro-add-on/) for 39&euro;, or as low as 19,65&euro; if you buy a license for 10 websites.
 
 == Installation ==
 
-1. Use the included automatic install feature on your WordPress admin panel and search for “Open Graph and Twitter Card Tags”.
+1. Use the included automatic install feature on your WordPress admin panel and search for Open Graph and Twitter Card Tags.
 2. Activate the plugin through the `Plugins` menu in WordPress
 3. Go to `Options`, `Open Graph and Twitter Card Tags` to set it up
 
 == Frequently Asked Questions ==
 
-= Why aren’t you active on the support forums? =
-
-Because of other commercial projects, including WordPress and WooCommerce plugins, we haven’t been able to reply to support tickets neither release new versions of this plugin, for which we are sorry.
-
-We will fix any security issue that might arise but, at this moment, we cannot promise we’ll get back to active development and support on this plugin anytime soon.
-
-If you reach us by email or any other direct contact means, we’ll assume you are in need of urgent, premium, and of course, paid-for support.
-
-If some company wants to make a proposal to take ownership of this plugin, please contact us to info @ webdados .pt
-We’ll not pass ownership of the plugin to anyone (person or company) that does not have a solid roadmap and business model for this plugin, to guarantee the current users that development and support will be resumed.
-
-We also released a [PRO add-on](https://ptwooplugins.com/product/open-graph-and-twitter-card-tags-pro-add-on/) with some extra features and technical support (except for the free plugin features).
-
 = Facebook is not showing up the correct image when I share a post. What can I do? =
 
 1. Are you using a big enough image? The minimum image size is 200x200 pixels but we recommend 1200x630.
-2. Are you sure you only have one `og:image` tag on the source code? Make sure you’re not using more than one plugin to set OG tags?
-3. Go to the [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/), insert your URL, click `Debug`. Then click on `Scrape Again` to make sure Facebook gets the current version of your HTML code and not a cached version. If the image that shows up on the preview (bottom of the page) is the correct one, then the tags are well set and it "should" be the one that Facebook uses when sharing the post. If it still does not use the correct image when sharing, despite the debugger shows it correctly, there’s nothing more we can do about that. That’s just Facebook being Facebook.
+2. Are you sure you only have one `og:image` tag on the source code? Make sure you're not using more than one plugin to set OG tags?
+3. Go to the [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/), insert your URL, click `Debug`. Then click on `Scrape Again` to make sure Facebook gets the current version of your HTML code and not a cached version. If the image that shows up on the preview (bottom of the page) is the correct one, then the tags are well set and it "should" be the one that Facebook uses when sharing the post. If it still does not use the correct image when sharing, despite the debugger shows it correctly, there's nothing more we can do about that. That's just Facebook being Facebook.
 
 = What is the "Manually update Facebook cache" button on the "Post updated" notice? =
 
-It’s a shortcut to the Facebook Sharing Debugger, where you should click on `Scrape Again` to make sure Facebook gets the current version of your post or page.
+It's a shortcut to the Facebook Sharing Debugger, where you should click on `Scrape Again` to make sure Facebook gets the current version of your post or page.
 
 = When I save/edit my post I get the "Facebook Open Graph Tags cache NOT updated/purged" error. Should I worry? =
 
-Each time you edit a post, if the option "Try to update Facebook Open Graph Tags cache when saving the post" is activated, we’ll try to notify Facebook of the changes so it clears up its cache and read the new Open Graph tags of this specific URL.
-If this is a new post and it’s the first time you’re saving it, the error is "normal" and you should ignore it (we’re looking at a workaround to not show you this error).
-If this is not a new post and it’s not the first time you’re saving it, and if this happens always, then maybe your server does not support calling remote URLs with PHP and you should disable the "Try to update Facebook Open Graph Tags cache when saving the post" option. In that scenario we recommend you use the [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) to `Scrape Again` each time you update your post.
-Sometimes the plugin just can’t update the Facebook cache itself and you may need to do it manually on the link provided above.
+Each time you edit a post, if the option "Try to update Facebook Open Graph Tags cache when saving the post" is activated, we'll try to notify Facebook of the changes so it clears up its cache and read the new Open Graph tags of this specific URL.
+If this is a new post and it's the first time you're saving it, the error is "normal" and you should ignore it (we're looking at a workaround to not show you this error).
+If this is not a new post and it's not the first time you're saving it, and if this happens always, then maybe your server does not support calling remote URLs with PHP and you should disable the "Try to update Facebook Open Graph Tags cache when saving the post" option. In that scenario we recommend you use the [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) to `Scrape Again` each time you update your post.
+Sometimes the plugin just can't update the Facebook cache itself and you may need to do it manually on the link provided above.
 
 = Can I authenticate the call to Facebook, with my own app, when trying to update the cache, so I get rid of the "An access token is required to request this resource" error? =
 
 Yes, you can. Create a Facebook App and fill in the details on the "Facebook Open Graph Tags cache" panel of the plugin settings page.
-Do NOT ask us support on this. There is [a blog post on our website](https://www.webdados.pt/2017/12/successfully-update-facebook-cache-using-our-facebook-open-graph-plugin/) explaining everything you need to do.
+Do NOT ask us support on this. There is a [blog post](https://wpexperts.io/blog/update-facebook-sharing-cache-with-facebook-open-graph-plugin/) explaining everything you need to do.
 
 = Facebook says "The following required properties are missing: fb:app_id". Should I worry? =
 
@@ -143,39 +111,36 @@ No. Move along.
 = How can I share my posts or products as Rich Pins on Pinterest? =
 
 Pinterest can read Open Graph tags, so no extra tags are needed to share your articles or WooCommerce products as Rich Pins.
-You need however to apply to whitelist your domain on Pinterest. Head to [this page](https://developers.pinterest.com/docs/rich-pins/overview/) and follow the instructions starting with "Set up". When in the validator, enter your URL, hit "Validate" and then choose "HTML tags" and hit "Apply now". It’s then up to Pinterest to accept your application or not.
+You need however to apply to whitelist your domain on Pinterest. Head to [this page](https://developers.pinterest.com/docs/rich-pins/overview/) and follow the instructions starting with "Set up". When in the validator, enter your URL, hit "Validate" and then choose "HTML tags" and hit "Apply now". It's then up to Pinterest to accept your application or not.
 
 = Can this plugin get content from "random plugin"? =
 
-If there’s a popular plugin you think we could get content from to use on the meta tags, use the support forum to tell us that.
+If there's a popular plugin you think we could get content from to use on the meta tags, use the support forum to tell us that.
 If you are a plugin or theme author you can always use our filters `fb_og_title`, `fb_og_desc`, `fb_og_url`, `fb_og_type`, `fb_type_schema`, `fb_og_image`, `fb_og_image_additional`, `fb_og_image_overlay`, `fb_og_locale`, `fb_og_app_id`, `fb_og_thumb_fill_color`, `fb_og_output` and `fb_og_enabled` to customize the Open Graph (and other) meta tags output.
 
 = What is the array structure for the `fb_og_image_additional` filter?
 
 Check out this [code snippet](https://gist.github.com/webdados/ef5d5db01f01bee6041c2b2e0950d73a).
 
-= I’m getting a white screen of death / truncated HTML =
+= I'm getting a white screen of death / truncated HTML =
 
 Go to the plugin settings and check the `Do not get image size` option.
-This happens on some edge cases we haven’t yet been able to identify.
+This happens on some edge cases we haven't yet been able to identify.
 Update: Probably fixed for some users on 2.1.4.5 and completely on 2.2 (pending confirmation)
 
-= Yoast SEO shows up a big warning if both plugins are active. Is the world in danger if I keep both plugins active? =
+= Can I use Yoast SEO alongside this plugin? =
 
-No, it isn’t.
 You can (and, in our opinion, you should) use both plugins. If you want to use Yoast SEO for your SEO needs and our plugin for social media meta tags you just have to go to "SEO > Social" and disable settings for Facebook and Twitter.
-If you don’t find that option, because they’ve now made it harder to reach, you have to go to "SEO > Dashboard > Features > Advanced settings pages > choose Enabled and Save changes". Then you can reach "SEO > Social".
-Then set up our plugin as you wish and you’re ready to go.
-We like to work with everybody, so (if you want to) our plugin can even integrate with Yoast SEO and use it’s title, description and canonical URL on the Facebook and Twitter tags.
-
-= There’s a similar plugin on the repository, by Heateor. Is this the same? =
-
-It’s similar, yes. They’ve forked our plugin and gave no credits whatsoever for our original work.
+If you don't find that option, because they've now made it harder to reach, you have to go to "SEO > Dashboard > Features > Advanced settings pages > choose Enabled and Save changes". Then you can reach "SEO > Social".
+Then set up our plugin as you wish and you're ready to go.
+We like to work with everybody, so (if you want to) our plugin can even integrate with Yoast SEO and use it's title, description and canonical URL on the Facebook and Twitter tags.
 
 == Changelog ==
 
+= 3.3.0 - 2023-02-01 =
+* Last release from PT Woo Plugins (by Webdados) before transferring ownership to WPExperts, who will maintain this plugin from now on, something we weren't unable to do for the past few years. Thanks for keep using this plugin.
+
 = 3.2.0 - 2022-06-29 =
-* Are you a developer looking to add plugins to your portfolio? Like this plugin? [Contact us](https://www.webdados.pt/contactos/)!
 * Requires WordPress 5.0, WooCommerce 3.0 and PHP 7.0
 * Tested with WordPress 6.1-alpha-53556 and WooCommerce 6.7.0-beta.2
 
@@ -224,7 +189,7 @@ It’s similar, yes. They’ve forked our plugin and gave no credits whatsoever 
 * Tested with WordPress 5.2.5-alpha and WooCommerce 3.8.0
 
 = 2.2.7.1 =
-* Changed name to “Facebook Open Graph, Google+ and Twitter Card Tags” due to Facebook intellectual property and brand violation policies
+* Changed name to â€œFacebook Open Graph, Google+ and Twitter Card Tagsâ€ due to Facebook intellectual property and brand violation policies
 
 = 2.2.7 =
 * New developer filter `fb_og_overlayed_image_format` to be able to output the overlayed image as png instead of jpg
@@ -239,7 +204,7 @@ It’s similar, yes. They’ve forked our plugin and gave no credits whatsoever 
 * Tested with WordPress 5.1.1 and WooCommerce 3.6.0 (RC1)
 
 = 2.2.5 =
-* No `og:description` for password protected and private posts (Thanks for the heads up Benoît)
+* No `og:description` for password protected and private posts (Thanks for the heads up BenoÃ®t)
 * Tested with WordPress 5.0.3 and WooCommerce 3.5.3
 
 = 2.2.4.2 =

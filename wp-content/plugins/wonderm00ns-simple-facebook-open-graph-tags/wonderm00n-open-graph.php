@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Open Graph and Twitter Card Tags
- * Plugin URI: https://www.webdados.pt/wordpress/plugins/facebook-open-graph-meta-tags-wordpress/
+ * Plugin URI:
  * Description: Improve social media sharing by inserting Facebook Open Graph, Twitter Card and SEO Meta Tags on your WordPress website pages, posts, WooCommerce products, or any other custom post type.
- * Version: 3.2.0
- * Author: PT Woo Plugins (by Webdados)
- * Author URI: https://ptwooplugins.com
+ * Version: 3.3.0
+ * Author: WPExperts
+ * Author URI: https://wpexperts.io/
  * Text Domain: wonderm00ns-simple-facebook-open-graph-tags
  * Domain Path: /lang
  * Requires at least: 5.0
@@ -16,7 +16,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-define( 'WEBDADOS_FB_VERSION', '3.2.0' );
+define( 'WEBDADOS_FB_VERSION', '3.3.0' );
 define( 'WEBDADOS_FB_PLUGIN_NAME', 'Open Graph and Twitter Card Tags' );
 define( 'WEBDADOS_FB_W', 1200 );
 define( 'WEBDADOS_FB_H', 630 );
@@ -41,7 +41,7 @@ function webdados_fb_uninstall() {
 	}
 }
 
-/* Run it */
+/* Run it - This function name is used by the PRO add-on to detect this plugin */
 function webdados_fb_run() {
 	if ( $webdados_fb = new Webdados_FB( WEBDADOS_FB_VERSION ) ) {
 		return $webdados_fb;

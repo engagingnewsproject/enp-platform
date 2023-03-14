@@ -44,8 +44,17 @@ abstract class NF_Abstracts_MergeTags
         return $subject;
     }
 
+    /**
+     * 
+     * @param string|array $subject
+     * @return string
+     */
     public function replace( $subject )
     {
+        if(is_null($subject)){
+            return '';
+        }
+
         if( is_array( $subject ) ){
             foreach( $subject as $i => $s ){
                 $subject[ $i ] = $this->replace( $s );

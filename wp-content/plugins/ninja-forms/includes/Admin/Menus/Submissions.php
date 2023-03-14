@@ -25,6 +25,9 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
      */
     public $position = 3;
 
+    /** @var int */
+    public $load_legacy;
+    
     /**
      * Constructor
      */

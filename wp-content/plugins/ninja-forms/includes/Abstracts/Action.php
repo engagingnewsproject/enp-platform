@@ -35,10 +35,15 @@ abstract class NF_Abstracts_Action
      */
     protected $_timing = 'normal';
 
+    /** @var int */
+    public $timing;
+
     /**
      * @var int
      */
     protected $_priority = '10';
+    /** @var int */
+    public $priority;
 
     /**
      * @var array

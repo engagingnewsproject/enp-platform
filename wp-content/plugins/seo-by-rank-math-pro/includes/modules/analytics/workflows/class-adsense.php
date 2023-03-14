@@ -88,7 +88,6 @@ class Adsense extends Base {
 			return;
 		}
 
-		// Fetch now.
-		$this->create_jobs( $days, 'adsense' );
+		$this->schedule_single_action( $days, 'adsense' );
 	}
 }

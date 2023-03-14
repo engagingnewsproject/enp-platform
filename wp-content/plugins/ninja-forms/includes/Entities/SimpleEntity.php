@@ -34,6 +34,7 @@ class SimpleEntity implements \JsonSerializable
 	 *
 	 * @return void
 	 */
+	#[\ReturnTypeWillChange]
 	public function jsonSerialize()
 	{
 		return $this->toArray();

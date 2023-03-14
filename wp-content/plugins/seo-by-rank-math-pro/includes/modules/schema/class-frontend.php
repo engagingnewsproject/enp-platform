@@ -29,12 +29,13 @@ class Frontend {
 	 * The Constructor.
 	 */
 	public function __construct() {
-		$this->action( 'rank_math/json_ld', 'add_about_mention_attributes', 11 );
-		$this->action( 'rank_math/json_ld', 'add_template_schema', 8, 2 );
-		$this->action( 'rank_math/json_ld', 'add_schema_from_shortcode', 8, 2 );
-		$this->action( 'rank_math/json_ld', 'convert_schema_to_item_list', 99, 2 );
-		$this->action( 'rank_math/json_ld', 'validate_schema_data', 999 );
-		$this->action( 'rank_math/json_ld', 'add_subjectof_property', 99 );
+		$this->filter( 'rank_math/json_ld', 'add_about_mention_attributes', 11 );
+		$this->filter( 'rank_math/json_ld', 'add_template_schema', 8, 2 );
+		$this->filter( 'rank_math/json_ld', 'add_schema_from_shortcode', 8, 2 );
+		$this->filter( 'rank_math/json_ld', 'convert_schema_to_item_list', 99, 2 );
+		$this->filter( 'rank_math/json_ld', 'validate_schema_data', 999 );
+		$this->filter( 'rank_math/json_ld', 'add_subjectof_property', 99 );
+		$this->filter( 'rank_math/json_ld', 'insert_template_schema', 20, 2 );
 		$this->action( 'rank_math/schema/preview/validate', 'validate_preview_data' );
 		$this->filter( 'rank_math/snippet/rich_snippet_itemlist_entity', 'filter_item_list_schema' );
 		$this->filter( 'rank_math/schema/valid_types', 'valid_types' );
@@ -286,7 +287,7 @@ class Frontend {
 	}
 
 	/**
-	 * Add Schema data from Schem Templates.
+	 * Add Schema data from Schema Templates.
 	 *
 	 * @param array  $data   Array of json-ld data.
 	 * @param JsonLD $jsonld Instance of jsonld.
@@ -301,6 +302,63 @@ class Frontend {
 
 		foreach ( $schemas as $schema ) {
 			$data = array_merge( $data, $schema );
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Insert the appropriate Schema data from Schema Templates.
+	 *
+	 * @param array  $data   Array of json-ld data.
+	 * @param JsonLD $jsonld Instance of jsonld.
+	 *
+	 * @return array
+	 */
+	public function insert_template_schema( $data, $jsonld ) {
+		$schema_array = Display_Conditions::get_insertable_schemas();
+		if ( empty( $schema_array ) ) {
+			return $data;
+		}
+
+		foreach ( $schema_array as $insert_in => $schemas ) {
+
+			// If the $insert_in is not a @type present in the data, then skip it.
+			$insert_key = false;
+			foreach ( $data as $key => $schema ) {
+				if ( $key === $insert_in ) {
+					$insert_key = $key;
+					break;
+				}
+
+				if ( ! isset( $schema['@type'] ) ) {
+					continue;
+				}
+
+				if ( $schema['@type'] === $insert_in ) {
+					$insert_key = $key;
+					break;
+				}
+			}
+			if ( ! $insert_key ) {
+				continue;
+			}
+
+			// Now insert the schema(s).
+			foreach ( $schemas as $schema ) {
+				$schema_key  = $schema['key'];
+				$schema_data = $schema['schema'];
+
+				unset( $schema_data['isPrimary'], $schema_data['isCustom'], $schema_data['isTemplate'], $schema_data['metadata'] );
+
+				$schema_data = $jsonld->replace_variables( $schema_data );
+
+				foreach ( $schema_data as $key => $value ) {
+					if ( ! isset( $data[ $insert_key ][ $key ] ) ) {
+						$data[ $insert_key ][ $key ] = $value;	
+					}
+				}
+			}
 		}
 
 		return $data;

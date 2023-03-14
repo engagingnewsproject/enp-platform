@@ -84,7 +84,7 @@ class NF_Admin_Notices
                 }
             }
 
-            
+
 
             // Check for required fields
             if ( ! $this->required_fields( $admin_notices[ $slug ] ) ) {
@@ -139,7 +139,7 @@ class NF_Admin_Notices
                         </ul>';
                     echo '</div>';
                     if ( $admin_can_dismiss ) {
-                        echo '<a href="' . wp_nonce_url( esc_attr( $query_str ) ) . '" class="dashicons dashicons-dismiss"></a>';
+                        echo '<a href="' . wp_nonce_url( esc_attr( $query_str ) ) . '" class="dashicons dashicons-dismiss"><span class="sr-only">Dismiss</span></a>';
                     }
                     echo '</div>';
 

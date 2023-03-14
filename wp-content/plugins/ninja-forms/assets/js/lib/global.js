@@ -147,3 +147,51 @@ const nf_reload_after_cookie_consent = ( submitFieldID, layoutView ) => {
 		nfRadio.channel( 'form' ).trigger( 'render:view', layoutView );
 	}
 }
+
+const nf_add_reCaptcha_aria = () => {
+	
+	// Callback function to execute when mutations are observed
+	const nf_act_on_inserted_node = (mutationList, observer) => {
+		for (const mutation of mutationList) {
+			if (mutation.type === 'childList' && mutation.target.className === "g-recaptcha") {
+				let nf_recaptchaTextarea = document.getElementById("g-recaptcha-response");
+				if(typeof nf_recaptchaTextarea !== "undefined" ){
+					nf_recaptchaTextarea.setAttribute("aria-hidden", "true");
+					nf_recaptchaTextarea.setAttribute("aria-label", "Silent reCaptcha security check");
+					nf_recaptchaTextarea.setAttribute("aria-readonly", "true");
+					observer.disconnect();
+				}
+			}
+		}
+		observer.disconnect();
+	};
+	//Observe Forms
+	const nf_forms_listed = document.querySelectorAll(".ninja-forms-form-wrap");
+	if(nf_forms_listed.length > 0){
+		let nf_recaptcha_observers = [];
+		nf_forms_listed.forEach((nf_form) => {
+			nf_recaptcha_observers.push({"class": new MutationObserver(nf_act_on_inserted_node), "element": nf_form});
+		});
+		//Add an observer for each form
+		if( nf_recaptcha_observers.length > 0){
+			nf_recaptcha_observers.forEach((object) => {
+				object.class.observe( object.element, 
+					{ childList: true, subtree: true }
+				);
+			});
+		}
+	}
+}
+
+const nf_remove_noscript_tags_as_needed = () => {
+	const noscripts = document.getElementsByClassName('ninja-forms-noscript-message')
+
+	for (let i = 0; i < noscripts.length; i++) {
+		noscripts[i].parentNode.removeChild(noscripts[i])
+	}
+}
+
+jQuery(document).on( 'nfFormReady', () => {
+	nf_remove_noscript_tags_as_needed();
+	nf_add_reCaptcha_aria();
+});

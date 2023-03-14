@@ -30,7 +30,8 @@ class Podcast_RSS {
 		if ( apply_filters( 'rank_math/podcast/enhance_all_feeds', true ) ) {
 			$prefix = 'rss2';
 		}
-	
+
+		remove_action( 'rss2_head', 'rss2_site_icon' );
 		$this->action( "{$prefix}_ns", 'add_namespace' );
 		$this->action( "{$prefix}_head", 'add_channel_data' );
 		$this->action( "{$prefix}_item", 'add_podcast_data', 10, 1 );

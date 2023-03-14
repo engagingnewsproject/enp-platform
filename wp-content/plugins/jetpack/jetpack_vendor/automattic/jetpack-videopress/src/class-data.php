@@ -211,6 +211,10 @@ class Data {
 	 * Checks if the user is able to perform actions that modify data
 	 */
 	public static function can_perform_action() {
+		if ( defined( 'IS_WPCOM' ) && IS_WPCOM ) {
+			return true;
+		}
+
 		$connection = new Connection_Manager();
 
 		return (
@@ -233,13 +237,27 @@ class Data {
 		// Tweak local videos data.
 		$local_videos = array_map(
 			function ( $video ) {
+				$video              = (array) $video;
 				$id                 = $video['id'];
 				$media_details      = $video['media_details'];
 				$jetpack_videopress = $video['jetpack_videopress'];
+				$read_error         = null;
 
-				// Check if video is already uploaded to VideoPress.
-				$uploader                  = new Uploader( $id );
-				$is_uploaded_to_videopress = $uploader->is_uploaded();
+				// In malformed files, the media_details or jetpack_videopress properties are not arrays.
+				if ( ! is_array( $media_details ) || ! is_array( $jetpack_videopress ) ) {
+					$media_details      = (array) $media_details;
+					$jetpack_videopress = (array) $jetpack_videopress;
+					$read_error         = Upload_Exception::ERROR_MALFORMED_FILE;
+				}
+
+				// Check if video is already uploaded to VideoPress or has some error.
+				try {
+					$uploader                  = new Uploader( $id );
+					$is_uploaded_to_videopress = $uploader->is_uploaded();
+				} catch ( Upload_Exception $e ) {
+					$is_uploaded_to_videopress = false;
+					$read_error                = $e->getCode();
+				}
 
 				$upload_date = $video['date'];
 				$url         = $video['source_url'];
@@ -263,6 +281,7 @@ class Data {
 					'uploadDate'             => $upload_date,
 					'duration'               => $duration,
 					'isUploadedToVideoPress' => $is_uploaded_to_videopress,
+					'readError'              => $read_error,
 				);
 			},
 			$local_videos_data['videos']
@@ -271,10 +290,11 @@ class Data {
 		// Tweak VideoPress videos data.
 		$videos = array_map(
 			function ( $video ) {
+				$video              = (array) $video;
 				$id                 = $video['id'];
 				$guid               = $video['jetpack_videopress_guid'];
-				$media_details      = $video['media_details'];
-				$jetpack_videopress = $video['jetpack_videopress'];
+				$media_details      = (array) $video['media_details'];
+				$jetpack_videopress = (array) $video['jetpack_videopress'];
 
 				$videopress_media_details = $media_details['videopress'];
 				$width                    = $media_details['width'];
@@ -285,6 +305,7 @@ class Data {
 				$caption              = $jetpack_videopress['caption'];
 				$rating               = $jetpack_videopress['rating'];
 				$allow_download       = $jetpack_videopress['allow_download'];
+				$display_embed        = $jetpack_videopress['display_embed'];
 				$privacy_setting      = $jetpack_videopress['privacy_setting'];
 				$needs_playback_token = $jetpack_videopress['needs_playback_token'];
 
@@ -315,13 +336,14 @@ class Data {
 					'isPrivate'          => $is_private,
 					'posterImage'        => $poster,
 					'allowDownload'      => $allow_download,
+					'displayEmbed'       => $display_embed,
 					'rating'             => $rating,
 					'privacySetting'     => $privacy_setting,
 					'needsPlaybackToken' => $needs_playback_token,
+					'width'              => $width,
+					'height'             => $height,
 					'poster'             => array(
-						'src'    => $poster,
-						'width'  => $width,
-						'height' => $height,
+						'src' => $poster,
 					),
 					'thumbnail'          => $thumbnail,
 					'finished'           => $finished,
@@ -348,7 +370,8 @@ class Data {
 				),
 				'query'                        => $videopress_data['query'],
 				'_meta'                        => array(
-					'relyOnInitialState' => true,
+					'processedAllVideosBeingRemoved' => true,
+					'relyOnInitialState'             => true,
 				),
 			),
 			'localVideos'  => array(

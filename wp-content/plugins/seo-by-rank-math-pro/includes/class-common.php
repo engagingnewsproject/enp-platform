@@ -36,12 +36,22 @@ class Common {
 	 */
 	public function __construct() {
 		$this->action( 'rank_math/admin_bar/items', 'add_admin_bar_items' );
+		$this->filter( 'rank_math/focus_keyword/maxtags', 'limit_maxtags', 5 );
 		$this->filter( 'rank_math/metabox/values', 'add_json_data' );
 		$this->filter( 'wp_helpers_is_affiliate_link', 'is_affiliate_link', 10, 2 );
 		$this->filter( 'rank_math/link/add_attributes', 'can_add_attributes' );
 
 		$this->filter( 'rank_math/researches/tests', 'add_product_tests', 10, 2 );
 		$this->action( 'rank_math/admin/editor_scripts', 'enqueue' );
+	}
+
+	/**
+	 * Increase the focus keyword max tags.
+	 *
+	 * @param int $limit The max tags limit.
+	 */
+	public function limit_maxtags( $limit ) {
+		return 100;
 	}
 
 	/**
@@ -71,7 +81,6 @@ class Common {
 	 * @param array $values Localized data.
 	 */
 	public function add_json_data( $values ) {
-		$values['maxTags'] = 100;
 
 		if ( ! Helper::is_site_connected() ) {
 			$values['trendsIcon']         = $this->get_icon_svg();

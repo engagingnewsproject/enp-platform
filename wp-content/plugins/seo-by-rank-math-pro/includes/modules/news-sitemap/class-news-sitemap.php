@@ -10,6 +10,7 @@
 
 namespace RankMathPro\Sitemap;
 
+use RankMath\KB;
 use RankMath\Helper;
 use RankMath\Helpers\Locale;
 use RankMath\Sitemap\Cache_Watcher;
@@ -129,7 +130,7 @@ class News_Sitemap {
 			'icon'      => 'fa fa-newspaper-o',
 			'title'     => esc_html__( 'News Sitemap', 'rank-math-pro' ),
 			'icon'      => 'rm-icon rm-icon-post',
-			'desc'      => wp_kses_post( __( 'News Sitemaps allow you to control which content you submit to Google News. More information: <a href="https://rankmath.com/kb/news-sitemap/?utm_source=Plugin&utm_campaign=WP" target="_blank">News Sitemaps overview</a>', 'rank-math-pro' ) ),
+			'desc'      => wp_kses_post( sprintf( __( 'News Sitemaps allow you to control which content you submit to Google News. More information: <a href="%s" target="_blank">News Sitemaps overview</a>', 'rank-math-pro' ), KB::get( 'news-sitemap', 'Options Panel Sitemap News Tab' ) ) ),
 			'file'      => dirname( __FILE__ ) . '/settings-news.php',
 			/* translators: News Sitemap Url */
 			'after_row' => '<div class="notice notice-alt notice-info info inline rank-math-notice"><p>' . sprintf( esc_html__( 'Your News Sitemap index can be found here: : %s', 'rank-math-pro' ), '<a href="' . $sitemap_url . '" target="_blank">' . $sitemap_url . '</a>' ) . '</p></div>',
@@ -257,7 +258,7 @@ class News_Sitemap {
 
 		$exclude_terms = (array) Helper::get_settings( "sitemap.news_sitemap_exclude_{$post_type}_terms" );
 		if ( empty( $exclude_terms[0] ) ) {
-			return 'NewsArticle';	
+			return 'NewsArticle';
 		}
 
 		$has_excluded_term = false;

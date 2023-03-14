@@ -114,7 +114,7 @@ class Image_Seo_Pro {
 			return $args;
 		}
 
-		if ( strpos( $args['id'], 'img_' ) !== false ) {
+		if ( ! is_string( $args['id'] ) || strpos( $args['id'], 'img_' ) !== false ) {
 			return $args;
 		}
 

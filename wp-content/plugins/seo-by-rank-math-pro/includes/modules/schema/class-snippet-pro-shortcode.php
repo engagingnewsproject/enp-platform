@@ -99,11 +99,26 @@ class Snippet_Pro_Shortcode extends Snippet_Shortcode {
 	 * @since 3.0.18
 	 */
 	public function show_review_notes( $shortcode ) {
+		$labels = [
+			'pros' => __( 'Pros', 'rank-math-pro' ),
+			'cons' => __( 'Cons', 'rank-math-pro' ),
+		];
+
+		/**
+		 * Filter: Allow changing the Pros & Cons labels.
+		 *
+		 * @param array $labels {
+		 *  @type string $pros Pros label.
+		 *  @type string $cons Cons label.
+		 * }
+		 */
+		$labels = $this->do_filter( 'schema/review_notes_labels', $labels );
+
 		$positive_notes = ! empty( $shortcode->get_field_value( 'positiveNotes' ) ) ? $shortcode->get_field_value( 'positiveNotes' ) : $shortcode->get_field_value( 'review.positiveNotes' );
 		if ( ! empty( $positive_notes['itemListElement'] ) ) {
 			?>
 			<div class="rank-math-review-notes rank-math-review-pros">
-				<h4><?php echo esc_html__( 'Pros', 'rank-math' ); ?></h4>
+				<h4><?php echo esc_html( $labels['pros'] ); ?></h4>
 				<ul>
 					<?php foreach ( $positive_notes['itemListElement'] as $positive_note ) { ?>
 						<li><?php echo esc_html( $positive_note['name'] ); ?></li>
@@ -117,7 +132,7 @@ class Snippet_Pro_Shortcode extends Snippet_Shortcode {
 		if ( ! empty( $negative_notes['itemListElement'] ) ) {
 			?>
 			<div class="rank-math-review-notes rank-math-review-cons">
-				<h4><?php echo esc_html__( 'Cons', 'rank-math' ); ?></h4>
+				<h4><?php echo esc_html( $labels['cons'] ); ?></h4>
 				<ul>
 					<?php foreach ( $negative_notes['itemListElement'] as $negative_note ) { ?>
 						<li><?php echo esc_html( $negative_note['name'] ); ?></li>

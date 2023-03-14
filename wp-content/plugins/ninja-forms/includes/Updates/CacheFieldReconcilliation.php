@@ -325,7 +325,7 @@ class NF_Updates_CacheFieldReconcilliation extends NF_Abstracts_RequiredUpdate
     * @return (Array) Associative if our data was complex.
     *                 Non-associative if our data was a single item.
     * 
-    * @since UPDATE_VERSION_ON_MERGE
+    * @since 3.0.0
     */
     private function array_squash( $data )
     {

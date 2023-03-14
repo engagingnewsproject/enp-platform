@@ -3,13 +3,13 @@
 Plugin Name: Custom Twitter Feeds
 Plugin URI: http://smashballoon.com/custom-twitter-feeds
 Description: Customizable Twitter feeds for your website
-Version: 2.0.3
+Version: 2.0.5
 Author: Smash Balloon
 Author URI: http://smashballoon.com/
 Text Domain: custom-twitter-feeds
 */
 /*
-Copyright 2022 Smash Balloon LLC (email : hey@smashballoon.com)
+Copyright 2023 Smash Balloon LLC (email : hey@smashballoon.com)
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
@@ -23,7 +23,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 define( 'CTF_URL', plugin_dir_path( __FILE__ )  );
-define( 'CTF_VERSION', '2.0.3' );
+define( 'CTF_VERSION', '2.0.5' );
 define( 'CTF_TITLE', 'Custom Twitter Feeds' );
 define( 'CTF_JS_URL', plugins_url( '/js/ctf-scripts.min.js?ver=' . CTF_VERSION , __FILE__ ) );
 define( 'OAUTH_PROCESSOR_URL', 'https://api.smashballoon.com/twitter-login.php?return_uri=' );
@@ -346,7 +346,8 @@ function ctf_init( $atts, $preview_settings = false  ) {
 		$feed_html = '';
 	    // if there is an error, display the error html, otherwise the feed
 	    if ( ! $twitter_feed->tweet_set || $twitter_feed->missing_credentials ) {
-	        return $twitter_feed->getErrorHtml();
+		    $twitter_feed->maybeCacheTweets( true );
+		    return $twitter_feed->getErrorHtml();
 	    } else {
 	        $twitter_feed->maybeCacheTweets();
 	        $feed_html .= $twitter_feed->getTweetSetHtml();
@@ -444,7 +445,10 @@ function ctf_do_background_tasks( $feed_details ) {
 }
 
 function ctf_plugin_action_links( $links ) {
-	$links[] = '<a href="'. esc_url( get_admin_url( null, 'admin.php?page=custom-twitter-feeds' ) ) .'">' . __( 'Settings' ) . '</a>';
+	$pro_link = '<a href="https://smashballoon.com/custom-twitter-feeds/demo/?utm_campaign=twitter-free&utm_source=plugins-page&utm_medium=upgrade-link" target="_blank" style="font-weight: bold; color: #1da867;">' . __( 'Try the Pro Demo', 'custom-twitter-feeds' ) . '</a>';
+	$settings_link = '<a href="'. esc_url( admin_url( 'admin.php?page=ctf-feed-builder' ) ) .'">' . __( 'Settings' ) . '</a>';
+	array_unshift( $links, $pro_link, $settings_link );
+
 	return $links;
 }
 add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'ctf_plugin_action_links' );
@@ -845,14 +849,13 @@ function ctf_scripts_and_styles( $enqueue = false ) {
 	);
 
 	wp_enqueue_style( 'ctf_styles', plugins_url( '/css/ctf-styles.min.css', __FILE__ ), array(), CTF_VERSION );
+	wp_register_script( 'ctf_scripts', CTF_JS_URL, array( 'jquery' ), CTF_VERSION, true );
 
-
-    if ( $not_ajax_theme ) {
-	    wp_register_script( 'ctf_scripts', plugins_url( '/js/ctf-scripts.min.js', __FILE__ ), array( 'jquery' ), CTF_VERSION, true );
-	    wp_localize_script( 'ctf_scripts', 'ctf', $loacalize_args );
-    } else {
-	    wp_localize_script( 'jquery', 'ctf', $loacalize_args );
-    }
+	if ( $not_ajax_theme ) {
+		wp_localize_script( 'ctf_scripts', 'ctf', $loacalize_args );
+	} else {
+		wp_localize_script( 'jquery', 'ctf', $loacalize_args );
+	}
 
 	if ( $enqueue ) {
 		wp_enqueue_style( 'ctf_styles' );
