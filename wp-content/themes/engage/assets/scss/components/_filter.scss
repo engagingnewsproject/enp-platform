@@ -8,6 +8,21 @@
   }
 }
 
+.filters-inline-mobile {
+  .filter__item {
+    display: inline-block; 
+      &::before {
+        content: "• ";
+        letter-spacing: 0.25em;
+      }
+    @include media($phablet) {
+      display: none;
+    }
+  }
+}
+
+
+
 .filter__sublist {
   margin: 8px 0 $spacer-sm 0;
   list-style: none;
