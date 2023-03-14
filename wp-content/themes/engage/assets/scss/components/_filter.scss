@@ -9,15 +9,15 @@
 }
 
 .filters-inline-mobile {
+  @include media($phablet) {
+    display: none;
+  }
   .filter__item {
     display: inline-block; 
       &::before {
         content: "• ";
         letter-spacing: 0.25em;
       }
-    @include media($phablet) {
-      display: none;
-    }
   }
 }
 
