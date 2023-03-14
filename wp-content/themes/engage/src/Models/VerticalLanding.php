@@ -12,7 +12,8 @@ class VerticalLanding extends Article {
 
 	public $video = false,
 				 $directors = false,
-				 $menulinks = false;
+				 $menulinks = false,
+				 $sublinkNum = 0;
 
 	  public function __construct($pid = null) {
         parent::__construct($pid);
@@ -25,6 +26,11 @@ class VerticalLanding extends Article {
 	    	return $this->video;
 		}
 
+		public function getTitleSublinkNum() {
+				$this->sublinkNum = get_field('mobile_title_sublinks');
+				return $this->sublinkNum;
+		}
+		
 		public function getDirectors() {
 	      if($this->directors === false) {
 		        $this->directors = new PostQuery(

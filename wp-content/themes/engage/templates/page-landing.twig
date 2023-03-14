@@ -8,7 +8,15 @@
         {% set hideFeaturedImage = post.hide_feature_image %}
         <article class="article post-type-{{ post.post_type }} {{ hasFeaturedImage ? 'article--has-featured-img' }} {{ hasVideo ? 'article--has-video'}}" id="post-{{ post.ID }}">
             <h1 class="article__title article__title--{{ post.post_type }}">{{ post.title }}</h1>
-
+            {% if post.getTitleSublinkNum != 0 %}
+              <ul class="filters filters-inline-mobile">
+                {% for name, link in post.getMenuLinks|slice(0, post.getTitleSublinkNum) %}
+                  <li class="filter__item">
+                    <a class="filter__link sidebar-menu__link" href="{{link}}">{{name}}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
             {% set getLink = post.getMenuLinks %}
             {% include "partial/article-meta.twig" %}
 
