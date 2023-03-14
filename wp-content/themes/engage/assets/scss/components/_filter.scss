@@ -9,6 +9,9 @@
 }
 
 .filters-inline-mobile {
+  @include media("max", $phablet) {
+    display: block;
+  }
   @include media($phablet) {
     display: none;
   }
