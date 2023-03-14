@@ -75,6 +75,20 @@ class Admin_Menu extends Base_Admin_Menu {
 	}
 
 	/**
+	 * Point the Site Editor's `< Dashboard` link to wpcom home.
+	 *
+	 * Although this isn't strictly an admin menu item, it belongs here because it's part of
+	 * changing wp-admin links to their wp.com equivalents.
+	 *
+	 * @param  array $settings Editor settings.
+	 * @return array           Updated Editor settings.
+	 */
+	public function site_editor_dashboard_link( $settings ) {
+		$settings['__experimentalDashboardLink'] = 'https://wordpress.com/home/' . $this->domain;
+		return $settings;
+	}
+
+	/**
 	 * Check if Links Manager is being used.
 	 */
 	public function should_disable_links_manager() {
@@ -359,6 +373,21 @@ class Admin_Menu extends Base_Admin_Menu {
 
 		if ( self::DEFAULT_VIEW === $this->get_preferred_view( 'options-writing.php' ) ) {
 			$submenus_to_update['options-writing.php'] = 'https://wordpress.com/settings/writing/' . $this->domain;
+		}
+
+		if (
+			/**
+			 * Filter to enable the modernized Reading Settings in Calypso UI.
+			 *
+			 * @since 11.8
+			 * @module masterbar
+			 *
+			 * @param bool false Should the modernized Reading Settings be enabled? Default to false.
+			 */
+			apply_filters( 'calypso_use_modernized_reading_settings', false )
+			&& self::DEFAULT_VIEW === $this->get_preferred_view( 'options-reading.php' )
+		) {
+			$submenus_to_update['options-reading.php'] = 'https://wordpress.com/settings/reading/' . $this->domain;
 		}
 
 		if ( self::DEFAULT_VIEW === $this->get_preferred_view( 'options-discussion.php' ) ) {

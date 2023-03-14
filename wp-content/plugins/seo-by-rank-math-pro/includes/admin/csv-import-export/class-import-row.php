@@ -393,7 +393,7 @@ class Import_Row {
 			return;
 		}
 
-		$this->update_meta( 'primary_category', $value );
+		$this->update_meta( 'primary_category', $term_id );
 	}
 
 	/**

@@ -10,6 +10,7 @@
 
 namespace RankMathPro\Analytics;
 
+use RankMath\KB;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
 use RankMath\Analytics\Stats;
@@ -346,7 +347,7 @@ class Analytics {
 				'desc'    => sprintf(
 					/* translators: Link to kb article */
 					wp_kses_post( __( 'This option allows you to monitor the SEO performance of all of your sites in one centralized dashboard on RankMath.com, so you can check up on sites at a glance. <a href="%1$s" target="_blank">Learn more</a>.', 'rank-math-pro' ) ),
-					'https://rankmath.com/kb/analytics/'
+					KB::get( 'help-analytics', 'Options Panel Analytics Tab Monitor Performance' )
 				),
 				'default' => 'off',
 			],
@@ -361,7 +362,7 @@ class Analytics {
 				'desc'    => sprintf(
 					/* translators: Link to kb article */
 					__( 'This option allows you to show %s in the Analytics graphs.', 'rank-math-pro' ),
-					'<a href="https://rankmath.com/google-updates/" target="_blank">' . __( 'Google Core Updates', 'rank-math-pro' ) . '</a>'
+					'<a href="' . KB::get( 'google-updates', 'Google Core Updates in the Graphs' ) . '" target="_blank">' . __( 'Google Core Updates', 'rank-math-pro' ) . '</a>'
 				),
 				'default' => 'on',
 			],

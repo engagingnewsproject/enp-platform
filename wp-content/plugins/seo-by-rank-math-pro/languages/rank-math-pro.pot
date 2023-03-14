@@ -1,4 +1,4 @@
-# Copyright (C) 2022 rank-math-pro
+# Copyright (C) 2023 rank-math-pro
 # This file is distributed under the same license as the rank-math-pro package.
 msgid ""
 msgstr ""
@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Rank Math\n"
 "Last-Translator: Rank Math\n"
-"POT-Creation-Date: 2022-08-24 04:20+0000\n"
+"POT-Creation-Date: 2023-03-07 15:49+0000\n"
 "Project-Id-Version: undefined\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -806,7 +806,7 @@ msgstr ""
 msgid "United Arab Emirates"
 msgstr ""
 
-msgid "United Kingdoms"
+msgid "United Kingdom"
 msgstr ""
 
 msgid "United States"
@@ -990,9 +990,6 @@ msgid "Turks & Caicos Islands"
 msgstr ""
 
 msgid "U.S. Virgin Islands"
-msgstr ""
-
-msgid "United Kingdom"
 msgstr ""
 
 msgid "Vietnam"
@@ -1310,9 +1307,6 @@ msgid "Please %1$s connect Rank Math SEO PRO %2$s for automatic updates."
 msgstr ""
 
 msgid "Rank Math PRO"
-msgstr ""
-
-msgid "https://rankmath.com/changelog/"
 msgstr ""
 
 msgid "CSV File"
@@ -1939,7 +1933,7 @@ msgstr ""
 msgid "Local Sitemap"
 msgstr ""
 
-msgid "KML is a file format used to display geographic data in an Earth browser such as Google Earth. More information: <a href=\"https://rankmath.com/kb/kml-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Locations KML</a>"
+msgid "KML is a file format used to display geographic data in an Earth browser such as Google Earth. More information: <a href=\"%s\" target=\"_blank\">Locations KML</a>"
 msgstr ""
 
 #. translators: KML File Url
@@ -2062,7 +2056,7 @@ msgstr ""
 msgid "Sorry, no locations were found."
 msgstr ""
 
-msgid "News Sitemaps allow you to control which content you submit to Google News. More information: <a href=\"https://rankmath.com/kb/news-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">News Sitemaps overview</a>"
+msgid "News Sitemaps allow you to control which content you submit to Google News. More information: <a href=\"%s\" target=\"_blank\">News Sitemaps overview</a>"
 msgstr ""
 
 #. translators: News Sitemap Url
@@ -2329,6 +2323,12 @@ msgstr ""
 msgid "Materials:"
 msgstr ""
 
+msgid "Pros"
+msgstr ""
+
+msgid "Cons"
+msgstr ""
+
 msgid "Rank Math: Added Video Schema to posts successfully."
 msgstr ""
 
@@ -2365,13 +2365,16 @@ msgstr ""
 msgid "Conversion started. A success message will be shown here once the process completes. You can close this page."
 msgstr ""
 
+msgid "Print"
+msgstr ""
+
 msgid "Free version"
 msgstr ""
 
 msgid "PRO version"
 msgstr ""
 
-msgid "Video Sitemaps give search engines information about video content on your site. More information: <a href=\"https://rankmath.com/kb/video-sitemap/?utm_source=Plugin&utm_campaign=WP\" target=\"_blank\">Video Sitemaps</a>"
+msgid "Video Sitemaps give search engines information about video content on your site. More information: <a href=\"%s\" target=\"_blank\">Video Sitemaps</a>"
 msgstr ""
 
 #. translators: Video Sitemap Url
@@ -2610,10 +2613,22 @@ msgstr ""
 msgid "Choose whether the site represents a person or an organization."
 msgstr ""
 
-msgid "Name"
+msgid "Website Name"
 msgstr ""
 
-msgid "Your name or company name"
+msgid "Enter the name of your site to appear in search results."
+msgstr ""
+
+msgid "Website Alternate Name"
+msgstr ""
+
+msgid "An alternate version of your site name (for example, an acronym or shorter name)."
+msgstr ""
+
+msgid "Person/Organization Name"
+msgstr ""
+
+msgid "Your name or company name intended to feature in Google's Knowledge Panel."
 msgstr ""
 
 msgid "<strong>Min Size: 112Χ112px</strong>.<br /> A squared image is preferred by the search engines."
@@ -2930,16 +2945,31 @@ msgstr ""
 msgid "Use the following columns in the CSV file (the order does not matter): %s"
 msgstr ""
 
+#. translators: placeholders are column names.
+msgid "Only the %1$s and the %2$s columns are required, the others are optional."
+msgstr ""
+
+#. translators: placeholder 1 is the column name, placeholder 2 is the possible column value ("case").
+msgid "The %1$s column may contain the value %2$s, or nothing."
+msgstr ""
+
 #. translators: placeholder is the column name.
 msgid "If the numeric ID is specified in the %s column, then the redirection will be edited. If it is not set or empty, then a new redirection will be created."
 msgstr ""
 
-#. translators: placeholders are the column names.
-msgid "You can specify multiple source URLs by using JSON format in the %1$s column. The value must be an array of objects with %2$s properties. The %3$s column will be ignored in this case."
+#. translators: placeholder is the filter name.
+msgid "If an imported redirection differs from an existing redirection (or another imported redirection) only by the source value, then those redirections will be merged into a single redirection with multiple sources. You can change this behavior with the %s filter hook."
 msgstr ""
 
 #. translators: 1 is the command name, 2 is the column name.
 msgid "Use %1$s (case-sensitive) as the value for the %2$s column to delete a redirection."
+msgstr ""
+
+#. translators: placeholder is a link to the KB article.
+msgid "For more information, please see %s."
+msgstr ""
+
+msgid "our Knowledge Base article"
 msgstr ""
 
 msgid "CSV Import"
@@ -2967,11 +2997,10 @@ msgstr ""
 msgid "Deleted"
 msgstr ""
 
-msgid "Are you sure you want to import redirections from this CSV file?"
+msgid "Merged"
 msgstr ""
 
-#. translators: placeholder is numeric redirection id.
-msgid "Could not update redirection #%d (not found)"
+msgid "Are you sure you want to import redirections from this CSV file?"
 msgstr ""
 
 msgid "Could not import redirection."
@@ -3017,6 +3046,9 @@ msgid "Temporal Coverage"
 msgstr ""
 
 msgid "Special Coverage"
+msgstr ""
+
+msgid "Name"
 msgstr ""
 
 msgid "Data Sets"
@@ -3116,6 +3148,31 @@ msgid "Price Valid Until"
 msgstr ""
 
 msgid "Product In-Stock"
+msgstr ""
+
+msgid "Video Thumbnail"
+msgstr ""
+
+#. translators: Placeholder is the image title.
+msgid "Video Thumbnail: %s"
+msgstr ""
+
+msgid "Competitor Analysis"
+msgstr ""
+
+msgid "Enter a site URL to see how it ranks for the same SEO criteria as your site."
+msgstr ""
+
+msgid "Start Audit"
+msgstr ""
+
+msgid "Complete"
+msgstr ""
+
+msgid "Note:"
+msgstr ""
+
+msgid "The total test count is different for the competitor as we don't have access to their database."
 msgstr ""
 
 msgid "SEO Report of Your Website"

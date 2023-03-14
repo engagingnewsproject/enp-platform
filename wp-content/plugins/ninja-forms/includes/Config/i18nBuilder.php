@@ -1,4 +1,5 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
+global $wp_locale;
 
 return apply_filters( 'ninja_forms_i18n_builder', array(
 
@@ -10,6 +11,9 @@ return apply_filters( 'ninja_forms_i18n_builder', array(
     'formHoneypot' 					=> esc_html__( 'If you are a human seeing this field, please leave it empty.', 'ninja-forms' ),
     'available'						=> esc_html__( 'Available', 'ninja-forms' ),
     'installed'						=> esc_html__( 'Installed', 'ninja-forms' ),
+    'currencySymbol'                => Ninja_Forms()->get_setting( 'currency_symbol' ),
+    'thousands_sep'                 => $wp_locale->number_format[ 'thousands_sep' ],
+    'decimal_point'                 => $wp_locale->number_format[ 'decimal_point' ],
     'domainFormFields'              => esc_html__( 'Form Fields', 'ninja-forms' ),
     'domainActions'                 => esc_html__( 'Emails & Actions', 'ninja-forms' ),
     'domainAdvanced'                => esc_html__( 'Advanced', 'ninja-forms' ),

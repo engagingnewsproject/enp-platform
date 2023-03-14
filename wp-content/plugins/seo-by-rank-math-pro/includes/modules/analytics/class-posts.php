@@ -13,6 +13,7 @@ namespace RankMathPro\Analytics;
 use stdClass;
 use WP_Error;
 use WP_REST_Request;
+use RankMath\Traits\Cache;
 use RankMath\Traits\Hooker;
 use RankMath\Analytics\Stats;
 
@@ -23,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class Posts {
 
-	use Hooker;
+	use Hooker, Cache;
 
 	/**
 	 * Main instance
@@ -336,7 +337,7 @@ class Posts {
 	 * @return integer
 	 */
 	public function get_position_for_badges( $column, $page ) {
-		$start = strtotime( '-30 days ', Stats::get()->end );
+		$start = date( 'Y-m-d H:i:s', strtotime( '-30 days ', Stats::get()->end ) );
 		if ( 'traffic' === $column ) {
 			$rows = DB::traffic()
 				->select( 'page' )
@@ -489,8 +490,19 @@ class Posts {
 	 * @return array Posts rows.
 	 */
 	public function get_posts_rows( WP_REST_Request $request ) {
+		$per_page = 25;
+
+		$cache_args             = $request->get_params();
+		$cache_args['per_page'] = $per_page;
+
+		$cache_group = 'rank_math_rest_posts_rows';
+		$cache_key   = $this->generate_hash( $cache_args );
+		$data        = $this->get_cache( $cache_key, $cache_group );
+		if ( ! empty( $data ) ) {
+			return $data;
+		}
+
 		// Pagination.
-		$per_page  = 25;
 		$offset    = ( $request->get_param( 'page' ) - 1 ) * $per_page;
 		$orderby   = $request->get_param( 'orderby' );
 		$post_type = sanitize_key( $request->get_param( 'postType' ) );
@@ -501,14 +513,14 @@ class Posts {
 		$post_type_clause = $post_type ? " AND o.object_subtype = '{$post_type}'" : '';
 		if ( 'pageviews' === $orderby ) {
 			// Get posts order by pageviews.
-			$data      = Pageviews::get_pageviews_with_object(
+			$t_data    = Pageviews::get_pageviews_with_object(
 				[
 					'order'     => $order,
 					'limit'     => "LIMIT {$offset}, {$per_page}",
 					'sub_where' => $post_type_clause,
 				]
 			);
-			$pageviews = Stats::get()->set_page_as_key( $data['rows'] );
+			$pageviews = Stats::get()->set_page_as_key( $t_data['rows'] );
 			$pages     = \array_keys( $pageviews );
 			$pages     = array_map( 'esc_sql', $pages );
 			$console   = Stats::get()->get_analytics_data(
@@ -539,16 +551,16 @@ class Posts {
 
 		} else {
 			// Get posts order by impressions.
-			$data = DB::objects()
+			$t_data = DB::objects()
 				->select( [ 'page', 'title', 'object_id' ] )
 				->where( 'is_indexable', 1 );
 			if ( 'title' === $orderby ) {
-				$data->orderBy( $orderby, $order )
+				$t_data->orderBy( $orderby, $order )
 					->limit( $per_page, $offset );
 			}
-			$data = $data->get( ARRAY_A );
+			$t_data = $t_data->get( ARRAY_A );
 
-			$pages  = Stats::get()->set_page_as_key( $data );
+			$pages  = Stats::get()->set_page_as_key( $t_data );
 			$params = \array_keys( $pages );
 			$params = array_map( 'esc_sql', $params );
 
@@ -628,6 +640,8 @@ class Posts {
 		}
 		if ( empty( $data ) ) {
 			$data['response'] = 'No Data';
+		} else {
+			$this->set_cache( $cache_key, $data, $cache_group, DAY_IN_SECONDS );
 		}
 		return $data;
 	}

@@ -16,6 +16,21 @@ if ( empty( $schema['associatedMedia'] ) || empty( $schema['associatedMedia']['c
 }
 
 $post_title    = get_the_title( $post->ID );
+$episode_title = $schema['name'];
+if ( $schema['name'] === $post_title && $post->ID === get_the_ID() ) {
+	$episode_title = '';
+}
+
+/**
+ * Filter: 'rank_math/schema/podcast_episode_title' - Allow changing the title of the podcast episode. Pass false to disable.
+ *
+ * @var string $post_title The title of the podcast episode.
+ *
+ * @param WP_Post $post   The post object.
+ * @param array   $schema The schema array.
+ */
+$episode_title = apply_filters( 'rank_math/schema/podcast_episode_title', $episode_title, $post, $schema );
+
 $season        = ! empty( $schema['partOfSeason'] ) ? $schema['partOfSeason'] : [];
 $time_required = [];
 if ( isset( $schema['timeRequired'] ) && WordPress::get_formatted_duration( $schema['timeRequired'] ) ) {
@@ -31,11 +46,18 @@ ob_start();
 <!-- wp:columns -->
 <div class="wp-block-columns" style="gap: 2em;">
 	<!-- wp:column -->
-	<?php if ( ! empty( $schema['thumbnailUrl'] ) ) { ?>
+	<?php if ( ! empty( $schema['thumbnailUrl'] ) ) {
+		$image_id = attachment_url_to_postid( $schema['thumbnailUrl'] );
+		$img      = '<img src="' . esc_url( $schema['thumbnailUrl'] ) . '" />';
+
+		if ( $image_id ) {
+			$img = wp_get_attachment_image( $image_id, 'medium', false, [ 'class' => 'wp-image-' . $image_id ] );
+		}
+		?>
 		<div class="wp-block-column" style="flex: 0 0 25%;">
 			<!-- wp:image -->
-				<figure class="wp-block-image size-large is-resized">
-					<img src="<?php echo esc_url( $schema['thumbnailUrl'] ); ?>" />
+				<figure class="wp-block-image size-medium is-resized">
+					<?php echo wp_kses_post( $img ); ?>
 				</figure>
 			<!-- /wp:image -->
 		</div>
@@ -55,7 +77,11 @@ ob_start();
 				<?php if ( ! empty( $season['seasonNumber'] ) ) { ?>
 					<?php echo esc_html__( 'Season', 'rank-math-pro' ); ?> <?php echo esc_html( $season['seasonNumber'] ); ?>
 					<?php if ( ! empty( $season['name'] ) ) { ?>
-						: <a href="<?php echo esc_url( $season['url'] ); ?>"><?php echo esc_html( $season['name'] ); ?></a>
+						: <?php if ( ! empty( $season['url'] ) ) { ?>
+							<a href="<?php echo esc_url( $season['url'] ); ?>"><?php echo esc_html( $season['name'] ); ?></a>
+						<?php } else { ?>
+							<?php echo esc_html( $season['name'] ); ?>
+						<?php } ?>
 					<?php } ?> &#183;
 				<?php } ?>
 
@@ -66,10 +92,10 @@ ob_start();
 		</p>
 		<!-- /wp:paragraph -->
 
-		<?php if ( $schema['name'] !== $post_title || $post->ID !== get_the_ID() ) { ?>
+		<?php if ( $episode_title ) { ?>
 			<!-- wp:heading -->
 				<h2>
-					<?php echo esc_html( $schema['name'] ); ?>
+					<?php echo esc_html( $episode_title ); ?>
 				</h2>
 			<!-- /wp:heading -->
 		<?php } ?>

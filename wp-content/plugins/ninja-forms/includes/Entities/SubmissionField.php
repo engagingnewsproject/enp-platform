@@ -91,6 +91,21 @@ class SubmissionField extends SimpleEntity
 
             $obj = $obj->__set($property, $value);
         }
+        
+        //filter repeater field data
+        if($obj->type === "repeater" && !empty($obj->fieldsetRepeaterFields) && !empty($items["value"])){
+            $fieldIDs = [];
+			foreach($obj->fieldsetRepeaterFields as $fieldsetRepeaterField){
+                array_push( $fieldIDs, $fieldsetRepeaterField['id']);
+            }
+			foreach($obj->value as $id => $valueArr){
+				$repeaterFieldID = substr($valueArr['id'], 0, strpos($valueArr['id'], "_"));
+                if(!in_array($repeaterFieldID, $fieldIDs)){
+                    unset($obj->value[$id]);
+                }
+            }
+        }
+
         return $obj;
     }
 

@@ -8,6 +8,17 @@
     padding: 10px 40px 10px 145px;
     position: relative;
 }
+.nf-admin-notice .sr-only {
+    border-width: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
 .nf-notice-container {
     margin-left: 20px;
 }

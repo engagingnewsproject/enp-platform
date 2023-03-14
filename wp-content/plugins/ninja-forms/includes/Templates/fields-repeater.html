@@ -1,11 +1,13 @@
 <script id="tmpl-nf-field-repeater" type="text/template">
-
+    <# if(data.renderDescText() !== '' ) { #>
+        <div>{{{ data.renderDescText() }}}</div>
+    <# } #>
     <div id="nf-field-{{{ data.id }}}" 
         class="nf-repeater nf-repeater-fieldsets {{{ data.element_class }}}"
         data-field-id="{{{ data.id }}}"
     >
     </div>
-    <button type="button" class="nf-add-fieldset">{{{nfRepeater.add_repeater_child_field_text}}} {{{ ( data.maybeFilterHTML() === 'true' ) ? _.escape( data.label ) : data.label }}}</button>
+    <button type="button" class="nf-add-fieldset">{{{ ( data.maybeFilterHTML() === 'true' ) ? _.escape( data.button_text ) : data.button_text }}}</button>
     <div>{{{ data.description }}}</div>
     
 </script>
@@ -14,7 +16,7 @@
 
     <legend>{{{ ( data.maybeFilterHTML() === 'true' ) ? _.escape( data.label ) : data.label }}} {{{ data.index }}}</legend>
     <# if(data.index > 1 ) { #>
-    <button class="nf-remove-fieldset" type="button" title="Remove Fieldset">&times;</button>
+        <button class="nf-remove-fieldset" type="button" title="Remove Fieldset">&times;</button>
     <# } #>
     <div class="nf-repeater-fieldset" ></div>
 

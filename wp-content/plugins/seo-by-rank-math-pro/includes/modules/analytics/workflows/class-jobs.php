@@ -10,6 +10,7 @@
 
 namespace RankMathPro\Analytics\Workflow;
 
+use DateTime;
 use Exception;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
@@ -71,11 +72,14 @@ class Jobs {
 
 		// Data Fetcher.
 		if ( $this->adsense_connected ) {
-			$this->action( 'rank_math/analytics/get_adsense_data', 'get_adsense_data' );
+			$this->filter( 'rank_math/analytics/get_adsense_days', 'get_adsense_days' );
+			$this->action( 'rank_math/analytics/get_adsense_data', 'get_adsense_data', 10, 2 );
 		}
 
 		if ( $this->analytics_connected ) {
+			$this->action( 'rank_math/analytics/get_analytics_days', 'get_analytics_days' );
 			$this->action( 'rank_math/analytics/get_analytics_data', 'get_analytics_data' );
+			$this->action( 'rank_math/analytics/handle_analytics_response', 'handle_analytics_response' );
 			$this->action( 'rank_math/analytics/clear_cache', 'clear_cache' );
 		}
 
@@ -99,6 +103,43 @@ class Jobs {
 	}
 
 	/**
+	 * Set the analytics start and end dates.
+	 */
+	public function get_analytics_days( $args = [] ) {
+		$rows = Analytics::get_analytics( $args['start_date'], $args['end_date'], true );
+		if ( empty( $rows ) ) {
+			return [];
+		}
+
+		$empty_dates = get_option( 'rank_math_analytics_empty_dates', [] );
+		$dates = [];
+
+		foreach ( $rows as $row ) {
+			$date = '';
+
+			// GA4
+			if ( isset( $row['dimensionValues'] ) ) {
+				$date = $row['dimensionValues'][0]['value'];
+			} else if ( isset( $row['dimensions'] ) ) {
+				$date = $row['dimensions'][0];
+			}
+
+			if( ! empty( $date ) ) {
+				$date = substr( $date, 0, 4 ) . '-' . substr( $date, 4, 2 ) . '-' . substr( $date, 6, 2 );
+
+				if ( ! AnalyticsDB::date_exists( $date, 'analytics' ) && ! in_array( $date, $empty_dates, true ) ) {
+					$dates[] = [
+						'start_date' => $date,
+						'end_date'   => $date,
+					];
+				}
+			}
+		}
+
+		return $dates;
+	}
+
+	/**
 	 * Get analytics data and save it into database.
 	 *
 	 * @param string $date Date to fetch data for.
@@ -115,19 +156,82 @@ class Jobs {
 	}
 
 	/**
+	 * Set the AdSense start and end dates.
+	 */
+	public function get_adsense_days( $args = [] ) {
+		$dates = [];
+
+		$begin = new DateTime( $args['start_date'] );
+		$end   = new DateTime( $args['end_date'] );
+
+		$missing_dates = [];
+		for ( $i = $end; $i >= $begin; $i->modify( '-1 day' ) ) {
+			$date = $i->format( 'Y-m-d' );
+			if ( ! AnalyticsDB::date_exists( $date, 'adsense' ) ) {
+				$missing_dates[] = $date;
+			}
+		}
+
+		if ( empty( $missing_dates ) ) {
+			$dates[] = [
+				'start_date' => $args['start_date'],
+				'end_date'   => $args['end_date'],
+			];
+
+			return $dates;
+		}
+
+		// Request for one date range because its not large data to send individual request for each date.
+		$dates[] = [
+			'start_date'   => $missing_dates[ count( $missing_dates ) - 1 ],
+			'end_date' => $missing_dates[0],
+		];
+
+		return $dates;
+	}
+
+	/**
 	 * Get adsense data and save it into database.
 	 *
-	 * @param string $date Date to fetch data for.
+	 * @param string $start_date The start date to fetch.
+	 * @param string $end_date   The end date to fetch.
 	 */
-	public function get_adsense_data( $date ) {
-		$rows = Adsense::get_adsense( $date, $date );
+	public function get_adsense_data( $start_date = '', $end_date = '' ) {
+		$rows = Adsense::get_adsense( $start_date, $end_date );
 		if ( empty( $rows ) ) {
 			return;
 		}
 
 		try {
-			DB::add_adsense( $date, $rows );
+			DB::add_adsense( $rows );
 		} catch ( Exception $e ) {} // phpcs:ignore
+	}
+
+	/**
+	 * Handlle analytics response.
+	 *
+	 * @param array $data API request and response data.
+	 */
+	public function handle_analytics_response( $data = [] ) {
+		if ( 200 !== $data['code'] ) {
+			return;
+		}
+
+		if ( isset( $data['formatted_response']['rows'] ) && ! empty( $data['formatted_response']['rows'] ) ) {
+			return;
+		}
+
+		$dates = get_option( 'rank_math_analytics_empty_dates', [] );
+		if ( ! $dates ) {
+			$dates = [];
+		}
+
+		$dates[] = $data['args']['dateRanges'][0]['startDate'];
+		$dates[] = $data['args']['dateRanges'][0]['endDate'];
+
+		$dates = array_unique( $dates );
+
+		update_option( 'rank_math_analytics_empty_dates', $dates );
 	}
 
 	/**

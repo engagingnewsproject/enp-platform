@@ -14,7 +14,7 @@ final class NF_Dispatcher
      * If a premium add-on is installed, then users have opted into tracked via our terms and conditions.
      * If no premium add-ons are installed, check to see if the user has opted in or out of anonymous usage tracking.
      *
-     * @since  version
+     * @since  3.2.0
      * @return bool
      */
     public function should_we_send() {

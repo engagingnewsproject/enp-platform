@@ -117,7 +117,7 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
         $this->constructSeqNumLookup($aggregatedKey, $singleSubmission);
 
         $row = $this->constructSubmissionRow($aggregatedKey, $singleSubmission);
-
+        //Can be array of $rows since repeaters are divided by rows for each fieldset
         return $row;
     }
 
@@ -132,16 +132,16 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
             $nfSubs[]=Ninja_Forms()->form(  )->get_sub( $submissionId );
         }
 
-      // Get any extra data from our other plugins...
+        // Get any extra data from our other plugins...
         $csv_array = apply_filters( 'nf_subs_csv_extra_values', $this->csvValuesCollection, $nfSubs, $this->submissionAggregateCsvExportAdapter->submissionAggregate->getMasterFormId() );
 
-            $output =    WPN_Helper::str_putcsv( $csv_array,
-                apply_filters( 'nf_sub_csv_delimiter', ',' ),
-                apply_filters( 'nf_sub_csv_enclosure', '"' ),
-                apply_filters( 'nf_sub_csv_terminator', "\n" )
-            );
-            
-            return $output;
+        $output =    WPN_Helper::str_putcsv( $csv_array,
+            apply_filters( 'nf_sub_csv_delimiter', ',' ),
+            apply_filters( 'nf_sub_csv_enclosure', '"' ),
+            apply_filters( 'nf_sub_csv_terminator', "\n" )
+        );
+        
+        return $output;
     }
 
     /**
@@ -154,8 +154,15 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
         foreach ($indices as $index) {
 
             $row = $this->constructRow($index);
+            //Catch reference to an array or repeated fieldsets of repeater field to display each entry as a row
+            if( array_key_exists('repeater', $row) && is_array($row['repeater']) ){
+                foreach($row['repeater'] as $eachRow){
+                    $this->csvValuesCollection[1][0][] = $eachRow;
+                }
+            } else {
+                $this->csvValuesCollection[1][0][] = $row;
+            }
 
-            $this->csvValuesCollection[1][0][] = $row;
         }
     }
 
@@ -200,13 +207,41 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
 
         $columnValues = $this->submissionAggregateCsvExportAdapter->getColumnValuesByAggregatedKey($aggregatedKey);
 
-        $row= array_merge($row,$columnValues);
-       
-        $strippedRow = WPN_Helper::stripslashes($row);
-        // Legacy Filter from 2.9.*
-        $filteredRow = apply_filters('nf_subs_csv_value_array', $strippedRow, $this->submissionIds);
+        if( array_key_exists('repeater', $columnValues) ){
+            $filteredRows = [];
+            $newColumnValues = $columnValues;
+            $repeaterValuesArray = [];
+            unset($newColumnValues['repeater']);
+            $row = array_merge($row, $newColumnValues);
+            //Extract Repeater rows
+            foreach($columnValues['repeater'] as $repeaterFieldID => $repeaterFieldsetRowValue){
+                foreach($repeaterFieldsetRowValue as $index => $fieldsetValue){
+                    $repeaterValuesArray[$index][$repeaterFieldID] = $fieldsetValue; 
+                }
+            }
+            //insert global row data in repeater rows and filter rows
+            foreach($repeaterValuesArray as $rowIncludingRepeaterData){
+                $row = array_merge($row, $rowIncludingRepeaterData);
+                $strippedRow = WPN_Helper::stripslashes($row);
+                // Legacy Filter from 2.9.*
+                $filteredRow = apply_filters('nf_subs_csv_value_array', $strippedRow, $this->submissionIds);
+    
+                $filteredRows["repeater"][] = $filteredRow;
+            } 
 
-        return $filteredRow;
+            return $filteredRows;
+
+        } else {
+            $row = array_merge($row,$columnValues);
+       
+            $strippedRow = WPN_Helper::stripslashes($row);
+            // Legacy Filter from 2.9.*
+            $filteredRow = apply_filters('nf_subs_csv_value_array', $strippedRow, $this->submissionIds);
+    
+            return $filteredRow;
+        }
+
+       
     }
 
     /**

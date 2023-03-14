@@ -50,7 +50,7 @@ class Admin_Helper {
 	public static function get_current_post_type( $post_id = null ) {
 		if ( ! $post_id && function_exists( 'get_current_screen' ) ) {
 			$screen = get_current_screen();
-			return $screen->post_type;
+			return isset( $screen->post_type ) ? $screen->post_type : '';
 		}
 
 		return get_post_type( $post_id );
@@ -345,7 +345,7 @@ class Admin_Helper {
 			'UG'  => __( 'Uganda', 'rank-math-pro' ),
 			'UA'  => __( 'Ukraine', 'rank-math-pro' ),
 			'AE'  => __( 'United Arab Emirates', 'rank-math-pro' ),
-			'UK'  => __( 'United Kingdoms', 'rank-math-pro' ),
+			'GB'  => __( 'United Kingdom', 'rank-math-pro' ),
 			'US'  => __( 'United States', 'rank-math-pro' ),
 			'UM'  => __( 'United States Minor Outlying Islands', 'rank-math-pro' ),
 			'UY'  => __( 'Uruguay', 'rank-math-pro' ),

@@ -120,7 +120,7 @@ class WPCOM_REST_API_V2_Attachment_VideoPress_Data {
 				if ( in_array( strval( \VIDEOPRESS_PRIVACY::IS_PRIVATE ), $videopress_privacy_setting_list, true ) ) {
 					$videopress_privacy_setting_list[] = \VIDEOPRESS_PRIVACY::SITE_DEFAULT;
 				}
-			} else {
+			} else { // phpcs:ignore Universal.ControlStructures.DisallowLonelyIf.Found
 				/**
 				 * If the search is looking for public videos and the site default is public,
 				 * the site default setting should be included on the search.
@@ -236,6 +236,8 @@ class WPCOM_REST_API_V2_Attachment_VideoPress_Data {
 			'rating'               => $info->rating,
 			'allow_download'       =>
 				isset( $info->allow_download ) && $info->allow_download ? 1 : 0,
+			'display_embed'        =>
+				isset( $info->display_embed ) && $info->display_embed ? 1 : 0,
 			'privacy_setting'      => $video_privacy_setting,
 			'needs_playback_token' => $video_needs_playback_token,
 		);

@@ -96,11 +96,13 @@ class Ajax {
 			return $data;
 		}
 
-		if ( $taxonomy ) {
+		if ( $taxonomy && 'all' !== $taxonomy ) {
 			$terms = get_terms(
 				[
-					'taxonomy' => $taxonomy,
-					'fields'   => 'id=>name',
+					'taxonomy'   => $taxonomy,
+					'fields'     => 'id=>name',
+					'search'     => $search,
+					'hide_empty' => false,
 				]
 			);
 
@@ -164,8 +166,9 @@ class Ajax {
 
 		$terms = get_terms(
 			[
-				'taxonomy' => $type,
-				'search'   => $search,
+				'taxonomy'   => $type,
+				'search'     => $search,
+				'hide_empty' => false,
 			]
 		);
 

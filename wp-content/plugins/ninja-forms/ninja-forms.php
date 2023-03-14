@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.6.14
+Version: 3.6.20
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -11,6 +11,7 @@ Domain Path: /lang/
 
 Copyright 2016 WP Ninjas.
 */
+use NinjaForms\Includes\Admin\VersionCompatibilityCheck;
 
 require_once dirname( __FILE__ ) . '/lib/NF_VersionSwitcher.php';
 require_once dirname( __FILE__ ) . '/lib/NF_Tracking.php';
@@ -55,7 +56,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
          * @since 3.0
          */
 
-        const VERSION = '3.6.14';
+        const VERSION = '3.6.20';
 
         /**
          * @since 3.4.0
@@ -192,6 +193,15 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
 
         protected $processes = array();
 
+        public $routes;
+        public $preview;
+        public $shortcodes;
+        public $add_form_modal;
+        public $_eos;
+        public $notices;
+        public $widgets;
+        public $submission_expiration_cron;
+        
         /**
          * Main Ninja_Forms Instance
          *
@@ -413,6 +423,8 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
                  * Admin Notices System
                  */
                 self::$instance->notices = new NF_Admin_Notices();
+
+                (new VersionCompatibilityCheck())->activate();
 
                 self::$instance->widgets[] = new NF_Widget();
 
@@ -1282,8 +1294,6 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
      * @param $schedules (Array) The available cron recurrences.
      * @return (Array) The filtered cron recurrences.
      *
-     * @since
-     * @updated 3.3.17
      */
     function nf_custom_cron_job_recurrence( $schedules ) {
         $schedules[ 'nf-monthly' ] = array(

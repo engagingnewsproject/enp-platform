@@ -65,18 +65,17 @@ class DateTimeConverter
      */
     public static function getWpTimezoneSetting():\DateTimeZone
     {
-        $tzstring = \get_option('timezone_string');
-        $offset   = \get_option('gmt_offset');
+        $timeZones = static::getWpTimezoneOptions();
+        $tzstring = $timeZones['timezone_string'];
+        $offset   = $timeZones['gmt_offset'];
 
         //Manual offset...
         //@see http://us.php.net/manual/en/timezones.others.php
         //@see https://bugs.php.net/bug.php?id=45543
         //@see https://bugs.php.net/bug.php?id=45528
         //IANA timezone database that provides PHP's timezone support uses POSIX (i.e. reversed) style signs
-        if (empty($tzstring) && 0 != $offset && floor($offset) == $offset) {
-            $offset_st = $offset > 0 ? "-$offset" : '+' . absint($offset);
-            $tzstring  = 'Etc/GMT' . $offset_st;
-        }
+
+        // Manual offset is disallowed; PHP 8.1.14, 8.2.1 will throw fatal error.  Fallback to UTC.  Let customers know that only timezone strings are allowed
 
         //Issue with the timezone selected, set to 'UTC'
         if (empty($tzstring)) {
@@ -86,4 +85,20 @@ class DateTimeConverter
         $timezone = new \DateTimeZone($tzstring);
         return $timezone;
     }
+
+    /**
+     * Returns stored WP options values for timezone_string, gmt_offset
+     *
+     * @return array
+     */
+    protected static function getWpTimezoneOptions( ): array
+    {
+        $return = [
+            'timezone_string' => \get_option('timezone_string'),
+            'gmt_offset'   => \get_option('gmt_offset')
+        ];
+
+        return $return;
+    }
+
 }

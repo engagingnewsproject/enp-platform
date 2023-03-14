@@ -10,6 +10,7 @@
 
 namespace RankMathPro\Sitemap;
 
+use RankMath\KB;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
 use RankMath\Sitemap\Router;
@@ -59,7 +60,7 @@ class Video_Sitemap {
 		$tabs['video-sitemap'] = [
 			'icon'      => 'rm-icon rm-icon-video',
 			'title'     => esc_html__( 'Video Sitemap', 'rank-math-pro' ),
-			'desc'      => wp_kses_post( __( 'Video Sitemaps give search engines information about video content on your site. More information: <a href="https://rankmath.com/kb/video-sitemap/?utm_source=Plugin&utm_campaign=WP" target="_blank">Video Sitemaps</a>', 'rank-math-pro' ) ),
+			'desc'      => wp_kses_post( sprintf( __( 'Video Sitemaps give search engines information about video content on your site. More information: <a href="%s" target="_blank">Video Sitemaps</a>', 'rank-math-pro' ), KB::get( 'video-sitemap', 'Options Panel Sitemap Video' ) ) ),
 			'file'      => dirname( __FILE__ ) . '/settings-video.php',
 			/* translators: Video Sitemap Url */
 			'after_row' => '<div class="notice notice-alt notice-info info inline rank-math-notice"><p>' . sprintf( esc_html__( 'Your Video Sitemap index can be found here: %s', 'rank-math-pro' ), '<a href="' . $sitemap_url . '" target="_blank">' . $sitemap_url . '</a>' ) . '</p></div>',
@@ -145,7 +146,14 @@ class Video_Sitemap {
 						continue;
 					}
 
-					$output .= $renderer->newline( "<video:{$prop}>" . esc_url( $video[ $prop ] ) . "</video:{$prop}>", 3 );
+					/**
+					 * Filter the video content and thumbnail location:
+					 * - rank_math/sitemap/video/thumbnail_loc
+					 * - rank_math/sitemap/video/content_loc
+					 */
+					$value = $this->do_filter( "sitemap/video/{$prop}", $video[ $prop ] );
+
+					$output .= $renderer->newline( "<video:{$prop}>" . esc_url( $value ) . "</video:{$prop}>", 3 );
 				}
 
 				if ( ! empty( $video['tags'] ) ) {

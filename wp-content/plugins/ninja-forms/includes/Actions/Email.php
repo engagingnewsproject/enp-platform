@@ -316,13 +316,29 @@ final class NF_Actions_Email extends NF_Abstracts_Action
             if( in_array( $field[ 'type' ], $ignore ) ) continue;
 
             $label = ( '' != $field[ 'admin_label' ] ) ? $field[ 'admin_label' ] : $field[ 'label' ];
+            // Escape labels.
+            $label = WPN_Helper::maybe_escape_csv_column($label);
 
-            $value = WPN_Helper::stripslashes( $field[ 'value' ] );
-            if ( empty( $value ) && ! isset( $value ) ) {
-                $value = '';
-            }
-            if ( is_array( $value ) ) {
-                $value = implode( ',', $value );
+            if($field["type"] === "repeater" && isset($field['fields'])){
+                $value = "";
+                foreach($field['fields'] as $field_model){
+                    foreach($field['value'] as $in_field_value) {
+                        $matching_value = substr($in_field_value['id'], 0, strlen($field_model['id'])) === $field_model['id'];
+                        $index_found = substr($in_field_value['id'], strpos($in_field_value['id'], "_") + 1);
+                        if( $matching_value ){
+                            $value .= $field_model['label'] . "#" . $index_found . " : " . WPN_Helper::stripslashes( $in_field_value['value'] ) . " \n";
+                        };
+                    }
+                }
+
+            } else {
+                $value = WPN_Helper::stripslashes( $field[ 'value' ] );
+                if ( empty( $value ) && ! isset( $value ) ) {
+                    $value = '';
+                }
+                if ( is_array( $value ) ) {
+                    $value = implode( ',', $value );
+                }
             }
 
             // add filter to add single quote if first character in value is '='

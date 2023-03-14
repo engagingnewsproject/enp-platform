@@ -94,7 +94,7 @@ class Parser {
 					'title'                   => 'Video',
 					'type'                    => 'template',
 					'shortcode'               => uniqid( 's-' ),
-					'isPrimary'               => empty( $schemas ),
+					'isPrimary'               => empty( DB::get_schemas( $this->post->ID ) ),
 					'reviewLocationShortcode' => '[rank_math_rich_snippet]',
 					'category'                => '%categories%',
 					'tags'                    => '%tags%',
@@ -217,7 +217,7 @@ class Parser {
 
 		// Save image locally.
 		if ( ! empty( $data['thumbnail'] ) ) {
-			$data['thumbnail'] = $this->save_video_thumbnail( $data['thumbnail'] );
+			$data['thumbnail'] = $this->save_video_thumbnail( $data );
 		}
 
 		return $data;
@@ -274,12 +274,13 @@ class Parser {
 	/**
 	 * Validate Video source.
 	 *
-	 * @param  string $url Thumbnail URL.
+	 * @param  array $data Video data.
 	 * @return array
 	 *
 	 * Credits to m1r0 @ https://gist.github.com/m1r0/f22d5237ee93bcccb0d9
 	 */
-	private function save_video_thumbnail( $url ) {
+	private function save_video_thumbnail( $data ) {
+		$url = $data['thumbnail'];
 		if ( ! Helper::get_settings( "titles.pt_{$this->post->post_type}_autogenerate_image", 'off' ) ) {
 			return false;
 		}
@@ -295,17 +296,44 @@ class Parser {
 			return false;
 		}
 
-		$url    = strrpos( basename( $url ), '.' ) ? $url : $url . '.jpg';
-		$upload = wp_upload_bits( basename( $url ), null, $response['body'] );
+		$image_title = __( 'Video Thumbnail', 'rank-math-pro' );
+		if ( ! empty( $data['name'] ) ) {
+			$image_title = $data['name'];
+		} elseif ( ! empty( $this->post->post_title ) ) {
+			$image_title = $this->post->post_title;
+		}
+		$filename = substr( sanitize_title( $image_title, 'video-thumbnail' ), 0, 32 ) . '.jpg';
+
+		/**
+		 * Filter the filename of the video thumbnail.
+		 *
+		 * @param string $filename The filename of the video thumbnail.
+		 * @param array  $data     The video data.
+		 * @param object $post     The post object.
+		 */
+		$filename = apply_filters( 'rank_math/schema/video_thumbnail_filename', $filename, $data, $this->post );
+
+		$upload = wp_upload_bits( sanitize_file_name( $filename ), null, $response['body'] );
 		if ( ! empty( $upload['error'] ) ) {
 			return false;
 		}
 
-		$file_path        = $upload['file'];
-		$file_name        = basename( $file_path );
-		$file_type        = wp_check_filetype( $file_name, null );
-		$attachment_title = sanitize_file_name( pathinfo( $file_name, PATHINFO_FILENAME ) );
-		$wp_upload_dir    = wp_upload_dir();
+		$file_path     = $upload['file'];
+		$file_name     = basename( $file_path );
+		$file_type     = wp_check_filetype( $file_name, null );
+		$wp_upload_dir = wp_upload_dir();
+
+		// Translators: Placeholder is the image title.
+		$attachment_title = sprintf( __( 'Video Thumbnail: %s', 'rank-math-pro' ), $image_title );
+
+		/**
+		 * Filter the attachment title of the video thumbnail.
+		 *
+		 * @param string $attachment_title The attachment title of the video thumbnail.
+		 * @param array  $data             The video data.
+		 * @param object $post             The post object.
+		 */
+		$attachment_title = apply_filters( 'rank_math/schema/video_thumbnail_attachment_title', $attachment_title, $data, $this->post );
 
 		$post_info = [
 			'guid'           => $wp_upload_dir['url'] . '/' . $file_name,

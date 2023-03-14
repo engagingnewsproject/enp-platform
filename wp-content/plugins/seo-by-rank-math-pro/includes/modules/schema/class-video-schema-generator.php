@@ -148,7 +148,7 @@ class Video_Schema_Generator extends \WP_Background_Process {
 			]
 		);
 
-		update_option( 'rank_math_video_posts', $posts );
+		update_option( 'rank_math_video_posts', $posts, false );
 
 		return $posts;
 	}

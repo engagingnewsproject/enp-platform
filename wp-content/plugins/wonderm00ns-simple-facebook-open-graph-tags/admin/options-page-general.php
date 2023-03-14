@@ -265,7 +265,7 @@ global $webdados_fb;
 					</tr>
 					<tr>
 						<td colspan="2" class="info">
-							- <?php _e( 'Deprecated - (might be moved to the PRO add-on in the future)', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
+							- <?php _e( 'Deprecated', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
 							<br/>
 							- <strong><?php _e( 'This is an advanced option: Don\'t mess with this unless you know what you\'re doing', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?></strong>
 							<br/>
@@ -283,7 +283,7 @@ global $webdados_fb;
 					</tr>
 					<tr>
 						<td colspan="2" class="info">
-							- <?php _e( 'Deprecated - (might be moved to the PRO add-on in the future)', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
+							- <?php _e( 'Deprecated', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?>
 							<br/>
 							- <strong><?php _e( 'This is an advanced option: Don\'t mess with this unless you know what you\'re doing', 'wonderm00ns-simple-facebook-open-graph-tags' ); ?></strong>
 							<br/>

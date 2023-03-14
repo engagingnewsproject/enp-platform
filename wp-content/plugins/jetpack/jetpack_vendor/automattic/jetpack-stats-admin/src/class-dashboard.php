@@ -9,6 +9,8 @@ namespace Automattic\Jetpack\Stats_Admin;
 
 use Automattic\Jetpack\Admin_UI\Admin_Menu;
 use Automattic\Jetpack\Assets;
+use Automattic\Jetpack\Modules;
+use Automattic\Jetpack\Stats\Options as Stats_Options;
 use Jetpack_Options;
 
 /**
@@ -17,12 +19,15 @@ use Jetpack_Options;
  * @package jetpack-stats-admin
  */
 class Dashboard {
-	const CALYPSO_CDN_URL = 'https://widgets.wp.com/calypso-stats/%s/%s';
+	// This is a fixed list @see https://github.com/Automattic/wp-calypso/pull/71442/
+	const JS_DEPENDENCIES                 = array( 'lodash', 'react', 'react-dom', 'wp-api-fetch', 'wp-components', 'wp-compose', 'wp-element', 'wp-html-entities', 'wp-i18n', 'wp-is-shallow-equal', 'wp-polyfill', 'wp-primitives', 'wp-url', 'wp-warning' );
+	const ODYSSEY_CDN_URL                 = 'https://widgets.wp.com/odyssey-stats/%s/%s';
+	const OPT_OUT_NEW_STATS_FEATURE_CLASS = 'opt-out-new-stats';
 	/**
 	 * We bump the asset version when the Jetpack back end is not compatible anymore.
 	 */
-	const CALYPSO_STATS_VERSION                = 'v1';
-	const CALYPSO_STATS_CACHE_BUSTER_CACHE_KEY = 'jetpack_stats_admin_asset_cache_buster';
+	const ODYSSEY_STATS_VERSION                = 'v1';
+	const ODYSSEY_STATS_CACHE_BUSTER_CACHE_KEY = 'odyssey_stats_admin_asset_cache_buster';
 
 	/**
 	 * Whether the class has been initialized
@@ -81,14 +86,30 @@ class Dashboard {
 	 * Override render funtion
 	 */
 	public function render() {
+		// Record the number of views of the stats dashboard on the initial several loads for the purpose of showing feedback notice.
+		$views = intval( Stats_Options::get_option( 'views' ) ) + 1;
+		if ( $views <= Notices::VIEWS_TO_SHOW_FEEDBACK ) {
+			Stats_Options::set_option( 'views', $views );
+		}
+
 		?>
-		<div id="wpcom" class="jp-stats-dashboard">
+		<div id="wpcom" class="jp-stats-dashboard" style="min-height: calc(100vh - 100px);">
 			<div class="hide-if-js"><?php esc_html_e( 'Your Jetpack Stats dashboard requires JavaScript to function properly.', 'jetpack-stats-admin' ); ?></div>
+			<div class="hide-if-no-js" style="height: 100%">
+				<img
+					class="jp-stats-dashboard-loading-spinner"
+					width="32"
+					height="32"
+					style="position: absolute; left: 50%; top: 50%;"
+					alt=<?php echo esc_attr( __( 'Loading', 'jetpack-stats-admin' ) ); ?>
+					src="//en.wordpress.com/i/loading/loading-64.gif"
+				/>
+			</div>
 		</div>
 		<script>
 			jQuery(document).ready(function($) {
 				// Load SVG sprite.
-				$.get("https://widgets.wp.com/calypso-stats/common/gridicons-506499ddac13811fee8e.svg", function(data) {
+				$.get("https://widgets.wp.com/odyssey-stats/common/gridicons-506499ddac13811fee8e.svg", function(data) {
 					var div = document.createElement("div");
 					div.innerHTML = new XMLSerializer().serializeToString(data.documentElement);
 					div.style = 'display: none';
@@ -97,7 +118,7 @@ class Dashboard {
 				// we intercept on all anchor tags and change it to hashbang style.
 				$("#wpcom").on('click', 'a', function (e) {
 					const link = e && e.currentTarget && e.currentTarget.attributes && e.currentTarget.attributes.href && e.currentTarget.attributes.href.value;
-					if( link && ! link.startsWith( 'http' ) ) {
+					if( link && link.startsWith( '/stats' ) ) {
 						location.hash = `#!${link}`;
 						return false;
 					}
@@ -133,8 +154,8 @@ class Dashboard {
 		} else {
 			// In production, we load the assets from our CDN.
 			$css_url = 'build.min' . ( is_rtl() ? '.rtl' : '' ) . '.css';
-			wp_register_script( 'jp-stats-dashboard', sprintf( self::CALYPSO_CDN_URL, self::CALYPSO_STATS_VERSION, 'build.min.js' ), array( 'react', 'react-dom', 'wp-polyfill' ), $this->get_cdn_asset_cache_buster(), true );
-			wp_register_style( 'jp-stats-dashboard-style', sprintf( self::CALYPSO_CDN_URL, self::CALYPSO_STATS_VERSION, $css_url ), array(), $this->get_cdn_asset_cache_buster() );
+			wp_register_script( 'jp-stats-dashboard', sprintf( self::ODYSSEY_CDN_URL, self::ODYSSEY_STATS_VERSION, 'build.min.js' ), self::JS_DEPENDENCIES, $this->get_cdn_asset_cache_buster(), true );
+			wp_register_style( 'jp-stats-dashboard-style', sprintf( self::ODYSSEY_CDN_URL, self::ODYSSEY_STATS_VERSION, $css_url ), array(), $this->get_cdn_asset_cache_buster() );
 			wp_enqueue_script( 'jp-stats-dashboard' );
 			wp_enqueue_style( 'jp-stats-dashboard-style' );
 		}
@@ -144,29 +165,6 @@ class Dashboard {
 			$this->get_config_data_js(),
 			'before'
 		);
-
-		add_action(
-			'admin_head',
-			function () {
-				echo '<style>
-				.jp-stats-dashboard .card {
-					border:0;
-					max-width: initial;
-					min-width: initial;
-				}
-				ul.wp-submenu, ul.wp-submenu-wrap {
-					margin-left: 0;
-				}
-				.jp-stats-dashboard .followers-count {
-					display: none;
-				}
-				.jp-stats-dashboard .layout__content {
-					padding-top: 32px;
-				}
-				</style>';
-			},
-			100
-		);
 	}
 
 	/**
@@ -175,13 +173,13 @@ class Dashboard {
 	 */
 	protected function get_cdn_asset_cache_buster() {
 		// Use cached cache buster in production.
-		$remote_asset_version = get_transient( self::CALYPSO_STATS_CACHE_BUSTER_CACHE_KEY );
+		$remote_asset_version = get_transient( self::ODYSSEY_STATS_CACHE_BUSTER_CACHE_KEY );
 		if ( ! empty( $remote_asset_version ) ) {
 			return $remote_asset_version;
 		}
 
 		// If no cached cache buster, we fetch it from CDN and set to transient.
-		$response = wp_remote_get( sprintf( self::CALYPSO_CDN_URL, self::CALYPSO_STATS_VERSION, 'build_meta.json' ), array( 'timeout' => 3 ) );
+		$response = wp_remote_get( sprintf( self::ODYSSEY_CDN_URL, self::ODYSSEY_STATS_VERSION, 'build_meta.json' ), array( 'timeout' => 5 ) );
 
 		if ( is_wp_error( $response ) ) {
 			// fallback to the package version.
@@ -191,7 +189,7 @@ class Dashboard {
 		$build_meta = json_decode( wp_remote_retrieve_body( $response ), true );
 		if ( ! empty( $build_meta['cache_buster'] ) ) {
 			// Cache the cache buster for a day.
-			set_transient( self::CALYPSO_STATS_CACHE_BUSTER_CACHE_KEY, $build_meta['cache_buster'], DAY_IN_SECONDS );
+			set_transient( self::ODYSSEY_STATS_CACHE_BUSTER_CACHE_KEY, $build_meta['cache_buster'], 15 * MINUTE_IN_SECONDS );
 			return $build_meta['cache_buster'];
 		}
 
@@ -222,6 +220,7 @@ class Dashboard {
 			'env_id'                         => 'production',
 			'google_analytics_key'           => 'UA-10673494-15',
 			'google_maps_and_places_api_key' => '',
+			'hostname'                       => wp_parse_url( get_site_url(), PHP_URL_HOST ),
 			'i18n_default_locale_slug'       => 'en',
 			'i18n_locale_slug'               => static::get_site_locale(),
 			'mc_analytics_enabled'           => false,
@@ -233,24 +232,33 @@ class Dashboard {
 			'features'                       => array(),
 			'intial_state'                   => array(
 				'currentUser' => array(
-					'id'   => 1000,
-					'user' => array(
+					'id'           => 1000,
+					'user'         => array(
 						'ID'       => 1000,
 						'username' => 'no-user',
 					),
+					'capabilities' => array(
+						"$blog_id" => self::get_current_user_capabilities(),
+					),
 				),
 				'sites'       => array(
-					'items' => array(
+					'items'    => array(
 						"$blog_id" => array(
-							'ID'           => $blog_id,
-							'URL'          => site_url(),
-							'jetpack'      => true,
-							'visible'      => true,
-							'capabilities' => $empty_object,
-							'products'     => array(),
-							'plan'         => $empty_object, // we need this empty object, otherwise the front end would crash on insight page.
+							'ID'            => $blog_id,
+							'URL'           => site_url(),
+							'jetpack'       => true,
+							'visible'       => true,
+							'capabilities'  => $empty_object,
+							'products'      => array(),
+							'plan'          => $empty_object, // we need this empty object, otherwise the front end would crash on insight page.
+							'options'       => array(
+								'wordads'   => ( new Modules() )->is_active( 'wordads' ),
+								'admin_url' => admin_url(),
+							),
+							'stats_notices' => ( new Notices() )->get_notices_to_show(),
 						),
 					),
+					'features' => array( "$blog_id" => array( 'data' => self::get_plan_features() ) ),
 				),
 			),
 		);
@@ -289,6 +297,44 @@ class Dashboard {
 			$locale = preg_replace( '/(_.*)$/i', '', $locale );
 		}
 		return $locale;
+	}
+
+	/**
+	 * Get the features of the current plan.
+	 */
+	protected static function get_plan_features() {
+		if ( ! class_exists( 'Jetpack_Plan' ) ) {
+			return array();
+		}
+		$plan = \Jetpack_Plan::get();
+		if ( empty( $plan['features'] ) ) {
+			return array();
+		}
+		return $plan['features'];
+	}
+
+	/**
+	 * Get the capabilities of the current user.
+	 *
+	 * @return array An array of capabilities.
+	 */
+	protected static function get_current_user_capabilities() {
+		$user = wp_get_current_user();
+		if ( ! $user || is_wp_error( $user ) ) {
+			return array();
+		}
+		return $user->allcaps;
+	}
+
+	/**
+	 * Return ture if the opt-out notice should be shown.
+	 *
+	 * @return bool
+	 */
+	protected static function has_opt_out_new_stats_notice() {
+		$new_stats_enabled = Stats_Options::get_option( 'enable_odyssey_stats' );
+		$hidden_jitms      = \Jetpack_Options::get_option( 'hide_jitm' );
+		return $new_stats_enabled && ! isset( $hidden_jitms[ self::OPT_OUT_NEW_STATS_FEATURE_CLASS ] );
 	}
 
 }

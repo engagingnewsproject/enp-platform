@@ -47,7 +47,7 @@ class NF_Fields_Date extends NF_Fields_Textbox
             'MM/DD/YYYY' => esc_html__( 'm/d/Y', 'ninja-forms' ),
             'MM-DD-YYYY' => esc_html__( 'm-d-Y', 'ninja-forms' ),
             'MM.DD.YYYY' => esc_html__( 'm.d.Y', 'ninja-forms' ),
-            'DD/MM/YYYY' => esc_html__( 'm/d/Y', 'ninja-forms' ),
+            'DD/MM/YYYY' => esc_html__( 'd/m/Y', 'ninja-forms' ),
             'DD-MM-YYYY' => esc_html__( 'd-m-Y', 'ninja-forms' ),
             'DD.MM.YYYY' => esc_html__( 'd.m.Y', 'ninja-forms' ),
             'YYYY-MM-DD' => esc_html__( 'Y-m-d', 'ninja-forms' ),

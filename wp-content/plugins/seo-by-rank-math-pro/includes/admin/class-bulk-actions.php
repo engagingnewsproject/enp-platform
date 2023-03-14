@@ -56,7 +56,7 @@ class Bulk_Actions {
 	 * @return array             New actions.
 	 */
 	public function post_bulk_actions( $actions ) {
-		$new_actions['rank_math_options'] = __( '&#8595; Rank Math', 'rank-math-pro' );
+		$new_actions = [ 'rank_math_options' => __( '&#8595; Rank Math', 'rank-math-pro' ) ];
 
 		if ( Helper::has_cap( 'onpage_advanced' ) ) {
 			$new_actions['rank_math_bulk_robots_noindex']   = __( 'Set to noindex', 'rank-math-pro' );
@@ -82,7 +82,7 @@ class Bulk_Actions {
 			}
 		}
 
-		if ( count( $new_actions ) > 1 ) {
+		if ( is_array( $actions ) && count( $new_actions ) > 1 ) {
 			return array_merge( $actions, $new_actions );
 		}
 

@@ -10,7 +10,7 @@
         <input type="{{{data.image_type}}}" id="nf-field-{{{ data.fieldID }}}-{{{ data.index }}}" name="nf-field-{{{ data.fieldID }}}" class="{{{ data.classes }}} nf-element {{{ ( data.isSelected ) ? ' nf-checked' : '' }}}" value="{{{ _.escape( data.value ) }}}" {{{ ( data.isSelected ) ? 'checked="checked"' : '' }}}
             aria-labelledby="nf-label-field-{{{ data.fieldID }}}-{{{ data.index }}}"
             <# if( data.required ) { #>
-			required
+			required aria-required="true"
 			<# } #>
         >
         <label for="nf-field-{{{ data.fieldID }}}-{{{ data.index }}}"
@@ -29,7 +29,7 @@
                name="nf-field-{{{ data.fieldID }}}" class="{{{ data.classes }}} nf-element" value="nf-other" {{{ ( ! data.valueFound ) ? 'checked="checked"' : '' }}}
             aria-labelledby="nf-label-field-{{{ data.fieldID }}}-other"
             <# if( data.required ) { #>
-			required
+			required aria-required="true"
 			<# } #>
         >
          <label id="nf-label-field-{{{ data.fieldID }}}-other">Other

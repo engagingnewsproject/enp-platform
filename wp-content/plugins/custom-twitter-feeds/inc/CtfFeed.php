@@ -287,19 +287,18 @@ class CtfFeed
         }
     }
 
-    /**
-     * processes the consumer key and secret options
-     */
-    protected function setConsumerKeyAndSecretOptions(){
-        if (isset($this->feed_options['have_own_tokens']) && $this->feed_options['have_own_tokens']) {
-            $this->feed_options['consumer_key'] = isset($this->db_options['consumer_key']) && strlen($this->db_options['consumer_key']) > 15 ? $this->db_options['consumer_key'] : 'FPYSYWIdyUIQ76Yz5hdYo5r7y';
-            $this->feed_options['consumer_secret'] = isset($this->db_options['consumer_secret']) && strlen($this->db_options['consumer_secret']) > 30 ? $this->db_options['consumer_secret'] : 'GqPj9BPgJXjRKIGXCULJljocGPC62wN2eeMSnmZpVelWreFk9z';
-        }
-        else {
-            $this->feed_options['consumer_key'] = 'FPYSYWIdyUIQ76Yz5hdYo5r7y';
-            $this->feed_options['consumer_secret'] = 'GqPj9BPgJXjRKIGXCULJljocGPC62wN2eeMSnmZpVelWreFk9z';
-        }
-    }
+	/**
+	 * processes the consumer key and secret options
+	 */
+	protected function setConsumerKeyAndSecretOptions(){
+		if (! empty( $this->db_options['consumer_key'] ) && ! empty($this->db_options['consumer_secret'] )) {
+			$this->feed_options['consumer_key']    = isset($this->db_options['consumer_key']) && strlen($this->db_options['consumer_key']) > 15 ? $this->db_options['consumer_key'] : 'FPYSYWIdyUIQ76Yz5hdYo5r7y';
+			$this->feed_options['consumer_secret'] = isset($this->db_options['consumer_secret']) && strlen($this->db_options['consumer_secret']) > 30 ? $this->db_options['consumer_secret'] : 'GqPj9BPgJXjRKIGXCULJljocGPC62wN2eeMSnmZpVelWreFk9z';
+		} else {
+			$this->feed_options['consumer_key']    = 'FPYSYWIdyUIQ76Yz5hdYo5r7y';
+			$this->feed_options['consumer_secret'] = 'GqPj9BPgJXjRKIGXCULJljocGPC62wN2eeMSnmZpVelWreFk9z';
+		}
+	}
 
     /**
      * determines what value to use and saves it for the appropriate key in the feed_options array
@@ -687,7 +686,12 @@ class CtfFeed
             }
         }
         // validate the transient data
-        if ($this->transient_data) {
+	   if ($this->transient_data) {
+
+		   if ( is_array( $this->transient_data ) && ! empty( $this->transient_data[0] ) && $this->transient_data[0] === 'error' ) {
+			   $this->tweet_set = array();
+			   return true;
+		   }
 
             $this->errors['cache_status'] = $this->validateCache();
             if ($this->errors['cache_status'] === false) {
@@ -772,7 +776,8 @@ class CtfFeed
             $api_obj = $this->apiConnectionResponse('search', $this->feed_options['feed_term']);
             // cache them in a regular option
             $this->tweet_set = json_decode($api_obj->json, $assoc = true);
-            // check for errors/tweets present
+
+	        // check for errors/tweets present
             if (isset($this->tweet_set['errors'][0])) {
                 if (empty($this->api_obj)) {
                     $this->api_obj = new \stdClass();
@@ -1062,6 +1067,7 @@ private function reduceTweetSetData( $tweet_set, $limit = true ) {
                     $api_obj = $this->apiConnectionResponse($feed_type_and_term[0], $feed_type_and_term[1]);
                     $tweet_set_to_merge = json_decode($api_obj->json, $assoc = true);
 
+
                     if (isset($tweet_set_to_merge['statuses'])) {
                         $working_tweet_set = array_merge($working_tweet_set, $tweet_set_to_merge['statuses']);
                     }
@@ -1087,11 +1093,10 @@ private function reduceTweetSetData( $tweet_set, $limit = true ) {
         }
 
         $tweets = isset($this->tweet_set['statuses']) ? $this->tweet_set['statuses'] : $this->tweet_set;
-
         if (empty($tweets)) {
             if ( empty( $this->tweet_set['errors'][0]['message'] ) ) {
                 $this->errors['error_message'] = 'No Tweets returned';
-                $this->tweet_set = false;
+	            $this->tweet_set = array();
             }
 
         } elseif ( !empty( $this->tweet_set['errors'][0]['message'] ) ) {
@@ -1471,12 +1476,14 @@ protected function removeStringFromText( $string, $text) {
     /**
      * will create a transient with the tweet cache if one doesn't exist, the data seems valid, and caching is active
      */
-     public function maybeCacheTweets() {
-        if ((!$this->transient_data || $this->errors['cache_status']) && $this->feed_options['cache_time'] > 0) {
-            $cache = json_encode($this->tweet_set);
-            $this->cache->set_transient($this->transient_name, $cache, $this->feed_options['cache_time']);
-        }
-    }
+     public function maybeCacheTweets( $error = false ) {
+		 if ( $error ) {
+			 $cache = json_encode(array('error'));
+		 } else {
+			 $cache = json_encode($this->tweet_set);
+		 }
+        $this->cache->set_transient($this->transient_name, $cache, $this->feed_options['cache_time']);
+	}
 
     /**
      * returns a JSON string to be used in the data attribute that contains the shortcode data

@@ -446,7 +446,7 @@ final class NF_Database_Models_Submission
                         
                         $fieldsetFieldIds[]=$fieldsetFieldId;
 
-                        $field_labels[$fieldsetFieldId]=$fieldsetFieldLabel;
+                        $field_labels[$fieldsetFieldId]=WPN_Helper::maybe_escape_csv_column( $fieldsetFieldLabel );
                         
                         $fieldType = Ninja_Forms()->fieldsetRepeater->getFieldtype($fieldsetFieldId, $fieldsetSettings);
                         
@@ -472,9 +472,9 @@ final class NF_Database_Models_Submission
                   if( in_array( $field->get_setting( 'type' ), $hidden_field_types ) ) continue;
 
                   if ( $field->get_setting( 'admin_label' ) ) {
-                      $field_labels[ $field->get_id() ] = $field->get_setting( 'admin_label' );
+                      $field_labels[ $field->get_id() ] = WPN_Helper::maybe_escape_csv_column( $field->get_setting( 'admin_label' ) );
                   } else {
-                      $field_labels[ $field->get_id() ] = $field->get_setting( 'label' );
+                      $field_labels[ $field->get_id() ] = WPN_Helper::maybe_escape_csv_column( $field->get_setting( 'label' ) );
                   }
 
                   $field_value = maybe_unserialize( $sub->get_field_value( $field_id ) );

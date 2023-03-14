@@ -109,7 +109,7 @@ $out_link_utm='?utm_source='.urlencode(home_url()).'&amp;utm_medium=link&amp;utm
 	
 
 	<div class="clear">
-		<p><br/>&copy; 2011-<?php echo date( 'Y' ); ?> <a href="https://www.webdados.pt/<?php echo esc_attr($out_link_utm); ?>" target="_blank">Webdados</a> &amp; <a href="https://wonderm00n.com/<?php echo esc_attr($out_link_utm); ?>" target="_blank">Marco Almeida (Wonderm00n)</a></p>
+		<p><br/>&copy; 2011-<?php echo date( 'Y' ); ?></p>
 	</div>
 
 

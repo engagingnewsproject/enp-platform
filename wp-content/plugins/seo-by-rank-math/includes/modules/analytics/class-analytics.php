@@ -35,7 +35,7 @@ class Analytics extends Base {
 	 * The Constructor
 	 */
 	public function __construct() {
-		if ( Conditional::is_heartbeat() ) {
+		if ( Conditional::is_heartbeat() || ! Helper::has_cap( 'analytics' ) ) {
 			return;
 		}
 
@@ -412,6 +412,8 @@ class Analytics extends Base {
 		if ( $enable_index_status ) {
 			update_option( 'rank_math_viewed_index_status', true );
 		}
+
+		Helper::add_json( 'isRtl', is_rtl() );
 	}
 
 	/**

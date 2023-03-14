@@ -3,7 +3,7 @@
 /**
  * Class NF_MergeTags_Other
  */
-final class NF_MergeTags_Other extends NF_Abstracts_MergeTags
+class NF_MergeTags_Other extends NF_Abstracts_MergeTags
 {
     protected $id = 'other';
 
@@ -42,8 +42,14 @@ final class NF_MergeTags_Other extends NF_Abstracts_MergeTags
     {
         if( is_admin() ) {
             if( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) return;
-            $url_query = parse_url( wp_get_referer(), PHP_URL_QUERY );
-            parse_str( $url_query, $variables );
+
+            $referrer = wp_get_referer();
+
+            if(!is_string($referrer)){
+                return;
+            }
+
+            $variables = $this->constructVariablesFromReferrer($referrer);
         } else {
             $variables = $_GET;
         }
@@ -62,6 +68,26 @@ final class NF_MergeTags_Other extends NF_Abstracts_MergeTags
         }
     }
 
+    /**
+     * Construct key-value responses from a referrer string
+     *
+     * @param string $referrer
+     * @return array
+     */
+    protected function constructVariablesFromReferrer(string $referrer): array
+    {
+        $return = [];
+
+        $url_query = parse_url( $referrer, PHP_URL_QUERY );
+
+        if(is_string($url_query)){
+
+            parse_str( $url_query, $return );
+        }
+
+        return $return;
+    }
+    
     public function __call($name, $arguments)
     {
         return $this->merge_tags[ $name ][ 'value' ];

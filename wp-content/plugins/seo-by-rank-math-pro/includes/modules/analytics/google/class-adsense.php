@@ -55,11 +55,12 @@ class Adsense {
 	 * @return array
 	 */
 	public static function get_adsense( $start_date, $end_date ) {
-		if ( ! self::get_adsense_id() ) {
+		$account_id = self::get_adsense_id();
+		if ( ! $account_id ) {
 			return false;
 		}
-		$account_id = self::get_adsense_id();
-		$request    = Security::add_query_arg_raw(
+
+		$request  = Security::add_query_arg_raw(
 			[
 				'startDate.year'  => gmdate( 'Y', strtotime( $start_date ) ),
 				'startDate.month' => gmdate( 'n', strtotime( $start_date ) ),
@@ -73,9 +74,13 @@ class Adsense {
 			],
 			'https://adsense.googleapis.com/v2/' . $account_id . '/reports:generate'
 		);
-		$response   = Api::get()->http_get( $request );
 
-		Api::get()->log_failed_request( $response, 'adsense', $start_date, func_get_args() );
+		$workflow = 'adsense';
+		Api::get()->set_workflow( $workflow );
+
+		$response = Api::get()->http_get( $request );
+
+		Api::get()->log_failed_request( $response, $workflow, $start_date, func_get_args() );
 
 		if ( ! Api::get()->is_success() || ! isset( $response['rows'] ) ) {
 			return false;

@@ -1,19 +1,21 @@
 === Custom Twitter Feeds (Tweets Widget) ===
 Author: Smash Balloon
-Contributors: smashballoon, craig-at-smash-balloon
+Contributors: smashballoon, craig-at-smash-balloon, am, smub
 Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Twitter Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 4.1
-Tested up to: 6.0
-Stable tag: 2.0.3
+Tested up to: 6.1
+Stable tag: 2.0.5
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Custom Twitter Feeds allows you to display completely customizable Twitter Tweets from any user timeline, Twitter hashtag, or home timeline on your website.
 
+https://www.youtube.com/watch?v=n_P7bWR-cNw
+
 == Description ==
-Display **completely customizable**, **responsive** and **search engine crawlable** Twitter feeds on your website. The Custom Twitter Feeds plugin will display Tweets that completely match the look and feel of your site and includes tons of customization options!
+Display **completely customizable**, **responsive** and **search engine crawlable** Twitter feeds on your website. The Custom Twitter Feeds plugin will display Tweets that completely match the look and feel of your site and includes tons of customization options! As of February 13th, 2023 you may experience changes in how tweets are displayed due to major changes in Twitter's API which our plugin uses.
 
 = Features =
 * **Completely Customizable** - by default the Twitter feeds will inherit your theme's styles
@@ -234,6 +236,14 @@ If you're still having trouble displaying your Tweets after trying the common is
 7. To display a Twitter feed just copy and paste the shortcode into a Twitter widget or page
 
 == Changelog ==
+= 2.0.5 =
+* Tweak: API calls are prevented in the event that the Twitter API returns an error.
+* Fix: The feature for using your own Twitter App credentials was not working.
+
+= 2.0.4 =
+* Fix: Enabling the setting "AJAX theme loading fix" would cause the feed customizer to not load.
+* Fix: Removed HTML comments from the feed templates.
+
 = 2.0.3 =
 * Fix: For GDPR plugins that Custom Twitter Feeds integrates with, other plugins that also integrate with those GDPR plugins would not work properly when Custom Twitter Feeds was active.
 

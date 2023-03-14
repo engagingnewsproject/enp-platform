@@ -10,6 +10,7 @@
 
 namespace RankMathPro\Podcast;
 
+use RankMath\KB;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
 use MyThemeShop\Helpers\Arr;
@@ -79,11 +80,11 @@ class Podcast {
 			$tabs,
 			[
 				'podcast' => [
-					'icon'  => 'rm-icon rm-icon-podcast',
-					'title' => esc_html__( 'Podcast', 'rank-math-pro' ),
+					'icon'      => 'rm-icon rm-icon-podcast',
+					'title'     => esc_html__( 'Podcast', 'rank-math-pro' ),
 					/* translators: Link to kb article */
-					'desc'  => sprintf( esc_html__( 'Make your podcasts discoverable via Google Podcasts, Apple Podcasts, and similar services. %s.', 'rank-math' ), '<a href="' . \RankMath\KB::get( 'podcast-settings' ) . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math-pro' ) . '</a>' ),
-					'file'  => dirname( __FILE__ ) . '/views/options.php',
+					'desc'      => sprintf( esc_html__( 'Make your podcasts discoverable via Google Podcasts, Apple Podcasts, and similar services. %s.', 'rank-math' ), '<a href="' . KB::get( 'podcast-settings', 'Options Panel Podcast Tab' ) . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math-pro' ) . '</a>' ),
+					'file'      => dirname( __FILE__ ) . '/views/options.php',
 					/* translators: Link to Podcast RSS feed */
 					'after_row' => '<div class="notice notice-alt notice-info info inline rank-math-notice"><p>' . sprintf( esc_html__( 'Your Podcast RSS feed can be found here: %s', 'rank-math-pro' ), '<a href="' . Helper::get_home_url( 'feed/podcast' ) . '" target="_blank">' . Helper::get_home_url( 'feed/podcast' ) . '</a>' ) . '</p></div>',
 				],
