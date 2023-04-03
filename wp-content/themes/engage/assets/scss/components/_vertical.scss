@@ -84,6 +84,7 @@
 	.tile--vertical--#{$name}  {
 	  &.tile--intro {
 	    border-color: map-get($verticalColors, $name);
+
 			@include media($phablet) {
 				grid-column-end: span 12;
 			}
