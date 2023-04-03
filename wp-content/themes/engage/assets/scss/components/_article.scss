@@ -307,7 +307,7 @@
 			row-gap: 10px;
 			grid-template-columns:
 				minmax($min-content-sm, $max-content-sm) minmax($min-content, $min-content)
-				4fr;
+				1fr;
 			grid-auto-flow: row;
 		}
 		@include media($laptop) {
