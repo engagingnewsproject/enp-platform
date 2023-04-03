@@ -1,6 +1,14 @@
 {% if tile.title != "General" %}
-<div class="tile {{ tile.vertical.slug ? "tile--vertical--#{ tile.vertical.slug } tile--intro--vertical--#{ tile.vertical.slug }" }} tile--intro">
-	<h2 class="tile__title tile__title--intro">{{ tile.title }}</h2>
+  {% if tile.title == "Science Communication Publications" %}
+    <div class="tile {{ tile.vertical.slug ? "tile--vertical--#{ tile.vertical.slug } tile--intro--vertical--#{ tile.vertical.slug }" }} tile--intro-science">
+  {% else %}
+    <div class="tile {{ tile.vertical.slug ? "tile--vertical--#{ tile.vertical.slug } tile--intro--vertical--#{ tile.vertical.slug }" }} tile--intro">
+  {% endif %}
+	{% if tile.title == "Science Communication Publications" %}
+    <h2 class="tile__title tile__title--science">{{ tile.title }}</h2>
+  {% else %}
+    <h2 class="tile__title tile__title--intro">{{ tile.title }}</h2>
+  {% endif %}
 	<div class="tile__excerpt tile__excerpt--intro">{{ tile.excerpt }}</div>
 </div>
 {% endif %}
