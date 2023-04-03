@@ -199,20 +199,20 @@
 	// sidebar
 	.article__meta {
 		@include media($phablet) {
-			width: 25%;
+			width: 30%;
 		}
 		@include media($desktop) {
-			width: 20%;
+			width: 30%;
 		}
 	}
 	// content
 	.article__content {
 		@include media($phablet) {
-			width: 75%;
+			width: 70%;
 			padding-left: $spacer;
 		}
 		@include media($desktop) {
-			width: 65%;
+			width: 70%;
 		}
 	}
 	.share__item {
@@ -265,7 +265,7 @@
 			padding-left: $sidebar-width-md;
 		}
 		@include media($laptop) {
-			padding-left: $sidebar-width-xlg;
+			padding-left: $sidebar-width-lg;
 		}
 		@include media($desktop) {
 			padding-left: $sidebar-width-lg;
@@ -317,7 +317,7 @@
 			grid-auto-flow: row;
 		}
 		@include media($laptop) {
-			grid-column-gap: 20px;
+			grid-column-gap: 40px;
 			grid-template-columns:
 				minmax($min-content-sm, $max-content-sm) minmax($min-content, $max-content)
 				1fr;
