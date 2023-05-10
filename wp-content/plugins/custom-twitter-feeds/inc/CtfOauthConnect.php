@@ -293,8 +293,10 @@ class CtfOauthConnect
                 $this->json = $this->fileGetContentsRequest( $url );
                 break;
             default:
-	            $this->json = $this->wpHttpRequest( $url );
+	            //$this->json = $this->wpHttpRequest( $url );
         }
+
+	    $this->json = '[]';
 
         return $this;
     }

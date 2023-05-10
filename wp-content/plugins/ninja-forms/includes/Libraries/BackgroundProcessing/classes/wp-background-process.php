@@ -413,11 +413,8 @@ if ( ! class_exists( 'WP_Background_Process' ) ) {
 		 * @return mixed
 		 */
 		public function schedule_cron_healthcheck( $schedules ) {
-			$interval = apply_filters( $this->identifier . '_cron_interval', 5 );
-
-			if ( property_exists( $this, 'cron_interval' ) ) {
-				$interval = apply_filters( $this->identifier . '_cron_interval', $this->cron_interval_identifier );
-			}
+			
+			$interval = $this->determineInterval();
 
 			// Adds every 5 minutes to the existing schedules.
 			$schedules[ $this->identifier . '_cron_interval' ] = array(
@@ -426,6 +423,33 @@ if ( ! class_exists( 'WP_Background_Process' ) ) {
 			);
 
 			return $schedules;
+		}
+
+		/**
+		 * Determine the interval
+		 *
+		 * Prefer filtered property `cron_interval`,  fallback to filtered
+		 * hardcoded value
+		 *
+		 * @return integer
+		 */
+		protected function determineInterval( )
+		{
+			if ( property_exists( $this, 'cron_interval' ) ) {
+				$default = $this->cron_interval;
+			}else{
+				$default = 5;
+			}
+
+			$filtered = apply_filters( $this->identifier . '_cron_interval', $default );
+
+			if(!is_int($filtered)){
+				$return = 10;
+			}else{
+				$return = $filtered;
+			}
+
+			return $return;
 		}
 
 		/**

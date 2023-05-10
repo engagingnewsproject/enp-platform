@@ -206,14 +206,10 @@ class CTF_Db {
 		$feed_caches_table_name = $wpdb->prefix . 'ctf_feed_caches';
 		$feed_ids_array = implode(',', $feed_ids_array);
 		$wpdb->query(
-			$wpdb->prepare(
-				"DELETE FROM $feeds_table_name WHERE id IN ($feed_ids_array)"
-			)
+			"DELETE FROM $feeds_table_name WHERE id IN ($feed_ids_array)"
 		);
 		$wpdb->query(
-			$wpdb->prepare(
-				"DELETE FROM $feed_caches_table_name WHERE feed_id IN ($feed_ids_array)"
-			)
+			"DELETE FROM $feed_caches_table_name WHERE feed_id IN ($feed_ids_array)"
 		);
 
 		echo ctf_json_encode(CTF_Feed_Builder::get_feed_list());

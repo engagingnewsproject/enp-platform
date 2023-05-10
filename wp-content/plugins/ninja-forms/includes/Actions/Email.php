@@ -326,6 +326,15 @@ final class NF_Actions_Email extends NF_Abstracts_Action
                         $matching_value = substr($in_field_value['id'], 0, strlen($field_model['id'])) === $field_model['id'];
                         $index_found = substr($in_field_value['id'], strpos($in_field_value['id'], "_") + 1);
                         if( $matching_value ){
+                            //Catch specific file uploeds data
+                            if(isset($in_field_value["files"])){
+                                $field_files_names = [];
+                                foreach($in_field_value["files"] as $file_data){
+                                    $field_files_names []= $file_data["data"]["file_url"];
+                                }
+                                $in_field_value['value'] = implode(" , ", $field_files_names);
+                            }
+
                             $value .= $field_model['label'] . "#" . $index_found . " : " . WPN_Helper::stripslashes( $in_field_value['value'] ) . " \n";
                         };
                     }

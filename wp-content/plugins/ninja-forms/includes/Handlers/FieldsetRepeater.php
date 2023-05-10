@@ -406,6 +406,14 @@ class NF_Handlers_FieldsetRepeater
         // $completeFieldsetID is in format {fieldsetRepeaterFieldId}{fieldsetDelimiter}{fieldsetFieldId}{submissionIndexDelimiter}{submissionIndex}
         foreach ($fieldSubmissionValue as $completeFieldsetId => $incomingValueArray) {
 
+            //Extract value from upload field
+            if(isset($incomingValueArray["files"])){
+                $field_files_names = [];
+                foreach($incomingValueArray["files"] as $file_data){
+                    $field_files_names[] = '<a href="' .  $file_data["data"]["file_url"] . '" title="' . $file_data["data"]["upload_id"] . '">' . $file_data["name"] . '</a>';
+                }
+                $incomingValueArray['value'] = implode(" , ", $field_files_names);
+            }
             // value is expected to be keyed inside incoming value array
             if (isset($incomingValueArray['value'])) {
                 $value = $incomingValueArray['value'];

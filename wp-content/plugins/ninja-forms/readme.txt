@@ -1,9 +1,11 @@
 === Ninja Forms Contact Form - The Drag and Drop Form Builder for WordPress ===
 Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorhouse, jmcelhaney, wpnzach, ericwindhamsd
 Tags: forms, contact form, email form, form builder, custom form, pdf form, registration form, payment form, login form, contact me, signature form, upload form, file upload form, conditional form, feedback form, appointment form, quote form, survey form, contact button, signup form, form plugin, contact form plugin, subscription form, email subscription form, newsletter form, donation form, booking form, quote request form, multi page form, conditional logic form, subscription form, application form, employment verification form, star rating form, rating form, event form, mailchimp form, campaign monitor form, constant contact form, mailpoet form, aweber form, cleverreach form, emma form, convertkit form, active campaign form, salesforce form, zoho form, capsule form, insightly form, pipelinedeals form, onepagecrm form
-Requires at least: 5.6
-Tested up to: 6.1.1
-Stable tag: 3.6.20
+
+Requires at least: 6.0
+Tested up to: 6.2.0
+Stable tag: 3.6.23
+
 License: GPLv2 or later
 
 The 100% beginner friendly WordPress form builder. Drag & drop form fields to build beautiful, professional contact forms in minutes.
@@ -302,22 +304,29 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.6.20 (14 March 2023)
+= 3.6.23 (26 April 2023)
 *Bug Fixes:*
-- Error management in Repeater fieldsets (fields inside repeater fieldsets now respond to frontend validation)
-- Display repeater field data in HTML field via merge tags
-- Include Repeater data in CSVs when the repeater wasn't repeated
-- Display repeater data in retrigger email actions (and its CSV)
-- Display Correct repeater child fields labels in emails
-- Display repeater description on form
-- Ensure correct rendering of date field in repeaters
-- CSVs now display repeaters data as one row for each fieldset
-
-*Fixes for extensions:*
-- Save progress display repeater field without errors
-- Multi-part compatibility display repeater field, with merge tags and data saved correctly
+- Ensure HTML fields load merge data
+- Add fieldset repeater uploads to CSV and emails
 
 == Changelog ==
+
+= 3.6.23 (26 April 2023)
+*Bug Fixes:*
+- Ensure HTML fields load merge data
+- Add fieldset repeater uploads to CSV and emails
+
+= 3.6.22 (20 April 2023)
+*Bug Fixes:*
+- Prevent possible XSS vulnerability
+
+= 3.6.21 (12 April 2023)
+*Bug Fixes:*
+- Ensure cron_interval value is integer
+- Ensure option definition value has fallback value
+- Ensure cache update process doesn't break on errant stored data
+- Replace deprecated use of self in callable
+- Use form Id to filter field searches for faster response
 
 = 3.6.20 (14 March 2023)
 *Bug Fixes:*

@@ -306,6 +306,7 @@ class CTF_Feed_Saver_Manager {
 		}
 
 		if ( ! empty( $_POST['feeds_ids'] ) && is_array( $_POST['feeds_ids'] )) {
+			$feed_ids = array_map( 'absint', $_POST['feeds_ids'] );
 			CTF_Db::delete_feeds_query( $_POST['feeds_ids'] );
 		}
 	}

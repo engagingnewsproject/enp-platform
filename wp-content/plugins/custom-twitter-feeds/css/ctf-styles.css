@@ -1,11 +1,5 @@
-
 /* General */
-/*
-#ctf{
-    overflow-y: auto;
-    -ms-overflow-y: auto;
-}
-*/
+
 .ctf-fixed-height{
     overflow: auto;
 }
@@ -851,7 +845,8 @@
 }
 
 
-.ctf-list.ctf-boxed-style .ctf-item{
+.ctf-list.ctf-boxed-style .ctf-item,
+#ctf.ctf-list.ctf-boxed-style .ctf-header{
     margin-bottom: 25px;
 }
 
