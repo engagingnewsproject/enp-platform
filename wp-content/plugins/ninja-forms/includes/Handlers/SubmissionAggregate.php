@@ -283,13 +283,7 @@ class SubmissionAggregate
 
                 if(!empty($fieldOptionDefinition)){
                     foreach($fieldOptionDefinition as $optionDefinition){
-                        $options = [
-                            'label'=> $optionDefinition['label'],
-                            'value'=> $optionDefinition['value'],
-                            'calc'=> $optionDefinition['calc'],
-                            'selected'=> $optionDefinition['selected'],
-                            'order'=> $optionDefinition['order']
-                         ];
+                        $options = $this->extractOptionsFromDefinition($optionDefinition);
 
                          $optionsCollection[]=$options;
                     }
@@ -313,6 +307,29 @@ class SubmissionAggregate
             }
 
         }
+    }
+
+    /**
+     * Extract option array from a given array
+     * 
+     * Ensures that required defaults are set if missing in incoming array
+     *
+     * @param array $optionDefinition
+     * @return array
+     */
+    protected function extractOptionsFromDefinition(array $optionDefinition): array
+    {
+        $defaults = [
+            'label' => '',
+            'value' => '',
+            'calc' => '',
+            'selected' => 0,
+            'order' => 0
+        ];
+
+        $return = array_merge($defaults, \array_intersect_key($optionDefinition, $defaults));
+
+        return $return;
     }
 
     /**

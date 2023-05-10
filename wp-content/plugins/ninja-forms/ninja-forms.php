@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.6.20
+Version: 3.6.23
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -12,6 +12,7 @@ Domain Path: /lang/
 Copyright 2016 WP Ninjas.
 */
 use NinjaForms\Includes\Admin\VersionCompatibilityCheck;
+use NinjaForms\Includes\Admin\ManageUpdates;
 
 require_once dirname( __FILE__ ) . '/lib/NF_VersionSwitcher.php';
 require_once dirname( __FILE__ ) . '/lib/NF_Tracking.php';
@@ -56,7 +57,7 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
          * @since 3.0
          */
 
-        const VERSION = '3.6.20';
+        const VERSION = '3.6.23';
 
         /**
          * @since 3.4.0
@@ -1122,35 +1123,18 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
 		 *
 		 * @since 3.3.14
 		 *
+         * @codeCoverageIgnore WP hook only; tests in called class
+         * 
 		 * @param $updates (Array) Our array of required updates.
 		 * @return $updates (Array) Our array of required updates.
 		 */
-		public function remove_completed_updates( $updates ) {
-			$processed = get_option( 'ninja_forms_required_updates', array() );
-			// For each update in our list...
-			foreach ( $updates as $slug => $update ) {
-				// If we have already processed it...
-				if ( isset( $processed[ $slug ] ) ) {
-					// Remove it from the list.
-					unset( $updates[ $slug ] );
-				}
-            }
+        public function remove_completed_updates($updates)
+        {
+            $manageUpdates = new ManageUpdates();
 
-            if( isset( $updates[ 'CacheCollateFields' ] )
-                && isset( $updates[ 'CacheFieldReconcilliation' ] )
-                && !isset( $processed[ 'CacheFieldReconcilliation' ] ) ) {
+            $return = $manageUpdates->removeCompletedUpdates($updates);
 
-                unset( $updates[ 'CacheFieldReconcilliation' ] );
-
-                date_default_timezone_set( 'UTC' );
-                $now = date( "Y-m-d H:i:s" );
-                // Append the current update to the array.
-                $processed[ 'CacheFieldReconcilliation' ] = $now;
-                // Save it.
-                update_option( 'ninja_forms_required_updates', $processed );
-            }
-
-			return $updates;
+            return $return;
         }
 
         /**
@@ -1159,73 +1143,18 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
 		 *
 		 * @since UPDATE_TO_LATEST version
 		 *
+         * @codeCoverageIgnore WP hook only; tests in called class
+         * 
 		 * @param $updates (Array) Our array of required updates.
 		 * @return $updates (Array) Our array of required updates.
          */
         public function remove_bad_updates( $updates ) {
 
-            $processed = get_option( 'ninja_forms_required_updates', array() );
+           $manageUpdates = new ManageUpdates();
 
-            $sorted = array();
-            $queue = array();
-            // While we have not finished removing bad updates...
-            while ( count( $sorted ) < count( $updates ) ) {
-                // For each update we wish to run...
-                foreach ( $updates as $slug => $update ) {
-                    // Migrate the slug to a property.
-                    $update[ 'slug' ] = $slug;
-                    // If we've not already added this to the sorted list...
-                    if ( ! in_array( $update, $sorted ) ) {
-                        // If it has requirements...
-                        if ( ! empty( $update[ 'requires' ] ) ) {
-                            $enqueued = 0;
-                            // For each requirement...
-                            foreach ( $update[ 'requires' ] as $requirement ) {
-                                // If the requirement doesn't exist...
-                                if ( ! isset( $updates[ $requirement ] ) ) {
-                                    // unset the update b/c we are missing requirements
-                                    unset( $updates[ $slug ] );
+           $return = $manageUpdates->removeBadUpdates($updates);
 
-                                    $nf_bad_update_transient = get_transient( 'nf_bad_update_requirement' );
-
-                                    if( ! $nf_bad_update_transient ) {
-                                        // send telemetry so we can keep up with these
-                                        Ninja_Forms()->dispatcher()->send( 'incomplete_update',
-                                            array(
-                                                    'update' => $slug,
-                                                    'missing_requirement' => $requirement
-                                                )
-                                        );
-
-                                        set_transient( 'nf_bad_update_requirement', $requirement, 30 * 3600 );
-                                    }
-                                }
-                                // If the requirement has already been added to the stack...
-                                if ( in_array( $requirement, $queue ) ) {
-                                    $enqueued++;
-                                } // OR If the requirement has already been processed...
-                                elseif ( isset( $processed[ $requirement ] ) ) {
-                                    $enqueued++;
-                                }
-                            }
-                            // If all requirement are met...
-                            if ( $enqueued == count( $update[ 'requires' ] ) ) {
-                                // Add it to the list.
-                                array_push( $sorted, $update );
-                                // Record that we enqueued it.
-                                array_push( $queue, $slug );
-                            }
-                        } // Otherwise... (It has no requirements.)
-                        else {
-                            // Add it to the list.
-                            array_push( $sorted, $update );
-                            // Record that we enqueued it.
-                            array_push( $queue, $slug );
-                        }
-                    }
-                }
-            }
-            return $sorted;
+            return $return;
         }
 
     } // End Class Ninja_Forms

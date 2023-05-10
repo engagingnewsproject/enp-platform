@@ -870,13 +870,12 @@
 }
 
 /* Menu Pro link */
-#adminmenu .wp-submenu .ctf_get_pro_highlight {
-    color: #FE544F;
-    font-weight: 600;
-}
+#adminmenu .wp-submenu .ctf_get_pro_highlight,
 #adminmenu .wp-submenu .ctf_get_pro_highlight:hover,
- #adminmenu .wp-submenu .ctf_get_pro_highlight:active {
-    color: #FE544F;
+#adminmenu .wp-submenu .ctf_get_pro_highlight:active{
+    color: #fff;
+    font-weight: 600;
+    background-color: #1da867;
 }
 
 /* Install another plugin modal */

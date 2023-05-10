@@ -17,7 +17,7 @@ final class WPN_Helper
     public static function addslashes( $value )
     {
         $value = is_array($value) ?
-            array_map(array( 'self', 'addslashes' ), $value) :
+            array_map('WPN_Helper::addslashes' , $value) :
             addslashes($value);
         return $value;
     }
@@ -28,7 +28,7 @@ final class WPN_Helper
      */
     public static function utf8_encode( $input ){
         if ( is_array( $input ) )    {
-            return array_map( array( 'self', 'utf8_encode' ), $input );
+            return array_map( 'WPN_Helper::utf8_encode' , $input );
         } elseif ( function_exists( 'utf8_encode' ) ) {
             return utf8_encode( $input );
         } else {
@@ -42,7 +42,7 @@ final class WPN_Helper
      */
     public static function utf8_decode( $input ){
         if ( is_array( $input ) )    {
-            return array_map( array( 'self', 'utf8_decode' ), $input );
+            return array_map( 'WPN_Helper::utf8_decode' , $input );
         } elseif ( function_exists( 'utf8_decode' ) ) {
             return utf8_decode( $input );
         } else {
@@ -90,7 +90,7 @@ final class WPN_Helper
      */
     public static function html_entity_decode( $value, $flag = ENT_COMPAT ){
         $value = is_array($value) ?
-            array_map( array( 'self', 'html_entity_decode' ), $value) :
+            array_map( 'WPN_Helper::html_entity_decode' , $value) :
             html_entity_decode( $value, $flag );
         return $value;
     }
@@ -101,7 +101,7 @@ final class WPN_Helper
      */
     public static function htmlspecialchars( $value ){
         $value = is_array($value) ?
-            array_map( array( 'self', 'htmlspecialchars' ), $value) :
+            array_map( 'WPN_Helper::htmlspecialchars' , $value) :
             htmlspecialchars( $value );
         return $value;
     }
@@ -112,7 +112,7 @@ final class WPN_Helper
      */
     public static function stripslashes( $value ){
         $value = is_array($value) ?
-            array_map( array( 'self', 'stripslashes' ), $value) :
+            array_map( 'WPN_Helper::stripslashes' , $value) :
             stripslashes($value);
         return $value;
     }
@@ -124,7 +124,7 @@ final class WPN_Helper
     public static function esc_html( $value )
     {
         $value = is_array($value) ?
-            array_map( array( 'self', 'esc_html' ), $value) :
+            array_map( 'WPN_Helper::esc_html' , $value) :
             esc_html($value);
         return $value;
     }
@@ -136,7 +136,7 @@ final class WPN_Helper
     public static function kses_post( $value )
     {
         $value = is_array( $value ) ?
-            array_map(  array( 'self', 'kses_post' ), $value ) :
+            array_map(  'WPN_Helper::kses_post' , $value ) :
             wp_kses_post($value);
         return $value;
     }
@@ -148,7 +148,7 @@ final class WPN_Helper
     public static function strip_tags( $value )
     {
         $value = is_array( $value ) ?
-            array_map( array( 'self', 'strip_tags' ), $value ) :
+            array_map( 'WPN_Helper::strip_tags' , $value ) :
             strip_tags( $value );
         return $value;
     }
@@ -227,7 +227,7 @@ final class WPN_Helper
     public static function sanitize_text_field( $data )
     {
         if( is_array( $data ) ){
-            return array_map( array( 'self', 'sanitize_text_field' ), $data );
+            return array_map( 'WPN_Helper::sanitize_text_field' , $data );
         }
         return sanitize_text_field( $data );
     }
@@ -253,7 +253,7 @@ final class WPN_Helper
         // Repalcement for https://codex.wordpress.org/Function_Reference/maybe_unserialize
         if ( is_serialized( $original ) ){
             // Ported with php5.2 support from https://magp.ie/2014/08/13/php-unserialize-string-after-non-utf8-characters-stripped-out/
-            $parsed = preg_replace_callback( '!s:(\d+):"(.*?)";!s', array( 'self', 'parse_utf8_serialized' ), $original );
+            $parsed = preg_replace_callback( '!s:(\d+):"(.*?)";!s', 'WPN_Helper::parse_utf8_serialized' , $original );
             $parsed = @unserialize( $parsed );
 
             return ( $parsed ) ? $parsed : unserialize( $original ); // Fallback if parse error.

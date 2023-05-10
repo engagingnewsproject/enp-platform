@@ -333,6 +333,44 @@ class CTF_Notifications {
 
 		$option = $this->get_option();
 
+        $additional_message = '';
+
+        $special_notice_dismissed = false;
+        if ( ! empty( $option['dismissed'] ) && in_array( 'smashtwitternotice', $option['dismissed'] ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
+            $special_notice_dismissed = true;
+        }
+        if ( ! $special_notice_dismissed ) {
+            $notifications = array(
+                array(
+                    'title' => 'Twitter Feeds Update',
+                    'content' => '<br>We have been rolling out our solution for the recent Twitter API changes to our pro users. We anticipate this solution being available to our free users soon but the plugin will work differently than it did before. Thank you for your patience while we fight for your success with our plugin! Please click the link below to find out more.',
+                    'image' => 'balloon',
+                    'type' => array( 'free' ),
+                    'id' => 'smashtwitternotice',
+                    "btns"=> array(
+                        'primary' => array(
+	                        'url' => 'https://smashballoon.com/doc/smash-balloon-twitter-changes-free-version/?utm_source=twitter-free&utm_medium=dashboard-notice&utm_campaign=smash-twitter-update&utm_content=UpgradeToPro',
+	                        'text' => 'Learn More',
+	                        'attr' => array(
+		                        'targetblank'
+	                        )
+                        ),
+                        'secondary' => array(
+	                        'url' => 'https://smashballoon.com/pricing/twitter-feed/?utm_source=twitter-free&utm_medium=dashboard-notice&utm_campaign=smash-twitter-update&utm_content=LearnMore',
+	                        'text' => 'Upgrade to Pro',
+	                        'attr' => array(
+		                        'targetblank'
+	                        )
+                        ),
+                    ),
+                    'start' => '2022-02-08 00:00:00',
+                    'end' => '2024-02-08 00:00:00',
+
+                )
+            );
+            return $notifications;
+        }
+
 		// Update notifications using async task.
 		if ( empty( $option['update'] ) || ctf_get_current_time() > $option['update'] + DAY_IN_SECONDS ) {
 			$this->update();
@@ -516,6 +554,7 @@ class CTF_Notifications {
 		$content_allowed_tags = array(
 			'em'     => array(),
 			'strong' => array(),
+			'br' => array(),
 			'span'   => array(
 				'style' => array(),
 			),

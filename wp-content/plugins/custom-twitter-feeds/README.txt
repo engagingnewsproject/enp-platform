@@ -4,18 +4,16 @@ Contributors: smashballoon, craig-at-smash-balloon, am, smub
 Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Twitter Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 4.1
-Tested up to: 6.1
-Stable tag: 2.0.5
+Tested up to: 6.2
+Stable tag: 2.0.7
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Custom Twitter Feeds allows you to display completely customizable Twitter Tweets from any user timeline, Twitter hashtag, or home timeline on your website.
-
-https://www.youtube.com/watch?v=n_P7bWR-cNw
+As of April 2023 this plugin will not show updated feeds. We are working on a solution which will be available in the coming months.
 
 == Description ==
-Display **completely customizable**, **responsive** and **search engine crawlable** Twitter feeds on your website. The Custom Twitter Feeds plugin will display Tweets that completely match the look and feel of your site and includes tons of customization options! As of February 13th, 2023 you may experience changes in how tweets are displayed due to major changes in Twitter's API which our plugin uses.
+Display **completely customizable**, **responsive** and **search engine crawlable** Twitter feeds on your website. The Custom Twitter Feeds plugin will display Tweets that completely match the look and feel of your site and includes tons of customization options!
 
 = Features =
 * **Completely Customizable** - by default the Twitter feeds will inherit your theme's styles
@@ -236,6 +234,14 @@ If you're still having trouble displaying your Tweets after trying the common is
 7. To display a Twitter feed just copy and paste the shortcode into a Twitter widget or page
 
 == Changelog ==
+= 2.0.7 =
+* Update: We are working on a solution for our free users to see an updated feed. [See this page for more information]('https://smashballoon.com/doc/smash-balloon-twitter-changes-free-version/?utm_source=twitter-free&utm_medium=readme-changelog&utm_campaign=smash-twitter-update&utm_content=MoreInformation'). Thank you for your patience while we continue to fight for your success with our plugin!
+
+= 2.0.6 =
+* Fix: Fixed a conflict with Autoptimize that would cause a PHP error when clearing the Twitter cache.
+* Fix: Fixed a PHP notice that would occur when bulk deleting feeds.
+* Fix: When using the "boxed" layout, there would be no space between the header and the first tweet in the list.
+
 = 2.0.5 =
 * Tweak: API calls are prevented in the event that the Twitter API returns an error.
 * Fix: The feature for using your own Twitter App credentials was not working.

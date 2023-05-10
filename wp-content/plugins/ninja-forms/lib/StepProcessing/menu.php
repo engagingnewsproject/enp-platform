@@ -69,7 +69,7 @@ function nf_step_processing_js() {
  * @return void
  */
 function nf_output_step_processing_page() {
-    $page_title = isset ( $_REQUEST['title'] ) ? urldecode( esc_html ( $_REQUEST['title'] ) ) : esc_html__( 'Ninja Forms - Processing', 'ninja-forms' );
+    $page_title = nfExtractPageTitle( $_REQUEST['title'] ) ;
     ?>
     <style>
         .ui-progressbar {
@@ -151,4 +151,16 @@ function nf_output_step_processing_page() {
     </div>
 
     <?php
+}
+
+/**
+ * Extract page title from given input
+ *
+ * @param string $title
+ * @return string
+ */
+function nfExtractPageTitle($title){
+    $return = isset ( $title ) ?  esc_html ( urldecode($title ) ) : esc_html__( 'Ninja Forms - Processing', 'ninja-forms' );
+
+    return $return;
 }

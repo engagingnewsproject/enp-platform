@@ -161,16 +161,6 @@ class CTF_Cache_Handler {
 		if ( function_exists( 'rocket_clean_domain' ) ) {
 			rocket_clean_domain();
 		}
-
-		// Clear Autoptimize Cache.
-		if ( class_exists( 'autoptimizeCache' ) ) {
-			autoptimizeCache::clearall();
-		}
-
-		// Litespeed Cache.
-		if ( method_exists( 'LiteSpeed_Cache_API', 'purge' ) ) {
-			LiteSpeed_Cache_API::purge( 'esi.instagram-feed' );
-		}
 	}
 
 	/**

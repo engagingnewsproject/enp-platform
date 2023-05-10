@@ -1,9 +1,9 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit;
+<?php 
 
 /**
  * Class NF_Database_Models_Submission
  */
-final class NF_Database_Models_Submission
+class NF_Database_Models_Submission
 {
     protected $_id = '';
 
@@ -52,7 +52,8 @@ final class NF_Database_Models_Submission
         $this->_form_id = $form_id;
 
         if( $this->_id ){
-            $sub = get_post( $this->_id );
+            $sub = $this->retrieveSub($this->_id);
+
             if ($sub) {
                 $this->_status = $sub->post_status;
                 $this->_user_id = $sub->post_author;
@@ -62,12 +63,68 @@ final class NF_Database_Models_Submission
         }
 
         if( $this->_id && ! $this->_form_id ){
-            $this->_form_id = get_post_meta( $this->_id, '_form_id', TRUE );
+            $this->_form_id = $this->retrieveFormId($this->_id);
         }
 
         if( $this->_id && $this->_form_id ){
-            $this->_seq_num = get_post_meta( $this->_id, '_seq_num', TRUE );
+            $this->_seq_num = $this->retrieveSeqNum($this->_id);
         }
+    }
+
+    /**
+     * Get post object
+     * 
+     * Uses WP functionality
+     *
+     * @param string $id
+     * @return object
+     */
+    protected function retrieveSub($id)
+    {
+        $return = get_post( $id );
+
+        return $return;
+    }
+
+    /**
+     * Get the Form Id
+     * 
+     * Uses WP functionality
+     *
+     * @return int
+     */
+    protected function retrieveFormId( $id)
+    {
+        $return = $this->getPostMeta( $id, '_form_id', TRUE );
+        return $return;
+    }
+
+    /**
+     * Get the sequence number
+     * 
+     * Uses WP functionality
+     *
+     * @return int
+     */
+    protected function retrieveSeqNum($id)
+    {
+        $return = $this->getPostMeta( $id, '_seq_num', TRUE  );
+        return $return;
+    }
+
+    /**
+     * Get post meta value for given post Id and key
+     *
+     * @param int $id
+     * @param string $key
+     * @param bool $bool
+     * @return mixed
+     */
+    protected function getPostMeta($id, $key, $bool = TRUE)
+    {
+        $return = get_post_meta( $id, $key, $bool );
+
+        return $return;
     }
 
     /**
@@ -213,7 +270,7 @@ final class NF_Database_Models_Submission
     {
         if( ! empty( $this->_field_values ) ) return $this->_field_values;
 
-        $field_values = get_post_meta( $this->_id, '' );
+        $field_values = $this->getPostMeta( $this->_id, '' );
 
         foreach( $field_values as $field_id => $field_value ){
             $this->_field_values[ $field_id ] = implode( ', ', $field_value );
@@ -224,7 +281,14 @@ final class NF_Database_Models_Submission
 
             if( ! is_numeric( $field_id ) ) continue;
 
-            $field = Ninja_Forms()->form()->get_field( $field_id );
+            if($this->_form_id){
+
+                $field = Ninja_Forms()->form($this->_form_id)->get_field( $field_id );
+            }else{
+
+                $field = Ninja_Forms()->form()->get_field( $field_id );
+            }
+
             $key = $field->get_setting( 'key' );
             if( $key ) {
                 $this->_field_values[ $key ] = implode(', ', $field_value);

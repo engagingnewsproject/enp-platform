@@ -1868,43 +1868,15 @@ return $ctf_feed_html;
 
         if ( current_user_can( 'manage_options' ) ) {
             $error_html .= '<div class="ctf-error-admin">';
-
-            if ( ! empty( $this->api_obj->api_error_no ) ) {
-
-             $error_html .= '<p>Unable to load Tweets</p>';
-             $error_html .= '<a class="twitter-share-button"';
-             $error_html .= 'href="https://twitter.com/share"';
-             $error_html .= 'data-size="large"';
-             $error_html .= 'data-url="' . get_the_permalink() . '"';
-             $error_html .= 'data-text="Check out this website">';
-             $error_html .= '</a>';
-
-             if ( !empty( $this->feed_options['screenname'] ) ) {
-              $error_html .= '<a class="twitter-follow-button"';
-              $error_html .= 'href="https://twitter.com/' . $this->feed_options['screenname'] . '"';
-              $error_html .= 'data-show-count="false"';
-              $error_html .= 'data-size="large"';
-              $error_html .= 'data-dnt="true">Follow</a>';
-          }
-
           $error_html .= '<p><b>This message is only visible to admins:</b><br />';
-          $error_html .= 'An error has occurred with your feed.<br />';
-          if ( $this->missing_credentials ) {
-              $error_html .= 'There is a problem with your access token, access token secret, consumer token, or consumer secret<br />';
-          }
-          if ( isset( $this->errors['error_message'] ) ) {
-              $error_html .= $this->errors['error_message'] . '<br />';
-          }
-          $error_html .= 'The error response from the Twitter API is the following:<br />';
-          $error_html .= '<code>Error number: ' . $this->api_obj->api_error_no . '<br />';
-          $error_html .= 'Message: ' . $this->api_obj->api_error_message . '</code>';
-          $error_html .= '<a href="https://smashballoon.com/custom-twitter-feeds/docs/errors/?utm_campaign=twitter-free&utm_source=frontend&utm_medium=errormessage" target="_blank" rel="noopener noreferrer">Click here to troubleshoot</a></p>';
+          $error_html .= 'Due to changes with Twitter\'s API the plugin will not update feeds. Smash Balloon is working on a solution for our free users to see updated tweets in feeds again.<br>Follow the link below for more information and updates.<br />';
 
+          $error_html .= '<a href="https://smashballoon.com/doc/smash-balloon-twitter-changes-free-version/?utm_source=twitter-free&utm_medium=error-notice&utm_campaign=smash-twitter-update&utm_content=CustomTwitterFeedChanges" target="_blank" rel="noopener noreferrer">Custom Twitter Feed Changes</a></p>';
 
-      }
-
-      $error_html .= '</div>';
-  }
+		      $error_html .= '</div>';
+		  } else {
+	        $error_html .= '<p>' . __( 'Twitter feed is not available at the moment.', 'custom-twitter-feeds' ) . '</p>';
+        }
         $error_html .= '</div>'; // end .ctf-error
         $error_html .= '</div>'; // end #ctf
 
