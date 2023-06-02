@@ -5,7 +5,7 @@ if ( ! class_exists( 'NF_Abstracts_ActionNewsletter' ) ) return;
 /**
  * Class NF_ConstantContact_Actions_ConstantContact
  */
-final class NF_ConstantContact_Actions_ConstantContact extends NF_Abstracts_ActionNewsletter
+class NF_ConstantContact_Actions_ConstantContact extends NF_Abstracts_ActionNewsletter
 {
     /**
      * @var string
@@ -62,24 +62,65 @@ final class NF_ConstantContact_Actions_ConstantContact extends NF_Abstracts_Acti
             'lists' => $action_settings[ 'newsletter_list' ],
         );
 
-        $response = NF_ConstantContact()->subscribe( $member_data );
+        $response = $this->getSubscribeResponse( $member_data );
         
         $data[ 'actions' ][ 'constant-contact' ][ 'response' ] = $response;
         $data[ 'actions' ][ 'constant-contact' ][ 'member_data' ] = $member_data;
         
+        $finalizedSubmissionData = $this->appendResponseDataToSubmissionData($data);
+        
+        return $finalizedSubmissionData;
+    }
+
+    /**
+     * Make subscribe request
+     *
+     * @codeCoverageIgnore
+     * 
+     * @param array $memberData
+     * @return boolean
+     */
+    protected function getSubscribeResponse(array $memberData): bool
+    {
+        $return = NF_ConstantContact()->subscribe( $memberData );
+
+        return $return;
+    }
+
+    /**
+     * Append the response data from subscribe request to submission data
+     *
+     * @codeCoverageIgnore
+     * 
+     * @param array $data
+     * @return array
+     */
+    protected function appendResponseDataToSubmissionData( $data ): array
+    {
         $dataHandler = new NF_ConstantContact_Admin_HandleProcessData($data, $this->_name);
                 
         $responseData = NF_ConstantContact()->getResponse();
 
         $dataHandler->appendResponseData($responseData);
-        return $dataHandler->toArray();
+
+        $return = $dataHandler->toArray();
+
+        return $return;
     }
 
+    /**
+     * If fields contain a CC optin field, is it TRUE?
+     *
+     * No optin field present assumes true; if more than one is present, if any
+     * are false, then it is false
+     *
+     * @param array $data
+     * @return boolean
+     */
     protected function is_opt_in( $data )
     {
         $opt_in = TRUE;
         foreach( $data[ 'fields' ]as $field ){
-
             if( 'constant-contact-optin' != $field[ 'type' ] ) continue;
 
             if( ! $field[ 'value' ] ) $opt_in = FALSE;
@@ -87,6 +128,13 @@ final class NF_ConstantContact_Actions_ConstantContact extends NF_Abstracts_Acti
         return $opt_in;
     }
 
+    /**
+     * Get account lists
+     * 
+     * @codeCoverageIgnore
+     *
+     * @return void
+     */
     public function get_lists()
     {
         return NF_ConstantContact()->get_lists();
