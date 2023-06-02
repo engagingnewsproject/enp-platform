@@ -10,6 +10,7 @@
 
 namespace RankMathPro;
 
+use RankMath\ContentAI\Content_AI as Content_AI_Free;
 use RankMathPro\Admin\Admin_Helper;
 use RankMath\Traits\Hooker;
 
@@ -26,7 +27,7 @@ class Content_AI {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		if ( ! Admin_Helper::is_business_plan() ) {
+		if ( ! Admin_Helper::is_business_plan() || ! Content_AI_Free::can_add_tab() ) {
 			return;
 		}
 

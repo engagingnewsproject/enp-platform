@@ -407,25 +407,35 @@ class DB {
 
 		// Build placeholders for each row, and add values to data array.
 		foreach ( $rows as $row ) {
+			$page = '';
+			$pageviews = '';
+			$visitors = '';
+
 			if ( ! isset( $row['dimensionValues'] ) ) {
 				if ( empty( $row['dimensions'][1] ) || Str::contains( '?', $row['dimensions'][1] ) ) {
 					continue;
 				}
-				$data[] = $date;
-				$data[] = Stats::get_relative_url( self::remove_hash( $row['dimensions'][1] ) );
-				$data[] = $row['metrics'][0]['values'][0];
-				$data[] = $row['metrics'][0]['values'][1];
+				$page = ( is_ssl() ? 'https' : 'http' ) . '://' . $row['dimensions'][2] . $row['dimensions'][1];
+
+				$pageviews = $row['metrics'][0]['values'][0];
+				$visitors = $row['metrics'][0]['values'][1];
 			} else {
 				if ( empty( $row['dimensionValues'][0]['value'] ) || Str::contains( '?', $row['dimensionValues'][0]['value'] ) ) {
 					continue;
 				}
-				$data[] = $date;
-				$data[] = $row['dimensionValues'][0]['value'];
-				$data[] = $row['metricValues'][0]['value'];
-				$data[] = $row['metricValues'][1]['value'];
+				$page = $row['dimensionValues'][0]['value'];
+				$pageviews = $row['metricValues'][0]['value'];
+				$visitors = $row['metricValues'][1]['value'];
 			}
 
-			$placeholders[] = '(' . implode( ', ', $placeholder ) . ')';
+			if ( $page && $pageviews && $visitors ) {
+				$data[] = $date;
+				$data[] = Stats::get_relative_url( self::remove_hash( $page ) );
+				$data[] = $pageviews;
+				$data[] = $visitors;
+
+				$placeholders[] = '(' . implode( ', ', $placeholder ) . ')';
+			}
 		}
 
 		if ( empty( $placeholders ) ) {

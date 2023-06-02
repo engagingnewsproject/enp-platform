@@ -69,10 +69,22 @@ class Video_Provider extends Post_Type {
 		$index     = [];
 		for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
 			$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
-			$index[]      = [
-				'loc'     => Router::get_base_url( 'video-sitemap' . $current_page . '.xml' ),
-				'lastmod' => $all_dates[ $page_counter ][0]['post_modified_gmt'],
-			];
+			$video        = $all_dates[ $page_counter ][0];
+			$item         = $this->do_filter(
+				'sitemap/index/entry',
+				[
+					'loc'     => Router::get_base_url( 'video-sitemap' . $current_page . '.xml' ),
+					'lastmod' => $video['post_modified_gmt'],
+				],
+				'video',
+				$video,
+			);
+
+			if ( ! $item ) {
+				continue;
+			}
+
+			$index[] = $item;
 		}
 
 		return $index;
@@ -179,10 +191,6 @@ class Video_Provider extends Post_Type {
 		$schemas = get_post_meta( $post->ID, 'rank_math_schema_VideoObject' );
 		if ( empty( $schemas ) ) {
 			return false;
-		}
-
-		if ( 'post' !== $post->post_type ) {
-			$url['loc'] = trailingslashit( $url['loc'] );
 		}
 
 		$url['author'] = $post->post_author;

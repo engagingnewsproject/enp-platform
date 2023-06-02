@@ -78,6 +78,7 @@ class Analytics {
 						'dimensions' => [
 							[ 'name' => 'ga:date' ],
 							[ 'name' => 'ga:pagePath' ],
+							[ 'name' => 'ga:hostname' ],
 						],
 						'orderBys'   => [
 							[
@@ -145,7 +146,7 @@ class Analytics {
 			$args = wp_parse_args(
 				[
 					'dimensions' => [
-						[ 'name' => 'pagePathPlusQueryString' ],
+						[ 'name' => 'pageLocation' ],
 						[ 'name' => 'countryId' ],
 					],
 					'metrics'    => [

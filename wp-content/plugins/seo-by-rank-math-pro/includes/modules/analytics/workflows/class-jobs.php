@@ -18,6 +18,7 @@ use RankMathPro\Analytics\DB;
 use RankMath\Analytics\DB as AnalyticsDB;
 use RankMathPro\Google\Adsense;
 use RankMathPro\Google\Analytics;
+use RankMath\Analytics\Workflow\Jobs as AnalyticsJobs;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -94,11 +95,11 @@ class Jobs {
 	 */
 	public function data_fetch() {
 		if ( $this->analytics_connected ) {
-			$this->check_for_missing_dates( 'analytics' );
+			AnalyticsJobs::get()->check_for_missing_dates( 'analytics' );
 		}
 
 		if ( $this->adsense_connected ) {
-			$this->check_for_missing_dates( 'adsense' );
+			AnalyticsJobs::get()->check_for_missing_dates( 'adsense' );
 		}
 	}
 
@@ -112,7 +113,7 @@ class Jobs {
 		}
 
 		$empty_dates = get_option( 'rank_math_analytics_empty_dates', [] );
-		$dates = [];
+		$dates       = [];
 
 		foreach ( $rows as $row ) {
 			$date = '';
@@ -120,11 +121,11 @@ class Jobs {
 			// GA4
 			if ( isset( $row['dimensionValues'] ) ) {
 				$date = $row['dimensionValues'][0]['value'];
-			} else if ( isset( $row['dimensions'] ) ) {
+			} elseif ( isset( $row['dimensions'] ) ) {
 				$date = $row['dimensions'][0];
 			}
 
-			if( ! empty( $date ) ) {
+			if ( ! empty( $date ) ) {
 				$date = substr( $date, 0, 4 ) . '-' . substr( $date, 4, 2 ) . '-' . substr( $date, 6, 2 );
 
 				if ( ! AnalyticsDB::date_exists( $date, 'analytics' ) && ! in_array( $date, $empty_dates, true ) ) {
@@ -152,6 +153,7 @@ class Jobs {
 
 		try {
 			DB::add_analytics_bulk( $date, $rows );
+			return $rows;
 		} catch ( Exception $e ) {} // phpcs:ignore
 	}
 
@@ -183,8 +185,8 @@ class Jobs {
 
 		// Request for one date range because its not large data to send individual request for each date.
 		$dates[] = [
-			'start_date'   => $missing_dates[ count( $missing_dates ) - 1 ],
-			'end_date' => $missing_dates[0],
+			'start_date' => $missing_dates[ count( $missing_dates ) - 1 ],
+			'end_date'   => $missing_dates[0],
 		];
 
 		return $dates;
@@ -301,40 +303,4 @@ class Jobs {
 		}
 	}
 
-	/**
-	 * Check for missing dates.
-	 *
-	 * @param string $action Action to perform.
-	 */
-	private function check_for_missing_dates( $action ) {
-		$count = 1;
-		$hook  = "get_{$action}_data";
-		$start = Helper::get_midnight( time() + DAY_IN_SECONDS );
-		$days  = Helper::get_settings( 'general.console_caching_control', 90 );
-
-		for ( $current = 1; $current <= $days; $current++ ) {
-			$date = Helper::get_date( 'Y-m-d', $start - ( DAY_IN_SECONDS * $current ), false, true );
-			if ( AnalyticsDB::date_exists( $date, $action ) ) {
-				continue;
-			}
-
-			$count++;
-			as_schedule_single_action(
-				time() + ( 60 * ( $count / 2 ) ),
-				'rank_math/analytics/' . $hook,
-				[ $date ],
-				'rank-math'
-			);
-		}
-
-		// Clear cache.
-		if ( $count > 1 ) {
-			as_schedule_single_action(
-				time() + ( 60 * ( ( $count + 1 ) / 2 ) ),
-				'rank_math/analytics/clear_cache',
-				[],
-				'rank-math'
-			);
-		}
-	}
 }

@@ -465,11 +465,12 @@ class CSV_Import_Export_Redirections {
 	 * @return string
 	 */
 	public static function get_import_complete_message() {
-		$status  = (array) get_option( 'rank_math_csv_import_redirections_status', [] );
-		$message = sprintf(
+		$status        = (array) get_option( 'rank_math_csv_import_redirections_status', [] );
+		$imported_rows = is_countable( $status['imported_rows'] ) ? (array) $status['imported_rows'] : [];
+		$message       = sprintf(
 			// Translators: placeholder is the number of rows imported.
 			__( 'CSV import completed. Successfully imported %d rows.', 'rank-math-pro' ),
-			count( $status['imported_rows'] )
+			count( $imported_rows )
 		);
 
 		if ( ! empty( $status['errors'] ) ) {
@@ -477,7 +478,7 @@ class CSV_Import_Export_Redirections {
 			$message .= sprintf(
 				// Translators: placeholder is the number of rows imported.
 				__( 'Imported %d rows.', 'rank-math-pro' ) . ' ',
-				count( $status['imported_rows'] )
+				count( $imported_rows )
 			);
 
 			if ( ! empty( $status['errors'] ) ) {
