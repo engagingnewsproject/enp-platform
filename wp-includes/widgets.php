@@ -10,7 +10,7 @@
  * This functionality was found in a plugin before the WordPress 2.2 release, which
  * included it in the core from that point on.
  *
- * @link https://wordpress.org/support/article/wordpress-widgets/
+ * @link https://wordpress.org/documentation/article/manage-wordpress-widgets/
  * @link https://developer.wordpress.org/themes/functionality/widgets/
  *
  * @package WordPress
@@ -1767,7 +1767,7 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 	if ( $items < 1 || 20 < $items ) {
 		$items = 10;
 	}
-	$url          = esc_url_raw( strip_tags( $widget_rss['url'] ) );
+	$url          = sanitize_url( strip_tags( $widget_rss['url'] ) );
 	$title        = isset( $widget_rss['title'] ) ? trim( strip_tags( $widget_rss['title'] ) ) : '';
 	$show_summary = isset( $widget_rss['show_summary'] ) ? (int) $widget_rss['show_summary'] : 0;
 	$show_author  = isset( $widget_rss['show_author'] ) ? (int) $widget_rss['show_author'] : 0;
@@ -2103,5 +2103,31 @@ function wp_check_widget_editor_deps() {
 				'5.8.0'
 			);
 		}
+	}
+}
+
+/**
+ * Registers the previous theme's sidebars for the block themes.
+ *
+ * @since 6.2.0
+ * @access private
+ *
+ * @global array $wp_registered_sidebars Registered sidebars.
+ */
+function _wp_block_theme_register_classic_sidebars() {
+	global $wp_registered_sidebars;
+
+	if ( ! wp_is_block_theme() ) {
+		return;
+	}
+
+	$classic_sidebars = get_theme_mod( 'wp_classic_sidebars' );
+	if ( empty( $classic_sidebars ) ) {
+		return;
+	}
+
+	// Don't use `register_sidebar` since it will enable the `widgets` support for a theme.
+	foreach ( $classic_sidebars as $sidebar ) {
+		$wp_registered_sidebars[ $sidebar['id'] ] = $sidebar;
 	}
 }

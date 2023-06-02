@@ -621,6 +621,24 @@ class DLM_Download_Handler {
 			}
 		}
 
+		$safe_remote = wp_safe_remote_head( $file_path );
+		$safe        = true;
+		if ( $remote_file && is_wp_error( $safe_remote ) ) {
+			$safe = false;
+		}
+
+		if ( ! $safe ) {
+			if ( $this->check_for_xhr() ) {
+				header( 'X-DLM-Error: ' . esc_html__( 'Something is wrong with the file path.', 'download-monitor' ) );
+				$restriction_type = 'security_error';
+				$this->set_no_access_modal( __( 'Something is wrong with the file path.', 'download-monitor' ), $download, $restriction_type );
+				exit;
+			}
+
+			$this->dlm_logging->log( $download, $version, 'failed', false, $referrer );
+			wp_die( esc_html__( 'Something is wrong with the file path.', 'download-monitor' ) . ' <a href="' . esc_url( home_url() ) . '">' . esc_html__( 'Go to homepage &rarr;', 'download-monitor' ) . '</a>', esc_html__( 'Download Error', 'download-monitor' ), array( 'response' => 404 ) );
+		}
+
 		// multipart-download and download resuming support - http://www.phpgang.com/force-to-download-a-file-in-php_112.html.
 		if ( isset( $_SERVER['HTTP_RANGE'] ) && $version->get_filesize() ) {
 			// phpcs:ignore
@@ -766,6 +784,7 @@ class DLM_Download_Handler {
 		$headers['Content-Type']              = $mime_type;
 		$headers['Content-Description']       = 'File Transfer';
 		$headers['Content-Transfer-Encoding'] = 'binary';
+		$headers['Cache-Control']             = 'no-store, no-cache, must-revalidate, no-transform, max-age=0';
 
 		if ( $remote_file ) {
 			$file = wp_remote_head( $file_path );

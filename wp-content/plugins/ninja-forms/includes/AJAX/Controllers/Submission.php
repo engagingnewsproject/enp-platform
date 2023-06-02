@@ -125,6 +125,15 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
 
         // Add Field Keys to _form_data
         if(! $this->is_preview()){
+
+            // Make sure we don't have any field ID mismatches.
+            foreach( $this->_form_data[ 'fields' ] as $id => $settings ){
+                if( $id != $settings[ 'id' ] ){
+                    $this->_errors[ 'fields' ][ $id ] = esc_html__( 'The submitted data is invalid.', 'ninja-forms' );
+                    $this->_respond();
+                }
+            }
+
             $form_fields = Ninja_Forms()->form($this->_form_id)->get_fields();
             foreach ($form_fields as $id => $field) {
                 $this->_form_data['fields'][$id]['key'] = $field->get_setting('key');

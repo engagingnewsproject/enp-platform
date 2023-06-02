@@ -33,6 +33,8 @@ class NF_Fields_Email extends NF_Abstracts_UserInfo
     }
 
     public function validate( $field, $data ) {
+        $errors = parent::validate( $field, $data );
+        if ( ! empty( $errors ) ) return $errors;
         if ( ! empty( $field['value'] ) && ! filter_var( $field['value'], FILTER_VALIDATE_EMAIL ) ) {
             return esc_html__('Please enter a valid email address.', 'ninja-forms');
         }
