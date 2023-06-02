@@ -4,7 +4,7 @@ Tags: forms, contact form, email form, form builder, custom form, pdf form, regi
 
 Requires at least: 6.0
 Tested up to: 6.2.0
-Stable tag: 3.6.23
+Stable tag: 3.6.24
 
 License: GPLv2 or later
 
@@ -304,12 +304,18 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.6.23 (26 April 2023)
+= 3.6.24 (12 May 2023)
 *Bug Fixes:*
-- Ensure HTML fields load merge data
-- Add fieldset repeater uploads to CSV and emails
+- Prevent bypass of required field with modified data
+- Prevent datepicker to break the view when set with 0 minutes increment
+- Prevent Submit button to double submit a form
 
 == Changelog ==
+= 3.6.24 (12 May 2023)
+*Bug Fixes:*
+- Prevent bypass of required field with modified data
+- Prevent datepicker to break the view when set with 0 minutes increment
+- Prevent Submit button to double submit a form
 
 = 3.6.23 (26 April 2023)
 *Bug Fixes:*

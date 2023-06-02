@@ -2,6 +2,7 @@
 /**
  * WP_Importer base class
  */
+#[AllowDynamicProperties]
 class WP_Importer {
 	/**
 	 * Class Constructor
@@ -9,7 +10,7 @@ class WP_Importer {
 	public function __construct() {}
 
 	/**
-	 * Returns array with imported permalinks from WordPress database
+	 * Returns array with imported permalinks from WordPress database.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
@@ -46,7 +47,7 @@ class WP_Importer {
 	}
 
 	/**
-	 * Return count of imported permalinks from WordPress database
+	 * Returns count of imported permalinks from WordPress database.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
@@ -73,7 +74,7 @@ class WP_Importer {
 	}
 
 	/**
-	 * Set array with imported comments from WordPress database
+	 * Sets array with imported comments from WordPress database.
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
@@ -175,7 +176,7 @@ class WP_Importer {
 	}
 
 	/**
-	 * Sort by strlen, longest string first
+	 * Sorts by strlen, longest string first.
 	 *
 	 * @param string $a
 	 * @param string $b
@@ -213,7 +214,7 @@ class WP_Importer {
 	}
 
 	/**
-	 * Bump up the request timeout for http requests
+	 * Bumps up the request timeout for http requests.
 	 *
 	 * @param int $val
 	 * @return int
@@ -223,7 +224,7 @@ class WP_Importer {
 	}
 
 	/**
-	 * Check if user has exceeded disk quota
+	 * Checks if user has exceeded disk quota.
 	 *
 	 * @return bool
 	 */
@@ -238,7 +239,7 @@ class WP_Importer {
 	}
 
 	/**
-	 * Replace newlines, tabs, and multiple spaces with a single space.
+	 * Replaces newlines, tabs, and multiple spaces with a single space.
 	 *
 	 * @param string $text
 	 * @return string

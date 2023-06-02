@@ -2,10 +2,10 @@
 Contributors: rankmath
 Plugin link: https://rankmath.com/?utm_source=LP&utm_campaign=WP
 Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
-Tested up to: 6.2
+Tested up to: 6.2.2
 Requires at least: 5.6
 Requires PHP: 7.4
-Stable tag: 1.0.114
+Stable tag: 1.0.116
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -315,7 +315,7 @@ Even with significantly more features than other plugins, Rank Math loads amazin
 	* Contextual Help
 
 ### BIG Publications are Raving About Rank Math ###
-**<a href="https://s.rankmath.com/reviews" target="_blank">Rank Math Reviews</a>**
+**<a href="https://rankmath.com/reviews/" target="_blank">Rank Math Reviews</a>**
 
 [youtube https://www.youtube.com/watch?v=cFI_jRVOQZk]
 
@@ -529,14 +529,14 @@ Google WILL NOT necessarily show the Schema data though. They check a few things
 Here is a quote from one of Google's help articles:
 `We perform algorithmic and manual quality checks to ensure that structured data meets relevancy standards. In cases where we see structured data that does not comply with these standards, we reserve the right to disable rich snippets for a site in order to maintain a high-quality search experience for our users. Read our webmaster guidelines for more details.`
 
-Link: <a href="https://s.rankmath.com/googlestructureddata" target="_blank">https://s.rankmath.com/googlestructureddata</a>
+Link: <a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies/" target="_blank">https://developers.google.com/search/docs/appearance/structured-data/sd-policies</a>
 
 = Why is the Carousel or Data Highlighter Not Working? =
 Google can actually extract content from your pages and display it as a rich carousel (AMP or not).
 
 But to make it easier, the best you can do is to use the Data Highlighter option in your Search Appearance tab in Webmaster Tools for your important pages (especially the pillar posts) but not on all content types. Rank Math makes it extremely convenient to do so.
 
-To learn more about using this feature, visit <a href="https://s.rankmath.com/googledatahighlighter" target="_blank">https://s.rankmath.com/googledatahighlighter</a>
+To learn more about using this feature, visit <a href="https://support.google.com/webmasters/answer/2692911" target="_blank">https://support.google.com/webmasters/answer/2692911?</a>
 
 = How to enter Meta Keywords in the plugin? =
 Google does not use the keyword meta tag in web ranking. Here's a video supporting that:
@@ -583,12 +583,12 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.114 [May 03, 2023] =
-- Added: New filter to exclude certain post types from [Analytics Index](https://rankmath.com/kb/filters-hooks-api-developer/#exclude-post-types-analytics-index)
-- Improved: Optimized [Sitemap caching](https://rankmath.com/kb/exclude-sitemaps-from-caching/) code to skip auto-draft posts and to run the Varnish cache function only on the sites where it is enabled
-- Fixed: Invalid Purge cache request warning on `https` sites with Varnish cache enabled
-- Fixed: [Index Status](https://rankmath.com/kb/analytics/#index-status) issue on subdirectory installations
-- Fixed: PHP warning when the [Capitalize Title option](https://rankmath.com/kb/titles-and-meta/#capitalize-titles) is enabled
-- Fixed: PHP warning related to [Schema](https://rankmath.com/kb/schema-generator/) when the image attachment ID is missing
+= 1.0.116 [May 31, 2023] =
+- Added: New Filter to modify data on [Sitemap Index](https://rankmath.com/kb/filters-hooks-api-developer/#remove-lastmod-in-sitemap)
+- Added: New Filter to change the host used in  [Instant Indexing](https://rankmath.com/kb/filters-hooks-api-developer/#indexnow-api-key-location) requests
+- Improved: [SEO Details in the Post column](https://rankmath.com/kb/bulk-editing-in-rank-math/#quick-edit-seo-details) now shows Article with its sub-type to avoid confusion
+- Fixed: [Incoming link count](https://rankmath.com/kb/link-counter/) was not detecting Products when the [Remove Base](https://rankmath.com/kb/general-settings/#remove-base) option was enabled
+- Fixed: Post URLs were incorrectly submitted to the IndexNow API when moving a post from Draft to Trash
+- Fixed: Taxonomies were displayed in the HTML Sitemap even when the [Include in HTML Sitemap](https://rankmath.com/kb/configure-sitemaps/#categories-include-in-html-sitemap) option was disabled
 
 Full changelog can be found here - **[Rank Math changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

@@ -4,7 +4,7 @@ Donate link: http://ninjaforms.com
 Tags: form, forms
 Requires at least: 5.3
 Tested up to: 5.5
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 
 License: GPLv2 or later
 
@@ -30,6 +30,12 @@ This section describes how to install the plugin and get it working.
 For help and video tutorials, please visit our website: [Ninja Forms Documentation](http://docs.ninjaforms.com/)
 
 == Changelog ==
+= 3.1.1 (29 March 2023) =
+*Bug Fixes:*
+- Enable existing subscribers to join multiple mailing lists
+
+*Other:*
+- Remove deprecated folder
 
 = 3.1.0 (31 August 2021)
 * Add metabox filter in preparation for upcoming submissions page core release
