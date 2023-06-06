@@ -52,7 +52,7 @@ class NF_FU_AJAX_Controllers_Uploads extends NF_Abstracts_Controller {
 			list( $id ) = explode( '_', $id );
 		}
 
-		if ( ! filter_var( $id, FILTER_VALIDATE_INT ) ) {
+		if ( false === strpos( $id, '.' ) && ! filter_var( $id, FILTER_VALIDATE_INT ) ) {
 			return false;
 		}
 
@@ -138,7 +138,7 @@ class NF_FU_AJAX_Controllers_Uploads extends NF_Abstracts_Controller {
 
 		$field_instance_id = filter_input( INPUT_POST, 'field_id' );
 
-		$files_key = 'files-' . $field_instance_id;
+		$files_key = 'files-' . str_replace( '.', '_', $field_instance_id );
 		if ( ! isset( $_FILES[ $files_key ] ) ) {
 			$this->_errors[] = $this->code_to_message( '' );
 			$this->_respond();

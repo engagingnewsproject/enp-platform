@@ -96,7 +96,7 @@ class Google_Http_REST
         $body = self::decodeBody($response, $request);
         if ($expectedClass = self::determineExpectedClass($expectedClass, $request)) {
             $json = \json_decode($body, \true);
-             $expectedClass = 'NF_FU_VENDOR\\' . $expectedClass; return new $expectedClass($json);
+            $expectedClass = '\\NF_FU_VENDOR\\'.$expectedClass; return new $expectedClass($json);
         }
         return $response;
     }

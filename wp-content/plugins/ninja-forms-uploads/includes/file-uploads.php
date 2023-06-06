@@ -3,7 +3,8 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
+use NinjaForms\FileUploads\Common\Factories\LoggerFactory;
+use NinjaForms\FileUploads\Common\Routes\DebugLog as DebugLogRoutes;
 /**
  * Class NF_FU_File_Uploads
  */
@@ -70,6 +71,16 @@ final class NF_FU_File_Uploads {
 	const TYPE = 'file_upload';
 
 	/**
+     * Route for debug log REST requests
+     *
+     * @var string
+     */
+    protected $debugLogSlug= 'nf-file-uploads';
+	
+	/** @var LoggerFactory */
+	protected $loggerFactory;
+
+	/**
 	 * Main Plugin Instance
 	 *
 	 * Insures that only one instance of a plugin class exists in memory at any one
@@ -122,6 +133,8 @@ final class NF_FU_File_Uploads {
 		add_filter( 'ninja_forms_field_template_file_paths', array( $this, 'register_template_path' ) );
 		add_action( 'ninja_forms_loaded', array( $this, 'load_plugin' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_translations' ) );
+		add_action('plugins_loaded', array($this, 'initializeLogger'));
+		add_action('init', [$this, 'registerSettingsScript']);
 		add_action( 'ninja_forms_rollback', array( $this, 'handle_rollback' ) );
 		add_filter( 'ninja_forms_telemetry_should_send', '__return_true' );
 
@@ -221,6 +234,81 @@ final class NF_FU_File_Uploads {
 		require_once dirname( $this->plugin_file_path ) . '/deprecated/deprecated-file-uploads.php';
 	}
 
+	public function initializeLogger(): void
+	{
+		if (class_exists('Ninja_Forms')) {
+			$debugLog = \Ninja_Forms()->get_setting('file_uploads_turn_on_debug_logger');
+		} else {
+			$debugLog = false;
+		}
+
+		$isDebugOn = (bool)$debugLog;
+
+		$this->loggerFactory = new LoggerFactory($this->debugLogSlug, $isDebugOn);
+
+		$this->loggerFactory->createDebugLogRoutes($this->debugLogSlug);
+
+		if ($isDebugOn) {
+			add_filter('ninja_forms_admin_notices', array($this, 'adminNotices'));
+		}
+
+		$logger = $this->loggerFactory->getLogger();
+		self::$instance->externals->setLogger($logger);
+	}
+
+	/**
+	 * Function to register any admin notices we need to show.
+	 * 
+	 * @param $notices (Array) The list of admin notices.
+	 * @return array The updated list of admin notices.
+	 * 
+	 */
+	public function adminNotices($notices)
+	{
+		// Register an admin notice.
+		$notices['file_uploads_turn_on_debug_logger'] = array(
+			'title' => __('Ninja Forms File Uploads Debug Logger', 'ninja-forms-uploads'),
+			'msg' => sprintf(__('%sThe debug logger records data to help solve issues, but should be turned off as soon as you capture enough information.%s', 'ninja-forms-uploads'), '<p>', '</p>'),
+			'int' => 0,
+			'ignore_spam' => true,
+			'dismiss' => 1
+		);
+
+		return $notices;
+	}
+
+	public function registerSettingsScript(): void
+	{
+	  $handle = 'file_uploads_nfpluginsettings';
+  
+	  $scriptUrl = plugin_dir_url(__DIR__).'assets/js/nfpluginsettings.js';
+  
+	  $objectName = 'params';
+  
+	  $localizedArray = [
+		'clearLogRestUrl'=>\rest_url().$this->debugLogSlug.'/'.DebugLogRoutes::DELETELOGSENDPOINT,
+		'clearLogButtonId'=>'file_uploads_clear_debug_logger',
+		'downloadLogRestUrl'=>\rest_url().$this->debugLogSlug.'/'.DebugLogRoutes::GETLOGSENDPOINT,
+		'downloadLogButtonId'=>'file_uploads_download_debug_logger',
+				  
+	  ];
+  
+	  //Register asset 
+	  \wp_enqueue_script(
+		$handle,
+		$scriptUrl,
+		['jquery'],
+		$this->plugin_version
+	  );
+  
+  
+	  \wp_localize_script(
+		$handle,
+		$objectName,
+		$localizedArray
+	  );
+	}
+
 	/**
 	 * Protected constructor to prevent creating a new instance of the
 	 * class via the `new` operator from outside of this class.
@@ -251,9 +339,31 @@ final class NF_FU_File_Uploads {
 		}
 
 		$classes_dir = realpath( plugin_dir_path( $this->plugin_file_path ) ) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR;
+		
+		if(strpos($class_name,'NinjaForms\\FileUploads\\')===0){
+			$unprefixed = str_replace('NinjaForms\\FileUploads\\','',$class_name);
+			$this->loadNamespacedClass($unprefixed,$classes_dir);
+			return;
+		}
 
 		$this->maybe_load_class( $class_name, $this->class_prefix, $classes_dir );
 	}
+
+    /**
+     * Loads the class file for a given class name.
+     *
+     * @param string $class The fully-qualified class name.
+     * @return mixed The mapped file name on success, or boolean false on
+     * failure.
+     */
+    public function loadNamespacedClass($class_name,$dir)
+    {
+		$class_file = str_replace( '\\', DIRECTORY_SEPARATOR, $class_name ) . '.php';
+
+		if ( file_exists( $dir . $class_file ) ) {
+			require_once $dir . $class_file;
+		}
+    }
 
 	/**
 	 * Load class file

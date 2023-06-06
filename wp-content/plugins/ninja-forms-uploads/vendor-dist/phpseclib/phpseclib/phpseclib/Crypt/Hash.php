@@ -712,7 +712,7 @@ class Hash
         foreach ($arguments as $argument) {
             $result += $argument < 0 ? ($argument & 0x7fffffff) + 0x80000000 : $argument;
         }
-        if ((\php_uname('m') & "ßßß") != 'ARM') {
+        if ((\php_uname('m') & "\xdf\xdf\xdf") != 'ARM') {
             return \fmod($result, $mod);
         }
         return \fmod($result, 0x80000000) & 0x7fffffff | (\fmod(\floor($result / 0x80000000), 2) & 1) << 31;

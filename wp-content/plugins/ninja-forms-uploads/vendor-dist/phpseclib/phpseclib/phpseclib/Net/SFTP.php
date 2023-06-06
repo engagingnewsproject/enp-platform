@@ -375,7 +375,7 @@ class SFTP extends SSH2
             }
         }
         $this->channel_status[self::CHANNEL] = NET_SSH2_MSG_CHANNEL_DATA;
-        if (!$this->_send_sftp_packet(NET_SFTP_INIT, "\0\0\0\3")) {
+        if (!$this->_send_sftp_packet(NET_SFTP_INIT, "\x00\x00\x00\x03")) {
             return \false;
         }
         $response = $this->_get_sftp_packet();
@@ -1529,7 +1529,7 @@ class SFTP extends SSH2
         $dir = $this->_realpath($dir);
         // by not providing any permissions, hopefully the server will use the logged in users umask - their
         // default permissions.
-        $attr = $mode == -1 ? "\0\0\0\0" : \pack('N2', NET_SFTP_ATTR_PERMISSIONS, $mode & 07777);
+        $attr = $mode == -1 ? "\x00\x00\x00\x00" : \pack('N2', NET_SFTP_ATTR_PERMISSIONS, $mode & 07777);
         if ($recursive) {
             $dirs = \explode('/', \preg_replace('#/(?=/)|/$#', '', $dir));
             if (empty($dirs[0])) {

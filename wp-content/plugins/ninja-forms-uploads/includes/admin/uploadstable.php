@@ -175,8 +175,8 @@ class NF_FU_Admin_UploadsTable extends WP_List_Table {
 
 			$data[] = array(
 				'id'                => $upload['id'],
-				'filename'          => $upload_data['file_name'],
-				'original_filename' => $upload_data['user_file_name'],
+				'filename'          => esc_html($upload_data['file_name']),
+				'original_filename' => esc_html($upload_data['user_file_name']),
 				'date'              => $upload['date_updated'],
 				'form_name'         => $form_name,
 				'user_name'         => $user_name,

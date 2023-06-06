@@ -218,7 +218,16 @@ class NF_FU_Fields_Upload extends NF_Abstracts_Field {
 
 		foreach ( $data['fields'] as $key => $data_field ) {
 			if ( $data_field['id'] != $field['id'] ) {
-				continue;
+				if($field['repeaterField']){
+					list($parent_key) = explode('.', $field['id']);
+					if(isset($data['fields'][(int)$parent_key]['value'][$field['id']])){
+						$data['fields'][ $parent_key ]['value'][$field['id']]['value'] = $submission_data;
+						$data['fields'][ $parent_key ]['value'][$field['id']]['files'] = $field['files'];
+					}
+					continue;
+				} else {
+					continue;
+				}
 			}
 
 			// Set the field value to the array of file upload data

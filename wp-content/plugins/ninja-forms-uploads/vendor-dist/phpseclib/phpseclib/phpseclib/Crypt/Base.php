@@ -137,7 +137,7 @@ abstract class Base
      * @var string
      * @access private
      */
-    var $key = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
+    var $key = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
     /**
      * The Initialization Vector
      *
@@ -697,7 +697,7 @@ abstract class Base
                     }
                     $overflow = $len % $this->block_size;
                     if ($overflow) {
-                        $ciphertext .= \openssl_encrypt(\substr($plaintext, 0, -$overflow) . \str_repeat("\0", $this->block_size), $this->cipher_name_openssl, $this->key, $this->openssl_options, $iv);
+                        $ciphertext .= \openssl_encrypt(\substr($plaintext, 0, -$overflow) . \str_repeat("\x00", $this->block_size), $this->cipher_name_openssl, $this->key, $this->openssl_options, $iv);
                         $iv = $this->_string_pop($ciphertext, $this->block_size);
                         $size = $len - $overflow;
                         $block = $iv ^ \substr($plaintext, -$overflow);
@@ -1023,7 +1023,7 @@ abstract class Base
                         if ($len - $overflow) {
                             $iv = \substr($ciphertext, -$overflow - $this->block_size, -$overflow);
                         }
-                        $iv = \openssl_encrypt(\str_repeat("\0", $this->block_size), $this->cipher_name_openssl, $this->key, $this->openssl_options, $iv);
+                        $iv = \openssl_encrypt(\str_repeat("\x00", $this->block_size), $this->cipher_name_openssl, $this->key, $this->openssl_options, $iv);
                         $plaintext .= $iv ^ \substr($ciphertext, -$overflow);
                         $iv = \substr_replace($iv, \substr($ciphertext, -$overflow), 0, $overflow);
                         $pos = $overflow;
@@ -1306,7 +1306,7 @@ abstract class Base
         if ($overflow) {
             $plaintext2 = $this->_string_pop($plaintext, $overflow);
             // ie. trim $plaintext to a multiple of $block_size and put rest of $plaintext in $plaintext2
-            $encrypted = \openssl_encrypt($plaintext . \str_repeat("\0", $block_size), $this->cipher_name_openssl, $key, $this->openssl_options, $encryptIV);
+            $encrypted = \openssl_encrypt($plaintext . \str_repeat("\x00", $block_size), $this->cipher_name_openssl, $key, $this->openssl_options, $encryptIV);
             $temp = $this->_string_pop($encrypted, $block_size);
             $ciphertext .= $encrypted . ($plaintext2 ^ $temp);
             if ($this->continuousBuffer) {
@@ -1314,7 +1314,7 @@ abstract class Base
                 $encryptIV = $temp;
             }
         } elseif (!\strlen($buffer['ciphertext'])) {
-            $ciphertext .= \openssl_encrypt($plaintext . \str_repeat("\0", $block_size), $this->cipher_name_openssl, $key, $this->openssl_options, $encryptIV);
+            $ciphertext .= \openssl_encrypt($plaintext . \str_repeat("\x00", $block_size), $this->cipher_name_openssl, $key, $this->openssl_options, $encryptIV);
             $temp = $this->_string_pop($ciphertext, $block_size);
             if ($this->continuousBuffer) {
                 $encryptIV = $temp;
@@ -1361,7 +1361,7 @@ abstract class Base
         $overflow = $len % $block_size;
         if (\strlen($plaintext)) {
             if ($overflow) {
-                $ciphertext .= \openssl_encrypt(\substr($plaintext, 0, -$overflow) . \str_repeat("\0", $block_size), $this->cipher_name_openssl, $key, $this->openssl_options, $encryptIV);
+                $ciphertext .= \openssl_encrypt(\substr($plaintext, 0, -$overflow) . \str_repeat("\x00", $block_size), $this->cipher_name_openssl, $key, $this->openssl_options, $encryptIV);
                 $xor = $this->_string_pop($ciphertext, $block_size);
                 if ($this->continuousBuffer) {
                     $encryptIV = $xor;
@@ -1724,7 +1724,7 @@ abstract class Base
         }
         // else should mcrypt_generic_deinit be called?
         if ($this->mode == self::MODE_CFB) {
-            @\mcrypt_generic_init($this->ecb, $this->key, \str_repeat("\0", $this->block_size));
+            @\mcrypt_generic_init($this->ecb, $this->key, \str_repeat("\x00", $this->block_size));
         }
     }
     /**
@@ -1793,9 +1793,9 @@ abstract class Base
         $this->enbuffer = $this->debuffer = array('ciphertext' => '', 'xor' => '', 'pos' => 0, 'enmcrypt_init' => \true);
         // mcrypt's handling of invalid's $iv:
         // $this->encryptIV = $this->decryptIV = strlen($this->iv) == $this->block_size ? $this->iv : str_repeat("\0", $this->block_size);
-        $this->encryptIV = $this->decryptIV = \str_pad(\substr($this->iv, 0, $this->block_size), $this->block_size, "\0");
+        $this->encryptIV = $this->decryptIV = \str_pad(\substr($this->iv, 0, $this->block_size), $this->block_size, "\x00");
         if (!$this->skip_key_adjustment) {
-            $this->key = \str_pad(\substr($this->key, 0, $this->key_length), $this->key_length, "\0");
+            $this->key = \str_pad(\substr($this->key, 0, $this->key_length), $this->key_length, "\x00");
         }
     }
     /**
@@ -1843,11 +1843,11 @@ abstract class Base
         for ($i = 4; $i <= \strlen($var); $i += 4) {
             $temp = \substr($var, -$i, 4);
             switch ($temp) {
-                case "ÿÿÿÿ":
-                    $var = \substr_replace($var, "\0\0\0\0", -$i, 4);
+                case "\xff\xff\xff\xff":
+                    $var = \substr_replace($var, "\x00\x00\x00\x00", -$i, 4);
                     break;
-                case "ÿÿÿ":
-                    $var = \substr_replace($var, "€\0\0\0", -$i, 4);
+                case "\xff\xff\xff":
+                    $var = \substr_replace($var, "\x80\x00\x00\x00", -$i, 4);
                     return;
                 default:
                     $temp = \unpack('Nnum', $temp);
@@ -1859,7 +1859,7 @@ abstract class Base
         if ($remainder == 0) {
             return;
         }
-        $temp = \unpack('Nnum', \str_pad(\substr($var, 0, $remainder), 4, "\0", \STR_PAD_LEFT));
+        $temp = \unpack('Nnum', \str_pad(\substr($var, 0, $remainder), 4, "\x00", \STR_PAD_LEFT));
         $temp = \substr(\pack('N', $temp['num'] + 1), -$remainder);
         $var = \substr_replace($var, $temp, 0, $remainder);
     }
@@ -2502,7 +2502,7 @@ abstract class Base
         switch (\true) {
             case \is_int($x):
             // PHP 5.3, per http://php.net/releases/5_3_0.php, introduced "more consistent float rounding"
-            case (\php_uname('m') & "ßßß") != 'ARM':
+            case (\php_uname('m') & "\xdf\xdf\xdf") != 'ARM':
                 return $x;
         }
         return \fmod($x, 0x80000000) & 0x7fffffff | (\fmod(\floor($x / 0x80000000), 2) & 1) << 31;
@@ -2517,7 +2517,7 @@ abstract class Base
     {
         switch (\true) {
             case \defined('PHP_INT_SIZE') && \PHP_INT_SIZE == 8:
-            case (\php_uname('m') & "ßßß") != 'ARM':
+            case (\php_uname('m') & "\xdf\xdf\xdf") != 'ARM':
                 return '%s';
                 break;
             default:

@@ -289,6 +289,7 @@ class NF_FU_Admin_Controllers_Uploads {
 	 * @return bool
 	 */
 	public function file_exists( $upload_data ) {
+		if ( ! is_array( $upload_data ) ) return false;
 		if ( 'server' !== $upload_data['upload_location'] ) {
 			// For now assume external files still exist
 			return true;

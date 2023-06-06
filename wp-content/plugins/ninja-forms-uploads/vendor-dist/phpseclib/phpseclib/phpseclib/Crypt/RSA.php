@@ -706,7 +706,7 @@ class RSA
                     $paddedKey .= \chr($i);
                 }
                 $key = \pack('Na*Na*Na*NNa*Na*', \strlen('none'), 'none', \strlen('none'), 'none', 0, '', 1, \strlen($publicKey), $publicKey, \strlen($paddedKey), $paddedKey);
-                $key = "openssh-key-v1\0{$key}";
+                $key = "openssh-key-v1\x00{$key}";
                 return "-----BEGIN OPENSSH PRIVATE KEY-----\r\n" . \chunk_split(\base64_encode($key), 70) . "-----END OPENSSH PRIVATE KEY-----";
             default:
                 // eg. self::PRIVATE_FORMAT_PKCS1
@@ -736,7 +736,7 @@ class RSA
                 if ($this->privateKeyFormat == self::PRIVATE_FORMAT_PKCS8) {
                     $rsaOID = \pack('H*', '300d06092a864886f70d0101010500');
                     // hex version of MA0GCSqGSIb3DQEBAQUA
-                    $RSAPrivateKey = \pack('Ca*a*Ca*a*', self::ASN1_INTEGER, "\1\0", $rsaOID, 4, $this->_encodeLength(\strlen($RSAPrivateKey)), $RSAPrivateKey);
+                    $RSAPrivateKey = \pack('Ca*a*Ca*a*', self::ASN1_INTEGER, "\x01\x00", $rsaOID, 4, $this->_encodeLength(\strlen($RSAPrivateKey)), $RSAPrivateKey);
                     $RSAPrivateKey = \pack('Ca*a*', self::ASN1_SEQUENCE, $this->_encodeLength(\strlen($RSAPrivateKey)), $RSAPrivateKey);
                     if (!empty($this->password) || \is_string($this->password)) {
                         $salt = Random::string(8);
@@ -745,7 +745,7 @@ class RSA
                         $crypto->setPassword($this->password, 'pbkdf1', 'md5', $salt, $iterationCount);
                         $RSAPrivateKey = $crypto->encrypt($RSAPrivateKey);
                         $parameters = \pack('Ca*a*Ca*N', self::ASN1_OCTETSTRING, $this->_encodeLength(\strlen($salt)), $salt, self::ASN1_INTEGER, $this->_encodeLength(4), $iterationCount);
-                        $pbeWithMD5AndDES_CBC = "*†H†÷\r\1\5\3";
+                        $pbeWithMD5AndDES_CBC = "*\x86H\x86\xf7\r\x01\x05\x03";
                         $encryptionAlgorithm = \pack('Ca*a*Ca*a*', self::ASN1_OBJECT, $this->_encodeLength(\strlen($pbeWithMD5AndDES_CBC)), $pbeWithMD5AndDES_CBC, self::ASN1_SEQUENCE, $this->_encodeLength(\strlen($parameters)), $parameters);
                         $RSAPrivateKey = \pack('Ca*a*Ca*a*', self::ASN1_SEQUENCE, $this->_encodeLength(\strlen($encryptionAlgorithm)), $encryptionAlgorithm, self::ASN1_OCTETSTRING, $this->_encodeLength(\strlen($RSAPrivateKey)), $RSAPrivateKey);
                         $RSAPrivateKey = \pack('Ca*a*', self::ASN1_SEQUENCE, $this->_encodeLength(\strlen($RSAPrivateKey)), $RSAPrivateKey);
@@ -946,7 +946,7 @@ class RSA
                                    22:d=1  hl=4 l= 609 prim:  OCTET STRING
                 
                                    ie. PKCS8 keys*/
-                if ($tag == self::ASN1_INTEGER && \substr($key, 0, 3) == "\1\0000") {
+                if ($tag == self::ASN1_INTEGER && \substr($key, 0, 3) == "\x01\x000") {
                     $this->_string_shift($key, 3);
                     $tag = self::ASN1_SEQUENCE;
                 }
@@ -957,10 +957,10 @@ class RSA
                     }
                     $length = $this->_decodeLength($temp);
                     switch ($this->_string_shift($temp, $length)) {
-                        case "*†H†÷\r\1\1\1":
+                        case "*\x86H\x86\xf7\r\x01\x01\x01":
                             // rsaEncryption
                             break;
-                        case "*†H†÷\r\1\5\3":
+                        case "*\x86H\x86\xf7\r\x01\x05\x03":
                             // pbeWithMD5AndDES-CBC
                             /*
                                PBEParameter ::= SEQUENCE {
@@ -1090,7 +1090,7 @@ class RSA
                     return \false;
                 }
                 $comment = isset($parts[2]) ? $parts[2] : \false;
-                $cleanup = \substr($key, 0, 11) == "\0\0\0\7ssh-rsa";
+                $cleanup = \substr($key, 0, 11) == "\x00\x00\x00\x07ssh-rsa";
                 if (\strlen($key) <= 4) {
                     return \false;
                 }
@@ -1196,7 +1196,7 @@ class RSA
                 $components = array();
                 $decoded = $this->_extractBER($key);
                 $magic = $this->_string_shift($decoded, 15);
-                if ($magic !== "openssh-key-v1\0") {
+                if ($magic !== "openssh-key-v1\x00") {
                     return \false;
                 }
                 $options = $this->_string_shift($decoded, 24);
@@ -1204,7 +1204,7 @@ class RSA
                 // \0\0\0\4none = kdfname
                 // \0\0\0\0 = kdfoptions
                 // \0\0\0\1 = numkeys
-                if ($options != "\0\0\0\4none\0\0\0\4none\0\0\0\0\0\0\0\1") {
+                if ($options != "\x00\x00\x00\x04none\x00\x00\x00\x04none\x00\x00\x00\x00\x00\x00\x00\x01") {
                     return \false;
                 }
                 \extract(\unpack('Nlength', $this->_string_shift($decoded, 4)));
@@ -1217,7 +1217,7 @@ class RSA
                     return \false;
                 }
                 $paddedKey = $this->_string_shift($decoded, $length);
-                if ($this->_string_shift($publicKey, 11) !== "\0\0\0\7ssh-rsa") {
+                if ($this->_string_shift($publicKey, 11) !== "\x00\x00\x00\x07ssh-rsa") {
                     return \false;
                 }
                 $checkint1 = $this->_string_shift($paddedKey, 4);
@@ -1225,7 +1225,7 @@ class RSA
                 if (\strlen($checkint1) != 4 || $checkint1 !== $checkint2) {
                     return \false;
                 }
-                if ($this->_string_shift($paddedKey, 11) !== "\0\0\0\7ssh-rsa") {
+                if ($this->_string_shift($paddedKey, 11) !== "\x00\x00\x00\x07ssh-rsa") {
                     return \false;
                 }
                 $values = array(&$components['modulus'], &$components['publicExponent'], &$components['privateExponent'], &$components['coefficients'][2], &$components['primes'][1], &$components['primes'][2]);
@@ -1966,12 +1966,12 @@ class RSA
         if (\strlen($x) != \strlen($y)) {
             return \false;
         }
-        $result = "\0";
+        $result = "\x00";
         $x ^= $y;
         for ($i = 0; $i < \strlen($x); $i++) {
             $result |= $x[$i];
         }
-        return $result === "\0";
+        return $result === "\x00";
     }
     /**
      * RSAEP
@@ -2159,8 +2159,8 @@ class RSA
         $patternMatch = 0;
         $offset = 0;
         for ($i = 0; $i < \strlen($m); $i++) {
-            $patternMatch |= $leadingZeros & $m[$i] === "\1";
-            $leadingZeros &= $m[$i] === "\0";
+            $patternMatch |= $leadingZeros & $m[$i] === "\x01";
+            $leadingZeros &= $m[$i] === "\x00";
             $offset += $patternMatch ? 0 : 1;
         }
         // we do & instead of && to avoid https://en.wikipedia.org/wiki/Short-circuit_evaluation
@@ -2209,7 +2209,7 @@ class RSA
         $ps = '';
         while (\strlen($ps) != $psLen) {
             $temp = Random::string($psLen - \strlen($ps));
-            $temp = \str_replace("\0", '', $temp);
+            $temp = \str_replace("\x00", '', $temp);
             $ps .= $temp;
         }
         $type = 2;
@@ -2217,7 +2217,7 @@ class RSA
         if (\defined('CRYPT_RSA_PKCS15_COMPAT') && (!isset($this->publicExponent) || $this->exponent !== $this->publicExponent)) {
             $type = 1;
             // "The padding string PS shall consist of k-3-||D|| octets. ... for block type 01, they shall have value FF"
-            $ps = \str_repeat("ÿ", $psLen);
+            $ps = \str_repeat("\xff", $psLen);
         }
         $em = \chr(0) . \chr($type) . $ps . \chr(0) . $m;
         // RSA encryption
@@ -2299,7 +2299,7 @@ class RSA
             return \false;
         }
         $salt = Random::string($sLen);
-        $m2 = "\0\0\0\0\0\0\0\0" . $mHash . $salt;
+        $m2 = "\x00\x00\x00\x00\x00\x00\x00\x00" . $mHash . $salt;
         $h = $this->hash->hash($m2);
         $ps = \str_repeat(\chr(0), $emLen - $sLen - $this->hLen - 2);
         $db = $ps . \chr(1) . $salt;
@@ -2349,7 +2349,7 @@ class RSA
         }
         $salt = \substr($db, $temp + 1);
         // should be $sLen long
-        $m2 = "\0\0\0\0\0\0\0\0" . $mHash . $salt;
+        $m2 = "\x00\x00\x00\x00\x00\x00\x00\x00" . $mHash . $salt;
         $h2 = $this->hash->hash($m2);
         return $this->_equals($h, $h2);
     }
@@ -2449,7 +2449,7 @@ class RSA
             return \false;
         }
         $ps = \str_repeat(\chr(0xff), $emLen - $tLen - 3);
-        $em = "\0\1{$ps}\0{$t}";
+        $em = "\x00\x01{$ps}\x00{$t}";
         return $em;
     }
     /**

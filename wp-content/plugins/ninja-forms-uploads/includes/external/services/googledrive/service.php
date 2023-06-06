@@ -341,11 +341,32 @@ class NF_FU_External_Services_Googledrive_Service extends NF_FU_External_Abstrac
 	 * @return string
 	 */
 	public function get_url( $filename, $path = '', $data = array() ) {
+		$logEntryArray =[
+			'timestamp'=>time(),
+			'logPoint'=>'NF_FU_External_Services_Googledrive_Service_get_url'
+		];
+
+		$supportingDataArray =[
+			'filename'=>$filename,
+			'path'=>$path,
+			'data'=>$data
+		];
+
 		$response = $this->drive()->files->get( $data['file_id'], array( 'fields' => 'id, webContentLink' ) );
 
+		$supportingDataArray['response']=json_encode($response);
+
 		if ( $response && isset( $response->webContentLink ) ) {
+			$logEntryArray['supportingData']= json_encode($supportingDataArray);
+			
+			$this->getLogger()->debug('Web Content Link is set', $logEntryArray);
+
 			return str_replace( array( '/uc?', '&export=download' ), array( '/open?', '' ), $response->webContentLink );
 		}
+
+		$logEntryArray['supportingData']= json_encode($supportingDataArray);
+			
+		$this->getLogger()->debug('Web Content Link is NOT set', $logEntryArray);
 
 		return admin_url();
 	}

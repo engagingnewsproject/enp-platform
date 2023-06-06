@@ -1091,7 +1091,7 @@ class SSH1
         $random = '';
         while (\strlen($random) != $length) {
             $block = Random::string($length - \strlen($random));
-            $block = \str_replace("\0", '', $block);
+            $block = \str_replace("\x00", '', $block);
             $random .= $block;
         }
         $temp = \chr(0) . \chr(2) . $random . \chr(0) . $m;

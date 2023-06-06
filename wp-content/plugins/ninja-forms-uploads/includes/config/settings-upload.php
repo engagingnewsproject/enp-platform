@@ -46,5 +46,24 @@ return apply_filters( 'ninja_forms_uploads_settings_upload', array(
 		'type'  => 'desc',
 		'label' => __( 'Full Directory', 'ninja-forms-uploads' ),
 		'default'  => '<code>' . $full_dir . '</code>',
-	),
+	),    
+	'file_uploads_divider_logger' => array(
+        'id'    => 'file_uploads_divider_logger',
+        'type'  => 'html',
+        'label' => '',
+        'html' => '<hr />'
+    ),
+    'file_uploads_turn_on_debug_logger' => array(
+        'id'    => 'file_uploads_turn_on_debug_logger',
+        'type'  => 'checkbox',
+        'label' =>__( 'Turn on Debug Logger', 'ninja-forms-uploads'  ),
+		'desc'    => '',
+    ), 
+    'file_uploads_logger_commands' => array(
+        'id'    => 'file_uploads_logger_commands',
+        'type'  => 'html',
+        'label' =>__( 'Logger Commands', 'ninja-forms-uploads' ),
+        'html' =>sprintf('<p class = "button" id="file_uploads_clear_debug_logger">%s</p><p class = "button" id="file_uploads_download_debug_logger">%s</p>',__( 'Clear debug log','ninja-forms-uploads'),__( 'Download debug log','ninja-forms-uploads' )),
+		'desc'    => '',
+    ),
 ) );

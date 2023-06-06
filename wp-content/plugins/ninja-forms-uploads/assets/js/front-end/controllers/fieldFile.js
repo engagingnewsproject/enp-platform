@@ -65,10 +65,24 @@
 			 * When we change our parts in a Multi-Part Form, re-render our file collection.
 			 */
 			view.listenTo( nfRadio.channel( 'nfMP' ), 'change:part', this.changeCollection, view );
+			
+			/*
+			 * This will be triggered when a repeater fieldset is adding a fieldset
+			 * It prevents the files data already loaded not to be removed from the view
+			 */
+			if(this.isInRepeaterFieldset(view.el) && view.model.attributes.files.models.length > 0){
+				view.fileCollectionView.render();
+			}
+		},
+
+		isInRepeaterFieldset: function( element ) {
+			return element.dataset.fieldId.includes('.') && element.dataset.fieldId.includes('_');
 		},
 
 		changeCollection: function() {
 			this.fileCollectionView.render();
+			//Set values in repeater when refreshing the files data view
+			nfRadio.channel( "field-repeater" ).trigger( 'set:value' );
 		},
 
 		getFieldID: function( e ) {

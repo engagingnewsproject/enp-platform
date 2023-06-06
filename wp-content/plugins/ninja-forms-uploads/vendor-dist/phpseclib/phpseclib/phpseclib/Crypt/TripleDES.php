@@ -289,7 +289,7 @@ class TripleDES extends DES
     function decrypt($ciphertext)
     {
         if ($this->mode_3cbc && \strlen($this->key) > 8) {
-            return $this->_unpad($this->des[0]->decrypt($this->des[1]->encrypt($this->des[2]->decrypt(\str_pad($ciphertext, \strlen($ciphertext) + 7 & 0xfffffff8, "\0")))));
+            return $this->_unpad($this->des[0]->decrypt($this->des[1]->encrypt($this->des[2]->decrypt(\str_pad($ciphertext, \strlen($ciphertext) + 7 & 0xfffffff8, "\x00")))));
         }
         return parent::decrypt($ciphertext);
     }

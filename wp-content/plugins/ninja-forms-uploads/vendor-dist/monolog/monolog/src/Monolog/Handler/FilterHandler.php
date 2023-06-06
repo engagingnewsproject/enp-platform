@@ -69,7 +69,7 @@ class FilterHandler extends AbstractHandler
     public function setAcceptedLevels($minLevelOrList = Logger::DEBUG, $maxLevel = Logger::EMERGENCY)
     {
         if (\is_array($minLevelOrList)) {
-            $acceptedLevels = \array_map('Monolog\\Logger::toMonologLevel', $minLevelOrList);
+            $acceptedLevels = \array_map('NF_FU_VENDOR\\Monolog\\Logger::toMonologLevel', $minLevelOrList);
         } else {
             $minLevelOrList = Logger::toMonologLevel($minLevelOrList);
             $maxLevel = Logger::toMonologLevel($maxLevel);

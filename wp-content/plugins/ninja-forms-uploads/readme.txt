@@ -3,8 +3,8 @@ Contributors: kstover, jameslaws
 Donate link: http://ninjaforms.com
 Tags: form, forms
 Requires at least: 5.0
-Tested up to: 5.8
-Stable tag: 3.3.13
+Tested up to: 6.2.0
+Stable tag: 3.3.15
 
 License: GPLv2 or later
 
@@ -26,6 +26,12 @@ This section describes how to install the plugin and get it working.
 For help and video tutorials, please visit our website: [NinjaForms.com](http://ninjaforms.com)
 
 == Changelog ==
+
+= 3.3.15 (17 May 2023)
+*Bug Fixes:*
+- Ensure fieldset repeater functionality
+*Other:*
+- Update plugin build process
 
 = 3.3.14 (7 March 2022)
 *Bugs:*

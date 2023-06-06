@@ -738,7 +738,7 @@ class X509
             default:
                 switch ($algorithm) {
                     case 'rsaEncryption':
-                        $cert['tbsCertificate']['subjectPublicKeyInfo']['subjectPublicKey'] = \base64_encode("\0" . \base64_decode(\preg_replace('#-.+-|[\\r\\n]#', '', $cert['tbsCertificate']['subjectPublicKeyInfo']['subjectPublicKey'])));
+                        $cert['tbsCertificate']['subjectPublicKeyInfo']['subjectPublicKey'] = \base64_encode("\x00" . \base64_decode(\preg_replace('#-.+-|[\\r\\n]#', '', $cert['tbsCertificate']['subjectPublicKeyInfo']['subjectPublicKey'])));
                         /* "[For RSA keys] the parameters field MUST have ASN.1 type NULL for this algorithm identifier."
                                                    -- https://tools.ietf.org/html/rfc3279#section-2.3.1
                         
@@ -873,7 +873,7 @@ class X509
                         // use 00 as the serial number instead of an empty string
                         if (isset($value['authorityCertSerialNumber'])) {
                             if ($value['authorityCertSerialNumber']->toBytes() == '') {
-                                $temp = \chr(ASN1::CLASS_CONTEXT_SPECIFIC << 6 | 2) . "\1\0";
+                                $temp = \chr(ASN1::CLASS_CONTEXT_SPECIFIC << 6 | 2) . "\x01\x00";
                                 $value['authorityCertSerialNumber'] = new Element($temp);
                             }
                         }
@@ -2300,7 +2300,7 @@ class X509
             default:
                 switch ($algorithm) {
                     case 'rsaEncryption':
-                        $csr['certificationRequestInfo']['subjectPKInfo']['subjectPublicKey'] = \base64_encode("\0" . \base64_decode(\preg_replace('#-.+-|[\\r\\n]#', '', $csr['certificationRequestInfo']['subjectPKInfo']['subjectPublicKey'])));
+                        $csr['certificationRequestInfo']['subjectPKInfo']['subjectPublicKey'] = \base64_encode("\x00" . \base64_decode(\preg_replace('#-.+-|[\\r\\n]#', '', $csr['certificationRequestInfo']['subjectPKInfo']['subjectPublicKey'])));
                         $csr['certificationRequestInfo']['subjectPKInfo']['algorithm']['parameters'] = null;
                         $csr['signatureAlgorithm']['parameters'] = null;
                         $csr['certificationRequestInfo']['signature']['parameters'] = null;
@@ -2404,7 +2404,7 @@ class X509
             default:
                 switch ($algorithm) {
                     case 'rsaEncryption':
-                        $spkac['publicKeyAndChallenge']['spki']['subjectPublicKey'] = \base64_encode("\0" . \base64_decode(\preg_replace('#-.+-|[\\r\\n]#', '', $spkac['publicKeyAndChallenge']['spki']['subjectPublicKey'])));
+                        $spkac['publicKeyAndChallenge']['spki']['subjectPublicKey'] = \base64_encode("\x00" . \base64_decode(\preg_replace('#-.+-|[\\r\\n]#', '', $spkac['publicKeyAndChallenge']['spki']['subjectPublicKey'])));
                 }
         }
         $asn1 = new ASN1();
@@ -2610,7 +2610,7 @@ class X509
                            for the integer to be positive the leading bit needs to be 0 hence the
                            application of a bitmap
                         */
-            $serialNumber = !empty($this->serialNumber) ? $this->serialNumber : new BigInteger(Random::string(20) & "" . \str_repeat("ÿ", 19), 256);
+            $serialNumber = !empty($this->serialNumber) ? $this->serialNumber : new BigInteger(Random::string(20) & "" . \str_repeat("\xff", 19), 256);
             $this->currentCert = array('tbsCertificate' => array(
                 'version' => 'v3',
                 'serialNumber' => $serialNumber,
@@ -2925,7 +2925,7 @@ class X509
                 case 'sha512WithRSAEncryption':
                     $key->setHash(\preg_replace('#WithRSAEncryption$#', '', $signatureAlgorithm));
                     $key->setSignatureMode(RSA::SIGNATURE_PKCS1);
-                    $this->currentCert['signature'] = \base64_encode("\0" . $key->sign($this->signatureSubject));
+                    $this->currentCert['signature'] = \base64_encode("\x00" . $key->sign($this->signatureSubject));
                     return $this->currentCert;
             }
         }

@@ -1,4 +1,6 @@
 <?php
+use NinjaForms\FileUploads\Common\Interfaces\NfLogger;
+use NinjaForms\FileUploads\Common\Handlers\Logger;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -74,6 +76,9 @@ abstract class NF_FU_External_Abstracts_Service {
 	 */
 	protected $upload_process;
 	
+	/** @var NfLogger */
+	protected $logger;
+
 	/**
 	 * Main Plugin Instance
 	 *
@@ -461,5 +466,32 @@ abstract class NF_FU_External_Abstracts_Service {
 	 * As this class is a singleton it should not be able to be unserialized
 	 */
 	public function __wakeup() {
+	}
+
+	/**
+	 * Get the logger
+	 *
+	 * @return NfLogger
+	 */
+	protected function getLogger( ): NfLogger
+	{
+		if(is_null($this->logger)){
+			// fallback to empty logger
+			$this->logger = new Logger();
+		}
+
+		return $this->logger;
+	}
+
+	/**
+	 * Set the logger
+	 *
+	 * @return  NF_FU_External_Abstracts_Service
+	 */ 
+	public function setLogger($logger):NF_FU_External_Abstracts_Service
+	{
+		$this->logger = $logger;
+
+		return $this;
 	}
 }

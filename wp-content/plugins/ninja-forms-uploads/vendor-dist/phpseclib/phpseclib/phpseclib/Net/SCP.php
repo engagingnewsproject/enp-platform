@@ -205,11 +205,11 @@ class SCP
             // -f = from
             return \false;
         }
-        $this->_send("\0");
+        $this->_send("\x00");
         if (!\preg_match('#(?<perms>[^ ]+) (?<size>\\d+) (?<name>.+)#', \rtrim($this->_receive()), $info)) {
             return \false;
         }
-        $this->_send("\0");
+        $this->_send("\x00");
         $size = 0;
         if ($local_file !== \false) {
             $fp = @\fopen($local_file, 'wb');

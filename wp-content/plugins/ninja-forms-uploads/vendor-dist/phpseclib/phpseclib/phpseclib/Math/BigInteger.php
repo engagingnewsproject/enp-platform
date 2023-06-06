@@ -1440,7 +1440,7 @@ class BigInteger
             $RSAPublicKey = \chr(3) . $this->_encodeASN1Length(\strlen($RSAPublicKey)) . $RSAPublicKey;
             $encapsulated = \pack('Ca*a*', 48, $this->_encodeASN1Length(\strlen($rsaOID . $RSAPublicKey)), $rsaOID . $RSAPublicKey);
             $RSAPublicKey = "-----BEGIN PUBLIC KEY-----\r\n" . \chunk_split(\base64_encode($encapsulated)) . '-----END PUBLIC KEY-----';
-            $plaintext = \str_pad($this->toBytes(), \strlen($n->toBytes(\true)) - 1, "\0", \STR_PAD_LEFT);
+            $plaintext = \str_pad($this->toBytes(), \strlen($n->toBytes(\true)) - 1, "\x00", \STR_PAD_LEFT);
             if (\openssl_public_encrypt($plaintext, $result, $RSAPublicKey, \OPENSSL_NO_PADDING)) {
                 return new static($result, 256);
             }
@@ -2692,7 +2692,7 @@ class BigInteger
         
             http://crypto.stackexchange.com/questions/5708/creating-a-small-number-from-a-cryptographically-secure-random-string
         */
-        $random_max = new static(\chr(1) . \str_repeat("\0", $size), 256);
+        $random_max = new static(\chr(1) . \str_repeat("\x00", $size), 256);
         $random = $this->_random_number_helper($size);
         list($max_multiple) = $random_max->divide($max);
         $max_multiple = $max_multiple->multiply($max);

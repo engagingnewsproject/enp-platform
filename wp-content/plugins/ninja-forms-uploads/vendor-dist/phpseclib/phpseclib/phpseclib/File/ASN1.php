@@ -285,7 +285,7 @@ class ASN1
                     }
                     $length = $temp['length'];
                     // end-of-content octets - see paragraph 8.1.5
-                    if (\substr($content, $content_pos + $length, 2) == "\0\0") {
+                    if (\substr($content, $content_pos + $length, 2) == "\x00\x00") {
                         $length += 2;
                         $start += $length;
                         $newcontent[] = $temp;
@@ -357,7 +357,7 @@ class ASN1
                 } else {
                     $current['content'] = '';
                     $length = 0;
-                    while (\substr($content, $content_pos, 2) != "\0\0") {
+                    while (\substr($content, $content_pos, 2) != "\x00\x00") {
                         $temp = $this->_decode_ber($content, $length + $start, $content_pos);
                         if ($temp === \false) {
                             return \false;
@@ -370,7 +370,7 @@ class ASN1
                         $current['content'] .= $temp['content'];
                         $length += $temp['length'];
                     }
-                    if (\substr($content, $content_pos, 2) == "\0\0") {
+                    if (\substr($content, $content_pos, 2) == "\x00\x00") {
                         $length += 2;
                         // +2 for the EOC
                     }
@@ -390,7 +390,7 @@ class ASN1
                 while ($content_pos < $content_len) {
                     // if indefinite length construction was used and we have an end-of-content string next
                     // see paragraphs 8.1.1.3, 8.1.3.2, 8.1.3.6, 8.1.5, and (for an example) 8.6.4.2
-                    if (!isset($current['headerlength']) && \substr($content, $content_pos, 2) == "\0\0") {
+                    if (!isset($current['headerlength']) && \substr($content, $content_pos, 2) == "\x00\x00") {
                         $length = $offset + 2;
                         // +2 for the EOC
                         break 2;
@@ -983,7 +983,7 @@ class ASN1
                 $value = $source;
                 break;
             case self::TYPE_BOOLEAN:
-                $value = $source ? "ÿ" : "\0";
+                $value = $source ? "\xff" : "\x00";
                 break;
             default:
                 \user_error('Mapping provides no type definition for ' . \implode('/', $this->location));
@@ -1098,7 +1098,7 @@ class ASN1
         $value = '';
         foreach ($parts as $part) {
             if (!$part) {
-                $temp = "\0";
+                $temp = "\x00";
             } else {
                 $temp = '';
                 $part = new BigInteger($part);

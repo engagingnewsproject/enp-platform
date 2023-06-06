@@ -1509,10 +1509,10 @@ class SSH2
         
                    -- http://tools.ietf.org/html/rfc4345#section-4 */
         if ($encrypt == 'arcfour128' || $encrypt == 'arcfour256') {
-            $this->encrypt->encrypt(\str_repeat("\0", 1536));
+            $this->encrypt->encrypt(\str_repeat("\x00", 1536));
         }
         if ($decrypt == 'arcfour128' || $decrypt == 'arcfour256') {
-            $this->decrypt->decrypt(\str_repeat("\0", 1536));
+            $this->decrypt->decrypt(\str_repeat("\x00", 1536));
         }
         $mac_algorithm = $this->_array_intersect_first($c2s_mac_algorithms, $this->mac_algorithms_client_to_server);
         if ($mac_algorithm === \false) {
@@ -3973,7 +3973,7 @@ class SSH2
                 $temp = \unpack('Nlength', $this->_string_shift($server_public_host_key, 4));
                 $rawN = $this->_string_shift($server_public_host_key, $temp['length']);
                 $n = new BigInteger($rawN, -256);
-                $nLength = \strlen(\ltrim($rawN, "\0"));
+                $nLength = \strlen(\ltrim($rawN, "\x00"));
                 /*
                 if (strlen($signature) < 4) {
                     return false;

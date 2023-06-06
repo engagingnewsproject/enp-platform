@@ -3,6 +3,9 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+use NinjaForms\FileUploads\Common\Interfaces\NfLogger;
+use NinjaForms\FileUploads\WPOAuth2\WPOAuth2;
+use NinjaForms\FileUploads\Common\Handlers\Logger;
 
 /**
  * Class NF_FU_External_Loader
@@ -11,6 +14,7 @@ class NF_FU_External_Loader {
 
 	protected $class_prefix = 'NF_FU_External_Services_';
 
+	/** @var WPOAuth2 */
 	public $wpoauth;
 
 	static $min_php_version = '5.6.20';
@@ -25,6 +29,9 @@ class NF_FU_External_Loader {
 	 * @var array
 	 */
 	protected static $service_names;
+
+	/** @var NfLogger */
+	protected $logger;
 
 	/**
 	 * NF_FU_External_Loader constructor.
@@ -70,9 +77,10 @@ class NF_FU_External_Loader {
 			return $this->wpoauth;
 		}
 
-		$class         = self::NF_FU_VENDOR_NS_PREFIX . '\\Polevaultweb\\WPOAuth2\\WPOAuth2';
+		$class         = WPOAuth2::class;
 		$this->wpoauth = call_user_func( array( $class, 'instance' ), self::OAUTH_PROXY_URL );
 
+		$this->wpoauth->setLogger($this->getLogger());
 		return $this->wpoauth;
 	}
 
@@ -168,7 +176,12 @@ class NF_FU_External_Loader {
 	    	return false;
 	    }
 
+		/** @var NF_FU_External_Abstracts_Service $external */
 		$external = call_user_func( array( $class, 'instance' ) );
+		
+		if(method_exists($external,'setLogger')){
+			$external->setLogger($this->getLogger());
+		}
 
 		return $external;
 	}
@@ -443,4 +456,32 @@ class NF_FU_External_Loader {
 		return $service_name;
 	}
 
+
+	/**
+	 * Set the logger
+	 *
+	 * @param NfLogger $logger
+	 * @return NF_FU_External_Loader
+	 */ 
+	public function setLogger( NfLogger $logger):NF_FU_External_Loader
+	{
+		$this->logger = $logger;
+
+		return $this;
+	}
+
+	/**
+	 * Get the logger
+	 *
+	 * @return NfLogger
+	 */
+	protected function getLogger( ): NfLogger
+	{
+		if(is_null($this->logger)){
+			// fallback to empty logger
+			$this->logger = new Logger();
+		}
+
+		return $this->logger;
+	}
 }

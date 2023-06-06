@@ -1,15 +1,15 @@
-# Copyright (C) 2022 The WP Ninjas
+# Copyright (C) 2023 The WP Ninjas
 # This file is distributed under the same license as the Ninja Forms - File Uploads package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ninja Forms - File Uploads 3.3.14\n"
+"Project-Id-Version: Ninja Forms - File Uploads 3.3.15\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/ninja-forms-uploads\n"
-"POT-Creation-Date: 2022-03-07 16:48:39+00:00\n"
+"POT-Creation-Date: 2023-05-17 17:26:49+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2022-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2023-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ninja Forms <help@ninjaforms.com>\n"
 "Language-Team: English <LL@li.org>\n"
 "Language: en\n"
@@ -195,7 +195,7 @@ msgstr ""
 
 #: deprecated/includes/admin/pages/ninja-forms-uploads/tabs/browse-uploads/browse-uploads.php:234
 #: deprecated/includes/fields/file-uploads.php:372
-#: includes/admin/uploadstable.php:213 includes/fields/upload.php:278
+#: includes/admin/uploadstable.php:213 includes/fields/upload.php:287
 msgid "View"
 msgstr ""
 
@@ -266,7 +266,7 @@ msgid "Filter File Uploads"
 msgstr ""
 
 #: deprecated/includes/admin/pages/ninja-forms-uploads/tabs/external-settings/external-settings.php:36
-#: includes/external/loader.php:219
+#: includes/external/loader.php:232
 #: includes/templates/admin-menu-uploads-external.php:19
 msgid "External Settings"
 msgstr ""
@@ -411,7 +411,7 @@ msgid "Disconnected from %s"
 msgstr ""
 
 #: deprecated/includes/external/external.php:65
-#: includes/external/loader.php:275
+#: includes/external/loader.php:288
 msgid "%s Settings"
 msgstr ""
 
@@ -496,6 +496,34 @@ msgstr ""
 msgid ""
 "The cURL extension is not loaded. %sPlease ensure its installed and "
 "activated.%s"
+msgstr ""
+
+#: includes/Common/Routes/DebugLog.php:73
+msgid "Request made to delete all plugin log entries"
+msgstr ""
+
+#: includes/WPOAuth2/AdminHandler.php:185
+msgid "An unknown error occurred."
+msgstr ""
+
+#: includes/WPOAuth2/AdminHandler.php:187
+msgid "Connection Error"
+msgstr ""
+
+#: includes/WPOAuth2/AdminHandler.php:193
+msgid "You have successfully connected with your %s account."
+msgstr ""
+
+#: includes/WPOAuth2/AdminHandler.php:195
+msgid "Connected"
+msgstr ""
+
+#: includes/WPOAuth2/AdminHandler.php:201
+msgid "You have successfully disconnected your %s account."
+msgstr ""
+
+#: includes/WPOAuth2/AdminHandler.php:203
+msgid "Disconnected"
 msgstr ""
 
 #: includes/admin/controllers/custompaths.php:18
@@ -687,7 +715,7 @@ msgstr ""
 msgid "Minimum size of a file that can be uploaded."
 msgstr ""
 
-#: includes/config/field-settings.php:75 includes/fields/upload.php:320
+#: includes/config/field-settings.php:75 includes/fields/upload.php:329
 msgid "Select Files"
 msgstr ""
 
@@ -699,7 +727,7 @@ msgstr ""
 msgid "Change the button text for selecting files."
 msgstr ""
 
-#: includes/config/field-settings.php:84 includes/fields/upload.php:321
+#: includes/config/field-settings.php:84 includes/fields/upload.php:330
 msgid "Cancel"
 msgstr ""
 
@@ -761,6 +789,22 @@ msgid ""
 "large uploads are possible, but we recommend setting a sensible limit."
 msgstr ""
 
+#: includes/config/settings-upload.php:59
+msgid "Turn on Debug Logger"
+msgstr ""
+
+#: includes/config/settings-upload.php:65
+msgid "Logger Commands"
+msgstr ""
+
+#: includes/config/settings-upload.php:66
+msgid "Clear debug log"
+msgstr ""
+
+#: includes/config/settings-upload.php:66
+msgid "Download debug log"
+msgstr ""
+
 #: includes/config/styles-field-settings.php:6
 msgid "Progress Bar Styles"
 msgstr ""
@@ -818,7 +862,7 @@ msgstr ""
 msgid "Background Upload"
 msgstr ""
 
-#: includes/external/loader.php:260
+#: includes/external/loader.php:273
 msgid "%s requires %s"
 msgstr ""
 
@@ -864,9 +908,19 @@ msgstr ""
 msgid "File upload error"
 msgstr ""
 
-#: includes/fields/upload.php:270
+#: includes/fields/upload.php:279
 #: includes/integrations/ninjaforms/submissions.php:71
 msgid "File removed"
+msgstr ""
+
+#: includes/file-uploads.php:270
+msgid "Ninja Forms File Uploads Debug Logger"
+msgstr ""
+
+#: includes/file-uploads.php:271
+msgid ""
+"%sThe debug logger records data to help solve issues, but should be turned "
+"off as soon as you capture enough information.%s"
 msgstr ""
 
 #: includes/integrations/ninjaforms/attachments.php:36

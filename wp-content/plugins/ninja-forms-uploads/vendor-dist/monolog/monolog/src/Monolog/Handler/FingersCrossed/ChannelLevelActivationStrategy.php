@@ -42,7 +42,7 @@ class ChannelLevelActivationStrategy implements ActivationStrategyInterface
     public function __construct($defaultActionLevel, $channelToActionLevel = array())
     {
         $this->defaultActionLevel = Logger::toMonologLevel($defaultActionLevel);
-        $this->channelToActionLevel = \array_map('Monolog\\Logger::toMonologLevel', $channelToActionLevel);
+        $this->channelToActionLevel = \array_map('NF_FU_VENDOR\\Monolog\\Logger::toMonologLevel', $channelToActionLevel);
     }
     public function isHandlerActivated(array $record)
     {

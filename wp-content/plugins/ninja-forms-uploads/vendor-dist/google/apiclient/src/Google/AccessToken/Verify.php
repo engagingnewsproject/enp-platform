@@ -188,7 +188,7 @@ class Google_AccessToken_Verify
     private function getOpenSslConstant()
     {
         if (\class_exists('NF_FU_VENDOR\\phpseclib\\Crypt\\RSA')) {
-            return 'phpseclib\\Crypt\\RSA::MODE_OPENSSL';
+            return 'NF_FU_VENDOR\\phpseclib\\Crypt\\RSA::MODE_OPENSSL';
         }
         if (\class_exists('NF_FU_VENDOR\\Crypt_RSA')) {
             return 'CRYPT_RSA_MODE_OPENSSL';
