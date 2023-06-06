@@ -77,7 +77,7 @@ If it is not [a hotfix](#hotfix-branches), the flow for a normal deployment is:
 
     git checkout stable && git merge master
 
-    git tag -a 1.9.3 -m "--comment--" && git push origin stable --tags && git push staging stable
+    git tag -a 2.2.8 -m "ninja forms file uploads & jetpack plugin update " && git push origin stable --tags && git push staging stable
 
     git push production stable
     ```
