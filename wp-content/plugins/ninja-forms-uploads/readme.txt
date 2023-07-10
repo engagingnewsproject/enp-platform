@@ -4,7 +4,7 @@ Donate link: http://ninjaforms.com
 Tags: form, forms
 Requires at least: 5.0
 Tested up to: 6.2.0
-Stable tag: 3.3.15
+Stable tag: 3.3.16
 
 License: GPLv2 or later
 
@@ -26,6 +26,10 @@ This section describes how to install the plugin and get it working.
 For help and video tutorials, please visit our website: [NinjaForms.com](http://ninjaforms.com)
 
 == Changelog ==
+
+= 3.3.16 (06 June 2023)
+*Bug Fixes:*
+- Correct errant namespace scoping for autoloading
 
 = 3.3.15 (17 May 2023)
 *Bug Fixes:*
