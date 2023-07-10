@@ -118,7 +118,7 @@ ctfBuilder = new Vue({
 			pageScreen : 'welcome',
 
 			// feedsType, selectSource, feedsTypeGetProcess
-			selectedFeedSection : 'feedsType',
+			selectedFeedSection : 'selectSource',
 
 			sourcePopup : false,
 			feedtypesPopup : false,
@@ -221,6 +221,7 @@ ctfBuilder = new Vue({
 		dialogBox : {
 			active : false,
 			type : null, //deleteSourceCustomizer
+			icon : null,
 			heading : null,
 			description : null,
 			customButtons : undefined
@@ -307,7 +308,7 @@ ctfBuilder = new Vue({
 		var self = this;
 		this.$parent = self;
 		if( self.customizerFeedData ){
-			self.template = String("<div>"+self.template+"</div>");
+            self.template = String("<div>"+self.template+"</div>");
 			self.selectedFeedModel = JSON.parse(JSON.stringify(self.initSelectedFeedTypeModel()));
 			self.selectedFeedModelPopup = JSON.parse(JSON.stringify(self.initSelectedFeedTypeModel()));
 			self.selectedFeed = self.getCustomizerSelectedFeedsType();
@@ -332,6 +333,11 @@ ctfBuilder = new Vue({
 				})
 			}
 		});
+
+		if (typeof self.newAccountData !== 'undefined') {
+			self.viewsActive.pageScreen = 'selectFeed';
+
+		}
 
 
 		self.loadingBar = false;
@@ -1004,6 +1010,9 @@ ctfBuilder = new Vue({
 		//Check Feed Creation Process Sources & Hashtags
 		creationProcessCheckAppCredentials : function(){
 			var self = this;
+			if ( typeof self.appCredentials === 'undefined') {
+				return false;
+			}
 			return self.checkNotEmpty( self.appCredentials.access_token ) && self.checkNotEmpty( self.appCredentials.access_token_secret );
 		},
 
@@ -1454,7 +1463,7 @@ ctfBuilder = new Vue({
 		 *
 		 * @since 2.0
 		 */
-		feedActionDelete : function(feeds_ids){
+		feedActionDelete : function(feeds_ids, goBack = false){
 			var self = this,
 			feedsDeleteData = {
 				action : 'ctf_feed_saver_manager_delete_feeds',
@@ -1464,6 +1473,9 @@ ctfBuilder = new Vue({
 				var data = _ref.data;
 				self.feedsList = Object.values(Object.assign({}, data));
 				self.feedsSelected = [];
+                if( goBack === true){
+                    window.location = self.builderUrl;
+                }
 			});
 		},
 
@@ -2501,6 +2513,7 @@ ctfBuilder = new Vue({
 		 */
 		openDialogBox : function(type, args = []){
 			var self = this,
+			icon = self.dialogBoxPopupScreen[type].icon,
 			heading = self.dialogBoxPopupScreen[type].heading,
 			description = self.dialogBoxPopupScreen[type].description,
 			customButtons = self.dialogBoxPopupScreen[type].customButtons;
@@ -2517,6 +2530,7 @@ ctfBuilder = new Vue({
 			self.dialogBox = {
 				active : true,
 				type : type,
+                icon : icon,
 				heading : heading,
 				description : description,
 				customButtons : customButtons
@@ -2548,6 +2562,9 @@ ctfBuilder = new Vue({
 				case 'unsavedFeedSources':
 					self.updateFeedTypeAndSourcesCustomizer();
 				break;
+                case 'createMoreFeeds' :
+                    window.open('https://smashballoon.com/pricing/twitter-feed/?utm_source=twitter-free&utm_medium=settings-builder&utm_campaign=multiple-feeds&utm_content=AddNew')
+                    break;
 			}
 		},
 
@@ -2958,7 +2975,29 @@ ctfBuilder = new Vue({
 
 		ctaToggleFeatures: function() {
 			this.freeCtaShowFeatures = !this.freeCtaShowFeatures;
-		}
+		},
+
+        /**
+		 * Create New Feed
+		 *
+		 * @since 2.1
+		 *
+		*/
+        createNewFeed : function () {
+            const self = this;
+            if( ! self.viewsActive.onboardingPopup ){
+	            if( ! self.creationProcessCheckAppCredentials() ){
+		            self.viewsActive.connectAccountPopup = true;
+		            self.viewsActive.connectAccountStep = 'step_1';
+	            } else if( self.feedsList.length >= 1 ){
+                    self.openDialogBox('createMoreFeeds');
+                } else{
+                    self.switchScreen('pageScreen', 'selectFeed');
+                }
+            } else{
+                self.switchScreen('welcome');
+            }
+        }
 
 	}
 

@@ -1,4 +1,5 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
+use NinjaForms\Includes\Handlers\Sanitizer;
 
 class NF_Display_Render
 {
@@ -299,6 +300,8 @@ class NF_Display_Render
                 $settings['element_templates'] = $templates;
                 $settings['old_classname'] = $field_class->get_old_classname();
                 $settings['wrap_template'] = $field_class->get_wrap_template();
+
+                $settings['label']=Sanitizer::preventScriptTriggerInHtmlOutput($settings['label']);
 
                 $fields[] = apply_filters( 'ninja_forms_localize_field_settings_' . $field_type, $settings, $form );
 

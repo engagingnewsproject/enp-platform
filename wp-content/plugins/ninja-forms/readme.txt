@@ -3,8 +3,8 @@ Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorho
 Tags: forms, contact form, email form, form builder, custom form, pdf form, registration form, payment form, login form, contact me, signature form, upload form, file upload form, conditional form, feedback form, appointment form, quote form, survey form, contact button, signup form, form plugin, contact form plugin, subscription form, email subscription form, newsletter form, donation form, booking form, quote request form, multi page form, conditional logic form, subscription form, application form, employment verification form, star rating form, rating form, event form, mailchimp form, campaign monitor form, constant contact form, mailpoet form, aweber form, cleverreach form, emma form, convertkit form, active campaign form, salesforce form, zoho form, capsule form, insightly form, pipelinedeals form, onepagecrm form
 
 Requires at least: 6.0
-Tested up to: 6.2.0
-Stable tag: 3.6.24
+Tested up to: 6.2.2
+Stable tag: 3.6.28
 
 License: GPLv2 or later
 
@@ -304,13 +304,52 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.6.24 (12 May 2023)
-*Bug Fixes:*
-- Prevent bypass of required field with modified data
-- Prevent datepicker to break the view when set with 0 minutes increment
-- Prevent Submit button to double submit a form
+= 3.6.28 (06 July 2023)
+
+*Bug fixes:*
+* Correct issue that prevented form deletion
+
 
 == Changelog ==
+= 3.6.28 (06 July 2023)
+
+*Bug fixes:*
+* Correct issue that prevented form deletion
+
+= 3.6.27 (04 July 2023)
+
+*Bug fixes:*
+* Use static call for class name for PHP 7 support 
+
+= 3.6.26 (04 July 2023)
+
+*Other:*
+* Ensure minimum required version on packages
+
+*Security Enhancements:*
+* Prevent unauthorized download of submission
+* Prevent scripts in dashboard field labels; responsibly reported by Sayandeep Dutta
+* Prevent front-facing label scripts; responsibly reported by Jonathon Zamora & WordPress.org
+* Prevent excess extra data through automated form submission
+* Prevent override access where not permitted
+
+= 3.6.25 (14 June 2023)
+*Bug Fixes:*
+- Remove duplicate radio bubble on opionated styles mobile
+- Restrict delete file route to uploads directory
+
+*Other:*
+ - Bump @wordpress/jest-preset-default from 10.9.0 to 11.4.0 #6579
+ -  Bump core-js from 3.30.1 to 3.30.2 #6578
+ - Bump axe-core from 4.7.0 to 4.7.1 #6577
+ - Bump @wordpress/components from 23.9.0 to 24.0.0 #6576
+ - Bump @babel/core from 7.21.5 to 7.21.8 #6575
+ - Prototype Pollution in lodash
+ - Regular Expression Denial of Service in trim
+ - glob-parent before 5.1.2 vulnerable to Regular Expression Denial of Service in enclosure regex
+ - Uncontrolled Resource Consumption in trim-newlines
+ - Inefficient Regular Expression Complexity in nth-check
+
 = 3.6.24 (12 May 2023)
 *Bug Fixes:*
 - Prevent bypass of required field with modified data

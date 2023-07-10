@@ -20,6 +20,7 @@
 				</div>
 			</div>
 			<div class="sb-dialog-popup-content ctf-fb-fs">
+				<div v-if="dialogBoxElement.icon !== undefined && dialogBoxElement.icon !== null" class="sb-dialog-popup-icon" v-html="svgIcons[dialogBoxElement.icon]"></div>
 				<strong v-html="dialogBoxElement.heading"></strong>
 				<span v-html="dialogBoxElement.description"></span>
 				<div class="sb-dialog-popup-actions ctf-fb-fs">

@@ -676,6 +676,20 @@ class NF_Database_Models_Submission
     {
         if( ! $this->_extra_values ) return FALSE;
 
+        $maxCount = apply_filters('ninja_forms_max_extra_data_count',200,$this->_form_id);
+
+        /*
+         * if extra data has more than 200 elements, then stop.  Add-ons should
+         * not be adding those many individual pieces of data; rather, they
+         * should add data keyed on specific functional areas from their usage.
+         *
+         * Over the allowed limit, it is expected to be an attack.  Site
+         * developers can use filter to raise limit either globally or per-form
+         */
+        if($maxCount<count($this->_extra_values)){
+            return FALSE;
+        }
+
         foreach( $this->_extra_values as $key => $value )
         {
             if( property_exists( $this, $key ) ) continue;

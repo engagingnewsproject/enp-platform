@@ -514,9 +514,9 @@
     color: #8C8F9A;
     text-decoration: none;
     cursor: pointer;
-    -webkit-transition: linear 0.2s;
-    -ms-transition: linear 0.2s;
-    transition: linear 0.2s;
+    -webkit-transition: linear 0.1s;
+    -ms-transition: linear 0.1s;
+    transition: linear 0.1s;
 }
 .sb-tabs-container .sb-tabs .tab:not(:last-child) {
     margin-right: 20px;
@@ -531,22 +531,21 @@
     background-color: #0068A0;
     width: 200px;
     height: 2px;
-    transition: all 0.7s cubic-bezier(0.22, 0.51, 0.53, 0.88);
+    transition: all 0.3s cubic-bezier(0.22, 0.51, 0.53, 0.88);
 }
 
 .slide-fade-enter-active {
-    transition: all 0.3s ease;
     position: absolute;
 }
 .slide-fade-leave-active {
     position: absolute;
-    transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
 }
 .slide-fade-enter,
 .slide-fade-leave-to {
     transform: translateX(10px);
     opacity: 0;
 }
+
 
 /*** 4.2 - Tab Boxes ***/
 .sb-tab-content{
@@ -2085,4 +2084,22 @@ Sources Instance Popup
     color: #0068A0;
     text-decoration: underline;
     font-size: 14px;
+}
+
+.ctf-tab-connect-ac{
+    width: 50%;
+}
+.ctf-tab-connect-ac .ctf-btn.sb-btn-lg{
+    height: 40px;
+}
+.ctf-notice-cach-text{
+    font-weight: 400 !important;
+    font-size: 13px !important;
+    color: #696D80 !important;
+}
+.sb-tab-content .sb-tab-box .ctf-caching-pro-cta span{
+    text-align: left;
+}
+.sb-tab-content .sb-tab-box .ctf-caching-pro-cta{
+    padding: 8px 290px;
 }

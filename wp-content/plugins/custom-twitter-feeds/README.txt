@@ -5,57 +5,70 @@ Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Twitter Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 4.1
 Tested up to: 6.2
-Stable tag: 2.0.7
+Stable tag: 2.1.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-As of April 2023 this plugin will not show updated feeds. We are working on a solution which will be available in the coming months.
+Display Twitter tweets from any public user account in a clean, attractive looking feed that updates weekly.
 
 == Description ==
-Display **completely customizable**, **responsive** and **search engine crawlable** Twitter feeds on your website. The Custom Twitter Feeds plugin will display Tweets that completely match the look and feel of your site and includes tons of customization options!
+Display **completely customizable**, **responsive** and **search engine crawlable** Twitter feeds on your website. The Custom Twitter Feeds plugin will display any user timeline tweets that completely match the look and feel of your site and includes tons of customization options!
 
 = Features =
-* **Completely Customizable** - by default the Twitter feeds will inherit your theme's styles
-* Twitter feed content is **crawlable by search engines** adding SEO value to your site
-* **Completely responsive and mobile optimized** - your Twitter feeds work on any screen size
-* Display Tweets from any user, your own Twitter account and those you follow, or from a specific hashtag
-* Display **multiple Twitter feeds** from different Twitter users on multiple pages or widgets
-* Post caching means that your Twitter feed loads **lightning fast** and minimizes Twitter API requests
-* **Infinitely load more** of your Tweets with the 'Load More' button
-* Built-in easy to use "Custom Twitter Feeds" Widget makes it easy to display Tweets from any Twitter account
+* **Quick 3-Step Feed Creation** – create a Twitter feed in just 3 steps with our guided flow to help you do this, even if you’re a WordPress newbie
+* **Completely Customizable** – by default, your user timeline feed will inherit your theme's styles – automatically
+* Twitter feed content is **crawlable by search engines**, adding SEO value to your site
+* **Completely responsive and mobile-optimized** – your Twitter feed looks great on any screen size and on any device
+* Easily display a Twitter feed from any Twitter user – you can quickly connect 1 public Twitter account for absolutely free
+* Using our Site Key and a verified email address, you can **automatically refresh your Twitter feed** once a week so you can showcase fresh Twitter content on your site at zero cost
+* Post caching means that your Twitter feed loads **lightning fast**.
+* **Load more** of your Tweets with the 'Load More' button
+* Built-in easy to use "Custom Twitter Feeds" Widget makes it easy to display tweets from any public Twitter account
 * Fully internationalized and translatable into any language
 * Display a beautiful header at the top of your Twitter feed
 * Enter your own custom CSS or JavaScript for even deeper customization of your Tweets
 
-For simple step-by-step directions on how to set up the Custom Twitter Feeds plugin please refer to our [setup guide](http://smashballoon.com/custom-twitter-feeds/free/?utm_campaign=twitter-free&utm_source=readme&utm_medium=stepbystep 'Custom Twitter Feeds setup guide').
+For simple step-by-step directions on how to set up the Custom Twitter Feeds plugin, please refer to our [setup guide](https://smashballoon.com/doc/setting-up-the-free-custom-twitter-feeds-wordpress-plugin/?utm_source=twitter-free&utm_medium=readmefile&utm_campaign=readme-setup&utm_content=SetupGuide').
 
 = Benefits =
 * **Increase social engagement** between you and your users, customers, or fans
 * **Save time** by using the Custom Twitter Feeds plugin to generate dynamic, search engine crawlable content on your website
-* **Get more follows** by displaying your Twitter content directly on your site
+* **Convert site visitors into Twitter followers** by displaying your Twitter content directly on your site
 * **Improve your SEO** as all of that quality keyword-rich Twitter content is directly embedded into your website
-* **Keep users on your site** by letting them reply and like your Tweets directly on your site
-* Display your Twitter content **your way** to perfectly match your website's style
-* The Custom Twitter Feeds plugin is **updated regularly** with new features, bug-fixes and Twitter API changes
-* Support is quick and effective
-* We're dedicated to providing the **most customizable**, **robust** and **well supported** Twitter feed plugin in the world!
+* **Keep users on your site** by showcasing your tweets from any user timeline on WordPress
+* **Boost engagement** by letting site visitors reply and like your tweets directly on your site
+* Showcase your Twitter content **your way** to perfectly match your website's style
+* The Custom Twitter Feeds plugin is **updated regularly** with new features, bug-fixes and solutions to comply with recent Twitter API changes
 
-[View the reviews](https://wordpress.org/support/plugin/custom-twitter-feeds/reviews/) to see what other users are saying about the Custom Twitter Feeds plugin.
+= Pro Version =
+In order to maintain the free version of Custom Twitter Feeds plugin on an ongoing basis, and to provide quick and effective support for free, we offer a Pro version of the plugin. The Pro version allows you to:
 
-= Feedback or Support =
-We're dedicated to providing the most robust and well supported Twitter feed plugin in the world, so if you have an issue or any feedback on how to improve the plugin then please [let us know](https://smashballoon.com/custom-twitter-feeds/support/?utm_campaign=twitter-free&utm_source=readme&utm_medium=letusknowimprove 'Twitter Feed Support').
+* Display tweets from **multiple users in the same Twitter feed**
+* Display **photos**, **videos**, and **gifs** and view them in a **popup lightbox** directly on your site
+* Multi-column **Masonry layout**  [demo](https://smashballoon.com/custom-twitter-feeds/demo/masonry/?utm_source=twitter-free&utm_medium=readmefile&utm_campaign=twitter-liteupgrade&utm_content=MasonryDemo)
+* Show your tweets in a **Twitter slideshow** [demo](https://smashballoon.com/custom-twitter-feeds/demo/carousel/?utm_source=twitter-free&utm_medium=readmefile&utm_campaign=twitter-liteupgrade&utm_content=CarouselDemo)
+* Choose from **professionally-made Twitter templates** so you can easily build your Twitter feed in seconds
+* Allow **filtering** of Twitter user timelines include/exclude any/all keywords
+* Tweet-specific **moderation system**
+* Visual **Twitter cards** displayed with links which support them
+* Include **Tweet replies** (in reply to tweets)
+* **Combine multiple Twitter feeds** into one
+* **Automatically update** your Twitter feeds up to 12 times per day so you can effortlessly display up-to-date Twitter content to your site visitors
+* **Autoload more Tweets** when scrolling
 
-If you like the plugin then please consider leaving a review, as it really helps to support the plugin. If you have an issue then please allow us to help you fix it before leaving a review. Just [let us know](https://smashballoon.com/custom-twitter-feeds/support/?utm_campaign=twitter-free&utm_source=readme&utm_medium=letusknowbug 'Twitter Feed Support') what the problem is and we'll get back to you right away.
+[Find out more about the Pro version](https://smashballoon.com/custom-twitter-feeds/?utm_source=twitter-free&utm_medium=readmefile&utm_campaign=twitter-liteupgrade&utm_content=FindOutMore).
 
-= Featured Reviews =
+Try the Pro version [demo here](https://smashballoon.com/custom-twitter-feeds/demo/?utm_source=twitter-free&utm_medium=readmefile&utm_campaign=twitter-liteupgrade&utm_content=Try-Pro-1)
+
+= Featured Reviews for Custom Twitter Feeds =
 "***Great for Customization** - Great plugin! Superb customization options! Am changing all twitter feeds for all my websites to this! I have tried several Twitter plugins so far. This is the best I have come across :)*" - [@nehavivekpatil](https://wordpress.org/support/topic/great-for-customization-2/)
 
 "***Excellent plug-in. Excellent support.** - Excellent instructions and guidance. Patient and prompt support for the newbies. Regular updates. You can't lose. Thank you Smash Balloon.* - [@nuspa](https://wordpress.org/support/topic/excellent-plug-in-excellent-support-2/)
 
 "***Amazing Support and a Great Twitter Plugin** - I am using the free version of this Twitter plugin and identified a real problem in the display on my website. I emailed support and Craig was all over the fix for me. Seven or so emails later (even on a Sunday) the problem was fixed and Craig was still reaching out to make sure all was well.*
 
-*In a world of crappy support for premium plugins, and even worse support for free plugins, this kind of support (and listening to customers) that Craig and Smash Balloon provided me make their premium products worth every penny. In fact, I am going to buy them on my next project. They deserve it.*
+*In a world of crappy support for premium plugins, and even worse support for free plugins, this kind of support (and listening to customers) that Craig and Smash Balloon provided me make their premium products worth every penny. In fact, I am going to buy them for my next project. They deserve it.*
 
 *Thanks again, Craig!*" - [@kcwebguy](https://wordpress.org/support/topic/amazing-support-and-a-great-twitter-plugin/)
 
@@ -65,65 +78,44 @@ If you like the plugin then please consider leaving a review, as it really helps
 
 *Kudos to the SmashBalloon team on a well supported, tightly developed, feature-packed WordPress Plugin.* - [@laymanlab](https://wordpress.org/support/topic/everything-youll-need-in-a-twitter-feed-plugin/)
 
-= Pro Version =
-We have a [Pro version](http://smashballoon.com/custom-twitter-feeds/?utm_campaign=twitter-free&utm_source=readme&utm_medium=havepro 'Custom Twitter Feeds Pro') which includes some awesome additional features:
+[View the reviews](https://wordpress.org/support/plugin/custom-twitter-feeds/reviews/) to see what other users are saying about the Custom Twitter Feeds plugin.
 
-* Display Tweets from **multiple users or hashtags in the same Twitter feed**
-* Display **photos**, **videos**, and **gifs** and view them in a **popup lightbox** directly on your site
-* Multi-column **Masonry layout** [demo](http://smashballoon.com/custom-twitter-feeds/demo/masonry/?utm_campaign=twitter-free&utm_source=readme&utm_medium=masonry 'Custom Twitter Feeds Pro Masonry Demo')
-* Allow **filtering** of Twitter timelines include/exclude any/all keywords/hashtags
-* Customizable **Carousels** and **Slideshows** of your Tweets
-* Fully functional Twitter **search endpoint**
-* Display Tweets you're mentioned in
-* Tweet-specific **moderation system**
-* Visual **Twitter cards** displayed with links which support them
-* Include **Tweet replies** (in reply to tweets)
-* **Combine multiple Twitter feeds** into one
-* **Autoload more Tweets** when scrolling
+* We're dedicated to providing the **most customizable**, **robust** and **well supported** Twitter feed plugin in the world!
 
-Try the Pro version [demo here](http://smashballoon.com/custom-twitter-feeds/demo?utm_campaign=twitter-free&utm_source=readme&utm_medium=trydemo 'Custom Twitter Feeds Pro Demo')
+= Feedback or Support =
+We're committed to providing the easiest-to-use, most powerful and #1 supported Twitter feed plugin in the world, so if you have an issue or any feedback on how to improve the plugin, then please [let us know](https://smashballoon.com/custom-twitter-feeds/support/?utm_source=twitter-free&utm_medium=readmefile&utm_campaign=readme-support&utm_content=Feedback).
+
+If you like the plugin then please consider leaving a review, as it really helps to support the plugin. If you have an issue, then please allow us to help you fix it before leaving a review. Just [let us know](https://smashballoon.com/custom-twitter-feeds/support/?utm_source=twitter-free&utm_medium=readmefile&utm_campaign=readme-support&utm_content=Support) what the problem is and we'll get back to you right away.
 
 == Installation ==
 1. Install the Custom Twitter Feeds plugin either via the WordPress plugin directory, or by uploading the files to your web server (in the /wp-content/plugins/ directory).
 2. Activate the Custom Twitter Feeds plugin through the 'Plugins' menu in WordPress.
-3. Navigate to the 'Twitter Feed' settings page to configure your Twitter feed.
-4. Use the shortcode [custom-twitter-feeds] in your page, post or widget to display your Twitter feed.
-5. You can display multiple Twitter feeds with different configurations by specifying the necessary parameters directly in the shortcode: [custom-twitter-feeds hashtag=#smashballoon].
+3. Navigate to the 'Twitter Feed' settings page to start creating your Twitter feed.
+4. Use the shortcode [custom-twitter-feeds feed=1] in your page, post or widget to display your Twitter feed.
 
-For simple step-by-step directions on how to set up the Custom Twitter Feeds plugin please refer to our [setup guide](http://smashballoon.com/custom-twitter-feeds/free/?utm_campaign=twitter-free&utm_source=readme&utm_medium=stepbystep2 'Custom Twitter Feeds setup guide').
+For simple step-by-step directions on how to set up the Custom Twitter Feeds plugin, please refer to our [setup guide](https://smashballoon.com/doc/setting-up-the-free-custom-twitter-feeds-wordpress-plugin/?twitter?utm_source=twitter-free&utm_medium=readmefile&utm_campaign=readme-setup&utm_content=SetupGuide).
 
 = Setting up the Free Custom Twitter Feeds WordPress Plugin =
 
 If you have an issue or question while setting up or using the plugin then please submit a support ticket and we'll get back to you as soon as we can.
 
-1) Once you've installed the Custom Twitter Feeds plugin click on the "Twitter Feeds" item in your WordPress menu
+1) Once you've installed the Custom Twitter Feeds plugin, click on the "Twitter Feeds" item in your WordPress menu
 
-2) Click on the large blue Twitter login button to get your Twitter Access Token and Twitter Secret. Note; if you have your own Twitter Developer App set up then you can enter your Twitter information manually by enabling the checkbox below the Twitter login button.
+2) Click on the "Add New" button. Next, select the “user timeline” feed type then click “Next”
 
-3) Authorize the Custom Twitter Feeds plugin to read your Tweets.
-Note; the plugin does not obtain permission to edit or write to your Twitter account, only to read your Twitter content.
+3) Enter the Twitter username you want to display your tweets from
 
-4) Twitter sends back your Twitter Access Token and Twitter Secret which are then automatically saved by the Custom Twitter Feeds plugin. This information is required in order to connect to the Twitter API.
+4) Select the template you want to use for your Twitter feed. Then, customize your Twitter feed with just a few clicks using our visual feed customizer
 
-5) Enter a Twitter screenname to display Tweets from. Alternatively, choose to display Tweets from your Twitter home timeline or a Twitter hashtag.
+5) Once you've customized your Twitter feed, click on the "Embed" button. You can copy the [custom-twitter-feeds] shortcode and paste it into any page, post or widget where you want the Twitter feed to appear. Or, you can simply use the "Custom Twitter Feeds" block directly in your WordPress block editor.
 
-6) Navigate to the Customize and Style pages to customize your Twitter feed.
-
-7) Once you've customized your Twitter feed, click on the "Display Your Feed" tab for directions on how to display your Twitter feed (or multiple Twitter feeds).
-
-8) Copy the [custom-twitter-feeds] shortcode and paste it into any page, post or widget where you want the Twitter feed to appear.
-
-9) You can paste the [custom-twitter-feeds] shortcode directly into your page editor.
-
-10) You can use the default WordPress 'Text' widget to display your Twitter Feed in a sidebar or other widget area.
-
-11) View your website to see your Twitter feed(s) in all their glory!
+6) Check out your website to see your Twitter feed in all its glory!
 
 == Frequently Asked Questions ==
 
 = Can I display multiple Twitter feeds on my site or on the same page? =
 
-Yep. You can display multiple Twitter feeds by using our built-in shortcode options, for example: `[custom-twitter-feeds screenname="smashballoon" num=3]`. You can add it to any post, page, or widget, to easily display your Twitter feed in a beautiful Twitter widget.
+Yes, you can display multiple Twitter feeds by using our built-in shortcode options. For example: `[custom-twitter-feeds screenname="smashballoon" num=3]`. You can add it to any post, page, or widget to easily display your Twitter feed in a beautiful Twitter widget.
 
 = How do I embed the Twitter Feed directly into a WordPress page template? =
 
@@ -131,7 +123,7 @@ You can embed your Twitter feed directly into a template file by using the WordP
 
 = Is the content of my Twitter feed crawlable by search engines and how does it help improve my SEO? =
 
-Unlike other Twitter plugins which use iframes to embed your Twitter feed into your page in a widget, the Custom Twitter Feeds uses server-side code to embed your Twitter feed widget content directly into your page. This adds dynamic, search engine crawlable content to your site.
+Unlike other Twitter plugins which use iFrames to embed your Twitter feed into your page in a widget, the Custom Twitter Feeds plugin uses server-side code to embed your Twitter feed widget content directly into your page. This adds dynamic, search engine crawlable content to your site.
 
 = Will Custom Twitter Feeds work with W3 Total Cache or other caching plugins? =
 
@@ -139,7 +131,9 @@ The Custom Twitter Feeds plugin should work in compatibility with most, if not a
 
 = The font in my Twitter feed isn't inherited from my website =
 
-Be default your Twitter feed should inherit the font from your website. If this isn't the case then it's possible that something in the theme is preventing this from happening. An issue that we've run into before is that &lt;code&gt; tags are added into the Twitter feed widget HTML by either the theme, another plugin, or perhaps even the custom-twitter-feeds shortcode being wrapped in code tags in your page editor. To fix this;
+By default, your Twitter feed should automatically inherit the font from your website. If this isn't the case, then it's possible that something in the theme is preventing this from happening. An issue that we've run into before is that &lt;code&gt; tags are added into the Twitter feed widget HTML by either the theme, another plugin, or perhaps even the custom-twitter-feeds shortcode being wrapped in code tags in your page editor.
+
+To fix this:
 
 1) First – go to your page editor, click on the 'Text' tab in the top right of the editor box, and check whether the [custom-twitter-feeds] shortcode is being wrapped in &lt;code&gt; tags, like so: &lt;code&gt;[custom-twitter-feeds]&lt;/code&gt;. If it is, then remove them.
 
@@ -149,39 +143,42 @@ Be default your Twitter feed should inherit the font from your website. If this 
 
 You can replace the font-family with whatever font your theme is using.
 
+= Can I display multiple Twitter feeds? =
+
+Twitter recently announced a Twitter API that offers a limited number of API requests for a $100 monthly fee. Right now, we’re working on integrating our plugin with this new API which would allow for more features.
+
+If you’d like to display tweets from only one source, we’ve got your back. As a free user of Custom Twitter Feeds, you can showcase your tweets from 1 user timeline feed at NO cost to you.
+
+Want to embed multiple Twitter feeds from different user timelines? This is a feature of the [Pro version](https://smashballoon.com/custom-twitter-feeds/?utm_source=twitter-free&utm_medium=readmefile&utm_campaign=twitter-liteupgrade&utm_content=MultipleTwitterFeeds) of the plugin, which allows you to show tweets from multiple user timelines, moderate and filter your feeds, and more!
+
 = Differences between the free version and Pro version of the Custom Twitter Feeds plugin =
 
 The main differences between the free version and Pro version of the Custom Twitter Feeds plugin are listed below. The extra features available in the Pro version are as follows:
 
 - Display photos, videos, and gifs in your Tweets, with support for 3rd party services such as YouTube, Vimeo, Vine, and SoundCloud
+- Show tweets from multiple users in the same Twitter feed
 - View Twitter media in a pop-up lightbox directly on your site
 - Display Tweets in a multi-column Masonry layout
 - Display your Twitter feed in rotating Carousels / Slideshows
+- Ready-made Twitter feed templates so you don’t have to build your feeds from scratch
 - Twitter Cards (rich, standout links) are displayed in Tweets for links that support them
-- Create advanced Twitter "Search" feeds or use the "Mentions" timeline
-- Combine Twitter feeds of multiple types (i.e. User feeds and Hashtag Twitter feeds combined)
-- Filter feeds by hashtag, word(s), or remove specific tweets
+- Combine Twitter feeds of multiple user timelines
+- Update Twitter feeds and sources up to 12x per day
+- Filter feeds by keywords, or add/remove specific tweets manually
+- Tweet-specific **moderation system**
 - Autoload more tweets when scrolling to the bottom of the Twitter feed
 - Include Tweet replies ("in reply to")
-
-You can see the demo of the Custom Twitter Feeds Pro version [here](https://smashballoon.com/custom-twitter-feeds/demo/?utm_source=wordpress&utm_campaign=ctf), and a video screencast [here](https://smashballoon.com/custom-twitter-feeds/#watch-video?utm_campaign=twitter-free&utm_source=readme&utm_medium=watchvideo).
+Try the Pro version [demo here](https://smashballoon.com/custom-twitter-feeds/demo/?utm_source=twitter-free&utm_medium=readmefile&utm_campaign=twitter-liteupgrade&utm_content=Try-Pro-2)
 
 = I'm receiving an error message when trying to display my Twitter feed =
 
 If you receive an error message when trying to display your Twitter Feed widget then you can use the error reference below to diagnose the issue and find the relevant solution.
 
 **Twitter Error:**
-Could not authenticate you
+Unauthorized
 
 **Causes:**
-- You may be using Twitter access tokens that are not valid - See #1 below
-- You checked the box to enter your own Twitter app information, but one or more of the fields are incorrect - See #2 below
-
-**Twitter Error:**
-Invalid or expired token
-
-**Causes:**
-- You may not have entered your Twitter access tokens or they are not valid - See #1 below
+- You may not have connected your site to Smash Ballon or the connection is not valid - See #1 below
 
 **Twitter Error:**
 Unable to load tweets (with no other explanation)
@@ -193,7 +190,7 @@ Unable to load tweets (with no other explanation)
 Sorry, that Twitter page does not exist
 
 **Causes:**
-- There may be a typo in the Twitter screen name or hashtag you are attempting to use
+- There may be a typo in the Twitter screen name you are attempting to use
 
 **Twitter Error:**
 Over capacity
@@ -209,31 +206,38 @@ Connection timed out after 10000 milliseconds
 
 **Solutions**
 
-**#1 - Your Twitter access tokens might not be valid**
+**#1 - Your Smash Balloon connection might not be valid**
 
-The easiest way to verify this is by going back to the Settings page for the Custom Twitter Feeds plugin and clicking the big blue Twitter login button on the "Configure" tab to get new Twitter access tokens. If you haven't set up your own Twitter App, the only way to use the Custom Twitter Feeds plugin is to click the big blue button to get a Twitter access token and Twitter access token secret that is compatible with the default Twitter client used by Smash Balloon.
+You can reset or recollect your site access token by going to the Settings page for the Custom Twitter Feeds plugin and clicking the "Refresh" button to start the process of retrieving a new site key.
 
 **#2 - You have checked the box to use your own Twitter app information but one or more of the fields are incorrect**
 
-All four fields, Twitter consumer token, Twitter consumer secret, Twitter access token, and Twitter access token secret, need to come from the Twitter app that you set up on Twitter.com. Try returning to your personal Twitter app management page https://apps.twitter.com/ and confirming that all four fields, Twitter consumer token, Twitter consumer secret, Twitter access token, and Twitter access token secret are entered correctly in the corresponding fields on the Custom Twitter Feeds plugin's "Configure" tab.
+Note: Connecting you own Twitter App is not yet available but will be soon. All four fields, Twitter consumer token, Twitter consumer secret, Twitter access token, and Twitter access token secret, need to come from the Twitter app that you set up on Twitter.com. Try returning to your personal Twitter app management page https://apps.twitter.com/ and confirming that all four fields, Twitter consumer token, Twitter consumer secret, Twitter access token, and Twitter access token secret are entered correctly in the corresponding fields on the Custom Twitter Feeds plugin's "Configure" tab.
 
 **#3 - You may need to raise the number of tweets to retrieve**
 
 Navigate to the type of Twitter feed you are trying to display on twitter.com. For example, if you are displaying a Twitter feed from the screenname "smashballoon", go to https://twitter.com/smashballoon. Make sure there are tweets visible. Then click on the link "Tweets & replies". If there are a more recent replies than original tweets, there may be too many tweets being filtered out to display any. Twitter replies are removed by default. You can raise the number of tweets to retrieve initially by going to the Custom Twitter Feed Settings page, "Customize" tab, and navigating to the "Advanced" area. Then raise the "Tweet Multiplier" and test to see if your Twitter feed now displays tweets.
 
-If you're still having trouble displaying your Tweets after trying the common issues above then please [contact support](https://smashballoon.com/custom-twitter-feeds/support/?utm_campaign=twitter-free&utm_source=readme&utm_medium=troubledisplaying) for assistance.
+If you're still having trouble displaying your Tweets after trying the common issues above, then please [contact support](https://smashballoon.com/custom-twitter-feeds/support/?utm_source=twitter-free&utm_medium=readmefile&utm_campaign=common-issues&utm_content=support) for assistance.
 
 == Screenshots ==
 
 1. By default the Custom Twitter Feeds plugin inherits styles from your theme
-2. Display multiple Twitter feeds and customize each one
+2. Display a Twitter Feed and customize it as needed
 3. Custom Twitter Feeds Settings pages
 4. Built in customization settings make customizing your Twitter feed widget easy
 5. Additional styling options are built into the Custom Twitter Feeds plugin
-6. Use handy shortcode options to customize individual Twitter feeds
-7. To display a Twitter feed just copy and paste the shortcode into a Twitter widget or page
+6. Use handy shortcode options to customize individual Twitter feed
+7. To display the Twitter feed just copy and paste the shortcode into a Twitter widget or page
 
 == Changelog ==
+= 2.1.1 =
+* Fix: Fixed a PHP error occurring in sites using PHP 7.1 or lower.
+
+= 2.1 =
+* Important: We are launching our new Twitter solution for our free users! This will require you to connect to Smash Balloon by verifying an email address and receiving a special site token that can be used to update a single feed. See [our website]('https://smashballoon.com/doc/smash-balloon-twitter-changes-free-version/?utm_source=twitter-free&utm_medium=readme-changelog&utm_campaign=smash-twitter-update&utm_content=OurWebsite') for information about how the new system works.
+* Important: Due to the higher costs for updating feeds, our free users will be limited to one feed that is updated once a week. For more updates and more feeds, consider [upgrading to Pro](https://smashballoon.com/custom-twitter-feeds/?utm_source=twitter-free&utm_medium=readmefile&utm_campaign=twitter-liteupgrade&utm_content=UpgradeToPro).
+
 = 2.0.7 =
 * Update: We are working on a solution for our free users to see an updated feed. [See this page for more information]('https://smashballoon.com/doc/smash-balloon-twitter-changes-free-version/?utm_source=twitter-free&utm_medium=readme-changelog&utm_campaign=smash-twitter-update&utm_content=MoreInformation'). Thank you for your patience while we continue to fight for your success with our plugin!
 

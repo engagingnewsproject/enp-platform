@@ -28,23 +28,26 @@
         <div class="ctf-tab-form-field">
             <div class="sb-form-field">
                 <div class="mb-10 caching-form-fields-group">
-					<select id="ctf-caching-type" class="ctf-select size-xs mr-3" v-model="model.feeds.cachingType">
-						<option v-for="(unit, unitKey) in feedsTab.cachingBox.cacheTypeOptions" :value="unitKey">{{unit}}</option>
-					</select>
-					<input type="number" id="ctf-caching-intervals-page" class="ctf-input-number size-sm mr-3" v-model="model.feeds.cacheTime" min="1" max="60"  v-if="model.feeds.cachingType === 'page'"/>
-					<select id="ctf-caching-cron-time-page" class="ctf-select size-xs mr-3" v-model="model.feeds.cacheTimeUnit" v-if="model.feeds.cachingType === 'page'">
-						<option v-for="(unit, unitKey) in feedsTab.cachingBox.cacheTimeUnits" :value="unitKey" :disabled="unitKey == 60">{{unit}}</option>
-					</select>
-					<select id="ctf-caching-intervals" class="ctf-select size-sm mr-3" v-model="model.feeds.cronInterval" v-if="model.feeds.cachingType === 'background'">
-                        <option v-for="(name, key) in feedsTab.cachingBox.inTheBackgroundOptions" :value="key" :disabled="key === '30mins'">{{name}}</option>
-                    </select>
-                    <select id="ctf-caching-cron-time" class="ctf-select size-xs mr-3" v-model="model.feeds.cronTime" v-if="model.feeds.cachingType === 'background' && model.feeds.cronInterval !== '30mins' && model.feeds.cronInterval !== '1hour'">
-                        <option v-for="index in 12" :value="index">{{index}}:00</option>
-                    </select>
-                    <select id="ctf-caching-cron-am-pm" class="ctf-select size-xs mr-3" v-model="model.feeds.cronAmPm" v-if="model.feeds.cachingType === 'background' && model.feeds.cronInterval !== '30mins' && model.feeds.cronInterval !== '1hour'">
-                        <option value="am">{{feedsTab.cachingBox.am}}</option>
-                        <option value="pm">{{feedsTab.cachingBox.pm}}</option>
-                    </select>
+                    <div style="display: none;">
+                        <select id="ctf-caching-type" class="ctf-select size-xs mr-3" v-model="model.feeds.cachingType">
+                            <option v-for="(unit, unitKey) in feedsTab.cachingBox.cacheTypeOptions" :value="unitKey">{{unit}}</option>
+                        </select>
+                        <input type="number" id="ctf-caching-intervals-page" class="ctf-input-number size-sm mr-3" v-model="model.feeds.cacheTime" min="1" max="60"  v-if="model.feeds.cachingType === 'page'"/>
+                        <select id="ctf-caching-cron-time-page" class="ctf-select size-xs mr-3" v-model="model.feeds.cacheTimeUnit" v-if="model.feeds.cachingType === 'page'">
+                            <option v-for="(unit, unitKey) in feedsTab.cachingBox.cacheTimeUnits" :value="unitKey" :disabled="unitKey == 60">{{unit}}</option>
+                        </select>
+                        <select id="ctf-caching-intervals" class="ctf-select size-sm mr-3" v-model="model.feeds.cronInterval" v-if="model.feeds.cachingType === 'background'">
+                            <option v-for="(name, key) in feedsTab.cachingBox.inTheBackgroundOptions" :value="key" :disabled="key === '30mins'">{{name}}</option>
+                        </select>
+                        <select id="ctf-caching-cron-time" class="ctf-select size-xs mr-3" v-model="model.feeds.cronTime" v-if="model.feeds.cachingType === 'background' && model.feeds.cronInterval !== '30mins' && model.feeds.cronInterval !== '1hour'">
+                            <option v-for="index in 12" :value="index">{{index}}:00</option>
+                        </select>
+                        <select id="ctf-caching-cron-am-pm" class="ctf-select size-xs mr-3" v-model="model.feeds.cronAmPm" v-if="model.feeds.cachingType === 'background' && model.feeds.cronInterval !== '30mins' && model.feeds.cronInterval !== '1hour'">
+                            <option value="am">{{feedsTab.cachingBox.am}}</option>
+                            <option value="pm">{{feedsTab.cachingBox.pm}}</option>
+                        </select>
+                    </div>
+
                     <button type="button" class="ctf-btn sb-btn-lg ctf-caching-btn" @click="clearCache" :disabled="clearCacheStatus !== null">
                         <span v-html="clearCacheIcon()" :class="clearCacheStatus"></span>
                         {{feedsTab.cachingBox.clearCache}}
@@ -55,6 +58,7 @@
         </div>
         <div v-if="licenseType == 'free'" class="ctf-caching-pro-cta clearfix">
             <span>
+                <span class="ctf-notice-cach-text">{{feedsTab.cachingBox.noticeText}}</span>
                 <a :href="links.optimizeImagesLink" target="_blank">{{feedsTab.cachingBox.promoText}}
                     <span class="ctf-upgrade-cta-icon">
                         <svg width="7" height="10" viewBox="0 0 7 10" fill="none" xmlns="http://www.w3.org/2000/svg">

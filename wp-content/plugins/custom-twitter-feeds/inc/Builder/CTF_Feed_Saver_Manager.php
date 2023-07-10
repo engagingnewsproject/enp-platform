@@ -422,13 +422,15 @@ class CTF_Feed_Saver_Manager {
 			$feed_saver = new CTF_Feed_Saver( $feed_id );
 			$settings = $feed_saver->get_feed_settings();
 			$feed_db_data = $feed_saver->get_feed_db_data();
+			$settings = self::check_valid_settings($settings);
 
 			if($settings != false){
 				$return = array(
 					'feed_info' => $feed_db_data,
 					'headerData' => $feed_db_data,
 					'settings' => $settings,
-					'posts' => array()
+					'posts' => array(),
+                    'feed_enabled'  => CTF_Feed_Builder::auto_enable_disable_feed( $settings, $feed_id )
 				);
 				if ( intval( $feed_id ) > 0 ) {
 					$twitter_feed_settings = new CTF_Settings( array( 'feed' => $feed_id, 'customizer' => true ) , CTF_Feed_Saver::settings_defaults() );
@@ -995,5 +997,29 @@ class CTF_Feed_Saver_Manager {
 			return 'true';
 		return 'false';
 	}
+
+    /**
+	* Check valid Customizer Settings for Free User
+	*
+	* @param array $settings
+	*
+	* @return array
+	*
+	* @since 2.1
+	*/
+	public static function check_valid_settings( $settings ) {
+		$valid_settings = [
+			'layout' => ['list']
+		];
+
+		foreach ($valid_settings as $key => $value) {
+			if( !in_array( $settings[$key], $value ) ){
+		    	$settings[$key] = $value[0];
+			}
+		}
+		return $settings;
+	}
+
+
 
 }

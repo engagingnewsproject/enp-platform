@@ -12,7 +12,7 @@ use TwitterFeed\CTF_GDPR_Integrations;
 
 $header_no_bio = ( !$feed_options['showbio'] || empty( $header_info['description'] ) ) ? $header_no_bio = ' ctf-no-bio' : $header_no_bio = "";
 
-$header_info = CTF_Parse::get_user_header_json( $feed_options );
+$header_info = CTF_Parse::get_user_header_json( $feed_options, $tweet_set );
 $header_attr = CTF_Display_Elements::get_element_attribute( 'header', $feed_options );
 
 $username 			= CTF_Parse::get_user_name( $header_info );

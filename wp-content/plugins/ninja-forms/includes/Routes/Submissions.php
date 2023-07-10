@@ -174,7 +174,7 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
             ],
             'callback' => [ $this, 'delete_download_file' ],
             // Uses the same permissions as the `download-all` request
-            'permission_callback' => [ $this, 'get_submissions_permission_callback' ],
+            'permission_callback' => [ $this, 'delete_submissions_files_permission_callback' ],
         ));
 
         register_rest_route('ninja-forms-submissions', 'set-submissions-settings', array(
@@ -329,6 +329,37 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
 		 * @param WP_REST_Request $request The current request
 		 */
 		return apply_filters( 'ninja_forms_api_allow_handle_extra_submission', $allowed, $request );
+    }
+
+    /**
+     * Secure endpoint to allowed users and uploads folder
+     * 
+     * Used to delete files from the uploads directory. Tmp file in our case
+     *
+     * @since 3.6.25
+     *
+     * Already passed Nonce validation via wp_rest and x_wp_nonce header checked
+     * against rest_cookie_check_errors()
+     */
+    public function delete_submissions_files_permission_callback(WP_REST_Request $request) {
+        
+        //Set default to false
+        $allowed = false;
+
+        // Allow users with manage_options capability and only within wp_upload_dir
+        $permissionLevel = 'manage_options'; 
+        $dir = wp_get_upload_dir();
+        $fileinfo = pathinfo(json_decode($request->get_body())->file_path);
+        $allowed_dir = $dir['basedir'] . '/ninja-forms-tmp' === $fileinfo['dirname'];
+        $allowed = \current_user_can($permissionLevel) && $allowed_dir;
+        
+		/**
+		 * Filter permissions for deleting files from the uploads directory. Tmp file in our case
+		 *
+		 * @param bool $allowed Is request authorized?
+		 * @param WP_REST_Request $request The current request
+		 */
+		return apply_filters( 'ninja_forms_api_allow_delete_current_uploads_file', $allowed, $request );
     }
 
     /**

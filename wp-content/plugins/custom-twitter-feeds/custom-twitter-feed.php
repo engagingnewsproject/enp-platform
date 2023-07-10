@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Custom Twitter Feeds
-Plugin URI: http://smashballoon.com/custom-twitter-feeds
+Plugin URI: https://smashballoon.com/custom-twitter-feeds
 Description: Customizable Twitter feeds for your website
-Version: 2.0.7
+Version: 2.1.1
 Author: Smash Balloon
-Author URI: http://smashballoon.com/
+Author URI: https://smashballoon.com/
 Text Domain: custom-twitter-feeds
 */
 /*
@@ -22,12 +22,34 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-define( 'CTF_URL', plugin_dir_path( __FILE__ )  );
-define( 'CTF_VERSION', '2.0.7' );
-define( 'CTF_TITLE', 'Custom Twitter Feeds' );
-define( 'CTF_JS_URL', plugins_url( '/js/ctf-scripts.min.js?ver=' . CTF_VERSION , __FILE__ ) );
-define( 'OAUTH_PROCESSOR_URL', 'https://api.smashballoon.com/twitter-login.php?return_uri=' );
-define( 'CTF_PRODUCT_NAME', 'Custom Twitter Feeds' );
+if ( ! defined( 'CTF_URL' ) ) {
+	define( 'CTF_DOING_SMASH_TWITTER', true );
+//
+	define( 'CTF_URL', plugin_dir_path( __FILE__ )  );
+	define( 'CTF_VERSION', '2.1.1' );
+	define( 'CTF_TITLE', 'Custom Twitter Feeds' );
+	define( 'CTF_JS_URL', plugins_url( '/js/ctf-scripts.min.js?ver=' . CTF_VERSION , __FILE__ ) );
+	define( 'CTF_PRODUCT_NAME', 'Custom Twitter Feeds' );
+}
+
+if ( ! defined( 'CTF_SITE_ACCESS_TOKEN_KEY' ) ) {
+	define( 'CTF_SITE_ACCESS_TOKEN_KEY', 'site_access_token_free' );
+}
+if ( ! defined( 'SMASH_TWITTER_URL' ) ) {
+	define( 'SMASH_TWITTER_URL', 'https://ctf.smashballoon.com/api/' );
+}
+if ( ! defined( 'SMASH_TWITTER_TIMELINE_PATH' ) ) {
+	define( 'SMASH_TWITTER_TIMELINE_PATH', '1.1/timeline' );
+}
+
+if ( ! defined( 'SMASH_TWITTER_URL_EXTRA_GET_PARAMS' ) ) {
+	define( 'SMASH_TWITTER_URL_EXTRA_GET_PARAMS', '' );
+}
+
+if ( ! defined( 'OAUTH_PROCESSOR_URL' ) ) {
+	define( 'OAUTH_PROCESSOR_URL', 'https://connect.smashballoon.com/auth/tw/' );
+}
+
 if ( ! defined( 'CTF_PLUGIN_NAME' ) ) {
 	define( 'CTF_PLUGIN_NAME', 'Custom Twitter Feeds' );
 }
@@ -42,7 +64,7 @@ if ( ! defined( 'CTF_PLUGIN_URL' ) ) {
 }
 // Db version.
 if ( ! defined( 'CTF_DBVERSION' ) ) {
-	define( 'CTF_DBVERSION', '1.4' );
+	define( 'CTF_DBVERSION', '1.5' );
 }
 if ( ! defined( 'CTF_FEED_LOCATOR' ) ) {
 	define( 'CTF_FEED_LOCATOR', 'ctf_feed_locator' );
@@ -137,6 +159,13 @@ function ctf_plugin_init() {
 	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/Admin/CTF_Upgrader.php';
 	$ctf_upgrader = new TwitterFeed\Admin\CTF_Upgrader();
 	$ctf_upgrader->hooks();
+
+
+	$cron_update_manager = new \TwitterFeed\SmashTwitter\CronUpdaterManager();
+	$cron_update_manager->hooks();
+
+	$error_reporter = new \TwitterFeed\SmashTwitter\Services\ErrorReporterService();
+	$error_reporter->init_hooks();
 }
 add_action( 'plugins_loaded', 'ctf_plugin_init' );
 
@@ -207,6 +236,7 @@ function ctf_check_for_db_updates() {
 
 	// For v2.0
 	if ( version_compare( $db_ver, '1.4', '<' ) ) {
+		update_option( 'ctf_db_version', CTF_DBVERSION );
 		\TwitterFeed\Builder\CTF_Db::create_tables();
 		$ctf_statuses_option = get_option( 'ctf_statuses', array() );
 		$ctf_options         = get_option( 'ctf_options', array() );
@@ -309,6 +339,28 @@ function ctf_check_for_db_updates() {
 
 	}
 
+	// For Smash Twitter
+	if ( version_compare( $db_ver, '1.5', '<' ) ) {
+		update_option( 'ctf_db_version', CTF_DBVERSION );
+		global $wpdb;
+		ctf_create_database_table();
+		$table_name = $wpdb->prefix . CTF_FEEDS_POSTS_TABLE;
+
+		$wpdb->query( "ALTER TABLE $table_name ADD COLUMN type VARCHAR(1000) DEFAULT '' NOT NULL" );
+		$wpdb->query( "ALTER TABLE $table_name ADD COLUMN term VARCHAR(1000) DEFAULT '' NOT NULL" );
+		$wpdb->query( "ALTER TABLE $table_name ADD INDEX type_term (term(140),type(51))" );
+
+		\TwitterFeed\SmashTwitter\CronUpdaterManager::schedule_cron_job();
+
+		$ctf_statuses_option = get_option( 'ctf_statuses', array() );
+		// to space out the API requests, we have the initial cron update scheduled a day + random number of hours.
+		$ctf_statuses_option['first_cron_update'] = mt_rand(0,23) * 3600 + time() + DAY_IN_SECONDS;
+		update_option( 'ctf_statuses', $ctf_statuses_option, false );
+
+		update_option( 'ctf_db_version', CTF_DBVERSION );
+
+	}
+
 }
 add_action( 'wp_loaded', 'ctf_check_for_db_updates' );
 
@@ -340,19 +392,28 @@ function ctf_init( $atts, $preview_settings = false  ) {
 	wp_enqueue_script( 'ctf_scripts' );
 	$twitter_feed = TwitterFeed\CtfFeed::init( $atts, null, 0, array(), 1, $preview_settings);
 	if ( isset( $twitter_feed->feed_options['feederror'] ) && ! empty( $twitter_feed->feed_options['feederror'] ) ) {
-			return "<span id='ctf-no-id'>" . sprintf( __( 'No feed found with the ID %1$s. Go to the %2$sAll Feeds page%3$s and select an ID from an existing feed.', 'custom-twitter-feeds' ), esc_html( $twitter_feed->feed_options['feed'] ), '<a href="' . esc_url( admin_url( 'admin.php?page=ctf-feed-builder' ) ) . '">', '</a>' ) . '</span><br /><br />';
+		return "<span id='ctf-no-id'>" . sprintf( __( 'No feed found with the ID %1$s. Go to the %2$sAll Feeds page%3$s and select an ID from an existing feed.', 'custom-twitter-feeds' ), esc_html( $twitter_feed->feed_options['feed'] ), '<a href="' . esc_url( admin_url( 'admin.php?page=ctf-feed-builder' ) ) . '">', '</a>' ) . '</span><br /><br />';
 	} else {
-		$options = ctf_get_database_settings();
-		$feed_html = '';
-	    // if there is an error, display the error html, otherwise the feed
-	    if ( ! $twitter_feed->tweet_set || $twitter_feed->missing_credentials ) {
-		    $twitter_feed->maybeCacheTweets( true );
-		    return $twitter_feed->getErrorHtml();
-	    } else {
-	        $twitter_feed->maybeCacheTweets();
-	        $feed_html .= $twitter_feed->getTweetSetHtml();
-	        return $feed_html;
-	    }
+		// if there is an error, display the error html, otherwise the feed
+		if ( ! $twitter_feed->tweet_set || ($twitter_feed->missing_credentials && ! CTF_DOING_SMASH_TWITTER) || ! isset( $twitter_feed->tweet_set[0]['created_at'] ) ) {
+			if ( ! empty( $twitter_feed->tweet_set['errors'] ) ) {
+				$twitter_feed->maybeCacheTweets();
+			} else {
+				$twitter_feed->maybeCacheTweets(true);
+			}
+			$feed_html  = '';
+			$feed_html .= $twitter_feed->getTweetSetHtml();
+
+			return $feed_html;
+		} else {
+			if ( ! $twitter_feed->feed_options['persistentcache'] ) {
+				$twitter_feed->maybeCacheTweets();
+			}
+			$feed_html  = '';
+			$feed_html .= $twitter_feed->getTweetSetHtml();
+
+			return $feed_html;
+		}
 	}
 }
 add_shortcode( 'custom-twitter-feed', 'ctf_init' );
@@ -377,9 +438,9 @@ function ctf_get_more_posts() {
 
     $twitter_feed = TwitterFeed\CtfFeed::init( $shortcode_data, $last_id_data, $num_needed, $ids_to_remove, $persistent_index );
 
-    if ( ! $twitter_feed->feed_options['persistentcache'] ) {
-        $twitter_feed->maybeCacheTweets();
-    }
+	if ( ! CTF_DOING_SMASH_TWITTER && ! $twitter_feed->feed_options['persistentcache'] ) {
+		$twitter_feed->maybeCacheTweets();
+	}
 
 	$atts = $shortcode_data;
 	$feed_id = isset( $_POST['feed_id'] ) ? sanitize_text_field( $_POST['feed_id'] ) : 'unknown';
@@ -1036,6 +1097,47 @@ function ctf_cron_custom_interval( $schedules ) {
 }
 
 add_filter( 'cron_schedules', 'ctf_cron_custom_interval' );
+
+function ctf_create_database_table() {
+	global $wpdb;
+	global $wp_version;
+
+	$table_name = esc_sql( $wpdb->prefix . CTF_POSTS_TABLE );
+	$feeds_posts_table_name = esc_sql( $wpdb->prefix . CTF_FEEDS_POSTS_TABLE );
+	$charset_collate = '';
+
+	if ( version_compare( $wp_version, '3.5', '>' ) ) {
+		$charset_collate = $wpdb->get_charset_collate();
+	}
+
+	if ( $wpdb->get_var( "show tables like '$table_name'" ) != $table_name ) {
+		$sql = "CREATE TABLE " . $table_name . " (
+                id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                twitter_id VARCHAR(1000) DEFAULT '' NOT NULL,
+                created_on DATETIME,
+                last_requested DATE,
+                time_stamp DATETIME,
+                json_data LONGTEXT DEFAULT '' NOT NULL,
+                media_id VARCHAR(1000) DEFAULT '' NOT NULL,
+                sizes VARCHAR(1000) DEFAULT '' NOT NULL,
+                aspect_ratio DECIMAL (4,2) DEFAULT 0 NOT NULL,
+                images_done TINYINT(1) DEFAULT 0 NOT NULL
+            ) $charset_collate;";
+		$wpdb->query( $sql );
+	}
+
+	if ( $wpdb->get_var( "show tables like '$feeds_posts_table_name'" ) != $feeds_posts_table_name ) {
+		$sql = "CREATE TABLE " . $feeds_posts_table_name . " (
+				record_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                id INT(11) UNSIGNED NOT NULL,
+                feed_id VARCHAR(1000) DEFAULT '' NOT NULL,
+                INDEX feed_id (feed_id(100))
+            ) $charset_collate;";
+		$wpdb->query( $sql );
+	}
+
+	return $wpdb->get_var( "show tables like '$table_name'" ) === $table_name;
+}
 
 //BUILDER CODE
 function ctf_builder() {

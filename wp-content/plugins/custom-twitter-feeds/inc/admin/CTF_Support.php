@@ -338,34 +338,11 @@ class CTF_Support {
      */
     public static function get_global_settings_info() {
         $output = "## GLOBAL SETTINGS: ## </br>";
-        $ctf_license_key = get_option( 'ctf_license_key' );
-        $ctf_license_data = get_option( 'ctf_license_data' );
-        $ctf_license_status = get_option( 'ctf_license_status' );
-        $ctf_settings = get_option( 'sb_instagram_settings', array() );
+        $ctf_settings = get_option( 'ctf_options', array() );
         $usage_tracking = get_option( 'ctf_usage_tracking', array( 'last_send' => 0, 'enabled' => \ctf_is_pro_version() ) );
 
-        $output .= 'License key: ';
-        if ( $ctf_license_key ) {
-            $output .= $ctf_license_key;
-        } else {
-            $output .= ' Not added';;
-        }
-        $output .= "</br>";
-        $output .= 'License status: ';
-        if ( $ctf_license_status ) {
-            $output .= $ctf_license_status;
-        } else {
-            $output .= ' Inactive';
-        }
-        $output .= "</br>";
-        $output .= 'Preserve settings if plugin is removed: ';
-       # $output .= ( $ctf_settings['sb_instagram_preserve_settings'] ) ? 'Yes' : 'No';
-        $output .= "</br>";
-        $output .= "Connected Accounts: ";
-        $output .= 'Placeholder!';
-
-        $output .= "</br>";
-        $output .= 'Caching: ';
+        //$output .= "</br>";
+        //$output .= 'Caching: ';
         if ( wp_next_scheduled( 'ctf_feed_update' ) ) {
             $time_format = get_option( 'time_format' );
             if ( ! $time_format ) {
@@ -376,13 +353,16 @@ class CTF_Support {
             if ( $schedule == '30mins' ) $schedule = __( 'every 30 minutes', 'custom-twitter-feeds' );
             if ( $schedule == 'twicedaily' ) $schedule = __( 'every 12 hours', 'custom-twitter-feeds' );
             $ctf_next_cron_event = wp_next_scheduled( 'ctf_feed_update' );
-            $output = __( 'Next check', 'custom-twitter-feeds' ) . ': ' . date( $time_format, $ctf_next_cron_event + ctf_get_utc_offset() ) . ' (' . $schedule . ')';
+            //$output = __( 'Next check', 'custom-twitter-feeds' ) . ': ' . date( $time_format, $ctf_next_cron_event + ctf_get_utc_offset() ) . ' (' . $schedule . ')';
 
         } else {
-            $output .= 'Nothing currently scheduled';
+            //$output .= 'Nothing currently scheduled';
         }
         $output .= "</br>";
-        $output .= 'GDPR: ';
+	    $output .= 'Site Key: ';
+	    $output .= isset( $ctf_settings[ CTF_SITE_ACCESS_TOKEN_KEY ] ) ? $ctf_settings[ CTF_SITE_ACCESS_TOKEN_KEY ] : 'NO KEY!';
+	    $output .= "</br>";
+	    $output .= 'GDPR: ';
         $output .= isset( $ctf_settings[ 'gdpr' ] ) ? $ctf_settings[ 'gdpr' ] : ' Not setup';
         $output .= "</br>";
         $output .= 'Custom CSS: ';
@@ -479,13 +459,14 @@ class CTF_Support {
 		$consumer_key = ! empty( $options['consumer_key'] ) && ! empty( $options['have_own_tokens'] ) ? $options['consumer_key'] : 'FPYSYWIdyUIQ76Yz5hdYo5r7y';
 		$consumer_secret = ! empty( $options['consumer_secret'] ) && ! empty( $options['have_own_tokens'] ) ? $options['consumer_secret'] : 'GqPj9BPgJXjRKIGXCULJljocGPC62wN2eeMSnmZpVelWreFk9z';
 		$request_settings = array(
-			'consumer_key' => $consumer_key,
-			'consumer_secret' => $consumer_secret,
-			'access_token' => $options['access_token'],
-			'access_token_secret' => $options['access_token_secret']
+			//'consumer_key' => $consumer_key,
+			//'consumer_secret' => $consumer_secret,
+			//'access_token' => $options['access_token'],
+			//'access_token_secret' => $options['access_token_secret']
 		);
 		$output = '';
-		if ( isset( $options['request_method'] ) ) {
+		$broken_so_false = false;
+		if ( $broken_so_false && isset( $options['request_method'] ) ) {
 			$request_method = isset( $options['request_method'] ) ? $options['request_method'] : 'auto';
 
 			$twitter_api = new \TwitterFeed\CtfOauthConnect( $request_settings, 'usertimeline' );
@@ -515,7 +496,32 @@ class CTF_Support {
 
 		} //End isset check
 
-		$output .= "</br>";
+		$api_call_log = get_option( 'ctf_api_call_log', array() );
+		$output .= '## API CALL LOG: ## </br>';
+		$api_call_log = array_slice( $api_call_log, 0, 10 );
+		foreach ( $api_call_log as $api_call ) {
+			foreach ( $api_call as $key => $value ) {
+				$value = $key === 'time' ? date( 'Y-m-d H:i:s', $value ) : $value;
+				$output .= $key . ': ' . $value . "</br>";
+			}
+			$output .= '</br></br>';
+		}
+		$output .= '</br>';
+
+		$output .= '## UPDATE NOTES: ## </br>';
+
+
+		$ctf_statuses_option = get_option( 'ctf_statuses', array() );
+		if ( ! empty( $ctf_statuses_option['first_cron_update'] ) ) {
+			$output .= 'First Cron Update: '. date( 'Y-m-d H:i:s', $ctf_statuses_option['first_cron_update'] ) .' ' . ($ctf_statuses_option['first_cron_update'] - time()) / HOUR_IN_SECONDS . ' hours';
+			$output .= "</br>";
+		}
+		if ( ! empty($ctf_statuses_option['smash_twitter_cron']['last_update_process_time']) ) {
+			$output .= 'Last Update: '. date( 'Y-m-d H:i:s', $ctf_statuses_option['smash_twitter_cron']['last_update_process_time'] ) . '';
+		}
+
+
+		$output .= "</br></br>";
 
 		return $output;
 	}
@@ -653,15 +659,26 @@ class CTF_Support {
     public static function get_errors_info() {
 	    $errors = get_option( 'ctf_errors', array() );
 	    $output = "## ERRORS: ##" . "</br>";
-		if ( ! empty( $errors ) ) {
-			foreach ( $errors as $error ) {
-				$output .=  esc_html( $error )  . "</br>";
-			}
-		} else {
-			$output .=  "No Error Information Stored</br>";
-		}
+	    if ( ! CTF_DOING_SMASH_TWITTER ) {
+		    if ( ! empty( $errors ) ) {
+			    foreach ( $errors as $error ) {
+				    $output .=  esc_html( $error )  . "</br>";
+			    }
+		    } else {
+			    $output .=  "No Error Information Stored</br>";
+		    }
+	    } else {
+		    $ctf_statuses_option = get_option( 'ctf_statuses', array() );
+		    if ( ! empty( $ctf_statuses_option['smash_twitter']['error_log'] ) ) {
+			    $reversed = array_reverse( $ctf_statuses_option['smash_twitter']['error_log'] );
+			    foreach ( $reversed as $error ) :
+				    $output .= $error . "</br>";
+			    endforeach;
+		    }
+	    }
 
-        return $output;
+
+	    return $output;
     }
 
     /**

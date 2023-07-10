@@ -1,4 +1,5 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
+use NinjaForms\Includes\Admin\RestControllerSafeList;
 
 /**
  * A controller extensions for mapping REST requests to an admin-ajax action.
@@ -49,12 +50,20 @@ abstract class NF_AJAX_REST_Controller extends NF_Abstracts_Controller
          */
         if( 'post' == $method and isset( $_REQUEST[ 'method_override' ] ) ){
             $method = sanitize_text_field( $_REQUEST[ 'method_override' ] );
+
+            if(!RestControllerSafeList::isClassMethodAllowed(static::class,$method)){
+
+                $this->_errors[] = esc_html__( 'Requested method override is not allowed', 'ninja-forms' );
+                $this->_respond();
+            }
         }
 
         if( ! method_exists( $this, $method ) ){
             $this->_errors[] = esc_html__( 'Endpoint does not exist.', 'ninja-forms' );
             $this->_respond();
         }
+
+        
         /**
          * This call get the $_REQUEST info for the call(post, get, etc.)
          * being called.

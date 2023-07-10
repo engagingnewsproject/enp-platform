@@ -230,6 +230,9 @@ final class NF_Actions_Save extends NF_Abstracts_Action
 
         // If we have extra data...
         if( isset( $data[ 'extra' ] ) ) {
+            
+            $data['extra']=$this->validateExtraData($data['extra'], $form_id);
+
             // Save that.
             $sub->update_extra_values( $data[ 'extra' ] );
         }
@@ -245,5 +248,38 @@ final class NF_Actions_Save extends NF_Abstracts_Action
         $data[ 'actions' ][ 'save' ][ 'sub_id' ] = $sub->get_id();
 
         return $data;
+    }
+
+    /**
+     * Ensure extra data is valid
+     * 
+     * 1. Ensure that extra data is array
+     * 2. Check that count of extra data is within allowed limit
+     * 3. If count exceeds limit, consolidate data into single value
+     *
+     * The purpose of 'extraDataOverflowOnSave' is to attempt to store the data submitted in the case that the data truly is valid, but an add-on is storing too many values as individually keyed.  It has the added benefit of providing insight on the nature of an attack should that be the case instead of an errant add-on.
+     * 
+     * @param array $dataExtra
+     * @param int $form_id
+     * @return array
+     */
+    protected function validateExtraData( $dataExtra, $form_id): array
+    {
+        return $dataExtra;
+        $return = [];
+        
+        if(!is_array($dataExtra)){
+            return $return;
+        }
+
+        $maxCount = apply_filters('ninja_forms_max_extra_data_count',200,$form_id);
+
+        if($maxCount<count($dataExtra)){
+
+            $return['extraDataOverflowOnSave']=json_encode($dataExtra);
+        }
+
+        return $return;
+
     }
 }

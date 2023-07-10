@@ -126,6 +126,7 @@ class CTF_Global_Settings {
 		 * General Tab
 		 */
 		$ctf_settings['preserve_settings']       = $general['preserveSettings'];
+		$ctf_settings[ CTF_SITE_ACCESS_TOKEN_KEY ]       = $general['siteKey'];
 
 		// Save translation settings data
 		foreach( $translation as $key => $val ) {
@@ -803,7 +804,11 @@ class CTF_Global_Settings {
 	    $footer_upgrade_url		= 'https://smashballoon.com/custom-twitter-feeds/demo?utm_campaign=twitter-free&utm_source=settings&utm_medium=footer-banner&utm_content=Try Demo';
 		$usage_tracking_url 	= 'https://smashballoon.com/custom-twitter-feeds/usage-tracking/?utm_campaign=twitter-free&utm_source=settings&utm_medium=footer-banner&utm_content=Usage';
 		$feed_issue_email_url 	= 'https://smashballoon.com/email-report-is-not-in-my-inbox/?twitter&utm_campaign=twitter-free&utm_source=settings&utm_medium=footer-banner&utm_content=Email Issue';
-
+	    if ( ! empty( $_GET['ctf_site_token'] ) ) {
+		    $ctf_site_access_token = sanitize_key( $_GET['ctf_site_token'] );
+	    } else {
+		    $ctf_site_access_token = isset( $ctf_options[ CTF_SITE_ACCESS_TOKEN_KEY ] ) ? $ctf_options[ CTF_SITE_ACCESS_TOKEN_KEY ] : '';
+	    }
 
 		// Extract only license keys and build array for extensions license keys
 
@@ -829,7 +834,7 @@ class CTF_Global_Settings {
 			'feeds'				=> $feeds,
 			'appCredentials'    => CTF_Feed_Builder::get_app_credentials( $ctf_options ),
 			'connectAccountScreen'    => CTF_Feed_Builder::connect_account_secreen(),
-			'appOAUTH'    => OAUTH_PROCESSOR_URL . admin_url( 'admin.php?page=ctf-settings' ),
+			'appOAUTH'    => ctf_oauth_url( admin_url( 'admin.php?page=ctf-settings' ) ),
 
 			//'locales'			=> CTF_Settings::locales(),
 			//'timezones'			=> CTF_Settings::timezones(),
@@ -865,13 +870,21 @@ class CTF_Global_Settings {
 					'description'	=> __( 'This account is used to display home timeline, or fetch data from Twitter API for other timeline.<br/>Changing this will not affect Hashtag, Search or List Timelines, but will change Home and Mentions timelines.', 'custom-twitter-feeds' ),
 					'button'	=> __( 'Change', 'custom-twitter-feeds' ),
 					'buttonConnect'	=> __( 'Connect new Account', 'custom-twitter-feeds' ),
-					'buttonConnectOwnApp'	=> __( 'Connect your Own App', 'custom-twitter-feeds' ),
+					'buttonConnectOwnApp'	=> __( 'Connect your Own Twitter App', 'custom-twitter-feeds' ),
 					'titleApp'	=> __( 'Connected Twitter App', 'custom-twitter-feeds' ),
 					'cKey'		=> __( 'Consumer Key', 'custom-twitter-feeds' ),
 					'cSecret'	=> __( 'Consumer Secret', 'custom-twitter-feeds' ),
 					'aToken'	=> __( 'Access Token', 'custom-twitter-feeds' ),
 					'aTokenSecret'	=> __( 'Access Token Secret', 'custom-twitter-feeds' ),
 				),
+                'connectAccount'	=> array(
+					'emailTitle'	=> __( 'Connected Email', 'custom-twitter-feeds' ),
+					'siteKeyTitle'	=> __( 'Site Key', 'custom-twitter-feeds' ),
+					'siteKeyDescription'	=> __( 'This is used to fetch data from the Twitter API', 'custom-twitter-feeds' ),
+					'siteKeyButton'	=> __( 'Refresh', 'custom-twitter-feeds' ),
+					'siteKeyConnectButton'	=> __( 'Connect', 'custom-twitter-feeds' ),
+					'siteKeyPreview'	=> sprintf ( __( 'Your site key is %s', 'custom-twitter-feeds' ), '<span style="color: #434960;font-weight: bold;">' . esc_html( substr($ctf_site_access_token, 0, 7) . '...' ) ) . '</span>'
+                ),
 				'preserveBox'	=> array(
 					'title'	=> __( 'Preserve settings if plugin is removed', 'custom-twitter-feeds' ),
 					'description'	=> __( 'This will make sure that all of your feeds and settings are still saved even if the plugin is uninstalled', 'custom-twitter-feeds' ),
@@ -910,7 +923,8 @@ class CTF_Global_Settings {
 					'title'                  => __( 'Caching', 'custom-twitter-feeds' ),
 					'pageLoads'              => __( 'When the Page loads', 'custom-twitter-feeds' ),
 					'inTheBackground'        => __( 'In the Background', 'custom-twitter-feeds' ),
-					'promoText'        => __( 'Check for new Tweets more frequently with Twitter Feed Pro', 'custom-twitter-feeds' ),
+					'promoText'        => __( 'Update Feeds more often with Twitter Feed Pro', 'custom-twitter-feeds' ),
+					'noticeText'        => __( 'Due to Twitter API changes, we have to limit feed updates to once a week', 'custom-twitter-feeds' ),
 					'cacheTypeOptions' => array(
 						'background'	=> __( 'Background', 'custom-twitter-feeds' ),
 						'page'	=> __( 'Page', 'custom-twitter-feeds' ),
@@ -1096,37 +1110,50 @@ class CTF_Global_Settings {
 			'svgIcons' => \TwitterFeed\Builder\CTF_Feed_Builder::builder_svg_icons()
 		);
 
-		$maybe_new_account = CTF_Feed_Builder::connect_new_account( $_GET );
+		$maybe_new_account = CTF_Feed_Builder::connect_site_token( $_GET );
 		if( $maybe_new_account !== false ){
 			$ctf_settings['newAccountData'] =  $maybe_new_account;
 			$ctf_options = get_option('ctf_options', array());
 		}
 
-		if( isset( $ctf_options['access_token'] )  && isset( $ctf_options['access_token_secret'] ) && !empty( $ctf_options['access_token'] )  && !empty( $ctf_options['access_token_secret'] )){
-			//Check if No Account Details are added => Then make API call to get them!
-			if( !isset( $ctf_options['account_handle'] )  || !isset( $ctf_options['account_avatar'] ) || empty( $ctf_options['account_handle'] )  || empty( $ctf_options['account_avatar'] )){
-				$auth = [
-					'access_token'  => $ctf_options['access_token'],
-					'access_token_secret' => $ctf_options['access_token_secret'],
+		if ( CTF_DOING_SMASH_TWITTER ) {
+			if( CTF_Feed_Builder::is_connected( $ctf_options, $maybe_new_account ) ){
+				$ctf_settings['accountDetails'] = [
+					'site_token' => $maybe_new_account,
+					'access_token' 			=> 'smash_twitter',
+					'access_token_secret' 	=> 'smash_twitter',
+					'account_avatar' 		=> ''
 				];
-				$details = CTF_Feed_Builder::get_account_info( $auth );
-				if( !isset( $details['error'] ) ){
-					$ctf_options['account_handle'] 		= $details['account_handle'];
-					$ctf_options['account_avatar'] 		= $details['account_avatar'];
-					update_option( 'ctf_options', $ctf_options );
-				}
+				$ctf_settings['appCredentials'] = $ctf_settings['accountDetails'];
 			}
+		} else {
+			if( CTF_Feed_Builder::is_connected( $ctf_options ) ){
+				//Check if No Account Details are added => Then make API call to get them!
+				if( !isset( $ctf_options['account_handle'] )  || !isset( $ctf_options['account_avatar'] ) || empty( $ctf_options['account_handle'] )  || empty( $ctf_options['account_avatar'] )){
+					$auth = [
+						'access_token'  => $ctf_options['access_token'],
+						'access_token_secret' => $ctf_options['access_token_secret'],
+					];
+					$details = CTF_Feed_Builder::get_account_info( $auth );
+					if( !isset( $details['error'] ) ){
+						$ctf_options['account_handle'] 		= $details['account_handle'];
+						$ctf_options['account_avatar'] 		= $details['account_avatar'];
+						update_option( 'ctf_options', $ctf_options );
+					}
+				}
 
-			$ctf_settings['accountDetails'] = [
-				'app_name' 				=> isset($ctf_options['app_name']) ? $ctf_options['app_name'] : '' ,
-				'consumer_key' 			=> isset($ctf_options['consumer_key']) ? $ctf_options['consumer_key'] : '' ,
-				'consumer_secret' 		=> isset($ctf_options['consumer_secret']) ? $ctf_options['consumer_secret'] : '' ,
-				'access_token' 			=> isset($ctf_options['access_token']) ? $ctf_options['access_token'] : '' ,
-				'access_token_secret' 	=> isset($ctf_options['access_token_secret']) ? $ctf_options['access_token_secret'] : '' ,
-				'account_handle' 		=> isset($ctf_options['account_handle']) ? $ctf_options['account_handle'] : '' ,
-				'account_avatar' 		=> isset($ctf_options['account_avatar']) ? $ctf_options['account_avatar'] : ''
-			];
+				$ctf_settings['accountDetails'] = [
+					'app_name' 				=> isset($ctf_options['app_name']) ? $ctf_options['app_name'] : '' ,
+					'consumer_key' 			=> isset($ctf_options['consumer_key']) ? $ctf_options['consumer_key'] : '' ,
+					'consumer_secret' 		=> isset($ctf_options['consumer_secret']) ? $ctf_options['consumer_secret'] : '' ,
+					'access_token' 			=> isset($ctf_options['access_token']) ? $ctf_options['access_token'] : '' ,
+					'access_token_secret' 	=> isset($ctf_options['access_token_secret']) ? $ctf_options['access_token_secret'] : '' ,
+					'account_handle' 		=> isset($ctf_options['account_handle']) ? $ctf_options['account_handle'] : '' ,
+					'account_avatar' 		=> isset($ctf_options['account_avatar']) ? $ctf_options['account_avatar'] : ''
+				];
+			}
 		}
+
 
 
 		wp_localize_script(
@@ -1202,7 +1229,8 @@ class CTF_Global_Settings {
 		$defaults = $this->filter_for_legacy( $this->default_settings_options(), get_option( 'ctf_options' ) );
 		$ctf_settings = wp_parse_args( get_option( 'ctf_options' ), $defaults );
 
-		$cachetype 			        = $ctf_settings['ctf_caching_type'] ;
+		//$cachetype 			        = $ctf_settings['ctf_caching_type'] ;
+		$cachetype 			        = 'background';
 		$cache_time_unit 			= $ctf_settings['cache_time_unit'] ;
     	$cache_time 				= $ctf_settings['cache_time'];
     	$ctf_cache_cron_interval 	= $ctf_settings['ctf_cache_cron_interval'];
@@ -1213,10 +1241,17 @@ class CTF_Global_Settings {
 		$ctf_ajax = $ctf_settings['ajax_theme'];
 		$active_gdpr_plugin = CTF_GDPR_Integrations::gdpr_plugins_active();
 		$ctf_preserve_settings = $ctf_settings['preserve_settings'];
+		if ( ! empty( $_GET['ctf_site_token'] ) ) {
+			$ctf_site_access_token = sanitize_key( $_GET['ctf_site_token'] );
+		} else {
+			$ctf_site_access_token = $ctf_settings[ CTF_SITE_ACCESS_TOKEN_KEY ];
+		}
 
 		return array(
 			'general' => array(
-				'preserveSettings' => $ctf_preserve_settings
+				'preserveSettings' => $ctf_preserve_settings,
+				'siteKey' => $ctf_site_access_token
+
 			),
 			'feeds'	=> array(
 				'cachingType'  => $cachetype,
@@ -1269,6 +1304,7 @@ class CTF_Global_Settings {
 	public function default_settings_options() {
 		return [
 			'preserve_settings' => '',
+			 CTF_SITE_ACCESS_TOKEN_KEY  => '',
 			'cache_time' => 1,
 			'cache_time_unit' => '3600',
 			'gdpr'      => 'auto',
@@ -1331,8 +1367,10 @@ class CTF_Global_Settings {
 	 * @return string $output
 	 */
 	public function get_cron_next_check() {
-		$output = '';
 
+		if ( CTF_DOING_SMASH_TWITTER ) {
+			return __( 'Your feed will update once a week automatically.', 'custom-twitter-feeds' );
+		}
 		if ( wp_next_scheduled( 'ctf_feed_update' ) ) {
 			$time_format = get_option( 'time_format' );
 			if ( ! $time_format ) {

@@ -39,12 +39,20 @@
 			</tr>
 		</thead>
 		<tbody  class="ctf-fd-lst-tbody">
-			<tr v-for="(feed, feedIndex) in feedsList">
+			<tr v-for="(feed, feedIndex) in feedsList" class="ctf-fd-lst-item" :data-enabled="feed.feed_enabled.toString()">
 				<td>
 					<div class="ctf-fd-lst-chkbx" @click.prevent.default="selectFeedCheckBox(feed.id)" :data-active="feedsSelected.includes(feed.id)"></div>
 				</td>
 				<td>
-					<a :href="builderUrl+'&feed_id='+feed.id" class="ctf-fd-lst-name sb-small-p sb-bold">{{feed.feed_name}}</a>
+					<span class="ctf-fd-lst-name-ctn">
+                        <a :href="builderUrl+'&feed_id='+feed.id" class="ctf-fd-lst-name sb-small-p sb-bold">{{feed.feed_name}}</a>
+                        <div class="ctf-fd-lst-item-notice" v-if="feed.feed_enabled === false">
+                            <div class="ctf-fd-lst-item-notice-icon" v-html="svgIcons['information']"></div>
+                            <div class="ctf-fd-lst-item-notice-tltp ctf-disabled-feed-notice" v-html="(checkNotEmpty(feed.settings.type) && feed.settings.type.toLowerCase() === 'usertimeline') ? genericText.disabledFeedTooltipNotice : genericText.disabledFeedTypeTooltipNotice">
+
+                            </div>
+                        </div>
+                    </span>
 					<span class="ctf-fd-lst-type sb-caption sb-lighter">{{ checkNotEmpty(feed.settings.type) ? feed.settings.type : 'Mixed' }}</span>
 				</td>
 				<td>
@@ -67,10 +75,12 @@
                             <div class="ctf-fb-tltp-elem"><span>{{genericText.edit.replace(/ /g,"&nbsp;")}}</span></div>
                             <div v-html="svgIcons['edit']"></div>
                         </a>
+                        <!--
                         <button class="ctf-fd-lst-btn ctf-fb-tltp-parent" @click.prevent.default="feedActionDuplicate(feed)">
                             <div class="ctf-fb-tltp-elem"><span>{{genericText.duplicate.replace(/ /g,"&nbsp;")}}</span></div>
                             <div v-html="svgIcons['duplicate']"></div>
                         </button>
+                        -->
                         <button class="ctf-fd-lst-btn ctf-fd-lst-btn-delete ctf-fb-tltp-parent" @click.prevent.default="openDialogBox('deleteSingleFeed', feed)">
                             <div class="ctf-fb-tltp-elem"><span>{{genericText.delete.replace(/ /g,"&nbsp;")}}</span></div>
                             <div v-html="svgIcons['delete']"></div>

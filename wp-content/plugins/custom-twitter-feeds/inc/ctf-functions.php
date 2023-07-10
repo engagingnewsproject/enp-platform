@@ -321,3 +321,22 @@ function ctf_debug_report( $twitter_feed, $feed_id ) {
 	<?php
 }
 add_action( 'ctf_before_feed_end', 'ctf_debug_report', 99, 2 );
+
+function ctf_oauth_url( $page ) {
+	$nonce = wp_create_nonce( 'ctf_con' );
+
+	$admin_email = get_option( 'admin_email', '' );
+	if ( is_user_logged_in() ) {
+		$current_user = wp_get_current_user();
+		$user_email = $current_user->user_email;
+	}
+	$user_email = isset( $user_email ) ? $user_email : $admin_email;
+    $params = array(
+        'state' => $page,
+        'wordpress_user' => $user_email,
+        'con_nonce' => $nonce,
+        'vn' => CTF_VERSION
+    );
+
+    return add_query_arg( $params, OAUTH_PROCESSOR_URL );
+}

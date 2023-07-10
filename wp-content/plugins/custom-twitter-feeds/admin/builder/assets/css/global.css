@@ -246,7 +246,12 @@ body{
 	color: #141B38!important;
 	border: 1px solid #D0D1D7!important;
 }
-
+/*gray*/
+.sb-btn-gray {
+    background: #F9F9FA !important;
+    color: #141B38 !important;
+    border: 1px solid #E6E6EB!important;
+}
 /*dark*/
 .sb-btn-dark{
 	background: #2C324C!important;
@@ -3052,6 +3057,37 @@ body{
     margin-left: 4px;
 }
 
+/*Notice API Limit*/
+.ctf-fb-apilimit-notice{
+    background: #FFF7E5;
+    padding: 30px 20px;
+    color: #663D00;
+}
+.ctf-fb-apilimit-notice-top{
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+.ctf-fb-apilimit-notice-icon{
+    display: flex;
+    margin-right: 20px;
+}
+.ctf-fb-apilimit-notice-icon svg path{
+    fill: currentColor;
+}
+.ctf-fb-apilimit-notice-description{
+    padding-top: 7px;
+    padding-left: 33px;
+    width: 54%;
+    line-height: 1.7em;
+}
+.ctf-fb-apilimit-notice-description a{
+    font-weight: 600;
+    text-decoration: underline;
+    color:#663D00;
+}
+
 @media (min-width: 1170px) and (max-width: 1540px) {
 	.ctf-settings-cta .ctf-cta-much-more .ctf-cta-mm-right ul li {
 		width: 240px;
@@ -3151,4 +3187,16 @@ body{
 	.ctf-settings-cta .ctf-cta-title .ctf-plugin-logo {
 		margin-right: 20px;
 	}
+}
+/** Remove when own app implemented **/
+.ctf-fb-connectaccount-popup .ctf-fb-source-bottom {
+	display: none;
+}
+.sb-manage-acount-box .ctf-add-account {
+	display: none;
+}
+
+/** No email is returned **/
+.sb-email-box {
+	display: none;
 }

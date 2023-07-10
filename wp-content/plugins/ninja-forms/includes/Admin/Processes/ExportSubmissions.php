@@ -257,9 +257,12 @@ class NF_Admin_Processes_ExportSubmissions extends NF_Abstracts_BatchProcess
     {
         $filename = time() . base64_encode( 'form-' . $this->form . '-all-subs' );
         $upload_dir = wp_upload_dir();
-        $file_path = trailingslashit($upload_dir['path']) . $filename . '.' . $this->format;
+        if (!file_exists($upload_dir['basedir'] . '/ninja-forms-tmp')) {
+            mkdir($upload_dir['basedir'] . '/ninja-forms-tmp', 0777, true);
+        }
 
-        $this->fileUrl = trailingslashit($upload_dir['url']) . $filename . '.' . $this->format;
+        $file_path = trailingslashit($upload_dir['basedir']) . 'ninja-forms-tmp/' . $filename . '.' . $this->format;
+        $this->fileUrl = trailingslashit($upload_dir['baseurl']) . 'ninja-forms-tmp/' . $filename . '.' . $this->format;
         return $file_path;
     }
 

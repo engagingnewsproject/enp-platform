@@ -400,30 +400,6 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
                  * Duplicate field check.
                  * TODO: Replace unique field key checks with a refactored model/factory.
                  */
-//                $field_key = $field->get_setting( 'key' );
-//                if( in_array( $field_key, $unique_field_keys ) || '' == $field_key ){
-//
-//                    // Delete the field.
-//                    Ninja_Forms()->request( 'delete-field' )->data( array( 'field_id' => $field_id ) )->dispatch();
-//
-//                    // Remove the field from cache.
-//                    if( $form_cache ) {
-//                        if( isset( $form_cache[ 'fields' ] ) ){
-//                            foreach( $form_cache[ 'fields' ] as $cached_field_key => $cached_field ){
-//                                if( ! isset( $cached_field[ 'id' ] ) ) continue;
-//                                if( $field_id != $cached_field[ 'id' ] ) continue;
-//
-//                                // Flag cache to update.
-//                                $cache_updated = true;
-//
-//                                unset( $form_cache[ 'fields' ][ $cached_field_key ] ); // Remove the field.
-//                            }
-//                        }
-//                    }
-//
-//                    continue; // Skip the duplicate field.
-//                }
-//                array_push( $unique_field_keys, $field_key ); // Log unique key.
                 /* END Duplicate field check. */
 
                 $type = ( is_object( $field ) ) ? $field->get_setting( 'type' ) : $field[ 'settings' ][ 'type' ];
@@ -445,13 +421,11 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
                 $settings[ 'id' ] =  $field_id;
 
                 $settings = $this->null_data_check( $settings );
+                $settings = $this->sanitizeFieldSettings($settings);
 
                 $fields_settings[] = $settings;
             }
 
-//            if( $cache_updated ) {
-//                update_option('nf_form_' . $form_id, $form_cache); // Update form cache without duplicate fields.
-//            }
         }
 
         $actions_settings = array();
@@ -494,7 +468,6 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
         ?>
         <script>
             var preloadedFormData = <?php echo wp_json_encode( $form_data ); ?>;
-            // console.log( preloadedFormData );
         </script>
         <?php
     }
@@ -518,6 +491,34 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             }
         }
         return $settings;
+    }
+
+    /**
+     * Sanitize any field setting that can cause vulnerabilities
+     *
+     * @param array $fieldSettings
+     * @return array
+     */
+    private function sanitizeFieldSettings(array $fieldSettings): array
+    {
+        $return = $fieldSettings;
+
+        $return['label']=$this->removeScriptTriggers( $fieldSettings['label']);
+
+        return $return;
+    }
+
+    /**
+     * Remove known script triggers that can be output on screen
+     *
+     * @param string $string
+     * @return string
+     */
+    private function removeScriptTriggers(string $string): string
+    {
+        $return = NinjaForms\Includes\Handlers\Sanitizer::preventScriptTriggerInHtmlOutput($string);
+
+        return $return;
     }
 
     private function _localize_field_type_data()

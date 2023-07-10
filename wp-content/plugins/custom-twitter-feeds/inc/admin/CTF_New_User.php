@@ -7,6 +7,8 @@
 namespace TwitterFeed\Admin;
 
 // Exit if accessed directly
+use TwitterFeed\Builder\CTF_Db;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -155,6 +157,36 @@ class CTF_New_User extends CTF_Notifications {
 		}
 
 		$option = $this->get_option();
+
+		$ctf_options = get_option( 'ctf_options', array() );
+
+		if ( empty( $ctf_options[ CTF_SITE_ACCESS_TOKEN_KEY ] ) ) {
+            $feeds_count = CTF_Db::feeds_count();
+            if ( $feeds_count > 0 ) {
+	            $notifications = array(
+		            array(
+			            'title' => 'Twitter API Changes',
+			            'content' => 'Using Custom Twitter Feeds now requires that you connect with Smash Balloon and create a site key. Click the button below to visit our website and verify an email address to get started.',
+			            'image' => 'balloon',
+			            'type' => array( 'free' ),
+			            'id' => 'freeconnect',
+                        'recent_install_override' => true,
+			            "btns" => array(
+				            'primary' => array(
+					            'url' => ctf_oauth_url( admin_url( 'admin.php?page=ctf-settings' ) ),
+					            'text' => 'Connect',
+					            'attr' => array(
+					            )
+				            )
+			            ),
+			            'start' => '2022-02-08 00:00:00',
+			            'end' => '2030-02-08 00:00:00',
+		            )
+	            );
+	            return $notifications;
+            }
+
+		}
 
 		// Only update if does not exist.
 		if ( empty( $option['update'] ) ) {

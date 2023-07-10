@@ -178,6 +178,7 @@
     </div>
 
     <!--Manage Sources-->
+<!--
     <div class="sb-tab-box sb-manage-acount-box clearfix">
         <div class="tab-label">
             <h3>{{generalTab.manageAccount.title}}</h3>
@@ -268,7 +269,91 @@
 
         </div>
     </div>
+-->
 
+<!--Connect APP -->
+    <div class="sb-tab-box sb-email-box sb-reset-box-style clearfix">
+        <div class="tab-label">
+            <h3>{{generalTab.connectAccount.emailTitle}}</h3>
+        </div>
+        <div class="ctf-tab-form-field">
+            <div class="sb-form-field ctf-tab-connect-ac">
+                <div class="d-flex">
+                    <input type="text" class="ctf-form-field" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sb-tab-box sb-manage-acount-box clearfix">
+        <div class="tab-label">
+            <h3>{{generalTab.connectAccount.siteKeyTitle}}</h3>
+        </div>
+        <div class="ctf-tab-form-field">
+            <div class="sb-form-field ctf-tab-connect-ac">
+                <p v-if="checkNotEmpty(model.general.siteKey)" v-html="generalTab.connectAccount.siteKeyPreview"></p>
+                <div class="d-flex mb-15">
+                    <input type="password" class="ctf-form-field" name="site-key" id="site-key-setting" v-model="model.general.siteKey"/>
+                    <button type="button" class="ctf-btn sb-btn-lg refresh-btn"
+                            @click.prevent.default="connectAccountLink()"
+                            v-html="checkNotEmpty(model.general.siteKey) ? generalTab.connectAccount.siteKeyButton : generalTab.connectAccount.siteKeyConnectButton">
+                    </button>
+                </div>
+                <span class="help-text">
+                    {{generalTab.connectAccount.siteKeyDescription}}
+                </span>
+            </div>
+        </div>
+        <div class="ctf-add-account ctf-fs">
+            <div class="ctf-add-account-btn ctf-fs"  v-if="!checkAppData()" @click.prevent.default="activateView('connectAccountPopup');switchScreen('connectAccountStep','step_2');">
+                <div v-html="svgIcons['linkIcon']"></div>
+                {{generalTab.manageAccount.buttonConnectOwnApp}}
+            </div>
+
+            <div class="ctf-add-account-info ctf-fs" v-else>
+                <div class="tab-label">
+                    <h3>{{generalTab.manageAccount.titleApp}}</h3>
+                </div>
+                <div class="ctf-tab-form-field">
+                    <div class="sb-form-field"></div>
+                    <div class="d-flex ctf-manage-account-inputs-info" :data-active="viewsActive['appDetailsActive'] ? 'true' : 'false'">
+                        <div class="field-left-content">
+                            <div class="ctf-manage-account-info">
+                                <div class="ctf-manage-account-info-icon" v-html="svgIcons['twitter']"></div>
+                                <strong>{{accountDetails.app_name}}</strong>
+                                <div class="ctf-manage-account-edit-icon" v-html="svgIcons['cog']" @click.prevent.default="activateView('appDetailsActive')"></div>
+                                <div class="ctf-manage-account-delete-icon" v-html="svgIcons['delete']" @click.prevent.default="openDialogBox('deleteApp')"></div>
+                            </div>
+                            <div class="ctf-acc-info-item">
+                                <strong>{{generalTab.manageAccount.cKey}}</strong>
+                                <span>{{accountDetails.consumer_key}}</span>
+                                <div class="ctf-acc-info-icon" v-html="svgIcons['copy2']" @click.prevent.default="copyToClipBoard(accountDetails.consumer_key)"></div>
+                            </div>
+                            <div class="ctf-acc-info-item">
+                                <strong>{{generalTab.manageAccount.cSecret}}</strong>
+                                <span>{{accountDetails.consumer_secret}}</span>
+                                <div class="ctf-acc-info-icon" v-html="svgIcons['copy2']" @click.prevent.default="copyToClipBoard(accountDetails.consumer_secret)"></div>
+                            </div>
+                            <div class="ctf-acc-info-item">
+                                <strong>{{generalTab.manageAccount.aToken}}</strong>
+                                <span>{{accountDetails.access_token}}</span>
+                                <div class="ctf-acc-info-icon" v-html="svgIcons['copy2']" @click.prevent.default="copyToClipBoard(accountDetails.access_token)"></div>
+                            </div>
+                            <div class="ctf-acc-info-item">
+                                <strong>{{generalTab.manageAccount.aTokenSecret}}</strong>
+                                <span>{{accountDetails.access_token_secret}}</span>
+                                <div class="ctf-acc-info-icon" v-html="svgIcons['copy2']" @click.prevent.default="copyToClipBoard(accountDetails.access_token_secret)"></div>
+                            </div>
+                        </div>
+                        <button type="button" class="ctf-btn sb-btn-lg export-btn" @click.prevent.default="activateView('connectAccountPopup');switchScreen('connectAccountStep','step_2');">
+                            <span class="icon" v-html="svgIcons['edit']"></span>
+                            {{generalTab.manageAccount.button}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
     <div class="sb-tab-box sb-preserve-settings-box clearfix">
         <div class="tab-label">

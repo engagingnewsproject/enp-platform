@@ -48,6 +48,7 @@ class CTF_Cache_Handler {
 		global $wpdb;
 
 		$cache_table_name = $wpdb->prefix . 'ctf_feed_caches';
+
 		$wpdb->query( $wpdb->prepare(
 			"UPDATE $cache_table_name
 				SET cache_value = ''
@@ -57,16 +58,22 @@ class CTF_Cache_Handler {
 
 		$wpdb->query( $wpdb->prepare(
 			"UPDATE $cache_table_name
-				SET last_updated = '2000-04-04 00:00:00',
-				cache_value = ''
-				WHERE cache_key LIKE 'ctf_!_%'
+				SET cache_value = ''
+				WHERE cache_key NOT LIKE 'ctf_!_%'
 				AND feed_id = %s;", $feed_id . '_CUSTOMIZER'
 		) );
 
 		$wpdb->query( $wpdb->prepare(
 			"UPDATE $cache_table_name
 				SET last_updated = '2000-04-04 00:00:00'
-				WHERE cache_key LIKE 'ctf_!_%'
+				WHERE cache_key NOT LIKE 'ctf_!_%'
+				AND feed_id = %s;", $feed_id . '_CUSTOMIZER'
+		) );
+
+		$wpdb->query( $wpdb->prepare(
+			"UPDATE $cache_table_name
+				SET last_updated = '2000-04-04 00:00:00'
+				WHERE cache_key NOT LIKE 'ctf_!_%'
 				AND feed_id = %s;", $feed_id
 		) );
 	}

@@ -555,12 +555,14 @@ class CTF_Feed
 		foreach ( $tweets as $tweet ) {
 
 			$trimmed_tweet = array();
-
 			$trimmed_tweet['user']['name']                    = $tweet['user']['name'];
 			$trimmed_tweet['user']['screen_name']             = $tweet['user']['screen_name'];
 			$trimmed_tweet['user']['verified']                = $tweet['user']['verified'];
 			$trimmed_tweet['user']['profile_image_url_https'] = $tweet['user']['profile_image_url_https'];
 			$trimmed_tweet['user']['utc_offset']              = $tweet['user']['utc_offset'];
+			$trimmed_tweet['user']['statuses_count']          = $tweet['user']['statuses_count'];
+			$trimmed_tweet['user']['followers_count']         = $tweet['user']['followers_count'];
+			$trimmed_tweet['user']['description']             = $tweet['user']['description'];
 			$trimmed_tweet['text']                            = isset( $tweet['text'] ) ? $tweet['text'] : $tweet['full_text'];
 			$trimmed_tweet['id_str']                          = $tweet['id_str'];
 			$trimmed_tweet['created_at']                      = $tweet['created_at'];
@@ -663,7 +665,7 @@ class CTF_Feed
 						foreach ( $tweet['extended_entities']['media'][$i]['video_info']['variants'] as $variant ) {
 							if ( isset( $variant['content_type'] )
 							     && $variant['content_type'] == 'video/mp4'
-								&& $variant['bitrate'] > $highest_bitrate ) {
+							     && $variant['bitrate'] > $highest_bitrate ) {
 								$highest_bitrate = $variant['bitrate'];
 								$preferred_variant = $variant['url'];
 							}
@@ -869,6 +871,11 @@ class CTF_Feed
 				}
 			}
 
+			$api_twitter_card = false;
+			if ( isset( $tweet['card'] ) ) {
+				$api_twitter_card = self::parse_api_card_data($tweet['card']);
+			}
+
 
 			// used to generate twitter cards
 			if ( isset( $tweet['entities']['urls'][0]['expanded_url'] ) ) {
@@ -906,6 +913,36 @@ class CTF_Feed
 					}
 				} elseif ( $twitter_card !== false ) {
 					$trimmed_tweet['twitter_card'] = $twitter_card;
+				}
+			}
+
+			if ( ! empty( $api_twitter_card ) ) {
+				$trimmed_tweet['twitter_card'] = $api_twitter_card;
+
+				if ( isset( $tweet['entities']['urls'][0]['expanded_url'] ) ) {
+
+					$target_one = $tweet['entities']['urls'][0]['expanded_url'];
+					$target_two = $tweet['entities']['urls'][0]['url'];
+
+					$remove_url_from_tweet = apply_filters( 'ctf_should_remove_url_from_text', true );
+					if ( $remove_url_from_tweet ) {
+						$trimmed_tweet['text'] = CTF_Feed::removeStringFromText( $target_one, $trimmed_tweet['text'] );
+						$trimmed_tweet['text'] = CTF_Feed::removeStringFromText( $target_two, $trimmed_tweet['text'] );
+					}
+
+				}
+
+
+				if ( isset( $tweet['retweeted_status']['entities']['urls'][0]['expanded_url'] ) ) {
+
+					$target_one = $tweet['retweeted_status']['entities']['urls'][0]['expanded_url'];
+					$target_two = $tweet['retweeted_status']['entities']['urls'][0]['url'];
+
+					$remove_url_from_tweet = apply_filters( 'ctf_should_remove_url_from_text', true );
+					if ( $remove_url_from_tweet ) {
+						$trimmed_tweet['retweeted_status']['text'] = CTF_Feed::removeStringFromText( $target_one, $trimmed_tweet['retweeted_status']['text'] );
+						$trimmed_tweet['retweeted_status']['text'] = CTF_Feed::removeStringFromText( $target_two, $trimmed_tweet['retweeted_status']['text'] );
+					}
 				}
 			}
 
@@ -1427,6 +1464,42 @@ class CTF_Feed
 
 		$this->add_report( 'removed duplicates: ' . implode(', ', $removed ) );
 		$this->set_post_data( $non_duplicate_posts );
+	}
+
+	public static function parse_api_card_data( $data ) {
+		$return = array(
+			'twitter:title' => '',
+			'twitter:description' => '',
+			'twitter:image' => '',
+			'twitter:site' => '',
+			'twitter:card' => '',
+
+		);
+
+		if ( ! empty( $data['name'] ) ) {
+			$return['twitter:card'] = $data['name'];
+		}
+
+		if ( ! empty( $data['url'] ) ) {
+			$return['twitter:site'] = $data['url'];
+		}
+
+		if ( ! empty( $data['binding_values']['title']['string_value'] ) ) {
+			$return['twitter:title'] = $data['binding_values']['title']['string_value'];
+		}
+
+		if ( ! empty( $data['binding_values']['description']['string_value'] ) ) {
+			$return['twitter:description'] = $data['binding_values']['description']['string_value'];
+		}
+		if ( ! empty( $data['binding_values']['thumbnail_image_large']['image_value']['url'] ) ) {
+			$return['twitter:image'] = $data['binding_values']['thumbnail_image_large']['image_value']['url'];
+		} elseif ( ! empty( $data['binding_values']['thumbnail_image']['image_value']['url'] ) ) {
+			$return['twitter:image'] = $data['binding_values']['thumbnail_image']['image_value']['url'];
+		} elseif ( ! empty( $data['binding_values']['thumbnail_image_small']['image_value']['url'] ) ) {
+			$return['twitter:image'] = $data['binding_values']['thumbnail_image_small']['image_value']['url'];
+		}
+
+		return $return;
 	}
 
 }

@@ -415,9 +415,16 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
 
     public function export_listen()
     {
-        // Bail if we aren't in the admin
-        if (!is_admin())
+        $current_user_can_get_nf_submissions = apply_filters( 'ninja_forms_api_allow_get_submissions', current_user_can( 'manage_options' ) );
+        // Ensure that we are in admin and user has permission to export
+        if (
+            !is_admin() ||
+            !is_user_logged_in() ||
+            !$current_user_can_get_nf_submissions
+        ) {
+
             return false;
+        }
 
         if (!isset ($_REQUEST['form_id']) || empty ($_REQUEST['form_id'])) {
             return false;

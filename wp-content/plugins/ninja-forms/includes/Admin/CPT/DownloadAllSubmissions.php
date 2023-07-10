@@ -16,6 +16,19 @@ class NF_Admin_CPT_DownloadAllSubmissions extends NF_Step_Processing {
         add_action( 'admin_footer-edit.php', array( $this, 'bulk_admin_footer' ) );
     }
 
+    protected function allowProcessing(): bool
+    {
+        if (
+            !is_admin() ||
+            !is_user_logged_in() ||
+            !current_user_can(apply_filters('ninja_forms_api_allow_get_submissions', 'manage_options'))
+        ) {
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     public function loading() {
         $subs_per_step = apply_filters( 'ninja_forms_export_subs_per_step', 10 );
         $form_id  = isset( $this->args['form_id'] ) ? absint( $this->args['form_id'] ) : 0;

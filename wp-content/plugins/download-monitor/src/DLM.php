@@ -62,6 +62,7 @@ class WP_DLM {
 		global $wpdb;
 
 		register_deactivation_hook( DLM_PLUGIN_FILE, array( $this, 'deactivate_this_plugin' ) );
+		$cron_jobs = DLM_CRON_Jobs::get_instance();
 
 		// Setup Services
 		$this->services = new DLM_Services();
@@ -700,7 +701,12 @@ class WP_DLM {
 	 * @since 4.6.0
 	 */
 	public static function do_xhr() {
-		return apply_filters( 'dlm_do_xhr', true );
+		$return = true;
+		if ( '1' === get_option( 'dlm_xsendfile_enabled' ) ) {
+			$return = false;
+		}
+
+		return apply_filters( 'dlm_do_xhr', $return );
 	}
 
 	/**

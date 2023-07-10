@@ -28,7 +28,7 @@ class CTF_Parse{
     }
 
     public static function get_post_id( $data ) {
-        return $data['id_str'];
+	    return $data['id_str'];
     }
 
     /**
@@ -36,9 +36,15 @@ class CTF_Parse{
      *
      * @since 2.0
      */
-    public static function get_user_name( $data ) {
-        return $data['screen_name'];
-    }
+	public static function get_user_name( $data ) {
+		if ( ! empty( $data['screen_name'] ) ) {
+			return $data['screen_name'];
+		}
+		if ( ! empty( $data['user']['screen_name'] ) ) {
+			return $data['user']['screen_name'];
+		}
+		return '';
+	}
 
     /**
 	 * Get Tweet Author Name
@@ -64,7 +70,17 @@ class CTF_Parse{
 	 * @since 2.0
 	 */
     public static function get_author_screen_name( $data ) {
-        return strtolower( $data['user']['screen_name'] );
+		if ( ! empty( $data['user'] ) ) {
+			if ( is_array( $data['user'] ) ) {
+				return strtolower( $data['user']['screen_name'] );
+			} else {
+				return strtolower( $data['user'] );
+			}
+		}
+	    if ( ! empty( $data['screen_name'] ) ) {
+		    return strtolower( $data['screen_name'] );
+	    }
+		return '';
     }
 
     public static function get_quoted_name( $data ) {
@@ -305,56 +321,26 @@ class CTF_Parse{
      *
      * @since 2.0
     */
-    public static function get_user_header_json( $data ) {
-        $transient = $data['type'] === 'usertimeline' ? 'ctf_header_' . $data['screenname'] : 'ctf_hometimeline_header';
+    public static function get_user_header_json( $data, $post_info ) {
+	    $type = ! empty( $data['type'] ) ? $data['type'] : 'usertimeline';
 
-        $header_json = get_transient( $transient );
-        $header_array = json_decode( $header_json, true );
-        if ( ! $header_json || isset($header_array['errors'])) {
-            $endpoint = 'accountlookup';
-            if ( $data['type'] === 'usertimeline' ) {
-                $endpoint = 'userslookup';
-            }
+	    $types_and_terms = $data['feed_types_and_terms'];
 
-                // Only can be set in the options page
-            $request_settings = array(
-                'consumer_key' => $data['consumer_key'],
-                'consumer_secret' => $data['consumer_secret'],
-                'access_token' => $data['access_token'],
-                'access_token_secret' => $data['access_token_secret'],
-            );
+	    $timelines_included = array();
+	    foreach ( $types_and_terms as $type_and_term ) {
+		    if ( $type_and_term[0] === 'usertimeline' ) {
+			    $timelines_included[] = str_replace( '@', '', strtolower( $type_and_term[1] ) );
+		    }
+	    }
 
-            $CtfFeedPros = new CtfFeed( array(), null, null );
-            $data['screenname'] = str_replace('@','', $data['screenname']);
-            $get_fields = $CtfFeedPros->setGetFieldsArray( $endpoint, $data['screenname'] );
-            // actual connection
-            $twitter_connect = new CtfOauthConnect( $request_settings, $endpoint );
-            $twitter_connect->setUrlBase();
-            $twitter_connect->setGetFields( $get_fields );
-            $twitter_connect->setRequestMethod( $data['request_method'] );
+	    if ( $type === 'usertimeline' ) {
+		    if ( ! empty( $post_info[0]['user'] ) ) {
+				return $post_info[0]['user'];
+		    }
 
-            $request_results = $twitter_connect->performRequest();
+	    }
 
-            $header_json = isset( $request_results->json ) ? $request_results->json : false;
-
-            if ( $endpoint === 'accountlookup' ) {
-                set_transient( 'ctf_hometimeline_header', $header_json, 60*60 );
-            } else {
-                set_transient( 'ctf_header_' . $data['screenname'], $header_json, 60*60 );
-            }
-
-        }
-        $header_info = isset( $header_json ) ? json_decode( $header_json, true ) : array();
-        if ( isset( $header_info[0] ) && !isset($header_info['errors'])) {
-            return $header_info = $header_info[0];
-        } elseif ( ! isset( $header_info['screen_name'] ) ) {
-            return [
-                'name' => $data['screenname'],
-                'description' => ''
-            ];
-        }
-
-        return $header_info;
+		return array();
     }
 
 

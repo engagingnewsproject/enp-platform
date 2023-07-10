@@ -45,12 +45,7 @@ class CtfCache {
 	 * @return false|string
 	 */
 	public function get_transient( $transient_name ) {
-		$exclude_customizer_cache = true;
-
-		if ( ! is_admin() ) {
-			$exclude_customizer_cache = true;
-		}
-		$results = $this->query_ctf_feed_caches( $transient_name, $exclude_customizer_cache );
+		$results = $this->query_ctf_feed_caches( $transient_name );
 
 		if ( empty( $results ) ) {
 			return false;
@@ -104,8 +99,8 @@ class CtfCache {
 	 *
 	 * @return bool|int
 	 */
-	public function set_transient( $transient_name, $value ) {
-		return $this->update_or_insert( $transient_name, $value );
+	public function set_transient( $transient_name, $value, $backup = false, $cron_update = true ) {
+		return $this->update_or_insert( $transient_name, $value, $backup, $cron_update );
 	}
 
 	/**
@@ -136,6 +131,10 @@ class CtfCache {
 		}
 
 		if ( ! empty( $this->page ) ) {
+			$cron_update = false;
+		}
+
+		if ( $this->feed_id === 'legacy' ) {
 			$cron_update = false;
 		}
 
@@ -191,9 +190,9 @@ class CtfCache {
 	 *
 	 * @return array|false
 	 */
-	private function query_ctf_feed_caches( $transient_name, $exclude_customizer_cache = false ) {
-		$feed_caches = wp_cache_get( $transient_name );
-		if ( false === $feed_caches ) {
+	private function query_ctf_feed_caches( $transient_name ) {
+		$feed_cache = wp_cache_get( $transient_name );
+		if ( false === $feed_cache || ! is_array( $feed_cache ) ) {
 			global $wpdb;
 			$cache_table_name = $wpdb->prefix . 'ctf_feed_caches';
 
@@ -205,27 +204,12 @@ class CtfCache {
 				$transient_name
 			);
 
-			$feed_caches = $wpdb->get_results( $sql, ARRAY_A );
+			$feed_cache = $wpdb->get_results( $sql, ARRAY_A );
 
-			$customizer_cache_only_available = true;
-			if ( $exclude_customizer_cache ) {
-				foreach ( $feed_caches as $feed_cache ) {
-					if ( strpos( $feed_cache['feed_id'], '_CUSTOMIZER' ) === false ) {
-						$customizer_cache_only_available = false;
-						$feed_caches = array( $feed_cache );
-					}
-				}
-				if ( ! $customizer_cache_only_available ) {
-					wp_cache_set( $transient_name, $feed_caches );
-				} else {
-					return array();
-				}
-			} else {
-				wp_cache_set( $transient_name, $feed_caches );
-			}
+			wp_cache_set( $transient_name, $feed_cache );
 		}
 
-		return $feed_caches;
+		return $feed_cache;
 	}
 
 	/**

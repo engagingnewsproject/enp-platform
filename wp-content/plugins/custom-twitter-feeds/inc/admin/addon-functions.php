@@ -79,7 +79,7 @@ add_action( 'wp_ajax_ctf_activate_addon', 'ctf_activate_addon' );
 /**
  * Install addon.
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 function ctf_install_addon() {
 	require_once trailingslashit( CTF_PLUGIN_DIR ) . 'inc/Admin/PluginSilentUpgrader.php';

@@ -74,7 +74,7 @@ Vue.component('sb-confirm-dialog-component', {
 			var self = this;
 			self.$parent.confirmDialogAction();
 			self.closeConfirmDialog();
-		},
+	    },
 
     	/**
 		 * Close Dialog Box
@@ -87,10 +87,9 @@ Vue.component('sb-confirm-dialog-component', {
 				self.$parent.sourceToDelete = {};
 				self.$parent.feedToDelete = {};
     		}
-    		if(self.dialogBoxElement.type == 'unsavedFeedSources'){
+    		if(self.dialogBoxElement.type === 'unsavedFeedSources'){
     			self.$parent.viewsActive.feedtypesCustomizerPopup = false;
     		}
-
 			var dialogBox = {
 				active : false,
 				type : null,

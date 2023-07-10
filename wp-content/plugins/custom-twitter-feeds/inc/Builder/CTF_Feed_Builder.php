@@ -245,7 +245,23 @@ class CTF_Feed_Builder {
 									'color' => 'red'
 								]
 							)
+                        ),
+                        'createMoreFeeds' => array(
+							'icon' =>  'twitterSmash',
+							'heading' =>  __( 'Create more than one feed<br/>with Twitter Feeds Pro', 'custom-twitter-feeds' ),
+							'description' => __( 'Due to new Twitter API limitations, we can no longer support creation of multiple feeds. To continue creating more than a single feed, upgrade to Pro.', 'custom-twitter-feeds' ),
+							'customButtons' => array(
+								'confirm' => [
+									'text' => __( 'Upgrade to Pro', 'custom-twitter-feeds' ),
+									'color' => 'blue'
+								],
+								'cancel' => [
+									'text' => __( 'Close', 'custom-twitter-feeds' ),
+									'color' => 'gray'
+								]
+							)
 						)
+
 					),
 					 'selectFeedTypeScreen' => array(
 						'mainHeading' => __( 'Create a Twitter Feed', 'custom-twitter-feeds' ),
@@ -314,7 +330,7 @@ class CTF_Feed_Builder {
 								'content' => [
 									__( 'Display photos, videos & GIFs', 'custom-twitter-feeds' ),
 									__( 'Combine mulitple feeds into one', 'custom-twitter-feeds' ),
-									__( 'All advanced feed types', 'custom-twitter-feeds' ),
+									__( 'Unlimited feeds, 12 daily updates', 'custom-twitter-feeds' ),
 									__( 'Auto load tweets on scroll', 'custom-twitter-feeds' ),
 									__( 'Powerful Tweet filters', 'custom-twitter-feeds' ),
 									__( 'View tweets in a lightbox', 'custom-twitter-feeds' ),
@@ -336,7 +352,7 @@ class CTF_Feed_Builder {
 								'content' => [
 									__( 'Display photos, videos & GIFs', 'custom-twitter-feeds' ),
 									__( 'Combine mulitple feeds into one', 'custom-twitter-feeds' ),
-									__( 'All advanced feed types', 'custom-twitter-feeds' ),
+									__( 'Unlimited feeds, 12 daily updates', 'custom-twitter-feeds' ),
 									__( 'Auto load tweets on scroll', 'custom-twitter-feeds' ),
 									__( 'Powerful Tweet filters', 'custom-twitter-feeds' ),
 									__( 'View tweets in a lightbox', 'custom-twitter-feeds' ),
@@ -357,7 +373,7 @@ class CTF_Feed_Builder {
 								'content' => [
 									__( 'Display photos, videos & GIFs', 'custom-twitter-feeds' ),
 									__( 'Combine mulitple feeds into one', 'custom-twitter-feeds' ),
-									__( 'All advanced feed types', 'custom-twitter-feeds' ),
+									__( 'Unlimited feeds, 12 daily updates', 'custom-twitter-feeds' ),
 									__( 'Auto load tweets on scroll', 'custom-twitter-feeds' ),
 									__( 'Powerful Tweet filters', 'custom-twitter-feeds' ),
 									__( 'View tweets in a lightbox', 'custom-twitter-feeds' ),
@@ -400,7 +416,7 @@ class CTF_Feed_Builder {
 								'content' => [
 									__( 'Display photos, videos & GIFs', 'custom-twitter-feeds' ),
 									__( 'Combine mulitple feeds into one', 'custom-twitter-feeds' ),
-									__( 'All advanced feed types', 'custom-twitter-feeds' ),
+									__( 'Unlimited feeds, 12 daily updates', 'custom-twitter-feeds' ),
 									__( 'Auto load tweets on scroll', 'custom-twitter-feeds' ),
 									__( 'Powerful Tweet filters', 'custom-twitter-feeds' ),
 									__( 'View tweets in a lightbox', 'custom-twitter-feeds' ),
@@ -421,7 +437,7 @@ class CTF_Feed_Builder {
 								'content' => [
 									__( 'Display photos, videos & GIFs', 'custom-twitter-feeds' ),
 									__( 'Combine mulitple feeds into one', 'custom-twitter-feeds' ),
-									__( 'All advanced feed types', 'custom-twitter-feeds' ),
+									__( 'Unlimited feeds, 12 daily updates', 'custom-twitter-feeds' ),
 									__( 'Auto load tweets on scroll', 'custom-twitter-feeds' ),
 									__( 'Powerful Tweet filters', 'custom-twitter-feeds' ),
 									__( 'View tweets in a lightbox', 'custom-twitter-feeds' ),
@@ -443,7 +459,7 @@ class CTF_Feed_Builder {
 								'content' => [
 									__( 'Display photos, videos & GIFs', 'custom-twitter-feeds' ),
 									__( 'Combine mulitple feeds into one', 'custom-twitter-feeds' ),
-									__( 'All advanced feed types', 'custom-twitter-feeds' ),
+									__( 'Unlimited feeds, 12 daily updates', 'custom-twitter-feeds' ),
 									__( 'Auto load tweets on scroll', 'custom-twitter-feeds' ),
 									__( 'Powerful Tweet filters', 'custom-twitter-feeds' ),
 									__( 'View tweets in a lightbox', 'custom-twitter-feeds' ),
@@ -465,7 +481,7 @@ class CTF_Feed_Builder {
 								'content' => [
 									__( 'Display photos, videos & GIFs', 'custom-twitter-feeds' ),
 									__( 'Combine mulitple feeds into one', 'custom-twitter-feeds' ),
-									__( 'All advanced feed types', 'custom-twitter-feeds' ),
+									__( 'Unlimited feeds, 12 daily updates', 'custom-twitter-feeds' ),
 									__( 'Auto load tweets on scroll', 'custom-twitter-feeds' ),
 									__( 'Powerful Tweet filters', 'custom-twitter-feeds' ),
 									__( 'View tweets in a lightbox', 'custom-twitter-feeds' ),
@@ -487,7 +503,7 @@ class CTF_Feed_Builder {
 								'content' => [
 									__( 'Display photos, videos & GIFs', 'custom-twitter-feeds' ),
 									__( 'Combine mulitple feeds into one', 'custom-twitter-feeds' ),
-									__( 'All advanced feed types', 'custom-twitter-feeds' ),
+									__( 'Unlimited feeds, 12 daily updates', 'custom-twitter-feeds' ),
 									__( 'Auto load tweets on scroll', 'custom-twitter-feeds' ),
 									__( 'Powerful Tweet filters', 'custom-twitter-feeds' ),
 									__( 'View tweets in a lightbox', 'custom-twitter-feeds' ),
@@ -528,24 +544,42 @@ class CTF_Feed_Builder {
 
         		);
         		$maybe_feed_customizer_data = CTF_Feed_Saver_Manager::maybe_feed_customizer_data();
-        		$maybe_new_account = self::connect_new_account( $_GET );
+        		$maybe_new_account = self::connect_site_token( $_GET );
         		if( $maybe_new_account !== false ){
 		        	$ctf_builder['newAccountData'] =  $maybe_new_account;
 		        	$ctf_options = get_option('ctf_options', array());
         		}
 
-        		$ctf_builder['accountDetails'] = [
-					'access_token' 			=> isset($ctf_options['access_token']) ? $ctf_options['access_token'] : '' ,
-					'access_token_secret' 	=> isset($ctf_options['access_token_secret']) ? $ctf_options['access_token_secret'] : '' ,
-					'account_handle' 		=> isset($ctf_options['account_handle']) ? $ctf_options['account_handle'] : '' ,
-					'account_avatar' 		=> isset($ctf_options['account_avatar']) ? $ctf_options['account_avatar'] : ''
-				];
-				$ctf_builder['appCredentials']    = self::get_app_credentials( $ctf_options );
+				if ( CTF_DOING_SMASH_TWITTER ) {
+					if( CTF_Feed_Builder::is_connected( $ctf_options, $maybe_new_account ) ){
+						$ctf_builder['accountDetails'] = [
+							'site_token' => $maybe_new_account,
+							'access_token' 			=> 'smash_twitter',
+							'access_token_secret' 	=> 'smash_twitter',
+							'account_handle' 		=> 'smash_twitter',
+							'account_avatar' 		=> ''
 
-        		$appOAUTHURL = OAUTH_PROCESSOR_URL . admin_url( 'admin.php?page=ctf-feed-builder' );
+						];
+						$ctf_builder['appCredentials'] = $ctf_builder['accountDetails'];
+					}
+
+				} else {
+					if ( CTF_Feed_Builder::is_connected( $ctf_options ) ) {
+
+						$ctf_builder['accountDetails'] = [
+							'access_token'        => isset( $ctf_options['access_token'] ) ? $ctf_options['access_token'] : '',
+							'access_token_secret' => isset( $ctf_options['access_token_secret'] ) ? $ctf_options['access_token_secret'] : '',
+							'account_handle'      => isset( $ctf_options['account_handle'] ) ? $ctf_options['account_handle'] : '',
+							'account_avatar'      => isset( $ctf_options['account_avatar'] ) ? $ctf_options['account_avatar'] : ''
+						];
+						$ctf_builder['appCredentials'] = self::get_app_credentials( $ctf_options );
+					}
+				}
+
+        		$appOAUTHURL = ctf_oauth_url( admin_url( 'admin.php?page=ctf-feed-builder' ) );
         		if( $maybe_feed_customizer_data ){
 
-        			$appOAUTHURL = OAUTH_PROCESSOR_URL . admin_url( 'admin.php?page=ctf-feed-builder&feed_id=' . $_GET['feed_id'] );
+        			$appOAUTHURL = ctf_oauth_url( admin_url( 'admin.php?page=ctf-feed-builder&feed_id=' . $_GET['feed_id'] ) );
 
         			ctf_scripts_and_styles(true);
 		        	$ctf_builder['customizerFeedData'] 			=  $maybe_feed_customizer_data;
@@ -674,6 +708,30 @@ class CTF_Feed_Builder {
 			}
 		}
 		return false;
+	}
+
+	public static function connect_site_token( $data ){
+		if ( isset( $data ) ) {
+			if ( ! empty( $data['ctf_site_token'] ) ){
+				$site_key = sanitize_key( $data['ctf_site_token'] );
+				$ctf_options[ CTF_SITE_ACCESS_TOKEN_KEY ] = $site_key;
+				update_option( 'ctf_options', $ctf_options );
+
+				return $site_key;
+			}
+		}
+		return false;
+	}
+
+	public static function is_connected( $ctf_options, $site_token = false ) {
+		if ( CTF_DOING_SMASH_TWITTER ) {
+			return ! empty( $site_token ) || ! empty( $ctf_options[ CTF_SITE_ACCESS_TOKEN_KEY ] );
+		} else {
+			if( isset( $ctf_options['access_token'] )  && isset( $ctf_options['access_token_secret'] ) && !empty( $ctf_options['access_token'] )  && !empty( $ctf_options['access_token_secret'] )) {
+				return true;
+			}
+		}
+
 	}
 
 	/**
@@ -994,6 +1052,47 @@ class CTF_Feed_Builder {
 				'heading' =>  __( 'Redirecting to connect.smashballoon.com', 'custom-twitter-feeds' ),
 				'description' =>  __( 'You will be redirected to our app so you can connect your account in 5 seconds', 'custom-twitter-feeds' ),
 			),
+            'twitterApiLimit' => array(
+				'heading' =>  __( 'Some feed types are not available', 'custom-twitter-feeds' ),
+				'description' =>  sprintf( __( 'Due to Twitter API changes, we can no longer support Search, Home Timeline, Hashtag, Mentions and Lists feeds. To continue using them, you will have to connect your own Twitter app which Twitter charges $100/month for. You can learn more about it %shere%s.', 'custom-twitter-feeds' ), '<a href="https://smashballoon.com/custom-twitter-feeds/" target="_blank" rel="nofollow noopener">', '</a>' ),
+			),
+			'disabledFeedTooltipNotice' =>  sprintf(
+                __( '%sThis feed is disabled%s
+                    %sDue to Twitter API changes, we can only support single feed for our free users.%s
+                    %sTo activate this feed again, you can either:%s
+                    %s%s%sEnable this feed%s from the Feed Editor. This will disable all the other active feeds.%s
+                        %s%sUpgrade to Pro%s, where we support multiple feeds.%s
+                        %s%sConnect your own Twitter app%s%s%s', 'custom-twitter-feeds' ),
+                '<strong>',
+                '</strong>',
+                '<span>',
+                '</span>',
+                '<span>',
+                '</span>',
+                '<ul>',
+                    '<li>',
+                        '<a>',
+                        '</a>',
+                    '</li>',
+                    '<li>',
+                        '<a>',
+                        '</a>',
+                    '</li>',
+                    '<li>',
+                        '<a>',
+                        '</a>',
+                    '</li>',
+                '</ul>'
+            ),
+            'disabledFeedTypeTooltipNotice' =>  sprintf(
+                __( '%sThis feed is disabled%s
+                   %s Due to Twitter API changes, we can no longer support Search, Home Timeline, Hashtag, Mentions and Lists feeds.%s', 'custom-twitter-feeds' ),
+                '<strong>',
+                '</strong>',
+                '<span>',
+                '</span>'
+            ),
+
 		);
 	}
 
@@ -1233,7 +1332,8 @@ class CTF_Feed_Builder {
 				'types'				=> '<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M34.6667 38.3334H13.3333C12.9797 38.3334 12.6406 38.1929 12.3905 37.9429C12.1405 37.6928 12 37.3537 12 37.0001V13.0001C12 12.6465 12.1405 12.3073 12.3905 12.0573C12.6406 11.8072 12.9797 11.6667 13.3333 11.6667H34.6667C35.0203 11.6667 35.3594 11.8072 35.6095 12.0573C35.8595 12.3073 36 12.6465 36 13.0001V37.0001C36 37.3537 35.8595 37.6928 35.6095 37.9429C35.3594 38.1929 35.0203 38.3334 34.6667 38.3334ZM18.6667 18.3334V21.0001H29.3333V18.3334H18.6667ZM18.6667 23.6667V26.3334H29.3333V23.6667H18.6667ZM18.6667 29.0001V31.6667H25.3333V29.0001H18.6667Z" fill="#8C8F9A"/><circle cx="37.5" cy="37.5" r="11.5" fill="white"/><path d="M37.3184 45.2982C39.0895 45.2978 40.8095 44.7049 42.2047 43.6139L46.591 48.0003L48.002 46.5894L43.6156 42.203C44.7072 40.8077 45.3005 39.0873 45.3009 37.3157C45.3009 32.9144 41.7197 29.3333 37.3184 29.3333C32.9171 29.3333 29.3359 32.9144 29.3359 37.3157C29.3359 41.7171 32.9171 45.2982 37.3184 45.2982ZM37.3184 31.3289C40.6202 31.3289 43.3053 34.014 43.3053 37.3157C43.3053 40.6175 40.6202 43.3026 37.3184 43.3026C34.0167 43.3026 31.3316 40.6175 31.3316 37.3157C31.3316 34.014 34.0167 31.3289 37.3184 31.3289Z" fill="#0096CC" stroke="#0096CC" stroke-width="0.5"/></svg>'
 			],
 			'cardPromoTitle' => '<svg width="194" height="134" viewBox="0 0 194 134" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1145_45675)"><path d="M0.304137 12.4702C0.191179 9.2355 2.72183 6.52171 5.9565 6.40875L183.616 0.20476C186.85 0.0918028 189.564 2.62245 189.677 5.85713L193.695 120.903C193.808 124.138 191.277 126.852 188.042 126.965L10.3831 133.169C7.14839 133.282 4.43459 130.751 4.32164 127.516L0.304137 12.4702Z" fill="white"/><g clip-path="url(#clip1_1145_45675)"><rect width="189.488" height="79.1163" transform="translate(0.0996094 6.61328) rotate(-2)" fill="#0068A0"/><circle cx="31.9551" cy="72.2044" r="73.9884" transform="rotate(-2 31.9551 72.2044)" fill="#005B8C"/><circle cx="171.467" cy="121.086" r="95.9651" transform="rotate(-2 171.467 121.086)" fill="#004D77"/><circle cx="97.3271" cy="41.0898" r="23.1977" transform="rotate(-2 97.3271 41.0898)" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M96.3874 34.8668C94.4428 34.0733 92.4038 32.8581 90.5213 32.325C91.2378 33.8793 91.8547 35.5403 92.4904 37.1812C91.3685 38.0873 90.0461 38.8064 88.7859 39.5836C89.9178 40.6269 91.4893 41.1989 92.7568 42.0968C91.8104 43.3517 89.9117 44.6878 89.4769 45.8103C91.5152 45.4823 93.8864 44.9831 95.7883 44.8322C96.2803 46.9216 96.5768 49.2207 97.2394 51.1271C98.0368 48.5457 98.7463 45.8823 99.7183 43.4638C101.37 44.0804 103.384 44.8324 104.987 45.174C103.817 43.6481 102.741 42.0213 101.694 40.3641C103.119 39.2531 104.562 38.1583 105.933 36.9959C103.934 36.8819 101.866 36.8423 99.7709 36.8323C99.363 34.6854 99.3603 32.104 98.7796 30.1425C98.0622 31.7919 97.2005 33.3066 96.3874 34.8668ZM97.9577 52.7121C97.7339 53.8473 98.6168 54.2788 98.5099 54.9659C97.6438 54.7008 96.9947 54.5718 95.8514 54.7746C95.8566 53.8948 96.6424 53.743 96.4409 52.6704C84.1483 51.7059 83.3511 29.5821 95.4775 27.7953C110.64 25.5612 112.035 51.8288 97.9577 52.7121Z" fill="#E34F0E"/><path fill-rule="evenodd" clip-rule="evenodd" d="M98.7796 30.1424C99.3603 32.1039 99.3629 34.6853 99.7709 36.8321C101.866 36.8422 103.934 36.8818 105.933 36.9958C104.562 38.1582 103.119 39.253 101.694 40.364C102.741 42.0213 103.817 43.648 104.987 45.1739C103.384 44.8323 101.37 44.0803 99.7183 43.4636C98.7463 45.8822 98.0368 48.5456 97.2393 51.127C96.5767 49.2206 96.2803 46.9215 95.7883 44.8321C93.8864 44.983 91.5152 45.4822 89.4769 45.8102C89.9117 44.6877 91.8104 43.3516 92.7567 42.0967C91.4892 41.1988 89.9178 40.6268 88.7859 39.5835C90.0461 38.8063 91.3684 38.0872 92.4904 37.1811C91.8547 35.5402 91.2378 33.8792 90.5213 32.3249C92.4037 32.858 94.4428 34.0732 96.3874 34.8667C97.2005 33.3065 98.0622 31.7918 98.7796 30.1424Z" fill="white"/></g><line x1="2.85281" y1="85.4371" x2="192.226" y2="78.8241" stroke="#D0D1D7" stroke-width="0.488372"/><path d="M7.82039 97.5739L7.89811 99.7995C7.92009 100.429 8.38985 100.867 9.01947 100.845L17.8634 100.536C18.493 100.514 18.9311 100.045 18.9091 99.415L18.8313 97.1894C18.8094 96.5598 18.3396 96.1217 17.71 96.1437L8.86607 96.4525C8.23646 96.4745 7.7984 96.9443 7.82039 97.5739ZM16.1996 97.2813L16.2774 99.5069C16.2993 100.137 16.7691 100.575 17.3987 100.553L26.2426 100.244C26.8722 100.222 27.3103 99.752 27.2883 99.1224L27.2106 96.8968C27.1886 96.2671 26.7189 95.8291 26.0892 95.8511L17.2453 96.1599C16.6157 96.1819 16.1776 96.6517 16.1996 97.2813ZM24.5789 96.9887L24.6566 99.2143C24.6786 99.8439 25.1484 100.282 25.778 100.26L34.6219 99.9511C35.2515 99.9291 35.6896 99.4594 35.6676 98.8298L35.5898 96.6041C35.5679 95.9745 35.0981 95.5365 34.4685 95.5585L25.6246 95.8673C24.995 95.8893 24.5569 96.359 24.5789 96.9887ZM32.9581 96.696L33.0359 98.9217C33.0578 99.5513 33.5276 99.9893 34.1572 99.9674L43.0011 99.6585C43.6307 99.6365 44.0688 99.1668 44.0468 98.5372L43.9691 96.3115C43.9471 95.6819 43.4774 95.2439 42.8477 95.2658L34.0038 95.5747C33.3742 95.5967 32.9361 96.0664 32.9581 96.696ZM41.3374 96.4034L41.4151 98.6291C41.4371 99.2587 41.9069 99.6967 42.5365 99.6747L51.3804 99.3659C52.01 99.3439 52.4481 98.8742 52.4261 98.2445L52.3483 96.0189C52.3264 95.3893 51.8566 94.9513 51.227 94.9732L42.3831 95.2821C41.7535 95.3041 41.3154 95.7738 41.3374 96.4034ZM49.7166 96.1108L49.7944 98.3364C49.8163 98.9661 50.2861 99.4041 50.9157 99.3821L59.7596 99.0733C60.3892 99.0513 60.8273 98.5816 60.8053 97.9519L60.7276 95.7263C60.7056 95.0967 60.2359 94.6586 59.6062 94.6806L50.7623 94.9895C50.1327 95.0115 49.6946 95.4812 49.7166 96.1108ZM58.0959 95.8182L58.1736 98.0438C58.1956 98.6735 58.6654 99.1115 59.295 99.0895L68.1389 98.7807C68.7685 98.7587 69.2066 98.2889 69.1846 97.6593L69.1068 95.4337C69.0849 94.8041 68.6151 94.366 67.9855 94.388L59.1416 94.6969C58.512 94.7188 58.0739 95.1886 58.0959 95.8182ZM66.4756 95.5403L66.5529 97.7512C66.5748 98.3808 67.0446 98.8189 67.6742 98.7969L72.3305 98.6343C72.9601 98.6123 73.3981 98.1426 73.3761 97.513L73.2989 95.302C73.2769 94.6724 72.8072 94.2343 72.1776 94.2563L67.5213 94.4189C66.8917 94.4409 66.4537 94.9106 66.4756 95.5403ZM70.6653 95.3939L70.7425 97.6049C70.7645 98.2345 71.2342 98.6726 71.8638 98.6506L76.5201 98.488C77.1497 98.466 77.5878 97.9963 77.5658 97.3667L77.4886 95.1557C77.4666 94.5261 76.9968 94.088 76.3672 94.11L71.711 94.2726C71.0813 94.2946 70.6433 94.7643 70.6653 95.3939ZM74.8544 95.233L74.9321 97.4586C74.9541 98.0882 75.4239 98.5263 76.0535 98.5043L84.8974 98.1955C85.527 98.1735 85.9651 97.7037 85.9431 97.0741L85.8653 94.8485C85.8434 94.2189 85.3736 93.7808 84.744 93.8028L75.9001 94.1116C75.2705 94.1336 74.8324 94.6034 74.8544 95.233ZM83.2336 94.9404L83.3114 97.166C83.3333 97.7956 83.8031 98.2337 84.4327 98.2117L93.2766 97.9029C93.9062 97.8809 94.3443 97.4111 94.3223 96.7815L94.2446 94.5559C94.2226 93.9263 93.7528 93.4882 93.1232 93.5102L84.2793 93.819C83.6497 93.841 83.2116 94.3108 83.2336 94.9404ZM91.6129 94.6478L91.6906 96.8734C91.7126 97.503 92.1824 97.9411 92.812 97.9191L101.656 97.6103C102.285 97.5883 102.724 97.1185 102.702 96.4889L102.624 94.2633C102.602 93.6337 102.132 93.1956 101.502 93.2176L92.6586 93.5264C92.029 93.5484 91.5909 94.0182 91.6129 94.6478ZM99.9927 94.3698L100.07 96.5808C100.092 97.2104 100.562 97.6485 101.191 97.6265L105.847 97.4639C106.477 97.4419 106.915 96.9721 106.893 96.3425L106.816 94.1315C106.794 93.5019 106.324 93.0639 105.695 93.0858L101.038 93.2484C100.409 93.2704 99.9707 93.7402 99.9927 94.3698ZM104.182 94.2235L104.259 96.4345C104.281 97.0641 104.751 97.5022 105.381 97.4802L110.037 97.3176C110.667 97.2956 111.105 96.8258 111.083 96.1962L111.006 93.9852C110.984 93.3556 110.514 92.9176 109.884 92.9395L105.228 93.1021C104.598 93.1241 104.16 93.5939 104.182 94.2235ZM108.371 94.0626L108.449 96.2882C108.471 96.9178 108.941 97.3559 109.57 97.3339L118.414 97.025C119.044 97.003 119.482 96.5333 119.46 95.9037L119.382 93.678C119.36 93.0484 118.891 92.6104 118.261 92.6324L109.417 92.9412C108.787 92.9632 108.349 93.4329 108.371 94.0626ZM116.751 93.77L116.828 95.9956C116.85 96.6252 117.32 97.0632 117.95 97.0413L126.794 96.7324C127.423 96.7104 127.861 96.2407 127.839 95.6111L127.762 93.3854C127.74 92.7558 127.27 92.3178 126.64 92.3398L117.796 92.6486C117.167 92.6706 116.729 93.1403 116.751 93.77Z" fill="#141B38"/><path d="M8.24031 109.567L8.31803 111.792C8.34001 112.422 8.80977 112.86 9.43939 112.838L18.2833 112.529C18.9129 112.507 19.351 112.037 19.329 111.408L19.2513 109.182C19.2293 108.552 18.7595 108.114 18.1299 108.136L9.286 108.445C8.65638 108.467 8.21832 108.937 8.24031 109.567ZM16.6196 109.274L16.6973 111.5C16.7193 112.129 17.189 112.567 17.8186 112.545L26.6626 112.236C27.2922 112.214 27.7302 111.745 27.7082 111.115L27.6305 108.889C27.6085 108.26 27.1388 107.822 26.5092 107.844L17.6652 108.153C17.0356 108.175 16.5976 108.644 16.6196 109.274ZM24.9988 108.981L25.0765 111.207C25.0985 111.837 25.5683 112.275 26.1979 112.253L35.0418 111.944C35.6714 111.922 36.1095 111.452 36.0875 110.822L36.0098 108.597C35.9878 107.967 35.518 107.529 34.8884 107.551L26.0445 107.86C25.4149 107.882 24.9768 108.352 24.9988 108.981ZM33.3781 108.689L33.4558 110.914C33.4778 111.544 33.9475 111.982 34.5771 111.96L43.4211 111.651C44.0507 111.629 44.4887 111.159 44.4667 110.53L44.389 108.304C44.367 107.675 43.8973 107.237 43.2677 107.259L34.4237 107.567C33.7941 107.589 33.3561 108.059 33.3781 108.689ZM41.7573 108.396L41.835 110.622C41.857 111.251 42.3268 111.689 42.9564 111.667L51.8003 111.359C52.4299 111.337 52.868 110.867 52.846 110.237L52.7683 108.012C52.7463 107.382 52.2765 106.944 51.6469 106.966L42.803 107.275C42.1734 107.297 41.7353 107.766 41.7573 108.396ZM50.1366 108.104L50.2143 110.329C50.2363 110.959 50.706 111.397 51.3356 111.375L60.1796 111.066C60.8092 111.044 61.2472 110.574 61.2252 109.945L61.1475 107.719C61.1255 107.089 60.6558 106.651 60.0262 106.673L51.1822 106.982C50.5526 107.004 50.1146 107.474 50.1366 108.104ZM58.5158 107.811L58.5935 110.037C58.6155 110.666 59.0853 111.104 59.7149 111.082L68.5588 110.773C69.1884 110.751 69.6265 110.282 69.6045 109.652L69.5268 107.426C69.5048 106.797 69.035 106.359 68.4054 106.381L59.5615 106.69C58.9319 106.712 58.4938 107.181 58.5158 107.811ZM66.8956 107.533L66.9728 109.744C66.9948 110.374 67.4645 110.812 68.0941 110.79L72.7504 110.627C73.38 110.605 73.818 110.135 73.7961 109.506L73.7189 107.295C73.6969 106.665 73.2271 106.227 72.5975 106.249L67.9413 106.412C67.3116 106.434 66.8736 106.903 66.8956 107.533ZM71.0852 107.387L71.1624 109.598C71.1844 110.227 71.6542 110.665 72.2838 110.643L76.94 110.481C77.5696 110.459 78.0077 109.989 77.9857 109.359L77.9085 107.148C77.8865 106.519 77.4167 106.081 76.7871 106.103L72.1309 106.265C71.5013 106.287 71.0632 106.757 71.0852 107.387ZM75.2743 107.226L75.352 109.451C75.374 110.081 75.8438 110.519 76.4734 110.497L85.3173 110.188C85.9469 110.166 86.385 109.696 86.363 109.067L86.2853 106.841C86.2633 106.212 85.7935 105.773 85.1639 105.795L76.32 106.104C75.6904 106.126 75.2523 106.596 75.2743 107.226ZM83.6536 106.933L83.7313 109.159C83.7533 109.788 84.223 110.226 84.8526 110.204L93.6965 109.896C94.3262 109.874 94.7642 109.404 94.7422 108.774L94.6645 106.549C94.6425 105.919 94.1728 105.481 93.5432 105.503L84.6992 105.812C84.0696 105.834 83.6316 106.303 83.6536 106.933ZM92.0328 106.64L92.1105 108.866C92.1325 109.496 92.6023 109.934 93.2319 109.912L102.076 109.603C102.705 109.581 103.143 109.111 103.121 108.482L103.044 106.256C103.022 105.626 102.552 105.188 101.922 105.21L93.0785 105.519C92.4489 105.541 92.0108 106.011 92.0328 106.64ZM100.413 106.362L100.49 108.573C100.512 109.203 100.982 109.641 101.611 109.619L106.267 109.457C106.897 109.435 107.335 108.965 107.313 108.335L107.236 106.124C107.214 105.495 106.744 105.057 106.114 105.079L101.458 105.241C100.829 105.263 100.391 105.733 100.413 106.362ZM104.602 106.216L104.679 108.427C104.701 109.057 105.171 109.495 105.801 109.473L110.457 109.31C111.087 109.288 111.525 108.819 111.503 108.189L111.425 105.978C111.403 105.348 110.934 104.91 110.304 104.932L105.648 105.095C105.018 105.117 104.58 105.587 104.602 106.216ZM108.791 106.055L108.869 108.281C108.891 108.91 109.361 109.349 109.99 109.327L118.834 109.018C119.464 108.996 119.902 108.526 119.88 107.896L119.802 105.671C119.78 105.041 119.311 104.603 118.681 104.625L109.837 104.934C109.207 104.956 108.769 105.426 108.791 106.055ZM117.171 105.763L117.248 107.988C117.27 108.618 117.74 109.056 118.37 109.034L127.214 108.725C127.843 108.703 128.281 108.233 128.259 107.604L128.182 105.378C128.16 104.748 127.69 104.31 127.06 104.332L118.216 104.641C117.587 104.663 117.149 105.133 117.171 105.763ZM125.55 105.47L125.628 107.696C125.65 108.325 126.119 108.763 126.749 108.741L135.593 108.432C136.222 108.411 136.66 107.941 136.638 107.311L136.561 105.086C136.539 104.456 136.069 104.018 135.439 104.04L126.595 104.349C125.966 104.371 125.528 104.84 125.55 105.47ZM133.93 105.192L134.007 107.403C134.029 108.033 134.499 108.471 135.128 108.449L139.784 108.286C140.414 108.264 140.852 107.794 140.83 107.165L140.753 104.954C140.731 104.324 140.261 103.886 139.631 103.908L134.975 104.071C134.346 104.093 133.908 104.562 133.93 105.192ZM138.119 105.046L138.196 107.257C138.218 107.886 138.688 108.324 139.318 108.302L143.974 108.14C144.604 108.118 145.042 107.648 145.02 107.018L144.942 104.807C144.92 104.178 144.451 103.74 143.821 103.762L139.165 103.924C138.535 103.946 138.097 104.416 138.119 105.046Z" fill="#D0D1D7"/><path d="M13.3828 120.693C13.107 120.436 12.7403 120.299 12.3635 120.312C11.9867 120.325 11.6305 120.488 11.3733 120.763L10.4034 121.803C10.1461 122.079 10.009 122.446 10.0222 122.823C10.0354 123.2 10.1977 123.556 10.4735 123.813C10.7494 124.07 11.1161 124.207 11.493 124.194C11.8699 124.181 12.2261 124.019 12.4833 123.743L12.9681 123.223" stroke="#8C8F9A" stroke-width="0.651159" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.4128 121.733C12.6886 121.99 13.0552 122.127 13.432 122.113C13.8089 122.1 14.165 121.938 14.4222 121.662L15.3922 120.623C15.6494 120.347 15.7865 119.98 15.7734 119.603C15.7602 119.226 15.5978 118.87 15.322 118.613C15.0462 118.356 14.6795 118.218 14.3026 118.232C13.9257 118.245 13.5694 118.407 13.3122 118.683L12.8274 119.203" stroke="#8C8F9A" stroke-width="0.651159" stroke-linecap="round" stroke-linejoin="round"/><path d="M19.3966 121.184L19.4743 123.41C19.4963 124.039 19.966 124.478 20.5956 124.456L29.4396 124.147C30.0692 124.125 30.5072 123.655 30.4852 123.025L30.4075 120.8C30.3855 120.17 29.9158 119.732 29.2862 119.754L20.4422 120.063C19.8126 120.085 19.3746 120.555 19.3966 121.184ZM27.7758 120.892L27.8535 123.117C27.8755 123.747 28.3453 124.185 28.9749 124.163L37.8188 123.854C38.4484 123.832 38.8865 123.362 38.8645 122.733L38.7868 120.507C38.7648 119.877 38.295 119.439 37.6654 119.461L28.8215 119.77C28.1919 119.792 27.7538 120.262 27.7758 120.892ZM36.1551 120.599L36.2328 122.825C36.2548 123.454 36.7245 123.892 37.3541 123.87L46.1981 123.561C46.8277 123.539 47.2657 123.07 47.2437 122.44L47.166 120.214C47.144 119.585 46.6743 119.147 46.0447 119.169L37.2007 119.478C36.5711 119.5 36.1331 119.969 36.1551 120.599ZM44.5343 120.306L44.612 122.532C44.634 123.162 45.1038 123.6 45.7334 123.578L54.5773 123.269C55.2069 123.247 55.645 122.777 55.623 122.148L55.5453 119.922C55.5233 119.292 55.0535 118.854 54.4239 118.876L45.58 119.185C44.9504 119.207 44.5123 119.677 44.5343 120.306ZM52.9136 120.014L52.9913 122.239C53.0133 122.869 53.483 123.307 54.1126 123.285L62.9566 122.976C63.5862 122.954 64.0242 122.485 64.0022 121.855L63.9245 119.629C63.9025 119 63.4328 118.562 62.8032 118.584L53.9592 118.892C53.3296 118.914 52.8916 119.384 52.9136 120.014Z" fill="#D0D1D7"/></g><path d="M5.97355 6.89683L183.633 0.692834L183.599 -0.283315L5.93946 5.92068L5.97355 6.89683ZM189.189 5.87417L193.207 120.92L194.183 120.886L190.165 5.84008L189.189 5.87417ZM188.025 126.477L10.366 132.681L10.4001 133.657L188.059 127.453L188.025 126.477ZM4.80971 127.499L0.792211 12.4531L-0.183938 12.4872L3.83356 127.533L4.80971 127.499ZM10.366 132.681C7.4009 132.784 4.91326 130.464 4.80971 127.499L3.83356 127.533C3.95593 131.038 6.89587 133.779 10.4001 133.657L10.366 132.681ZM193.207 120.92C193.31 123.885 190.99 126.373 188.025 126.477L188.059 127.453C191.563 127.33 194.305 124.39 194.183 120.886L193.207 120.92ZM183.633 0.692834C186.598 0.58929 189.085 2.90905 189.189 5.87417L190.165 5.84008C190.043 2.33585 187.103 -0.405685 183.599 -0.283315L183.633 0.692834ZM5.93946 5.92068C2.43523 6.04305 -0.306308 8.98299 -0.183938 12.4872L0.792211 12.4531C0.688667 9.48802 3.00843 7.00037 5.97355 6.89683L5.93946 5.92068Z" fill="#D0D1D7"/><defs><clipPath id="clip0_1145_45675"><path d="M0.304137 12.4702C0.191179 9.2355 2.72183 6.52171 5.9565 6.40875L183.616 0.20476C186.85 0.0918028 189.564 2.62245 189.677 5.85713L193.695 120.903C193.808 124.138 191.277 126.852 188.042 126.965L10.3831 133.169C7.14839 133.282 4.43459 130.751 4.32164 127.516L0.304137 12.4702Z" fill="white"/></clipPath><clipPath id="clip1_1145_45675"><rect width="189.488" height="79.1163" fill="white" transform="translate(0.0996094 6.61328) rotate(-2)"/></clipPath></defs></svg>',
-		];
+            'twitterSmash' =>'<svg width="51" height="52" viewBox="0 0 51 52" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M47.0738 12.6252C45.4856 13.3471 43.7738 13.8215 42 14.0484C43.815 12.9552 45.2175 11.2227 45.8775 9.13962C44.1656 10.1709 42.2681 10.8927 40.2675 11.3052C38.6381 9.53149 36.3488 8.50024 33.75 8.50024C28.9031 8.50024 24.9431 12.4602 24.9431 17.3484C24.9431 18.0496 25.0256 18.7302 25.17 19.3696C17.8275 18.9984 11.2894 15.4715 6.93752 10.1296C6.17439 11.429 5.74127 12.9552 5.74127 14.564C5.74127 17.6371 7.28814 20.3596 9.68064 21.9065C8.21627 21.9065 6.85502 21.494 5.65877 20.8752V20.9371C5.65877 25.2271 8.71127 28.8159 12.7538 29.6202C11.4559 29.9754 10.0933 30.0248 8.77315 29.7646C9.33333 31.5229 10.4304 33.0613 11.9102 34.1638C13.39 35.2662 15.1781 35.8772 17.0231 35.9109C13.8956 38.3868 10.0189 39.7251 6.03002 39.7059C5.32877 39.7059 4.62752 39.6646 3.92627 39.5821C7.84502 42.0984 12.5063 43.5627 17.4975 43.5627C33.75 43.5627 42.6807 30.074 42.6807 18.3796C42.6807 17.9877 42.6806 17.6165 42.66 17.2246C44.3925 15.9871 45.8775 14.4196 47.0738 12.6252Z" fill="#1B90EF"/><mask id="path-2-outside-1_3011_78642" maskUnits="userSpaceOnUse" x="29.4255" y="24.0344" width="22" height="27" fill="black"><rect fill="white" x="29.4255" y="24.0344" width="22" height="27"/><path fill-rule="evenodd" clip-rule="evenodd" d="M40.2137 26.0344C45.067 26.0344 49 30.8985 49 36.8987C49 42.5376 45.5272 47.1716 41.0837 47.7108L42.1514 49.0159L39.1082 49.2747L39.5935 47.7378C35.0296 47.3442 31.4255 42.6508 31.4255 36.8987C31.4255 30.8985 35.3603 26.0344 40.2137 26.0344ZM42.7327 34.2171L42.3099 29.854L39.611 33.2377L35.7396 31.0306L36.8687 35.0618L32.7766 36.3779L36.5993 38.306L35.0915 42.3546L39.0111 40.5586L40.9523 44.3351L42.2308 40.1178L46.448 40.9106L43.9447 37.2899L47.1141 34.343L42.7327 34.2171Z"/></mask><path fill-rule="evenodd" clip-rule="evenodd" d="M40.2137 26.0344C45.067 26.0344 49 30.8985 49 36.8987C49 42.5376 45.5272 47.1716 41.0837 47.7108L42.1514 49.0159L39.1082 49.2747L39.5935 47.7378C35.0296 47.3442 31.4255 42.6508 31.4255 36.8987C31.4255 30.8985 35.3603 26.0344 40.2137 26.0344ZM42.7327 34.2171L42.3099 29.854L39.611 33.2377L35.7396 31.0306L36.8687 35.0618L32.7766 36.3779L36.5993 38.306L35.0915 42.3546L39.0111 40.5586L40.9523 44.3351L42.2308 40.1178L46.448 40.9106L43.9447 37.2899L47.1141 34.343L42.7327 34.2171Z" fill="#FE544F"/><path d="M41.0837 47.7108L40.8746 45.9883C40.2465 46.0646 39.7097 46.4767 39.4737 47.0638C39.2377 47.6509 39.3401 48.3199 39.7407 48.8096L41.0837 47.7108ZM42.1514 49.0159L42.2985 50.7447C42.9401 50.6902 43.4987 50.2848 43.7495 49.6917C44.0003 49.0987 43.9021 48.4155 43.4943 47.9171L42.1514 49.0159ZM39.1082 49.2747L37.4536 48.7522C37.2793 49.3042 37.3917 49.9068 37.7534 50.3588C38.1151 50.8108 38.6784 51.0527 39.2552 51.0036L39.1082 49.2747ZM39.5935 47.7378L41.2481 48.2603C41.4067 47.7581 41.3286 47.211 41.0359 46.7733C40.7431 46.3355 40.2673 46.0543 39.7426 46.0091L39.5935 47.7378ZM42.3099 29.854L44.0369 29.6866C43.9687 28.9832 43.4808 28.3915 42.8033 28.1905C42.1257 27.9896 41.394 28.2196 40.9534 28.7721L42.3099 29.854ZM42.7327 34.2171L41.0057 34.3845C41.09 35.2548 41.8089 35.9264 42.6829 35.9515L42.7327 34.2171ZM39.611 33.2377L38.7516 34.7451C39.4942 35.1685 40.4345 34.988 40.9675 34.3197L39.611 33.2377ZM35.7396 31.0306L36.5989 29.5232C35.9876 29.1747 35.2264 29.2299 34.6718 29.6629C34.1171 30.096 33.8789 30.8211 34.0687 31.4986L35.7396 31.0306ZM36.8687 35.0618L37.4 36.7136C38.2878 36.4281 38.7911 35.4919 38.5396 34.5938L36.8687 35.0618ZM32.7766 36.3779L32.2454 34.7261C31.5752 34.9416 31.1016 35.5408 31.0468 36.2427C30.9919 36.9446 31.3666 37.61 31.9952 37.9271L32.7766 36.3779ZM36.5993 38.306L38.2254 38.9116C38.534 38.083 38.1702 37.155 37.3808 36.7568L36.5993 38.306ZM35.0915 42.3546L33.4655 41.749C33.2205 42.4069 33.3961 43.1476 33.9103 43.6255C34.4245 44.1035 35.1761 44.2244 35.8143 43.932L35.0915 42.3546ZM39.0111 40.5586L40.5543 39.7653C40.1302 38.9401 39.1318 38.5946 38.2883 38.9811L39.0111 40.5586ZM40.9523 44.3351L39.4091 45.1283C39.7323 45.7571 40.4046 46.1269 41.1087 46.0632C41.8127 45.9995 42.4077 45.515 42.6128 44.8385L40.9523 44.3351ZM42.2308 40.1178L42.5514 38.4126C41.6811 38.249 40.8272 38.767 40.5703 39.6145L42.2308 40.1178ZM46.448 40.9106L46.1274 42.6158C46.8188 42.7458 47.5202 42.4455 47.9033 41.8554C48.2864 41.2654 48.2753 40.5024 47.8752 39.9238L46.448 40.9106ZM43.9447 37.2899L42.7632 36.0192C42.1319 36.6062 42.0272 37.5676 42.5175 38.2767L43.9447 37.2899ZM47.1141 34.343L48.2956 35.6137C48.8114 35.1342 48.9861 34.3905 48.7379 33.7315C48.4898 33.0724 47.8679 32.6288 47.164 32.6086L47.1141 34.343ZM50.7351 36.8987C50.7351 30.3026 46.3513 24.2993 40.2137 24.2993V27.7696C43.7827 27.7696 47.2649 31.4945 47.2649 36.8987H50.7351ZM41.2927 49.4333C46.8681 48.7567 50.7351 43.1242 50.7351 36.8987H47.2649C47.2649 41.9509 44.1862 45.5865 40.8746 45.9883L41.2927 49.4333ZM43.4943 47.9171L42.4266 46.6121L39.7407 48.8096L40.8085 50.1146L43.4943 47.9171ZM39.2552 51.0036L42.2985 50.7447L42.0044 47.287L38.9611 47.5458L39.2552 51.0036ZM37.9389 47.2153L37.4536 48.7522L40.7628 49.7972L41.2481 48.2603L37.9389 47.2153ZM29.6904 36.8987C29.6904 43.242 33.7052 48.9715 39.4444 49.4665L39.7426 46.0091C36.354 45.7168 33.1607 42.0596 33.1607 36.8987H29.6904ZM40.2137 24.2993C34.0764 24.2993 29.6904 30.3021 29.6904 36.8987H33.1607C33.1607 31.495 36.6442 27.7696 40.2137 27.7696V24.2993ZM40.5828 30.0214L41.0057 34.3845L44.4598 34.0497L44.0369 29.6866L40.5828 30.0214ZM40.9675 34.3197L43.6664 30.936L40.9534 28.7721L38.2545 32.1558L40.9675 34.3197ZM34.8802 32.538L38.7516 34.7451L40.4704 31.7304L36.5989 29.5232L34.8802 32.538ZM38.5396 34.5938L37.4104 30.5626L34.0687 31.4986L35.1979 35.5298L38.5396 34.5938ZM33.3079 38.0297L37.4 36.7136L36.3375 33.41L32.2454 34.7261L33.3079 38.0297ZM37.3808 36.7568L33.558 34.8286L31.9952 37.9271L35.8179 39.8552L37.3808 36.7568ZM36.7176 42.9602L38.2254 38.9116L34.9733 37.7004L33.4655 41.749L36.7176 42.9602ZM38.2883 38.9811L34.3687 40.7771L35.8143 43.932L39.7339 42.136L38.2883 38.9811ZM42.4955 43.5419L40.5543 39.7653L37.4679 41.3518L39.4091 45.1283L42.4955 43.5419ZM40.5703 39.6145L39.2918 43.8317L42.6128 44.8385L43.8913 40.6212L40.5703 39.6145ZM46.7685 39.2053L42.5514 38.4126L41.9103 41.8231L46.1274 42.6158L46.7685 39.2053ZM42.5175 38.2767L45.0208 41.8973L47.8752 39.9238L45.3719 36.3031L42.5175 38.2767ZM45.9326 33.0723L42.7632 36.0192L45.1262 38.5606L48.2956 35.6137L45.9326 33.0723ZM42.6829 35.9515L47.0643 36.0774L47.164 32.6086L42.7826 32.4827L42.6829 35.9515Z" fill="white" mask="url(#path-2-outside-1_3011_78642)"/><path fill-rule="evenodd" clip-rule="evenodd" d="M42.3099 29.854L42.7328 34.2171L47.1142 34.343L43.9448 37.2899L46.448 40.9106L42.2309 40.1178L40.9524 44.3351L39.0112 40.5585L35.0916 42.3546L36.5994 38.306L32.7767 36.3779L36.8688 35.0618L35.7396 31.0306L39.611 33.2377L42.3099 29.854Z" fill="white"/></svg>',
+        ];
 		return $builder_svg_icons;
 	}
 
@@ -1643,7 +1743,7 @@ class CTF_Feed_Builder {
 	 */
 	public static function get_feed_list( $feeds_args = array() ) {
 		$feeds_data = CTF_Db::feeds_query( $feeds_args );
-
+        $ctf_options = get_option( 'ctf_options', array() );
 		$i = 0;
 		foreach ( $feeds_data as $single_feed ) {
 			$args = array(
@@ -1709,13 +1809,41 @@ class CTF_Feed_Builder {
 			$twitter_feed_settings = new CTF_Settings( $settings, CTF_Feed_Saver::settings_defaults() );
 
 			$feeds_data[ $i ]['settings'] = $twitter_feed_settings->get_settings();
-
-
-
+			$feeds_data[ $i ]['feed_enabled'] = self::auto_enable_disable_feed( $feeds_data[ $i ]['settings'], $single_feed['id'] );
 			$i++;
 		}
 		return $feeds_data;
 	}
+
+    /**
+	 * Check if Feed should be enabled or not
+	 *
+	 * @return bool
+	 *
+	 * @since 2.0
+	 */
+	public static function auto_enable_disable_feed($settings, $feed_id) {
+        $ctf_options = get_option('ctf_options', array());
+        $saved_enabled_feed = isset($ctf_options['enabled_feed_id']);
+        $feed_saver = new CTF_Feed_Saver($saved_enabled_feed);
+        $is_usertimeline = strtolower($settings['type']) === 'usertimeline';
+
+        if($saved_enabled_feed && $ctf_options['enabled_feed_id'] === $feed_id){
+            return true;
+        }else if($saved_enabled_feed && $feed_saver->exists_in_database() ){
+            return false;
+        }else{
+            if(!$is_usertimeline){
+                return false;
+            }else{
+                $ctf_options['enabled_feed_id'] = $feed_id;
+                update_option( 'ctf_options', $ctf_options );
+                return true;
+            }
+        }
+
+
+    }
 
 	/**
 	 * Returns an associate array of all existing sources along with their data
@@ -1985,6 +2113,7 @@ class CTF_Feed_Builder {
 			    'description'=> __( 'A timeline of Tweets from any Twitter user', 'custom-twitter-feeds' ),
 			    'icon'	=>  'usertimelineIcon'
 		    ],
+		    /*
 		    [
 			    'type' => 'hashtag',
 			    'title' => __( 'Hashtag', 'custom-twitter-feeds' ),
@@ -1997,7 +2126,6 @@ class CTF_Feed_Builder {
 			    'description'=> __( 'The home timeline from your Twitter account', 'custom-twitter-feeds' ),
 			    'icon'	=>  'homeTimelineIcon'
 		    ],
-		    /*
 		    [
 			    'type' => 'search',
 			    'title' => __( 'Search', 'custom-twitter-feeds' ),
@@ -2076,8 +2204,8 @@ class CTF_Feed_Builder {
 	 */
 	public static function connect_account_secreen(){
 		return array(
-			'heading' => __( 'Connect Twitter Account', 'custom-twitter-feeds' ),
-			'description' => __( 'This is required by Twitter so we can fetch data in the public domain. It does not give us permission to manage your Twitter Account whatsoever.', 'custom-twitter-feeds' ),
+			'heading' => __( 'Connect To Smash Balloon', 'custom-twitter-feeds' ),
+			'description' => __( 'In order to create a feed and retrieve tweets, you need to verify an email address with Smash Balloon.', 'custom-twitter-feeds' ),
 			'preferManually' => __( 'Prefer to use your own Twitter Developer App?', 'custom-twitter-feeds' ),
 			'addAppCred' => __( 'Add App Credentials', 'custom-twitter-feeds' ),
 			'connectNewAccount' => __( 'Add New Account', 'custom-twitter-feeds' ),

@@ -10,7 +10,7 @@
  * @since       2.7.4
  */
 
-class NF_Step_Processing
+abstract class NF_Step_Processing
 {
 
     /**
@@ -76,6 +76,10 @@ class NF_Step_Processing
      */
     public function processing() {
 
+        if(!$this->allowProcessing()){
+            return;
+        }
+        
         // Get our passed arguments. These come from the querysting of the processing page.
         if ( isset ( $_REQUEST['args'] ) ) {
             $this->args = WPN_Helper::sanitize_text_field($_REQUEST['args']);
@@ -156,6 +160,13 @@ class NF_Step_Processing
 
     }
 
+    /**
+     * Should processing continue?
+     *
+     * @return boolean
+     */
+    abstract protected function allowProcessing( ): bool;
+    
     /**
      * Run our loading process.
      * This function should be overwritten in child classes.

@@ -11,18 +11,23 @@ use TwitterFeed\CTF_Display_Elements;
 
 <!-- Custom Twitter Feeds by Smash Balloon -->
 <div id="ctf" <?php echo $ctf_feed_classes ?>  data-ctfshortcode="<?php echo $this->getShortCodeJSON() ?>"  <?php echo $ctf_main_atts ?> data-ctfneeded="<?php echo esc_attr( $ctf_data_needed ) ?>">
-	<?php
-	$showheader = ($feed_options['showheader'] === 'on' || $feed_options['showheader'] === 'true' || $feed_options['showheader'] === true);
+    <?php
+
+    do_action( 'ctf_before_feed_start', $this );
+
+    $showheader = ($feed_options['showheader'] === 'on' || $feed_options['showheader'] === 'true' || $feed_options['showheader'] === true);
 
 	if ($showheader || ctf_doing_customizer( $feed_options )) :
-        	CTF_Display_Elements::display_header( $feed_options );
+        	CTF_Display_Elements::display_header( $feed_options, $tweet_set );
     	endif;
     ?>
     <div class="ctf-tweets">
    		<?php $this->tweet_loop( $tweet_set, $feed_options, $is_pagination ); ?>
     </div>
     <?php
-    include ctf_get_feed_template_part( 'footer', $feed_options );
+    if ( $this->should_show_footer( $tweet_set ) ) {
+	    include ctf_get_feed_template_part( 'footer', $feed_options );
+    }
 
     /**
      * Things to add before the closing "div" tag for the main feed element. Several

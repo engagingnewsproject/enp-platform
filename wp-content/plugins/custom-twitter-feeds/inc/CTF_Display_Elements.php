@@ -133,7 +133,10 @@ class CTF_Display_Elements {
      *
      * @since 2.0
      */
-    public static function display_header( $feed_options ){
+    public static function display_header( $feed_options, $tweet_set ){
+	    if ( empty( $tweet_set ) || (isset( $tweet_set[0] ) && is_string( $tweet_set[0] ) && $tweet_set[0] === 'error') ) {
+		    return;
+	    }
         if( ctf_doing_customizer( $feed_options ) ){
             $header_template = 'header-generic';
             if ( $feed_options['type'] === 'usertimeline' || $feed_options['type'] === 'mentionstimeline' || $feed_options['type'] === 'hometimeline' ) {
