@@ -264,7 +264,7 @@ class Post_Filters {
 	 */
 	public function posts_where_no_schema( $where, \WP_Query $wp_query ) {
 		global $wpdb;
-		$where .= " AND NOT EXISTS ( SELECT meta_id FROM {$wpdb->postmeta} WHERE post_id = wp_posts.ID AND meta_key LIKE 'rank_math_schema_%' )";
+		$where .= " AND NOT EXISTS ( SELECT meta_id FROM {$wpdb->postmeta} WHERE post_id = {$wpdb->posts}.ID AND meta_key LIKE 'rank_math_schema_%' )";
 		// Remove this filter for subsequent queries.
 		$this->remove_filter( 'posts_where', 'posts_where_no_schema', 20, 2 );
 

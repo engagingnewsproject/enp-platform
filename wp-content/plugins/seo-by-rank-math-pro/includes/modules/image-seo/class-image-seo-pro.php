@@ -27,6 +27,20 @@ class Image_Seo_Pro {
 	use Hooker;
 
 	/**
+	 * Change the case of the alt attribute.
+	 *
+	 * @var string
+	 */
+	public $alt_change_case;
+
+	/**
+	 * Change the case of the title attribute.
+	 *
+	 * @var string
+	 */
+	public $title_change_case;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -136,7 +150,7 @@ class Image_Seo_Pro {
 	 * @codeCoverageIgnore
 	 *
 	 * @param  string $var_args         Variable name, for example %custom%. The '%' signs are optional.
-	 * @param  array  $replacement_args Array with additional title, description and example values for the variable.
+	 * @param  object $replacement_args Additional title, description and example values for the variable.
 	 *
 	 * @return bool Replacement was registered successfully or not.
 	 */
@@ -155,7 +169,7 @@ class Image_Seo_Pro {
 	 * @codeCoverageIgnore
 	 *
 	 * @param  string $var_args         Variable name, for example %custom%. The '%' signs are optional.
-	 * @param  array  $replacement_args Array with additional title, description and example values for the variable.
+	 * @param  object $replacement_args Additional title, description and example values for the variable.
 	 *
 	 * @return bool Replacement was registered successfully or not.
 	 */

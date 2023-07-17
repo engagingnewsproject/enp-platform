@@ -57,6 +57,27 @@ class Import_Row {
 	public $error = '';
 
 	/**
+	 * Stores row data.
+	 *
+	 * @var array
+	 */
+	private $data = [];
+
+	/**
+	 * Stores import settings.
+	 *
+	 * @var array
+	 */
+	private $settings = [];
+
+	/**
+	 * Stores columns.
+	 *
+	 * @var array
+	 */
+	private $columns = [];
+
+	/**
 	 * Constructor.
 	 *
 	 * @param array $data     Row data.

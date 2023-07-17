@@ -154,7 +154,7 @@ class Podcast_RSS {
 		$author         = ! empty( $podcast['author'] ) ? Helper::replace_vars( $podcast['author']['name'], $post ) : '';
 		$is_explicit    = empty( $podcast['isFamilyFriendly'] ) ? 'yes' : 'clean';
 		$episode_number = ! empty( $podcast['episodeNumber'] ) ? $podcast['episodeNumber'] : '';
-		$season_number  = ! empty( $podcast['partOfSeason'] ) ? $podcast['partOfSeason']['seasonNumber'] : '';
+		$season_number  = ! empty( $podcast['partOfSeason'] ) && ! empty( $podcast['partOfSeason']['seasonNumber'] ) ? $podcast['partOfSeason']['seasonNumber'] : '';
 
 		if ( $title ) {
 			$this->newline( '<itunes:title>' . wp_kses_post( $title ) . '</itunes:title>' );

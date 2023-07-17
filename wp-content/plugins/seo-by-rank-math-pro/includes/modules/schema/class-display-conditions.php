@@ -70,7 +70,7 @@ class Display_Conditions {
 				continue;
 			}
 
-			if ( is_admin() || Helper::is_divi_frontend_editor()  ) {
+			if ( is_admin() || Helper::is_divi_frontend_editor() ) {
 				$newdata[] = [
 					'id'     => $template,
 					'schema' => current( $schema ),
@@ -181,7 +181,7 @@ class Display_Conditions {
 				}
 			}
 
-			$with_key  = $schema['metadata']['title'];
+			$with_key = $schema['metadata']['title'];
 
 			self::$insert_schemas[ $in_schema ][] = [
 				'key'    => $with_key,
@@ -273,6 +273,10 @@ class Display_Conditions {
 
 		if ( ! $value ) {
 			return 'include' === $operator;
+		}
+
+		if ( $taxonomy && 'exclude' === $operator ) {
+			return ! has_term( $value, $taxonomy );
 		}
 
 		if ( $taxonomy ) {

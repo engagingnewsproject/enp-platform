@@ -2,8 +2,8 @@
 # This file is distributed under the same license as the rank-math-pro package.
 msgid ""
 msgstr ""
-"Project-Id-Version: RankMath Pro v3.0.32.1\n"
-"POT-Creation-Date: 2023-03-18 08:30+0000\n"
+"Project-Id-Version: RankMath Pro v3.0.39\n"
+"POT-Creation-Date: 2023-06-28 05:22+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Thorsten Wollenhöfer <thorsten.wollenhoefer@gmail.com>\n"
 "Language-Team: Thorsten Wollenhöfer <thorsten.wollenhoefer@gmail.com>\n"
@@ -1841,6 +1841,13 @@ msgstr "In den ACF-Feldern hinzugefügte Bilder einbeziehen."
 
 msgid "Custom"
 msgstr "Benutzerdefiniert"
+
+msgid ""
+"Data import will not work for this service as sufficient permissions are not "
+"given."
+msgstr ""
+"Der Datenimport funktioniert für diesen Dienst nicht, da keine ausreichenden "
+"Berechtigungen vorhanden sind."
 
 msgid "Post Analytics"
 msgstr "Beitragsanalysen"

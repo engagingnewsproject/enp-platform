@@ -26,6 +26,13 @@ class BBPress {
 	use Hooker, Ajax;
 
 	/**
+	 * Post meta key for solved answers.
+	 *
+	 * @var string
+	 */
+	public $meta_key = '';
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {

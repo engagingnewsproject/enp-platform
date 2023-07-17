@@ -407,28 +407,29 @@ class DB {
 
 		// Build placeholders for each row, and add values to data array.
 		foreach ( $rows as $row ) {
-			$page = '';
+			$page      = '';
 			$pageviews = '';
-			$visitors = '';
+			$visitors  = '';
 
 			if ( ! isset( $row['dimensionValues'] ) ) {
 				if ( empty( $row['dimensions'][1] ) || Str::contains( '?', $row['dimensions'][1] ) ) {
 					continue;
 				}
-				$page = ( is_ssl() ? 'https' : 'http' ) . '://' . $row['dimensions'][2] . $row['dimensions'][1];
-
+				$page      = $row['dimensions'][2] . $row['dimensions'][1];
 				$pageviews = $row['metrics'][0]['values'][0];
-				$visitors = $row['metrics'][0]['values'][1];
+				$visitors  = $row['metrics'][0]['values'][1];
 			} else {
-				if ( empty( $row['dimensionValues'][0]['value'] ) || Str::contains( '?', $row['dimensionValues'][0]['value'] ) ) {
+				if ( empty( $row['dimensionValues'][1]['value'] ) || Str::contains( '?', $row['dimensionValues'][1]['value'] ) ) {
 					continue;
 				}
-				$page = $row['dimensionValues'][0]['value'];
+				$page      = $row['dimensionValues'][0]['value'] . $row['dimensionValues'][1]['value'];
 				$pageviews = $row['metricValues'][0]['value'];
-				$visitors = $row['metricValues'][1]['value'];
+				$visitors  = $row['metricValues'][1]['value'];
 			}
 
 			if ( $page && $pageviews && $visitors ) {
+				$page = ( is_ssl() ? 'https' : 'http' ) . '://' . $page;
+
 				$data[] = $date;
 				$data[] = Stats::get_relative_url( self::remove_hash( $page ) );
 				$data[] = $pageviews;

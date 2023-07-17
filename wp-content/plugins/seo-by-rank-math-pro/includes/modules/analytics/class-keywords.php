@@ -287,6 +287,19 @@ class Keywords {
 				'keyword'   => $keyword,
 			]
 		);
+		switch ( $orderby ) {
+			case 'impressions':
+			case 'clicks':
+			case 'ctr':
+			case 'position':
+				$args['orderBy'] = $orderby;
+				$args['order']   = $order;
+				break;
+			case 'query':
+				$args['orderBy'] = 'keyword';
+				$args['order']   = $order;
+				break;
+		}
 		$data    = $this->get_tracked_keywords_data( $args );
 		$data    = Stats::get()->set_dimension_as_key( $data );
 		$history = $this->get_graph_data_for_keywords( \array_keys( $data ) );
@@ -312,30 +325,6 @@ class Keywords {
 			);
 		}
 
-		if ( 'query' === $orderby ) {
-
-			if ( 'DESC' === $order ) {
-				uasort(
-					$data,
-					function( $a, $b ) use ( $orderby ) {
-						return strtolower( $a[ $orderby ] ) < strtolower( $b[ $orderby ] );
-					}
-				);
-			}
-
-			if ( 'ASC' === $order ) {
-				uasort(
-					$data,
-					function( $a, $b ) use ( $orderby ) {
-						return strtolower( $a[ $orderby ] ) > strtolower( $b[ $orderby ] );
-					}
-				);
-			}
-		}
-
-		if ( 'query' !== $orderby && 'default' !== $orderby ) {
-			$data = $this->track_keywords_array_sort( $data, $order, $orderby );
-		}
 		$result['rowsData'] = $data;
 		// get total rows by search.
 		$args = wp_parse_args(
@@ -358,55 +347,6 @@ class Keywords {
 		return $result;
 	}
 
-	/**
-	 * Sort tracked keywords by order & orderby.
-	 *
-	 * @param  array    $arr array.
-	 *
-	 * @param  Variable $arr_order is order direction.
-	 *
-	 * @param  Variable $arr_orderby is key for sort.
-	 *
-	 * @return $arr Sorted keywords.
-	 */
-	public function track_keywords_array_sort( $arr, $arr_order, $arr_orderby ) {
-
-		if ( 'DESC' === $arr_order ) {
-			uasort(
-				$arr,
-				function( $a, $b ) use ( $arr_orderby ) {
-
-					if ( false === array_key_exists( $arr_orderby, $a ) ) {
-						$a[ $arr_orderby ] = [ 'total' => '0' ];
-					}
-					if ( false === array_key_exists( $arr_orderby, $b ) ) {
-						$b[ $arr_orderby ] = [ 'total' => '0' ];
-					}
-
-					return $a[ $arr_orderby ]['total'] < $b[ $arr_orderby ]['total'];
-				}
-			);
-		}
-
-		if ( 'ASC' === $arr_order ) {
-			uasort(
-				$arr,
-				function( $a, $b ) use ( $arr_orderby ) {
-
-					if ( false === array_key_exists( $arr_orderby, $a ) ) {
-						$a[ $arr_orderby ] = [ 'total' => '0' ];
-					}
-					if ( false === array_key_exists( $arr_orderby, $b ) ) {
-						$b[ $arr_orderby ] = [ 'total' => '0' ];
-					}
-
-					return $a[ $arr_orderby ]['total'] > $b[ $arr_orderby ]['total'];
-				}
-			);
-		}
-		return $arr;
-
-	}
 	/**
 	 * Get keyword rows from keyword manager table.
 	 *
@@ -470,17 +410,20 @@ class Keywords {
 		}
 
 		$positions = $wpdb->get_results(
-			"SELECT DISTINCT(km.keyword) as {$dimension}, COALESCE(t.position, 0) as position, COALESCE(t.diffPosition, 0) as diffPosition, COALESCE(t.diffPosition, 100) as diffPosition1
+			"SELECT DISTINCT(km.keyword) as {$dimension}, COALESCE(t.position, 0) as position, COALESCE(t.diffPosition, 0) as diffPosition, COALESCE(t.diffPosition, 100) as diffPosition1, COALESCE(t.impressions, 0) as impressions, COALESCE(t.diffImpressions, 0) as diffImpressions, COALESCE(t.clicks, 0) as clicks, COALESCE(t.diffClicks, 0) as diffClicks, COALESCE(t.ctr, 0) as ctr, COALESCE(t.diffCtr, 0) as diffCtr
 			FROM {$wpdb->prefix}rank_math_analytics_keyword_manager km
 			LEFT JOIN (
 				SELECT
-					t1.{$dimension} as {$dimension}, ROUND( t1.position, 0 ) as position,
-					COALESCE( ROUND( t1.position - COALESCE( t2.position, 100 ), 0 ), 0 ) as diffPosition
+					t1.{$dimension} as {$dimension}, ROUND( t1.position, 0 ) as position, ROUND( t1.impressions, 0 ) as impressions, ROUND( t1.clicks, 0 ) as clicks, ROUND( t1.ctr, 0 ) as ctr,
+					COALESCE( ROUND( t1.position - COALESCE( t2.position, 100 ), 0 ), 0 ) as diffPosition,
+					COALESCE( ROUND( t1.impressions - COALESCE( t2.impressions, 100 ), 0 ), 0 ) as diffImpressions,
+					COALESCE( ROUND( t1.clicks - COALESCE( t2.clicks, 100 ), 0 ), 0 ) as diffClicks,
+					COALESCE( ROUND( t1.ctr - COALESCE( t2.ctr, 100 ), 0 ), 0 ) as diffCtr
 				FROM
-					(SELECT a.{$dimension}, a.position FROM {$wpdb->prefix}rank_math_analytics_gsc AS a
+					(SELECT a.{$dimension}, a.position, a.impressions,a.clicks,a.ctr FROM {$wpdb->prefix}rank_math_analytics_gsc AS a
 					 WHERE 1 = 1{$ids_where}) AS t1
 				LEFT JOIN
-					(SELECT a.{$dimension}, a.position FROM {$wpdb->prefix}rank_math_analytics_gsc AS a
+					(SELECT a.{$dimension}, a.position, a.impressions,a.clicks,a.ctr FROM {$wpdb->prefix}rank_math_analytics_gsc AS a
 					 WHERE 1 = 1{$old_ids_where}) AS t2
 				ON t1.{$dimension} = t2.{$dimension}) AS t on t.{$dimension} = km.keyword
 				{$where_like_keyword1}
@@ -489,7 +432,6 @@ class Keywords {
 			{$limit}",
 			ARRAY_A
 		);
-
 		// phpcs:enable
 
 		// Step6. Get keywords list from above results.

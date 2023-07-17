@@ -104,8 +104,7 @@ class WooCommerce {
 		}
 
 		global $wp_query;
-
-		if ( is_product_taxonomy() && ! $wp_query->post_count ) {
+		if ( is_product_taxonomy() && ! $wp_query->post_count && $wp_query->queried_object->count ) {
 			return [
 				'noindex'  => 'noindex',
 				'nofollow' => 'nofollow',

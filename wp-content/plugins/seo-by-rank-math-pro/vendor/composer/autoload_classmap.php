@@ -50,7 +50,6 @@ return array(
     'RankMathPro\\Elementor\\Elementor' => $baseDir . '/includes/3rdparty/elementor/class-elementor.php',
     'RankMathPro\\Elementor\\Widget_Breadcrumbs' => $baseDir . '/includes/3rdparty/elementor/class-widget-breadcrumbs.php',
     'RankMathPro\\Google\\Adsense' => $baseDir . '/includes/modules/analytics/google/class-adsense.php',
-    'RankMathPro\\Google\\Analytics' => $baseDir . '/includes/modules/analytics/google/class-analytics.php',
     'RankMathPro\\Google\\PageSpeed' => $baseDir . '/includes/modules/analytics/google/class-pagespeed.php',
     'RankMathPro\\Image_Seo_Pro' => $baseDir . '/includes/modules/image-seo/class-image-seo-pro.php',
     'RankMathPro\\Installer' => $baseDir . '/includes/class-installer.php',

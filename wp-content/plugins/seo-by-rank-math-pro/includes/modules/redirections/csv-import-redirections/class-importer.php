@@ -64,6 +64,20 @@ class Importer {
 	private $errors = [];
 
 	/**
+	 * SPL file object.
+	 *
+	 * @var \SplFileObject
+	 */
+	private $spl;
+
+	/**
+	 * Column headers.
+	 *
+	 * @var array
+	 */
+	private $column_headers = [];
+
+	/**
 	 * Start import from file.
 	 *
 	 * @param string $file     Path to temporary CSV file.

@@ -34,6 +34,20 @@ class Email_Reports {
 	use Hooker;
 
 	/**
+	 * Path to the views folder.
+	 *
+	 * @var string
+	 */
+	public $views_path = '';
+
+	/**
+	 * URL of the module's assets folder.
+	 *
+	 * @var string
+	 */
+	public $assets_url = '';
+
+	/**
 	 * The constructor.
 	 */
 	public function __construct() {

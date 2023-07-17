@@ -61,6 +61,20 @@ class Importer {
 	private $errors = [];
 
 	/**
+	 * SplFileObject instance.
+	 *
+	 * @var \SplFileObject
+	 */
+	private $spl;
+
+	/**
+	 * Column headers.
+	 *
+	 * @var array
+	 */
+	private $column_headers = [];
+
+	/**
 	 * Constructor.
 	 *
 	 * @return void

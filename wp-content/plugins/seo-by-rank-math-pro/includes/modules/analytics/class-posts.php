@@ -532,6 +532,8 @@ class Posts {
 				]
 			);
 
+			$data['rowsFound'] = count( $pages );
+
 			foreach ( $pageviews as $page => &$pageview ) {
 				$pageview['pageviews'] = [
 					'total'      => (int) $pageview['pageviews'],
