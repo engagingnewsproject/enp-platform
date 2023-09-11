@@ -14,7 +14,6 @@ use RankMath\Helper;
 use RankMath\Schema\DB;
 use RankMath\Traits\Hooker;
 use RankMath\Traits\Shortcode;
-use MyThemeShop\Helpers\Param;
 use MyThemeShop\Helpers\Str;
 
 defined( 'ABSPATH' ) || exit;
@@ -25,6 +24,48 @@ defined( 'ABSPATH' ) || exit;
 class Location_Shortcode {
 
 	use Hooker, Shortcode;
+
+	/**
+	 * Shortcode attributes.
+	 *
+	 * @var array
+	 */
+	public $atts = [];
+
+	/**
+	 * Address Instance.
+	 *
+	 * @var Address
+	 */
+	public $address;
+
+	/**
+	 * Opening Hours Instance.
+	 *
+	 * @var Opening_Hours
+	 */
+	public $opening_hours;
+
+	/**
+	 * Map Instance.
+	 *
+	 * @var Map
+	 */
+	public $map;
+
+	/**
+	 * Store Locator Instance.
+	 *
+	 * @var Store_Locator
+	 */
+	public $store_locator;
+
+	/**
+	 * API Key.
+	 *
+	 * @var string
+	 */
+	public $api_key;
 
 	/**
 	 * The Constructor.

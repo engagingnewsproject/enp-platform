@@ -236,7 +236,7 @@ class Monitor_Pro extends CSV {
 			$this->total_hits_cache[ $item['uri'] ] = Database::table( 'rank_math_404_logs' )->selectCount( '*', 'count' )->where( 'uri', $item['uri'] )->getVar();
 		}
 
-		return '<a href="' . add_query_arg( [ 'uri' => $item['uri'] ] ) . '">' . $this->total_hits_cache[ $item['uri'] ] . '</a>';
+		return '<a href="' . add_query_arg( [ 'uri' => $item['uri'] ], '?page=rank-math-404-monitor' ) . '">' . $this->total_hits_cache[ $item['uri'] ] . '</a>';
 	}
 
 	/**

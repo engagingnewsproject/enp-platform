@@ -26,6 +26,13 @@ class Schedule {
 	use Hooker;
 
 	/**
+	 * Save start and end date.
+	 *
+	 * @var array
+	 */
+	private $save_start_end = [];
+
+	/**
 	 * Register hooks.
 	 */
 	public function __construct() {

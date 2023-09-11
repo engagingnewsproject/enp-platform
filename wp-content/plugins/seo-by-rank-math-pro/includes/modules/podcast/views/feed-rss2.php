@@ -83,12 +83,9 @@ do_action( 'rss_tag_pre', 'rss2' );
 		do_action( 'rss2_head' );
 		do_action( 'rss2_podcast_head' );
 
-		while ( have_posts() ) :
-			the_post();
-
-			if ( ! get_post_meta( get_the_ID(), 'rank_math_schema_PodcastEpisode', true ) ) {
-				continue;
-			}
+		$podcast_query = $this->get_podcasts();
+		while ( $podcast_query->have_posts() ) :
+			$podcast_query->the_post();
 			?>
 		<item>
 			<title><?php the_title_rss(); ?></title>

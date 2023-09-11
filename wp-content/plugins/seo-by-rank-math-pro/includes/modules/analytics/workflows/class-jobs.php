@@ -15,9 +15,10 @@ use Exception;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
 use RankMathPro\Analytics\DB;
+use RankMath\Analytics\Workflow\Base;
 use RankMath\Analytics\DB as AnalyticsDB;
 use RankMathPro\Google\Adsense;
-use RankMathPro\Google\Analytics;
+use RankMath\Google\Analytics;
 use RankMath\Analytics\Workflow\Jobs as AnalyticsJobs;
 
 defined( 'ABSPATH' ) || exit;
@@ -65,7 +66,7 @@ class Jobs {
 	 * Hooks.
 	 */
 	public function hooks() {
-		$this->analytics_connected = \RankMath\Google\Analytics::is_analytics_connected();
+		$this->analytics_connected = Analytics::is_analytics_connected();
 		$this->adsense_connected   = \RankMathPro\Google\Adsense::is_adsense_connected();
 
 		// Check missing data for analytics and adsense.
@@ -107,8 +108,14 @@ class Jobs {
 	 * Set the analytics start and end dates.
 	 */
 	public function get_analytics_days( $args = [] ) {
-		$rows = Analytics::get_analytics( $args['start_date'], $args['end_date'], true );
-		if ( empty( $rows ) ) {
+		$rows = Analytics::get_analytics(
+			[
+				'start_date' => $args['start_date'],
+				'end_date'   => $args['end_date'],
+			],
+			true
+		);
+		if ( is_wp_error( $rows ) || empty( $rows ) ) {
 			return [];
 		}
 
@@ -146,9 +153,15 @@ class Jobs {
 	 * @param string $date Date to fetch data for.
 	 */
 	public function get_analytics_data( $date ) {
-		$rows = Analytics::get_analytics( $date, $date );
-		if ( empty( $rows ) ) {
-			return;
+		$rows = Analytics::get_analytics(
+			[
+				'start_date' => $date,
+				'end_date'   => $date,
+			]
+		);
+
+		if ( is_wp_error( $rows ) || empty( $rows ) ) {
+			return [];
 		}
 
 		try {
@@ -199,13 +212,19 @@ class Jobs {
 	 * @param string $end_date   The end date to fetch.
 	 */
 	public function get_adsense_data( $start_date = '', $end_date = '' ) {
-		$rows = Adsense::get_adsense( $start_date, $end_date );
-		if ( empty( $rows ) ) {
-			return;
+		$rows = Adsense::get_adsense(
+			[
+				'start_date' => $start_date,
+				'end_date'   => $end_date,
+			]
+		);
+		if ( is_wp_error( $rows ) || empty( $rows ) ) {
+			return [];
 		}
 
 		try {
 			DB::add_adsense( $rows );
+			return $rows;
 		} catch ( Exception $e ) {} // phpcs:ignore
 	}
 

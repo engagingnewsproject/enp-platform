@@ -98,6 +98,13 @@ After pulling from the live production site is complete, in the Local App click 
 # SSH
 
 ssh into production site
-`
-ssh -i ~/.ssh/wpengine_rsa -o IdentitiesOnly=yes cmengage@cmengage.ssh.wpengine.net
-`
+
+`ssh -i ~/.ssh/wpengine_rsa -o IdentitiesOnly=yes cmengage@cmengage.ssh.wpengine.net`
+
+Get directory sizes:
+
+`$ du -h --max-depth 1` 
+
+or to sort
+
+`$ du -h --max-depth 1|sort -h`

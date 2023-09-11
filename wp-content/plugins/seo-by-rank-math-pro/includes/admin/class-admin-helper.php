@@ -81,6 +81,9 @@ class Admin_Helper {
 		}
 
 		$taxonomy = get_taxonomy( $taxonomy );
+		if ( ! $taxonomy ) {
+			return false;
+		}
 
 		$primary_taxonomy = [
 			'title'         => $taxonomy->labels->singular_name,

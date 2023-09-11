@@ -175,6 +175,10 @@ class Installer {
 			];
 		}
 
+		if ( empty( $general['noindex_hidden_products'] ) ) {
+			$general['noindex_hidden_products'] = 'on';
+		}
+
 		$podcast_options = [
 			'podcast_title'       => '%sitename%',
 			'podcast_description' => '%sitedesc%',

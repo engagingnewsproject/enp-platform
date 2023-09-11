@@ -59,11 +59,9 @@ class Podcast {
 	}
 
 	/**
-	 * Get random word from list of words. Use the object ID for the seed if persistent.
+	 * Get Podcast image from the Settings.
 	 *
-	 * @param  string $list       Words list in spintax-like format.
-	 * @param  string $persistent Get persistent return value.
-	 * @return string             Random word.
+	 * @return string Podcast image.
 	 */
 	public function get_podcast_image() {
 		return Helper::get_settings( 'general.podcast_image' );
@@ -101,4 +99,33 @@ class Podcast {
 	public function podcast_feed() {
 		require dirname( __FILE__ ) . '/views/feed-rss2.php';
 	}
+
+	/**
+	 * Get podcasts
+	 */
+	public function get_podcasts() {
+		$post_types = array_filter(
+			Helper::get_accessible_post_types(),
+			function( $post_type ) {
+				return 'attachment' !== $post_type;
+			}
+		);
+
+		$args = $this->do_filter(
+			'podcast_args',
+			[
+				'post_type'      => array_keys( $post_types ),
+				'posts_per_page' => get_option( 'posts_per_rss' ),
+				'meta_query'     => [
+					[
+						'key'     => 'rank_math_schema_PodcastEpisode',
+						'compare' => 'EXISTS',
+					],
+				],
+			]
+		);
+
+		return new \WP_Query( $args );
+	}
+
 }

@@ -16,6 +16,7 @@ use RankMath\Admin\Admin_Helper;
 use RankMathPro\Admin\Admin_Helper as ProAdminHelper;
 use MyThemeShop\Helpers\Param;
 use MyThemeShop\Helpers\Arr;
+use MyThemeShop\Helpers\Conditional;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -105,7 +106,7 @@ class Quick_Edit {
 		}
 
 		// Maybe product with hidden visibility!
-		if ( 'product' === get_post_type( $object_id ) && Helper::get_settings( 'general.noindex_hidden_products' ) ) {
+		if ( Conditional::is_woocommerce_active() && 'product' === get_post_type( $object_id ) && Helper::get_settings( 'general.noindex_hidden_products' ) ) {
 			$product = \wc_get_product( $object_id );
 
 			if ( $product && $product->get_catalog_visibility() === 'hidden' ) {
@@ -116,7 +117,8 @@ class Quick_Edit {
 						return 'index' !== $robot;
 					}
 				);
-				$robots = [ ...$robots, 'noindex' ];
+
+				$robots = array_merge( $robots, [ 'noindex' ] );
 			}
 		}
 

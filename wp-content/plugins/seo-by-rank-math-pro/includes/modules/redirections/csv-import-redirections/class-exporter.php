@@ -25,11 +25,18 @@ defined( 'ABSPATH' ) || exit;
 class Exporter extends CSV {
 
 	/**
-	 * Redirection cache.
+	 * Settings array.
 	 *
 	 * @var array
 	 */
-	private $redirection = [];
+	private $settings = [];
+
+	/**
+	 * Columns to export.
+	 *
+	 * @var array
+	 */
+	private $columns = [];
 
 	/**
 	 * Constructor.

@@ -15,6 +15,7 @@ use RankMathPro\Status\System_Status;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
 use MyThemeShop\Helpers\Param;
+use RankMathPro\Google\Adsense;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -26,6 +27,13 @@ defined( 'ABSPATH' ) || exit;
 class Admin {
 
 	use Hooker;
+
+	/**
+	 * Stores object instances.
+	 *
+	 * @var array
+	 */
+	public $components = [];
 
 	/**
 	 * Register hooks.
@@ -46,15 +54,15 @@ class Admin {
 	 */
 	public function init_components() {
 		$components = [
-			'bulk_actions'            => 'RankMathPro\\Admin\\Bulk_Actions',
-			'post_filters'            => 'RankMathPro\\Admin\\Post_Filters',
-			'media_filters'           => 'RankMathPro\\Admin\\Media_Filters',
-			'quick_edit'              => 'RankMathPro\\Admin\\Quick_Edit',
-			'trends_tool'             => 'RankMathPro\\Admin\\Trends_Tool',
-			'setup_wizard'            => 'RankMathPro\\Admin\\Setup_Wizard',
-			'links'                   => 'RankMathPro\\Admin\\Links',
-			'misc'                    => 'RankMathPro\\Admin\\Misc',
-			'csv_import'              => 'RankMathPro\\Admin\\CSV_Import_Export\\CSV_Import_Export',
+			'bulk_actions'  => 'RankMathPro\\Admin\\Bulk_Actions',
+			'post_filters'  => 'RankMathPro\\Admin\\Post_Filters',
+			'media_filters' => 'RankMathPro\\Admin\\Media_Filters',
+			'quick_edit'    => 'RankMathPro\\Admin\\Quick_Edit',
+			'trends_tool'   => 'RankMathPro\\Admin\\Trends_Tool',
+			'setup_wizard'  => 'RankMathPro\\Admin\\Setup_Wizard',
+			'links'         => 'RankMathPro\\Admin\\Links',
+			'misc'          => 'RankMathPro\\Admin\\Misc',
+			'csv_import'    => 'RankMathPro\\Admin\\CSV_Import_Export\\CSV_Import_Export',
 		];
 
 		if ( Helper::is_amp_active() ) {
@@ -112,7 +120,9 @@ class Admin {
 			rank_math_pro()->version
 		);
 
-		wp_enqueue_script( 'rank-math-pro-general-options', RANK_MATH_PRO_URL . 'assets/admin/js/general-options.js', null, rank_math_pro()->version );
+		wp_enqueue_script( 'rank-math-pro-general-options', RANK_MATH_PRO_URL . 'assets/admin/js/general-options.js', [ 'wp-hooks' ], rank_math_pro()->version );
+
+		Helper::add_json( 'isAdsenseConnected', Adsense::is_adsense_connected() );
 	}
 
 	/**
@@ -127,7 +137,7 @@ class Admin {
 	 */
 	public function prevent_pro_notice( $output, $message, $options ) {
 		if ( 'rank_math_pro_notice' !== $options['id'] ) {
-			return $output;			
+			return $output;
 		}
 
 		return '';

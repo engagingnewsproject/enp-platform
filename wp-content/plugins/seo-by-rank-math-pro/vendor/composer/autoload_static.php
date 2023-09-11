@@ -51,7 +51,6 @@ class ComposerStaticInit0d9f807883abadeb2577675a9c386005
         'RankMathPro\\Elementor\\Elementor' => __DIR__ . '/../..' . '/includes/3rdparty/elementor/class-elementor.php',
         'RankMathPro\\Elementor\\Widget_Breadcrumbs' => __DIR__ . '/../..' . '/includes/3rdparty/elementor/class-widget-breadcrumbs.php',
         'RankMathPro\\Google\\Adsense' => __DIR__ . '/../..' . '/includes/modules/analytics/google/class-adsense.php',
-        'RankMathPro\\Google\\Analytics' => __DIR__ . '/../..' . '/includes/modules/analytics/google/class-analytics.php',
         'RankMathPro\\Google\\PageSpeed' => __DIR__ . '/../..' . '/includes/modules/analytics/google/class-pagespeed.php',
         'RankMathPro\\Image_Seo_Pro' => __DIR__ . '/../..' . '/includes/modules/image-seo/class-image-seo-pro.php',
         'RankMathPro\\Installer' => __DIR__ . '/../..' . '/includes/class-installer.php',
