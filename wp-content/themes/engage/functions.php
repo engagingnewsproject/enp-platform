@@ -1,5 +1,4 @@
 <?php
-
 include 'vendor/autoload.php';
 
 Timber::$dirname = array('templates');

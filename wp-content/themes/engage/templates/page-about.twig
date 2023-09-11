@@ -20,14 +20,13 @@
 				<div class="article__content">
 					{{post.content}}
 				</div>
-				{# Remove funders logo section (per Kat's request 09/07/23) #}
-				{# {% if post.title == "About Us" %}
+				{% if post.title == "About Us" %}
 					<div class="home-funders home-section">
 						<div class="container container--xl wrapper--pad">
 							{% include 'partial/funders.twig' with { funders: funders } %}
 						</div>
 					</div>
-				{% endif %} #}
+				{% endif %}
 			</article>
 		</div>
 </div>
