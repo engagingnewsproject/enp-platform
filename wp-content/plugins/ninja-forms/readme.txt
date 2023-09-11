@@ -3,8 +3,8 @@ Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorho
 Tags: forms, contact form, email form, form builder, custom form, pdf form, registration form, payment form, login form, contact me, signature form, upload form, file upload form, conditional form, feedback form, appointment form, quote form, survey form, contact button, signup form, form plugin, contact form plugin, subscription form, email subscription form, newsletter form, donation form, booking form, quote request form, multi page form, conditional logic form, subscription form, application form, employment verification form, star rating form, rating form, event form, mailchimp form, campaign monitor form, constant contact form, mailpoet form, aweber form, cleverreach form, emma form, convertkit form, active campaign form, salesforce form, zoho form, capsule form, insightly form, pipelinedeals form, onepagecrm form
 
 Requires at least: 6.0
-Tested up to: 6.2.2
-Stable tag: 3.6.28
+Tested up to: 6.3
+Stable tag: 3.6.29
 
 License: GPLv2 or later
 
@@ -304,13 +304,27 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.6.28 (06 July 2023)
+= 3.6.29 (16 August 2023)
 
 *Bug fixes:*
-* Correct issue that prevented form deletion
+* Fix submission retrieval error missing submissions within time stamp on date
+* Ensure 7.4-required functionality doesn't trigger warnings
 
+*Other:*
+* Update library for autonumeric, WP scripts
+* Update tested up to, now 6.3 was 6.2.2
 
 == Changelog ==
+= 3.6.29 (16 August 2023)
+
+*Bug fixes:*
+* Fix submission retrieval error missing submissions within time stamp on date
+* Ensure 7.4-required functionality doesn't trigger warnings
+
+*Other:*
+* Update library for autonumeric, WP scripts
+* Update tested up to, now 6.3 was 6.2.2
+
 = 3.6.28 (06 July 2023)
 
 *Bug fixes:*

@@ -351,7 +351,7 @@ class CptSubmissionDataSource implements ContractsSubmissionDataSource
 
         $submissionRecordIdQuery .= " AND mm.meta_key = '_seq_num'";
 
-        $submissionRecordIdQuery .= " AND CAST(p.post_modified AS DATE) BETWEEN %s AND %s";
+        $submissionRecordIdQuery .= " AND CAST(p.post_modified AS DATETIME) BETWEEN %s AND %s";
         $wpdbPrepareArgs[]=$startDate;
         $wpdbPrepareArgs[]=$endDate;
 

@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { isEmpty, isUndefined, kebabCase, includes, forEach, isEqual, map, isNull } from 'lodash'
+import { isEmpty, isUndefined, isString, kebabCase, includes, forEach, isEqual, map, isNull } from 'lodash'
 
 /**
  * WordPress dependencies
@@ -9,7 +9,6 @@ import { isEmpty, isUndefined, kebabCase, includes, forEach, isEqual, map, isNul
 import { store as blockEditorStore } from '@wordpress/block-editor'
 import { __unstableStripHTML as stripHTML } from '@wordpress/dom'
 import { useSelect, useDispatch } from '@wordpress/data'
-import { store as reusableBlocksStore } from '@wordpress/reusable-blocks'
 
 /**
  * Get the headings from the content.
@@ -18,7 +17,6 @@ import { store as reusableBlocksStore } from '@wordpress/reusable-blocks'
  * @param {Array} excludeHeadings Heading levels to exclude
  */
 export function GetLatestHeadings( headings, excludeHeadings ) {
-	const { __experimentalConvertBlockToStatic: convertBlockToStatic } = useDispatch( reusableBlocksStore )
 	return useSelect(
 		( select ) => {
 			const {
@@ -26,6 +24,7 @@ export function GetLatestHeadings( headings, excludeHeadings ) {
 				getBlockName,
 				getClientIdsWithDescendants,
 			} = select( blockEditorStore )
+			const { __experimentalConvertBlockToStatic: convertBlockToStatic } = useDispatch( 'core/reusable-blocks' )
 
 			// Get the client ids of all blocks in the editor.
 			const allBlockClientIds = getClientIdsWithDescendants()
@@ -37,16 +36,14 @@ export function GetLatestHeadings( headings, excludeHeadings ) {
 				if ( blockName === 'core/block' ) {
 					const attrs = getBlockAttributes( blockClientId )
 					if ( ! isNull( attrs.ref ) ) {
-						setImmediate( () => {
-							const reusableBlock = wp.data.select( 'core' ).getEditedEntityRecord( 'postType', 'wp_block', attrs.ref )
-							const blocks = map( reusableBlock.blocks, ( block ) => {
-								return block.name
-							} )
-
-							if ( includes( blocks, 'rank-math/toc-block' ) && ! isNull( getBlockAttributes( blockClientId ) ) ) {
-								convertBlockToStatic( blockClientId )
-							}
+						const reusableBlock = wp.data.select( 'core' ).getEditedEntityRecord( 'postType', 'wp_block', attrs.ref )
+						const blocks = map( reusableBlock.blocks, ( block ) => {
+							return block.name
 						} )
+
+						if ( includes( blocks, 'rank-math/toc-block' ) && ! isNull( getBlockAttributes( blockClientId ) ) ) {
+							convertBlockToStatic( blockClientId )
+						}
 					}
 
 					continue
@@ -124,13 +121,12 @@ export function GetLatestHeadings( headings, excludeHeadings ) {
 
 					anchors.push( anchor )
 					headingAttributes.anchor = anchor
-
-					const headingContent = stripHTML(
+					const headingContent = isString( headingAttributes.content ) ? stripHTML(
 						headingAttributes.content.replace(
 							/(<br *\/?>)+/g,
 							' '
 						)
-					)
+					) : ''
 
 					const content = ! isUndefined( currentHeading.isUpdated ) && currentHeading.isUpdated ? currentHeading.content : headingContent
 

@@ -4,8 +4,8 @@ Contributors: smashballoon, craig-at-smash-balloon, am, smub
 Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Twitter Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 4.1
-Tested up to: 6.2
-Stable tag: 2.1.1
+Tested up to: 6.3
+Stable tag: 2.1.2
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -231,8 +231,11 @@ If you're still having trouble displaying your Tweets after trying the common is
 7. To display the Twitter feed just copy and paste the shortcode into a Twitter widget or page
 
 == Changelog ==
+= 2.1.2 =
+Fix: Fixed text causing confusions about what features are available.
+
 = 2.1.1 =
-* Fix: Fixed a PHP error occurring in sites using PHP 7.1 or lower.
+Fix: Fixed a PHP error occurring in sites using PHP 7.4 or lower.
 
 = 2.1 =
 * Important: We are launching our new Twitter solution for our free users! This will require you to connect to Smash Balloon by verifying an email address and receiving a special site token that can be used to update a single feed. See [our website]('https://smashballoon.com/doc/smash-balloon-twitter-changes-free-version/?utm_source=twitter-free&utm_medium=readme-changelog&utm_campaign=smash-twitter-update&utm_content=OurWebsite') for information about how the new system works.

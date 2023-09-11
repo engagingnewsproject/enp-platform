@@ -248,7 +248,9 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_4 {
 		$server = $this->options->get_option('compression_server', $this->webservice);
 		$task_name = $this->get_associated_task($server);
 
-		$description = "$task_name with attachment ID : ".$post_id.", autocreated on : ".date("F d, Y h:i:s", time());
+		$blog_info   = is_multisite() ? ', blog ID : '.get_current_blog_id() : '';
+		$description = "$task_name with attachment ID : ".$post_id . $blog_info .", autocreated on : ".date("F d, Y h:i:s", time());
+
 		$task = call_user_func(array($task_name, 'create_task'), 'smush', $description, $options, $task_name);
 		
 		if ($task) $task->add_logger($this->logger);
@@ -302,7 +304,8 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_4 {
 	 */
 	public function compress_single_image($image, $options, $server) {
 		$task_name = $this->get_associated_task($server);
-		$description = "$task_name - attachment ID : ". $image. ", started on : ". date("F d, Y h:i:s", time());
+		$blog_info = is_multisite() ? ', blog ID : '.get_current_blog_id() : '';
+		$description = "$task_name - attachment ID : ". $image . $blog_info. ", started on : ". date("F d, Y h:i:s", time());
 
 		$task = call_user_func(array($task_name, 'create_task'), 'smush', $description, $options, $task_name);
 		$task->add_logger($this->logger);
@@ -546,7 +549,8 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_4 {
 			$server = $this->options->get_option('compression_server', $this->webservice);
 			$task_name = $this->get_associated_task($server);
 
-			$description = "$task_name - Attachment ID : ". intval($image['attachment_id']) . ", Started on : ". date("F d, Y h:i:s", time());
+			$blog_info = is_multisite() ? ', Blog ID : '.intval($image['blog_id']) : '';
+			$description = "$task_name - Attachment ID : ". intval($image['attachment_id']) . $blog_info . ", Started on : ". date("F d, Y h:i:s", time());
 			$task = call_user_func(array($task_name, 'create_task'), 'smush', $description, $options, $task_name);
 			$task->add_logger($this->logger);
 		}
@@ -657,27 +661,6 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_4 {
 	}
 
 	/**
-	 * Cleans out all complete + failed tasks from the DB.
-	 *
-	 * @param String $type type of the task
-	 * @return bool - true if processing complete
-	 */
-	public function clean_up_old_tasks($type) {
-		$completed_tasks = $this->get_tasks('all', $type);
-
-		if (!$completed_tasks) return false;
-
-		$this->log(sprintf('Cleaning up tasks of type (%s). A total of %d tasks will be deleted.', $type, count($completed_tasks)));
-
-		foreach ($completed_tasks as $task) {
-			$task->delete_meta();
-			$task->delete();
-		}
-
-		return true;
-	}
-
-	/**
 	 * Get current smush options.
 	 *
 	 * @return array
@@ -738,18 +721,18 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_4 {
 	public function smush_js_translations() {
 		return apply_filters('updraft_smush_js_translations', array(
 			'all_images_compressed' 		  => __('No uncompressed images were found.', 'wp-optimize'),
-			'error_unexpected_response' 	  => __('An unexpected response was received from the server. More information has been logged in the browser console.', 'wp-optimize'),
+			'error_unexpected_response' 	  => __('An unexpected response was received from the server.', 'wp-optimize') . ' ' . __('More information has been logged in the browser console.', 'wp-optimize'),
 			'compress_single_image_dialog'	  => __('Please wait: compressing the selected image.', 'wp-optimize'),
 			'error_try_again_later'			  => __('Please try again later.', 'wp-optimize'),
 			'server_check'					  => __('Connecting to the Smush API server, please wait', 'wp-optimize'),
 			'please_wait'					  => __('Please wait while the request is being processed', 'wp-optimize'),
-			'server_error'					  => __('There was an error connecting to the image compression server. This could mean either the server is temporarily unavailable or there are connectivity issues with your internet connection. Please try later.', 'wp-optimize'),
+			'server_error'					  => __('There was an error connecting to the image compression server.', 'wp-optimize') . ' ' . __('This could mean either the server is temporarily unavailable or there are connectivity issues with your internet connection.', 'wp-optimize') . ' ' . __('Please try later.', 'wp-optimize'),
 			'please_select_images'		  	  => __('Please select the images you want compressed from the "Uncompressed images" panel first', 'wp-optimize'),
 			'please_updating_images_info'	  => __('Please wait: updating information about the selected image.', 'wp-optimize'),
 			'please_select_compressed_images' => __('Please select the images you want to mark as already compressed from the "Uncompressed images" panel first', 'wp-optimize'),
 			'view_image'					  => __('View Image', 'wp-optimize'),
-			'delete_image_backup_confirm'	=> __('Do you really want to delete all backup images now? This action is irreversible.', 'wp-optimize'),
-			'mark_all_images_uncompressed'	=> __('Do you really want to mark all the images as uncompressed? This action is irreversible.', 'wp-optimize'),
+			'delete_image_backup_confirm'	=> __('Do you really want to delete all backup images now?', 'wp-optimize') . ' ' . __('This action is irreversible.', 'wp-optimize'),
+			'mark_all_images_uncompressed'	=> __('Do you really want to mark all the images as uncompressed?', 'wp-optimize') . ' ' . __('This action is irreversible.', 'wp-optimize'),
 			'restore_images_from_backup'	=> __('Do you want to restore the original images from the backup (where they exist?)', 'wp-optimize'),
 			'restore_all_compressed_images'	=> __('Do you really want to restore all the compressed images?', 'wp-optimize'),
 			'more' => __('More', 'wp-optimize'),
@@ -1052,15 +1035,20 @@ class Updraft_Smush_Manager extends Updraft_Task_Manager_1_4 {
 	 */
 	public function task_exists($image) {
 		
+		$blog_id	   = get_current_blog_id();
 		$pending_tasks = $this->get_active_tasks('smush');
-		$queued_images = array();
 
 		if (!empty($pending_tasks)) {
 			foreach ($pending_tasks as $task) {
-				$queued_images[] = $task->get_option('attachment_id');
+				$task_attachment_id = $task->get_option('attachment_id');
+				$task_blog_id = $task->get_option('blog_id');
+
+				if ($image === $task_attachment_id && $blog_id === $task_blog_id) {
+					return true;
+				}
 			}
 		}
-		return in_array($image, $queued_images);
+		return false;
 	}
 
 	/**

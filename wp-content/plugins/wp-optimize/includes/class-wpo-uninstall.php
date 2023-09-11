@@ -41,7 +41,7 @@ class WPO_Uninstall {
 	 * @return array
 	 */
 	private static function get_wpo_sub_folders() {
-		return array(
+		$sub_folders =  array(
 			'add-type',
 			'content-digest',
 			'crash-tester',
@@ -52,12 +52,13 @@ class WPO_Uninstall {
 			'rewrite',
 			'server-signature',
 		);
+		return apply_filters('wpo_uploads_sub_folders', $sub_folders);
 	}
 
 	/**
 	 * Delete `uploads/wpo` sub folders and if it is empty delete the folder itself
 	 */
-	private static function delete_wpo_folder() {
+	public static function delete_wpo_folder() {
 		$wpo_folder = self::get_upload_basedir() . trailingslashit('wpo');
 		require_once WPO_PLUGIN_MAIN_PATH . '/cache/file-based-page-cache-functions.php';
 		if (is_dir($wpo_folder)) {

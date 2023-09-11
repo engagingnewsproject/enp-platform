@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Rank Math\n"
 "Last-Translator: Rank Math\n"
-"POT-Creation-Date: 2023-07-12 05:33+0000\n"
+"POT-Creation-Date: 2023-09-07 12:37+0000\n"
 "Project-Id-Version: undefined\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -1342,6 +1342,33 @@ msgstr ""
 msgid "Viet Nam"
 msgstr ""
 
+msgid "Please connect your account to use the Content AI."
+msgstr ""
+
+msgid "Please update the Rank Math SEO plugin to the latest version to use this feature."
+msgstr ""
+
+msgid "This feature is only available for Content AI subscribers."
+msgstr ""
+
+msgid "Oops! Too many requests in a short time. Please try again after some time."
+msgstr ""
+
+msgid "You've used up all available credits for this domain."
+msgstr ""
+
+msgid "You've used up all available credits from the connected account."
+msgstr ""
+
+msgid "Please revise the entered values in the fields as they are not secure. Make the required adjustments and try again."
+msgstr ""
+
+msgid "The output was stopped as it was identified as potentially unsafe by the content filter."
+msgstr ""
+
+msgid "Could not generate. Please try again later."
+msgstr ""
+
 msgid "WooCommerce Product"
 msgstr ""
 
@@ -1976,18 +2003,6 @@ msgstr ""
 msgid "Rank Math: Introducing SEO Performance Reports via Email. %1$sClick here to enable it%2$s."
 msgstr ""
 
-#. translators: %1$s: post type label, %2$s: edit redirection URL.
-#. translators: %1$s: term name, %2$s: edit redirection URL.
-msgid "SEO Notice: you just changed the slug of a %1$s and Rank Math has automatically created a redirection. You can edit the redirection by <a href=\"%2$s\">clicking here</a>."
-msgstr ""
-
-#. translators: 1. url to new screen, 2. old trashed post permalink
-msgid "<strong>SEO Notice:</strong> A previously published post has been moved to trash. You may redirect it <code>%2$s</code> to <a href=\"%1$s\">new url</a>."
-msgstr ""
-
-msgid "Search"
-msgstr ""
-
 msgid "Import Settings"
 msgstr ""
 
@@ -2561,6 +2576,9 @@ msgstr ""
 msgid "Clear Log"
 msgstr ""
 
+msgid "View"
+msgstr ""
+
 msgid "Delete"
 msgstr ""
 
@@ -2779,17 +2797,83 @@ msgstr ""
 msgid "Group description of the current group"
 msgstr ""
 
-#. translators: Link to kb article
-msgid "Get sophisticated AI suggestions for related Keywords, Questions & Links to include in the SEO meta & Content Area. %s."
+msgid "Bulk editing SEO meta started. It might take few minutes to complete the process."
 msgstr ""
 
-msgid "Rank Math Content AI"
+#. translators: placeholder is the number of modified posts.
+msgid "SEO meta successfully updated in %d post."
+msgid_plural "SEO meta successfully updated in %d posts."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: placeholder is the number of modified posts.
+msgid "SEO meta successfully updated in %d posts. The process was stopped as you have used all the credits on your site."
+msgstr ""
+
+msgid "Credits Remaining: "
+msgstr ""
+
+msgid "New!"
+msgstr ""
+
+#. translators: placeholder is the new label.
+msgid "Content AI %s"
+msgstr ""
+
+msgid "&#8595; Rank Math Content AI"
+msgstr ""
+
+msgid "Write SEO Title with AI"
+msgstr ""
+
+msgid "Write SEO Description with AI"
+msgstr ""
+
+msgid "Write SEO Title & Description with AI"
+msgstr ""
+
+msgid "Another bulk editing process is already running. Please try again later after the existing process is complete."
+msgstr ""
+
+msgid "AI Tools"
+msgstr ""
+
+msgid "Content AI Tools"
+msgstr ""
+
+msgid "Content Editor"
+msgstr ""
+
+msgid "Content AI Editor"
+msgstr ""
+
+msgid "Chat"
+msgstr ""
+
+msgid "Content AI Chat"
+msgstr ""
+
+msgid "History"
+msgstr ""
+
+msgid "Content AI History"
+msgstr ""
+
+#. translators: Link to kb article
+msgid "Get sophisticated AI suggestions for related Keywords, Questions & Links to include in the SEO meta & Content Area. %s."
 msgstr ""
 
 msgid "Sorry, only authenticated users can research the keyword."
 msgstr ""
 
 msgid "Content AI is not enabled on this Post type."
+msgstr ""
+
+#. translators: link to the update page.
+msgid "There is a new version of Content AI available! %s the Rank Math SEO plugin to use this feature."
+msgstr ""
+
+msgid "Please update"
 msgstr ""
 
 msgid "No data found for the researched keyword."
@@ -3043,9 +3127,6 @@ msgstr ""
 msgid "Instant Indexing module settings. %s."
 msgstr ""
 
-msgid "History"
-msgstr ""
-
 msgid "The last 100 IndexNow API requests."
 msgstr ""
 
@@ -3172,6 +3253,12 @@ msgstr ""
 msgid "Deactivate"
 msgstr ""
 
+msgid "The redirection you are trying to update may cause an infinite loop. Please check the source and destination URLs."
+msgstr ""
+
+msgid "The redirection you are trying to create may cause an infinite loop. Please check the source and destination URLs. The redirection has been deactivated."
+msgstr ""
+
 msgid "Please add at least one valid source URL."
 msgstr ""
 
@@ -3258,9 +3345,6 @@ msgstr ""
 msgid "Trash"
 msgstr ""
 
-msgid "View"
-msgstr ""
-
 msgid "From"
 msgstr ""
 
@@ -3289,6 +3373,11 @@ msgid "Inactive"
 msgstr ""
 
 msgid "Empty Trash"
+msgstr ""
+
+#. translators: %1$s: post type label, %2$s: edit redirection URL.
+#. translators: %1$s: term name, %2$s: edit redirection URL.
+msgid "SEO Notice: you just changed the slug of a %1$s and Rank Math has automatically created a redirection. You can edit the redirection by <a href=\"%2$s\">clicking here</a>."
 msgstr ""
 
 #. translators: 1. url to new screen, 2. old trashed post permalink
@@ -3373,9 +3462,6 @@ msgid "Editor's Rating:"
 msgstr ""
 
 msgid "Competitor Analyzer"
-msgstr ""
-
-msgid "New!"
 msgstr ""
 
 msgid "SEO Analyzer %s"
@@ -4240,6 +4326,13 @@ msgstr ""
 msgid "Norton Ownership Verification Page"
 msgstr ""
 
+msgid "Custom Webmaster Tags"
+msgstr ""
+
+#. translators: %s: Allowed tags
+msgid "Enter your custom webmaster tags. Only %s tags are allowed."
+msgstr ""
+
 msgid "Author Archives"
 msgstr ""
 
@@ -4996,6 +5089,9 @@ msgstr ""
 msgid "Type here to search..."
 msgstr ""
 
+msgid "Search"
+msgstr ""
+
 msgid "Hovering over a row in the list will display action links that allow you to manage the item. You can perform the following actions:"
 msgstr ""
 
@@ -5195,17 +5291,332 @@ msgstr ""
 msgid "Default Country"
 msgstr ""
 
+msgid "Content AI tailors keyword research to the target country for highly relevant suggestions. You can override this in individual posts/pages/CPTs."
+msgstr ""
+
+msgid "Default Tone"
+msgstr ""
+
+msgid "This feature enables the default primary tone or writing style that characterizes your content. You can override this in individual tools."
+msgstr ""
+
+msgid "Analytical"
+msgstr ""
+
+msgid "Argumentative"
+msgstr ""
+
+msgid "Casual"
+msgstr ""
+
+msgid "Conversational"
+msgstr ""
+
+msgid "Creative"
+msgstr ""
+
+msgid "Descriptive"
+msgstr ""
+
+msgid "Emotional"
+msgstr ""
+
+msgid "Empathetic"
+msgstr ""
+
+msgid "Expository"
+msgstr ""
+
+msgid "Factual"
+msgstr ""
+
+msgid "Formal"
+msgstr ""
+
+msgid "Friendly"
+msgstr ""
+
+msgid "Humorous"
+msgstr ""
+
+msgid "Informal"
+msgstr ""
+
+msgid "Journalese"
+msgstr ""
+
+msgid "Narrative"
+msgstr ""
+
+msgid "Objective"
+msgstr ""
+
+msgid "Opinionated"
+msgstr ""
+
+msgid "Persuasive"
+msgstr ""
+
+msgid "Poetic"
+msgstr ""
+
+msgid "Satirical"
+msgstr ""
+
+msgid "Story-telling"
+msgstr ""
+
+msgid "Subjective"
+msgstr ""
+
+msgid "Technical"
+msgstr ""
+
+msgid "Default Audience"
+msgstr ""
+
+msgid "This option lets you set the default audience that usually reads your content. You can override this in individual tools."
+msgstr ""
+
+msgid "Activists"
+msgstr ""
+
+msgid "Artists"
+msgstr ""
+
+msgid "Bargain Hunters"
+msgstr ""
+
+msgid "Bloggers"
+msgstr ""
+
+msgid "Business Owners"
+msgstr ""
+
+msgid "Collectors"
+msgstr ""
+
+msgid "Cooks"
+msgstr ""
+
+msgid "Crafters"
+msgstr ""
+
+msgid "Dancers"
+msgstr ""
+
+msgid "DIYers"
+msgstr ""
+
+msgid "Designers"
+msgstr ""
+
+msgid "Educators"
+msgstr ""
+
+msgid "Engineers"
+msgstr ""
+
+msgid "Entrepreneurs"
+msgstr ""
+
+msgid "Environmentalists"
+msgstr ""
+
+msgid "Fashionistas"
+msgstr ""
+
+msgid "Fitness Enthusiasts"
+msgstr ""
+
+msgid "Foodies"
+msgstr ""
+
+msgid "Gaming Enthusiasts"
+msgstr ""
+
+msgid "Gardeners"
+msgstr ""
+
+msgid "General Audience"
+msgstr ""
+
+msgid "Health Enthusiasts"
+msgstr ""
+
+msgid "Healthcare Professionals"
+msgstr ""
+
+msgid "Indoor Hobbyists"
+msgstr ""
+
+msgid "Investors"
+msgstr ""
+
+msgid "Job Seekers"
+msgstr ""
+
+msgid "Movie Buffs"
+msgstr ""
+
+msgid "Musicians"
+msgstr ""
+
+msgid "Outdoor Enthusiasts"
+msgstr ""
+
+msgid "Parents"
+msgstr ""
+
+msgid "Pet Owners"
+msgstr ""
+
+msgid "Photographers"
+msgstr ""
+
+msgid "Podcast Listeners"
+msgstr ""
+
+msgid "Professionals"
+msgstr ""
+
+msgid "Retirees"
+msgstr ""
+
+msgid "Russian"
+msgstr ""
+
+msgid "Seniors"
+msgstr ""
+
+msgid "Social Media Users"
+msgstr ""
+
+msgid "Sports Fans"
+msgstr ""
+
+msgid "Students"
+msgstr ""
+
+msgid "Tech Enthusiasts"
+msgstr ""
+
+msgid "Travelers"
+msgstr ""
+
+msgid "TV Enthusiasts"
+msgstr ""
+
+msgid "Video Creators"
+msgstr ""
+
+msgid "Writers"
+msgstr ""
+
+msgid "Default Language"
+msgstr ""
+
+msgid "This option lets you set the default language for content generated using Content AI. You can override this in individual tools."
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Bulgarian"
+msgstr ""
+
+msgid "Chinese"
+msgstr ""
+
+msgid "Czech"
+msgstr ""
+
+msgid "Danish"
+msgstr ""
+
+msgid "Dutch"
+msgstr ""
+
+msgid "Estonian"
+msgstr ""
+
+msgid "Finnish"
+msgstr ""
+
+msgid "French"
+msgstr ""
+
+msgid "German"
+msgstr ""
+
+msgid "Greek"
+msgstr ""
+
+msgid "Hebrew"
+msgstr ""
+
+msgid "Hungarian"
+msgstr ""
+
+msgid "Indonesian"
+msgstr ""
+
+msgid "Italian"
+msgstr ""
+
+msgid "Japanese"
+msgstr ""
+
+msgid "Korean"
+msgstr ""
+
+msgid "Latvian"
+msgstr ""
+
+msgid "Lithuanian"
+msgstr ""
+
+msgid "Norwegian"
+msgstr ""
+
+msgid "Polish"
+msgstr ""
+
+msgid "Portuguese"
+msgstr ""
+
+msgid "Romanian"
+msgstr ""
+
+msgid "Slovak"
+msgstr ""
+
+msgid "Slovenian"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Swedish"
+msgstr ""
+
+msgid "Enable Grammarly"
+msgstr ""
+
+msgid "Enable this feature to fix the grammatical errors on the fly while content is being written/generated."
+msgstr ""
+
 msgid "Select Post Type"
 msgstr ""
 
-msgid "Select the post type you use for Content AI."
+msgid "Choose the type of posts/pages/CPTs where you want to use Content AI."
 msgstr ""
 
 msgid "Click to refresh the available credits."
 msgstr ""
 
 #. translators: 1. Credits left 2. Buy more credits link
-msgid "%1$s credits left. Upgrade to get more credits from %2$s."
+msgid "%1$s credits left this month. Credits will renew next month or you can upgrade to get more credits %2$s."
 msgstr ""
 
 msgid "here"
@@ -5781,7 +6192,7 @@ msgstr ""
 msgid "Exclude User Roles"
 msgstr ""
 
-msgid "Selected roles will be excluded in the sitemap."
+msgid "Selected roles will be excluded from the XML &amp; HTML sitemaps."
 msgstr ""
 
 msgid "Exclude Users"

@@ -4,8 +4,8 @@ Donate link: https://david.dw-perspective.org.uk/donate
 Tags: cache, minify, caching, image cache, performance cache, clean, spam, speed, database, smush, smushing
 Requires PHP: 5.6
 Requires at least: 4.5
-Tested up to: 6.2
-Stable tag: 3.2.16
+Tested up to: 6.3
+Stable tag: 3.2.18
 License: GPLv2+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -368,6 +368,20 @@ If none of the above works, disable processing of JavaScript files in the minify
 == Changelog ==
 
 
+= 3.2.18 - 11/Aug/2023 =
+
+* FIX: A bug in the v3.2.17 release that caused certain database optimization buttons to be disabled has been fixed
+* TWEAK: Reset WebP serving method upon updating to version 3.2.18
+
+= 3.2.17 - 08/Aug/2023 =
+
+* FIX: Automatically compress newly-added images feature now works on multisite in case of attachment ID is the same in both sites
+* FIX: Minify - No separate try-catch blocks for same handle
+* FIX: Premium - Unused Images - Recognise Elementor Carousel, Slides, Flip Box, and Site logo widget images
+* FIX: Premium - Prevent memory exhausted PHP fatal error when using unused images feature with Elementor
+* TWEAK: External links will open in new tab/window
+* TWEAK: Remove `htaccess-capability-tester` dependency
+* TWEAK: Remove residue folders in `uploads/wpo`
 
 = 3.2.16 - 06/Jul/2023 =
 
@@ -1399,4 +1413,4 @@ If none of the above works, disable processing of JavaScript files in the minify
 * Fix Interface
 
 == Upgrade Notice ==
-* 3.2.16: Various fixes and tweaks - a recommended update for all
+* 3.2.18: Fixed couple of bugs in 3.2.17 release - a recommended update for all

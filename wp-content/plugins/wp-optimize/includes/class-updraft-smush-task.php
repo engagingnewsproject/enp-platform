@@ -290,7 +290,7 @@ abstract class Updraft_Smush_Task extends Updraft_Task_1_2 {
 			$info = sprintf(__("The file was compressed to %s using WP-Optimize", 'wp-optimize'), WP_Optimize()->format_size(filesize($file_path)));
 		} else {
 			$saved = round((($original_size - filesize($file_path)) / $original_size * 100), 2);
-			$info = sprintf(__("The file was compressed from %s to %s saving %s percent using WP-Optimize", 'wp-optimize'), WP_Optimize()->format_size($original_size), WP_Optimize()->format_size(filesize($file_path)), $saved);
+			$info = sprintf(__("The file was compressed from %s to %s, saving %s percent, using WP-Optimize", 'wp-optimize'), WP_Optimize()->format_size($original_size), WP_Optimize()->format_size(filesize($file_path)), $saved);
 		}
 
 		$stats = array(
