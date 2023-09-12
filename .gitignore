@@ -71,3 +71,4 @@ wp-content/themes/engage/vendor/timber/timber/.gitignore
 wp-content/themes/engage/vendor/twig/cache-extension/.gitignore
 wp-content/themes/engage/vendor/twig/twig/.gitignore
 wp-content/themes/engage/vendor/upstatement/routes/.gitignore
+.htaccess-OG
