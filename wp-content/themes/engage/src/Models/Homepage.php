@@ -140,7 +140,9 @@ class Homepage extends Post {
 
     public function sortSliderByTopFeatured() {
         usort($this->recent, function ($a, $b) {
-            return strcmp($b->top_featured_research, $a->top_featured_research);
+            $topFeatureA = is_array($a->top_featured_research) ? implode('', $a->top_featured_research) : $a->top_featured_research;
+            $topFeatureB = is_array($b->top_featured_research) ? implode('', $b->top_featured_research) : $b->top_featured_research;
+            return strcmp($topFeatureB, $topFeatureA);
         });
     }
 
