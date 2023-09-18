@@ -12,6 +12,17 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
 
     public $ver = Ninja_Forms::VERSION;
 
+    //Data needed into nfDasboard wp_localize_script
+    private $preloadedFormData;
+    private $fieldTypeData;
+    private $fieldSettings;
+    private $fieldTypeSections;
+    private $actionTypeData;
+    private $actionSettings;
+    private $formSettingTypeData;
+    private $formSettings;
+    private $mergeTags;
+
     // Stores whether or not this form has a password field.
     private $legacy_password = false;
 
@@ -141,10 +152,6 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             Ninja_Forms::template( 'fields-product.html' );
             Ninja_Forms::template( 'fields-shipping.html' );
 
-            
-
-            $this->_enqueue_the_things( $form_id );
-
             delete_user_option( get_current_user_id(), 'nf_form_preview_' . $form_id );
 
             if( ! isset( $_GET[ 'ajax' ] ) ) {
@@ -158,6 +165,9 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
 
                 $this->_localize_merge_tags();
             }
+            //moved after _localize functions trigger to get inline variables
+            $this->_enqueue_the_things( $form_id );
+
         } else {
 
             /*
@@ -183,13 +193,6 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
              * DASHBOARD
              */
             $dash_items = Ninja_Forms()->config('DashboardMenuItems');
-            ?>
-            <script>
-                var nfDashItems = <?php echo( json_encode( array_values( $dash_items ) ) ); ?>;
-                var useServices = <?php echo ( $use_services ) ? 'true' : 'false'; ?>;
-                var serviceSuccess = '<?php echo ( isset( $_GET[ 'success' ] ) ) ? htmlspecialchars( $_GET[ 'success' ] ) : ''; ?>';
-            </script>
-            <?php
 
             $required_updates = get_option( 'ninja_forms_needs_updates', 0 );
 
@@ -226,6 +229,22 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
                 'sendwpInstallNonce'       => wp_create_nonce( 'ninja_forms_sendwp_remote_install' ),
                 'disconnectNonce'         => wp_create_nonce( 'nf-oauth-disconnect' ),
             ) );
+
+            $nfDashInlineVars = [
+                "nfDashItems"           =>  array_values( $dash_items ),
+                "useServices"           =>  $use_services ? 'true' : 'false',
+                "serviceSuccess"        =>  isset( $_GET[ 'success' ] ) ? htmlspecialchars( $_GET[ 'success' ] ) : '',
+                "preloadedFormData"     =>  $this->preloadedFormData,
+                "fieldTypeData"         =>  $this->fieldTypeData,
+                "fieldSettings"         =>  $this->fieldSettings,
+                "fieldTypeSections"     =>  $this->fieldTypeSections,
+                "actionTypeData"        =>  $this->actionTypeData,
+                "actionSettings"        =>  $this->actionSettings,
+                "formSettingTypeData"   =>  $this->formSettingTypeData,
+                "formSettings"          =>  $this->formSettings,
+                "mergeTags"             =>  $this->mergeTags
+            ];
+            wp_localize_script( 'nf-dashboard', 'nfDashInlineVars', $nfDashInlineVars );
 
             wp_enqueue_style( 'nf-builder', Ninja_Forms::$url . 'assets/css/builder.css', array(), $this->ver );
             wp_enqueue_style( 'nf-dashboard', Ninja_Forms::$url . 'assets/css/dashboard.min.css', array(), $this->ver );
@@ -359,6 +378,19 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             'filter_esc_status'  =>    json_encode( WPN_Helper::maybe_disallow_unfiltered_html_for_escaping() ),
         ));
 
+        $nfDashInlineVars = [
+            "preloadedFormData"     =>  $this->preloadedFormData,
+            "fieldTypeData"         =>  $this->fieldTypeData,
+            "fieldSettings"         =>  $this->fieldSettings,
+            "fieldTypeSections"     =>  $this->fieldTypeSections,
+            "actionTypeData"        =>  $this->actionTypeData,
+            "actionSettings"        =>  $this->actionSettings,
+            "formSettingTypeData"   =>  $this->formSettingTypeData,
+            "formSettings"          =>  $this->formSettings,
+            "mergeTags"             =>  $this->mergeTags
+        ];
+        wp_localize_script( 'nf-builder', 'nfDashInlineVars', $nfDashInlineVars );
+
         do_action( 'nf_admin_enqueue_scripts' );
     }
 
@@ -465,11 +497,9 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
         $form_data['fields'] = $fields_settings;
         $form_data['actions'] = $actions_settings;
 
-        ?>
-        <script>
-            var preloadedFormData = <?php echo wp_json_encode( $form_data ); ?>;
-        </script>
-        <?php
+        // This step remove the <script> that sets inline vars we then use the $this variables into wp_localize_script
+        $this->preloadedFormData = $form_data;
+
     }
 
     /**
@@ -618,14 +648,11 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             $field_type_settings[ $id ][ 'settingDefaults' ] = $defaults;
         }
 
-        ?>
-        <script>
-            var fieldTypeData     = <?php echo wp_json_encode( array_values( $field_type_settings ) ); ?>;
-            var fieldSettings     = <?php echo wp_json_encode( array_values( $master_settings ) ); ?>;
-            var fieldTypeSections = <?php echo wp_json_encode( $field_type_sections ); ?>;
-            // console.log( fieldTypeData );
-        </script>
-        <?php
+        // This step remove the <script> that sets inline vars we then use the $this variables into wp_localize_script
+        $this->fieldTypeData = array_values( $field_type_settings );
+        $this->fieldSettings = array_values( $master_settings );
+        $this->fieldTypeSections = $field_type_sections;
+
     }
 
     private function _localize_action_type_data()
@@ -700,13 +727,10 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
 
         $action_type_settings = apply_filters( 'ninja_forms_action_type_settings', $action_type_settings );
 
-        ?>
-        <script>
-            var actionTypeData = <?php echo wp_json_encode( array_values( $action_type_settings ) ); ?>;
-            var actionSettings = <?php echo wp_json_encode( array_values( $master_settings_list ) ); ?>;
-            // console.log( actionTypeData );
-        </script>
-        <?php
+        // This step remove the <script> that sets inline vars we then use the $this variables into wp_localize_script
+        $this->actionTypeData = array_values( $action_type_settings );
+        $this->actionSettings = array_values( $master_settings_list );
+
     }
 
     protected function _localize_form_settings()
@@ -759,12 +783,11 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
                 'settingDefaults' => array()
             );
         }
-        ?>
-        <script>
-        var formSettingTypeData = <?php echo wp_json_encode( array_values( $form_settings_types ) )?>;
-        var formSettings = <?php echo wp_json_encode( array_values( $master_settings ) )?>;
-        </script>
-        <?php
+
+        // This step remove the <script> that sets inline vars we then use the $this variables into wp_localize_script
+        $this->formSettingTypeData = array_values( $form_settings_types );
+        $this->formSettings = array_values( $master_settings );
+
     }
 
     protected function _localize_merge_tags()
@@ -793,11 +816,9 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
                 'default_group' => $group->is_default_group()
             );
         }
-        ?>
-        <script>
-            var mergeTags = <?php echo wp_json_encode( array_values( $merge_tags ) ); ?>;
-        </script>
-        <?php
+
+        $this->mergeTags = array_values( $merge_tags );
+
     }
 
 

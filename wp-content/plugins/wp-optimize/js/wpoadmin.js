@@ -78,7 +78,7 @@ var WP_Optimize = function () {
 
 	// table sorter library.
 	// This calls the tablesorter library in order to sort the table information correctly.
-	// There is a fix below on line 172 to apply applyWidgets on load to avoid diplay hidden for tabs.
+	// There is a fix below on line 172 to apply applyWidgets on load to avoid display hidden for tabs.
 	// add parser through the tablesorter addParser method
 	$.tablesorter.addParser({
 		// set a unique id
@@ -114,7 +114,7 @@ var WP_Optimize = function () {
 			theme: 'default',
 			widgets: ['zebra', 'rows', 'filter'],
 			cssInfoBlock: "tablesorter-no-sort",
-			// This option is to specify with colums will be disabled for sorting
+			// This option is to specify with columns will be disabled for sorting
 			headers: {
 				2: {sorter: 'digit'},
 				3: {sorter: 'sizes'},
@@ -382,7 +382,7 @@ var WP_Optimize = function () {
 		shade.removeClass('hidden');
 		database_tabs_loading = true;
 		send_command('get_database_tabs', {}, function(response) {
-			// Set the satus to true, to prevent loading again.
+			// Set the status to true, to prevent loading again.
 			database_tabs_loaded = true;
 
 			// Updtate the optimizations tab
@@ -447,7 +447,7 @@ var WP_Optimize = function () {
 	}
 	
 	/**
-	 * Proceses the queue
+	 * Processes the queue
 	 *
 	 * @return void
 	 */

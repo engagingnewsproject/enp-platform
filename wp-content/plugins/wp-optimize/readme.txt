@@ -5,7 +5,7 @@ Tags: cache, minify, caching, image cache, performance cache, clean, spam, speed
 Requires PHP: 5.6
 Requires at least: 4.5
 Tested up to: 6.3
-Stable tag: 3.2.18
+Stable tag: 3.2.19
 License: GPLv2+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,7 +101,7 @@ On top of its three main features, WP-Optimize Cache also has the more advanced 
 
 Together with caching and Gzip compression, this will improve the performance and time to "first contentful paint".
 
-The minify feature also enables you to defer CSS and JavaScript. Defering CSS and JavaScript allows you to load non-critical assets after the main page load, resulting in an apparent speed gain. Minifying and defering CSS and JavaScript also makes Google PageSpeed Insights happy!
+The minify feature also enables you to defer CSS and JavaScript. Deferring CSS and JavaScript allows you to load non-critical assets after the main page load, resulting in an apparent speed gain. Minifying and deferring CSS and JavaScript also makes Google PageSpeed Insights happy!
 
 <strong>Overall WP-Optimize brings the best cache and optimization technology together in a single seamless plugin to make your WordPress site fast, lean and efficient.</strong>
 
@@ -227,7 +227,7 @@ No, if WordPress works properly, WP-Optimize will be able to cache your pages an
 No, because both cache plugins would need to use the drop-in plugin `advanced-cache.php`. If you turn off caching on WP-Optimize Cache, you can use any other caching plugin and still use the other features of WP-Optimize. But we do recommend using our caching solution.
 
 = Is WP-Optimize caching compatible with Cloudflare? =
-Yes! No special cache configuration is needed. Page caching on the WP site (that done by WP-Optimize Cache) is independent of proxy cacheing (e.g. Cloudflare) – you can use both, or neither, and they will complement each other and not interfere. <br>Just one thing to note – Cloudflare will strip out the special HTML comment at the bottom of the source of a page that is helpful to confirm that page caching is working, so, don’t be confused by that – it’s absence doesn’t indicate the cache is not working.
+Yes! No special cache configuration is needed. Page caching on the WP site (that done by WP-Optimize Cache) is independent of proxy caching (e.g. Cloudflare) – you can use both, or neither, and they will complement each other and not interfere. <br>Just one thing to note – Cloudflare will strip out the special HTML comment at the bottom of the source of a page that is helpful to confirm that page caching is working, so, don’t be confused by that – it’s absence doesn’t indicate the cache is not working.
 
 = Can I empty the cache automatically when performing a custom action? =
 Yes, you can trigger a cache purge action using WP-Optimize Cache public functions. If you want to clear the whole cache, use the function `wpo_cache_flush()`. If you want to clear the cache files for a specific page or post, use `WPO_Page_Cache::delete_single_post_cache($post_id);`. Those cache options are available after WP action `plugins_loaded`.
@@ -367,6 +367,20 @@ If none of the above works, disable processing of JavaScript files in the minify
 
 == Changelog ==
 
+= 3.2.19 - 15/Sep/2023 =
+
+* FIX: Cache - Relevant caches are now purged upon updating homepage display settings and posts per page settings
+* FIX: Minify - Multiline content inside textareas break after exporting and importing settings
+* FIX: Smush - Images are not compressed with default (image quality = 100) settings
+* FIX: Premium - Cache - Caching stops working when WordPress salt keys contain backslash (\) character
+* FIX: Premium - User per role cache not working when tables do not have `wp` prefix
+* FIX: Premium - When lazy loading is enabled, the picture tag in initial viewport is not visible
+* TWEAK: Fixed date format and timezone in the cache last modification comment according to the site configuration
+* TWEAK: Fixed spelling errors in the repository 
+* TWEAK: Minify - The process of purging cache for 3rd party caching solutions now works properly when multiple other solutions are present
+* TWEAK: Premium - Lazy load - Added Jetpack, Optimole, Rocket Lazy Load, and Smush (WPMU Dev) plugins to the incompatibility notice
+* TWEAK: Prevent PHP warning upon installing themes from the WordPress repository
+* TWEAK: Update the composer package yahnis-elsts/plugin-update-checker for PHP 8.2 compatibility
 
 = 3.2.18 - 11/Aug/2023 =
 
@@ -475,7 +489,7 @@ If none of the above works, disable processing of JavaScript files in the minify
 * TWEAK: Remove query strings from scripts
 * TWEAK: Add `Restrict Content Pro` plugin slug to `plugin.json`
 * TWEAK: Add option to remove orphaned `user meta` data upon run optimization
-* TWEAK: Add `no-cache` headers when minify is enabled and page cacheing is not
+* TWEAK: Add `no-cache` headers when minify is enabled and page caching is not
 * TWEAK: Ability to remove `.htaccess` rules when gzip compression is not available
 * TWEAK: WebP: Avoid PHP warnings when using hot linked images (Alter HTML method)
 * TWEAK: WebP conversion is unavailable when php shell functions do not exist
@@ -560,7 +574,7 @@ If none of the above works, disable processing of JavaScript files in the minify
 * FEATURE: Cache - Allow debugging of which cache file is chosen
 * FEATURE: Premium - Cache - Serve cached content for logged in users, per role
 * FIX: Premium - Unused Images - Fixed trashed images listing
-* FIX: Image selction issue in compressed and unused image is fixed.
+* FIX: Image selection issue in compressed and unused image is fixed.
 * FIX: ACF plugin compatibility issue with select2 JS library
 * FIX: Premium - Unused Images - Multibyte characters in filename are not recognised correctly
 * FIX: Table optimization displays wrong information about WP All Import plugin tables
@@ -618,9 +632,9 @@ If none of the above works, disable processing of JavaScript files in the minify
 * TWEAK: Minify HTML only on cache pre-loading
 * TWEAK: Port from previous semaphore classes to Updraft_Semaphore_3_0
 * TWEAK: Premium - Unused images - Show that there are images in the trash without having to re-scan everything
-* TWEAK: Prevent a PHP notice when downloding image compression log file. Fix backup modal styling issue.
+* TWEAK: Prevent a PHP notice when downloading image compression log file. Fix backup modal styling issue.
 * TWEAK: Prevent fatal error in gzip settings when stylesheet could not be fetched
-* TWEAK: Short-circuit trivial case of nothing in the buffer when page-cacheing, to involve any possible other issues
+* TWEAK: Short-circuit trivial case of nothing in the buffer when page-caching, to involve any possible other issues
 * TWEAK: Update comments count after trackbacks and pingbacks deletion
 * TWEAK: Update minified asset when the enqueued scripts and styles version change
 * TWEAK: Use proper constant of includes path in user cache extension
@@ -688,7 +702,7 @@ If none of the above works, disable processing of JavaScript files in the minify
 * FIX: Display optimization data based on retention period
 * FIX: Scheduled cleanup settings - Invalid date selection
 * TWEAK: Premium - Separate table optimisations per sub-site
-* TWEAK: Premium - Unused images - Add compatibilty with the Envira Gallery plugin
+* TWEAK: Premium - Unused images - Add compatibility with the Envira Gallery plugin
 * TWEAK: Page caching: add support for Avada
 * TWEAK: Add visual clue when image compression was cancelled
 * TWEAK: Image compression - multi image selection using Ctrl/Shift keys
@@ -723,7 +737,7 @@ If none of the above works, disable processing of JavaScript files in the minify
 * TWEAK: Premium - Unused images - added "X of X images loaded" for unused trash images
 * TWEAK: Don't allow to remove actionscheduler_* tables
 * TWEAK: Premium - Unused images - Show a progression screen when doing any action with unused images
-* TWEAK: Cache - Enable cache for the old default permalink structure `domain.com/index.php/a-post-name` by creating a folder without the extention
+* TWEAK: Cache - Enable cache for the old default permalink structure `domain.com/index.php/a-post-name` by creating a folder without the extension
 * TWEAK: Show previous action as message on Trackbacks or Comments enable or disable.
 * TWEAK: Prevent deprecation notice on PHP 8.0
 * TWEAK: Update notices
@@ -762,7 +776,7 @@ If none of the above works, disable processing of JavaScript files in the minify
 * TWEAK: Remove redundant code
 * TWEAK: Cache feature - Do not cache pages with fatal errors
 * TWEAK: Cache feature - Do not cache RSS feeds
-* TWEAK: Page cacheing - Prevent adding the "comment cookie" when ordering on WooCommerce
+* TWEAK: Page caching - Prevent adding the "comment cookie" when ordering on WooCommerce
 
 = 3.1.4 - 15/Sep/2020 =
 
@@ -792,7 +806,7 @@ If none of the above works, disable processing of JavaScript files in the minify
 * TWEAK: Premium - Prevent potential JS error in the "unused images" feature
 * TWEAK: Premium - Unused images - Add support for Slider Revolution
 * TWEAK: Premium - Unused images - use the URL stored in attachment meta-data as fallback
-* TWEAK: Premium - Unused images - Only fetch image informations when requesting the information to be displayed
+* TWEAK: Premium - Unused images - Only fetch image information when requesting the information to be displayed
 * TWEAK: Premium - Lazy-load - Show a notice when a known plugin also provides lazy-loading, instead of disabling the feature
 * TWEAK: Minify - Only load the required vendor classes instead of using composer's autoload in order to prevent compatibility issues
 * TWEAK: Minify - Added filters `wpo_minify_get_js` and `wpo_minify_get_css` to enable users to do extra processing before saving the code
@@ -817,7 +831,7 @@ If none of the above works, disable processing of JavaScript files in the minify
 * FIX: Cache feature - Show correct preloading status
 * FIX: Fixed optimizations preview on multisite
 * FIX: Cache feature - Fixed error handling for cache preload action
-* FIX: Call to unavailable function was breaking page cacheing on old WP versions without add_filter() available early
+* FIX: Call to unavailable function was breaking page caching on old WP versions without add_filter() available early
 * TWEAK: Premium - Do not show the loading overlay on the database screen when loading the unused images list
 * TWEAK: Periodically update the plugins' tables list (plugin.json)
 * TWEAK: Do not use wp_get_upload_dir() on WP versions before it is available
@@ -854,7 +868,7 @@ If none of the above works, disable processing of JavaScript files in the minify
 * TWEAK: Load optimizations and database tables list via ajax
 * TWEAK: Move database optimization settings to the database page
 * TWEAK: Improve error handling for ajax requests
-* TWEAK: Cache feature - Add the filter `wpo_cache_show_cached_by_comment` to enable users to hide the HTML comment <!-- Cached by WP-Optimze... -->
+* TWEAK: Cache feature - Add the filter `wpo_cache_show_cached_by_comment` to enable users to hide the HTML comment <!-- Cached by WP-Optimize... -->
 * TWEAK: Cache feature - Clear archive page cache when post is updated
 * TWEAK: Cache feature - Possibility to exclude front page from the cache
 * TWEAK: Cache feature - Deny direct access to cache files folder
@@ -1191,7 +1205,7 @@ If none of the above works, disable processing of JavaScript files in the minify
 * TWEAK: Allow user to tick the "Take a backup with UpdraftPlus before optimizing" option from UpdraftCentral
 * TWEAK: Show last automatic optimization time using site's configured timezone and locale
 * TWEAK: Extra MySQL and MariaDB checks for optimization, along with an over-ride functionality.
-* TWEAK: updated previous optimizations and added optimizations for trash posts, trash comments and orphaned attachements
+* TWEAK: updated previous optimizations and added optimizations for trash posts, trash comments and orphaned attachments
 * TWEAK: Use higher-quality spinner image
 * TWEAK: Adjusted notices about other products
 * TWEAK: Added message for multisite users with proposal to upgrade to Premium.
@@ -1393,7 +1407,7 @@ If none of the above works, disable processing of JavaScript files in the minify
 = 0.9.1 =
 * Fixed problem with database names containing "-" .
 * NEW Main Level Menu Item added for WP-Optimize, You might need to scroll down to see it
-* Compatibilty with WordPress 3.1
+* Compatibility with WordPress 3.1
 * Language files update
 * Added auto draft post removal feature
 
@@ -1413,4 +1427,4 @@ If none of the above works, disable processing of JavaScript files in the minify
 * Fix Interface
 
 == Upgrade Notice ==
-* 3.2.18: Fixed couple of bugs in 3.2.17 release - a recommended update for all
+* 3.2.19: Various fixes and tweaks - a recommended update for all

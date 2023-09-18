@@ -171,9 +171,12 @@ class WPO_Cache_Config {
 		// advanced-cache.php doesn't exist then
 		// we write the cache config in a new format.
 		if (($advanced_cache_version && (version_compare($advanced_cache_version, '3.0.17', '>='))) || !$advanced_cache_version) {
+			// Apply the encoding required for placing within PHP single quotes - https://www.php.net/manual/en/language.types.string.php#language.types.string.syntax.single
+			$json_encoded_string = str_replace(array('\\', "'"), array('\\\\', '\\\''), json_encode($this->config));
+
 			$config_content = '<?php' . "\n"
 				. 'if (!defined(\'ABSPATH\')) die(\'No direct access allowed\');' . "\n\n"
-				. '$GLOBALS[\'wpo_cache_config\'] = json_decode(\'' . json_encode($this->config) . '\', true);' . "\n";
+				. '$GLOBALS[\'wpo_cache_config\'] = json_decode(\'' . $json_encoded_string . '\', true);' . "\n";
 		} else {
 			$config_content = json_encode($this->config);
 		}
@@ -251,6 +254,9 @@ class WPO_Cache_Config {
 			'permalink_structure'						=> get_option('permalink_structure'),
 			'uploads'									=> wp_normalize_path(wp_upload_dir()['basedir']),
 			'gmt_offset'								=> get_option('gmt_offset'),
+			'timezone_string'                           => get_option('timezone_string'),
+			'date_format'                               => get_option('date_format'),
+			'time_format'                               => get_option('time_format'),
 			'use_webp_images'						    => false,
 		);
 

@@ -39,6 +39,10 @@ class NF_Display_Render
     protected static $form_uses_helptext       = array();
     protected static $form_uses_starrating     = array();
 
+    protected static $thread_id      = 1;
+    protected static $recorded_forms       = [];
+    protected static $inline_vars_recorded  = [];
+
     public static function localize( $form_id )
     {
         global $wp_locale;
@@ -362,18 +366,42 @@ class NF_Display_Render
 
         $form_id = "$form_id";
 
-        ?>
-        <!-- TODO: Move to Template File. -->
-        <script>var formDisplay=1;var nfForms=nfForms||[];var form=[];form.id='<?php echo $form_id; ?>';form.settings=<?php echo wp_json_encode( $form->get_settings() ); ?>;form.fields=<?php echo wp_json_encode( $fields ); ?>;nfForms.push(form);</script>
-        <?php
+        self::transformInlineVars($fields, $form_id,  $form->get_settings());
+
         self::enqueue_scripts( $form_id );
     }
 
     /**
+     * Transform the inline JS into a variable passed to wp_localize_script
+     *
+     * @param array $fields
+     * @param string $form_id
+     * @param object $form
+     * @return void
+     * */
+    protected static function transformInlineVars($fields, $form_id, $form_settings)
+    {
+        $thread_id = sprintf("%08x", abs(crc32($_SERVER['REMOTE_ADDR'] . $_SERVER['REQUEST_TIME'] . $_SERVER['REMOTE_PORT'])));
+        if($thread_id !== self::$thread_id || isset( $_GET['nf_preview_form'] ) ){
+            self::$recorded_forms = [];
+        }
+        self::$thread_id = $thread_id;
+        $set_form = [];
+        $set_form['id'] = $form_id;
+        $set_form['settings'] = $form_settings;
+        $set_form['fields'] = $fields;
+        array_push(self::$recorded_forms, $set_form);
+        self::$inline_vars_recorded = [
+            "formDisplay"   =>  1,
+            "form"          => $set_form,
+            "nfForms"       => self::$recorded_forms,
+        ];
+    }
+    /**
      * Ensure that product related costs on `localize` method have intended number format
      *
      * @param array $settings
-     * @param string$decimal_point
+     * @param string $decimal_point
      * @param string $thousands_sep
      * @return array
      */
@@ -681,24 +709,8 @@ class NF_Display_Render
         do_action( 'ninja_forms_before_container_preview', $form_id, $form[ 'settings' ], $fields );
         Ninja_Forms::template( 'display-form-container.html.php', compact( 'form_id' ) );
 
-        ?>
-        <!-- TODO: Move to Template File. -->
-        <script>
-            // Maybe initialize nfForms object
-            var nfForms = nfForms || [];
+        self::transformInlineVars($fields, $form_id, $form[ 'settings' ]);
 
-            // Build Form Data
-            var form = [];
-            form.id = '<?php echo $form['id']; ?>';
-            form.settings = JSON.parse( '<?php echo WPN_Helper::addslashes( wp_json_encode( $form['settings'] ) ); ?>' );
-
-            form.fields = JSON.parse( '<?php echo WPN_Helper::addslashes( wp_json_encode(  $fields ) ); ?>' );
-
-            // Add Form Data to nfForms object
-            nfForms.push( form );
-        </script>
-
-        <?php
         self::enqueue_scripts( $form_id, true );
     }
 
@@ -739,7 +751,6 @@ class NF_Display_Render
     public static function enqueue_scripts( $form_id, $is_preview = false )
     {
         global $wp_locale;
-        $form = Ninja_Forms()->form( $form_id )->get();
 
         $ver     = Ninja_Forms::VERSION;
         $js_dir  = Ninja_Forms::$url . 'assets/js/min/';
@@ -798,7 +809,7 @@ class NF_Display_Render
             'use_merge_tags' => array(),
             'opinionated_styles' => Ninja_Forms()->get_setting( 'opinionated_styles' ),
             'filter_esc_status'  =>    json_encode( WPN_Helper::maybe_disallow_unfiltered_html_for_escaping() ),
-            'nf_consent_status_response'    => [],
+            'nf_consent_status_response'    => []
         ));
 
         foreach( Ninja_Forms()->fields as $field ){
@@ -808,6 +819,9 @@ class NF_Display_Render
         }
 
         wp_localize_script( 'nf-front-end', 'nfFrontEnd', $data );
+
+        // !!Todoed!! moved inline JS to data
+        wp_localize_script( 'nf-front-end', 'nfInlineVars', self::$inline_vars_recorded );
 
         do_action( 'ninja_forms_enqueue_scripts', array( 'form_id' => $form_id ) );
 

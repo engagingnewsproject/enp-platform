@@ -56,7 +56,7 @@
 			</label>
 		</div>
 		<div class="wpo_remove_selected_sizes_btn__container">
-			<button type="buton" class="button button-primary" disabled="disabled"><?php esc_html_e('Remove selected sizes', 'wp-optimize'); ?></button>
+			<button type="button" class="button button-primary" disabled="disabled"><?php esc_html_e('Remove selected sizes', 'wp-optimize'); ?></button>
 		</div>
 		<div class="wpo-unused-image-sizes__premium-mask">
 			<a class="wpo-unused-images__premium-link" href="<?php echo esc_url($wp_optimize->premium_version_link); ?>" target="_blank"><?php esc_html_e('Take control of WordPress image sizes with WP-Optimize Premium.', 'wp-optimize'); ?></a>

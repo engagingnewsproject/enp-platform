@@ -1199,7 +1199,7 @@ class WP_Optimize_Minify_Front_End {
 					continue;
 				}
 
-				// Skip jQuery from the merged files if defering is ENABLED and defer_jquery is DISABLED
+				// Skip jQuery from the merged files if deferring is ENABLED and defer_jquery is DISABLED
 				if ('all' === $this->options['enable_defer_js']
 					&& !$this->options['defer_jquery']
 					&& (false !== stripos($href, '/jquery.js')

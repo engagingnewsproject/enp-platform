@@ -99,7 +99,7 @@ class WP_Optimize_Minify_Cache_Functions {
 	/**
 	 * Will delete temporary intermediate stuff but leave final css/js alone for compatibility
 	 *
-	 * @return Array
+	 * @return array
 	 */
 	public static function purge_temp_files() {
 		// get cache directories and urls
@@ -128,7 +128,7 @@ class WP_Optimize_Minify_Cache_Functions {
 	/**
 	 * Purge supported hosting and plugins
 	 *
-	 * @return string
+	 * @return array An array of caches purged message
 	 */
 	public static function purge_others() {
 		/**
@@ -144,6 +144,9 @@ class WP_Optimize_Minify_Cache_Functions {
 		// Purge WP-Optimize
 		WP_Optimize()->get_page_cache()->purge();
 		
+		// Store the messages of purged cache if it was successful
+		$result = array();
+
 		// When plugins have a simple method, add them to the array ('Plugin Name' => 'method_name')
 		$others = array(
 			'WP Super Cache' => 'wp_cache_clear_cache',
@@ -162,32 +165,36 @@ class WP_Optimize_Minify_Cache_Functions {
 		foreach ($others as $plugin => $method) {
 			if (is_callable($method)) {
 				call_user_func($method);
-				return sprintf(__('All caches from %s have also been purged.', 'wp-optimize'), '<strong>'.$plugin.'</strong>');
+
+				$result[] = self::get_caches_purged_message($plugin);
 			}
 		}
 
 		// Purge LiteSpeed Cache
 		if (is_callable(array('LiteSpeed_Cache_Tags', 'add_purge_tag'))) {
 			LiteSpeed_Cache_Tags::add_purge_tag('*');
-			return sprintf(__('All caches from %s have also been purged.', 'wp-optimize'), '<strong>LiteSpeed Cache</strong>');
+
+			$result[] = self::get_caches_purged_message('LiteSpeed Cache');
 		}
 
 		// Purge Hyper Cache
 		if (class_exists('HyperCache')) {
 			do_action('autoptimize_action_cachepurged');
-			return sprintf(__('All caches from %s have also been purged.', 'wp-optimize'), '<strong>Hyper Cache</strong>');
+
+			$result[] = self::get_caches_purged_message('Hyper Cache');
 		}
 
 		// Purge Godaddy Managed WordPress Hosting (Varnish + APC)
 		if (class_exists('WPaaS\Plugin')) {
 			self::godaddy_request('BAN');
-			return sprintf(__('A cache purge request has been sent to %s.', 'wp-optimize'), '<strong>Go Daddy Varnish</strong>') . ' ' . __('Please note that it may not work every time, due to cache rate limiting by your host.', 'wp-optimize');
+			$result[] = sprintf(__('A cache purge request has been sent to %s.', 'wp-optimize'), '<strong>Go Daddy Varnish</strong>') . ' ' . __('Please note that it may not work every time, due to cache rate limiting by your host.', 'wp-optimize');
 		}
 
 		// purge cache enabler
 		if (has_action('ce_clear_cache')) {
 			do_action('ce_clear_cache');
-			return sprintf(__('All caches from %s have also been purged.', 'wp-optimize'), '<strong>Cache Enabler</strong>');
+
+			$result[] = self::get_caches_purged_message('Cache Enabler');
 		}
 
 		// Purge WP Engine
@@ -203,7 +210,7 @@ class WP_Optimize_Minify_Cache_Functions {
 			}
 
 			if (method_exists('WpeCommon', 'purge_memcached') || method_exists('WpeCommon', 'clear_maxcdn_cache') || method_exists('WpeCommon', 'purge_varnish_cache')) {
-					return sprintf(__('A cache purge request has been sent to %s.', 'wp-optimize'), '<strong>WP Engine</strong>') . ' ' . __('Please note that it may not work every time, due to cache rate limiting by your host.', 'wp-optimize');
+				$result[] = sprintf(__('A cache purge request has been sent to %s.', 'wp-optimize'), '<strong>WP Engine</strong>') . ' ' . __('Please note that it may not work every time, due to cache rate limiting by your host.', 'wp-optimize');
 			}
 		}
 
@@ -212,7 +219,8 @@ class WP_Optimize_Minify_Cache_Functions {
 		if (isset($kinsta_cache) && class_exists('\\Kinsta\\CDN_Enabler')) {
 			if (!empty($kinsta_cache->kinsta_cache_purge) && is_callable(array($kinsta_cache->kinsta_cache_purge, 'purge_complete_caches'))) {
 				$kinsta_cache->kinsta_cache_purge->purge_complete_caches();
-				return sprintf(__('A cache purge request was also sent to %s', 'wp-optimize'), '<strong>Kinsta</strong>');
+
+				$result[] = self::get_remote_caches_purged_message('Kinsta');
 			}
 		}
 
@@ -221,7 +229,8 @@ class WP_Optimize_Minify_Cache_Functions {
 			$purge_pagely = new PagelyCachePurge();
 			if (is_callable(array($purge_pagely, 'purgeAll'))) {
 				$purge_pagely->purgeAll();
-				return sprintf(__('A cache purge request was also sent to %s', 'wp-optimize'), '<strong>Pagely</strong>');
+
+				$result[] = self::get_remote_caches_purged_message('Pagely');
 			}
 		}
 
@@ -230,7 +239,8 @@ class WP_Optimize_Minify_Cache_Functions {
 			$purge_pressidum = Ninukis_Plugin::get_instance();
 			if (is_callable(array($purge_pressidum, 'purgeAllCaches'))) {
 				$purge_pressidum->purgeAllCaches();
-				return sprintf(__('A cache purge request was also sent to %s', 'wp-optimize'), '<strong>Pressidium</strong>');
+
+				$result[] = self::get_remote_caches_purged_message('Pressidium');
 			}
 		}
 
@@ -239,7 +249,8 @@ class WP_Optimize_Minify_Cache_Functions {
 			$purge_savvii = new \Savvii\CacheFlusherPlugin();
 			if (is_callable(array($purge_savvii, 'domainflush'))) {
 				$purge_savvii->domainflush();
-				return sprintf(__('A cache purge request was also sent to %s', 'wp-optimize'), '<strong>Savvii</strong>');
+
+				$result[] = self::get_remote_caches_purged_message('Savvii');
 			}
 		}
 
@@ -247,7 +258,40 @@ class WP_Optimize_Minify_Cache_Functions {
 		 * Action triggered when purging other plugins cache, and nothing was triggered
 		 */
 		do_action('wpo_min_after_purge_others');
-		return '';
+
+		return $result;
+	}
+
+	/**
+	 * Returns the purged cache message for the given plugin name
+	 *
+	 * @param string $plugin_name Name of the plugin
+	 *
+	 * @return string
+	 */
+	public static function get_caches_purged_message($plugin_name) {
+		$message = sprintf(
+			__('All caches from %s have also been purged.', 'wp-optimize'),
+			'<strong>' . esc_html($plugin_name) . '</strong>'
+		);
+
+		return $message;
+	}
+
+	/**
+	 * Returns remote purged cache message for given host name
+	 *
+	 * @param string $host_name
+	 *
+	 * @return string
+	 */
+	public static function get_remote_caches_purged_message($host_name) {
+		$message = sprintf(
+			__('A cache purge request has been sent to %s.', 'wp-optimize'),
+			'<strong>' . esc_html($host_name) . '</strong>'
+		);
+
+		return $message;
 	}
 
 	/**

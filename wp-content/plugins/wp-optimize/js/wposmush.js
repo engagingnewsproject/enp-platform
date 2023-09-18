@@ -310,7 +310,7 @@ var WP_Optimize_Smush = function() {
 	});
 
 	/**
-	 * Diplays logs in a modal
+	 * Displays logs in a modal
 	 */
 	smush_view_logs_btn.off().on('click', function() {
 		$("#log-panel").text("Please wait, fetching logs.");
@@ -432,9 +432,9 @@ var WP_Optimize_Smush = function() {
 			image_quality = $('#custom_compression_slider').val();
 		} else {
 			// The '60' here has to be kept in sync with WP_Optimize::admin_page_wpo_images_smush()
-			image_quality = $('#enable_lossy_compression').is(":checked") ? 60 : 100;
+			image_quality = $('#enable_lossy_compression').is(":checked") ? 60 : 92;
 		}
-		lossy_compression = image_quality < 100 ? true : false;
+		lossy_compression = image_quality < 92 ? true : false;
 
 		smush_options = {
 			'compression_server': $("input[name='compression_server_" + image.attachment_id + "']:checked").val(),
@@ -1220,9 +1220,9 @@ var WP_Optimize_Smush = function() {
 			image_quality = $('#custom_compression_slider').val();
 		} else {
 			// The '90' here has to be kept in sync with WP_Optimize::admin_page_wpo_images_smush()
-			image_quality = $('#enable_lossy_compression').is(":checked") ? 60 : 100;
+			image_quality = $('#enable_lossy_compression').is(":checked") ? 60 : 92;
 		}
-		var lossy_compression = image_quality < 100 ? true : false;
+		var lossy_compression = image_quality < 92 ? true : false;
 
 		return {
 			'compression_server': $("input[name='compression_server']:checked").val(),

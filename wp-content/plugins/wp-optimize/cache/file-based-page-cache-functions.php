@@ -25,7 +25,7 @@ function wpo_cache($buffer, $flags) {
 	// This case appears to happen for unclear reasons without WP being fully loaded, e.g. https://wordpress.org/support/topic/fatal-error-since-wp-5-8-update/ . It is simplest just to short-circuit it.
 	if ('' === $buffer) return '';
 	
-	// This array records reasons why no cacheing took place. Be careful not to allow actions to proceed that should not - i.e. take note of its state appropriately.
+	// This array records reasons why no caching took place. Be careful not to allow actions to proceed that should not - i.e. take note of its state appropriately.
 	$no_cache_because = array();
 
 	if (strlen($buffer) < 255) {
@@ -156,23 +156,34 @@ function wpo_cache($buffer, $flags) {
 		}
 
 		$modified_time = time(); // Take this as soon before writing as possible
-		if (!empty($GLOBALS['wpo_cache_config']['gmt_offset'])) {
-			$modified_time += $GLOBALS['wpo_cache_config']['gmt_offset'] * 3600;
+		$timezone_string = '';
+		$utc = (float) $GLOBALS['wpo_cache_config']['gmt_offset'];
+		$modified_time += $utc * 3600;
+		
+		if (!empty($GLOBALS['wpo_cache_config']['timezone_string'])) {
+			$timezone_string = 'UTC' !== $GLOBALS['wpo_cache_config']['timezone_string'] ? $GLOBALS['wpo_cache_config']['timezone_string'] : '';
+		}
+		
+		if (!empty($timezone_string)) {
+			$timezone_postfix = "(".$timezone_string." UTC:". $utc .")";
+		} else {
+			$timezone_postfix = "(UTC:" . $utc . ")";
 		}
 
 		$add_to_footer = '';
 		
 		/**
-		 * Filter wether to display the html comment <!-- Cached by WP-Optimize ... -->
+		 * Filter whether to display the html comment <!-- Cached by WP-Optimize ... -->
 		 *
-		 * @param boolean $show - Wether to display the html comment
+		 * @param boolean $show - Whether to display the html comment
 		 * @return boolean
 		 */
 		if (preg_match('#</html>#i', $buffer) && (apply_filters('wpo_cache_show_cached_by_comment', true) || (defined('WP_DEBUG') && WP_DEBUG))) {
+			$date_time_format = $GLOBALS['wpo_cache_config']['date_format'] . ' ' . $GLOBALS['wpo_cache_config']['time_format'];
 			if (!empty($GLOBALS['wpo_cache_config']['enable_mobile_caching']) && wpo_is_mobile()) {
-				$add_to_footer .= "\n<!-- Cached by WP-Optimize - for mobile devices - https://getwpo.com - Last modified: " . gmdate('D, d M Y H:i:s', $modified_time) . " GMT -->\n";
+				$add_to_footer .= "\n<!-- Cached by WP-Optimize - for mobile devices - https://getwpo.com - Last modified: " . gmdate($date_time_format, $modified_time) . " " . $timezone_postfix . "  -->\n";
 			} else {
-				$add_to_footer .= "\n<!-- Cached by WP-Optimize - https://getwpo.com - Last modified: " . gmdate('D, d M Y H:i:s', $modified_time) . " GMT -->\n";
+				$add_to_footer .= "\n<!-- Cached by WP-Optimize - https://getwpo.com - Last modified: " . gmdate($date_time_format, $modified_time) . " " . $timezone_postfix . " -->\n";
 			}
 		}
 
@@ -777,7 +788,7 @@ endif;
 if (!function_exists('wpo_current_url')) :
 function wpo_current_url() {
 	// Note: We use `static $url` to save the first value we retrieve, as some plugins change $_SERVER later on in the process (e.g. Weglot).
-	// Otherwise this function would return a different URL at the begining and end of the cache process.
+	// Otherwise this function would return a different URL at the beginning and end of the cache process.
 	static $url = '';
 	if ('' != $url) return $url;
 	$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';

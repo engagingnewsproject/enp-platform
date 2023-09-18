@@ -24,11 +24,11 @@ jQuery('#copy-system-status' ).click( function(){
 
     jQuery('.nf-status-table thead, .nf-status-table tbody').each(function(){
         if ( jQuery( this ).is('thead') ) {
-            report = report + "\n### " + jQuery.trim( jQuery( this ).text() ) + " ###\n\n";
+            report = report + "\n### " + jQuery( this ).text().trim() + " ###\n\n";
         } else {
             jQuery('tr', jQuery( this )).each(function(){
-                var the_name    = jQuery.wc_strPad( jQuery.trim( jQuery( this ).find('td:eq(0)').text() ), 25, ' ' );
-                var the_value   = jQuery.trim( jQuery( this ).find('td:eq(1)').text() );
+                var the_name    = jQuery.wc_strPad( jQuery( this ).find('td:eq(0)').text().trim(), 25, ' ' );
+                var the_value   = jQuery( this ).find('td:eq(1)').text().trim();
                 var value_array = the_value.split( ', ' );
                 if ( value_array.length > 1 ){
                     // if value have a list of plugins ','

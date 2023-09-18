@@ -103,20 +103,6 @@ return apply_filters( 'ninja_forms_plugin_settings_advanced', array(
         'value' => ''
     ),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Rollback to v2.9.x
-    |--------------------------------------------------------------------------
-    */
-
-    'downgrade' => array(
-        'id'    => 'downgrade',
-        'type'  => 'html',
-        'html'  => '<div id="nfDowngrade" class="button">' . esc_html__( 'Downgrade', 'ninja-forms' ) . '</div>',
-        'label' => esc_html__( 'Downgrade to v2.9.x', 'ninja-forms' ),
-        'desc'  => esc_html__( 'Downgrade to the most recent 2.9.x release.', 'ninja-forms' ) . '<br /><div style="color: red">' . esc_html__( 'IMPORTANT: All 3.0 data will be removed.', 'ninja-forms' ) . '<br />' . esc_html__( 'Please export any forms or submissions you do not want to be lost during this process.', 'ninja-forms' ) . '</div>',
-    ),
-
     'trash_expired_submissions' => array(
         'id' => 'trash_expired_submissions',
         'type' => 'html',

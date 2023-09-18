@@ -30,6 +30,7 @@ class WP_Optimize_Updates {
 		'3.2.15' => array('update_3215_modify_cache_config_for_webp'),
 		'3.2.17' => array('update_3217_remove_htaccess_capability_tester_files'),
 		'3.2.18' => array('update_3218_reset_webp_serving_method'),
+		'3.2.19' => array('update_3219_modify_cache_config_for_cache_time'),
 	);
 
 	/**
@@ -227,6 +228,18 @@ class WP_Optimize_Updates {
 	private static function update_3218_reset_webp_serving_method() {
 		if (self::is_new_install()) return;
 		WP_Optimize()->get_webp_instance()->reset_webp_serving_method();
+	}
+	
+	/**
+	 * Updates cache config file with date and time format
+	 */
+	private static function update_3219_modify_cache_config_for_cache_time() {
+		if (self::is_new_install()) return;
+		$config = WPO_Cache_Config::instance()->get();
+		$cache_enabled = $config['enable_page_caching'];
+		if ($cache_enabled) {
+			WPO_Cache_Config::instance()->update($config);
+		}
 	}
 }
 

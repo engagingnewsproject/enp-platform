@@ -90,7 +90,7 @@
 						</label>
 						<label for="wpo_min_enable_minify_html">
 							<?php esc_html_e('Process HTML (works only when cache pre-loading)', 'wp-optimize'); ?>
-							<?php // Note: the comment added by WPO regarding cacheing will not be removed (it's added later in the process) ?>
+							<?php // Note: the comment added by WPO regarding caching will not be removed (it's added later in the process) ?>
 							<?php
 								$message = __('All HTML will be minified.', 'wp-optimize');
 								$message .= ' ';

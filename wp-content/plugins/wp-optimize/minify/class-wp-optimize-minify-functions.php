@@ -38,6 +38,20 @@ if (!class_exists('WP_Optimize_Options')) {
 class WP_Optimize_Minify_Functions {
 
 	/**
+	 * Applies `strip_tags` function for given array of messages
+	 *
+	 * @param array  $messages     Array of messages
+	 * @param string $allowed_tags Tags to retain in message (optional)
+	 *
+	 * @return array
+	 */
+	public static function apply_strip_tags_for_messages_array($messages, $allowed_tags = '<strong>') {
+		return array_map(function($message) use ($allowed_tags) {
+			return strip_tags($message, $allowed_tags);
+		}, $messages);
+	}
+
+	/**
 	 * Detect external or internal scripts
 	 *
 	 * @param string $src

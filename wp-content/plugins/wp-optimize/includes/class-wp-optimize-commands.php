@@ -461,8 +461,6 @@ class WP_Optimize_Commands {
 			return array('errors' => array(__('Please upload a valid settings file.', 'wp-optimize')));
 		}
 
-		$params['settings'] = stripslashes($params['settings']);
-
 		$settings = json_decode($params['settings'], true);
 
 		// check if valid json file posted (requires PHP 5.3+)
@@ -482,7 +480,7 @@ class WP_Optimize_Commands {
 		}
 
 		$wpo_browser_cache = WP_Optimize()->get_browser_cache();
-		if ($cache_settings['enable_browser_cache']) {
+		if (isset($cache_settings['enable_browser_cache']) && $cache_settings['enable_browser_cache']) {
 			$browser_cache = array(
 				'browser_cache_expire_days' => $cache_settings['browser_cache_expire_days'],
 				'browser_cache_expire_hours' => $cache_settings['browser_cache_expire_hours']

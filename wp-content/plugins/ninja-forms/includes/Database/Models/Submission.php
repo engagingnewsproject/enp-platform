@@ -462,9 +462,6 @@ class NF_Database_Models_Submission
             '_date_submitted' => esc_html__( 'Date Submitted', 'ninja-forms' )
         );
 
-        // Legacy Filter from 2.9.*
-        $field_labels = apply_filters( 'nf_subs_csv_label_array_before_fields', $field_labels, $sub_ids );
-
         $fields = Ninja_Forms()->form( $form_id )->get_fields();
 
         /*
@@ -595,9 +592,6 @@ class NF_Database_Models_Submission
         }
 
         $value_array = WPN_Helper::stripslashes( $value_array );
-
-        // Legacy Filter from 2.9.*
-        $value_array = apply_filters( 'nf_subs_csv_value_array', $value_array, $sub_ids );
 
         $csv_array[ 0 ][] = $field_labels;
         $csv_array[ 1 ][] = $value_array;

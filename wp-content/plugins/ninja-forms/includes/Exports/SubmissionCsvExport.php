@@ -208,7 +208,7 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
         $columnValues = $this->submissionAggregateCsvExportAdapter->getColumnValuesByAggregatedKey($aggregatedKey);
 
         if( array_key_exists('repeater', $columnValues) ){
-            $filteredRows = [];
+            $strippedRows = [];
             $newColumnValues = $columnValues;
             $repeaterValuesArray = [];
             unset($newColumnValues['repeater']);
@@ -219,26 +219,20 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
                     $repeaterValuesArray[$index][$repeaterFieldID] = $fieldsetValue; 
                 }
             }
-            //insert global row data in repeater rows and filter rows
+            //insert global row data in repeater rows
             foreach($repeaterValuesArray as $rowIncludingRepeaterData){
                 $row = array_merge($row, $rowIncludingRepeaterData);
-                $strippedRow = WPN_Helper::stripslashes($row);
-                // Legacy Filter from 2.9.*
-                $filteredRow = apply_filters('nf_subs_csv_value_array', $strippedRow, $this->submissionIds);
-    
-                $filteredRows["repeater"][] = $filteredRow;
+                $strippedRows["repeater"][] = WPN_Helper::stripslashes($row);
             } 
 
-            return $filteredRows;
+            return $strippedRows;
 
         } else {
             $row = array_merge($row,$columnValues);
        
             $strippedRow = WPN_Helper::stripslashes($row);
-            // Legacy Filter from 2.9.*
-            $filteredRow = apply_filters('nf_subs_csv_value_array', $strippedRow, $this->submissionIds);
     
-            return $filteredRow;
+            return $strippedRow;
         }
 
        
@@ -282,20 +276,17 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
         return $this->csvLabels;
     }
     /**
-     * Return filtered array of labels preceding fields
+     * Return array of labels preceding fields
      * 
      * @return array
      */
     protected function getFieldLabelsBeforeFields()/* :array */ {
-        $preFilterLabels = array(
+        $labels = array(
             '_seq_num' => '#',
             '_date_submitted' => esc_html__('Date Submitted', 'ninja-forms')
         );
 
-        // Legacy Filter from 2.9.*
-        $return = apply_filters('nf_subs_csv_label_array_before_fields', $preFilterLabels, $this->submissionIds);
-
-        return $return;
+        return $labels;
     }
 
     /**

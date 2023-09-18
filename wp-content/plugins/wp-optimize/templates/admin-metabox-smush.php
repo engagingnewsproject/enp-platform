@@ -17,7 +17,7 @@
 			<span tabindex="0" data-tooltip="<?php esc_attr_e('Potentially uses lossy compression to ensure maximum savings per image, the resulting images are of a slightly lower quality', 'wp-optimize');?>"><span class="dashicons dashicons-editor-help"></span> </span>
 		</label>
 		<label for="enable_lossless_compression">
-			<input type="radio" id="enable_lossless_compression" name="compression_level" class="smush-options compression_level" <?php checked($smush_options['image_quality'], 100); ?>> 
+			<input type="radio" id="enable_lossless_compression" name="compression_level" class="smush-options compression_level" <?php checked($smush_options['image_quality'], 92); ?>>
 			<?php esc_html_e('Prioritize retention of detail', 'wp-optimize');?>
 			<span tabindex="0" data-tooltip="<?php esc_attr_e('Uses lossless compression, which results in much better image quality but lower filesize savings per image', 'wp-optimize');?>"><span class="dashicons dashicons-editor-help"></span> </span>
 		</label>
@@ -27,13 +27,14 @@
 		</label>
 		<div class="smush-options custom_compression" <?php if (!$custom) echo 'style="display:none;"';?>>
 			<span class="alignleft"><?php esc_html_e('Maximum compression', 'wp-optimize');?></span>
-			<input id="custom_compression_slider" class="compression_level" data-max="<?php esc_attr_e('Maximum Compression', 'wp-optimize'); ?>"  type="range" step="5" value="<?php echo intval($smush_options['image_quality']); ?>" min="65" max="85" list="number" />
+			<input id="custom_compression_slider" class="compression_level" data-max="<?php esc_attr_e('Maximum Compression', 'wp-optimize'); ?>"  type="range" step="5" value="<?php echo intval($smush_options['image_quality']); ?>" min="65" max="90" list="number" />
 			<datalist id="number">
 				<option value="65"/>
 				<option value="70"/>
 				<option value="75"/>
 				<option value="80"/>
 				<option value="85"/>
+				<option value="90"/>
 			</datalist>
 			<span class="alignright"><?php esc_html_e('Best image quality', 'wp-optimize');?></span>
 		</div>

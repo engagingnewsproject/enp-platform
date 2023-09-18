@@ -34,7 +34,7 @@
                     }
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Intervention\\HttpAuth\\": "src/"
@@ -92,7 +92,7 @@
                     "dev-master": "0.5.1-dev"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "classmap": [
                     "lessc.inc.php"
@@ -129,7 +129,7 @@
             "version_normalized": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:DavidAnderson684/minify.git",
+                "url": "https://github.com/DavidAnderson684/minify.git",
                 "reference": "aa9c91d9f7d871b8f886e553da568e9b6768d01b"
             },
             "dist": {
@@ -158,7 +158,7 @@
                 "bin/minifyjs"
             ],
             "type": "library",
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "MatthiasMullie\\Minify\\": "src/"
@@ -183,6 +183,15 @@
                 "js",
                 "minifier",
                 "minify"
+            ],
+            "support": {
+                "source": "https://github.com/DavidAnderson684/minify/tree/master"
+            },
+            "funding": [
+                {
+                    "type": "github",
+                    "url": "https://github.com/matthiasmullie"
+                }
             ],
             "install-path": "../matthiasmullie/minify"
         },
@@ -210,7 +219,7 @@
             },
             "time": "2019-02-05T23:41:09+00:00",
             "type": "library",
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "MatthiasMullie\\PathConverter\\": "src/"
@@ -304,7 +313,7 @@
                     "dev-main": "2.x-dev"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Monolog\\": "src/Monolog"
@@ -368,7 +377,7 @@
             },
             "time": "2022-12-13T20:15:15+00:00",
             "type": "library",
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "JSMin\\": "src/"
@@ -447,7 +456,7 @@
                     "dev-master": "3.0.x-dev"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "classmap": [
                     "lib/"
@@ -499,7 +508,7 @@
             },
             "time": "2023-02-13T07:32:41+00:00",
             "type": "library",
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Props\\": [
@@ -561,7 +570,7 @@
                     "dev-master": "3.4.x-dev"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Pimple": "src/"
@@ -613,7 +622,7 @@
                     "dev-master": "2.0.x-dev"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Psr\\Container\\": "src/"
@@ -669,7 +678,7 @@
                     "dev-master": "1.1.x-dev"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Psr\\Log\\": "Psr/Log/"
@@ -735,7 +744,7 @@
                     "test": "Launches the preconfigured PHPUnit"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "ExecWithFallback\\": "src/"
@@ -815,7 +824,7 @@
                     "test": "Launches the preconfigured PHPUnit"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "FileUtil\\": "src/"
@@ -891,7 +900,7 @@
                     "test": "Launches the preconfigured PHPUnit"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "ImageMimeTypeGuesser\\": "src/"
@@ -968,7 +977,7 @@
                     "test": "Launches the preconfigured PHPUnit"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "ImageMimeTypeSniffer\\": "src/"
@@ -1046,7 +1055,7 @@
                     "test": "Launches the preconfigured PHPUnit"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "LocateBinaries\\": "src/"
@@ -1093,7 +1102,7 @@
             "version_normalized": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:DavidAnderson684/webp-convert.git",
+                "url": "https://github.com/DavidAnderson684/webp-convert.git",
                 "reference": "d51a1799d12997696681a535d1aa2d4354ea8b8d"
             },
             "dist": {
@@ -1133,7 +1142,7 @@
                     "test": "Launches the preconfigured PHPUnit"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "WebPConvert\\": "src/"
@@ -1225,6 +1234,19 @@
                 "png2webp",
                 "webp"
             ],
+            "support": {
+                "source": "https://github.com/DavidAnderson684/webp-convert/tree/master"
+            },
+            "funding": [
+                {
+                    "type": "github",
+                    "url": "https://github.com/rosell-dk"
+                },
+                {
+                    "type": "ko_fi",
+                    "url": "https://ko-fi.com/rosell"
+                }
+            ],
             "install-path": "../rosell-dk/webp-convert"
         },
         {
@@ -1233,7 +1255,7 @@
             "version_normalized": "dev-master",
             "source": {
                 "type": "git",
-                "url": "git@github.com:DavidAnderson684/simplehtmldom.git",
+                "url": "https://github.com/DavidAnderson684/simplehtmldom.git",
                 "reference": "56496c8ced3bfcf3518c98d89cdcd40404ea5ba5"
             },
             "dist": {
@@ -1260,7 +1282,7 @@
             "time": "2023-03-08T10:06:37+00:00",
             "default-branch": true,
             "type": "library",
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "classmap": [
                     "./"
@@ -1371,7 +1393,7 @@
                 "cssmin"
             ],
             "type": "library",
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "tubalmartin\\CssMin\\": "src"

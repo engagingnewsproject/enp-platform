@@ -140,7 +140,7 @@ abstract class WP_Optimization {
 	 * Convert all applicable characters to HTML entities in array. Used to prepare data for output in browser for preview.
 	 *
 	 * @param  array $array        source array
-	 * @param  array $exclude_keys what items shoudn't be encoded.
+	 * @param  array $exclude_keys what items shouldn't be encoded.
 	 *
 	 * @return array
 	 */

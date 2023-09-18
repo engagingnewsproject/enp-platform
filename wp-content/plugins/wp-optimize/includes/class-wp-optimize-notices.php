@@ -308,7 +308,7 @@ class WP_Optimize_Notices extends Updraft_Notices_1_2 {
 	}
 
 	/**
-	 * This method calls the parent verson and will work out if the user is using a non english language and if so returns true so that they can see the translation advert.
+	 * This method calls the parent version and will work out if the user is using a non english language and if so returns true so that they can see the translation advert.
 	 *
 	 * @param  String $plugin_base_dir the plugin base directory
 	 * @param  String $product_name    the name of the plugin

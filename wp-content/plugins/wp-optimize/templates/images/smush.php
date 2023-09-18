@@ -50,7 +50,7 @@
 		<div class="compression_options">
 			<h3><?php esc_html_e('Compression options', 'wp-optimize');?></h3>
 			<input type="radio" id="enable_lossy_compression" name="compression_level" <?php checked($smush_options['image_quality'], 60); ?> class="smush-options compression_level"> 
-			<label for="enable_lossy_compression"><?php _e('Prioritize maximum compression', 'wp-optimize');?></label>
+			<label for="enable_lossy_compression"><?php esc_html_e('Prioritize maximum compression', 'wp-optimize');?></label>
 			<?php
 				$message = __('Uses lossy compression to ensure maximum savings per image.', 'wp-optimize');
 				$message .= ' ';
@@ -58,7 +58,7 @@
 			?>
 			<span tabindex="0" data-tooltip="<?php echo esc_attr($message); ?>"><span class="dashicons dashicons-editor-help"></span> </span>
 			<br>
-			<input type="radio" id="enable_lossless_compression" <?php checked($smush_options['image_quality'], 100); ?>name="compression_level" class="smush-options compression_level"> 
+			<input type="radio" id="enable_lossless_compression" <?php checked($smush_options['image_quality'], 92); ?>name="compression_level" class="smush-options compression_level">
 			<label for="enable_lossless_compression"><?php esc_html_e('Prioritize retention of detail', 'wp-optimize');?></label>
 			<span tabindex="0" data-tooltip="<?php esc_attr_e('Uses lossless compression, which results in much better image quality but lower file size savings per image', 'wp-optimize');?>"><span class="dashicons dashicons-editor-help"></span> </span>
 			<br>
@@ -67,13 +67,14 @@
 			<br>
 			<div class="smush-options custom_compression" <?php if (!$custom) echo 'style="display:none;"';?> >
 				<span class="slider-start"><?php esc_html_e('Maximum compression', 'wp-optimize');?></span>
-				<input id="custom_compression_slider" class="compression_level" data-max="<?php esc_attr_e('Maximum Compression', 'wp-optimize'); ?>"  type="range" step="5" value="<?php echo esc_attr($smush_options['image_quality']); ?>" min="65" max="85" list="number" />
+				<input id="custom_compression_slider" class="compression_level" data-max="<?php esc_attr_e('Maximum Compression', 'wp-optimize'); ?>"  type="range" step="5" value="<?php echo esc_attr($smush_options['image_quality']); ?>" min="65" max="90" list="number" />
 				<datalist id="number">
 					<option value="65"/>
 					<option value="70"/>
 					<option value="75"/>
 					<option value="80"/>
 					<option value="85"/>
+					<option value="90"/>
 				</datalist>
 				<span class="slider-end"><?php esc_html_e('Best image quality', 'wp-optimize');?></span>
 			</div>
