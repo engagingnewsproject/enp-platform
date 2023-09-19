@@ -27,8 +27,11 @@ class Archive extends PostQuery
         $this->posts = $this->queryIterator->get_posts();
         $this->pagination = $this->pagination();
         $this->taxonomy = $this->queriedObject->taxonomy;
+
         $this->slug = $this->queriedObject->slug;
-        
+				// echo '<pre>';
+				// var_dump( $this->taxonomy );
+				// echo '</pre>';
         $this->setIntro();
     }
 
@@ -87,6 +90,10 @@ class Archive extends PostQuery
 		}
 		else if( get_class($this->queriedObject) === 'WP_Term' ) {
 			$title = $this->queriedObject->name;
+			$term = $this->queriedObject->taxonomy;
+			if(str_contains($term, '-tags')) {
+				$title = 'tag - ' . $title;
+			}
 		} 
 		else if ( get_class($this->queriedObject) === 'WP_Post_Type' ) {
 			$title = $this->queriedObject->label;
@@ -98,7 +105,11 @@ class Archive extends PostQuery
 		else if(get_search_query()) {
 			$title = 'Search: '. get_search_query();
 		}
-
+		else {
+			echo '<pre>';
+			var_dump( get_query_var('query_name') );
+			echo '</pre>';
+		}
 		return $title;
 	}
 
