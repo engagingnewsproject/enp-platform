@@ -226,7 +226,7 @@
 		@include media($phablet) {
 			display: flex;
 			flex-flow: row wrap;
-			font-size: 21px;
+			font-size: 19px;
 		}
 		& p, ul, ol {
 			max-width: 775px;
