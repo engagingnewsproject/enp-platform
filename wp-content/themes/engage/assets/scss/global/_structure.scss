@@ -57,7 +57,8 @@
 }
 
 .container {
-	margin: 0;
+	max-width: 1400px;
+	margin: auto;
 }
 
 .container--sm {
@@ -109,4 +110,9 @@
 
 figure {
 	max-width: 100%;
+}
+@include media($laptop) {
+	.article figure.alignnone {
+		margin-left: 0;
+	}
 }

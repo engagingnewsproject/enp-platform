@@ -10,10 +10,10 @@
 						<strong><?php esc_html_e( 'Ninja Forms Dashboard', 'ninja-forms' ); ?></strong>
 				</div>
 				<?php
-					$slimPromo = new NF_Admin_SlimPromo();
-					if ( $slimPromo->maybeShowSlimPromo() ) {
-						$slimPromo->getNoticeHtml();
-					}
+			//		$slimPromo = new NF_Admin_SlimPromo();
+			//		if ( $slimPromo->maybeShowSlimPromo() ) {
+			//			$slimPromo->getNoticeHtml();
+			//		}
 				?>
 		</header>
 

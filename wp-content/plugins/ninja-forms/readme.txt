@@ -4,7 +4,7 @@ Tags: forms, contact form, email form, form builder, custom form, pdf form, regi
 
 Requires at least: 6.0
 Tested up to: 6.3.1
-Stable tag: 3.6.30
+Stable tag: 3.6.31
 
 License: GPLv2 or later
 
@@ -304,17 +304,23 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.6.30 (14 September 2023)
+= 3.6.31 (19 September 2023)
 
 * Bug Fixes: *
-- Form should now submit properly if submit button label and processing label match.
-- Ensure forms display on themes using wp_localize_script
+- Fixes form not displaying and form stuck on processing from jQuery trim() failure on non-string
 
 * Other: *
-- Remove support for NF 2.9
-- JS dependency updates: update to React 18, WordPress block editor/scripts/server side render/i18n, babel-jest, core-js
+- Remove old promotions banner
 
 == Changelog ==
+= 3.6.31 (19 September 2023)
+
+* Bug Fixes: *
+- Fixes form not displaying and form stuck on processing from jQuery trim() failure on non-string
+
+* Other: *
+- Remove old promotions banner
+
 = 3.6.30 (14 September 2023)
 
 * Bug Fixes: *
