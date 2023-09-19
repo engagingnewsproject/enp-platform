@@ -31,7 +31,10 @@
 			</div>
 
 		{% else %}
+
+		<div class="archive__content">
 			{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
+			</div>
 		{% endif %}
 	</div>
 {% endblock %}
