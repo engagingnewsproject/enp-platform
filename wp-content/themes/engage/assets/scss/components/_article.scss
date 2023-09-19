@@ -226,6 +226,13 @@
 		@include media($phablet) {
 			display: flex;
 			flex-flow: row wrap;
+			font-size: 21px;
+		}
+		& p, ul, ol {
+			max-width: 775px;
+		}
+		& figure.aligncenter {
+				margin: 1.6rem 0;
 		}
 		&.full-width {
 			display: flex;
@@ -359,6 +366,7 @@
 			grid-column: 2;
 			grid-row: 2;
 			padding-left: 0;
+			max-width: 775px;
 		}
 	}
 	// sidebar
