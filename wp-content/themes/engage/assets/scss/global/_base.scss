@@ -1,5 +1,7 @@
 body {
   background: #fff;
+  -webkit-font-smoothing: antialiased; // Improving Font Rendering With CSS (LINK: https://betterprogramming.pub/improving-font-rendering-with-css-3383fc358cbc)
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .main-body-wrapper {
