@@ -1,0 +1,39 @@
+/*
+ * CSS for AMP
+ */
+
+/* Standard Buttons */
+html[amp] .addtoany_list a {
+	padding: 0 4px;
+}
+
+html[amp] .addtoany_list a > img {
+	border-radius: 4px;
+	display: inline-block;
+}
+
+/* Floating Buttons */
+html[amp] .a2a_floating_style {
+	overflow: hidden;
+	position: fixed;
+	z-index: 9999995;
+}
+
+/* Horizontal Floating Buttons */
+html[amp] .a2a_floating_style.a2a_default_style {
+	display: flex;
+	width: 100%;
+}
+
+html[amp] .a2a_floating_style.a2a_default_style a {
+	flex: 1;
+}
+
+html[amp] .a2a_floating_style.a2a_default_style a > img {
+	width: 100%;
+}
+
+/* Vertical Floating Buttons */
+html[amp] .a2a_floating_style.a2a_vertical_style a {
+	display: block;
+}
