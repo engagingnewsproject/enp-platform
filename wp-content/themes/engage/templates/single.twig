@@ -1,7 +1,7 @@
 {% extends "base.twig" %}
 
 {% block content %}
-    <div class="post__wrapper wrapper--pad">
+    {# <div class="post__wrapper wrapper--pad"> #}
         <div class="article__wrapper container container--lg">
             {% set hasVideo = post.getVideoEmbedLink and post.post_type != 'team' and post.post_type != 'board' %}
             {% set hasFeaturedImage = post.thumbnail.src and post.post_type != 'team' and post.post_type != 'board' %}
@@ -10,14 +10,6 @@
                 <h1 class="article__title article__title--{{ post.post_type }}">{{ post.title }}</h1>
 
                 {% include "partial/article-meta.twig" %}
-
-                {% if post.post_type != "team" and post.post_type != "board" %}
-                    {% if post.vertical.slug == "media-ethics" %}
-                        <aside class="{{post.vertical.slug}}-sidebar widget">
-                          {{ meiSidebar }}
-                        </aside>
-                    {% endif %}
-                {% endif %}
 
                 <div class="article__content article__content--{{ post.post_type }}">
                   {% if hasVideo %}
@@ -58,6 +50,13 @@
                   {% endif %}
                     {{ post.content }}
                 </div>
+                {% if post.post_type != "team" and post.post_type != "board" %}
+                    {% if post.vertical.slug == "media-ethics" %}
+                        <aside class="{{post.vertical.slug}}-sidebar widget">
+                          {{ meiSidebar }}
+                        </aside>
+                    {% endif %}
+                {% endif %}
             </article>
           </div>
         {% if post.post_type != "team" and post.post_type != "board" %}
@@ -65,5 +64,5 @@
             {{ primary }}
           </aside>
         {% endif %}
-      </div>
+      {# </div> #}
 {% endblock %}
