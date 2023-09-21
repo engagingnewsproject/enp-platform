@@ -126,12 +126,12 @@ $font-family-serif: Georgia, "Times New Roman", Times, serif !default;
 $font-family-anton: 'Anton', sans-serif;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
 $font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace !default;
+// Font sizes matching https://journalism.utexas.edu/
+$font-size-base: 18px !default;
 
-$font-size-base: 16px !default;
-
-$font-size-h1: floor(($font-size-base * 2.15)) !default; // ~36px
-$font-size-h2: floor(($font-size-base * 1.75)) !default; // ~30px
-$font-size-h3: ceil(($font-size-base * 1.2)) !default; // ~24px
+$font-size-h1: 3.0625rem; // 49px
+$font-size-h2: 2.4375rem; // 39px
+$font-size-h3: 1.5625rem; // 25px
 $font-size-h4: ceil(($font-size-base * 1)) !default; // ~18px
 $font-size-h5: $font-size-base !default;
 $font-size-h6: ceil(($font-size-base * 0.85)) !default; // ~12px
