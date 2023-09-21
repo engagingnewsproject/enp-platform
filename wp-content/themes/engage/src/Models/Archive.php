@@ -29,9 +29,7 @@ class Archive extends PostQuery
         $this->taxonomy = $this->queriedObject->taxonomy;
 
         $this->slug = $this->queriedObject->slug;
-				// echo '<pre>';
-				// var_dump( $this->taxonomy );
-				// echo '</pre>';
+				
         $this->setIntro();
     }
 
@@ -104,11 +102,6 @@ class Archive extends PostQuery
 		} 
 		else if(get_search_query()) {
 			$title = 'Search: '. get_search_query();
-		}
-		else {
-			echo '<pre>';
-			var_dump( get_query_var('query_name') );
-			echo '</pre>';
 		}
 		return $title;
 	}
