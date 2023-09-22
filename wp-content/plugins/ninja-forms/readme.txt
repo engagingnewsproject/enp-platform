@@ -4,7 +4,7 @@ Tags: forms, contact form, email form, form builder, custom form, pdf form, regi
 
 Requires at least: 6.0
 Tested up to: 6.3.1
-Stable tag: 3.6.31
+Stable tag: 3.6.32
 
 License: GPLv2 or later
 
@@ -304,15 +304,20 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.6.31 (19 September 2023)
+= 3.6.32 (21 September 2023)
 
 * Bug Fixes: *
-- Fixes form not displaying and form stuck on processing from jQuery trim() failure on non-string
+- rePrints data on the template for the frontend in order to prevent conflicts with other plugins
+- checks if the description of fields in the builder is set before running trim
 
-* Other: *
-- Remove old promotions banner
 
 == Changelog ==
+= 3.6.32 (21 September 2023)
+
+* Bug Fixes: *
+- rePrints data on the template for the frontend in order to prevent conflicts with other plugins
+- checks if the description of fields in the builder is set before running trim
+
 = 3.6.31 (19 September 2023)
 
 * Bug Fixes: *
