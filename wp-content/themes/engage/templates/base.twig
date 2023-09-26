@@ -1,6 +1,9 @@
 {% if the_post_template == 'annual-report-template.php' %}
 	{% set wrapper_padding = ' flex-grid' %}
 	{% set brand_bar = false %}
+{% elseif post.post_type == 'research' %}
+	{% set wrapper_padding = '' %}
+	{% set brand_bar = true %}
 {% else %}
 	{% set wrapper_padding = ' wrapper--pad' %}
 	{% set brand_bar = true %}
