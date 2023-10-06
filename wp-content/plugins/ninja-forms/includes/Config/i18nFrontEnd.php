@@ -87,7 +87,7 @@ return apply_filters( 'ninja_forms_i18n_front_end', array(
                                                 esc_html__( 'Fr', 'ninja-forms' ),
                                                 esc_html__( 'Sa', 'ninja-forms' )
                                             ),
-    'recaptchaConsentMissing'               =>  esc_html__( "reCapctha validation couldn't load.", 'ninja-forms' ),
+    'recaptchaConsentMissing'               =>  esc_html__( "reCaptcha validation couldn't load.", 'ninja-forms' ),
     'recaptchaMissingCookie'                =>  esc_html__( "reCaptcha v3 validation couldn't load the cookie needed to submit the form.", 'ninja-forms' ),
     'recaptchaConsentEvent'                 =>  esc_html__( 'Accept reCaptcha cookies before sending the form.', 'ninja-forms' ),
 ));

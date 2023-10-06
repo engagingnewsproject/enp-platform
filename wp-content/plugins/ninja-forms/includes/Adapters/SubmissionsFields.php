@@ -5,7 +5,7 @@ class NF_Adapters_SubmissionsFields implements ArrayAccess, Iterator
     protected $fields;
     protected $fields_by_key = [];
 
-    public function __construct($fields = [], $form_id)
+    public function __construct($fields, $form_id)
     {
         foreach ($fields as $field) {
             if (is_array($field)) {

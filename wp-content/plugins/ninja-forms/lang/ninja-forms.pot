@@ -4211,7 +4211,7 @@ msgid "of"
 msgstr ""
 
 #: includes/Config/i18nFrontEnd.php:90
-msgid "reCapctha validation couldn't load."
+msgid "reCaptcha validation couldn't load."
 msgstr ""
 
 #: includes/Config/i18nFrontEnd.php:91

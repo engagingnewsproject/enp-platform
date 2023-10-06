@@ -370,7 +370,7 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             'editFormText'      => esc_html__( 'Edit Form', 'ninja-forms' ),
             'mobile'            => ( wp_is_mobile() ) ? 1: 0,
             'currencySymbols'   => array_merge( array( '' => Ninja_Forms()->get_setting( 'currency_symbol' ) ), Ninja_Forms::config( 'CurrencySymbol' ) ),
-            'dateFormat'        => Ninja_Forms()->get_setting( 'date_format' ),
+            'dateFormat'        => !empty( Ninja_Forms()->get_setting('date_format') ) ? Ninja_Forms()->get_setting('date_format') : get_option('date_format'),
             'formID'            => isset( $_GET[ 'form_id' ] ) ? absint( $_GET[ 'form_id' ] ) : 0,
             'home_url_host'     => $home_url[ 'host' ],
             'publicLinkStructure' => $public_link_structure,

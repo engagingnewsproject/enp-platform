@@ -4,7 +4,7 @@ Tags: forms, contact form, email form, form builder, custom form, pdf form, regi
 
 Requires at least: 6.0
 Tested up to: 6.3.1
-Stable tag: 3.6.32
+Stable tag: 3.6.33
 
 License: GPLv2 or later
 
@@ -304,12 +304,30 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.6.32 (21 September 2023)
+= 3.6.33 (3 October 2023)
 
 * Bug Fixes: *
-- rePrints data on the template for the frontend in order to prevent conflicts with other plugins
-- checks if the description of fields in the builder is set before running trim
+- Error re-triggering email action when PDF is active
+- Display anonymized repeater field data in submissions
+- Error on missing class name
+- Remove Max-width CSS being applied to form content
+- misspelled text fixes
 
+* Other *
+- Dependencies bumps
+
+== Changelog ==
+= 3.6.33 (3 October 2023)
+
+* Bug Fixes: *
+- Error re-triggering email action when PDF is active
+- Display anonymized repeater field data in submissions
+- Error on missing class name
+- Remove Max-width CSS being applied to form content
+- misspelled text fixes
+
+* Other *
+- Dependencies bumps
 
 == Changelog ==
 = 3.6.32 (21 September 2023)

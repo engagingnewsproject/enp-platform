@@ -558,10 +558,16 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
             return new WP_Error( 'malformed_request', __('This request is missing data', 'ninja-forms') );
         }
 
+        $formSettings = Ninja_Forms()->form($data->formID)->get_settings();
+
+
         $data_send = [
             'fields'    => [],
-            'fields_by_key' => []
+            'fields_by_key' => [],
+            'settings'=>$formSettings,
+            'form_id'=>$data->formID
         ];
+
         foreach($field_values as $index => $field_value){   
             $id = str_replace('_field_', '', $index);
             $model = Ninja_Forms()->form($data->formID)->get_field( $id );

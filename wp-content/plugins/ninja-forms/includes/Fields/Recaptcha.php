@@ -23,7 +23,7 @@ class NF_Fields_Recaptcha extends NF_Abstracts_Field
     {
         parent::__construct();
 
-        $this->_nicename = esc_html__( 'Recaptcha', 'ninja-forms' );
+        $this->_nicename = esc_html__( 'Recaptcha v2', 'ninja-forms' );
 
         $this->_settings[ 'size '] = array(
             'name' => 'size',
