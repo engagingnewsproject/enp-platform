@@ -1,9 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="5px" height="4px" viewBox="0 0 5 4" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>Rectangle</title>
-    <g id="Section-5---Quote" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.440074574">
-        <g id="r" transform="translate(-114.000000, -33.000000)" fill="#000000">
-            <rect id="Rectangle" x="114" y="33" width="5" height="4"></rect>
-        </g>
-    </g>
-</svg>
+<svg width="5" height="4" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h5v4H0z" fill="#000" fill-rule="evenodd" fill-opacity=".44"/></svg>
