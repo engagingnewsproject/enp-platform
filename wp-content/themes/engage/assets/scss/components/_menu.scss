@@ -83,7 +83,7 @@
 			margin-bottom: 10px;
 		}
 		@include media($tablet) {
-			// font-size: 1rem;
+			font-size: 1rem;
 		}
 		@include media($laptop) {
 			margin-left: $spacer;
