@@ -23,7 +23,7 @@
     "cssnano": "^6.0.1",
     "img-loader": "^4.0.0",
     "laravel-mix": "^6.0.19",
-    "postcss": "^8.4.24",
+    "postcss": "^8.4.31",
     "postcss-import": "^15.1.0",
     "resolve-url-loader": "^5.0.0",
     "sass": "^1.62.1",
