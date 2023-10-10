@@ -129,7 +129,7 @@ $font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace !defau
 // Font sizes matching https://journalism.utexas.edu/
 $font-size-base: 16px !default;
 
-$font-size-h1: floor(($font-size-base * 2.15)) !default; // ~36px
+$font-size-h1: floor(($font-size-base * 2.25)) !default; // ~36px
 $font-size-h2: floor(($font-size-base * 1.75)) !default; // ~30px
 $font-size-h3: ceil(($font-size-base * 1.2)) !default; // ~24px
 $font-size-h4: ceil(($font-size-base * 1)) !default; // ~18px
@@ -160,7 +160,8 @@ $spacer-huge: $spacer * 7;
 $circle-radius: 50%;
 
 // content widths
-$max-content: 580px;
+$max-x2-content: 640px;
+$max-content: 600px;
 $min-content: 480px;
 $max-content-sm: 250px;
 $min-content-sm: 200px;
