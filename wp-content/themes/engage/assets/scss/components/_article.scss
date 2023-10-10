@@ -479,14 +479,14 @@
 /* Lightbox image */
 #lightbox-image {
   max-width: 90%;
-  max-height: 90%;
+  max-height: 80%;
   margin: 60px auto 10px auto;
   display: block;
 	border: solid $black-grey 20px;
 }
 
 #image-lightbox figcaption {
-	max-width: 90%;
+	max-width: 70%;
 	color: #fff;
 	& * {
 		color: #fff;
