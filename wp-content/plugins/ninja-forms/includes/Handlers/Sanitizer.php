@@ -10,7 +10,9 @@ class Sanitizer{
     const DISALLOWED_SCRIPT_TRIGGERS=[
         '/<\s*(script)/i', // < script (includes empty spaces after opening tag)
         '/(onload)/i', // word 'onload' 
-        '/(onerror)/i' // word 'onerror
+        '/(onerror)/i', // word 'onerror'
+        '/(onfocus)/i', // word 'onfocus'
+        '/(javascript)/i' // word 'javascript'
     ];
 
     /**

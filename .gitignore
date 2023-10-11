@@ -74,3 +74,4 @@ wp-content/themes/engage/vendor/twig/twig/.gitignore
 wp-content/themes/engage/vendor/upstatement/routes/.gitignore
 .htaccess-OG
 wp-content/db.php
+wp-content/plugins/php-compatibility-checker

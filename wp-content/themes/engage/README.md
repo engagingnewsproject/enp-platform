@@ -108,3 +108,7 @@ Get directory sizes:
 or to sort
 
 `$ du -h --max-depth 1|sort -h`
+
+## GitHub History
+
+[Oldest commits page](https://github.com/engagingnewsproject/enp-platform/commits/master?after=78bbeb19687639d0cdde4f988e90ac68699e118b+2484&branch=master&qualified_name=refs%2Fheads%2Fmaster)

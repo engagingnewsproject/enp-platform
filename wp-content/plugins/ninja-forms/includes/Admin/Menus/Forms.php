@@ -546,7 +546,7 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
      */
     private function removeScriptTriggers(string $string): string
     {
-        $return = NinjaForms\Includes\Handlers\Sanitizer::preventScriptTriggerInHtmlOutput($string);
+        $return =wp_kses_post( NinjaForms\Includes\Handlers\Sanitizer::preventScriptTriggerInHtmlOutput($string));
 
         return $return;
     }
