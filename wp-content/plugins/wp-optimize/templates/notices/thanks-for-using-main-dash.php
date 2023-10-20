@@ -6,7 +6,7 @@
 
 	<h3><?php esc_html_e('Thank you for installing WP-Optimize!', 'wp-optimize'); ?></h3>
 
-	<a href="https://getwpo.com" target="_blank"><img style="border: 0px; float: right; width: 150px; margin-right: 40px;" alt="WP-Optimize" title="WP-Optimize" src="<?php echo esc_url(WPO_PLUGIN_URL.'/images/logo/wpo_logo_small.png'); ?>"></a>
+	<a href="https://getwpo.com" target="_blank"><img style="border: 0px; float: right; width: 150px; margin-right: 40px;" alt="WP-Optimize" title="WP-Optimize" src="<?php echo esc_url(WPO_PLUGIN_URL.'images/logo/wpo_logo_small.png'); ?>"></a>
 
 	<div id="wp-optimize-dashnotice-wrapper" style="max-width: 800px;">
 

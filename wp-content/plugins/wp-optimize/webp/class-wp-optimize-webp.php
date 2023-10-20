@@ -14,12 +14,12 @@ class WP_Optimize_WebP {
 	 * Constructor
 	 */
 	private function __construct() {
+		$this->_should_use_webp = WP_Optimize()->get_options()->get_option('webp_conversion');
 		if ($this->should_run_webp_conversion_test()) {
 			$this->set_converter_status();
 		}
 
 		if ($this->get_webp_conversion_test_result()) {
-			$this->maybe_setup_htaccess_file();
 			if (!is_admin()) {
 				$this->maybe_decide_webp_serve_method();
 			}
@@ -58,16 +58,6 @@ class WP_Optimize_WebP {
 	}
 
 	/**
-	 * May be set up `uploads/.htaccess` file
-	 */
-	private function maybe_setup_htaccess_file() {
-		$this->_should_use_webp = WP_Optimize()->get_options()->get_option('webp_conversion');
-		if ($this->_should_use_webp) {
-			$this->setup_htaccess_file();
-		}
-	}
-
-	/**
 	 * If webp images should be used, then decide whether it is possible to server webp
 	 * using rewrite rules or using altered html method
 	 */
@@ -100,7 +90,7 @@ class WP_Optimize_WebP {
 	 */
 	private function is_webp_redirection_possible() {
 		$redirection_possible = WP_Optimize()->get_options()->get_option('redirection_possible');
-		if ('true' === $redirection_possible) return true;
+		if (!empty($redirection_possible)) return 'true' === $redirection_possible;
 		return $this->run_webp_serving_self_test();
 	}
 
@@ -157,6 +147,7 @@ class WP_Optimize_WebP {
 	 * @return void
 	 */
 	private function save_htaccess_rules() {
+		$this->setup_htaccess_file();
 		$this->add_webp_mime_type();
 		$htaccess_comment_section = 'WP-Optimize WebP Rules';
 		if ($this->_htaccess->is_commented_section_exists($htaccess_comment_section)) return;
@@ -300,15 +291,72 @@ class WP_Optimize_WebP {
 	}
 
 	/**
-	 * Resets webp serving method by setting all flags status to false
+	 * Resets webp serving method by running self test, if needed purges cache and empties `uploads/.htaccess` file
 	 */
 	public function reset_webp_serving_method() {
-		WP_Optimize()->get_page_cache()->purge();
-		WP_Optimize()->get_webp_instance()->empty_htaccess_file();
+		$this->reset_webp_options();
+		$this->run_self_test();
+		list($old_redirection_possible, $new_redirection_possible) = $this->get_old_and_new_redirection_possibility();
+		$this->maybe_purge_cache($old_redirection_possible, $new_redirection_possible);
+		$this->maybe_empty_htaccess_file($new_redirection_possible);
+	}
+	
+	/**
+	 * Resets WebP related options
+	 */
+	private function reset_webp_options() {
 		$options = WP_Optimize()->get_options();
+		$options->update_option('old_redirection_possible', $options->get_option('redirection_possible'));
 		$options->update_option('webp_conversion_test', false);
 		$options->update_option('webp_converters', false);
-		$options->update_option('redirection_possible', 'false');
+		$options->update_option('redirection_possible', false);
+	}
+	
+	/**
+	 * Running self test to find available converters and possibility of serving webp using redirection method
+	 */
+	private function run_self_test() {
+		$this->set_converter_status();
+		if ($this->get_webp_conversion_test_result()) {
+			$this->save_htaccess_rules();
+			$this->run_webp_serving_self_test();
+		}
+	}
+	
+	/**
+	 * Gets old and new redirection possibility values
+	 *
+	 * @return array
+	 */
+	private function get_old_and_new_redirection_possibility() {
+		$options = WP_Optimize()->get_options();
+		return array(
+			$options->get_option('old_redirection_possible'),
+			$options->get_option('redirection_possible'),
+		);
+	}
+	
+	/**
+	 * Cache is cleared when there is a change in the potential for serving WebP using redirection.
+	 *
+	 * @param string $old_redirection_possible
+	 * @param string $new_redirection_possible
+	 */
+	private function maybe_purge_cache($old_redirection_possible, $new_redirection_possible) {
+		if ($old_redirection_possible !== $new_redirection_possible) {
+			WP_Optimize()->get_page_cache()->purge();
+		}
+	}
+	
+	/**
+	 * Remove redirection rules from `uploads/.htaccess` file if redirection is not possible
+	 *
+	 * @param string $new_redirection_possible
+	 */
+	private function maybe_empty_htaccess_file($new_redirection_possible) {
+		if ('false' === $new_redirection_possible) {
+			$this->empty_htaccess_file();
+		}
 	}
 
 	/**

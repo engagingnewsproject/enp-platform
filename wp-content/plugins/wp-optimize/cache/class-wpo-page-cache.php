@@ -443,7 +443,7 @@ class WPO_Page_Cache {
 		 */
 		$this->should_purge = apply_filters('wpo_purge_page_cache_on_activate_deactivate_plugin', true);
 		$purge_actions = array(
-			'deactivate_' . plugin_basename(WPO_PLUGIN_MAIN_PATH . '/wp-optimize.php'),
+			'deactivate_' . plugin_basename(WPO_PLUGIN_MAIN_PATH . 'wp-optimize.php'),
 			'deactivate_plugin',
 			'activated_plugin',
 		);

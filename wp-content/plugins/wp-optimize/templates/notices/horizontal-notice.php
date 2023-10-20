@@ -5,7 +5,7 @@
 	<div class="updraft-ad-container updated below-h2">
 	<div class="updraft_notice_container updraft_review_notice_container">
 		<div class="updraft_advert_content_left_extra">
-			<img src="<?php echo esc_url(WPO_PLUGIN_URL.'/images/'.$image);?>" width="85" alt="<?php esc_attr_e('notice image', 'wp-optimize');?>">
+			<img src="<?php echo esc_url(WPO_PLUGIN_URL.'images/'.$image);?>" width="85" alt="<?php esc_attr_e('notice image', 'wp-optimize');?>">
 		</div>
 		<div class="updraft_advert_content_right">
 			<p>
@@ -35,7 +35,7 @@
 <div class="updraft-ad-container updated below-h2">
 	<div class="updraft_notice_container">
 		<div class="updraft_advert_content_left">
-			<img src="<?php echo esc_url(WPO_PLUGIN_URL.'/images/'.$image); ?>" width="60" height="60" alt="<?php esc_attr_e('notice image', 'wp-optimize'); ?>">
+			<img src="<?php echo esc_url(WPO_PLUGIN_URL.'images/'.$image); ?>" width="60" height="60" alt="<?php esc_attr_e('notice image', 'wp-optimize'); ?>">
 		</div>
 		<div class="updraft_advert_content_right">
 			<h3 class="updraft_advert_heading">

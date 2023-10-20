@@ -13,26 +13,26 @@ ini_set('pcre.recursion_limit', 5000000);
 
 // Include PHP Minify [1.3.60] - https://github.com/matthiasmullie/minify
 if (!class_exists('\MatthiasMullie\Minify\Minify')) {
-	require_once WPO_PLUGIN_MAIN_PATH.'/vendor/matthiasmullie/minify/src/Minify.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'/vendor/matthiasmullie/minify/src/CSS.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'/vendor/matthiasmullie/minify/src/JS.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'/vendor/matthiasmullie/minify/src/Exception.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'/vendor/matthiasmullie/minify/src/Exceptions/BasicException.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'/vendor/matthiasmullie/minify/src//Exceptions/FileImportException.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'/vendor/matthiasmullie/minify/src/Exceptions/IOException.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'/vendor/matthiasmullie/path-converter/src/ConverterInterface.php';
-	require_once WPO_PLUGIN_MAIN_PATH.'/vendor/matthiasmullie/path-converter/src/Converter.php';
+	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/minify/src/Minify.php';
+	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/minify/src/CSS.php';
+	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/minify/src/JS.php';
+	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/minify/src/Exception.php';
+	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/minify/src/Exceptions/BasicException.php';
+	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/minify/src//Exceptions/FileImportException.php';
+	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/minify/src/Exceptions/IOException.php';
+	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/path-converter/src/ConverterInterface.php';
+	require_once WPO_PLUGIN_MAIN_PATH.'vendor/matthiasmullie/path-converter/src/Converter.php';
 }
 	
 use MatthiasMullie\Minify; // phpcs:ignore PHPCompatibility.Keywords.NewKeywords.t_useFound, PHPCompatibility.LanguageConstructs.NewLanguageConstructs.t_ns_separatorFound
 
 // Use HTML minification
 if (!class_exists('Minify_HTML')) {
-	require_once WPO_PLUGIN_MAIN_PATH.'/vendor/mrclay/minify/lib/Minify/HTML.php';
+	require_once WPO_PLUGIN_MAIN_PATH.'vendor/mrclay/minify/lib/Minify/HTML.php';
 }
 
 if (!class_exists('WP_Optimize_Options')) {
-	include_once WPO_PLUGIN_MAIN_PATH.'/includes/class-wp-optimize-options.php';
+	include_once WPO_PLUGIN_MAIN_PATH.'includes/class-wp-optimize-options.php';
 }
 
 class WP_Optimize_Minify_Functions {

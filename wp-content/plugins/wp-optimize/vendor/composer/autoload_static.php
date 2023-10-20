@@ -4,8 +4,13 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc8f4b83bab0b1afa4225be99998348a4
+class ComposerStaticInit37bbcb26ec7285621f4fcaf1406876a0
 {
+    public static $files = array (
+        'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
+        '3919eeb97e98d4648304477f8ef734ba' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Random.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         't' => 
         array (
@@ -102,6 +107,13 @@ class ComposerStaticInitc8f4b83bab0b1afa4225be99998348a4
     );
 
     public static $prefixesPsr0 = array (
+        'S' => 
+        array (
+            'System' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+            ),
+        ),
         'P' => 
         array (
             'Props\\' => 
@@ -113,11 +125,39 @@ class ComposerStaticInitc8f4b83bab0b1afa4225be99998348a4
                 0 => __DIR__ . '/..' . '/pimple/pimple/src',
             ),
         ),
+        'N' => 
+        array (
+            'Net' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+            ),
+        ),
+        'M' => 
+        array (
+            'Math' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+            ),
+        ),
         'J' => 
         array (
             'JSMin\\' => 
             array (
                 0 => __DIR__ . '/..' . '/mrclay/jsmin-php/src',
+            ),
+        ),
+        'F' => 
+        array (
+            'File' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+            ),
+        ),
+        'C' => 
+        array (
+            'Crypt' => 
+            array (
+                0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
             ),
         ),
     );
@@ -190,10 +230,10 @@ class ComposerStaticInitc8f4b83bab0b1afa4225be99998348a4
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc8f4b83bab0b1afa4225be99998348a4::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc8f4b83bab0b1afa4225be99998348a4::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitc8f4b83bab0b1afa4225be99998348a4::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitc8f4b83bab0b1afa4225be99998348a4::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit37bbcb26ec7285621f4fcaf1406876a0::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit37bbcb26ec7285621f4fcaf1406876a0::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit37bbcb26ec7285621f4fcaf1406876a0::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit37bbcb26ec7285621f4fcaf1406876a0::$classMap;
 
         }, null, ClassLoader::class);
     }

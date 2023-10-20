@@ -68,6 +68,9 @@ class WP_Optimize_Admin {
 				'settings' => array(
 					'title' => __('Settings', 'wp-optimize'),
 				),
+//				'updraftcentral' => array(
+//					'title' => 'UpdraftCentral'
+//				),
 			),
 			'wpo_support' => array('support' => __('Support / FAQs', 'wp-optimize')),
 			'wpo_mayalso' => array('may_also' => __('Premium / Plugin family', 'wp-optimize')),
@@ -185,6 +188,11 @@ class WP_Optimize_Admin {
 		add_action('wp_optimize_admin_page_wpo_settings_settings', array($this, 'output_dashboard_settings_tab'), 20);
 
 		/**
+		 * UpdraftCentral
+		 */
+//		add_action('wp_optimize_admin_page_wpo_settings_updraftcentral', array($this, 'output_dashboard_updraftcentral_tab'), 20);
+
+		/**
 		 * Premium / other plugins
 		 */
 		add_action('wp_optimize_admin_page_wpo_mayalso_may_also', array($this, 'output_dashboard_other_plugins_tab'), 20);
@@ -265,6 +273,18 @@ class WP_Optimize_Admin {
 
 		if (WP_Optimize()->can_manage_options()) {
 			WP_Optimize()->include_template('settings/settings.php');
+		} else {
+			$this->prevent_manage_options_info();
+		}
+	}
+
+	/**
+	 * UpdraftCentral settings tab
+	 */
+	public function output_dashboard_updraftcentral_tab() {
+		if (WP_Optimize()->can_manage_options()) {
+			global $updraftcentral_host_plugin;
+			$updraftcentral_host_plugin->debugtools_dashboard();
 		} else {
 			$this->prevent_manage_options_info();
 		}
