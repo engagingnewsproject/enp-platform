@@ -76,3 +76,4 @@ wp-content/themes/engage/vendor/upstatement/routes/.gitignore
 wp-content/db.php
 wp-content/plugins/php-compatibility-checker
 wp-content/plugins/enp-quiz/package-lock.json
+wp-content/plugins/log-deprecated-notices/
