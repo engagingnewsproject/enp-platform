@@ -136,7 +136,7 @@ class Admin {
 		);
 
 		wp_deregister_script( 'wplink' );
-		wp_register_script( 'wplink', RANK_MATH_PRO_URL . 'assets/admin/js/wplink.js', [ 'jquery', 'wpdialogs' ], rank_math_pro()->version, true );
+		wp_register_script( 'wplink', RANK_MATH_PRO_URL . 'assets/admin/js/wplink.js', [ 'jquery', 'wp-a11y' ], rank_math_pro()->version, true );
 
 		wp_localize_script(
 			'wplink',

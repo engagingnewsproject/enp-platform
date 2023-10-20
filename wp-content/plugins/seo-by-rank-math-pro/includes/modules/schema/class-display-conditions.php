@@ -120,6 +120,9 @@ class Display_Conditions {
 			if ( 'include' === $operator && self::$conditions[ $category ] ) {
 				continue;
 			}
+			if ( 'exclude' === $operator && ! self::$conditions[ $category ] ) {
+				continue;
+			}
 
 			self::$conditions[ $category ] = self::$method( $operator, $type, $value, $taxonomy );
 		}

@@ -81,7 +81,7 @@ class Ajax {
 	private function get_singular( $search, $type, $value, $taxonomy ) {
 		if ( 'null' === $search && $value ) {
 
-			if ( $taxonomy ) {
+			if ( $taxonomy && taxonomy_exists( $taxonomy ) ) {
 				$data = [
 					'value' => $value,
 					'title' => get_term( $value )->name,
@@ -146,9 +146,10 @@ class Ajax {
 	/**
 	 * Get terms by searched string and taxonomy.
 	 *
-	 * @param string $search Searched String.
-	 * @param string $type   Taxonomy Name.
-	 * @param int    $value  Term ID.
+	 * @param string $search   Searched String.
+	 * @param string $type     Object type.
+	 * @param int    $value    Term ID.
+	 * @param string $taxonomy Taxonomy name.
 	 */
 	private function get_terms( $search, $type, $value, $taxonomy ) {
 		$data = [];

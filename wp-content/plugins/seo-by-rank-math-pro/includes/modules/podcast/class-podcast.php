@@ -25,6 +25,11 @@ class Podcast {
 	use Hooker;
 
 	/**
+	 * Store podcast feed slug.
+	 */
+	private $podcast;
+
+	/**
 	 * The Constructor.
 	 */
 	public function __construct() {
@@ -37,7 +42,8 @@ class Podcast {
 	 * Intialize.
 	 */
 	public function init() {
-		add_feed( 'podcast', [ $this, 'podcast_feed' ] );
+		$this->podcast = $this->do_filter( 'podcast/feed', 'podcast' );
+		add_feed( $this->podcast, [ $this, 'podcast_feed' ] );
 		new Podcast_RSS();
 		new Publish_Podcast();
 	}
@@ -84,7 +90,7 @@ class Podcast {
 					'desc'      => sprintf( esc_html__( 'Make your podcasts discoverable via Google Podcasts, Apple Podcasts, and similar services. %s.', 'rank-math' ), '<a href="' . KB::get( 'podcast-settings', 'Options Panel Podcast Tab' ) . '" target="_blank">' . esc_html__( 'Learn more', 'rank-math-pro' ) . '</a>' ),
 					'file'      => dirname( __FILE__ ) . '/views/options.php',
 					/* translators: Link to Podcast RSS feed */
-					'after_row' => '<div class="notice notice-alt notice-info info inline rank-math-notice"><p>' . sprintf( esc_html__( 'Your Podcast RSS feed can be found here: %s', 'rank-math-pro' ), '<a href="' . Helper::get_home_url( 'feed/podcast' ) . '" target="_blank">' . Helper::get_home_url( 'feed/podcast' ) . '</a>' ) . '</p></div>',
+					'after_row' => '<div class="notice notice-alt notice-info info inline rank-math-notice"><p>' . sprintf( esc_html__( 'Your Podcast RSS feed can be found here: %s', 'rank-math-pro' ), '<a href="' . get_feed_link( $this->podcast ) . '" target="_blank">' . get_feed_link( $this->podcast ) . '</a>' ) . '</p></div>',
 				],
 			],
 			12

@@ -540,7 +540,6 @@ class Import_Row {
 				'header_code' => $this->redirect_type,
 			]
 		);
-		$redirection->set_nocache( true );
 		$redirection->save();
 	}
 

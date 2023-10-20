@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Rank Math SEO PRO\n"
-"POT-Creation-Date: 2023-06-15 23:43-0300\n"
-"PO-Revision-Date: 2023-06-15 23:48-0300\n"
+"POT-Creation-Date: 2023-08-11 00:24-0300\n"
+"PO-Revision-Date: 2023-08-11 01:16-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Poedit 3.3.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: rank-math-pro.php\n"
@@ -1865,67 +1865,72 @@ msgstr "Curso"
 msgid "Event"
 msgstr "Evento"
 
-#: includes/admin/class-post-filters.php:79
+#: includes/admin/class-post-filters.php:79 includes/class-modules.php:75
+#: includes/modules/podcast/class-podcast.php:82
+msgid "Podcast"
+msgstr "Podcast"
+
+#: includes/admin/class-post-filters.php:80
 msgid "Job Posting"
 msgstr "Anúncio de emprego"
 
-#: includes/admin/class-post-filters.php:80
+#: includes/admin/class-post-filters.php:81
 #: includes/modules/podcast/views/options.php:68
 msgid "Music"
 msgstr "Música"
 
-#: includes/admin/class-post-filters.php:81
+#: includes/admin/class-post-filters.php:82
 #: includes/modules/schema/class-admin.php:111
 msgid "Movie"
 msgstr "Filme"
 
-#: includes/admin/class-post-filters.php:82
+#: includes/admin/class-post-filters.php:83
 #: includes/modules/local-seo/views/titles-options.php:276
 msgid "Person"
 msgstr "Pessoa"
 
-#: includes/admin/class-post-filters.php:83
+#: includes/admin/class-post-filters.php:84
 msgid "Product"
 msgstr "Produto"
 
-#: includes/admin/class-post-filters.php:84
+#: includes/admin/class-post-filters.php:85
 msgid "Recipe"
 msgstr "Receita"
 
-#: includes/admin/class-post-filters.php:85
+#: includes/admin/class-post-filters.php:86
 msgid "Restaurant"
 msgstr "Restaurante"
 
-#: includes/admin/class-post-filters.php:86
+#: includes/admin/class-post-filters.php:87
 msgid "Service"
 msgstr "Serviço"
 
-#: includes/admin/class-post-filters.php:87
+#: includes/admin/class-post-filters.php:88
 msgid "Software"
 msgstr "Programa"
 
-#: includes/admin/class-post-filters.php:88
+#: includes/admin/class-post-filters.php:89
 #: includes/modules/video-sitemap/sitemap-xsl.php:152
 msgid "Video"
 msgstr "Vídeo"
 
-#: includes/admin/class-post-filters.php:89
+#: includes/admin/class-post-filters.php:90
 msgid "Dataset"
 msgstr "Conjunto de dados"
 
-#: includes/admin/class-post-filters.php:90
+#: includes/admin/class-post-filters.php:91
 msgid "FAQ"
 msgstr "Perguntas frequentes"
 
-#: includes/admin/class-post-filters.php:91
+#: includes/admin/class-post-filters.php:92
 msgid "FactCheck"
 msgstr "Verificação de fatos"
 
-#: includes/admin/class-post-filters.php:92
+#: includes/admin/class-post-filters.php:93
 msgid "How To"
 msgstr "Como fazer"
 
-#: includes/admin/class-post-filters.php:337
+#: includes/admin/class-post-filters.php:338
 #: includes/modules/redirections/class-categories.php:420
 msgid "Clear Filter"
 msgstr "Limpar filtro"
@@ -1934,66 +1939,66 @@ msgstr "Limpar filtro"
 msgid "SEO Details"
 msgstr "Detalhes de SEO"
 
-#: includes/admin/class-quick-edit.php:217
+#: includes/admin/class-quick-edit.php:218
 msgid "Index"
 msgstr "Indexar"
 
-#: includes/admin/class-quick-edit.php:218
+#: includes/admin/class-quick-edit.php:219
 msgid "No Index"
 msgstr "Não indexar"
 
-#: includes/admin/class-quick-edit.php:219
+#: includes/admin/class-quick-edit.php:220
 msgid "No Follow"
 msgstr "Não seguir"
 
-#: includes/admin/class-quick-edit.php:220
+#: includes/admin/class-quick-edit.php:221
 msgid "No Archive"
 msgstr "Não arquivar"
 
-#: includes/admin/class-quick-edit.php:221
+#: includes/admin/class-quick-edit.php:222
 msgid "No Image Index"
 msgstr "Não indexar imagens"
 
-#: includes/admin/class-quick-edit.php:222
+#: includes/admin/class-quick-edit.php:223
 msgid "No Snippet"
 msgstr "Sem Snippet"
 
-#: includes/admin/class-quick-edit.php:232
-#: includes/admin/class-quick-edit.php:337
+#: includes/admin/class-quick-edit.php:233
+#: includes/admin/class-quick-edit.php:338
 msgid "SEO Settings"
 msgstr "Configurações de SEO"
 
-#: includes/admin/class-quick-edit.php:241
-#: includes/admin/class-quick-edit.php:341
+#: includes/admin/class-quick-edit.php:242
+#: includes/admin/class-quick-edit.php:342
 msgid "SEO Title"
 msgstr "Título SEO"
 
-#: includes/admin/class-quick-edit.php:252
-#: includes/admin/class-quick-edit.php:347
+#: includes/admin/class-quick-edit.php:253
+#: includes/admin/class-quick-edit.php:348
 msgid "SEO Description"
 msgstr "Descrição SEO"
 
-#: includes/admin/class-quick-edit.php:259
-#: includes/admin/class-quick-edit.php:351
+#: includes/admin/class-quick-edit.php:260
+#: includes/admin/class-quick-edit.php:352
 msgid "Robots Meta"
 msgstr "Meta robots"
 
-#: includes/admin/class-quick-edit.php:277
-#: includes/admin/class-quick-edit.php:364
+#: includes/admin/class-quick-edit.php:278
+#: includes/admin/class-quick-edit.php:365
 msgid "Primary Focus Keyword"
 msgstr "Palavra-chave de foco principal"
 
-#: includes/admin/class-quick-edit.php:283
-#: includes/admin/class-quick-edit.php:370
+#: includes/admin/class-quick-edit.php:284
+#: includes/admin/class-quick-edit.php:371
 msgid "Canonical URL"
 msgstr "URL canônico"
 
-#: includes/admin/class-quick-edit.php:298
+#: includes/admin/class-quick-edit.php:299
 #, php-format
 msgid "Primary %s"
 msgstr "%s Principal"
 
-#: includes/admin/class-quick-edit.php:312
+#: includes/admin/class-quick-edit.php:313
 msgid "&mdash; Not Selected &mdash;"
 msgstr "&mdash; Não selecionado &mdash;"
 
@@ -2472,10 +2477,6 @@ msgstr ""
 #: includes/class-modules.php:71
 msgid "Please activate Schema & Sitemap module to use this module."
 msgstr "Ative o módulo Schema e Sitemap para usar este módulo."
-
-#: includes/class-modules.php:75 includes/modules/podcast/class-podcast.php:82
-msgid "Podcast"
-msgstr "Podcast"
 
 #: includes/class-modules.php:76
 msgid ""
@@ -5253,42 +5254,46 @@ msgstr "Valor de %s a ser usado no Schema do produto."
 msgid "%s value to use in Product schema."
 msgstr "Valor de %s a ser usado no Schema do produto."
 
-#. translators: 1: opening HTML anchor tag, 2: closing HTML anchor tags.
-#: includes/plugin-update/class-plugin-update.php:157
-#, php-format
+#: includes/plugin-update/class-plugin-update.php:156
 msgid ""
-"Rank Math Pro is installed but not activated yet. %1$sActivate now%2$s. It "
-"only takes 20 seconds!"
+"Rank Math PRO is installed but it is not connected to your account, so you "
+"are missing out on important SEO features."
 msgstr ""
-"O Rank Math Pro está instalado, mas ainda não foi ativado. %1$sAtive "
-"agora%2$s. Leva apenas 20 segundos!"
+"O Rank Math PRO está instalado, mas não está conectado à sua conta, então "
+"você está perdendo recursos importantes de SEO."
 
-#: includes/plugin-update/class-plugin-update.php:191
+#. translators: 1: opening HTML anchor tag, 2: closing HTML anchor tags.
+#: includes/plugin-update/class-plugin-update.php:159
+#, php-format
+msgid "%1$sConnect now%2$s. It only takes 20 seconds!"
+msgstr "%1$sConecte agora%2$s. Leva apenas 20 segundos!"
+
+#: includes/plugin-update/class-plugin-update.php:193
 msgid "Enable updates"
 msgstr "Ativar atualizações"
 
-#: includes/plugin-update/class-plugin-update.php:262
+#: includes/plugin-update/class-plugin-update.php:267
 msgid "Automatic updates are not available."
 msgstr "As atualizações automáticas não estão disponíveis."
 
-#: includes/plugin-update/class-plugin-update.php:381
-#: includes/plugin-update/class-plugin-update.php:399
+#: includes/plugin-update/class-plugin-update.php:386
+#: includes/plugin-update/class-plugin-update.php:404
 msgid "This update will install a beta version of Rank Math SEO PRO."
 msgstr "Esta atualização irá instalar uma versão beta do Rank Math SEO PRO."
 
-#: includes/plugin-update/class-plugin-update.php:483
+#: includes/plugin-update/class-plugin-update.php:488
 msgid "Cannot Update"
 msgstr "Não é possível atualizar"
 
-#: includes/plugin-update/class-plugin-update.php:548
+#: includes/plugin-update/class-plugin-update.php:553
 msgid "Rank Math SEO PRO For WordPress"
 msgstr "Rank Math SEO PRO para WordPress"
 
-#: includes/plugin-update/class-plugin-update.php:550
+#: includes/plugin-update/class-plugin-update.php:555
 msgid "SEO is the most consistent source of traffic for any website"
 msgstr "O SEO é a fonte de tráfego mais consistente para qualquer site"
 
-#: includes/plugin-update/class-plugin-update.php:552
+#: includes/plugin-update/class-plugin-update.php:557
 #, php-format
 msgid ""
 "We created %1$sRank Math, a WordPress SEO plugin%2$s, to help every website "
@@ -5299,12 +5304,12 @@ msgstr ""
 "cada proprietário de site a ter acesso às ferramentas de SEO de que precisam "
 "para melhorar seu SEO e atrair mais tráfego para seus sites."
 
-#: includes/plugin-update/class-plugin-update.php:789
+#: includes/plugin-update/class-plugin-update.php:794
 msgid "Please update the free version before updating Rank Math SEO PRO."
 msgstr "Atualize a versão gratuita antes de atualizar o Rank Math SEO PRO."
 
 #. translators: 1: Plugin name, 2: Pricing Link's opening HTML anchor tag, 3: Pricing Link's closing HTML anchor tag.
-#: includes/plugin-update/class-plugin-update.php:792
+#: includes/plugin-update/class-plugin-update.php:797
 #, php-format
 msgid ""
 "It seems that you don't have an active subscription for %1$s. Please see "
@@ -5314,12 +5319,12 @@ msgstr ""
 "e preços%3$s."
 
 #. translators: 1: Link's opening HTML anchor tag, 2: Link's closing HTML anchor tag.
-#: includes/plugin-update/class-plugin-update.php:799
+#: includes/plugin-update/class-plugin-update.php:804
 #, php-format
 msgid "Please %1$s connect Rank Math SEO PRO %2$s for automatic updates."
 msgstr "Conecte o %1$s Rank Math SEO PRO %2$s para atualizações automáticas."
 
-#: includes/plugin-update/class-plugin-update.php:944
+#: includes/plugin-update/class-plugin-update.php:949
 msgid "Rank Math PRO"
 msgstr "Rank Math PRO"
 
@@ -5416,29 +5421,29 @@ msgstr ""
 
 #: rank-math-pro.php:139
 msgid ""
-"Rank Math free version is required to run Rank Math Pro. Both plugins are now "
+"Rank Math free version is required to run Rank Math PRO. Both plugins are now "
 "disabled."
 msgstr ""
-"A versão Free do Rank Math é necessária para executar o Rank Math Pro. Ambos "
-"os plugins estão agora desativados."
+"A versão Gratuita do Rank Math é necessária para executar o Rank Math PRO. "
+"Ambos os plugins estão agora desativados."
 
 #: rank-math-pro.php:145
 msgid ""
-"Rank Math free version is required to run Rank Math Pro, but it could not be "
+"Rank Math free version is required to run Rank Math PRO, but it could not be "
 "installed automatically. Please install and activate the free version first."
 msgstr ""
-"A versão Free do Rank Math é necessária para executar o Rank Math Pro, mas "
-"ela não pôde ser instalada automaticamente. Instale e ative a versão gratuita "
-"primeiro."
+"A versão Gratuita do Rank Math é necessária para executar o Rank Math PRO, "
+"mas ela não pode ser instalada automaticamente. Instale e ative a versão "
+"gratuita primeiro."
 
 #: rank-math-pro.php:151
 msgid ""
-"Rank Math free version is required to run Rank Math Pro, but it could not be "
+"Rank Math free version is required to run Rank Math PRO, but it could not be "
 "activated automatically. Please install and activate the free version first."
 msgstr ""
-"A versão Free do Rank Math é necessária para executar o Rank Math Pro, mas "
-"não foi possível ativá-la automaticamente. Instale e ative a versão gratuita "
-"primeiro."
+"A versão Gratuita do Rank Math é necessária para executar o Rank Math PRO, "
+"mas ela não pode ser ativada automaticamente. Instale e ative a versão "
+"gratuita primeiro."
 
 #. Plugin Name of the plugin/theme
 msgid "Rank Math SEO PRO"
@@ -5468,6 +5473,14 @@ msgid ""
 msgstr ""
 "https://rankmath.com/?"
 "utm_source=Plugin&utm_medium=Readme%20Author%20URI&utm_campaign=WP"
+
+#, php-format
+#~ msgid ""
+#~ "Rank Math Pro is installed but not activated yet. %1$sActivate now%2$s. It "
+#~ "only takes 20 seconds!"
+#~ msgstr ""
+#~ "O Rank Math Pro está instalado, mas ainda não foi ativado. %1$sAtive "
+#~ "agora%2$s. Leva apenas 20 segundos!"
 
 #~ msgid "https://s.rankmath.com/pro"
 #~ msgstr "https://s.rankmath.com/pro"

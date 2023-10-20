@@ -9,7 +9,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Rank Math SEO PRO
- * Version:           3.0.40
+ * Version:           3.0.47
  * Plugin URI:        https://rankmath.com/wordpress/plugin/seo-suite/
  * Description:       Super-charge your website’s SEO with the Rank Math PRO options like Site Analytics, SEO Performance, Custom Schema Templates, News/Video Sitemaps, etc.
  * Author:            Rank Math
@@ -38,14 +38,14 @@ final class RankMathPro {
 	 *
 	 * @var string
 	 */
-	public $version = '3.0.40';
+	public $version = '3.0.47';
 
 	/**
 	 * Minimum version of Rank Math SEO.
 	 *
 	 * @var string
 	 */
-	public $rank_math_min_version = '1.0.119';
+	public $rank_math_min_version = '1.0.204';
 
 	/**
 	 * Holds various class instances
@@ -136,19 +136,19 @@ final class RankMathPro {
 		$dont_load = false;
 		if ( $this->is_free_version_being_deactivated() ) {
 			// Todo: this message is not displayed because of a redirect.
-			$this->messages[] = esc_html__( 'Rank Math free version is required to run Rank Math Pro. Both plugins are now disabled.', 'rank-math-pro' );
+			$this->messages[] = esc_html__( 'Rank Math free version is required to run Rank Math PRO. Both plugins are now disabled.', 'rank-math-pro' );
 		} elseif ( $this->is_free_version_being_rolled_back() || $this->is_free_version_being_updated() || $this->is_troubleshooting() ) {
 			$dont_load = true;
 		} else {
 			if ( ! $this->is_free_version_installed() ) {
 				if ( ! $this->install_free_version() ) {
-					$this->messages[] = esc_html__( 'Rank Math free version is required to run Rank Math Pro, but it could not be installed automatically. Please install and activate the free version first.', 'rank-math-pro' );
+					$this->messages[] = esc_html__( 'Rank Math free version is required to run Rank Math PRO, but it could not be installed automatically. Please install and activate the free version first.', 'rank-math-pro' );
 				}
 			}
 
 			if ( ! $this->is_free_version_activated() ) {
 				if ( ! $this->activate_free_version() ) {
-					$this->messages[] = esc_html__( 'Rank Math free version is required to run Rank Math Pro, but it could not be activated automatically. Please install and activate the free version first.', 'rank-math-pro' );
+					$this->messages[] = esc_html__( 'Rank Math free version is required to run Rank Math PRO, but it could not be activated automatically. Please install and activate the free version first.', 'rank-math-pro' );
 				}
 			}
 		}

@@ -284,86 +284,6 @@ class DB {
 	}
 
 	/**
-	 * Add console records.
-	 *
-	 * @param string $date Date of creation.
-	 * @param array  $rows Data rows to insert.
-	 */
-	public static function add_query_page_bulk( $date, $rows ) {
-		$chunks = array_chunk( $rows, 50 );
-
-		foreach ( $chunks as $chunk ) {
-			self::bulk_insert_query_page_data( $date . ' 00:00:00', $chunk );
-		}
-	}
-
-	/**
-	 * Bulk inserts records into a table using WPDB.  All rows must contain the same keys.
-	 *
-	 * @param  string $date        Date.
-	 * @param  array  $rows        Rows to insert.
-	 */
-	public static function bulk_insert_query_page_data( $date, $rows ) {
-		global $wpdb;
-
-		$data         = [];
-		$placeholders = [];
-		$columns      = [
-			'created',
-			'query',
-			'page',
-			'clicks',
-			'impressions',
-			'position',
-			'ctr',
-		];
-		$columns      = '`' . implode( '`, `', $columns ) . '`';
-		$placeholder  = [
-			'%s',
-			'%s',
-			'%s',
-			'%d',
-			'%d',
-			'%d',
-			'%d',
-		];
-
-		// Start building SQL, initialise data and placeholder arrays.
-		$sql = "INSERT INTO `{$wpdb->prefix}rank_math_analytics_gsc` ( $columns ) VALUES\n";
-
-		// Build placeholders for each row, and add values to data array.
-		foreach ( $rows as $row ) {
-			if (
-				$row['position'] > self::get_position_filter() ||
-				Str::contains( '?', $row['page'] )
-			) {
-				continue;
-			}
-
-			$data[] = $date;
-			$data[] = $row['query'];
-			$data[] = Stats::get_relative_url( self::remove_hash( $row['page'] ) );
-			$data[] = $row['clicks'];
-			$data[] = $row['impressions'];
-			$data[] = $row['position'];
-			$data[] = $row['ctr'];
-
-			$placeholders[] = '(' . implode( ', ', $placeholder ) . ')';
-		}
-
-		// Don't run insert with empty dataset, return 0 since no rows affected.
-		if ( empty( $data ) ) {
-			return 0;
-		}
-
-		// Stitch all rows together.
-		$sql .= implode( ",\n", $placeholders );
-
-		// Run the query.  Returns number of affected rows.
-		return $wpdb->query( $wpdb->prepare( $sql, $data ) ); // phpcs:ignore
-	}
-
-	/**
 	 * Add analytic records.
 	 *
 	 * @param string $date Date of creation.
@@ -431,7 +351,7 @@ class DB {
 				$page = ( is_ssl() ? 'https' : 'http' ) . '://' . $page;
 
 				$data[] = $date;
-				$data[] = Stats::get_relative_url( self::remove_hash( $page ) );
+				$data[] = str_replace( Helper::get_home_url(), '', self::remove_hash( urldecode( $page ) ) );
 				$data[] = $pageviews;
 				$data[] = $visitors;
 

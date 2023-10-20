@@ -355,7 +355,7 @@ class Keywords {
 	 */
 	public function get_tracked_keywords_data( $args = [] ) {
 		global $wpdb;
-
+		Helper::enable_big_selects_for_queries();
 		$args = wp_parse_args(
 			$args,
 			[
@@ -648,10 +648,11 @@ class Keywords {
 	 * Get keywords graph data.
 	 *
 	 * @param array $keywords Keywords to get data for.
+	 * @param string $sub_query Database sub-query.
 	 *
 	 * @return array
 	 */
-	public function get_graph_data_for_keywords( $keywords ) {
+	public function get_graph_data_for_keywords( $keywords, $sub_query = ''  ) {
 		global $wpdb;
 
 		$intervals     = Stats::get()->get_intervals();
@@ -660,21 +661,25 @@ class Keywords {
 		$keywords      = '(\'' . join( '\', \'', $keywords ) . '\')';
 
 		$query = $wpdb->prepare(
-			"SELECT a.query, a.position, t.date, t.range_group
+			"SELECT a.query, a.position, t.max_created AS date, t.range_group
 			FROM {$wpdb->prefix}rank_math_analytics_gsc AS a
-			INNER JOIN
-				(SELECT query, DATE_FORMAT(created, '%%Y-%%m-%%d') as date, MAX(id) as id, {$sql_daterange}
+			INNER JOIN (
+				SELECT
+					query,
+					{$sql_daterange},
+					MAX(created) AS max_created
 				FROM {$wpdb->prefix}rank_math_analytics_gsc
 				WHERE created BETWEEN %s AND %s
-					AND query IN {$keywords}
+				AND query IN {$keywords}
+				{$sub_query}
 				GROUP BY query, range_group
-				ORDER BY created ASC) AS t ON a.id = t.id
-			",
+			) t
+			ON a.query = t.query AND a.created = t.max_created
+			ORDER BY a.query ASC",
 			Stats::get()->start_date,
 			Stats::get()->end_date
 		);
-		$data  = $wpdb->get_results( $query );
-		// phpcs:enable
+		$data = $wpdb->get_results( $query );
 
 		$data = Stats::get()->filter_graph_rows( $data );
 

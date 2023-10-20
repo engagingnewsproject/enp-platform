@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Rank Math\n"
 "Last-Translator: Rank Math\n"
-"POT-Creation-Date: 2023-07-12 05:46+0000\n"
+"POT-Creation-Date: 2023-10-18 05:13+0000\n"
 "Project-Id-Version: undefined\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -20,13 +20,13 @@ msgstr ""
 msgid "Please update Rank Math Free to the latest version first before using Rank Math PRO."
 msgstr ""
 
-msgid "Rank Math free version is required to run Rank Math Pro, but it could not be installed automatically. Please install and activate the free version first."
+msgid "Rank Math free version is required to run Rank Math PRO, but it could not be installed automatically. Please install and activate the free version first."
 msgstr ""
 
-msgid "Rank Math free version is required to run Rank Math Pro, but it could not be activated automatically. Please install and activate the free version first."
+msgid "Rank Math free version is required to run Rank Math PRO, but it could not be activated automatically. Please install and activate the free version first."
 msgstr ""
 
-msgid "Rank Math free version is required to run Rank Math Pro. Both plugins are now disabled."
+msgid "Rank Math free version is required to run Rank Math PRO. Both plugins are now disabled."
 msgstr ""
 
 msgid "Rich Pins Validator"
@@ -1269,8 +1269,11 @@ msgstr ""
 msgid "Settings could not be imported: Upload failed."
 msgstr ""
 
+msgid "Rank Math PRO is installed but it is not connected to your account, so you are missing out on important SEO features."
+msgstr ""
+
 #. translators: 1: opening HTML anchor tag, 2: closing HTML anchor tags.
-msgid "Rank Math Pro is installed but not activated yet. %1$sActivate now%2$s. It only takes 20 seconds!"
+msgid "%1$sConnect now%2$s. It only takes 20 seconds!"
 msgstr ""
 
 msgid "Enable updates"
@@ -3151,6 +3154,42 @@ msgid "Price Valid Until"
 msgstr ""
 
 msgid "Product In-Stock"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Cuisine"
+msgstr ""
+
+msgid "Recipe Yield"
+msgstr ""
+
+msgid "Calories"
+msgstr ""
+
+msgid "Preparation Time"
+msgstr ""
+
+msgid "Cooking Time"
+msgstr ""
+
+msgid "Total Time"
+msgstr ""
+
+msgid "Recipe Video Name"
+msgstr ""
+
+msgid "Recipe Video Description"
+msgstr ""
+
+msgid "Recipe Video Thumbnail"
+msgstr ""
+
+msgid "Recipe Ingredients"
+msgstr ""
+
+msgid "Recipe Instructions"
 msgstr ""
 
 msgid "Video Thumbnail"

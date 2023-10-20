@@ -2,8 +2,8 @@
 # This file is distributed under the same license as the rank-math-pro package.
 msgid ""
 msgstr ""
-"Project-Id-Version: RankMath Pro v3.0.39\n"
-"POT-Creation-Date: 2023-06-28 05:22+0000\n"
+"Project-Id-Version: RankMath Pro v3.0.46\n"
+"POT-Creation-Date: 2023-10-05 10:47+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Thorsten Wollenhöfer <thorsten.wollenhoefer@gmail.com>\n"
 "Language-Team: Thorsten Wollenhöfer <thorsten.wollenhoefer@gmail.com>\n"
@@ -29,26 +29,26 @@ msgstr ""
 "Sie Rank Math PRO benutzen."
 
 msgid ""
-"Rank Math free version is required to run Rank Math Pro, but it could not be "
+"Rank Math free version is required to run Rank Math PRO, but it could not be "
 "installed automatically. Please install and activate the free version first."
 msgstr ""
-"Die kostenlose Version von Rank Math ist zur Ausführung von Rank Math Pro "
-"erforderlich, konnte aber nicht automatisch installiert werden. Bitte "
+"Die kostenlose Version von Rank Math wird benötigt, um Rank Math PRO "
+"auszuführen. Sie konnte jedoch nicht automatisch installiert werden. Bitte "
 "installieren und aktivieren Sie zuerst die kostenlose Version."
 
 msgid ""
-"Rank Math free version is required to run Rank Math Pro, but it could not be "
+"Rank Math free version is required to run Rank Math PRO, but it could not be "
 "activated automatically. Please install and activate the free version first."
 msgstr ""
-"Die kostenlose Version von Rank Math ist zur Ausführung von Rank Math Pro "
-"erforderlich, konnte aber nicht automatisch aktiviert werden. Bitte "
+"Die kostenlose Version von Rank Math wird benötigt, um Rank Math PRO "
+"auszuführen. Sie konnte jedoch nicht automatisch aktiviert werden. Bitte "
 "installieren und aktivieren Sie zuerst die kostenlose Version."
 
 msgid ""
-"Rank Math free version is required to run Rank Math Pro. Both plugins are "
+"Rank Math free version is required to run Rank Math PRO. Both plugins are "
 "now disabled."
 msgstr ""
-"Die kostenlose Version von Rank Math ist erforderlich, um Rank Math Pro "
+"Die kostenlose Version von Rank Math ist erforderlich, um Rank Math PRO "
 "auszuführen. Beide Plugins sind jetzt deaktiviert."
 
 msgid "Rich Pins Validator"
@@ -1357,13 +1357,16 @@ msgid "Settings could not be imported: Upload failed."
 msgstr ""
 "Die Einstellungen konnten nicht importiert werden: Upload fehlgeschlagen."
 
-#. translators: 1: opening HTML anchor tag, 2: closing HTML anchor tags.
 msgid ""
-"Rank Math Pro is installed but not activated yet. %1$sActivate now%2$s. It "
-"only takes 20 seconds!"
+"Rank Math PRO is installed but it is not connected to your account, so you "
+"are missing out on important SEO features."
 msgstr ""
-"Rank Math Pro ist installiert, aber noch nicht aktiviert. %1$sJetzt "
-"aktivieren%2$s. Es dauert nur 20 Sekunden!"
+"Rank Math PRO ist zwar installiert, aber nicht mit Ihrem Konto verbunden, so "
+"dass Ihnen wichtige SEO-Funktionen entgehen."
+
+#. translators: 1: opening HTML anchor tag, 2: closing HTML anchor tags.
+msgid "%1$sConnect now%2$s. It only takes 20 seconds!"
+msgstr "%1$sVerbinden Sie sich jetzt%2$s. Es dauert nur 20 Sekunden!"
 
 msgid "Enable updates"
 msgstr "Updates aktivieren"
@@ -3628,6 +3631,42 @@ msgstr "Preis gültig bis"
 msgid "Product In-Stock"
 msgstr "Produkt auf Lager"
 
+msgid "Type"
+msgstr "Typ"
+
+msgid "Cuisine"
+msgstr "Küche"
+
+msgid "Recipe Yield"
+msgstr "Rezeptausbeute"
+
+msgid "Calories"
+msgstr "Kalorien"
+
+msgid "Preparation Time"
+msgstr "Vorbereitungszeit"
+
+msgid "Cooking Time"
+msgstr "Kochzeit"
+
+msgid "Total Time"
+msgstr "Gesamtzeit"
+
+msgid "Recipe Video Name"
+msgstr "Rezept Video Name"
+
+msgid "Recipe Video Description"
+msgstr "Rezept Videobeschreibung"
+
+msgid "Recipe Video Thumbnail"
+msgstr "Vorschaubild des Rezeptvideos"
+
+msgid "Recipe Ingredients"
+msgstr "Rezept-Zutaten"
+
+msgid "Recipe Instructions"
+msgstr "Rezeptanweisungen"
+
 msgid "Video Thumbnail"
 msgstr "Video-Vorschaubild"
 
@@ -3716,6 +3755,13 @@ msgstr "Schlüsselwörter insgesamt"
 msgid "Average Position"
 msgstr "Durchschnittliche Position"
 
+#~ msgid ""
+#~ "Rank Math Pro is installed but not activated yet. %1$sActivate now%2$s. "
+#~ "It only takes 20 seconds!"
+#~ msgstr ""
+#~ "Rank Math Pro ist installiert, aber noch nicht aktiviert. %1$sJetzt "
+#~ "aktivieren%2$s. Es dauert nur 20 Sekunden!"
+
 #~ msgid "United Kingdoms"
 #~ msgstr "Vereinigtes Königreich"
 
@@ -3736,9 +3782,6 @@ msgstr "Durchschnittliche Position"
 
 #~ msgid "Could not update redirection #%d (not found)"
 #~ msgstr "Konnte Umleitung #%d nicht aktualisieren (nicht gefunden)"
-
-#~ msgid "Total Time"
-#~ msgstr "Gesamtzeit"
 
 #~ msgid "Images"
 #~ msgstr "Bilder"
@@ -3764,36 +3807,6 @@ msgstr "Durchschnittliche Position"
 #~ msgid "Duplicate, submitted URL not selected as canonical"
 #~ msgstr "Duplikat, übermittelte URL nicht als kanonisch ausgewählt"
 
-#~ msgid "Type"
-#~ msgstr "Typ"
-
-#~ msgid "Cuisine"
-#~ msgstr "Küche"
-
-#~ msgid "Recipe Yield"
-#~ msgstr "Rezeptausbeute"
-
-#~ msgid "Calories"
-#~ msgstr "Kalorien"
-
-#~ msgid "Preparation Time"
-#~ msgstr "Vorbereitungszeit"
-
-#~ msgid "Cooking Time"
-#~ msgstr "Kochzeit"
-
-#~ msgid "Recipe Video Name"
-#~ msgstr "Rezept Video Name"
-
-#~ msgid "Recipe Video Description"
-#~ msgstr "Rezept Videobeschreibung"
-
-#~ msgid "Recipe Ingredients"
-#~ msgstr "Rezept-Zutaten"
-
-#~ msgid "Recipe Instructions"
-#~ msgstr "Rezeptanweisungen"
-
 #~ msgid "Rank Math SEO PRO"
 #~ msgstr "Rank Math SEO PRO"
 
@@ -3812,8 +3825,8 @@ msgstr "Durchschnittliche Position"
 #~ msgid "Rank Math"
 #~ msgstr "Rank Math"
 
-#~ msgid "https://rankmath.com/"
-#~ msgstr "https://rankmath.com/"
+#~ msgid "https://s.rankmath.com/pro"
+#~ msgstr "https://s.rankmath.com/pro"
 
 #~ msgid "Sorry, you are not allowed to edit posts."
 #~ msgstr "Bedaure, Sie sind nicht berechtigt, Beiträge zu bearbeiten."

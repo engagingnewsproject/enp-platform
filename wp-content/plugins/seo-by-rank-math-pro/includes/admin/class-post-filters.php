@@ -76,6 +76,7 @@ class Post_Filters {
 			'Book'                => esc_html__( 'Book', 'rank-math-pro' ),
 			'Course'              => esc_html__( 'Course', 'rank-math-pro' ),
 			'Event'               => esc_html__( 'Event', 'rank-math-pro' ),
+			'PodcastEpisode'      => esc_html__( 'Podcast', 'rank-math-pro' ),
 			'JobPosting'          => esc_html__( 'Job Posting', 'rank-math-pro' ),
 			'MusicGroup'          => esc_html__( 'Music', 'rank-math-pro' ),
 			'Movie'               => esc_html__( 'Movie', 'rank-math-pro' ),

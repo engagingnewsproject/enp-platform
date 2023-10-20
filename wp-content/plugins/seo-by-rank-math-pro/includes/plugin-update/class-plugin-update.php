@@ -153,8 +153,10 @@ class Plugin_Update {
 			<div class="notice notice-success rank-math-notice">
 				<p>
 					<?php
+					esc_html_e( 'Rank Math PRO is installed but it is not connected to your account, so you are missing out on important SEO features.', 'rank-math-pro' );
+					echo '<br>';
 					// translators: 1: opening HTML anchor tag, 2: closing HTML anchor tags.
-					echo wp_kses_post( sprintf( __( 'Rank Math Pro is installed but not activated yet. %1$sActivate now%2$s. It only takes 20 seconds!', 'rank-math-pro' ), '<a href="' . esc_url( Admin_Helper::get_activate_url() ) . '">', '</a>' ) );
+					echo wp_kses_post( sprintf( __( '%1$sConnect now%2$s. It only takes 20 seconds!', 'rank-math-pro' ), '<a href="' . esc_url( Admin_Helper::get_activate_url() ) . '">', '</a>' ) );
 					?>
 				</p>
 			</div>
@@ -235,7 +237,10 @@ class Plugin_Update {
 		}
 
 		// If we're in the process of updating RM Free then don't disable RM Pro update.
-		if ( Param::get( 'action' ) === 'update-selected' && strpos( Param::get( 'plugins', '' ), 'seo-by-rank-math/rank-math.php' ) !== false ) {
+		if (
+			( Param::get( 'action' ) === 'update-selected' && strpos( Param::get( 'plugins', '' ), 'seo-by-rank-math/rank-math.php' ) !== false ) ||
+			$this->do_filter( 'updates/remove_restrictions', false )
+		) {
 			return $transient;
 		}
 
