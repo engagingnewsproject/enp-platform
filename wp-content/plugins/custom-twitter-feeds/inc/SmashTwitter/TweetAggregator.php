@@ -17,6 +17,8 @@ class TweetAggregator {
 
 	private $upload_url;
 
+	protected $missing_media_found;
+
 	public function __construct() {
 
 		$upload           = wp_upload_dir();

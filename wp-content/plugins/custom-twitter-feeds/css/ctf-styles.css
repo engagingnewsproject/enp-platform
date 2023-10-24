@@ -73,6 +73,13 @@
     -webkit-border-radius: 40px;
     border-radius: 40px;
 }
+#ctf.ctf-rebranded .ctf-header-img-hover svg {
+    margin-top: -15px;
+    margin-left: -14px;
+}
+#ctf.ctf-rebranded .ctf-header-img-hover svg path {
+    fill: white;
+}
 #ctf .ctf-author-avatar {
     clear: both;
     margin: 3px 6px 0 -53px;
@@ -977,4 +984,15 @@
 /*Actions  COLOR*/
 #ctf.ctf_palette_dark .ctf-tweet-actions a{
     color: rgba(255,255,255,0.8);
+}
+
+
+/* Rebranded Styles */
+.ctf-rebranded .ctf-header-follow svg {
+    width: 13px;
+    height: 13px;
+    transform: translate(3px, 2px);
+}
+.ctf-rebranded .ctf-header-follow svg path {
+    fill: white;
 }

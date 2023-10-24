@@ -271,8 +271,6 @@ class CTF_Support {
 	    $output .= self::get_image_resizing_info();
         $output .= self::get_posts_table_info();
         $output .= self::get_errors_info();
-        #$output .= self::get_action_logs_info();
-        #$output .= self::get_oembeds_info();
 
         return $output;
     }
@@ -459,17 +457,16 @@ class CTF_Support {
 		$consumer_key = ! empty( $options['consumer_key'] ) && ! empty( $options['have_own_tokens'] ) ? $options['consumer_key'] : 'FPYSYWIdyUIQ76Yz5hdYo5r7y';
 		$consumer_secret = ! empty( $options['consumer_secret'] ) && ! empty( $options['have_own_tokens'] ) ? $options['consumer_secret'] : 'GqPj9BPgJXjRKIGXCULJljocGPC62wN2eeMSnmZpVelWreFk9z';
 		$request_settings = array(
-			//'consumer_key' => $consumer_key,
-			//'consumer_secret' => $consumer_secret,
-			//'access_token' => $options['access_token'],
-			//'access_token_secret' => $options['access_token_secret']
+			'consumer_key' => $consumer_key,
+			'consumer_secret' => $consumer_secret,
+			'access_token' => $options['access_token'],
+			'access_token_secret' => $options['access_token_secret']
 		);
 		$output = '';
-		$broken_so_false = false;
-		if ( $broken_so_false && isset( $options['request_method'] ) ) {
+		if ( isset( $options['request_method'] ) ) {
 			$request_method = isset( $options['request_method'] ) ? $options['request_method'] : 'auto';
 
-			$twitter_api = new \TwitterFeed\CtfOauthConnect( $request_settings, 'usertimeline' );
+			$twitter_api = new \TwitterFeed\V2\CtfOauthConnect( $request_settings, 'usertimeline' );
 			$twitter_api->setUrlBase();
 			$get_fields = array( 'count' => '1' );
 			$twitter_api->setGetFields( $get_fields );
@@ -703,22 +700,7 @@ class CTF_Support {
         return $output;
     }
 
-    /**
-     * Get Feeds Settings
-     *
-     * @since 2.0
-     *
-     * @return string
-     */
-    public static function get_oembeds_info() {
-        $output = "## OEMBED: ##" . "</br>";
-        $oembed_token_settings = get_option( 'ctf_oembed_token', array() );
-        foreach( $oembed_token_settings as $key => $value ) {
-            $output .= $key . ': ' . esc_attr( $value ) . "</br>";
-        }
 
-        return $output;
-    }
 
     /**
      * SBI Get Support URL

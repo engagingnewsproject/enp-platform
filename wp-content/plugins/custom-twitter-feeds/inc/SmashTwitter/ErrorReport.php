@@ -155,6 +155,12 @@ class ErrorReport {
 					'directions' => __( 'Make sure there are tweets available on Twitter that fit your settings and then clear your cache using the button found on the Settings page. It\'s also possible that you\'re encountering a limitation of our new system for updating feeds.', 'custom-twitter-feeds' ). ' ' . sprintf( __( 'For more information on limitations due to the Twitter API changes effective April 2023, %svisit this page%s.', 'custom-twitter-feeds' ), '<a href="https://smashballoon.com/doc/smash-balloon-twitter-changes-free-version/?twitter&utm_source=twitter-free&utm_medium=error-notice&utm_campaign=smash-twitter&utm_content=ThisPage" target="_blank" rel="noopener">','</a>' )
 				);
 				$added = $this->maybe_add_critical_error( $error_array );
+			} elseif ( $error === 'too_many_requests' ) {
+				$error_array = array(
+					'message' => __( 'Too many requests', 'custom-twitter-feeds' ),
+					'directions' => __( 'There were too many requests coming for the API within the certain periodof time.', 'custom-twitter-feeds' )
+				);
+				$added = $this->maybe_add_critical_error( $error_array );
 			} elseif ( $error === 'too_much_filtering' ) {
 				$error_array = array(
 					'message' => __( 'It looks there were no tweets found that fit your feed moderation settings.', 'custom-twitter-feeds' ),

@@ -5,7 +5,7 @@ Support Website: http://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, Twitter Tweets, Twitter widget, Custom Twitter Feed
 Requires at least: 4.1
 Tested up to: 6.3
-Stable tag: 2.1.2
+Stable tag: 2.2
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -14,6 +14,8 @@ Display Twitter tweets from any public user account in a clean, attractive looki
 
 == Description ==
 Display **completely customizable**, **responsive** and **search engine crawlable** Twitter feeds on your website. The Custom Twitter Feeds plugin will display any user timeline tweets that completely match the look and feel of your site and includes tons of customization options!
+
+https://www.youtube.com/watch?v=RQ5lXKQo9qw
 
 = Features =
 * **Quick 3-Step Feed Creation** – create a Twitter feed in just 3 steps with our guided flow to help you do this, even if you’re a WordPress newbie
@@ -231,6 +233,11 @@ If you're still having trouble displaying your Tweets after trying the common is
 7. To display the Twitter feed just copy and paste the shortcode into a Twitter widget or page
 
 == Changelog ==
+= 2.2 =
+* New: Added support for using your own Twitter App. Go to the "Settings" page, "Twitter Integration" area.
+* New: Added a setting to rebrand your Twitter feeds to "X". Go to the "Settings" page, "Advanced" tab to enable the branding change.
+* Fix: Added a workaround in the event cron is broken so feeds will continue to update.
+
 = 2.1.2 =
 Fix: Fixed text causing confusions about what features are available.
 

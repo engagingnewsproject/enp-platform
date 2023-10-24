@@ -52,7 +52,7 @@ class Request
 		$method = 'post';
 		$this->args['method']  = 'POST';
 		if ( empty( $this->args['timeout'] ) ) {
-			$this->args['timeout']  = 10;
+			$this->args['timeout']  = 20;
 		}
 
 		if ( $this->endpoint === 'usertimeline' ) {

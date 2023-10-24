@@ -1,4 +1,25 @@
 <div v-if="selected === 'app-4'">
+
+    <div class="sb-tab-box sb-rebranding-box sb-reset-box-style clearfix">
+        <div class="tab-label">
+            <h3>{{advancedTab.rebrandingBox.title}}</h3>
+        </div>
+
+        <div class="ctf-tab-form-field">
+            <div class="sb-form-field">
+                <label for="rebranding-settings" class="ctf-checkbox">
+                    <input type="checkbox" id="rebranding-settings" v-model="model.advanced.rebranding">
+                    <span class="toggle-track">
+                        <div class="toggle-indicator"></div>
+                    </span>
+                </label>
+                <span class="help-text">
+                    {{advancedTab.rebrandingBox.helpText}}
+                </span>
+            </div>
+        </div>
+    </div>
+
     <div class="sb-tab-box sb-resizing-box sb-reset-box-style clearfix">
         <div class="tab-label">
             <h3>{{advancedTab.optimizeBox.title}}</h3>
@@ -33,6 +54,7 @@
             </span>
         </div>
     </div>
+
     <div class="sb-tab-box sb-persistentCacheBox-box sb-reset-box-style clearfix">
         <div class="tab-label">
             <h3>{{advancedTab.persistentCacheBox.title}}</h3>

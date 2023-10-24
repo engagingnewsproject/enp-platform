@@ -54,7 +54,7 @@ class CTF_Customize_Tab{
 			'customize_posts' => [
 				'heading' 			=> __( 'Tweets', 'custom-twitter-feeds' ),
 				'description' 			=> __( 'Hide or Show individual elements of a post or edit their options', 'custom-twitter-feeds' ),
-				'icon' 				=> 'twitter',
+				'icon' 				=> ctf_should_rebrand_to_x () ? 'x' : 'twitter',
 				'controls'			=> self::get_customize_tweets_controls(),
 				'nested_sections' 	=> [
 					'tweet_styles' => [

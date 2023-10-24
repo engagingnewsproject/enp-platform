@@ -12,7 +12,7 @@ var settings_data = {
     sourcesList : ctf_settings.sources,
     dialogBoxPopupScreen   : ctf_settings.dialogBoxPopupScreen,
     selectSourceScreen      : ctf_settings.selectSourceScreen,
-
+    ctfRebrand 		: ctf_settings.ctfRebrand,
     socialWallActivated: ctf_settings.socialWallActivated,
     socialWallLinks: ctf_settings.socialWallLinks,
     stickyWidget: false,

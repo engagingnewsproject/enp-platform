@@ -49,8 +49,6 @@
 	</div>
 </div>
 <?php
-	#include_once CTF_BUILDER_DIR . 'templates/sections/popup/add-source-popup.php';
-	#include_once CTF_BUILDER_DIR . 'templates/sections/popup/sources-list-popup.php';
 	include_once CTF_BUILDER_DIR . 'templates/sections/popup/connect-account-popup.php';
 	include_once CTF_BUILDER_DIR . 'templates/sections/popup/extensions-popup.php';
 	include_once CTF_BUILDER_DIR . 'templates/sections/popup/feedtypes-popup.php';
