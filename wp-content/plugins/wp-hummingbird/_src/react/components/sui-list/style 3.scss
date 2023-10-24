@@ -1,0 +1,23 @@
+@import "~@wpmudev/shared-ui/scss/functions";
+@import "~@wpmudev/shared-ui/scss/colors";
+@import "~@wpmudev/shared-ui/scss/variables";
+@import '~@wpmudev/shared-ui/scss/mixins';
+
+@include body-class(true) {
+
+  .sui-list {
+    li.wphb-list-header {
+      justify-content: space-between;
+      padding-bottom: 0;
+
+      > span {
+        color: #333333;
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 30px;
+        padding-bottom: 0;
+      }
+    }
+  }
+
+}
