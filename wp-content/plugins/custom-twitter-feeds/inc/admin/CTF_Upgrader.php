@@ -220,7 +220,7 @@ class CTF_Upgrader {
 	 *
 	 * @since 4.0
 	 */
-	function install_upgrade() {
+	public static function install_upgrade() {
 		$error = esc_html__( 'Could not install upgrade. Please download from smashballoon.com and install manually.', 'custom-twitter-feeds' );
 		// verify params present (oth & download link).
 		$post_oth = ! empty( $_REQUEST['oth'] ) ? sanitize_text_field( $_REQUEST['oth'] ) : '';
@@ -231,7 +231,6 @@ class CTF_Upgrader {
 		}
 		// Verify oth.
 		$oth = get_option( 'ctf_one_click_upgrade' );
-
 		if ( empty( $oth ) ) {
 			wp_send_json_error( $error );
 		}
@@ -293,7 +292,6 @@ class CTF_Upgrader {
 
 		if ( ! empty( $license_data ) ) {
 			$version_info = self::get_version_info( $license_data );
-
 			$file = '';
 			if ( isset( $version_info->package ) ) {
 				$file = $version_info->package;

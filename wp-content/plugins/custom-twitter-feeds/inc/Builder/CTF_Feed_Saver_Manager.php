@@ -6,7 +6,7 @@
  */
 namespace TwitterFeed\Builder;
 use TwitterFeed\Admin\CTF_Cache_Handler;
-use TwitterFeed\CtfOauthConnect;
+use TwitterFeed\V2\CtfOauthConnect;
 use TwitterFeed\Admin\CTF_HTTP_Request;
 use TwitterFeed\CTF_Settings;
 use TwitterFeed\CTF_Parse;

@@ -72,8 +72,6 @@ class CTF_Admin_Notices
         $not_allowed_screens = array(
             'twitter-feed_page_ctf-feed-builder',
             'twitter-feed_page_ctf-settings',
-            'twitter-feed_page_ctf-oembeds-manager',
-            'twitter-feed_page_ctf-extensions-manager',
             'twitter-feed_page_ctf-about-us',
             'twitter-feed_page_ctf-support',
         );
@@ -168,8 +166,6 @@ class CTF_Admin_Notices
             'dashboard',
             'twitter-feed_page_ctf-feed-builder',
             'twitter-feed_page_ctf-settings',
-            'twitter-feed_page_ctf-oembeds-manager',
-            'twitter-feed_page_ctf-extensions-manager',
             'twitter-feed_page_ctf-about-us',
             'twitter-feed_page_ctf-support',
         );

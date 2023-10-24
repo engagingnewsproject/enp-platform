@@ -11,8 +11,8 @@
 namespace TwitterFeed;
 use TwitterFeed\CtfCache;
 use TwitterFeed\CTF_Parse;
+use TwitterFeed\V2\CtfOauthConnect;
 
-use TwitterFeed\CtfOauthConnect;
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }

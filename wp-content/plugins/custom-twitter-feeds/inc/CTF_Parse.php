@@ -8,7 +8,7 @@
 namespace TwitterFeed;
 
 use TwitterFeed\CtfFeed;
-use TwitterFeed\CtfOauthConnect;
+use TwitterFeed\V2\CtfOauthConnect;
 use TwitterFeed\CTF_GDPR_Integrations;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -149,6 +149,9 @@ class CTF_Parse{
      * @since 2.0
     */
     public static function get_utc_offset ( $data ) {
+		if ( empty( $data['user']['utc_offset'] ) ) {
+			return 0;
+		}
         return $data['user']['utc_offset'];
     }
 
@@ -324,7 +327,7 @@ class CTF_Parse{
     public static function get_user_header_json( $data, $post_info ) {
 	    $type = ! empty( $data['type'] ) ? $data['type'] : 'usertimeline';
 
-	    $types_and_terms = $data['feed_types_and_terms'];
+	    $types_and_terms = isset($data['feed_types_and_terms']) ? $data['feed_types_and_terms'] : [];
 
 	    $timelines_included = array();
 	    foreach ( $types_and_terms as $type_and_term ) {
@@ -429,6 +432,7 @@ class CTF_Parse{
             return ' :class="$parent.getFeedClasses()" ';
         }else{
             $ctf_feed_classes = 'ctf ctf-type-' . CTF_Parse::get_feed_type( $feed_options );
+            $ctf_feed_classes .= \ctf_should_rebrand_to_x() ? ' ctf-rebranded' : '';
             $ctf_feed_classes .= ($feed_id !== false ) ?  ' ctf-feed-' . $feed_id : '';
             $ctf_feed_classes .= ' ' . $feed_options['class'] . ' ctf-styles';
             $ctf_feed_classes .= ($feed_options['layout']) ?  ' ctf-' . $feed_options['layout']: '';

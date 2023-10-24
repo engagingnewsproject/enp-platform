@@ -29,6 +29,7 @@ class CtfAdmin
     public function add_menu()
     {
 		$cap = ctf_get_manage_options_cap();
+        $data_x_icon = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjEuMTE2MSA2LjI3MzQ0SDI0LjIyODlMMTcuNDI4NCAxNC4wNDU5TDI1LjQyODYgMjQuNjIyNUgxOS4xNjQ1TDE0LjI1ODMgMTguMjA3OUw4LjY0NDQgMjQuNjIyNUg1LjUyOTc2TDEyLjgwMzUgMTYuMzA5TDUuMTI4OTEgNi4yNzM0NEgxMS41NTJMMTUuOTg2OCAxMi4xMzY3TDIxLjExNjEgNi4yNzM0NFpNMjAuMDIzNiAyMi43NTk0SDIxLjc0ODRMMTAuNjE0OCA4LjAzODcxSDguNzYzOUwyMC4wMjM2IDIyLjc1OTRaIiBmaWxsPSJibGFjayIvPjwvc3ZnPg==';
 
 		$notice = '';
 
@@ -45,7 +46,8 @@ class CtfAdmin
             __( 'Twitter Feeds', 'custom-twitter-feeds' ). $notice_bubble . $notice,
             $cap,
             'custom-twitter-feeds',
-            'sb_twitter_settings_page'
+            'sb_twitter_settings_page',
+            ctf_should_rebrand_to_x() ? $data_x_icon : 'dashicons-twitter'
         );
 
         add_submenu_page(

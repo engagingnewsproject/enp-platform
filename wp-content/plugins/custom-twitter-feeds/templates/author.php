@@ -70,7 +70,13 @@ if (isset( $retweeter ) && ctf_show( 'retweeter', $feed_options )) :
 		</div>
 	    <?php if (ctf_show( 'logo', $feed_options )) : ?>
 			<div class="ctf-corner-logo" <?php echo $logo_attr ?>>
-				<?php echo ctf_get_fa_el( 'fa-twitter' ); ?>
+				<?php 
+					if ( ctf_should_rebrand_to_x() ) {
+						echo ctf_get_fa_el( 'fa-x' ); 
+					} else {
+						echo ctf_get_fa_el( 'fa-twitter' ); 
+					}
+				?>
 			</div>
 		<?php endif; ?>
 

@@ -4,6 +4,12 @@ use TwitterFeed\CTF_Feed;
 use TwitterFeed\CtfFeed;
 use TwitterFeed\CTF_Settings;
 use TwitterFeed\CTF_GDPR_Integrations;
+
+function ctf_should_rebrand_to_x() {
+	$ctf_settings = get_option( 'ctf_options' );
+	return isset( $ctf_settings['rebranding'] ) && $ctf_settings['rebranding'] === true;
+}
+
 /**
  * May include support for templates in theme folders in the future
  *

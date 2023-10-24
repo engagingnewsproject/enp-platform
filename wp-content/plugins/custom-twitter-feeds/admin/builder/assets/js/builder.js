@@ -30,7 +30,7 @@ ctfBuilder = new Vue({
 		updatedTimeStamp : new Date().getTime(),
 		feedSettingsDomOptions : null,
 		newAccountData : ctf_builder.newAccountData,
-
+		ctfRebrand 		: ctf_builder.ctfRebrand,
 		$parent : this,
 		plugins: ctf_builder.installPluginsPopup,
 		dismissLite : ctf_builder.twitter_feed_dismiss_lite,
@@ -56,6 +56,24 @@ ctfBuilder = new Vue({
 		connectAccountScreen : ctf_builder.connectAccountScreen,
 		freeCtaShowFeatures: false,
 
+		//Add New Source
+		newSourceData        : ctf_builder.newSourceData ? ctf_builder.newSourceData : null,
+		sourceConnectionURLs : ctf_builder.sourceConnectionURLs,
+		returnedApiSourcesList : [],
+		addNewSource : {
+			typeSelected        : 'page',
+			manualSourceID      : null,
+			manualSourceToken   : null
+		},
+		selectedFeed : 'none',
+		expandedFeedID : null,
+		notificationElement : {
+			type : 'success', // success, error, warning, message
+			text : '',
+			shown : null
+		},
+		selectedSourcesToConnect : [],
+		
 		selectSourceScreen 		: ctf_builder.selectSourceScreen,
 		customizeScreensText 	: ctf_builder.customizeScreens,
 		dialogBoxPopupScreen   	: ctf_builder.dialogBoxPopupScreen,
@@ -1135,6 +1153,7 @@ ctfBuilder = new Vue({
 
 			self.viewsActive.onboardingPopup = false;
 			self.viewsActive.onboardingCustomizerPopup = false;
+			this.switchCustomizerTab('customize');
 
 			self.viewsActive.onboardingStep = 0;
             var postData = {
@@ -1785,6 +1804,7 @@ ctfBuilder = new Vue({
 				feedClasses = 'ctf';
 			feedClasses += ' ctf-type-' + customizerSettings.type;
 			feedClasses += ' ctf-' + customizerSettings.layout;
+			feedClasses += self.ctfRebrand ? ' ctf-rebranded' : '';
 			feedClasses += ' ctf-styles ' + customizerSettings.class;
 			feedClasses += ' ctf-feed-' + self.customizerFeedData.feed_info.id;
 			feedClasses += (customizerSettings.tweetpoststyle != undefined) ? ' ctf-' + customizerSettings.tweetpoststyle + '-style' : '';

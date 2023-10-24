@@ -418,7 +418,8 @@ Social Links
     outline: none;
 }
 #wpcontent,
-.facebook-feed_page_ctf-feed-builder #wpcontent{
+.twitter-feeds_page_ctf-feed-builder #wpcontent,
+.twitter-feeds-1_page_ctf-feed-builder #wpcontent {
     padding-left: 0px;
 }
 #wpfooter{

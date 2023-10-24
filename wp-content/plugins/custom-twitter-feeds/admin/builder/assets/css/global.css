@@ -3188,13 +3188,6 @@ body{
 		margin-right: 20px;
 	}
 }
-/** Remove when own app implemented **/
-.ctf-fb-connectaccount-popup .ctf-fb-source-bottom {
-	display: none;
-}
-.sb-manage-acount-box .ctf-add-account {
-	display: none;
-}
 
 /** No email is returned **/
 .sb-email-box {

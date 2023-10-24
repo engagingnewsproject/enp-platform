@@ -149,6 +149,7 @@ class CTF_Global_Settings {
 		/**
 		 * Advanced Tab
 		 */
+		$ctf_settings['rebranding'] 				= (bool)$advanced['rebranding'];
 		$ctf_settings['resizing'] 				= (bool)$advanced['resizing'];
 		$ctf_settings['persistentcache'] 		= (bool)$advanced['persistentcache'];
 		$ctf_settings['ajax_theme'] 			= (bool)$advanced['ajax_theme'];
@@ -304,7 +305,6 @@ class CTF_Global_Settings {
 		// Make the remote API request
 		$request = CTF_HTTP_Request::request( 'GET', $url, $args );
 		if ( CTF_HTTP_Request::is_error( $request ) ) {
-			ray($request);
 			new CTF_Response( false, array(
 				'hasError' => true
 			) );
@@ -818,7 +818,8 @@ class CTF_Global_Settings {
 			'nonce'             => wp_create_nonce( 'ctf_admin_nonce' ),
 			'supportPageUrl'    => admin_url( 'admin.php?page=ctf-support' ),
 			'builderUrl'		=> admin_url( 'admin.php?page=ctf-feed-builder' ),
-			'links'				=> $this->get_links_with_utm(),
+			'links'				=> $this->get_links_with_utm(), 
+			'ctfRebrand'		=> ctf_should_rebrand_to_x(),
 			'pluginItemName'	=> CTF_PRODUCT_NAME,
 			'licenseType'		=> 'free',
 			'licenseKey'		=> $license_key,
@@ -866,11 +867,11 @@ class CTF_Global_Settings {
 					'installPro' => __( 'Install Pro', 'custom-twitter-feeds' ),
 				),
 				'manageAccount'	=> array(
-					'title'	=> __( 'Connected Twitter Account', 'custom-twitter-feeds' ),
-					'description'	=> __( 'This account is used to display home timeline, or fetch data from Twitter API for other timeline.<br/>Changing this will not affect Hashtag, Search or List Timelines, but will change Home and Mentions timelines.', 'custom-twitter-feeds' ),
+					'title'	=> __( 'Twitter Integration', 'custom-twitter-feeds' ),
+					'description'	=> sprintf(__( 'Your feeds are automatically updated once per week. <br />Read more %shere%s about Twitter latest changes and how they affect our product.', 'custom-twitter-feeds' ), '<a href="https://smashballoon.com/doc/smash-balloon-twitter-changes-free-version/?twitter" target="_blank">', '</a>' ),
 					'button'	=> __( 'Change', 'custom-twitter-feeds' ),
 					'buttonConnect'	=> __( 'Connect new Account', 'custom-twitter-feeds' ),
-					'buttonConnectOwnApp'	=> __( 'Connect your Own Twitter App', 'custom-twitter-feeds' ),
+					'buttonConnectOwnApp'	=> __( 'Connect your Own App (V2)', 'custom-twitter-feeds' ),
 					'titleApp'	=> __( 'Connected Twitter App', 'custom-twitter-feeds' ),
 					'cKey'		=> __( 'Consumer Key', 'custom-twitter-feeds' ),
 					'cSecret'	=> __( 'Consumer Secret', 'custom-twitter-feeds' ),
@@ -999,6 +1000,10 @@ class CTF_Global_Settings {
 				)
 			),
 			'advancedTab'	=> array(
+				'rebrandingBox' => array(
+					'title' => __( 'Change Twitter to X', 'custom-twitter-feeds' ),
+					'helpText' => __( 'Changes the branding from Twitter to X across the plugin, including your feeds.', 'custom-twitter-feeds' ),
+				),
 				'optimizeBox' => array(
 					'title' => __( 'Optimize Images', 'custom-twitter-feeds' ),
 					'helpText' => __( 'This will create multiple local copies of images in different sizes. The plugin then displays the smallest version based on the size of the feed.', 'custom-twitter-feeds' ),
@@ -1120,8 +1125,8 @@ class CTF_Global_Settings {
 			if( CTF_Feed_Builder::is_connected( $ctf_options, $maybe_new_account ) ){
 				$ctf_settings['accountDetails'] = [
 					'site_token' => $maybe_new_account,
-					'access_token' 			=> 'smash_twitter',
-					'access_token_secret' 	=> 'smash_twitter',
+					'access_token' 			=> '',
+					'access_token_secret' 	=> '',
 					'account_avatar' 		=> ''
 				];
 				$ctf_settings['appCredentials'] = $ctf_settings['accountDetails'];
@@ -1153,8 +1158,6 @@ class CTF_Global_Settings {
 				];
 			}
 		}
-
-
 
 		wp_localize_script(
 			'settings-app',
@@ -1275,7 +1278,7 @@ class CTF_Global_Settings {
 				'nowtime' => $ctf_settings['nowtime'],
 			),
 			'advanced' => array(
-				'resizing' => $ctf_settings['resizing'],
+				'rebranding' => $ctf_settings['rebranding'],
 				'usage_tracking' => $usage_tracking['enabled'],
 				'resizing' => $ctf_settings['resizing'],
 				'persistentcache' => $ctf_settings['persistentcache'],
@@ -1316,6 +1319,7 @@ class CTF_Global_Settings {
 			//Translation Goes Here
 
 			//----------
+			'rebranding' => false,
 			'resizing' => true,
 			'persistentcache' => true,
 			'ajax_theme' => false,

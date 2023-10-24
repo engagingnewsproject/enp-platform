@@ -22,22 +22,22 @@ class CtfOauthConnect
     /**
      * @var string
      */
-    private $get_fields;
+    protected $get_fields;
 
     /**
      * @var string
      */
-    private $request_method;
+    protected $request_method;
 
     /**
      * @var array
      */
-    private $oauth;
+    protected $oauth;
 
     /**
      * @var string
      */
-    private $header;
+    protected $header;
 
     /**
      * @var bool
@@ -159,7 +159,7 @@ class CtfOauthConnect
             'oauth_version' => '1.0'
         );
 
-        $getfields = str_replace( '?', '', explode( '&', $this->get_fields ) );
+        $getfields = str_replace( '?', '', explode( '&', $this->get_fields ? $this->get_fields : '' ) );
 
         // add the get fields to the oauth associative array to be
         // formed into the header string eventually
@@ -207,7 +207,7 @@ class CtfOauthConnect
      * @param $url      string the complete api endpoint url
      * @return mixed    json string retrieved in the request
      */
-    private function curlRequest( $url )
+    protected function curlRequest( $url )
     {
         $br = curl_init( $url );
 
@@ -256,7 +256,7 @@ class CtfOauthConnect
      * @param $url      string the complete api endpoint url
      * @return mixed    json string retrieved in the request
      */
-    private function wpHttpRequest( $url )
+    protected function wpHttpRequest( $url )
     {
         $args = array(
             'headers' => $this->header,
@@ -293,10 +293,8 @@ class CtfOauthConnect
                 $this->json = $this->fileGetContentsRequest( $url );
                 break;
             default:
-	            //$this->json = $this->wpHttpRequest( $url );
+	            $this->json = $this->wpHttpRequest( $url );
         }
-
-	    $this->json = '[]';
 
         return $this;
     }
