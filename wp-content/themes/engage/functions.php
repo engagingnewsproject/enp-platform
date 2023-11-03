@@ -1,14 +1,4 @@
 <?php
-<<<<<<< HEAD
-/**
- * Timber starter-theme
- * https://github.com/timber/starter-theme
- *
- * @package  WordPress
- * @subpackage  Timber
- * @since   Timber 0.1
- */
-=======
 // include 'vendor/autoload.php';
 
 // Now that we have Timber installed via Composer, we need to load the Composer autoloader and initialize Timber. 
@@ -18,7 +8,6 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 $timber = new Timber\Timber();
->>>>>>> master
 
 /**
  * If you are installing Timber as a Composer dependency in your theme, you'll need this block
