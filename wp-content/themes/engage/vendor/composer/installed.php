@@ -1,15 +1,24 @@
 <?php return array(
     'root' => array(
+<<<<<<< HEAD
         'name' => 'upstatement/timber-starter-theme',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
         'reference' => '7f700fae187f6dcf994e003aaf456bdb84eb652f',
         'type' => 'wordpress-theme',
+=======
+        'name' => '__root__',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '195db02289403409a5941d571b0353957b70b6d4',
+        'type' => 'library',
+>>>>>>> master
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+<<<<<<< HEAD
         'ajgl/breakpoint-twig-extension' => array(
             'pretty_version' => '0.4.0',
             'version' => '0.4.0.0',
@@ -18,6 +27,16 @@
             'install_path' => __DIR__ . '/../ajgl/breakpoint-twig-extension',
             'aliases' => array(),
             'dev_requirement' => true,
+=======
+        '__root__' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '195db02289403409a5941d571b0353957b70b6d4',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+>>>>>>> master
         ),
         'altorouter/altorouter' => array(
             'pretty_version' => '2.0.2',
@@ -37,6 +56,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'djboris88/timber-commented-include' => array(
             'pretty_version' => '1.1.0',
             'version' => '1.1.0.0',
@@ -55,6 +75,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> master
         'hellonico/timber-dump-extension' => array(
             'pretty_version' => '1.0.0',
             'version' => '1.0.0.0',
@@ -73,6 +95,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'myclabs/deep-copy' => array(
             'pretty_version' => '1.11.1',
             'version' => '1.11.1.0',
@@ -298,6 +321,8 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+=======
+>>>>>>> master
         'symfony/deprecation-contracts' => array(
             'pretty_version' => 'v3.3.0',
             'version' => '3.3.0.0',
@@ -335,14 +360,21 @@
             'dev_requirement' => false,
         ),
         'symfony/var-dumper' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v6.3.5',
             'version' => '6.3.5.0',
             'reference' => '3d9999376be5fea8de47752837a3e1d1c5f69ef5',
+=======
+            'pretty_version' => 'v6.3.6',
+            'version' => '6.3.6.0',
+            'reference' => '999ede244507c32b8e43aebaa10e9fce20de7c97',
+>>>>>>> master
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/var-dumper',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'theseer/tokenizer' => array(
             'pretty_version' => '1.2.1',
             'version' => '1.2.1.0',
@@ -352,6 +384,8 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+=======
+>>>>>>> master
         'timber/timber' => array(
             'pretty_version' => '1.23.0',
             'version' => '1.23.0.0',
@@ -388,6 +422,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'upstatement/timber-starter-theme' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
@@ -397,5 +432,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> master
     ),
 );

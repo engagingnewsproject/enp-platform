@@ -2,7 +2,7 @@
 <div class="mate{{ mate.member_image ? ' mate--has-img'}} mate--tease grid grid--col-12{{status}}">
 	{% if post.post_type == 'research' or post.post_type == 'page' %}
 		{% if mate.member_image and mate.terms('team_category') | join(', ') != "Former CME" %}
-			<a class="mate-tease__link" href="{{site.url}}/team/{{mate.slug}}/"></a>
+			<a class="mate-tease__link" href="{{site.link}}/team/{{mate.slug}}/"></a>
 		{% endif %}
 	{% endif %}
 	

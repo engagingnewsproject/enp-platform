@@ -11,8 +11,12 @@ return array(
     '25072dd6e2470089de65ae7bf11d3109' => $vendorDir . '/symfony/polyfill-php72/bootstrap.php',
     '6e3fae29631ef280660b3cdad06f25a8' => $vendorDir . '/symfony/deprecation-contracts/function.php',
     '667aeda72477189d0494fecd327c3641' => $vendorDir . '/symfony/var-dumper/Resources/functions/dump.php',
+<<<<<<< HEAD
     '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     'ff5909ed44ffdc0201cdcda4cb07d702' => $vendorDir . '/djboris88/timber-commented-include/functions.php',
     '37920fbd6eaeababa873d97ba1c5324c' => $vendorDir . '/hellonico/timber-dump-extension/functions.php',
     'ec07570ca5a812141189b1fa81503674' => $vendorDir . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
+=======
+    '37920fbd6eaeababa873d97ba1c5324c' => $vendorDir . '/hellonico/timber-dump-extension/functions.php',
+>>>>>>> master
 );

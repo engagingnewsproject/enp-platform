@@ -12,10 +12,14 @@ class ComposerStaticInit4beec2f6f4af326c1225f539b9c2d75b
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+<<<<<<< HEAD
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'ff5909ed44ffdc0201cdcda4cb07d702' => __DIR__ . '/..' . '/djboris88/timber-commented-include/functions.php',
         '37920fbd6eaeababa873d97ba1c5324c' => __DIR__ . '/..' . '/hellonico/timber-dump-extension/functions.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
+=======
+        '37920fbd6eaeababa873d97ba1c5324c' => __DIR__ . '/..' . '/hellonico/timber-dump-extension/functions.php',
+>>>>>>> master
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -31,10 +35,13 @@ class ComposerStaticInit4beec2f6f4af326c1225f539b9c2d75b
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\VarDumper\\' => 28,
         ),
+<<<<<<< HEAD
         'P' => 
         array (
             'PhpParser\\' => 10,
         ),
+=======
+>>>>>>> master
         'H' => 
         array (
             'HelloNico\\Twig\\' => 15,
@@ -85,10 +92,13 @@ class ComposerStaticInit4beec2f6f4af326c1225f539b9c2d75b
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
+<<<<<<< HEAD
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+=======
+>>>>>>> master
         'HelloNico\\Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/hellonico/twig-dump-extension/src',
@@ -1305,14 +1315,48 @@ class ComposerStaticInit4beec2f6f4af326c1225f539b9c2d75b
         'TheSeer\\Tokenizer\\XMLSerializer' => __DIR__ . '/..' . '/theseer/tokenizer/src/XMLSerializer.php',
     );
 
+    public static $fallbackDirsPsr4 = array (
+        0 => __DIR__ . '/..' . '/twig/cache-extension/lib',
+    );
+
+    public static $prefixesPsr0 = array (
+        'T' => 
+        array (
+            'Twig_' => 
+            array (
+                0 => __DIR__ . '/..' . '/twig/twig/lib',
+            ),
+        ),
+        'R' => 
+        array (
+            'Routes' => 
+            array (
+                0 => __DIR__ . '/..' . '/upstatement/routes',
+            ),
+        ),
+    );
+
+    public static $classMap = array (
+        'AltoRouter' => __DIR__ . '/..' . '/altorouter/altorouter/AltoRouter.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+<<<<<<< HEAD
             $loader->prefixLengthsPsr4 = ComposerStaticInit4beec2f6f4af326c1225f539b9c2d75b::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit4beec2f6f4af326c1225f539b9c2d75b::$prefixDirsPsr4;
             $loader->fallbackDirsPsr4 = ComposerStaticInit4beec2f6f4af326c1225f539b9c2d75b::$fallbackDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit4beec2f6f4af326c1225f539b9c2d75b::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit4beec2f6f4af326c1225f539b9c2d75b::$classMap;
+=======
+            $loader->prefixLengthsPsr4 = ComposerStaticInitdbdccbce74b633513593be61df94f88b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitdbdccbce74b633513593be61df94f88b::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitdbdccbce74b633513593be61df94f88b::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitdbdccbce74b633513593be61df94f88b::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitdbdccbce74b633513593be61df94f88b::$classMap;
+>>>>>>> master
 
         }, null, ClassLoader::class);
     }
