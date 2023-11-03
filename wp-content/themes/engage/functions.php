@@ -1,10 +1,5 @@
 <?php
-// include 'vendor/autoload.php';
-
-// Now that we have Timber installed via Composer, we need to load the Composer autoloader and initialize Timber. 
-// You can do this by adding the following code at the top of your functions.php file:
-
-// Load Composer dependencies.
+// Load the Composer autoloader and initialize Timber. 
 require_once __DIR__ . '/vendor/autoload.php';
 
 $timber = new Timber\Timber();
@@ -70,68 +65,35 @@ function engage_timber_context($context)
     return $context;
 }
 
-<<<<<<< HEAD
 add_filter('the_posts', 'tribe_past_reverse_chronological', 100);
-
-// When viewing previous events, they will be shown from most recent to oldest
+// // When viewing previous events, they will be shown from most recent to oldest
 function tribe_past_reverse_chronological ($post_object) {
-$past_ajax = (defined( 'DOING_AJAX' ) && DOING_AJAX && $_REQUEST['tribe_event_display'] === 'past') ? true : false;
+    $past_ajax = (defined( 'DOING_AJAX' ) && DOING_AJAX && $_REQUEST['tribe_event_display'] === 'past') ? true : false;
    
     if (tribe_is_past() || $past_ajax) {
         $dates = get_dates_from_title('tribe_get_events_title');
-$current_date = date("m-d-Y");
+        $current_date = date("m-d-Y");
 
-// If the user navigates from upcoming events to previous events then back to upcoming events,
+        // If the user navigates from upcoming events to previous events then back to upcoming events,
         // the site will still regard this as a past events query. Thus we ensure the order of upcoming
         // events is not altered.
         if ($dates[1] < $current_date) {
-$post_object = array_reverse($post_object);
-add_filter( 'tribe_get_events_title', 'tribe_alter_event_archive_titles', 11, 2 );
-}
+            $post_object = array_reverse($post_object);
+            add_filter( 'tribe_get_events_title', 'tribe_alter_event_archive_titles', 11, 2 );
+        }
     }
-
-return $post_object;
-}
+   
+    return $post_object;
+  }
 
 function tribe_alter_event_archive_titles( $original_recipe_title, $depth ) {
-// If we are displaying previous events, we still want the date range of events
+    // If we are displaying previous events, we still want the date range of events
     // to be from oldest to most recent despite the order of the posts being the opposite.
     // This is done by switching the order of the dates in the Events title string.
     $dates = get_dates_from_title($original_recipe_title);
-$title = sprintf( __( 'Events for %1$s - %2$s', 'the-events-calendar' ), $dates[1], $dates[0] );
-return $title;
+    $title = sprintf( __( 'Events for %1$s - %2$s', 'the-events-calendar' ), $dates[1], $dates[0] );
+    return $title;
 }
-=======
-// add_filter('the_posts', 'tribe_past_reverse_chronological', 100);
-// // When viewing previous events, they will be shown from most recent to oldest
-// function tribe_past_reverse_chronological ($post_object) {
-//     $past_ajax = (defined( 'DOING_AJAX' ) && DOING_AJAX && $_REQUEST['tribe_event_display'] === 'past') ? true : false;
-   
-//     if (tribe_is_past() || $past_ajax) {
-//         $dates = get_dates_from_title('tribe_get_events_title');
-//         $current_date = date("m-d-Y");
-
-//         // If the user navigates from upcoming events to previous events then back to upcoming events,
-//         // the site will still regard this as a past events query. Thus we ensure the order of upcoming
-//         // events is not altered.
-//         if ($dates[1] < $current_date) {
-//             $post_object = array_reverse($post_object);
-//             add_filter( 'tribe_get_events_title', 'tribe_alter_event_archive_titles', 11, 2 );
-//         }
-//     }
-   
-//     return $post_object;
-//   }
-
-// function tribe_alter_event_archive_titles( $original_recipe_title, $depth ) {
-//     // If we are displaying previous events, we still want the date range of events
-//     // to be from oldest to most recent despite the order of the posts being the opposite.
-//     // This is done by switching the order of the dates in the Events title string.
-//     $dates = get_dates_from_title($original_recipe_title);
-//     $title = sprintf( __( 'Events for %1$s - %2$s', 'the-events-calendar' ), $dates[1], $dates[0] );
-//     return $title;
-// }
->>>>>>> master
 
 function get_dates_from_title( $date_string ) {
 // Helper function to extract the start and end date ranges of a subset of events
