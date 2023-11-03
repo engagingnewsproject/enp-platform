@@ -6,7 +6,33 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitdbdccbce74b633513593be61df94f88b
 {
+    public static $files = array (
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        '37920fbd6eaeababa873d97ba1c5324c' => __DIR__ . '/..' . '/hellonico/timber-dump-extension/functions.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
+        'T' => 
+        array (
+            'Twig\\' => 5,
+            'Timber\\' => 7,
+        ),
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Php72\\' => 23,
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
+            'Symfony\\Component\\VarDumper\\' => 28,
+        ),
+        'H' => 
+        array (
+            'HelloNico\\Twig\\' => 15,
+            'HelloNico\\Timber\\' => 17,
+        ),
         'E' => 
         array (
             'Engage\\' => 7,
@@ -18,6 +44,38 @@ class ComposerStaticInitdbdccbce74b633513593be61df94f88b
     );
 
     public static $prefixDirsPsr4 = array (
+        'Twig\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'Timber\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/timber/timber/lib',
+        ),
+        'Symfony\\Polyfill\\Php72\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
+        'Symfony\\Component\\VarDumper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/var-dumper',
+        ),
+        'HelloNico\\Twig\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hellonico/twig-dump-extension/src',
+        ),
+        'HelloNico\\Timber\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hellonico/timber-dump-extension/src',
+        ),
         'Engage\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
@@ -28,11 +86,40 @@ class ComposerStaticInitdbdccbce74b633513593be61df94f88b
         ),
     );
 
+    public static $fallbackDirsPsr4 = array (
+        0 => __DIR__ . '/..' . '/twig/cache-extension/lib',
+    );
+
+    public static $prefixesPsr0 = array (
+        'T' => 
+        array (
+            'Twig_' => 
+            array (
+                0 => __DIR__ . '/..' . '/twig/twig/lib',
+            ),
+        ),
+        'R' => 
+        array (
+            'Routes' => 
+            array (
+                0 => __DIR__ . '/..' . '/upstatement/routes',
+            ),
+        ),
+    );
+
+    public static $classMap = array (
+        'AltoRouter' => __DIR__ . '/..' . '/altorouter/altorouter/AltoRouter.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitdbdccbce74b633513593be61df94f88b::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitdbdccbce74b633513593be61df94f88b::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitdbdccbce74b633513593be61df94f88b::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitdbdccbce74b633513593be61df94f88b::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitdbdccbce74b633513593be61df94f88b::$classMap;
 
         }, null, ClassLoader::class);
     }
