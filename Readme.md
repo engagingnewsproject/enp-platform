@@ -15,11 +15,11 @@ Conversion notes:
 * Source doc: CME Updated Readme.md
 ----->
 
+Engage is a [Timber](https://timber.github.io/docs/)(Twig) powered WordPress theme for [The Center for Media Engagement](https://mediaengagement.org/) at University of Texas at Austin.
 
+# Installation
 
-# Installing
-
-## The short
+## Installation - Summary
 - Download [WP Engine Local App](http://localwp.com/).
 - Connect with CME WP Engine account.
 - Download mediaengagement.org from the Local App
@@ -27,11 +27,11 @@ Conversion notes:
 - Install npm
 - Develop
 
-## The long
+## Installation Full Instructions:
 
 [View the long installation instructions here.](https://github.com/engagingnewsproject/enp-platform/wiki/Development#installation)
 
-# Running the development environment
+# Local development
 
 1. The `.nvmrc` ([/wp-content/themes/engage/.nvmrc](https://github.com/engagingnewsproject/enp-platform/blob/master/wp-content/themes/engage/.nvmrc)) file contains the Node version required for the project. In order to enable the version switch on each dev session you need to first run:
 
