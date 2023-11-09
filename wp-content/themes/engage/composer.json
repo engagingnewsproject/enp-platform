@@ -1,0 +1,17 @@
+{
+    "require": {
+        "timber/timber": "^1.0",
+        "hellonico/timber-dump-extension": "^1.0",
+        "upstatement/routes": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+          "Engage\\": "src/"
+        }
+    }
+}
