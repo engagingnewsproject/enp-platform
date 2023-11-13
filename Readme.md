@@ -56,3 +56,21 @@ _** Currently this repo includes the whole WordPress installation. This is not r
 5. **IMPORTANT** When you are done, to compile your code & minify for the production server be sure to run:
 
        npm run production
+       
+## Debug Local App Connection
+
+If you run into any issues with the Engage theme try some of these workarounds to get the site and wp-admin showing up.
+
+- __Switch to WordPress default theme.__
+
+  1. If you cannot access wp-admin rename the theme in your project directory to something like `/engage-0`. This will make WordPress switch to the default theme.
+	
+  2. Disable all plugins except for Advanced Custom Fields (Engage theme depends on this plugin.)
+	
+  3. Reactivate the engage theme by renaming it back to `/engage` in the project directory.
+  
+     _This is an important step, as you will need WordPress to recognize the Engage theme so you can reactivate it on the WordPress dashboard at the Appearance/Themes page._
+	
+- __Deactivate the Engaging Quiz plugin__
+
+  - This plugin is notorious for causing issues, so keep it deactivated to mitigate any related issues.
