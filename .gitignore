@@ -74,3 +74,5 @@ wp-content/themes/engage/vendor/
 # Exclude the config files from the /themes/engage directory
 !wp-content/themes/engage/package.json
 !wp-content/themes/engage/composer.json
+local-phpinfo.php
+php.ini

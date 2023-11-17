@@ -61,6 +61,10 @@ _** Currently this repo includes the whole WordPress installation. This is not r
 
 If you run into any issues with the Engage theme try some of these workarounds to get the site and wp-admin showing up.
 
+- You might have to run `composer require hellonico/timber-dump-extension` to get the [Timber Dump Extension](https://github.com/nlemoine/timber-dump-extension#timber-dump-extension).
+
+- Make sure on the Local App you have your php version above 8.1.0.
+
 - __Switch to WordPress default theme.__
 
   1. If you cannot access wp-admin rename the theme in your project directory to something like `/engage-0`. This will make WordPress switch to the default theme.
