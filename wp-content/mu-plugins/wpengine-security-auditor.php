@@ -23,6 +23,7 @@ WPEngineSecurityAuditor_Scans::initialize();
 /**
  * Class WPEngineSecurityAuditor_Events
  */
+#[AllowDynamicProperties]
 class WPEngineSecurityAuditor_Events {
 
 	/**
