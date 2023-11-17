@@ -6,12 +6,17 @@
     },
     "config": {
         "allow-plugins": {
-            "composer/installers": true
+            "composer/installers": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "autoload": {
         "psr-4": {
           "Engage\\": "src/"
         }
+    },
+    "require-dev": {
+        "phpcompatibility/php-compatibility": "dev-develop",
+        "wp-coding-standards/wpcs": "^3.0"
     }
 }

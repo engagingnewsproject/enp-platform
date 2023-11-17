@@ -76,3 +76,4 @@ wp-content/themes/engage/vendor/
 !wp-content/themes/engage/composer.json
 local-phpinfo.php
 php.ini
+wp-content/themes/engage/package-lock.json
