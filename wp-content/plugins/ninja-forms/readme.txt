@@ -2,9 +2,9 @@
 Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorhouse, jmcelhaney, wpnzach, ericwindhamsd
 Tags: forms, contact form, email form, form builder, custom form, pdf form, registration form, payment form, login form, contact me, signature form, upload form, file upload form, conditional form, feedback form, appointment form, quote form, survey form, contact button, signup form, form plugin, contact form plugin, subscription form, email subscription form, newsletter form, donation form, booking form, quote request form, multi page form, conditional logic form, subscription form, application form, employment verification form, star rating form, rating form, event form, mailchimp form, campaign monitor form, constant contact form, mailpoet form, aweber form, cleverreach form, emma form, convertkit form, active campaign form, salesforce form, zoho form, capsule form, insightly form, pipelinedeals form, onepagecrm form
 
-Requires at least: 6.0
-Tested up to: 6.3.1
-Stable tag: 3.6.34
+Requires at least: 6.1
+Tested up to: 6.4.0
+Stable tag: 3.7.0
 
 License: GPLv2 or later
 
@@ -304,17 +304,27 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.6.34 (11 October 2023)
+= 3.7.0 (07 November 2023)
+* Features:*
+- Ability to preserve 'extra' data after redirect
 
 * Bug Fixes: *
-- Prevent script triggers in field labels
-- Ensure needed export data present before action
+- Ensure extra data on CSV export is in correct chronological order
 
 * Other: *
-- Update to country list
-- Close notice from bulk export results
+- Updated end to end test
 
 == Changelog ==
+= 3.7.0 (07 November 2023)
+* Features:*
+- Ability to preserve 'extra' data after redirect
+
+* Bug Fixes: *
+- Ensure extra data on CSV export is in correct chronological order
+
+* Other: *
+- Updated end to end test
+
 = 3.6.34 (11 October 2023)
 
 * Bug Fixes: *

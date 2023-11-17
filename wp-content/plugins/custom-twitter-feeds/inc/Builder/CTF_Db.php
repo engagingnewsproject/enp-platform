@@ -194,17 +194,20 @@ class CTF_Db {
 	/**
 	 * Query to Remove Feeds from Database
 	 *
-	 * @param array $args
-	 *
-	 * @return array|bool
+	 * @param array $feed_ids_array array of feed IDs to be deleted.
 	 *
 	 * @since 2.0
 	 */
-	public static function delete_feeds_query( $feed_ids_array ) {
+	public static function delete_feeds_query($feed_ids_array)
+	{
 		global $wpdb;
 		$feeds_table_name = $wpdb->prefix . 'ctf_feeds';
 		$feed_caches_table_name = $wpdb->prefix . 'ctf_feed_caches';
-		$feed_ids_array = implode(',', $feed_ids_array);
+		$sanitized_feed_ids_array = array();
+		foreach ($feed_ids_array as $id) {
+			$sanitized_feed_ids_array[] = absint($id);
+		}
+		$feed_ids_array = implode(',', $sanitized_feed_ids_array);
 		$wpdb->query(
 			"DELETE FROM $feeds_table_name WHERE id IN ($feed_ids_array)"
 		);

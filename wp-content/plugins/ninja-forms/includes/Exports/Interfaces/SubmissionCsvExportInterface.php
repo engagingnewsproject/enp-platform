@@ -10,7 +10,7 @@ interface NF_Exports_Interfaces_SubmissionCsvExportInterface {
      * 
      * @return string
      */
-    public function handle()/* :string */;
+    public function handle(): string;
 
     
     /**
@@ -18,7 +18,7 @@ interface NF_Exports_Interfaces_SubmissionCsvExportInterface {
      * 
      * CSV output sorts earliest to current; submissionAggregate returns in reverse order
      *
-     * @return void
+     * @return array
      */
     public function reverseSubmissionOrder(): array;
 
@@ -34,7 +34,7 @@ interface NF_Exports_Interfaces_SubmissionCsvExportInterface {
      * Set submission collection used in generating the CSV
      * @param SubmissionCollectionInterface $submissionCollection
      */
-    public function setSubmissionCollection(/* SubmissionCollectionInterface */ $submissionCollection)/* :NF_Exports_Interfaces_SubmissionCsvExportInterface */;
+    public function setSubmissionCollection(SubmissionCollectionInterface $submissionCollection): NF_Exports_Interfaces_SubmissionCsvExportInterface;
 
     /**
      * Set boolean useAdminLabels
@@ -54,5 +54,5 @@ interface NF_Exports_Interfaces_SubmissionCsvExportInterface {
      * Set date format
      * @param string $dateFormat
      */
-    public function setDateFormat(/* string */$dateFormat)/* :NF_Exports_Interfaces_SubmissionCsvExportInterface */;
+    public function setDateFormat(string $dateFormat): NF_Exports_Interfaces_SubmissionCsvExportInterface;
 }

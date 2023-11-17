@@ -202,55 +202,6 @@ class CtfOauthConnect
     }
 
     /**
-     * Attempts to connect to the Twitter api using curl
-     *
-     * @param $url      string the complete api endpoint url
-     * @return mixed    json string retrieved in the request
-     */
-    protected function curlRequest( $url )
-    {
-        $br = curl_init( $url );
-
-        curl_setopt( $br, CURLOPT_HTTPHEADER, array( $this->header ) ); // must pass in array
-        curl_setopt( $br, CURLOPT_URL, $url );
-        curl_setopt( $br, CURLOPT_RETURNTRANSFER, true );
-        curl_setopt( $br, CURLOPT_TIMEOUT, 10 );
-        curl_setopt( $br, CURLOPT_SSL_VERIFYPEER, false ); // must be false to connect without signed certificate
-        curl_setopt( $br, CURLOPT_ENCODING, '' );
-
-        $json = curl_exec( $br );
-
-        if ( curl_errno( $br ) ){
-            $this->api_error_no = curl_errno( $br );
-            $this->api_error_message = curl_error( $br );
-        }
-
-        curl_close( $br );
-
-        return $json;
-    }
-
-    /**
-     * Attempts to connect to the Twitter api using file get contents
-     *
-     * @param $url      string the complete api endpoint url
-     * @return mixed    json string retrieved in the request
-     */
-    public function fileGetContentsRequest( $url )
-    {
-        $opts = array(
-            'http' => array(
-                'method' => 'GET',
-                'header' => $this->header
-            )
-        );
-
-        $context = stream_context_create( $opts );
-
-        return file_get_contents( $url, false, $context );
-    }
-
-    /**
      * Attempts to connect to the Twitter api using WP_HTTP class
      *
      * @param $url      string the complete api endpoint url
@@ -285,16 +236,7 @@ class CtfOauthConnect
         $this->buildOauth();
         $this->encodeHeader();
 
-        switch ( $this->request_method ) {
-            case 'curl':
-                $this->json = $this->curlRequest( $url );
-                break;
-            case 'file_get_contents':
-                $this->json = $this->fileGetContentsRequest( $url );
-                break;
-            default:
-	            $this->json = $this->wpHttpRequest( $url );
-        }
+	    $this->json = $this->wpHttpRequest( $url );
 
         return $this;
     }

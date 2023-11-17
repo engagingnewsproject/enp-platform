@@ -296,18 +296,23 @@ class CTF_Feed_Saver_Manager {
 	 *
 	 * @since 2.0
 	 */
-	public static function delete_feed() {
-		check_ajax_referer( 'ctf-admin' , 'nonce');
+	public static function delete_feed()
+	{
+		check_ajax_referer('ctf-admin', 'nonce');
 
 		$cap = ctf_get_manage_options_cap();
 
-		if ( ! current_user_can( $cap ) ) {
+		if (! current_user_can($cap)) {
 			wp_send_json_error(); // This auto-dies.
 		}
 
-		if ( ! empty( $_POST['feeds_ids'] ) && is_array( $_POST['feeds_ids'] )) {
-			$feed_ids = array_map( 'absint', $_POST['feeds_ids'] );
-			CTF_Db::delete_feeds_query( $_POST['feeds_ids'] );
+		if (! empty($_POST['feeds_ids']) && is_array($_POST['feeds_ids'])) {
+			$sanitized_feed_ids_array = array();
+			foreach ($_POST['feeds_ids'] as $id) {
+				$sanitized_feed_ids_array[] = absint($id);
+			}
+
+			CTF_Db::delete_feeds_query($sanitized_feed_ids_array);
 		}
 	}
 

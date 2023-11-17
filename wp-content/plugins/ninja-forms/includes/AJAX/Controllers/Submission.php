@@ -189,6 +189,8 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
         $this->_data[ 'form_id' ] = $this->_form_data[ 'form_id' ] = $this->_form_id;
         $this->_data[ 'settings' ] = $form_settings;
         $this->_data[ 'settings' ][ 'is_preview' ] = $this->is_preview();
+
+        $this->maybePreserveExtraData();
         $this->_data[ 'extra' ] = $this->_form_data[ 'extra' ];
 
         /*
@@ -510,6 +512,25 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
         do_action( 'ninja_forms_after_submission', $this->_data );
 
         $this->_respond();
+    }
+
+    /**
+     * Upon request, preserve a resumed action's  extra data from before halt
+     *
+     * @return void
+     */
+    private function maybePreserveExtraData(): void
+    {
+        if (
+            isset($this->_data['resume']) &&
+            isset($this->_data['resume']['preserve_extra_data'])
+        ) {
+            $preservedKey = $this->_data['resume']['preserve_extra_data'];
+
+            if (isset($this->_data['extra'][$preservedKey])) {
+                $this->_form_data['extra'][$preservedKey] = $this->_data['extra'][$preservedKey];
+            }
+        }
     }
 
     protected function validate_field( $field_settings )
