@@ -2,12 +2,13 @@
 namespace Engage\Models;
 
 use Timber\Post;
+use Timber;
 
 class Article extends Post {
 
 	public $vertical;
 
-	public function __construct($postID = null)
+	public function init($postID = null)
     {
         parent::__construct($postID);
 

@@ -1,4 +1,5 @@
 <li class="carousel-cell">
+
 	<div class="hero__1 tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }}">
 		<a href="{{ tile.link }}" class="aspect-ratio-box-inside"></a> {# Absolute positioned link over image #}
 		<img src="{{ post.thumbnail.src('carousel-image') }}">
@@ -18,7 +19,7 @@
 			<p class="tile__date">{{ tile.date }}</p>
 		{% endif %}
 
-		<div class="tile__excerpt">{{ tile.preview.length(30).read_more('') }}</div>
+		<div class="tile__excerpt">{{ tile.excerpt.length(30).read_more('') }}</div>
 
 		<div class="see-all-posts text-left">
 			<a class="btn btn--ghost btn--see-all" href="{{ tile.link }}">Read More</a>

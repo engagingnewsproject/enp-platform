@@ -22,8 +22,8 @@
 							<div class="tile tile--has-img tile--research-cat-- tile--vertical--propaganda">
 								{# IMAGE #}
 								<div class="tile__img-wrap">
-									{% set file = TimberImage(item.pdf_file) %}
-									<img class="title__img" src="{{ Image(item.tip_poster).src }}" sizes="{{ Image(item.tip_poster).img_sizes }}" alt="{{ item.title }}"/>
+									{% set file = get_attachment(item.pdf_file) %}
+									<img class="title__img" src="{{ get_image(item.tip_poster).src }}" sizes="{{ get_image(item.tip_poster).img_sizes }}" alt="{{ item.title }}"/>
 								</div>
 								{# TITLE #}
 								<div class="tile__title-wrap">

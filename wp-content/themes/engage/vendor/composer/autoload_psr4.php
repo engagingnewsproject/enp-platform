@@ -6,15 +6,22 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'WorDBless\\Composer\\' => array($vendorDir . '/automattic/wordbless/src/Composer'),
+    'WorDBless\\' => array($vendorDir . '/automattic/wordbless/src'),
     'Twig\\' => array($vendorDir . '/twig/twig/src'),
-    'Timber\\' => array($vendorDir . '/timber/timber/lib'),
-    'Symfony\\Polyfill\\Php72\\' => array($vendorDir . '/symfony/polyfill-php72'),
+    'Timber\\' => array($vendorDir . '/timber/timber/src'),
+    'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
+    'Roots\\Composer\\' => array($vendorDir . '/roots/wordpress-core-installer/src'),
+    'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
+    'Mockery\\' => array($vendorDir . '/mockery/mockery/library/Mockery'),
     'HelloNico\\Twig\\' => array($vendorDir . '/hellonico/twig-dump-extension/src'),
     'HelloNico\\Timber\\' => array($vendorDir . '/hellonico/timber-dump-extension/src'),
     'Engage\\' => array($baseDir . '/src'),
+    'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
+    'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src/Composer/Installers'),
-    '' => array($vendorDir . '/twig/cache-extension/lib'),
+    'Brain\\Monkey\\' => array($vendorDir . '/brain/monkey/src'),
 );

@@ -1,27 +1,28 @@
 <?php
 
-if ( file_exists($composer_autoload = __DIR__ . '/../vendor/autoload.php') ) {
-	require_once($composer_autoload);
+use WorDBless\Load;
+
+if (! file_exists( dirname(__DIR__) . '/wordpress/wp-content')) {
+	mkdir(dirname(__DIR__) . '/wordpress/wp-content');
 }
 
-
-$_tests_dir = getenv('WP_TESTS_DIR');
-if ( !$_tests_dir ) $_tests_dir = '/tmp/wordpress-tests-lib';
-
-require_once $_tests_dir . '/includes/functions.php';
-
-function _manually_load_plugin() {
-	$plugins_dir = dirname( __FILE__ ).'/../../../plugins';
-	$timber =  $plugins_dir.'/timber/timber.php';
-	if ( file_exists($timber) ) {
-		require_once($timber);
-	} else {
-		$timber_library = $plugins_dir.'/timber-library/timber.php';
-		if ( file_exists($timber_library) ) {
-			require_once($timber_library);
-		}
-	}
+if (! file_exists(dirname(__DIR__) . '/wordpress/wp-content/themes')) {
+	mkdir(dirname(__DIR__) . '/wordpress/wp-content/themes');
 }
 
-tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
-require $_tests_dir . '/includes/bootstrap.php';
+copy(
+    dirname( __DIR__ ) . '/vendor/automattic/wordbless/src/dbless-wpdb.php',
+    dirname( __DIR__ ) . '/wordpress/wp-content/db.php'
+);
+
+$theme_base_name = basename( dirname( __DIR__ ) );
+$src = realpath( dirname( dirname( __DIR__ ) ) . '/' . $theme_base_name );
+$dest = dirname( __DIR__ ) . '/wordpress/wp-content/themes/' . $theme_base_name;
+
+if ( is_dir($src) && ! file_exists($dest) ) {
+	symlink($src, $dest);
+}
+
+require_once dirname( __DIR__ ) . '/vendor/autoload.php';
+
+Load::load();

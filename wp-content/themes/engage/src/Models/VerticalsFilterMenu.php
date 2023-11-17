@@ -37,6 +37,7 @@ class VerticalsFilterMenu extends FilterMenu
 
         // now loop posts to get all other categories and which vertical they should get assigned to
         foreach($this->posts as $post) {
+
             $filters = $this->buildVerticalFilter($filters, $post->ID);
         }
         return $filters;

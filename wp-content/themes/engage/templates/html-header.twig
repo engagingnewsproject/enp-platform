@@ -52,7 +52,7 @@
         <meta property="og:url"         content="{{ post.link }}" />
         <meta property="og:type"        content="article" />
         <meta property="og:title"       content="{{ post.title }}" />
-        <meta property="og:description" content="{{ post.preview.length(30).read_more('') }}" />
+        <meta property="og:description" content="{{ post.excerpt.length(30).read_more('') }}" />
 
         {% if tile.thumbnail %}
             <meta property="og:image"   content="{{ post.thumbnail.src('featured-post') }}" />

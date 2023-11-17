@@ -1,0 +1,142 @@
+body {
+	.main-body-wrapper {
+		background: url("/wp-content/themes/engage/assets/img/dots.svg");
+		background-position: 150% -5%;
+		background-repeat: no-repeat;
+		background-size: 1024px;
+	}
+	&.vertical--journalism.archive,
+	&.vertical--media-ethics.archive,
+	&.vertical--science-communication.archive,
+	&.vertical--social-platforms.archive {
+		.main-body-wrapper {
+			background: url("/wp-content/themes/engage/assets/img/dots.svg");
+			background-position: 120% -1%;
+			background-size: 1024px;
+			background-repeat: no-repeat;
+		}
+	}
+}
+
+.header {
+	// background: transparent;
+	&:after {
+		background: none;
+	}
+	// .header__container {
+	// 	position: relative;
+	// 	z-index: 99;
+	// 	border-bottom: none;
+	// }
+	.menu__sublist {
+		background-color: #fff !important;
+	}
+}
+
+// home research section
+.home-research {
+	background: transparent;
+	overflow: hidden;
+}
+
+// engaging buttons
+.img-shadow img {
+	box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
+	margin-top: -50px;
+}
+
+.see-all-posts.see-all-posts--research {
+	padding-bottom: 0px;
+}
+
+/*                */
+/* tweets section */
+/*                */
+.wdtf-user-card,
+.tweets_avatar:nth-child(2) .wdtf-user-card,
+.tweets_avatar:nth-child(3) .wdtf-user-card {
+	background: $gray-lighter;
+	padding: 0.8rem;
+	border-bottom: 1px solid $gray-lighter;
+}
+
+.tweets_avatar {
+	box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+/*        */
+/* footer */
+/*        */
+.footer:before {
+	background: $gray-lightest;
+}
+
+.footer:after {
+	background: $gray-lighter;
+}
+
+/*               */
+/* media queries */
+/*               */
+
+@include media($phablet) {
+	.fetched_tweets {
+		margin-bottom: 100px;
+	}
+
+	.hero__2 .tile__excerpt {
+		padding-right: 35px;
+	}
+}
+
+@include media($tablet) {
+	.header__container {
+		padding-top: 10px;
+		padding-bottom: 15px;
+		max-width: 1400px;
+	}
+
+	.menu__secondary {
+		.btn a,
+		.button a {
+			padding: 6px 12px;
+		}
+	}
+}
+@include media($tablet) {
+	// .header {
+		// margin-bottom: 0.5rem;
+	// }
+
+	// body {
+	// 	background-position: 25% -6%;
+	// }
+} // END (max-width: 1000px)
+.menu__secondary .btn a {
+	border: none;
+	color: #bf5700;
+	margin-left: 25px;
+}
+
+.menu__secondary .btn a::before {
+	background: url("/wp-content/themes/engage/assets/img/avatar.png");
+	content: "";
+	width: 16px;
+	height: 16px;
+	position: absolute;
+	background-repeat: no-repeat;
+	left: 15px;
+	top: 0px;
+	display: block;
+	background-size: cover;
+	transition: all 0.3s;
+}
+
+.menu__secondary .btn:hover a:before {
+	left: 10px;
+}
+@media (max-width: 599px) {
+	.home-section .tile:nth-of-type(1n + 5) {
+		display: none;
+	}
+}

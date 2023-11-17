@@ -1,5 +1,6 @@
 require("es6-promise").polyfill();
 import debounce from "lodash.debounce";
+import Collapse from "./Collapse"
 
 var mainNav = document.getElementById("main-nav");
 var secondaryNav = document.getElementById("secondary-nav");
@@ -52,7 +53,7 @@ function addOrDestroyMenu() {
 			w < collapsibles[item].breakpoint.max &&
 			collapsibles[item].collapsible === null
 		) {
-			import("./collapse").then((Collapse) => {
+			import("./Collapse").then((Collapse) => {
 				collapsibles[item].collapsible = new Collapse.default(
 					collapsibles[item].button,
 					collapsibles[item].els
@@ -63,7 +64,7 @@ function addOrDestroyMenu() {
 				w > collapsibles[item].breakpoint.max) &&
 			collapsibles[item].collapsible !== null
 		) {
-			import("./collapse").then((Collapse) => {
+			import("./Collapse").then((Collapse) => {
 				collapsibles[item].collapsible.destroy();
 				collapsibles[item].collapsible = null;
 			});

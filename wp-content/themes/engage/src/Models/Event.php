@@ -12,7 +12,7 @@ class Event extends Article {
 
 	public function __construct($postID = null)
     {
-        parent::__construct($postID);
+        parent::init($postID);
     }
 
     public function getStartDate() {

@@ -1,37 +1,32 @@
-jQuery(document).ready(function ($) {
-	let maxChars = 42;
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
 
-	// Loop through each of the titles
-	$(".home-intro .tile__title").each(function () {
-		let title = $(this).html(); // Grab the title text
+/***/ "./assets/js/homepage.js":
+/*!*******************************!*\
+  !*** ./assets/js/homepage.js ***!
+  \*******************************/
+/***/ (() => {
 
-		// If the title is too large
-		if (title.length > maxChars) {
-			// Find the end of the next word after 40 characters
-			let spaceSearch = title.substring(maxChars, title.length);
-			let spaceIndex = spaceSearch.indexOf(" ");
-			// Make sure we're not currently on the last word And that the word isn't too big
-			if (spaceIndex != -1 && spaceIndex < 10) {
-				title = title.substring(0, spaceIndex + maxChars);
-			} else {
-				title = title.substring(0, maxChars);
-			}
-			title += "...";
-			$(this).html(title);
-		}
-	});
-});
+eval("// jQuery(document).ready(function ($) {\n// \tlet maxChars = 42;\n\n// \t// Loop through each of the titles\n// \t$(\".home-intro .tile__title\").each(function () {\n// \t\tlet title = $(this).html(); // Grab the title text\n\n// \t\t// If the title is too large\n// \t\tif (title.length > maxChars) {\n// \t\t\t// Find the end of the next word after 40 characters\n// \t\t\tlet spaceSearch = title.substring(maxChars, title.length);\n// \t\t\tlet spaceIndex = spaceSearch.indexOf(\" \");\n// \t\t\t// Make sure we're not currently on the last word And that the word isn't too big\n// \t\t\tif (spaceIndex != -1 && spaceIndex < 10) {\n// \t\t\t\ttitle = title.substring(0, spaceIndex + maxChars);\n// \t\t\t} else {\n// \t\t\t\ttitle = title.substring(0, maxChars);\n// \t\t\t}\n// \t\t\ttitle += \"...\";\n// \t\t\t$(this).html(title);\n// \t\t}\n// \t});\n// });\n\n// initiate Flickity\n// https://flickity.metafizzy.co/#initialize-with-vanilla-javascript\nvar maxChars = 42;\n\n// Get all elements with the class \"tile__title\"\nvar titleElements = document.querySelectorAll(\".home-intro .tile__title\");\ntitleElements.forEach(function (element) {\n  var title = element.innerHTML; // Grab the title text\n\n  // If the title is too large\n  if (title.length > maxChars) {\n    // Find the end of the next word after 40 characters\n    var spaceSearch = title.substring(maxChars, title.length);\n    var spaceIndex = spaceSearch.indexOf(\" \");\n\n    // Make sure we're not currently on the last word and that the word isn't too big\n    if (spaceIndex !== -1 && spaceIndex < 10) {\n      title = title.substring(0, spaceIndex + maxChars);\n    } else {\n      title = title.substring(0, maxChars);\n    }\n    title += \"...\";\n    element.innerHTML = title;\n  }\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9hc3NldHMvanMvaG9tZXBhZ2UuanMiLCJuYW1lcyI6WyJtYXhDaGFycyIsInRpdGxlRWxlbWVudHMiLCJkb2N1bWVudCIsInF1ZXJ5U2VsZWN0b3JBbGwiLCJmb3JFYWNoIiwiZWxlbWVudCIsInRpdGxlIiwiaW5uZXJIVE1MIiwibGVuZ3RoIiwic3BhY2VTZWFyY2giLCJzdWJzdHJpbmciLCJzcGFjZUluZGV4IiwiaW5kZXhPZiJdLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vZW5nYWdlLy4vYXNzZXRzL2pzL2hvbWVwYWdlLmpzPzhiNjciXSwic291cmNlc0NvbnRlbnQiOlsiLy8galF1ZXJ5KGRvY3VtZW50KS5yZWFkeShmdW5jdGlvbiAoJCkge1xuLy8gXHRsZXQgbWF4Q2hhcnMgPSA0MjtcblxuLy8gXHQvLyBMb29wIHRocm91Z2ggZWFjaCBvZiB0aGUgdGl0bGVzXG4vLyBcdCQoXCIuaG9tZS1pbnRybyAudGlsZV9fdGl0bGVcIikuZWFjaChmdW5jdGlvbiAoKSB7XG4vLyBcdFx0bGV0IHRpdGxlID0gJCh0aGlzKS5odG1sKCk7IC8vIEdyYWIgdGhlIHRpdGxlIHRleHRcblxuLy8gXHRcdC8vIElmIHRoZSB0aXRsZSBpcyB0b28gbGFyZ2Vcbi8vIFx0XHRpZiAodGl0bGUubGVuZ3RoID4gbWF4Q2hhcnMpIHtcbi8vIFx0XHRcdC8vIEZpbmQgdGhlIGVuZCBvZiB0aGUgbmV4dCB3b3JkIGFmdGVyIDQwIGNoYXJhY3RlcnNcbi8vIFx0XHRcdGxldCBzcGFjZVNlYXJjaCA9IHRpdGxlLnN1YnN0cmluZyhtYXhDaGFycywgdGl0bGUubGVuZ3RoKTtcbi8vIFx0XHRcdGxldCBzcGFjZUluZGV4ID0gc3BhY2VTZWFyY2guaW5kZXhPZihcIiBcIik7XG4vLyBcdFx0XHQvLyBNYWtlIHN1cmUgd2UncmUgbm90IGN1cnJlbnRseSBvbiB0aGUgbGFzdCB3b3JkIEFuZCB0aGF0IHRoZSB3b3JkIGlzbid0IHRvbyBiaWdcbi8vIFx0XHRcdGlmIChzcGFjZUluZGV4ICE9IC0xICYmIHNwYWNlSW5kZXggPCAxMCkge1xuLy8gXHRcdFx0XHR0aXRsZSA9IHRpdGxlLnN1YnN0cmluZygwLCBzcGFjZUluZGV4ICsgbWF4Q2hhcnMpO1xuLy8gXHRcdFx0fSBlbHNlIHtcbi8vIFx0XHRcdFx0dGl0bGUgPSB0aXRsZS5zdWJzdHJpbmcoMCwgbWF4Q2hhcnMpO1xuLy8gXHRcdFx0fVxuLy8gXHRcdFx0dGl0bGUgKz0gXCIuLi5cIjtcbi8vIFx0XHRcdCQodGhpcykuaHRtbCh0aXRsZSk7XG4vLyBcdFx0fVxuLy8gXHR9KTtcbi8vIH0pO1xuXG4vLyBpbml0aWF0ZSBGbGlja2l0eVxuLy8gaHR0cHM6Ly9mbGlja2l0eS5tZXRhZml6enkuY28vI2luaXRpYWxpemUtd2l0aC12YW5pbGxhLWphdmFzY3JpcHRcbmxldCBtYXhDaGFycyA9IDQyO1xuXG4vLyBHZXQgYWxsIGVsZW1lbnRzIHdpdGggdGhlIGNsYXNzIFwidGlsZV9fdGl0bGVcIlxubGV0IHRpdGxlRWxlbWVudHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKFwiLmhvbWUtaW50cm8gLnRpbGVfX3RpdGxlXCIpO1xuXG50aXRsZUVsZW1lbnRzLmZvckVhY2goZnVuY3Rpb24gKGVsZW1lbnQpIHtcblx0XHRsZXQgdGl0bGUgPSBlbGVtZW50LmlubmVySFRNTDsgLy8gR3JhYiB0aGUgdGl0bGUgdGV4dFxuXG5cdFx0Ly8gSWYgdGhlIHRpdGxlIGlzIHRvbyBsYXJnZVxuXHRcdGlmICh0aXRsZS5sZW5ndGggPiBtYXhDaGFycykge1xuXHRcdFx0XHQvLyBGaW5kIHRoZSBlbmQgb2YgdGhlIG5leHQgd29yZCBhZnRlciA0MCBjaGFyYWN0ZXJzXG5cdFx0XHRcdGxldCBzcGFjZVNlYXJjaCA9IHRpdGxlLnN1YnN0cmluZyhtYXhDaGFycywgdGl0bGUubGVuZ3RoKTtcblx0XHRcdFx0bGV0IHNwYWNlSW5kZXggPSBzcGFjZVNlYXJjaC5pbmRleE9mKFwiIFwiKTtcblxuXHRcdFx0XHQvLyBNYWtlIHN1cmUgd2UncmUgbm90IGN1cnJlbnRseSBvbiB0aGUgbGFzdCB3b3JkIGFuZCB0aGF0IHRoZSB3b3JkIGlzbid0IHRvbyBiaWdcblx0XHRcdFx0aWYgKHNwYWNlSW5kZXggIT09IC0xICYmIHNwYWNlSW5kZXggPCAxMCkge1xuXHRcdFx0XHRcdFx0dGl0bGUgPSB0aXRsZS5zdWJzdHJpbmcoMCwgc3BhY2VJbmRleCArIG1heENoYXJzKTtcblx0XHRcdFx0fSBlbHNlIHtcblx0XHRcdFx0XHRcdHRpdGxlID0gdGl0bGUuc3Vic3RyaW5nKDAsIG1heENoYXJzKTtcblx0XHRcdFx0fVxuXG5cdFx0XHRcdHRpdGxlICs9IFwiLi4uXCI7XG5cdFx0XHRcdGVsZW1lbnQuaW5uZXJIVE1MID0gdGl0bGU7XG5cdFx0fVxufSk7Il0sIm1hcHBpbmdzIjoiQUFBQTtBQUNBOztBQUVBO0FBQ0E7QUFDQTs7QUFFQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTs7QUFFQTtBQUNBO0FBQ0EsSUFBSUEsUUFBUSxHQUFHLEVBQUU7O0FBRWpCO0FBQ0EsSUFBSUMsYUFBYSxHQUFHQyxRQUFRLENBQUNDLGdCQUFnQixDQUFDLDBCQUEwQixDQUFDO0FBRXpFRixhQUFhLENBQUNHLE9BQU8sQ0FBQyxVQUFVQyxPQUFPLEVBQUU7RUFDdkMsSUFBSUMsS0FBSyxHQUFHRCxPQUFPLENBQUNFLFNBQVMsQ0FBQyxDQUFDOztFQUUvQjtFQUNBLElBQUlELEtBQUssQ0FBQ0UsTUFBTSxHQUFHUixRQUFRLEVBQUU7SUFDM0I7SUFDQSxJQUFJUyxXQUFXLEdBQUdILEtBQUssQ0FBQ0ksU0FBUyxDQUFDVixRQUFRLEVBQUVNLEtBQUssQ0FBQ0UsTUFBTSxDQUFDO0lBQ3pELElBQUlHLFVBQVUsR0FBR0YsV0FBVyxDQUFDRyxPQUFPLENBQUMsR0FBRyxDQUFDOztJQUV6QztJQUNBLElBQUlELFVBQVUsS0FBSyxDQUFDLENBQUMsSUFBSUEsVUFBVSxHQUFHLEVBQUUsRUFBRTtNQUN4Q0wsS0FBSyxHQUFHQSxLQUFLLENBQUNJLFNBQVMsQ0FBQyxDQUFDLEVBQUVDLFVBQVUsR0FBR1gsUUFBUSxDQUFDO0lBQ25ELENBQUMsTUFBTTtNQUNMTSxLQUFLLEdBQUdBLEtBQUssQ0FBQ0ksU0FBUyxDQUFDLENBQUMsRUFBRVYsUUFBUSxDQUFDO0lBQ3RDO0lBRUFNLEtBQUssSUFBSSxLQUFLO0lBQ2RELE9BQU8sQ0FBQ0UsU0FBUyxHQUFHRCxLQUFLO0VBQzNCO0FBQ0YsQ0FBQyxDQUFDIn0=\n//# sourceURL=webpack-internal:///./assets/js/homepage.js\n");
 
-// initiate Flickity
-// https://flickity.metafizzy.co/#initialize-with-vanilla-javascript
+/***/ })
 
-var elem = document.querySelector(".carousel-main");
-var flkty = new Flickity(elem, {
-	// options
-	wrapAround: true,
-	adaptiveHeight: true,
-	imagesLoaded: true,
-	lazyLoad: 1,
-	percentPosition: true,
-	contain: true,
-});
+/******/ 	});
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval-source-map devtool is used.
+/******/ 	var __webpack_exports__ = {};
+/******/ 	__webpack_modules__["./assets/js/homepage.js"]();
+/******/ 	
+/******/ })()
+;

@@ -1,6 +1,13 @@
 {% extends "base.twig" %}
 
 {% block content %}
+{% if post.related_posts is not empty %}
+    <ul>
+        {% for post in post.related_posts %}
+            <li>{{ post.title }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
     <div class="post__wrapper wrapper--pad">
         <div class="article__wrapper container container--lg">
             {% set hasVideo = post.getVideoEmbedLink and post.post_type != 'team' and post.post_type != 'board' %}

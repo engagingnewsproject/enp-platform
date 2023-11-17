@@ -2,7 +2,7 @@
 
 namespace Engage\Managers\Structures\PostTypes;
 
-class Funders extends PostTypes {
+class Funders {
 
     public function __construct() {
 

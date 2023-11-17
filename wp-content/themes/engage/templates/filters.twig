@@ -2,19 +2,18 @@
 	<div class="filter__container filter--{{ filters.slug }}">
 		<h2 class="filter__title filter__title--{{ filters.slug }}">{{ filters.title }}</h2>
 		<ul class="filters filters--{{ filters.slug }}">
-		{% for term in filters.terms %}
-		{# {% include 'partial/filter-item.twig' %} #}
-			{% if term.title != 'Former CME' %}
-				{% if filters.slug == 'media-ethics-menu' and term.slug == 'research' %}
-					{% set term = term|merge({'title': "Case Studies"}) %}
-				{# Modify: changes 'blog' to the name of the category under that vertical #}
-				{% elseif term.slug == 'blogs' %}
-					{% set nextTerm = term.terms | first %}
-					{% set term = term|merge({'title': nextTerm.title}) %}
+			{% for term in filters.terms %}
+				{% if term.title != 'Former CME' %}
+					{% if filters.slug == 'media-ethics-menu' and term.slug == 'research' %}
+						{% set term = term|merge({'title': "Case Studies"}) %}
+					{# Modify: changes 'blog' to the name of the category under that vertical #}
+					{% elseif term.slug == 'blogs' %}
+						{% set nextTerm = term.terms | first %}
+						{% set term = term|merge({'title': nextTerm.title}) %}
+					{% endif %}
+					{% include 'partial/filter-item.twig' %}
 				{% endif %}
-				{% include 'partial/filter-item.twig' %}
-			{% endif %}
-		{% endfor %}
+			{% endfor %}
 		</ul>
 	</div>
 </div>
