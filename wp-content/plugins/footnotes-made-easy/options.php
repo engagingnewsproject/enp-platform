@@ -11,6 +11,10 @@
 
 <div class="wrap">
 
+<?php if ( gmdate( 'Ymd' ) < '20241001' ) { ?>
+<div class="notice notice-warning"><p><?php echo __( sprintf( '⚠️ This plugin will no longer be updated, other than for critical security issues. In December 2024, it will be formally closed. It has been tested up to PHP 7.4 and WordPress 6.4, and this will not change. <a href="%s">Find out more here</a>, including, if you are a developer, how you can adopt it.', 'https://wordpress.org/support/topic/important-please-read-before-posting-4/' ), 'footnotes-made-easy' ); ?></p></div>
+<?php } ?>
+
 <h1><?php _e( 'Footnotes Made Easy', 'footnotes-made-easy' ); ?></h1>
 
 <?php

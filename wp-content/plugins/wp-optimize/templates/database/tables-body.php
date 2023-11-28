@@ -48,9 +48,9 @@
 					echo '<br>';
 					
 					if ('sfwd-lms' === $plugin) {
-						echo ' <a href="https://www.learndash.com/" target="_blank"><span style="font-size: 11px;">LearnDash</span></a>';
+						$wp_optimize->wp_optimize_url('https://www.learndash.com/', '', '<span style="font-size: 11px;">LearnDash</span>');
 					} else {
-						printf(' <a href="%1$s" target="_blank"><span style="font-size: 11px;">%2$s</span></a>', esc_url("https://wordpress.org/plugins/{$plugin}/"), esc_html($plugin));
+						$wp_optimize->wp_optimize_url('https://wordpress.org/plugins/'.$plugin.'/', '', '<span style="font-size: 11px;">'.esc_html($plugin).'</span>');
 					}
 
 					if (false == $status['installed']) {

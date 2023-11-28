@@ -311,6 +311,7 @@ class WP_Optimize_Admin {
 		$wpo_cache = WP_Optimize()->get_page_cache();
 		$wpo_cache_options = $wpo_cache->config->get();
 		$display = $wpo_cache->is_enabled() ? "display: block;" : "display: none;";
+		$error = is_wp_error(WP_Optimize()->get_init_page_cache_status()) ? WP_Optimize()->get_init_page_cache_status()->get_error_message() : '';
 
 		WP_Optimize()->include_template('cache/page-cache.php', false, array(
 			'wpo_cache' => $wpo_cache,
@@ -320,6 +321,7 @@ class WP_Optimize_Admin {
 			'display' => $display,
 			'can_purge_the_cache' => WP_Optimize()->get_page_cache()->can_purge_cache(),
 			'does_server_handles_cache' => WP_Optimize()->does_server_handles_cache(),
+			'error' => $error,
 		));
 	}
 
