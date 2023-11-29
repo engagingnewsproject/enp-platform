@@ -1,0 +1,57 @@
+// GRID
+.grid {
+	display: block;
+}
+.grid--flex {
+	display: flex;
+	flex-direction: column;
+	@include media($phablet) {
+		&__row {
+			flex-direction: row;
+		}
+	}
+	
+}
+@supports (display: flex) {
+	.grid {
+		@include media($phablet) {
+			display: flex;
+			flex-wrap: wrap;
+			width: 100%;
+			justify-content: space-between;
+		}
+	}
+}
+@supports (display: grid) {
+	.grid {
+		display: grid;
+	}
+	.grid--col-12 {
+		grid-template-columns: repeat(6, 1fr);
+		grid-auto-rows: auto;
+		@include media($phablet) {
+			grid-template-columns: repeat(12, 1fr);
+		}
+	}
+	.grid--gap-20 {
+		grid-column-gap: 0px;
+		grid-row-gap: 20px;
+		@include media($phablet) {
+			grid-column-gap: 20px;
+		}
+	}
+	.grid--gap-30 {
+		grid-column-gap: 0px;
+		grid-row-gap: 30px;
+		@include media($phablet) {
+			grid-column-gap: 30px;
+		}
+	}
+}
+@supports not (display: grid) {
+	.grid--gap-30 {
+		@include media($phablet) {
+			grid-column-gap: 0;
+		}
+	}
+}

@@ -1,0 +1,51 @@
+@mixin media($bp-1, $bp-2: null) {
+	@if $bp-1 == "max" {
+		@media (max-width: $bp-2 - 1) {
+			@content;
+		}
+	} @else if $bp-2 == "max" {
+		@media (max-width: $bp-1 - 1) {
+			@content;
+		}
+	} @else if $bp-2 == null {
+		@media (min-width: $bp-1) {
+			@content;
+		}
+	} @else {
+		@media (min-width: $bp-1) and (max-width: $bp-2 - 1) {
+			@content;
+		}
+	}
+}
+/* 
+ * How to use the SCSS mixins: https://github.com/engagingnewsproject/enp-platform/wiki/SCSS
+*/
+
+@mixin btn-reset {
+	padding: 0;
+	background: none;
+	margin: 0;
+	border: none;
+	border-radius: none;
+	font-size: 1rem;
+	box-shadow: none;
+	text-shadow: none;
+}
+
+@mixin tile-style {
+	background: #fff;
+	transition: all 0.1s ease-out;
+	box-shadow: $tile-shadow;
+	white-space: normal;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+@mixin tile-style-hover {
+	transform: scale(1.015) translate3d(0, -2px, 0);
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+@mixin flex-width ($width) {
+	flex: 0 0 $width;
+}

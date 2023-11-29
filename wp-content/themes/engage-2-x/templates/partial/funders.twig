@@ -1,0 +1,9 @@
+<section class="funders grid--col-12 ">
+	{% for funder in funders %}
+		{% include "partial/funder.twig" with { 'funder': funder } %}
+	{% endfor %}
+	<div class="funder funder--donate">
+		<h3 class="funder__donate__title h6">Become a funder</h3>
+		<a class="btn btn--funder-donate" href="https://utdirect.utexas.edu/apps/utgiving/online/nlogon/?menu=COEN">Donate</a>
+	</div>
+</section>
