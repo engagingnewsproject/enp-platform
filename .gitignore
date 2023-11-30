@@ -64,7 +64,7 @@ wp-content/plugins/query-monitor-twig-profile/
 
 # Engage theme
 wp-content/themes/engage/*.code-workspace
-wp-content/themes/engage/vendor/
+# wp-content/themes/engage/vendor/
 
 # Ignore all files, see below to include only on the /engage directory
 **/package.json
