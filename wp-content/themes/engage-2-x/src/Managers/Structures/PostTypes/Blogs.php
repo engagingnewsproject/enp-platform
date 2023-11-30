@@ -4,16 +4,20 @@ namespace Engage\Managers\Structures\PostTypes;
 
 class Blogs {
 
+	// Constructor
 	public function __construct() {
 
 	}
 
+	// Method to run the necessary actions
 	public function run() {
+		// Add action to register the post type
 		add_action( 'init', [$this, 'register']);
+		// Add action to register taxonomies (categories)
 		add_action( 'init', [$this, 'registerTaxonomies'], 0 );
-
 	}
 
+	// Method to register the custom post type 'blogs'
 	public function register() {
 		$labels = array(
 			'name'               => _x( 'Blogs', 'post type general name' ),
@@ -42,13 +46,15 @@ class Blogs {
 			'exclude_from_search' => false,
 			'show_in_rest'        => true
 		);
+		// Register the custom post type 'blogs'
 		register_post_type( 'blogs', $args );
 	}
-
+	// Method to register taxonomies (categories) for the custom post type
 	public function registerTaxonomies() {
-		$this->blogCategory();
+		$this->blogCategory(); // Call the method to register the blogs category taxonomy
 	}
-
+	
+	// Method to register the 'blogs-category' taxonomy
 	public function blogCategory() {
 		// Add new taxonomy, make it hierarchical (like categories)
 		$labels = array(
@@ -64,7 +70,7 @@ class Blogs {
 			'new_item_name'     => __( 'New Blog Category Name' ),
 			'menu_name'         => __( 'Blog Category' ),
 		);
-
+		// Arguments for registering the 'blogs-category' taxonomy
 		$args = array(
 			'hierarchical'      => true,
 			'labels'            => $labels,
@@ -74,6 +80,7 @@ class Blogs {
 			'has_archive'		=> true,
 			'rewrite'           => array( 'slug' => 'blogs-category' ),
 		);
+		// Register the 'blogs-category' taxonomy for the 'blogs' post type
 		register_taxonomy( 'blogs-category', array( 'blogs' ), $args );
 	}
 }

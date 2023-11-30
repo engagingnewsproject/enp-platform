@@ -1,4 +1,7 @@
 <?php
+/**
+ * Register Research post type and taxonomies.
+ */
 
 namespace Engage\Managers\Structures\PostTypes;
 
