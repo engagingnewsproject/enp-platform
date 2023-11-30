@@ -1,29 +1,29 @@
 {% if pagination.pages is not empty %}
-    <div class="pagination-container">
-        <ul class="pagination horiz-list">
-            <li class="horiz-list__item pagination__item pagination__item--first{{ pagination.pages|first and pagination.pages|first.current == true ? ' pagination__item--disabled'}}">
-                <a class="pagination__link" href="{{ pagination.pages|first.link }}">First</a>
-            </li>
+	<div class="pagination-container">
+		<ul class="pagination horiz-list">
+			<li class="horiz-list__item pagination__item pagination__item--first{{ pagination.pages|first and pagination.pages|first.current == true ? ' pagination__item--disabled'}}">
+				<a class="pagination__link" href="{{ pagination.pages|first.link }}">First</a>
+			</li>
 
-            <li class="horiz-list__item pagination__item pagination__item--prev{{ not pagination.prev ? ' pagination__item--disabled'}}">
-                <a class="pagination__link" href="{{ pagination.prev.link }}"> Previous</a>
-            </li>
+			<li class="horiz-list__item pagination__item pagination__item--prev{{ not pagination.prev ? ' pagination__item--disabled'}}">
+				<a class="pagination__link" href="{{ pagination.prev.link }}"> Previous</a>
+			</li>
 
-            {% for page in pagination.pages %}
-                <li class="horiz-list__item pagination__item{{ not page.link and not page.current ? ' pagination__item--disabled'}}{{ page.current ? ' pagination__item--current'}}">
-                    <a href="{{ page.link ? page.link : '#'}}" class="pagination__link {{ page.current ? ' pagination__link--current'}}">{{ page.title }}</a>
-                </li>
-            {% endfor %}
+			{% for page in pagination.pages %}
+				<li class="horiz-list__item pagination__item{{ not page.link and not page.current ? ' pagination__item--disabled'}}{{ page.current ? ' pagination__item--current'}}">
+					<a href="{{ page.link ? page.link : '#'}}" class="pagination__link {{ page.current ? ' pagination__link--current'}}">{{ page.title }}</a>
+				</li>
+			{% endfor %}
 
-            <li class="horiz-list__item pagination__item pagination__item--next {{ not pagination.next ? ' pagination__item--disabled'}}">
-                <a class="pagination__link" href="{{ pagination.next.link  }}">
-                    Next
-                </a>
-            </li>
-           
-            <li class="horiz-list__item pagination__item--last{{ pagination.pages|last and pagination.pages|last.current == true ? ' pagination__item--disabled'}}">
-                <a class="pagination__link" href="{{ pagination.pages|last.link }}">Last</a>
-            </li>
-        </ul>
-    </div>
+			<li class="horiz-list__item pagination__item pagination__item--next {{ not pagination.next ? ' pagination__item--disabled'}}">
+				<a class="pagination__link" href="{{ pagination.next.link  }}">
+					Next
+				</a>
+			</li>
+		   
+			<li class="horiz-list__item pagination__item--last{{ pagination.pages|last and pagination.pages|last.current == true ? ' pagination__item--disabled'}}">
+				<a class="pagination__link" href="{{ pagination.pages|last.link }}">Last</a>
+			</li>
+		</ul>
+	</div>
 {% endif %}

@@ -6,46 +6,46 @@
 {% endif %}
 
 {% block content %}
-    <article class="container container--lg post-type--{{post.post_type}} press--{{post.post_type}}" id="post--{{post.ID}} page-tools">
-        <header class="article__header{{ show_header }}">
-            <h1 class="article__title h1">{{post.title}}</h1>
-        </header>
-        {{ post.generate_table }} {# This line calls the src/Models/Press.php Press class to populate the table #}
-        <div class="article__content">
-            <table> 
-                <colgroup>
-                    <col class="press-table-side-col">
-                    <col class="press-table-mid-col">
-                    <col class="press-table-side-col">
-                </colgroup>
-                {% for column in post.columns %}
-                    <th class="press-table-top"></th>
-                {% endfor %}
-                {% for row in post.rows %}
-                    <tr>
-                        <td class="press-table-row"> {{row[0]}} </td>
-                        <td class="press-table-row"> {{row[1]}} </td>
-                        <td class="press-table-row"> {{row[2]}} </td>
-                    </tr>
-                {% endfor %}
-            </table>
-            {# ACF press articles #}
-            {% if post.meta('press_articles') %}
-                <ul class="press-list" style="list-style:none;">
-                    {% for item in post.meta('press_articles') %}
-                        <li class="press-list__row" style="display:flex;justify-content:space-between;border-bottom:1px solid #000;margin-left:0;padding:0 15px;">
-                            <p class="press-list__source">{{ item.source }}</p>
-                            <p class="press-list__title">
-                                <a href="{{ item.title_link }}" target="_blank">
-                                    {{ item.title_value }}
-                                </a>
-                            </p>
-                            <p class="press-list__date">{{ item.date }}</p>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-    </article>
+	<article class="container container--lg post-type--{{post.post_type}} press--{{post.post_type}}" id="post--{{post.ID}} page-tools">
+		<header class="article__header{{ show_header }}">
+			<h1 class="article__title h1">{{post.title}}</h1>
+		</header>
+		{{ post.generate_table }} {# This line calls the src/Models/Press.php Press class to populate the table #}
+		<div class="article__content">
+			<table> 
+				<colgroup>
+					<col class="press-table-side-col">
+					<col class="press-table-mid-col">
+					<col class="press-table-side-col">
+				</colgroup>
+				{% for column in post.columns %}
+					<th class="press-table-top"></th>
+				{% endfor %}
+				{% for row in post.rows %}
+					<tr>
+						<td class="press-table-row"> {{row[0]}} </td>
+						<td class="press-table-row"> {{row[1]}} </td>
+						<td class="press-table-row"> {{row[2]}} </td>
+					</tr>
+				{% endfor %}
+			</table>
+			{# ACF press articles #}
+			{% if post.meta('press_articles') %}
+				<ul class="press-list" style="list-style:none;">
+					{% for item in post.meta('press_articles') %}
+						<li class="press-list__row" style="display:flex;justify-content:space-between;border-bottom:1px solid #000;margin-left:0;padding:0 15px;">
+							<p class="press-list__source">{{ item.source }}</p>
+							<p class="press-list__title">
+								<a href="{{ item.title_link }}" target="_blank">
+									{{ item.title_value }}
+								</a>
+							</p>
+							<p class="press-list__date">{{ item.date }}</p>
+						</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		</div>
+	</article>
 
 {% endblock %}

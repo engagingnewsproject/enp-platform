@@ -1,91 +1,91 @@
 <div class="article__meta article__meta-{{post.post_type}}">
 
-    {% include "partial/article-meta-data.twig" %}
+	{% include "partial/article-meta-data.twig" %}
 
-    {% if post.post_type != 'tribe_events' and post.post_type != 'research' and post.post_type != 'blogs' and post.post_type != 'team' and post.post_type != 'board' and post.post_type != 'page' %}
-        <p class="article-meta__item article__author">
-            {# @TODO: potentially remove/fix this line #}
-            <span class="author__by">By</span>
-            <a class="author__link" href="/team/{{post.author|lower|split(' ')|join('-')}}">{{ post.author.name }}</a>
-        </p>
-        <p class="article-meta__item article__date">{{ post.date }}</p>
-    {% endif %}
+	{% if post.post_type != 'tribe_events' and post.post_type != 'research' and post.post_type != 'blogs' and post.post_type != 'team' and post.post_type != 'board' and post.post_type != 'page' %}
+		<p class="article-meta__item article__author">
+			{# @TODO: potentially remove/fix this line #}
+			<span class="author__by">By</span>
+			<a class="author__link" href="/team/{{post.author|lower|split(' ')|join('-')}}">{{ post.author.name }}</a>
+		</p>
+		<p class="article-meta__item article__date">{{ post.date }}</p>
+	{% endif %}
 
-    {% if post.post_type == "tribe_events" %}
-        {% include 'partial/event-meta.twig' %}
-    {% endif %}
-    {% if post.post_type == 'team' or post.post_type == 'board' %}
-        <div class="mate__img-wrap">
-            {% if "-150x150" in post.thumbnail.src %}
-                {% set imagelink = post.thumbnail.src %}
-            {% else %}
-                {% set link = post.thumbnail.src | split('') %}
-                {% set index = 0%}
-                {% for i in 0.. (link | length - 2) %}
-                    {% if link[i] == "." %}
-                        {% set index = i %}
-                    {% endif %}
-                {% endfor %}
-                {% set imagelink = link|slice(0,index)|join("")~"-150x150"~link|slice(index,link|length)|join("")%}
-            {% endif %}
+	{% if post.post_type == "tribe_events" %}
+		{% include 'partial/event-meta.twig' %}
+	{% endif %}
+	{% if post.post_type == 'team' or post.post_type == 'board' %}
+		<div class="mate__img-wrap">
+			{% if "-150x150" in post.thumbnail.src %}
+				{% set imagelink = post.thumbnail.src %}
+			{% else %}
+				{% set link = post.thumbnail.src | split('') %}
+				{% set index = 0%}
+				{% for i in 0.. (link | length - 2) %}
+					{% if link[i] == "." %}
+						{% set index = i %}
+					{% endif %}
+				{% endfor %}
+				{% set imagelink = link|slice(0,index)|join("")~"-150x150"~link|slice(index,link|length)|join("")%}
+			{% endif %}
 
-            <img class="mate__img" src="{{imagelink}}" alt="{{ post.thumbnail.alt }}"/>
-        </div>
-        <br>
-        {% include 'partial/team-link.twig' %}
-    
-    {% endif %}
-    
+			<img class="mate__img" src="{{imagelink}}" alt="{{ post.thumbnail.alt }}"/>
+		</div>
+		<br>
+		{% include 'partial/team-link.twig' %}
+	
+	{% endif %}
+	
 
-    {% if post.post_type == "research" or post.post_type == "blogs" %}
-        {% include 'partial/research-meta.twig' %}
-        {% if post.post_type != "blogs" %}
-        <p class="article-meta__item article__vertical article__vertical--{{ post.vertical.slug }}">
-            <a class="vertical-name vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}research">← {{ post.vertical.name }}</a>
-        </p>
-        {% endif %}
-        <section class="researchers-tease">
-            <h4 class="researchers-tease__title">{{ (post.post_type == "research") ? "Researchers" : "Authors" }}</h4>
-            {% if post.meta('project_team_member')  %}
-                {% for researcher in post.getResearchers %}
-                    {% if researcher and researcher.terms('team_category') | join(', ') == "Former CME" %}
-                        {% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
-                    {% else %}
-                        {% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
-                    {% endif %}                
-                {% endfor %}
-            {% endif %}
-            {% for researcher in post.meta('additional_team_members') %}
-                {% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
-            {% endfor %}
-        </section>
-    {% endif %}
-    {% if post.post_type == "page" %}
-        <section class="director-tease">
-            <h4 class="director-tease__title">Directors</h4>
-            {% for director in post.getDirectors %}
-                {% include 'partial/teammate-tease.twig' with { mate: director } %}
-            {% endfor %}
-        </section>
-        <section class="sidebar-menu sidebar-menu__{{post.post_type}}">
-            <h4 class="sidebar-menu__title">Menu</h4>
-            <ul class="filters filters--{{ post.vertical.slug }}-menu">
-                <li class="filter__item filter__item-- filter__item--research filter__item--current-parent filter__item--top-item collapsable--max-tablet">
-                {% for name, link in post.getMenuLinks %}
-                    <li class="filter__item filter__item--sub-item">
-                        <a class="filter__link sidebar-menu__link" href="{{link}}">{{name}}</a>
-                    </li>
-                {% endfor %}
-                </li>
-            </ul>
-        </section>
-    {% endif %}
+	{% if post.post_type == "research" or post.post_type == "blogs" %}
+		{% include 'partial/research-meta.twig' %}
+		{% if post.post_type != "blogs" %}
+		<p class="article-meta__item article__vertical article__vertical--{{ post.vertical.slug }}">
+			<a class="vertical-name vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}research">← {{ post.vertical.name }}</a>
+		</p>
+		{% endif %}
+		<section class="researchers-tease">
+			<h4 class="researchers-tease__title">{{ (post.post_type == "research") ? "Researchers" : "Authors" }}</h4>
+			{% if post.meta('project_team_member')  %}
+				{% for researcher in post.getResearchers %}
+					{% if researcher and researcher.terms('team_category') | join(', ') == "Former CME" %}
+						{% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
+					{% else %}
+						{% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
+					{% endif %}                
+				{% endfor %}
+			{% endif %}
+			{% for researcher in post.meta('additional_team_members') %}
+				{% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
+			{% endfor %}
+		</section>
+	{% endif %}
+	{% if post.post_type == "page" %}
+		<section class="director-tease">
+			<h4 class="director-tease__title">Directors</h4>
+			{% for director in post.getDirectors %}
+				{% include 'partial/teammate-tease.twig' with { mate: director } %}
+			{% endfor %}
+		</section>
+		<section class="sidebar-menu sidebar-menu__{{post.post_type}}">
+			<h4 class="sidebar-menu__title">Menu</h4>
+			<ul class="filters filters--{{ post.vertical.slug }}-menu">
+				<li class="filter__item filter__item-- filter__item--research filter__item--current-parent filter__item--top-item collapsable--max-tablet">
+				{% for name, link in post.getMenuLinks %}
+					<li class="filter__item filter__item--sub-item">
+						<a class="filter__link sidebar-menu__link" href="{{link}}">{{name}}</a>
+					</li>
+				{% endfor %}
+				</li>
+			</ul>
+		</section>
+	{% endif %}
 
-     {% if post.post_type != "team" and post.post_type != "board" %}
-        <aside class="newsletter-post widget">
-            {{ newsletter }}
-        </aside>
-    {% endif %}
-    {% include 'partial/share.twig' %}
+	 {% if post.post_type != "team" and post.post_type != "board" %}
+		<aside class="newsletter-post widget">
+			{{ newsletter }}
+		</aside>
+	{% endif %}
+	{% include 'partial/share.twig' %}
 
 </div>

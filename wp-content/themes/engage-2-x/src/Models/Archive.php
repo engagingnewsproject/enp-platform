@@ -8,6 +8,7 @@ use Timber;
 
 class Archive extends PostQuery
 {
+	// Properties declaration
 	public $posts;
 	public $pagination;
 	public $slug;
@@ -18,24 +19,27 @@ class Archive extends PostQuery
 	public $queriedObject;
 	public $taxonomy;
 	
+	// Constructor function to initialize the object
 	public function init($query)
 	{
+		// Set various properties using helper functions
 		$this->setVertical();
 		$this->setCategory();
 		$this->setPostType();
-
+		
+		// Call the parent constructor with the provided query
 		parent::__construct($query);
-		$this->setQueriedObject();
-		// $this->posts = $this->queryIterator->get_posts();
-		$this->posts = Timber::get_posts($query);
-		$this->pagination = $this->pagination();
-		$this->taxonomy = $this->queriedObject->taxonomy;
-		$this->slug = $this->queriedObject->slug;
-		$this->setIntro();
+		$this->setQueriedObject(); // Set the queried object
+		$this->posts = Timber::get_posts($query); // Get posts using Timber
+		$this->pagination = $this->pagination(); // Set pagination
+		$this->taxonomy = $this->queriedObject->taxonomy; // Set taxonomy
+		$this->slug = $this->queriedObject->slug; // Set slug
+		$this->setIntro(); // Set intro information
 	}
 	
+	// Function to set the queried object
 	public function setQueriedObject() {
-
+		
 		$Permalinks = new Permalinks();
 		// because of our taxonomy rewrites, we're messing with the queried object quite a bit. As a result, we need to use this model to find the right one.
 		if($Permalinks->getQueriedCategory()) {
@@ -45,20 +49,22 @@ class Archive extends PostQuery
 		} else {
 			$this->queriedObject = get_queried_object();
 		}
-		
 		return;
 	}
 	
+	// Function to set the vertical property
 	public function setVertical() {
 		$Permalinks = new Permalinks();
 		$this->vertical = $Permalinks->getQueriedVertical();
 	}
 	
+	// Function to set the category property
 	public function setCategory() {
 		$Permalinks = new Permalinks();
 		$this->category = $Permalinks->getQueriedCategory();
 	}
 	
+	// Function to set the postType property
 	public function setPostType() {
 		$Permalinks = new Permalinks();
 		$this->postType = $Permalinks->getQueriedPostType();
@@ -70,6 +76,7 @@ class Archive extends PostQuery
 	* @return String
 	*/
 	public function getTitle() {
+		// Determine the archive page title based on different conditions
 		$title = 'Archive';
 		if ( is_day() ) {
 			$title = 'Archive: '.get_the_date( 'D M Y' );
@@ -106,6 +113,7 @@ class Archive extends PostQuery
 		return $title;
 	}
 	
+	// Function to set the intro property
 	public function setIntro() {
 		// initially set off queried object
 		$this->intro = [
