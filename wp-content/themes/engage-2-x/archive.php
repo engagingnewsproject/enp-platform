@@ -14,16 +14,6 @@
 * @since   Timber 0.2
 */
 
-var_dump( 'TODO: http://localhost:10028/research/ -- need to get the sidebar' );
-var_dump( 'TODO: http://localhost:10028/research/ -- need to get the sidebar' );
-var_dump( 'TODO: http://localhost:10028/research/ -- need to get the sidebar' );
-var_dump( 'TODO: http://localhost:10028/research/ -- need to get the sidebar' );
-var_dump( 'TODO: http://localhost:10028/research/ -- need to get the sidebar' );
-var_dump( 'TODO: http://localhost:10028/research/ -- need to get the sidebar' );
-var_dump( 'TODO: http://localhost:10028/research/ -- need to get the sidebar' );
-var_dump( 'TODO: http://localhost:10028/research/ -- need to get the sidebar' );
-var_dump( 'TODO: http://localhost:10028/research/ -- need to get the sidebar' );
-var_dump( 'TODO: http://localhost:10028/research/ -- need to get the sidebar' );
 $context = Timber::context();
 
 global $wp_query;
@@ -42,7 +32,7 @@ if(get_query_var('vertical_base')) {
 	];
 } else if (is_post_type_archive(['research']) || is_tax('research-categories')) {
 	$options = [
-		'options'	=> $globals->getResearchMenu(),
+		'filters'	=> $globals->getResearchMenu(),
 	];	
 } else if(is_post_type_archive(['announcement']) || is_tax('announcement-category')) {
 	$options = [
@@ -68,6 +58,7 @@ if(get_query_var('vertical_base')) {
 // //
 // Build intro
 // //
+
 if ((
 		is_post_type_archive(['team']) || 
 		is_tax('team_category')) || 
@@ -77,7 +68,7 @@ if ((
 	)) {
 	$archive = new TeamArchive( $wp_query, $options );
 } else {
-	$archive = new TileArchive( $wp_query, $options );
+	$archive = new TileArchive(  $options, $wp_query );
 }
 $context['archive'] = $archive; // Sidebar filters
 
