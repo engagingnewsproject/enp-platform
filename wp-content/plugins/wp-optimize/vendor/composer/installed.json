@@ -1456,7 +1456,7 @@
             "version_normalized": "3.0.7.0",
             "source": {
                 "type": "git",
-                "url": "https://source.updraftplus.com/team-updraft/common-libs.git",
+                "url": "git@source.updraftplus.com:team-updraft/common-libs.git",
                 "reference": "30a5b39a3043cc12a6e1358183682d24376b3fdd"
             },
             "dist": {

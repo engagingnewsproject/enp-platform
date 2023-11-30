@@ -3,7 +3,7 @@
 Plugin Name: Footnotes Made Easy
 Plugin URI: https://github.com/dartiss/footnotes-made-easy
 Description: Allows post authors to easily add and manage footnotes in posts.
-Version: 1.0.2
+Version: 1.0.4
 Author: David Artiss
 Author URI: https://artiss.blog
 Text Domain: footnotes-made-easy
@@ -77,9 +77,10 @@ class swas_wp_footnotes {
 									  );
 
 		// Get the current settings or setup some defaults if needed
-
+     
 		$this->current_options = get_option( 'swas_footnote_options' );
 		if ( ! $this->current_options ) {		
+
 			$this->current_options = $this->default_options;
 			update_option( 'swas_footnote_options', $this->current_options );
 		} else {
@@ -166,6 +167,11 @@ class swas_wp_footnotes {
 	function process( $data ) {
 
 		global $post;
+		
+		// check against post existing before processing
+		if( ! $post ) {
+			return $data;
+		}
 
 		// Ensure post exists
 
@@ -581,3 +587,19 @@ class swas_wp_footnotes {
 		wp_enqueue_style( 'wp-footnotes-tt-style', plugins_url( 'css/tooltips.min.css' , __FILE__ ), array(), null );
 	}
 }
+
+/**
+ * Show Admin Message
+ *
+ * Display message on the administration screen once 2 months away from the plugins' closure.
+ */
+function fme_add_admin_notice() {
+
+	if ( gmdate( 'Ymd' ) >= '20241001' && is_admin() ) {
+		echo '<div class="notice notice-error"><p>';
+		echo __( sprintf( '⛔️ The Footnotes Made Easy plugin will be discontinued December 2024. After this time there will be no further updates, including security vulnerabilities. It is important that you disable it and find an alternative plugin before then. <a href="%s">Find out more here</a>.', 'https://wordpress.org/support/topic/important-please-read-before-posting-4/' ), 'footnotes-made-easy' );
+		echo '</p></div>';
+	}
+}
+
+add_action( 'admin_notices', 'fme_add_admin_notice' );

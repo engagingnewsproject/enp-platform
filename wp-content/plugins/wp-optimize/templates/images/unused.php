@@ -21,7 +21,7 @@
 <div class="wpo-image-sizes-section">
 	<h3><?php esc_html_e('Image sizes', 'wp-optimize'); ?></h3>
 	<div class="wpo-fieldgroup premium-only">
-		<h3><?php _e('Registered image sizes', 'wp-optimize'); ?></h3>
+		<h3><?php esc_html_e('Registered image sizes', 'wp-optimize'); ?></h3>
 		<?php
 			$message = __('This feature is for experienced users.', 'wp-optimize');
 			$message .= ' ';
@@ -42,7 +42,7 @@
 		<h3><?php esc_html_e('Unused image sizes', 'wp-optimize');?></h3>
 		<p class="hide_on_empty">
 			<?php esc_html_e('These image sizes were used by some of the themes or plugins installed previously and they remain within your database.', 'wp-optimize'); ?>
-			<a href="https://codex.wordpress.org/Post_Thumbnails#Add_New_Post_Thumbnail_Sizes" target="_blank"><?php esc_html_e('Read more about custom image sizes here.', 'wp-optimize'); ?></a>
+			<?php $wp_optimize->wp_optimize_url('https://codex.wordpress.org/Post_Thumbnails#Add_New_Post_Thumbnail_Sizes', __('Read more about custom image sizes here.', 'wp-optimize')); ?>
 		</p>
 		<div id="unused_image_sizes">
 			<label class="unused-image-sizes__label">
