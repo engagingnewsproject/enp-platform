@@ -1,10 +1,10 @@
 === Footnotes Made Easy ===
 Contributors: dartiss
-Tags: bibliography, footnotes, formatting, notes, reference, adopt-me
+Tags: bibliography, footnotes, formatting, notes, reference
 Requires at least: 4.6
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,10 +13,6 @@ Allows post authors to easily add and manage footnotes in posts.
 == Description ==
 
 Footnotes Made Easy is a simple, but powerful, method of adding footnotes into your posts and pages.
-
-**Note:**
-**This plugin will no longer be updated, other than for critical security issues. During December 2024, it will be formally closed.**
-**[Find out more here](https://wordpress.org/support/topic/important-please-read-before-posting-4/), including, if you’re a developer, how you can adopt it.**
 
 Key features include...
 
@@ -95,6 +91,9 @@ Yes it can. The easiest way is to use the CSS editor in your theme customizer. F
 
 I use semantic versioning, with the first release being 1.0.
 
+= 1.0.5 =
+* Maintenance update - PHP 8 compatible.
+
 = 1.0.4 =
 * Bug: Well, I messed that release up and left some test dates in place. Apologies. This fixes it all now.
 
@@ -121,3 +120,6 @@ I use semantic versioning, with the first release being 1.0.
 
 = 1.0.4 =
 * Added notices about the plugin closure
+
+= 1.0.5 =
+* Plugin is now PHP 8 compatible
