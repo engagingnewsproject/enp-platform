@@ -1,0 +1,142 @@
+.home-funders {
+	padding-top: 0;
+	@include media($phablet) {
+		padding-top: $spacer-lg;
+	}
+	.container {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+.funder {
+	align-self: center;
+	justify-content: space-between;
+	margin-bottom: $spacer;
+	margin-right: $spacer-sm;
+	@include media($phablet) {
+		margin-right: $spacer;
+	}
+	@include media($laptop) {
+		margin-right: $spacer;
+	}
+}
+.funder--donate {
+	display: flex;
+	flex: 100%;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border: 2px dashed $gray-light;
+	padding: $spacer;
+	text-align: center;
+}
+
+.funder__donate__title {
+	font-size: $font-size-small;
+	text-transform: uppercase;
+	letter-spacing: 0.05rem;
+}
+// END base styles
+
+@supports not (display: flex) {
+	.home-funders {
+		@include media($phablet) {
+			float: left;
+		}
+	}
+	.funder {
+		display: inline-block;
+		width: 44%;
+		@include media($phablet) {
+			width: 25%;
+		}
+		@include media($laptop) {
+			margin-right: $spacer-xl;
+		}
+	}
+	.funder--donate {
+		width: 100%;
+	}
+} // END not (display: flex)
+
+@supports not (display: grid) {
+	.home-funders {
+		@include media($phablet) {
+			float: left;
+			padding-left: $sidebar-width-xs;
+		}
+		@include media($laptop) {
+			padding-left: $sidebar-width-lg;
+		}
+	}
+	.funders {
+		@include media($phablet) {
+			display: flex;
+			flex-wrap: wrap;
+		}
+	}
+} // END not (display: grid)
+
+@supports (display: flex) {
+	.home-funders {
+		@include media($phablet) {
+			order: 3;
+		}
+	}
+	.funders {
+		display: flex;
+		flex-flow: row wrap;
+	}
+	.funder {
+		@include flex-width(45%);
+		margin-right: $spacer-sm;
+		@include media($phablet) {
+			@include flex-width(25%);
+			margin-right: $spacer-lg;
+		}
+	}
+	.funder--donate {
+		@include flex-width(100%);
+	}
+} // END (display: flex)
+
+@supports (display: grid) {
+	.funders {
+		display: grid;
+		grid-gap: 22px;
+
+		@include media($mobile) {
+			grid-gap: 30px;
+		}
+
+		@include media($phablet) {
+			gap: 20px;
+			grid-gap: 40px;
+		}
+	}
+	.funder {
+		grid-column: span 6;
+		margin-right: 0;
+		@include media($phablet) {
+			grid-column: span 3;
+		}
+		@include media($tablet) {
+			grid-column: span 3;
+		}
+	}
+	.home-funders {
+		// grid-column: 1;
+		// grid-row: 3;
+
+		@include media($phablet) {
+			grid-column: 2;
+			grid-row: 5;
+		}
+	}
+	.funder--donate {
+		display: grid;
+		grid-column: 1 / span 6;
+		justify-content: center;
+		grid-column: span 12;
+	}
+} // END (display: grid)

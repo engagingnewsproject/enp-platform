@@ -1,0 +1,23 @@
+body {
+  background: #fff;
+  -webkit-font-smoothing: antialiased; // Improving Font Rendering With CSS (LINK: https://betterprogramming.pub/improving-font-rendering-with-css-3383fc358cbc)
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.main-body-wrapper {
+  overflow-x: hidden;
+}
+
+.flex_row {
+  display: flex;
+  flex-direction: row;
+}
+
+.row_newsletter {
+  overflow: visible;
+  margin: 20px;
+}
+
+.row_item {
+  flex: 1;
+}

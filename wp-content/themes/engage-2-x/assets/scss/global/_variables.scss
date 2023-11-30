@@ -1,0 +1,180 @@
+//
+// Variables
+// --------------------------------------------------
+
+//== Colors
+//
+//## Gray and brand colors
+
+$black: #111;
+$black-grey: #333f48;
+$gray-darker: #333;
+$gray-dark: #5e6873;
+$gray: #888;
+$gray-light: #ddd;
+$gray-lighter: #f8f8f8;
+$gray-lightest: #f0f0f0;
+
+$beige: #d6d2c4;
+$blue-dark: #333f48;
+$navy: #005f86;
+$blue-light: #9cadb7;
+$gold: #cca562;
+$green: #579d42;
+$green-light: #a6cd57;
+$orange: #bf5700;
+$orange-light: #f8971f;
+$teal: #00a9b7;
+$teal-light: #02B2BF;
+$teal-faded: #e9f3f0;
+$yellow: #ffd600;
+$success: $green;
+$info: #5bc0de;
+$warning: #f0ad4e;
+$danger: #d9534f;
+$primary: $orange;
+$white: #fff;
+$purple: #020644;
+$teal-xfaded: lighten($teal-faded, 1%);
+$navy-faded: lighten($navy, 70%);
+$green-faded: lighten($green, 50%);
+$green-light-faded: lighten($green-light, 50%);
+$orange-faded: lighten($orange, 57%);
+$orange-stripe: darken(#fff0e3, 1%);
+$tile-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
+$dropdown-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+$mobile-menu-shadow: 0px 11px 12px rgb(0, 0, 0, 0.18);
+$green-gradient: linear-gradient(
+  10deg,
+  #c7ecd5,
+  #e3ffcb
+); //linear-gradient(10deg,#c8dc99,#f0ffdd); //linear-gradient(15deg,#d1f5f0,#dcffde) !default;
+
+$verticals: (
+  journalism: "journalism",
+  science-communication: "science-communication",
+  media-ethics: "media-ethics",
+  social-platforms: "social-platforms",
+  propaganda: "propaganda",
+  center-leadership: "center-leadership"
+);
+
+$teamCategories: (
+  collaborators: "collaborators",
+  administrative-and-technology: "administrative-and-technology"
+);
+
+$journalism-color: $teal;
+$science-communication-color: $teal;
+$media-ethics-color: $teal;
+$social-platforms-color: $teal;
+
+$journalism-color-light: $teal-faded;
+$science-communication-color-light: $teal-faded;
+$media-ethics-color-light: $teal-faded;
+$social-platforms-color-light: $teal-faded;
+
+$journalism-color-faded: $teal-xfaded;
+$science-communication-color-faded: $teal-xfaded;
+$media-ethics-color-faded: $teal-xfaded;
+$social-platforms-color-faded: $teal-xfaded;
+
+$verticalColors: (
+  journalism: $teal,
+  journalism-faded: $journalism-color-faded,
+  journalism-light: $journalism-color-light,
+  science-communication: $teal,
+  science-communication-light: $science-communication-color-light,
+  science-communication-faded: $science-communication-color-faded,
+  media-ethics: $teal,
+  media-ethics-light: $media-ethics-color-light,
+  media-ethics-faded: $media-ethics-color-faded,
+  social-platforms: $teal,
+  social-platforms-light: $social-platforms-color-light,
+  social-platforms-faded: $social-platforms-color-faded,
+  propaganda: $teal,
+  propaganda-faded: $teal-xfaded,
+  center-leadership: $teal
+);
+
+$categoryColors: (
+  collaborators: $teal,
+  administrative-and-technology: $teal
+);
+
+//== Scaffolding
+//
+//## Settings for some of the most global styles.
+
+//** Global text color on `<body>`.
+$text-color: $black !default;
+
+//** Global textual link color.
+$link-color: $primary !default;
+//** Link hover color set via `darken()` function.
+$link-hover-color: darken($link-color, 15%) !default;
+//** Link hover decoration.
+$link-hover-decoration: underline !default;
+
+//== Typography
+//
+//## Font, line-height, and color for body text, headings, and more.
+
+$font-family-sans-serif: "Libre Franklin", Arial, Helvetica, sans-serif !default;
+$font-family-headlines: $font-family-sans-serif;
+$font-family-serif: Georgia, "Times New Roman", Times, serif !default;
+$font-family-anton: 'Anton', sans-serif;
+//** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+$font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace !default;
+// Font sizes matching https://journalism.utexas.edu/
+$font-size-base: 16px !default;
+
+$font-size-h1: floor(($font-size-base * 2.25)) !default; // ~36px
+$font-size-h2: floor(($font-size-base * 1.75)) !default; // ~30px
+$font-size-h3: ceil(($font-size-base * 1.2)) !default; // ~24px
+$font-size-h4: ceil(($font-size-base * 1)) !default; // ~18px
+$font-size-h5: $font-size-base !default;
+$font-size-h6: ceil(($font-size-base * 0.85)) !default; // ~12px
+
+$font-size-large: ceil(($font-size-base * 1.25)) !default; // ~18px
+$font-size-xlarge: ceil(($font-size-base * 3.25)) !default; // ~18px
+$font-size-small: 12px; // ~12px
+
+//== Media queries breakpoints
+$mobile: 400px;
+$phablet: 600px;
+$tablet: 800px;
+$laptop: 1000px;
+$desktop: 1200px;
+
+$spacer: 1.6rem;
+$spacer-xs: math.div($spacer, 4);
+$spacer-sm: math.div($spacer, 2);
+$spacer-lg: $spacer * 1.5;
+$spacer-xl: $spacer * 2;
+$spacer-xxl: $spacer * 2.5;
+$spacer-xxxl: $spacer * 5;
+$spacer-huge: $spacer * 7;
+
+// borders
+$circle-radius: 50%;
+
+// content widths
+$max-x2-content: 640px;
+$max-content: 600px;
+$min-content: 480px;
+$max-content-sm: 250px;
+$min-content-sm: 200px;
+
+// $sidebar-width-xxs = 161.6px
+$sidebar-width-xxs: calc( #{$max-content-sm} - #{$spacer-lg} );
+// $sidebar-width-xs = 167.2px
+$sidebar-width-xs: calc( #{$min-content-sm} - #{$spacer-sm} );
+// $sidebar-width-sm = 192.8px
+$sidebar-width-sm: calc( #{$min-content-sm} + #{$spacer-sm} );
+// $sidebar-width-md = 205.6px
+$sidebar-width-md: calc( #{$min-content-sm} + #{$spacer} );
+// $sidebar-width-lg = 231.2px
+$sidebar-width-lg: calc( #{$min-content-sm} + #{$spacer-xl} );
+// $sidebar-width-xlg = 258px
+$sidebar-width-xlg: calc( #{$max-content-sm} + 58px );

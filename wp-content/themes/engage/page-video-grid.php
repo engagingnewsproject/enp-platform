@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Template Name: Video Grid Template
+ * Template Name: Video Grid
  * Description: A Page Template for Video Grid
  */
 
 // Code to display Page goes here...
-$context = Timber::get_context();
-$post = new TimberPost();
+$context = Timber::context();
 
-$context['post'] = $post;
-$context['site_copyright_info'] = get_field('alternate_logo', 'options');
+$timber_post     = Timber::get_post();
+$context['post'] = $timber_post;
+
 Timber::render(['page-video-grid.twig'], $context, ENGAGE_PAGE_CACHE_TIME);

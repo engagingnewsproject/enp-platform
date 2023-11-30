@@ -1,23 +1,35 @@
 {% extends "base.twig" %}
 
 {% block content %}
+<pre>
+	{{ dump(archive.posts) }}
+</pre>
 	<div class="container grid grid--gap-30 grid--col-12">
 		{% set title = archive.intro.title %}
+		
+		{# START if/else archive.filters #}
 		{% if archive.filters %}
+		
+			{# -- filter sidebar #}
 			{% if title != "General" %}
-			<div class="archive__sidebar">
-				{% if archive.announcement == 1 %}
-					{% include 'announcement_filters.twig' with { filters: archive.filters, postType: archive.postType.name } %}
-				{% else %}
-					{% include 'filters.twig' with { filters: archive.filters, postType: archive.postType.name } %}
-				{% endif %}
-			</div>
+				<div class="archive__sidebar">
+					{% if archive.announcement == 1 %}
+						{% include 'announcement_filters.twig' with { filters: archive.filters, postType: archive.postType.name } %}
+					{% else %}
+						{% include 'filters.twig' with { filters: archive.filters, postType: archive.postType.name } %}
+					{% endif %}
+				</div>
 			{% endif %}
+		
+			{# Tiles main content #}
+			{# -- set variables #}
 			{% set archive_class_name = "archive__content" %}
 			{% if title == "General" %}
 				{% set title = title | lower %}
 				{% set archive_class_name = archive_class_name ~ "__" ~ title %}
 			{% endif %}
+			
+			{# -- tile content #}
 			<div class={{archive_class_name}}>
 				{% if archive.postType.name == "team" %}
 					{% include 'partial/teammates.twig' with { mates: archive.posts, format: "preview" } %}
@@ -25,16 +37,19 @@
 					{% include 'partial/teammates.twig' with { mates: archive.posts, format: "full" } %}
 				{% else %}
 					{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
-					{# include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } #}
-					{% include 'partial/pagination.twig' with {pagination: posts.pagination} %}
+					{# {% include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } %} #}
+					{# {% include 'partial/pagination.twig' with {pagination: posts.pagination} %} #}
 				{% endif %}
 			</div>
+		
+		{% else %} {# if/else archive.filters #}
 
-		{% else %}
-
-		<div class="archive__content__general">
-			{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
+			<div class="archive__content__general">
+				{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
 			</div>
-		{% endif %}
+			
+		{% endif %} {# END if archive.filters #}
+		
 	</div>
+	
 {% endblock %}

@@ -2,7 +2,7 @@
 
 namespace Engage\Managers\Structures\PostTypes;
 
-class Board extends PostTypes {
+class Board {
 
 	public function __construct() {
 

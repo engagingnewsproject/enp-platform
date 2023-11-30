@@ -3,6 +3,7 @@
  * Collection of Queries that modify the main query or utilities for other queries
  */
 namespace Engage\Managers;
+use Timber;
 
 class Queries {
 
@@ -98,7 +99,7 @@ class Queries {
         $query = array_merge($query, $extraQuery);
 
 
-        return \Timber::get_posts($query, $class);
+        return Timber::get_posts($query, $class);
     }
 
     public function getFeaturedResearchMetaQuery() {
@@ -124,13 +125,14 @@ class Queries {
     }
 
     public function getVerticals() {
-        return get_terms([
+        return \Timber::get_terms([
             'taxonomy' => 'verticals',
             'hide_empty' => true,
         ]);
     }
 
     public function getRecentPosts($options = []) {
+        
     	$defaults = [
     		'postType' 		=> 'any',
     		'postsPerPage' 	=> 10,
@@ -147,9 +149,11 @@ class Queries {
         ], $options['extraQuery']);
 
         if($options['vertical'] !== false) {
+            // var_dump( 'vertical false' );
         	$query = array_merge($query, $this->getVerticalTaxQuery($options['vertical']));
         }
-        $posts = \Timber::get_posts($query, $options['class']);
+        // var_dump( $query );
+        $posts = Timber::get_posts($query);
         return $posts;
     }
 

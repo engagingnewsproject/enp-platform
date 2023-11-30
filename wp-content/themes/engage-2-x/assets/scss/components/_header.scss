@@ -1,0 +1,98 @@
+.header {
+	background: $orange-stripe;
+	padding-top: $spacer-sm;
+	position: relative;
+	@include media($desktop) {
+		padding-bottom: $spacer-lg;
+	}
+	.searchform {
+		padding-bottom: $spacer-sm;
+		@include media($desktop) {
+			padding-bottom: 0;
+		}
+	}
+
+	&:after {
+		content: "";
+		background: $orange-stripe;
+		position: absolute;
+		top: 0;
+		bottom: -100%;
+		left: 0;
+		right: 0;
+		transform: skewY(-7deg);
+		z-index: -1;
+	}
+}
+
+.header__container {
+	position: relative;
+	z-index: 99;
+	border-bottom: 1px solid $orange;
+	@include media($tablet) {
+		padding-top: 10px;
+		padding-bottom: 15px;
+		display: grid;
+		grid-template-columns: 320px 1fr;
+		grid-template-rows: max-content max-content;
+	}
+}
+
+.header__logo {
+	max-width: 200px;
+	@include media($mobile) {
+		padding-right: 0;
+	}
+	@include media($tablet) {
+		max-width: 320px;
+		position: relative;
+		margin-bottom: 0;
+	}
+}
+// @supports queries
+// @supports queries
+// @supports queries
+@supports not (display: grid) {
+	.header__container {
+		&::after {
+			content: ".";
+			visibility: hidden;
+			display: block;
+			height: 0;
+			clear: both;
+		}
+	}
+}
+
+@supports not (display: flex) {
+	.header__container {
+		&::after {
+			content: ".";
+			visibility: hidden;
+			display: block;
+			height: 0;
+			clear: both;
+		}
+	}
+	.header__logo {
+		@include media("max", $tablet) {
+			clear: both;
+		}
+		@include media($desktop) {
+			clear: both;
+			float: left;
+		}
+	}
+}
+
+@supports (display: flex) {
+	.header__container {
+		display: flex;
+		flex-flow: row wrap;
+	}
+	.header__logo {
+		@include media($tablet) {
+			flex: 1 25%;
+		}
+	}
+} // END (display: flex)

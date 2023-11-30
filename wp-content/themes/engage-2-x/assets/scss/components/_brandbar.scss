@@ -1,0 +1,23 @@
+.brandbar {
+  height: 34px;
+  background: $blue-dark;
+}
+.brandbar__link {
+  float: right;
+  margin-top: 5px;
+  line-height: 1;
+}
+
+.brandbar__logo {
+  display: flex;
+  justify-content: center;
+
+  img {
+    width: 112px;
+    height: 25px;
+
+    &:first-child {
+      margin-right: -26px;
+    }
+  }
+}

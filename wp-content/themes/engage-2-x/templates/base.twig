@@ -1,0 +1,46 @@
+{% if the_post_template == 'annual-report-template.php' %}
+	{% set wrapper_padding = ' flex-grid' %}
+	{% set brand_bar = false %}
+{% else %}
+	{% set wrapper_padding = ' wrapper--pad' %}
+	{% set brand_bar = true %}
+{% endif %}
+
+{% block html_head_container %}
+
+{% include 'html-header.twig' %}
+	{% block head %}
+	{% endblock %}
+	</head>
+{% endblock %}
+	<body class="{{body_class}}">
+	<!-- Google Tag Manager (noscript) -->
+	<noscript>
+		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5T4Z9KW" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+	</noscript>
+	<!-- End Google Tag Manager (noscript) -->
+		<div class="main-body-wrapper">
+			{% include 'partial/svg.twig' %}
+			{% if brand_bar == true %}
+				{% include 'partial/brandbar.twig' %}
+			{% endif %}
+			{% block header %}
+				<header class="header wrapper wrapper--pad" >
+					{% include 'header.twig' %}
+				</header>
+			{% endblock %}
+
+			<main role="main" class="main wrapper{{ wrapper_padding }}">
+				{% block content %}
+					Sorry, no content
+				{% endblock %}
+			</main>
+
+			{% block footer %}
+				<footer class="footer wrapper wrapper--pad">
+					{% include 'footer.twig' %}
+				</footer>
+				{{ function('wp_footer') }}
+			{% endblock %}
+	</body>
+</html>

@@ -1,0 +1,95 @@
+{% extends "base.twig" %}
+
+{% block content %}
+{# <pre>
+	{{ dump(post.meta) }}
+</pre> #}
+	<div class="post__wrapper">
+		<div class="article__wrapper">
+			<article class="article__full-width post-type--{{post.post_type}}" id="post--{{post.ID}}">
+
+				<header class="article__header">
+					{{post.content}}
+				</header>
+				<div class="article__content wrapper--pad">
+					<section>
+						{# title #}
+						<h1 class="article__title">{{post.title}}</h1>
+						{# intro & logo's #}
+						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
+							<div class="grid tile-col__whole">
+								<div class="grid site-logos">
+									<img src="{{ get_image(post.meta('cme_logo')).src }}"/>
+									<img src="{{ get_image(post.meta('stop_logo')).src }}"/>
+								</div>
+								{{ post.meta('intro')}}
+							</div>
+						</div>
+
+						<div class="article__intro container container--lg text-center">
+							<h3 class="article__title h2">{{ post.meta('pdf_title')}}</h3>
+							{# PDF file src: ACF Video Grid Field Group #}
+							<a href="{{ post.meta('pdf_file') }}" target="_blank" class="pdf">
+								<img src="{{ get_image(post.meta('pdf_image')).src('medium') }}" alt="{{ get_image(post.meta('pdf_image')).alt }}"/>
+							</a>
+						</div>
+						<div class="article__quotes grid grid--col-12 grid--gap-30 container container--lg">
+							<div class=" grid grid--col-12 grid--gap-30 ">
+								{% for item in post.meta('quote_grid') %}
+									<div class="grid tile-col__half">
+										<figure class="quote">
+											<blockquote>{{ item.quote }}</blockquote>
+											{% if item.quote_author != empty and item.quote_cite != empty %}
+												<figcaption>—{{ item.quote_author }},
+													<cite>{{ item.quote_cite }}</cite>
+												</figcaption>
+											{% endif %}
+										</figure>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					</section>
+					<section>
+						<h2 class="article__title h1 text-center">
+							{{ post.meta('section_title') }}
+						</h2>
+						<div class="tiles tile-section grid grid--col-12 grid--gap-20 video-grid">
+							{% set i = 0 %}
+							{% for item in post.meta('vid_gal') %}
+								<div class="tile tile-col__third tile-tile--has-img grid grid--col-12 grid--gap-20">
+									<div class="img-wrap">
+										<img class="tile__img" src="{{ get_image(item.vid_poster).src }}"/>
+									</div>
+									<a class="tile__link" data-modal="#modal-{{ i }}"></a>
+									<div class="title-wrap">
+										<span class="sr-text">
+											{{ item.vid_title }}
+										</span>
+										<h3 class="title">
+											{{ item.vid_title }}
+										</h3>
+										<p class="tile__description">
+											{{ item.vid_des }}
+										</p>
+									</div>
+
+									<div id="modal-{{ i }}" class="modal">
+										<div class="modal-content">
+											{{ item.video }}
+										</div>
+									</div>
+								</div>
+								{% set i = i + 1 %}
+							{% endfor %}
+						</div>
+					</section>
+					<div class="article__quotes grid grid--col-12 article__quotes-disclaimer text-center">
+						{{ post.meta('disclaimer') }}
+					</div>
+				</div>
+			</article>
+		</div>
+	</div>
+{% endblock %}
+

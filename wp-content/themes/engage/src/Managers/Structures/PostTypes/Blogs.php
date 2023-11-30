@@ -2,7 +2,7 @@
 
 namespace Engage\Managers\Structures\PostTypes;
 
-class Blogs extends PostTypes {
+class Blogs {
 
 	public function __construct() {
 

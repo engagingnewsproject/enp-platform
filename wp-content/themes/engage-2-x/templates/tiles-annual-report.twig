@@ -1,0 +1,43 @@
+<section class="ann__sct ann__sct_tiles wrapper--pad-xlg">
+	{% for tile in main.tiles %}
+		<div class="ann__tile">
+			{% if tile.image %}
+				<div class="ann__img-wrap">
+					<img src="{{ get_image(tile.image).src }}" class="ann__tile_img"
+						sizes="{{ get_image(tile.image).img_sizes }}" alt="{{ get_image(tile.image).alt }}" />
+				</div>
+			{% endif %}
+			<span class="sr-text">
+				{% if tile.title %}
+					<h2>{{ tile.title }}</h2>
+				{% endif %}
+				{% if tile.text %}
+					<p>{{ tile.text }}</p>
+				{% endif %}
+			</span>
+			<div class="ann__info" style="background-color: {{ tile.color }}">
+				{% if tile.title %}
+					<h2 class="ann__title ann__info_title">{{ tile.title }}</h2>
+				{% endif %}
+				{% if tile.text %}
+					<p class="ann__excerpt">{{ tile.text }}</p>
+				{% endif %}
+				<p>Read more &#8250 &#8250</p>
+			</div>
+			<div class="ann__hover_more">
+				{% if tile.hover_text %}
+					{{ tile.hover_text }}
+				{% endif %}
+				<div class="ann__hover_links">
+					{% for link in tile.links %}
+						{% if link.link_url %}
+							<a href="{{ link.link_url }}" class="ann__hover_link">
+								{{ link.link_text }} &#8250 &#8250
+							</a>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+</section>
