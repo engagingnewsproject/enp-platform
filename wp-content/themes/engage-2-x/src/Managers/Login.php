@@ -1,138 +1,153 @@
 <?php
-/*
- * Modifications to the login process
+/**
+ * Modifications to the login process. Provides customization for the WordPress login process, including logo styling, 
+ * URL replacements in the navigation menu, and adding Google Analytics to the login page
  */
+
+// Define a namespace for the class to avoid conflicts
 namespace Engage\Managers;
 
 class Login {
 
-    public function __construct() {
+	public function __construct() {
+	}
 
-    }
+	// The main method to run the actions and filters
+	public function run() {
+		// Add custom actions and filters for login customization
+		add_action( 'login_enqueue_scripts', [$this, 'loginLogo']);
+		add_filter('login_headerurl', [$this, 'loginLogoURL']);
+		add_action( 'login_enqueue_scripts', [$this, 'enqueueScript']);
 
-    public function run() {
-        add_action( 'login_enqueue_scripts', [$this, 'loginLogo']);
-        add_filter('login_headerurl', [$this, 'loginLogoURL']);
-        add_action( 'login_enqueue_scripts', [$this, 'enqueueScript']);
+		// Additional commented-out actions for redirects
+		/* 
+			add_action('login_redirect', [$this, 'redirect_to_quiz_dashboard'], 10, 1);
+			add_action('registration_redirect', [$this, 'redirect_to_quiz_dashboard'], 10, 1);
+			add_action('template_redirect', [$this, 'redirect_to_quiz_dashboard_from_marketing']);
+		*/
 
-        // redirects
-        // add_action('login_redirect', [$this, 'redirect_to_quiz_dashboard'], 10, 1);
-        // add_action('registration_redirect', [$this, 'redirect_to_quiz_dashboard'], 10, 1);
-        // add_action('template_redirect', [$this, 'redirect_to_quiz_dashboard_from_marketing']);
-
-        // replace #enplogin# with our current state
-        add_filter( 'wp_setup_nav_menu_item', [$this, 'enp_setup_nav_menu_item' ]);
-    }
-
-
-    // redirect to quiz creator dashboard on login
-    // public function redirect_to_quiz_dashboard($redirect_to) {
-
-    //     if(ENP_QUIZ_DASHBOARD_URL) {
-    //         $redirect_to = ENP_QUIZ_DASHBOARD_URL.'user';
-    //     }
-    //     return $redirect_to;
-
-    // }
-
-    // redirect to quiz dashboard if logged in and trying to get to the quiz creator
-    // public function redirect_to_quiz_dashboard_from_marketing() {
-    //     if(is_user_logged_in() === true && is_page('quiz-creator') && ENP_QUIZ_DASHBOARD_URL) {
-    //         $redirect_to = ENP_QUIZ_DASHBOARD_URL.'user';
-    //         wp_redirect($redirect_to);
-    //         exit;
-    //     }
-    // }
+		// Add a filter to replace specific menu item URLs with dynamic links
+		add_filter( 'wp_setup_nav_menu_item', [$this, 'enp_setup_nav_menu_item' ]);
+	}
 
 
-    /** 
-     * The main code, this replace the #keyword# by the correct links with 
-    * nonce ect
-    */
-    public function enp_setup_nav_menu_item( $item ) {
-        global $pagenow;
+	// Method to redirect to quiz dashboard on login (currently commented out)
+	/*
+		public function redirect_to_quiz_dashboard($redirect_to) {
 
-        if ( $pagenow != 'nav-menus.php' && ! defined( 'DOING_AJAX' ) && isset( $item->url ) && strstr( $item->url, '#enp' ) != '' ) {
-            $item_url = substr( $item->url, 0, strpos( $item->url, '#', 1 ) ) . '#';
+			if(ENP_QUIZ_DASHBOARD_URL) {
+				$redirect_to = ENP_QUIZ_DASHBOARD_URL.'user';
+			}
+			return $redirect_to;
+		}
+	*/
 
-            switch ( $item_url ) {
+	// Method to redirect to quiz dashboard from marketing page (currently commented out)
+	/*
+		public function redirect_to_quiz_dashboard_from_marketing() {
+			if(is_user_logged_in() === true && is_page('quiz-creator') && ENP_QUIZ_DASHBOARD_URL) {
+				$redirect_to = ENP_QUIZ_DASHBOARD_URL.'user';
+				wp_redirect($redirect_to);
+				exit;
+			}
+		}
+	*/
 
-                case '#enplogin#' :     $item->url = is_user_logged_in() ? wp_logout_url() : wp_login_url();
-                                        $item->title = is_user_logged_in() ? 'Log out' : 'Login';
-                // break;
-                // case '#enpquizcreator#' :   $item->url = is_user_logged_in() ? ENP_QUIZ_DASHBOARD_URL.'user' : site_url('quiz-creator');
-                //                             $item->title = 'Quiz Creator';
 
-                break;
+	/** 
+	 * Main code to replace #keyword# with correct links
+	 * nonce ect
+	 */
+	public function enp_setup_nav_menu_item( $item ) {
+		global $pagenow;
+		
+		// Check if not in nav-menus.php, not doing AJAX, and URL contains #enp
+		if ( $pagenow != 'nav-menus.php' && ! defined( 'DOING_AJAX' ) && isset( $item->url ) && strstr( $item->url, '#enp' ) != '' ) {
+			$item_url = substr( $item->url, 0, strpos( $item->url, '#', 1 ) ) . '#';
+			
+			// Switch based on the item URL to replace specific keywords
+			switch ( $item_url ) {
 
-            }
-            $item->url = esc_url( $item->url );
-        }
-        return $item;
-    }
+				case '#enplogin#' :     $item->url = is_user_logged_in() ? wp_logout_url() : wp_login_url();
+										$item->title = is_user_logged_in() ? 'Log out' : 'Login';
+				// break;
+				// case '#enpquizcreator#' :   $item->url = is_user_logged_in() ? ENP_QUIZ_DASHBOARD_URL.'user' : site_url('quiz-creator');
+				//                             $item->title = 'Quiz Creator';
 
-    /*
-     * Customize Login Logo
-     */
-    public function loginLogo() { 
-        ?>
-        <style type="text/css">
-            body {
-                background: #ecf5f2!important;
-            }
-            body:before {
-                content: '';
-                background: #fff;
-                position: absolute;
-                height: 100px;
-                top: -100px;
-                left: 0;
-                right: 0;
-                transform: skewY(-8deg);
-                z-index: -1;
-            }
-            body:after {
-                content: '';
-                background: #fff;
-                position: absolute;
-                height: 100px;
-                top: -100px;
-                left: 0;
-                right: 0;
-                transform: skewY(8deg);
-                z-index: -1;
-            }
-            .login h1 a {
-                background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/assets/img/cme-logo.png) !important;
-                background-size: 315px !important;
-                background-position: center center !important;
-                width: 315px!important;
-            }
-        </style>
-        <?php 
-    }
-    
-    public function loginLogoURL() {
-        return home_url();
-    }
+				break;
 
-    /**
-     * Add Google Analytics to Login page
-     */
-    function enqueueScript() {
-      ?>
+			}
+			$item->url = esc_url( $item->url );
+		}
+		return $item;
+	}
 
-      <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	/*
+	 * Customize Login Logo
+	 */
+	public function loginLogo() { 
+		// Output custom styles for login page
+		?>
+		<style type="text/css">
+			/* ... Custom CSS for the login page styling ... */
+			body {
+				background: #ecf5f2!important;
+			}
+			body:before {
+				content: '';
+				background: #fff;
+				position: absolute;
+				height: 100px;
+				top: -100px;
+				left: 0;
+				right: 0;
+				transform: skewY(-8deg);
+				z-index: -1;
+			}
+			body:after {
+				content: '';
+				background: #fff;
+				position: absolute;
+				height: 100px;
+				top: -100px;
+				left: 0;
+				right: 0;
+				transform: skewY(8deg);
+				z-index: -1;
+			}
+			.login h1 a {
+				background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/assets/img/cme-logo.png) !important;
+				background-size: 315px !important;
+				background-position: center center !important;
+				width: 315px!important;
+			}
+		</style>
+		<?php 
+	}
+	
+	// Method to set the login logo URL
+	public function loginLogoURL() {
+		return home_url();
+	}
 
-        ga('create', 'UA-52471115-4', 'auto');
-        ga('send', 'pageview');
-      </script>
+	/**
+	 * Add Google Analytics to Login page
+	 */
+	function enqueueScript() {
+	// Output JavaScript code to enqueue Google Analytics script on the login page
+	  ?>
+	  <script>
+		// ... Google Analytics script ...
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-      <?php
-    }
-    
+		ga('create', 'UA-52471115-4', 'auto');
+		ga('send', 'pageview');
+	  </script>
+
+	  <?php
+	}
+	
 }

@@ -29,13 +29,15 @@ class Globals {
 	 * @return void
 	 */
 	public function clearFilterMenuActions() {
+		// Add actions to clear various filter menus when certain taxonomy events occur.
 		add_action('edit_research-categories', [$this, 'clearResearchMenu'], 10, 2);
 		add_action('create_research-categories', [$this, 'clearResearchMenu'], 10, 2);
 		add_action('delete_research-categories', [$this, 'clearResearchMenu'], 10, 2);
+		
+		// Similar actions for announcement, blogs, team, event, and vertical menus.
 		add_action('edit_verticals', [$this, 'clearResearchMenu'], 10, 2);
 		add_action('create_verticals', [$this, 'clearResearchMenu'], 10, 2);
 		add_action('delete_verticals', [$this, 'clearResearchMenu'], 10, 2);
-		
 		
 		// clear announcement filter menu
 		add_action('edit_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
@@ -74,7 +76,7 @@ class Globals {
 		add_action('create_verticals', [$this, 'clearVerticalMenu'], 10, 2);
 		add_action('delete_verticals', [$this, 'clearVerticalMenu'], 10, 2);
 		
-		// on edit or publish of a post, clear evertyhing
+		// On edit or publish of a post, clear everything.
 		add_action('save_post', [$this, 'clearMenus']);
 	}
 	
@@ -89,9 +91,9 @@ class Globals {
 		if ( wp_is_post_revision( $postID ) || get_post_status($postID) !== 'publish')
 		return;
 		
-		
 		$postType = get_post_type($postID);
 		
+		// Depending on the post type, clear the corresponding menu.
 		if($postType === 'research') {
 			$this->clearResearchMenu(0, 0);
 		}
@@ -108,8 +110,8 @@ class Globals {
 			$this->clearEventMenu(0, 0);
 		}
 		
-		// always clear the vertical menus
-		// find out which, if any verticals it has
+		// Always clear the vertical menus.
+		// Find out which, if any, verticals it has and clear the corresponding menu.
 		$verticals = wp_get_post_terms( $postID, 'verticals' );
 		if($verticals) {
 			foreach($verticals as $vertical) {
