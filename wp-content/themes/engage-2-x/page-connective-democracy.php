@@ -15,10 +15,10 @@ $context['newsroom_resource_posts'] = $newsroom_resource_posts;
 // END newsroom resource posts
 
 $context['research'] = Timber::get_posts(
-    ['post_type' => 'research', 
-    'posts_per_page' => -1, 
-    'verticals' => 'bridging-divides', 
-    'orderby' => 'date', 
-    'order' => 'DESC'],
+	['post_type' => 'research', 
+	'posts_per_page' => -1, 
+	'verticals' => 'bridging-divides', 
+	'orderby' => 'date', 
+	'order' => 'DESC'],
 );
 Timber::render(['page-connective-democracy.twig'], $context, ENGAGE_PAGE_CACHE_TIME); 

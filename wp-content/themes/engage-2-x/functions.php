@@ -30,9 +30,9 @@ use Engage\Models\Press;
 use Engage\Models\VerticalLanding;
 
 /**
- * Term class map
- * @link https://timber.github.io/docs/v2/guides/class-maps/
- */
+* Term class map
+* @link https://timber.github.io/docs/v2/guides/class-maps/
+*/
 add_filter('timber/term/classmap', function ($classmap) {
 	$custom_classmap = [
 		// 'verticals' 	=> TileArchive::class,
@@ -43,9 +43,9 @@ add_filter('timber/term/classmap', function ($classmap) {
 });
 
 /**
- * Post class map
- * @link https://timber.github.io/docs/v2/guides/class-maps/
- */
+* Post class map
+* @link https://timber.github.io/docs/v2/guides/class-maps/
+*/
 add_filter('timber/post/classmap', function ($classmap) {
 	$custom_classmap = [
 		'research'	=> ResearchArticle::class,

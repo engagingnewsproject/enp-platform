@@ -4,7 +4,6 @@
  * Template Name: Solidarity Journalism
  * Description: A Page Template for Solidarity Journalism
  */
-use Timber\PostQuery;
 
 $context	= Timber::context();
 $post		= $context['post'];
