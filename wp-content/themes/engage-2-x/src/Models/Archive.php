@@ -8,15 +8,15 @@ use Timber;
 
 class Archive extends PostQuery
 {
-	public $posts,
-	$pagination,
-	$slug,
-	$intro = [],
-	$vertical = false,
-	$category = false,
-	$postType,
-	$queriedObject,
-	$taxonomy;
+	public $posts;
+	public $pagination;
+	public $slug;
+	public $intro = [];
+	public $vertical = false;
+	public $category = false;
+	public $postType;
+	public $queriedObject;
+	public $taxonomy;
 	
 	public function init($query)
 	{

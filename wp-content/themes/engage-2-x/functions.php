@@ -60,7 +60,6 @@ add_filter('timber/post/classmap', function ($classmap) {
 			} elseif ($template === 'page-landing.php') {
 				return VerticalLanding::class;
 			}
-			// return Press::class;
 		},
 	];
 	return array_merge($classmap, $custom_classmap);

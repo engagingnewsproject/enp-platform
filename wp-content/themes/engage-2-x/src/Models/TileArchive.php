@@ -9,7 +9,7 @@ class TileArchive extends Archive
 {
 	public $filters = []; // when you want things organized by vertical
 	
-	public function __construct( $query = false, $options )
+	public function __construct( $options, $query = false )
 	{
 		
 		$defaults = [
@@ -19,12 +19,12 @@ class TileArchive extends Archive
 		$options = array_merge($defaults, $options);
 		$this->filters = $options['filters'];
 		
-		parent::init($query, $options);
+		parent::init($query);
 		
 		// loop through the posts and if it's an event, set it as the event model instead
 		foreach($this->posts as $key => $val) {
 			if($val->post_type === 'tribe_events') {
-				// $this->posts[$key] = new Event($val->ID); // TODO: get events done.
+				$this->posts[$key] = new Event($val->ID); // TODO: get events done.
 			}
 		}
 		
