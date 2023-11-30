@@ -116,6 +116,9 @@
 	padding-top: $spacer;
 	display: block;
 }
+.featured-img__img {
+	min-width: 100%;
+}
 // END base styles
 // // // // // //
 
@@ -366,11 +369,10 @@
 	// title
 	.article__title {
 		@include media($phablet) {
-			// grid-column: 2;
-			// grid-row: 2;
-			text-align: center;
+			grid-column: 2;
+			grid-row: 2;
 			padding-left: 0;
-			// max-width: 775px;
+			font-weight: 600;
 		}
 	}
 	// sidebar

@@ -8,6 +8,9 @@
 	.footer {
 		background: $gray-lighter;
 	}
+	.article__title {
+		text-align: center;
+	}
 	@media (max-width: 1000px) {
 		.header {
 			margin-bottom: 0;
