@@ -67,8 +67,8 @@ wp-content/themes/engage/*.code-workspace
 # wp-content/themes/engage/vendor/
 
 # Ignore all files, see below to include only on the /engage directory
-**/package.json
-**/composer.json
+# **/package.json
+# **/composer.json
 **/composer.lock
 
 # Exclude the config files from the /themes/engage directory
