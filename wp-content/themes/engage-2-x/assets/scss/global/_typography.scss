@@ -143,6 +143,7 @@ pre {
 	padding: $spacer;
 	overflow: auto;
 	max-width: 100%;
+	grid-column: 1/-1;
 }
 code,
 kbd,

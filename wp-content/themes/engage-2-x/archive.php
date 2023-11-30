@@ -85,6 +85,7 @@ if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/
   $researchCategories = $options['filters']['terms']['research']['terms'];
 	foreach($researchCategories as $key => $category) {
 		// Get the category image ID from the ACF image custom field
+		// IMPORTANT: the ACF image field needs to return the image ID
 		$thumbID = get_field('category_featured_image', "research-categories_" . $category['ID']);
 
 		if($thumbID) {

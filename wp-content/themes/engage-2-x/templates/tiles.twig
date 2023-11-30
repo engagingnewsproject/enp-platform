@@ -3,6 +3,9 @@
 		{% include "partial/tile-intro.twig" with { 'tile': intro } %}
 	{% endif %}
 	{% for post in posts %}
+	{# <pre>
+		{{ dump(post) }}
+	</pre> #}
 		{% include "partial/tile.twig" with { 'tile': post } %}
 	{% endfor %}
 </section>

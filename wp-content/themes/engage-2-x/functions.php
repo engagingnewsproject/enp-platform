@@ -49,6 +49,7 @@ add_filter('timber/term/classmap', function ($classmap) {
 add_filter('timber/post/classmap', function ($classmap) {
 	$custom_classmap = [
 		'research'	=> ResearchArticle::class,
+		'blogs'			=> ResearchArticle::class,
 		'team' 			=> Teammate::class,
 		'board'			=> BoardMember::class,
 		'event'			=> Event::class,

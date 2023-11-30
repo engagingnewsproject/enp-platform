@@ -10,7 +10,7 @@ class Event extends Article {
 	public $location = false;
 	public $venue = [];
 	
-	public function __construct($postID = null)
+	public function init($postID = null)
 	{
 		parent::__construct($postID);
 	}

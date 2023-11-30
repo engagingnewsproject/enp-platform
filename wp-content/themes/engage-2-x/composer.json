@@ -17,7 +17,8 @@
   ],
   "require": {
     "timber/timber": "2.x-dev",
-    "hellonico/timber-dump-extension": "^1.0"
+    "hellonico/timber-dump-extension": "^1.0",
+    "hellonico/twig-dump-extension": "^1.2"
   },
   "autoload": {
     "psr-4": {

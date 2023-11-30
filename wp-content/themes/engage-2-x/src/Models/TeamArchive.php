@@ -7,7 +7,7 @@ namespace Engage\Models;
 class TeamArchive extends TileArchive
 {
 
-  public function __construct( $query = false, $options )
+  public function __construct( $options, $query = false )
   {
 
       parent::__construct( $query, $options );

@@ -2,8 +2,9 @@
 {% set defaultimg = theme.link ~ '/assets/img/default-logo.png' %}
 
 <div class="tile{{' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.vertical.slug ? tile.vertical.slug : tile.terms('verticals')[0].slug }}">
-
-
+{# <pre>
+	{{ dump(tile.meta()) }}
+</pre> #}
 	<div class="tile__img-wrap">
 			<img class="tile__img" src="{{ tile.thumbnail.src('featured-post') | default(defaultimg) }}" alt="{{ tile.thumbnail.alt }}"/>
 	</div> 

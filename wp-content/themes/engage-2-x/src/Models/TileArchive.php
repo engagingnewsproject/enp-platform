@@ -24,7 +24,7 @@ class TileArchive extends Archive
 		// loop through the posts and if it's an event, set it as the event model instead
 		foreach($this->posts as $key => $val) {
 			if($val->post_type === 'tribe_events') {
-				$this->posts[$key] = new Event($val->ID); // TODO: get events done.
+				// $this->posts[$key] = new Event($val->ID); // TODO: get events done.
 			}
 		}
 		
@@ -51,7 +51,7 @@ class TileArchive extends Archive
 				$currentSlug = $this->category->slug;
 			}
 		} else {
-			$currentSlug = $this->postType->name;
+			$currentSlug = $this->category->slug;
 		}
 		
 		if($this->filters['terms']) {
