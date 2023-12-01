@@ -55,7 +55,8 @@ class Theme {
 	public function widgetsInit() {
 		register_sidebar([
 			'name'          => __('Primary', 'sage'),
-			'id'            => 'sidebar-primary',
+			'id'            => 'sidebar_primary',
+			'description'		=> 'Primary widgets ex description',
 			'before_widget' => '<section class="widget %1$s %2$s">',
 			'after_widget'  => '</section>',
 			'before_title'  => '<h3 class="widget__title">',
@@ -65,6 +66,7 @@ class Theme {
 		register_sidebar([
 			'name'          => __('Research Sidebar', 'sage'),
 			'id'            => 'sidebar-research',
+			'description'		=> 'Research sidebar description example.',
 			'before_widget' => '<section class="widget %1$s %2$s">',
 			'after_widget'  => '</section>',
 			'before_title'  => '<h3 class="widget__title">',
@@ -184,6 +186,7 @@ class Theme {
 		$context['rightFooterWidgets'] = \Timber::get_widgets('right-footer');
 		$context['newsletter'] = \Timber::get_widgets('newsletter');
 		$context['meiSidebar'] = \Timber::get_widgets('mei-sidebar');
+		$context['primary'] = \Timber::get_widgets('sidebar-primary');
 		return $context;
 	}
 	
