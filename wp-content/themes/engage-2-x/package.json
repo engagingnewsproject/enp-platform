@@ -31,7 +31,7 @@
 	},
 	"devDependencies": {
 		"autoprefixer": "^10.4.16",
-		"browser-sync": "^2.29.3",
+		"browser-sync": "^3.0.2",
 		"browser-sync-webpack-plugin": "^2.3.0",
 		"cssnano": "^6.0.3",
 		"img-loader": "^4.0.0",
