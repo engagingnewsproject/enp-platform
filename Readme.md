@@ -39,11 +39,7 @@ _** Currently this repo includes the whole WordPress installation. This is not r
 
 1. After cloning this repo, run these commands from the Engage theme directory: `[local app site directory]/app/public/wp-content/themes/engage`
 
-2. The `.nvmrc` ([/wp-content/themes/engage/.nvmrc](https://github.com/engagingnewsproject/enp-platform/blob/master/wp-content/themes/engage/.nvmrc)) file contains the Node version required for the project. In order to enable the version switch on each dev session you need to first run:
-
-       nvm use
-
-    . . . this command will switch your project node version to the version in the `.nvmrc` file. For windows users, checkout [nvm for windows](https://github.com/coreybutler/nvm-windows). Then you can run the commands below:
+2. Make sure you are on the latest version of `node` by running `npm doctor`. If anything comes up as not `ok` update your version of `npm` or `node`.
 
 3. Install packages by running
 
