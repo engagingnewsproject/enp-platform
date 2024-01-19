@@ -59,7 +59,10 @@ If you run into any issues with the Engage theme try some of these workarounds t
 
 - You might have to run `composer require hellonico/timber-dump-extension` to get the [Timber Dump Extension](https://github.com/nlemoine/timber-dump-extension#timber-dump-extension).
 
-- Make sure on the Local App you have your php version above 8.1.0.
+- Check the Local App setup:
+
+  - Web server: Apache
+  - PHP version above 8.1.0, something like 8.2.10.
 
 - __Switch to WordPress default theme.__
 
