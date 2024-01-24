@@ -43,6 +43,7 @@ class VerticalLanding extends Article {
 	
 	public function getMenuLinks() {
 		if($this->menulinks === false) {
+			$this->menulinks = array(); // Initialize as an empty array
 			$menu_items = get_field('vertical_menu_links');
 			foreach($menu_items as $item) {
 				$split = explode(": ", $item['menu_item']);
