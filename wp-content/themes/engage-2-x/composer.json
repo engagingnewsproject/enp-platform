@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "timber/timber": "2.x-dev",
+    "timber/timber": "^2.0",
     "hellonico/timber-dump-extension": "^1.0",
     "hellonico/twig-dump-extension": "^1.2"
   },

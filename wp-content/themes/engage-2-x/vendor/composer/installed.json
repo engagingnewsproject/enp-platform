@@ -2980,17 +2980,17 @@
         },
         {
             "name": "timber/timber",
-            "version": "2.x-dev",
-            "version_normalized": "2.9999999.9999999.9999999-dev",
+            "version": "2.0.0",
+            "version_normalized": "2.0.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/timber/timber.git",
-                "reference": "5149aa725a1efa2d6756149e3ea103ade7243bb6"
+                "reference": "ee467c650e51d042a04d9107f35239cbc566d4d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/timber/timber/zipball/5149aa725a1efa2d6756149e3ea103ade7243bb6",
-                "reference": "5149aa725a1efa2d6756149e3ea103ade7243bb6",
+                "url": "https://api.github.com/repos/timber/timber/zipball/ee467c650e51d042a04d9107f35239cbc566d4d7",
+                "reference": "ee467c650e51d042a04d9107f35239cbc566d4d7",
                 "shasum": ""
             },
             "require": {
@@ -3019,7 +3019,7 @@
                 "php-coveralls/php-coveralls": "^2.0 for code coverage",
                 "twig/cache-extra": "For using the cache tag in Twig"
             },
-            "time": "2023-10-24T11:21:07+00:00",
+            "time": "2023-11-09T08:30:32+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
