@@ -1,13 +1,26 @@
-# The Timber Starter Theme
+# CME Engage 2.x Theme
 
 [![Build Status](https://travis-ci.com/timber/starter-theme.svg?branch=master)](https://travis-ci.com/github/timber/starter-theme)
 [![Packagist Version](https://img.shields.io/packagist/v/upstatement/timber-starter-theme?include_prereleases)](https://packagist.org/packages/upstatement/timber-starter-theme)
 
-The "_s" for Timber: a dead-simple theme that you can build from. The primary purpose of this theme is to provide a file structure rather than a framework for markup or styles. Configure your SASS files, scripts, and task runners however you would like!
+Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/starter-theme): "_s" for Timber: a dead-simple theme that you can build from. The primary purpose of this theme is to provide a file structure rather than a framework for markup or styles. Configure your SASS files, scripts, and task runners however you would like!
 
-## Installing the theme
+## Installing the Engage 2.x theme
 
-Follow the guide on [how to Install Timber using the Starter Theme](https://timber.github.io/docs/v2/installation/installation/#use-the-starter-theme).
+1. After you have cloned this repo from the command line `cd` into your site `/themes/engage-2-x/` directory and run 
+  ```
+  composer require timber/timber
+  ```
+  you should see `Using version ^2.0 for timber/timber` in the terminal output.
+  
+2. Activate the `engage-2-x` theme from WP Admin / Appearance.
+
+3. Now you can run `npm run watch` to start up your local dev server with browsersync for automatic refresh.
+
+4. When your tasks are complete and you are ready to push your changes to the remote repo run `npm run production` on the /engage-2-x directory to compile all CSS & JS.
+
+
+More help on [Timber Installation Instructions](https://timber.github.io/docs/v2/installation/installation/#install-timber-into-an-existing-project).
 
 Then,
 
@@ -107,7 +120,7 @@ If it is not [a hotfix](#hotfix-branches), the flow for a normal deployment is:
 
 6. Clear [Cloudflare Cache](https://dash.cloudflare.com/85a3e11c229eb4e8e12176355e3136e6/mediaengagement.org/caching/configuration)
 
-## Deployment quick
+## Deployment quick instructions
 
     `npm run production` first to compile files for production.
 
@@ -134,7 +147,7 @@ After pulling from the live production site is complete, in the Local App click 
         `localhost:10038` is on the local app as "Site Host"
         `mediaengagementorg` is the directory name where your site lives
 
-# SSH
+# SSH Help
 
 ssh into production site
 
