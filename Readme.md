@@ -35,7 +35,7 @@ _** Currently this repo includes the whole WordPress installation. This is not r
 
 # Local development
 
-**Updated instructions**: Engage v1.2.0 includes Timber v1.0 which is installed via composer as the Timber plugin is no longer supported. Not required, but [view Timber Composer installation instructions here](https://timber.github.io/docs/getting-started/switch-to-composer/).
+**Updated instructions**: Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/starter-theme). Not required, but [view Timber Composer installation instructions here](https://timber.github.io/docs/getting-started/switch-to-composer/).
 
 1. After cloning this repo, run these commands from the Engage theme directory: `[local app site directory]/app/public/wp-content/themes/engage`
 
@@ -44,24 +44,26 @@ _** Currently this repo includes the whole WordPress installation. This is not r
 3. Install packages by running
 
        npm install
-
-4. To open a browser window with live reloading run:
-
-       npm run watch
-
-5. **IMPORTANT** When you are done, to compile your code & minify for the production server be sure to run:
-
-       npm run production
        
+4. Install Timber with composer and run 
+  ```
+  composer require timber/timber
+  ```
+  you should see `Using version ^2.0 for timber/timber` in the terminal output.
+  
+5. Activate the `engage-2-x` theme (if not active) from WP Admin / Appearance.
+
+6. Now you can run `npm run watch` to start up your local dev server with browsersync for automatic refresh.
+
+7. When your tasks are complete and you are ready to push your changes to the remote repo run `npm run production` on the /engage-2-x directory to compile all CSS & JS.
+
 ## Debug Local App Connection
 
 If you run into any issues with the Engage theme try some of these workarounds to get the site and wp-admin showing up.
 
-- You might have to run `composer require hellonico/timber-dump-extension` to get the [Timber Dump Extension](https://github.com/nlemoine/timber-dump-extension#timber-dump-extension).
-
 - Check the Local App setup:
 
-  - Web server: Apache
+  - If your Local App Web server is set to Apache switch the server to ngnix (this usually fixes the problem)
   - PHP version above 8.1.0, something like 8.2.10.
 
 - __Switch to WordPress default theme.__
@@ -73,6 +75,8 @@ If you run into any issues with the Engage theme try some of these workarounds t
   3. Reactivate the engage theme by renaming it back to `/engage` in the project directory.
   
      _This is an important step, as you will need WordPress to recognize the Engage theme so you can reactivate it on the WordPress dashboard at the Appearance/Themes page._
+
+- You might have to run `composer require hellonico/timber-dump-extension` to get the [Timber Dump Extension](https://github.com/nlemoine/timber-dump-extension#timber-dump-extension).
 	
 - __Deactivate the Engaging Quiz plugin__
 
