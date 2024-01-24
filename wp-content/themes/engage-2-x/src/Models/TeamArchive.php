@@ -172,29 +172,38 @@ class TeamArchive extends TileArchive
     foreach($this->posts as $post) {
         // Check to see if current member should be included in leadership array
         if (in_array($post->title, [
-          'Scott R. Stroud', 
-          'Finja Augsburg', 
-          'Kat Williams', 
-          'Leah Ransome'
+          "Scott R. Stroud",
+          "Leah Ransom", 
+          "Kat Williams",
+
         ], true)) {
           array_push($leadership, $post);
         } else {
           array_push($media_ethics, $post);
         }
     }
-    
-    // Orders leadership team, from bottom to top
-    $order = array(
-      "Kat Williams", 
-      "Leah Ransome", 
-      "Finja Augsburg", 
-      "Scott R. Stroud"
-    );
-    usort($leadership, function ($a, $b) use ($order) {
-      $pos_a = array_search($a->title, $order);
-      $pos_b = array_search($b->title, $order);
-      return $pos_b - $pos_a;
-    });
+        
+// Orders leadership team, placing Leah Ransome in the second spot
+$order = array(
+  "Scott R. Stroud",
+  "Leah Ransome",
+  "Kat Williams",
+  "Finja Augsburg"
+);
+// Orders leadership team, from top to bottom
+usort($leadership, function ($a, $b) {
+  if ($a->title === "Scott R. Stroud") {
+      return -1; // $a comes before $b
+  } elseif ($b->title === "Scott R. Stroud") {
+      return 1; // $b comes before $a
+  } elseif ($a->title === "Leah Ransom") {
+      return -1; // $a comes before $b
+  } elseif ($b->title === "Leah Ransom") {
+      return 1; // $b comes before $a
+  } else {
+      return 0; // No change in order for other team members
+  }
+});
 
     // Merge the two groups (leadership and remaining members) into one array
     $this->posts = array();
