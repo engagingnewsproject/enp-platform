@@ -599,6 +599,14 @@ final class WPN_Helper
      * @return String
      */
     public static function maybe_escape_csv_column( $value ):string {
+        if (!is_string($value) && !is_numeric($value)) {
+            if(is_array($value)){
+                $value = implode(' ', $value);
+            }else{
+                throw new Exception('Incoming value to maybe_escape_csv_column is neither string nor array');
+            }
+        }
+
         if( 0 < strlen($value ) ) {
             $first_char = substr( $value, 0, 1 );
             if( in_array( $first_char, array( '=', '@', '+', '-' ) ) ) {

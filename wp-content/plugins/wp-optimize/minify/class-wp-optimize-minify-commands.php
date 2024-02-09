@@ -276,6 +276,59 @@ class WP_Optimize_Minify_Commands {
 	}
 
 	/**
+	 * Returns the combined json of all available meta.json files
+	 *
+	 * @return array
+	 */
+	public function get_minify_meta_files() {
+		$enabled = wp_optimize_minify_config()->get('enabled');
+		if (!$enabled) return array(
+			'success' => false,
+			'error' => __('Minify not enabled', 'wp-optimize'),
+		);
+		$combined_metas = array(
+			'meta_logs' => array()
+		);
+
+		// loop through wpo-minify cache directory and get the meta.json files, combine into a single json file
+		if (is_dir(WPO_CACHE_MIN_FILES_DIR) && is_writable(dirname(WPO_CACHE_MIN_FILES_DIR))) {
+			if ($handle = opendir(WPO_CACHE_MIN_FILES_DIR)) {
+				while (false !== ($d = readdir($handle))) {
+					if (0 === strcmp($d, '.') || 0 === strcmp($d, '..') || !is_numeric($d)) {
+						continue;
+					}
+					$cache_min_folder = WPO_CACHE_MIN_FILES_DIR.'/'.$d;
+					if ($cache_min_folder_handle = opendir($cache_min_folder)) {
+						while (false !== ($maybe_file = readdir($cache_min_folder_handle))) {
+							if (0 === strcmp($maybe_file, '.') || 0 === strcmp($maybe_file, '..')) {
+								continue;
+							}
+							$maybe_file_path = $cache_min_folder . '/' . $maybe_file;
+							if (is_file($maybe_file_path) && 'meta.json' === basename($maybe_file_path)) {
+								$combined_metas['meta_logs'][$d] = json_decode(file_get_contents($maybe_file_path));
+							}
+						}
+						closedir($cache_min_folder_handle);
+					}
+				}
+				closedir($handle);
+			}
+		}
+
+		if (0 === count($combined_metas['meta_logs'])) {
+			return array(
+				'success' => false,
+				'error' => __('No file was found', 'wp-optimize'),
+			);
+		} else {
+			return array(
+				'success' => true,
+				'combined_metas' => $combined_metas
+			);
+		}
+	}
+
+	/**
 	 * Get minify file data.
 	 *
 	 * @param string $filename

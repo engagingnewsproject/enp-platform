@@ -3,7 +3,7 @@
 Plugin Name: WP-Optimize - Clean, Compress, Cache
 Plugin URI: https://getwpo.com
 Description: WP-Optimize makes your site fast and efficient. It cleans the database, compresses images and caches pages. Fast sites attract more traffic and users.
-Version: 3.2.22
+Version: 3.3.0
 Update URI: https://wordpress.org/plugins/wp-optimize/
 Author: David Anderson, Ruhani Rabin, Team Updraft
 Author URI: https://updraftplus.com
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) die('No direct access allowed');
 
 // Check to make sure if WP_Optimize is already call and returns.
 if (!class_exists('WP_Optimize')) :
-define('WPO_VERSION', '3.2.22');
+define('WPO_VERSION', '3.3.0');
 define('WPO_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WPO_PLUGIN_MAIN_PATH', plugin_dir_path(__FILE__));
 define('WPO_PLUGIN_SLUG', plugin_basename(__FILE__));
@@ -229,7 +229,8 @@ class WP_Optimize {
 		WPO_Polylang_Compatibility::instance();
 		WPO_Page_Builder_Compatibility::instance();
 		WPO_Custom_Permalink_Compatibility::instance();
-		
+		WPO_TranslatePress_Compatibility::instance();
+
 		do_action('wpo_load_compatibilities');
 	}
 
@@ -1836,6 +1837,13 @@ class WP_Optimize {
 	}
 }
 
+/**
+ * Unschedule specific tasks:
+ * `wpo_cron_event2` => DB optimizations
+ * `wpo_weekly_cron_tasks` => ex: plugin.json auto update
+ *
+ * @return void
+ */
 function wpo_cron_deactivate() {
 	WP_Optimize()->log('running wpo_cron_deactivate()');
 	wp_clear_scheduled_hook('wpo_cron_event2');

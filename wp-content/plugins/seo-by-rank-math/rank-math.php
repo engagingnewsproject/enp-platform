@@ -9,9 +9,9 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Rank Math SEO
- * Version:           1.0.207
+ * Version:           1.0.212.1
  * Plugin URI:        https://rankmath.com/
- * Description:       Rank Math is a revolutionary SEO product that combines the features of many SEO tools and lets you multiply your traffic in the easiest way possible.
+ * Description:       Rank Math SEO is the Best WordPress SEO plugin with the features of many SEO and AI SEO tools in a single package to help multiply your SEO traffic.
  * Author:            Rank Math
  * Author URI:        https://rankmath.com/?utm_source=Plugin&utm_medium=Readme%20Author%20URI&utm_campaign=WP
  * License:           GPL-3.0+
@@ -34,7 +34,7 @@ final class RankMath {
 	 *
 	 * @var string
 	 */
-	public $version = '1.0.207';
+	public $version = '1.0.212.1';
 
 	/**
 	 * Rank Math database version.
@@ -249,6 +249,10 @@ final class RankMath {
 		define( 'RANK_MATH_FILE', __FILE__ );
 		define( 'RANK_MATH_PATH', dirname( RANK_MATH_FILE ) . '/' );
 		define( 'RANK_MATH_URL', plugins_url( '', RANK_MATH_FILE ) . '/' );
+		define( 'RANK_MATH_SITE_URL', 'https://rankmath.com' );
+		if ( ! defined( 'CONTENT_AI_URL' ) ) {
+			define( 'CONTENT_AI_URL', 'https://cai.rankmath.com' );
+		}
 	}
 
 	/**
@@ -460,7 +464,7 @@ final class RankMath {
 		$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
 		echo '<tr class="plugin-update-tr active rank-math-deactivate-notice-row" data-slug="" data-plugin="' . esc_attr( $file ) . '" style="position: relative; top: -1px;"><td colspan="' . esc_attr( $wp_list_table->get_column_count() ) . '" class="plugin-update colspanchange"><div class="notice inline notice-error notice-alt"><p>';
 		echo sprintf(
-			/* translators: 1. Bold text 2. Bold text */
+		/* translators: 1. Bold text 2. Bold text */
 			esc_html__( '%1$s A filter to remove the Rank Math data from the database is present. Deactivating & Deleting this plugin will remove everything related to the Rank Math plugin. %2$s', 'rank-math' ),
 			'<strong>' . esc_html__( 'CAUTION:', 'rank-math' ) . '</strong>',
 			'<br /><strong>' . esc_html__( 'This action is IRREVERSIBLE.', 'rank-math' ) . '</strong>'

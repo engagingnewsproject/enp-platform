@@ -188,6 +188,7 @@
 							?>
 						</strong>
 						<strong tabindex="0" data-tooltip="<?php esc_attr_e('This includes the older, non-expired cache, as well as the temporary files used to generate the minified files.', 'wp-optimize');?>"><span class="dashicons dashicons-editor-help"></span></strong>
+						<a href="#" class="wpo-minify-download-metas-button"><?php esc_html_e('Download debug log', 'wp-optimize'); ?></a>
 					</li>
 				</ul>
 			<?php endif; ?>

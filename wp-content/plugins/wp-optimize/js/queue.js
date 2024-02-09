@@ -147,7 +147,7 @@ function Updraft_Queue() {
 	 */
 	this.contains_id = function (id) {
 		return queue.some(function (ele) {
-			return ele.optimization_id === id || ele === id;
+			return ele.optimization_id === id;
 		});
 	}
 

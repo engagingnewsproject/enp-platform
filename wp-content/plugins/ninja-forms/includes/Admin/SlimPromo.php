@@ -89,7 +89,7 @@ class NF_Admin_SlimPromo
 		echo '<div class="nf-notice-promo">
 			<div class="wrap">
 				<strong>
-					<a href="https://ninjaforms.com/pricing/?utm_source=Ninja+Forms+Plugin&utm_medium=WP+Dashboard&utm_campaign=Membership+Banner" target="_blank">
+				<a href="https://ninjaforms.com/pricing/?utm_source=Ninja+Forms+Plugin&utm_medium=Admin+Banner&utm_campaign=Membership+Promo" target="_blank">
 						' . esc_html__("Tap into even more features with 50% off any Ninja Forms membership!", "ninja-forms") . '
 					</a>
 				</strong>

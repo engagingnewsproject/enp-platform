@@ -6211,10 +6211,6 @@ msgstr ""
 msgid "Trigger Email Action Title"
 msgstr ""
 
-#. Plugin URI of the plugin/theme
-msgid "http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=readme"
-msgstr ""
-
 #. Description of the plugin/theme
 msgid ""
 "Ninja Forms is a webform builder with unparalleled ease of use and features."
@@ -6224,8 +6220,3 @@ msgstr ""
 msgid "Saturday Drive"
 msgstr ""
 
-#. Author URI of the plugin/theme
-msgid ""
-"http://ninjaforms.com/?"
-"utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard"
-msgstr ""

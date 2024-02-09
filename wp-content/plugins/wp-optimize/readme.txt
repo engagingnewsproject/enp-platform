@@ -5,7 +5,7 @@ Tags: cache, caching, image cache, minify, performance cache, page speed, image 
 Requires PHP: 5.6
 Requires at least: 4.5
 Tested up to: 6.4
-Stable tag: 3.2.22
+Stable tag: 3.3.0
 License: GPLv2+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -394,6 +394,23 @@ If none of the above works, disable processing of JavaScript files in the minify
 
 
 == Changelog ==
+
+= 3.3.0 - 31/Jan/2024 =
+
+* FEATURE: Premium - Ability to preload and purge caches from individual post/page
+* FIX: Premium - Unused Images - Recognise Elementor's Container, and Section widget background images
+* FIX: Avoid having repeated minified scripts in the same bundle, it breaks the code in some specific cases
+* FIX: Cache - TranslatePress compatibility - Post updates purges cache for all related translated languages
+* FIX: Only try to parse canonical URLs if there is a path or querystring, needed for WPML with multi-domain compatibility
+* TWEAK: Add cron de-scheduling of all wpo_* events during plugin uninstall
+* TWEAK: Cache - Always add source code comment about page not being cached, but only add details when WP_DEBUG is ON
+* TWEAK: Cache - Fix issue with excluding encoded (non-latin) URLs
+* TWEAK: Do not attempt to close browser connection when the context is not an AJAX action
+* TWEAK: Minify - Logging more information about why minify static assets cache gets invalidated and regenerated
+* TWEAK: Revert to the original `matthiasmullie/minify` repository after confirming resolution of previous issues
+* TWEAK: Setup Cron job to clear failed smush tasks from DB
+* TWEAK: Using clear text user agent strings instead of regular expressions to identify web browsers for improved clarity
+* TWEAK: Updater library in the Premium version updated to the current release series
 
 = 3.2.22 - 23/Nov/2023 =
 
@@ -1484,4 +1501,4 @@ If none of the above works, disable processing of JavaScript files in the minify
 * Fix Interface
 
 == Upgrade Notice ==
-* 3.2.22: Various tweaks - a recommended update for all
+* 3.3.0: Added ability to preload/purge caches of individual post/page feature (Premium). Using updated `matthiasmullie/minify` repository, various fixes, and tweaks - a recommended update for all

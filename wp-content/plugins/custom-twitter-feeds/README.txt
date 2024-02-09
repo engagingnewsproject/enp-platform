@@ -1,14 +1,14 @@
 === Custom Twitter Feeds - A Tweets Widget or X Feed Widget ===
 Author: Smash Balloon
 Contributors: smashballoon, craig-at-smash-balloon, am, smub
-Support Website: http://smashballoon/custom-twitter-feeds/
+Support Website: https://smashballoon/custom-twitter-feeds/
 Tags: Twitter, Twitter feed, X feed, Twitter widget, Custom Twitter Feed
 Requires at least: 4.1
 Tested up to: 6.4
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 Requires PHP: 5.6
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Display X posts (Twitter tweets) from any public user account in a clean, attractive looking feed that updates weekly.
 
@@ -233,6 +233,10 @@ If you're still having trouble displaying your Tweets after trying the common is
 7. To display the Twitter feed just copy and paste the shortcode into a WordPress widget or page
 
 == Changelog ==
+= 2.2.2 =
+* Tweak: Removed CtfDateTime class as PHP 5.2 and lower is no longer supported.
+* Fix: Plugin hardening.
+
 = 2.2.1 =
 * New: Added translation files for German, Spanish, Italian and more.
 * Tweak: Allowed the plugin to retry updating the feed in the event of an issue preventing it from updating.

@@ -31,6 +31,7 @@ class WP_Optimize_Updates {
 		'3.2.17' => array('update_3217_remove_htaccess_capability_tester_files'),
 		'3.2.18' => array('update_3218_reset_webp_serving_method'),
 		'3.2.19' => array('update_3219_modify_cache_config_for_cache_time'),
+		'3.3.0' => array('update_330_ua_async_exclusion_list')
 	);
 
 	/**
@@ -240,6 +241,21 @@ class WP_Optimize_Updates {
 		if ($cache_enabled) {
 			WPO_Cache_Config::instance()->update($config);
 		}
+	}
+
+	/**
+	 * Update async loading exclusion UA list
+	 */
+	private static function update_330_ua_async_exclusion_list() {
+		if (self::is_new_install()) return;
+
+		$config = wp_optimize_minify_config();
+		$defaults = $config->get_defaults();
+		$new_list = $defaults['ualist'];
+
+		$config->update(array(
+			'ualist' => $new_list
+		));
 	}
 }
 

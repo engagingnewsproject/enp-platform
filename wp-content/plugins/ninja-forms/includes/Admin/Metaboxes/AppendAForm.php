@@ -21,7 +21,7 @@ final class NF_Admin_Metaboxes_AppendAForm extends NF_Abstracts_Metabox
             $post = NULL;
         }
 
-        if( ! $post || ! is_object( $post ) ) return $content;
+        if( ! $post || ! is_object( $post ) || post_password_required($post) ) return $content;
 
         $form_id = get_post_meta( $post->ID, 'ninja_forms_form', TRUE );
 

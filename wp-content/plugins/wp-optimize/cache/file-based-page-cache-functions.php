@@ -137,9 +137,15 @@ function wpo_cache($buffer, $flags) {
 		// Add http headers
 		wpo_cache_add_nocache_http_header($message);
 
-		// Only output if the user has turned on debugging output
-		if (((defined('WP_DEBUG') && WP_DEBUG) || isset($_GET['wpo_cache_debug'])) && (!defined('DOING_CRON') || !DOING_CRON) && (!defined('REST_REQUEST') || !REST_REQUEST)) {
-			$buffer .= "\n<!-- WP Optimize page cache - https://getwpo.com - page NOT cached because: ".htmlspecialchars($message)." -->\n";
+		if ((!defined('DOING_CRON') || !DOING_CRON) && (!defined('REST_REQUEST') || !REST_REQUEST)) {
+			$not_cached_details = "";
+			
+			// Output the reason only when the user has turned on debugging
+			if (((defined('WP_DEBUG') && WP_DEBUG) || isset($_GET['wpo_cache_debug']))) {
+				$not_cached_details = "because: ".htmlspecialchars($message) . " ";
+			}
+
+			$buffer .= sprintf("\n<!-- WP Optimize page cache - https://getwpo.com - page NOT cached %s-->\n", $not_cached_details);
 		}
 		
 		return $buffer;
@@ -157,7 +163,7 @@ function wpo_cache($buffer, $flags) {
 
 		$modified_time = time(); // Take this as soon before writing as possible
 		$timezone_string = '';
-		$utc = (float) $GLOBALS['wpo_cache_config']['gmt_offset'];
+		$utc = isset($GLOBALS['wpo_cache_config']['gmt_offset']) ? (float) $GLOBALS['wpo_cache_config']['gmt_offset'] : 0;
 		$modified_time += $utc * 3600;
 		
 		if (!empty($GLOBALS['wpo_cache_config']['timezone_string'])) {
@@ -722,7 +728,7 @@ if (!function_exists('wpo_is_canonical_redirection_needed')) :
 		$url_parts = parse_url($requested_url);
 		$extension = pathinfo($url_parts['path'], PATHINFO_EXTENSION);
 		
-		if (!empty($permalink_structure) && $requested_url != $site_url) {
+		if (!empty($permalink_structure) && $requested_url != $site_url && ((isset($url_parts['path']) && '/' !== $url_parts['path']) || isset($url_parts['query']))) {
 			$request_uri = rtrim($_SERVER['REQUEST_URI'], '?');
 			if ('/' == substr($permalink_structure, -1) && empty($extension) && empty($url_parts['query']) && empty($url_parts['fragment'])) {
 				$url = preg_replace('/(.+?)([\/]*)(\[\?\#][^\/]+|$)/', '$1/$3', $request_uri);
@@ -958,10 +964,10 @@ function wpo_url_in_exceptions($url) {
 endif;
 
 /**
- * Check if url string match with exception.
+ * Checks if an URL matches against listed exceptions.
  *
- * @param string $url       - complete url string i.e. http(s):://domain/path
- * @param string $exception - complete url or absolute path, can consist (.*) wildcards
+ * @param string $url       - complete url string i.e. http(s)://domain/path
+ * @param string $exception - complete url or absolute path, can contain (.*) wildcards; Sometimes can be urlencoded
  *
  * @return bool
  */
@@ -975,10 +981,10 @@ function wpo_url_exception_match($url, $exception) {
 
 	$exception = trim($exception);
 
-	// used to test websites placed in subdirectories.
+	// Used to test websites placed in subdirectories.
 	$sub_dir = '';
 
-	// if exception defined from root i.e. /page1 then remove domain part in url.
+	// If exception defined from root i.e. /page1 then remove domain part in url.
 	if (preg_match('/^\//', $exception)) {
 		// get site sub directory.
 		$sub_dir = preg_replace('#^(http|https):\/\/.*\/#Ui', '', wpo_site_url());
@@ -988,18 +994,26 @@ function wpo_url_exception_match($url, $exception) {
 		$url = preg_replace('#^(http|https):\/\/.*\/#Ui', '/', $url);
 	}
 
-	$url = rtrim($url, '/') . '/';
+	$url = urldecode(rtrim($url, '/')) . '/';
 	$exception = rtrim($exception, '/');
 
-	// if we have no wildcat in the end of exception then add slash.
+	// if we have no wildcard in the end of exception then add slash.
 	if (!preg_match('#\(\.\*\)$#', $exception)) $exception .= '/';
 
 	$exception = preg_quote($exception);
+	
+	// fix - unescape some possibly escaped mask characters
+	$search = array(
+		'\\.\\*',
+		'\\-',
+	);
+	$replace = array(
+		'.*',
+		'-',
+	);
+	$exception = urldecode(str_replace($search, $replace, $exception));
 
-	// fix - unescape possible escaped mask .*
-	$exception = str_replace('\\.\\*', '.*', $exception);
-
-	return preg_match('#^'.$exception.'$#i', $url) || preg_match('#^'.$sub_dir.$exception.'$#i', $url);
+	return (preg_match('#^'.$exception.'$#i', $url) || preg_match('#^'.$sub_dir.$exception.'$#i', $url));
 }
 endif;
 

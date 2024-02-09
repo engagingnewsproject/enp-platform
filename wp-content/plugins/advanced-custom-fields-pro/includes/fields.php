@@ -319,6 +319,25 @@ function acf_get_field_type_label( $name = '' ) {
 	return $label ? $label : '<span class="acf-tooltip-js" title="' . __( 'Field type does not exist', 'acf' ) . '">' . __( 'Unknown', 'acf' ) . '</span>';
 }
 
+/**
+ * Returns the value of a field type "supports" property.
+ *
+ * @since 6.2.5
+ *
+ * @param string $name    The name of the field type.
+ * @param string $prop    The name of the supports property.
+ * @param mixed  $default The default value if the property is not set.
+ *
+ * @return mixed The value of the supports property which may be false, or $default on failure.
+ */
+function acf_field_type_supports( $name = '', $prop = '', $default = false ) {
+	$supports = acf_get_field_type_prop( $name, 'supports' );
+	if ( ! is_array( $supports ) ) {
+		return $default;
+	}
+	return isset( $supports[ $prop ] ) ? $supports[ $prop ] : $default;
+}
+
 
 /*
 *  acf_field_type_exists (deprecated)

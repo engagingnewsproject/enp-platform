@@ -17,7 +17,7 @@
 
         if( ! $disable_admin_notices && ! apply_filters( 'ninja_forms_disable_marketing', false ) ){
             if( ! function_exists( 'NF_Layouts' ) ) {
-                $link = 'https://ninjaforms.com/extensions/layout-styles/?utm_source=Ninja+Forms+Plugin&utm_medium=Form+Builder&utm_campaign=Builder+Layout+Styles+Comment+Bubble';
+                $link = 'https://ninjaforms.com/extensions/layout-styles/?utm_source=Ninja+Forms+Plugin&utm_medium=Form+Builder&utm_campaign=Comment+Bubble&utm_content=Layout+and+Styles+Comment';
                 if ( $u_id ) {
                     $link = 'http://www.shareasale.com/r.cfm?u=' . $u_id . '&b=812237&m=63061&afftrack=&urllink=' . $link;
                 }
@@ -25,7 +25,7 @@
                 <a href="<?php echo $link; ?>" target="_blank" class="nf-cta-bubble"><?php printf( esc_html__( "Drag & drop rows and columns, custom backgrounds, borders, & more without writing a single line of code.", 'ninja-forms' ) ); ?></a>
             <?php
             } elseif( ! class_exists( 'NF_ConditionalLogic', false ) ) {
-                $link = 'https://ninjaforms.com/extensions/conditional-logic/?utm_source=Ninja+Forms+Plugin&utm_medium=Form+Builder&utm_campaign=Builder+Conditional+Logic+Comment+Bubble';
+                $link = 'https://ninjaforms.com/extensions/conditional-logic/?utm_source=Ninja+Forms+Plugin&utm_medium=Form+Builder&utm_campaign=Comment+Bubble&utm_content=Conditional+Logic+Comment';
                 if ( $u_id ) {
                     $link = 'http://www.shareasale.com/r.cfm?u=' . $u_id . '&b=812237&m=63061&afftrack=&urllink=' . $link;
                 }
@@ -33,7 +33,7 @@
                 <a href="<?php echo $link; ?>" target="_blank" class="nf-cta-bubble"><?php printf( esc_html__( "Show & hide fields and pages, selectively send email, & much more! Build professional forms easily.", 'ninja-forms' ) ); ?></a>
             <?php
             } elseif( ! class_exists( 'NF_MultiPart', false ) ) {
-                $link = 'https://ninjaforms.com/extensions/multi-part-forms/?utm_source=Ninja+Forms+Plugin&utm_medium=Form+Builder&utm_campaign=Builder+Multi+Part+Forms+Comment+Bubble';
+                $link = 'https://ninjaforms.com/extensions/multi-part-forms/?utm_source=Ninja+Forms+Plugin&utm_medium=Form+Builder&utm_campaign=Comment+Bubble&utm_content=Multi+Step+Forms+Comment';
                 if ( $u_id ) {
                     $link = 'http://www.shareasale.com/r.cfm?u=' . $u_id . '&b=812237&m=63061&afftrack=&urllink=' . $link;
                 }
@@ -41,7 +41,7 @@
                 <a href="<?php echo $link; ?>" target="_blank" class="nf-cta-bubble"><?php printf( esc_html__( "Create multiple page forms with drag-and-drop. You don't need to code to build complex forms!", 'ninja-forms' ) ); ?></a>
             <?php
             } elseif( ! function_exists( 'NF_File_Uploads' ) ) {
-                $link = 'https://ninjaforms.com/extensions/file-uploads/?utm_source=Ninja+Forms+Plugin&utm_medium=Form+Builder&utm_campaign=Builder+File+Uploads+Comment+Bubble';
+                $link = 'https://ninjaforms.com/extensions/file-uploads/?utm_source=Ninja+Forms+Plugin&utm_medium=Form+Builder&utm_campaign=Comment+Bubble&utm_content=File+Uploads+Comment';
                 if ( $u_id ) {
                     $link = 'http://www.shareasale.com/r.cfm?u=' . $u_id . '&b=812237&m=63061&afftrack=&urllink=' . $link;
                 }
@@ -49,7 +49,7 @@
                 <a href="<?php echo $link; ?>" target="_blank" class="nf-cta-bubble"><?php printf( esc_html__( "Let users upload files to your site! Restrict file type and size. Upload to server, media library, or cloud service.", 'ninja-forms' ) ); ?></a>
             <?php
             } elseif( ! class_exists( 'NF_Stripe_Checkout', false ) ) {
-                $link = 'https://ninjaforms.com/extensions/stripe/?utm_source=Ninja+Forms+Plugin&utm_medium=Form+Builder&utm_campaign=Builder+Stripe+Comment+Bubble';
+                $link = 'https://ninjaforms.com/extensions/stripe/?utm_source=Ninja+Forms+Plugin&utm_medium=Form+Builder&utm_campaign=Comment+Bubble&utm_content=Stripe+Comment';
                 if ( $u_id ) {
                     $link = 'http://www.shareasale.com/r.cfm?u=' . $u_id . '&b=812237&m=63061&afftrack=&urllink=' . $link;
                 }
@@ -120,6 +120,16 @@
 </script>
 
 <script id="tmpl-nf-sub-header-fields" type="text/template">
+    <div class="nf-main-test">
+        <div>
+            <div colspan="4" style="text-align: center;">
+                <a class="nf-secondary-control nf-open-drawer" title="Add new field" href="#" data-drawerid="addField">
+                    <i class="fa fa-plus" data-drawerid="addField" aria-hidden="true"></i>
+                    <span data-drawerid="addField"><?php esc_html_e( 'Add new field', 'ninja-forms' ); ?></span>
+                </a>
+            </div>
+        </div>
+    </div>
     <a class="nf-master-control nf-open-drawer" title="<?php esc_html_e( 'Add new field', 'ninja-forms' ); ?>" href="#" data-drawerid="addField">
         <i class="fa fa-plus" data-drawerid="addField" aria-hidden="true"></i>
         <span data-drawerid="addField"><?php esc_html_e( 'Add new field', 'ninja-forms' ); ?></span>
@@ -127,6 +137,17 @@
 </script>
 
 <script id="tmpl-nf-sub-header-actions" type="text/template">
+    <div class="nf-main-test">
+        <div>
+            <div colspan="4" style="text-align: center;">
+                <a class="nf-secondary-control nf-open-drawer" title="Add new action" href="#" data-drawerid="addAction">
+                    <i class="fa fa-plus" data-drawerid="addAction" aria-hidden="true"></i>
+
+                    <span data-drawerid="addAction"><?php esc_html_e( 'Add new action', 'ninja-forms' ); ?></span>
+                </a>
+            </div>
+        </div>
+    </div>
     <a class="nf-master-control nf-open-drawer" title="<?php esc_html_e( 'Add new action', 'ninja-forms' ); ?>" href="#" data-drawerid="addAction">
         <i class="fa fa-plus" data-drawerid="addAction" aria-hidden="true"></i>
         <span><?php esc_html_e( 'Add new action', 'ninja-forms' ); ?></span>
@@ -253,17 +274,6 @@
 </script>
 
 <script id="tmpl-nf-action-table" type="text/template">
-    <div>
-        <div>
-            <div colspan="4" style="text-align: center;">
-                <a class="nf-secondary-control nf-open-drawer" title="Add new action" href="#" data-drawerid="addAction">
-                    <i class="fa fa-plus" data-drawerid="addAction" aria-hidden="true"></i>
-
-                    <span data-drawerid="addAction"><?php esc_html_e( 'Add new action', 'ninja-forms' ); ?></span>
-                </a>
-            </div>
-        </div>
-    </div>
     <table id="nf-table-display" class="nf-actions-table">
         <thead>
             <tr>

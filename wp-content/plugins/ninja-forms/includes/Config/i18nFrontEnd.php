@@ -1,8 +1,7 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 global $wp_locale;
 
-$date_format = Ninja_Forms()->get_setting( 'date_format' );
-if( ! $date_format ) $date_format = get_option( 'date_format' );
+$date_format = !empty(Ninja_Forms()->get_setting( 'date_format' )) ? Ninja_Forms()->get_setting( 'date_format' ) : get_option( 'date_format' );
 
 return apply_filters( 'ninja_forms_i18n_front_end', array(
 

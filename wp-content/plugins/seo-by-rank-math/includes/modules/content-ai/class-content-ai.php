@@ -35,6 +35,7 @@ class Content_AI {
 		$this->action( 'rest_api_init', 'init_rest_api' );
 
 		new Content_AI_Page();
+		new Bulk_Actions();
 		if ( ! Helper::has_cap( 'content_ai' ) ) {
 			return;
 		}
@@ -47,6 +48,7 @@ class Content_AI {
 		$this->action( 'rank_math/deregister_site', 'remove_credits_data' );
 		$this->filter( 'rank_math/elementor/dark_styles', 'add_dark_style' );
 		$this->filter( 'rank_math/status/rank_math_info', 'content_ai_info' );
+		$this->action( 'rank_math/connect/account_connected', 'refresh_content_ai_credits' );
 	}
 
 	/**
@@ -255,6 +257,11 @@ class Content_AI {
 		Helper::add_json( 'contentAIErrors', Helper::get_content_ai_errors() );
 		Helper::add_json( 'connectData', AdminHelper::get_registration_data() );
 		Helper::add_json( 'registerWriteShortcut', version_compare( get_bloginfo( 'version' ), '6.2', '>=' ) );
+		Helper::add_json( 'contentAiMigrating', get_site_transient( 'rank_math_content_ai_migrating_user' ) );
+		Helper::add_json( 'contentAiUrl', CONTENT_AI_URL . '/ai/' );
+
+		$refresh_date = Helper::get_content_ai_refresh_date();
+		Helper::add_json( 'contentAIRefreshDate', $refresh_date ? wp_date( 'Y-m-d g:ia', $refresh_date ) : '' );
 	}
 
 	/**
@@ -282,6 +289,17 @@ class Content_AI {
 		array_splice( $rankmath['fields'], 3, 0, $content_ai );
 
 		return $rankmath;
+	}
+
+	/**
+	 * Refresh Content AI credits when account is connected.
+	 *
+	 * @param array $data Authentication data.
+	 *
+	 * @return void
+	 */
+	public function refresh_content_ai_credits( $data ) {
+		Helper::get_content_ai_credits( true );
 	}
 
 	/**

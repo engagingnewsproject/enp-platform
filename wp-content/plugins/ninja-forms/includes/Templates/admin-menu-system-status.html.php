@@ -3,12 +3,11 @@
     <h1><?php esc_html_e( 'Get Help', 'ninja-forms' ); ?></h1>
 <h2><?php esc_html_e( 'Before requesting help from our support team please review:', 'ninja-forms' ); ?></h2>
 <ol>
-  <li><a href='https://ninjaforms.com/documentation/?utm_source=Ninja+Forms+Plugin&utm_medium=Get+Help&utm_campaign=Plugin+Support+Links&utm_content=Documentation'><?php esc_html_e( 'Ninja Forms Documentation', 'ninja-forms' ); ?></a></li>
-  <li><a href='https://ninjaforms.com/docs/troubleshooting-email-problems/?utm_source=Ninja+Forms+Plugin&utm_medium=Get+Help&utm_campaign=Plugin+Support+Links&utm_content=Email+Troubleshooting'><?php esc_html_e( 'Ninja Forms Email troubleshooting', 'ninja-forms' ); ?></a></li>
-  <!-- <li><a href='https://ninjaforms.com/docs/basic-troubleshooting/?utm_source=plugin&utm_medium=get-help&utm_campaign=documentation'><?php esc_html_e( 'What to try before contacting support', 'ninja-forms' ); ?></a></li> -->
-  <li><a href='https://ninjaforms.com/scope-of-support/?utm_source=Ninja+Forms+Plugin&utm_medium=Get+Help&utm_campaign=Plugin+Support+Links&utm_content=Scope+of+Support'><?php esc_html_e( 'Our Scope of Support', 'ninja-forms' ); ?></a></li>
+<li><a href='https://ninjaforms.com/documentation/?utm_source=Ninja+Forms+Plugin&utm_medium=Get+Help&utm_campaign=Support+Materials&utm_content=Get+Help+Documentation'><?php esc_html_e( 'Ninja Forms Documentation', 'ninja-forms' ); ?></a></li>
+<li><a href='https://ninjaforms.com/docs/troubleshooting-email-problems/?utm_source=Ninja+Forms+Plugin&utm_medium=Get+Help&utm_campaign=Support+Materials&utm_content=Get+Help+Email+Troubleshooting'><?php esc_html_e( 'Ninja Forms Email troubleshooting', 'ninja-forms' ); ?></a></li>
+<!-- <li><a href='https://ninjaforms.com/docs/basic-troubleshooting/?utm_source=plugin&utm_medium=get-help&utm_campaign=documentation'><?php esc_html_e( 'What to try before contacting support', 'ninja-forms' ); ?></a></li> -->
+<li><a href='https://ninjaforms.com/scope-of-support/?utm_source=Ninja+Forms+Plugin&utm_medium=Get+Help&utm_campaign=Support+Materials&utm_content=Get+Help+Scope+of+Support'><?php esc_html_e( 'Our Scope of Support', 'ninja-forms' ); ?></a></li>
 </ol>
-
 
     <div class="nf-box">
         <div class="submit debug-report">
@@ -20,7 +19,7 @@
             </ol>
             <p><?php esc_html_e( 'This information is vital for addressing your issue in a timely manner.', 'ninja-forms' ); ?></p>
             <a href="#" id="copy-system-status" class="button-primary"><?php esc_html_e( 'Copy System Report', 'ninja-forms' ); ?></a>
-            <a href="https://ninjaforms.com/contact/?utm_source=Ninja+Forms+Plugin&utm_medium=Get+Help&utm_campaign=Plugin+Support+Links&utm_content=Submit+a+Support+Request" class="button-secondary"><?php esc_html_e( 'Submit a Support Request', 'ninja-forms' ); ?></a>
+            <a href="https://ninjaforms.com/contact/?utm_source=Ninja+Forms+Plugin&utm_medium=Get+Help&utm_campaign=Support+Request" class="button-secondary"><?php esc_html_e( 'Submit a Support Request', 'ninja-forms' ); ?></a>
             <p>
                 <em><?php esc_html_e( 'For your security, do not post this information in public places, such as the WordPress.org support forums.', 'ninja-forms' ); ?></em>
             </p>
