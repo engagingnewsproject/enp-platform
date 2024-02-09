@@ -2,7 +2,11 @@
 
 namespace Engage\Managers\Structures\PostTypes;
 
-class Research {
+class Research extends PostTypes {
+
+	public function __construct() {
+
+	}
 
 	public function run() {
 		add_action( 'init', [$this, 'register']);

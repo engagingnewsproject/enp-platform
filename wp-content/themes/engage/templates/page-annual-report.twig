@@ -29,7 +29,7 @@
 						<div class="ann__card"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
 							{% if post.meta('director_image') %}
 								<div class="ann__img-wrap">
-									<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__img-director"/>
+									<img src="{{ Image(main.director_image).src }}" srcset="{{ Image(main.director_image).srcset }}" sizes="{{ Image(main.director_image).img_sizes }}" alt="{{ Image(main.director_image).alt }}" class="ann__img-director"/>
 								</div>
 							{% endif %}
 							{% if post.meta('director_title') %}
@@ -58,8 +58,8 @@
 					{% for item in main.highlight %}
 						<div class="ann__grid_item">
 							{% if item.highlight_icon %}
-								<img src="{{ get_image(item.highlight_icon).src }}" sizes="{{ get_image(item.highlight_icon).img_sizes }}"
-									alt="{{ get_image(item.highlight_icon).alt }}" />
+								<img src="{{ Image(item.highlight_icon).src }}" sizes="{{ Image(item.highlight_icon).img_sizes }}"
+									alt="{{ Image(item.highlight_icon).alt }}" />
 							{% endif %}
 							{% if item.highlight_number %}
 								<h2 class="ann__grid_num">{{ item.highlight_number }}</h2>
@@ -88,9 +88,9 @@
 							<div class="tile tile--has-img tile--research-cat--reader-engagement tile--vertical--bridging-divides">
 								{% if tile.image %}
 									<div class="tile__img-wrap">
-										<img src="{{ get_image(tile.image).src }}" 
-											sizes="{{ get_image(tile.image).img_sizes }}"
-											alt="{{ get_image(tile.image).alt }}" />
+										<img src="{{ Image(tile.image).src }}" 
+											sizes="{{ Image(tile.image).img_sizes }}"
+											alt="{{ Image(tile.image).alt }}" />
 									</div>
 								{% endif %}
 								<div class="tile__title-wrap">
@@ -122,9 +122,9 @@
 							<li class="ann__list_item grid">
 								{% if member.member_image %}
 									<div class="ann__list_img grid">
-										<img src="{{ get_image(member.member_image).src | resize(300) }}"
-											sizes="{{ get_image(member.member_image).img_sizes }}"
-											alt="{{ get_image(member.member_image).alt }}" />
+										<img src="{{ Image(member.member_image).src | resize(300) }}"
+											sizes="{{ Image(member.member_image).img_sizes }}"
+											alt="{{ Image(member.member_image).alt }}" />
 									</div>
 								{% endif %}
 								<div class="ann__list_title">
@@ -152,16 +152,16 @@
 						</div>
 					{% endif %}
 					{% if main.image %}
-						<img src="{{ get_image(main.image).src }}" 
-							sizes="{{ get_image(main.image).img_sizes }}"
-							alt="{{ get_image(main.image).alt }}" />
+						<img src="{{ Image(main.image).src }}" 
+							sizes="{{ Image(main.image).img_sizes }}"
+							alt="{{ Image(main.image).alt }}" />
 					{% endif %}
 				</section>
 
 			{# QUOTE #}
 			{% elseif main.acf_fc_layout == 'quote' %}
 				<section class="ann__sct ann__sct_quote">
-				<div class="ann__sect_quote__container" style="{% if main.quote_image %}background-image:url({{ get_image(main.quote_image).src }});background-position:center;background-repeat:no-repeat;{% endif %}{% if main.quote_section_background %}background-color:{{ main.quote_section_background }};{% endif %}">
+				<div class="ann__sect_quote__container" style="{% if main.quote_image %}background-image:url({{ Image(main.quote_image).src }});background-position:center;background-repeat:no-repeat;{% endif %}{% if main.quote_section_background %}background-color:{{ main.quote_section_background }};{% endif %}">
 					{% if main.quote_text %}
 						<h1 class="ann__sect_quote-img container--xl"{% if main.quote_background %} style="background-color:{{ main.quote_background }};"{% endif %}>{{ main.quote_text }}</h1>
 					{% endif %}

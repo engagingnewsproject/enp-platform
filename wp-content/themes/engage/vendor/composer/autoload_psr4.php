@@ -6,22 +6,26 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'WorDBless\\Composer\\' => array($vendorDir . '/automattic/wordbless/src/Composer'),
-    'WorDBless\\' => array($vendorDir . '/automattic/wordbless/src'),
     'Twig\\' => array($vendorDir . '/twig/twig/src'),
-    'Timber\\' => array($vendorDir . '/timber/timber/src'),
-    'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
+    'Timber\\' => array($vendorDir . '/timber/timber/lib'),
+    'Symfony\\Polyfill\\Php72\\' => array($vendorDir . '/symfony/polyfill-php72'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
-    'Roots\\Composer\\' => array($vendorDir . '/roots/wordpress-core-installer/src'),
+<<<<<<< HEAD
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
-    'Mockery\\' => array($vendorDir . '/mockery/mockery/library/Mockery'),
+=======
+>>>>>>> master
     'HelloNico\\Twig\\' => array($vendorDir . '/hellonico/twig-dump-extension/src'),
     'HelloNico\\Timber\\' => array($vendorDir . '/hellonico/timber-dump-extension/src'),
     'Engage\\' => array($baseDir . '/src'),
-    'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
+    'Djboris88\\Twig\\' => array($vendorDir . '/djboris88/twig-commented-include/src'),
+    'Djboris88\\Timber\\' => array($vendorDir . '/djboris88/timber-commented-include/src'),
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src/Composer/Installers'),
-    'Brain\\Monkey\\' => array($vendorDir . '/brain/monkey/src'),
+<<<<<<< HEAD
+    'Ajgl\\Twig\\Extension\\' => array($vendorDir . '/ajgl/breakpoint-twig-extension/src'),
+=======
+>>>>>>> master
+    '' => array($vendorDir . '/twig/cache-extension/lib'),
 );

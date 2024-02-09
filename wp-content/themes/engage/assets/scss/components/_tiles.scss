@@ -194,15 +194,6 @@
 				padding: 1em;
 			}
 		}
-		&-col__two-thirds {
-			grid-column-end: span 12;
-			padding: 1em;
-			@include media($desktop) {
-				grid-column: 3/span 8;
-				// grid-column-end: span 6;
-				flex: 0 1 48%;
-			}
-		}
 		&-col__half {
 			grid-column-end: span 12;
 			padding: 1em;
@@ -222,11 +213,6 @@
 			@include media($desktop) {
 				grid-column-end: span 3;
 			}
-		}
-	}
-	.two-thirds-grid {
-		@include media($phablet) {
-			grid-column: 3/span 8;
 		}
 	}
 	.tile__title,
@@ -324,7 +310,7 @@
 	}
 }
 
-.page-template-page-publications {
+.page-template-publications-template {
 	.article__content {
 		@include media($phablet) {
 			width: 100%;;

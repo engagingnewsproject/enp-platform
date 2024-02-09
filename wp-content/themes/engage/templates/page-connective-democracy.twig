@@ -23,7 +23,7 @@
 				{# header image or video #}
 				{% for header in post.meta('header') %}
 					{% if header.acf_fc_layout == 'image' %}
-						<img src="{{ get_image(header.header_image).src }}" srcset="{{ get_image(header.header_image).srcset }}" sizes="{{ get_image(header.header_image).img_sizes }}" alt="{{ get_image(header.header_image).alt }}" class="ann__img-director"/>
+						<img src="{{ Image(header.header_image).src }}" srcset="{{ Image(header.header_image).srcset }}" sizes="{{ Image(header.header_image).img_sizes }}" alt="{{ Image(header.header_image).alt }}" class="ann__img-director"/>
 					{% elseif header.acf_fc_layout == 'video' %}
 						<video src="{{ header.header_video }}" loop="true" muted="true" autoplay="true"></video>
 					{% endif %}
@@ -55,7 +55,7 @@
 							<div class="tile tile--has-img {{ twoColumns }} tile--vertical--journalism">
 
 								<div class="tile__img-wrap">
-									<img src="{{ get_image(item.image).src }}" srcset="{{ get_image(item.image).srcset }}" sizes="{{ get_image(item.image).img_sizes }}" alt="{{ get_image(item.image).alt }}"/>
+									<img src="{{ Image(item.image).src }}" srcset="{{ Image(item.image).srcset }}" sizes="{{ Image(item.image).img_sizes }}" alt="{{ Image(item.image).alt }}"/>
 								</div>
 								<div class="tile__title-wrap">
 									<div class="tile__label">

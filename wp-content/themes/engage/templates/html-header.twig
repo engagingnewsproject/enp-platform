@@ -46,13 +46,14 @@
 
 
     {{function('wp_head')}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
     {% if post.post_type == 'research' %}
         <meta property="og:site_name" content="Center for Media Engagement" />
         <meta property="og:url"         content="{{ post.link }}" />
         <meta property="og:type"        content="article" />
         <meta property="og:title"       content="{{ post.title }}" />
-        <meta property="og:description" content="{{ post.excerpt.length(30).read_more('') }}" />
+        <meta property="og:description" content="{{ post.preview.length(30).read_more('') }}" />
 
         {% if tile.thumbnail %}
             <meta property="og:image"   content="{{ post.thumbnail.src('featured-post') }}" />

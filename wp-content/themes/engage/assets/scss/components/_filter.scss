@@ -1,7 +1,6 @@
 .filters {
   list-style: none;
   margin: 0 0 $spacer-sm 10px;
-  padding-left: 0;
 
   @include media($tablet) {
     margin-left: 0;
@@ -29,11 +28,10 @@
 
 .filter__sublist {
   margin: 8px 0 $spacer-sm 0;
-  padding-left: 0;
   list-style: none;
 
   @include media($tablet) {
-    margin: 8px 0 $spacer-lg 0 !important;
+    margin-bottom: $spacer-lg;
   }
 }
 

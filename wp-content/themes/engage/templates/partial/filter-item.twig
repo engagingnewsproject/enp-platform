@@ -1,12 +1,15 @@
-
-<li class="filter__item filter__item--{{term.slug}} filter__item--{{term.slug}} filter__item--{{term.taxonomy}}--{{term.slug}} {{ term.current ? 'filter__item--current'}} {{ term.currentParent ? 'filter__item--current-parent'}} {{ term.terms ? 'filter__item--top-item collapsable--max-tablet' : 'filter__item--sub-item'}}">
+<li class="filter__item filter__item--{{term.taxonomy}} filter__item--{{term.slug}} filter__item--{{term.taxonomy}}--{{term.slug}} {{ term.current ? 'filter__item--current'}} {{ term.currentParent ? 'filter__item--current-parent'}} {{ term.terms ? 'filter__item--top-item collapsable--max-tablet' : 'filter__item--sub-item'}}">
 
 	{% if term.link %}
-		<a class="filter__link {{ term.current ? 'filter__link--current'}} {{ term.terms ? '' : 'filter__link--child'}} {{ term.currentParent ? 'filter__link--current-parent'}}" href="{{ term.link }}">{{ term.title }}</a>
+		<a class="filter__link {{ term.current ? 'filter__link--current'}} 
+								{{ term.terms ? '' : 'filter__link--child'}} 
+								{{ term.currentParent ? 'filter__link--current-parent'}}" 
+								href="{{ term.link }}">{{ term.title }}</a>
 	{% endif %}
 	
 	{# Modify: To make sure Team and Blogs don't have any thing under them #}
-	{% if (term.terms) and (term.title) and (term.slug != "team") and (term.slug != "blogs") and (filters.slug != "social-platforms-menu") and (filters.slug != "bridging-divides-menu") %}
+	{% if (term.terms) and (term.title) and (term.slug != "team") and (term.slug != "blogs") 
+						and (filters.slug != "social-platforms-menu") and (filters.slug != "bridging-divides-menu") %}
 		<ul class="filter__sublist">
 			{% for subterm in term.terms %}
 				{% if subterm.slug != 'videos' and subterm.slug != 'case-studies' %}

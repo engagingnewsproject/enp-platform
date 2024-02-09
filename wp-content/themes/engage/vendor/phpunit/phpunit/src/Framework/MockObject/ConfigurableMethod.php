@@ -17,36 +17,34 @@ use SebastianBergmann\Type\Type;
 final class ConfigurableMethod
 {
     /**
-     * @var string
+     * @psalm-var non-empty-string
      */
-    private $name;
+    private readonly string $name;
+    private readonly Type $returnType;
 
     /**
-     * @var Type
+     * @psalm-param non-empty-string $name
      */
-    private $returnType;
-
     public function __construct(string $name, Type $returnType)
     {
         $this->name       = $name;
         $this->returnType = $returnType;
     }
 
-    public function getName(): string
+    /**
+     * @psalm-return non-empty-string
+     */
+    public function name(): string
     {
         return $this->name;
     }
 
-    public function mayReturn($value): bool
+    public function mayReturn(mixed $value): bool
     {
-        if ($value === null && $this->returnType->allowsNull()) {
-            return true;
-        }
-
         return $this->returnType->isAssignable(Type::fromValue($value, false));
     }
 
-    public function getReturnTypeDeclaration(): string
+    public function returnTypeDeclaration(): string
     {
         return $this->returnType->asString();
     }

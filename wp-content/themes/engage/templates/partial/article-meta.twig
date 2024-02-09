@@ -46,7 +46,7 @@
         {% endif %}
         <section class="researchers-tease">
             <h4 class="researchers-tease__title">{{ (post.post_type == "research") ? "Researchers" : "Authors" }}</h4>
-            {% if post.meta('project_team_member')  %}
+            {% if post.get_field('project_team_member')  %}
                 {% for researcher in post.getResearchers %}
                     {% if researcher and researcher.terms('team_category') | join(', ') == "Former CME" %}
                         {% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
@@ -55,11 +55,12 @@
                     {% endif %}                
                 {% endfor %}
             {% endif %}
-            {% for researcher in post.meta('additional_team_members') %}
+            {% for researcher in post.get_field('additional_team_members') %}
                 {% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
             {% endfor %}
         </section>
     {% endif %}
+
     {% if post.post_type == "page" %}
         <section class="director-tease">
             <h4 class="director-tease__title">Directors</h4>

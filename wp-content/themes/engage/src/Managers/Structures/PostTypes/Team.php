@@ -2,7 +2,7 @@
 
 namespace Engage\Managers\Structures\PostTypes;
 
-class Team {
+class Team extends PostTypes {
 
     public function __construct() {
 

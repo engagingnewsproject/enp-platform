@@ -1,2 +1,1 @@
-document.querySelectorAll(".home-intro .tile__title").forEach((function(n){var e=n.innerHTML;if(e.length>42){var t=e.substring(42,e.length).indexOf(" ");e=-1!==t&&t<10?e.substring(0,t+42):e.substring(0,42),e+="...",n.innerHTML=e}}));
-//# sourceMappingURL=homepage.js.map
+!function(){jQuery(document).ready((function(t){t(".home-intro .tile__title").each((function(){var e=t(this).html();if(e.length>42){var i=e.substring(42,e.length).indexOf(" ");e=-1!=i&&i<10?e.substring(0,i+42):e.substring(0,42),e+="...",t(this).html(e)}}))}));var t=document.querySelector(".carousel-main");new Flickity(t,{wrapAround:!0,adaptiveHeight:!0,imagesLoaded:!0,lazyLoad:1,percentPosition:!0,contain:!0})}();

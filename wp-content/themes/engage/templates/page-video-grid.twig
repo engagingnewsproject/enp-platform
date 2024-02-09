@@ -14,39 +14,35 @@
 						<h1 class="article__title text-center">{{post.title}}</h1>
 						{# intro & logo's #}
 						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
-							<div class="grid tile-col__two-thirds">
+							<div class="grid tile-col__whole">
 								<div class="grid site-logos">
-									<img src="{{ get_image(post.meta('cme_logo')).src }}"/>
-									<img src="{{ get_image(post.meta('stop_logo')).src }}"/>
+									<img src="{{ Image(post.meta('cme_logo')).src }}"/>
+									<img src="{{ Image(post.meta('stop_logo')).src }}"/>
 								</div>
 								{{ post.meta('intro')}}
 							</div>
 						</div>
-
 						<div class="article__intro container container--lg text-center">
 							<h3 class="article__title h2">{{ post.meta('pdf_title')}}</h3>
 							{# PDF file src: ACF Video Grid Field Group #}
-							{% set file = get_attachment(post.meta('pdf_file')) %}			
-							<a href="{{ file.src }}" target="_blank" class="pdf">
+							<a href="{{ Image(post.meta('pdf_file')).src }}" target="_blank" class="pdf">
 								{# PDF image src & alt text: ACF Video Grid Field Group #}
-								<img src="{{ get_image(post.meta('pdf_image')).src|resize(300) }}" alt="{{ get_image(post.meta('pdf_image')).alt }}"/>
+								<img src="{{ Image(post.meta('pdf_image')).src|resize(300) }}" alt="{{ Image(post.meta('pdf_image')).alt }}"/>
 							</a>
 						</div>
 						<div class="article__quotes grid grid--col-12 grid--gap-30 container container--lg">
-							<div class="two-thirds-grid grid grid--col-12 grid--gap-30">
-								{% for item in post.meta('quote_grid') %}
-									<div class="grid tile-col__half">
-										<figure class="quote">
-											<blockquote>{{ item.quote }}</blockquote>
-											{% if item.quote_author != empty and item.quote_cite != empty %}
-												<figcaption>—{{ item.quote_author }},
-													<cite>{{ item.quote_cite }}</cite>
-												</figcaption>
-											{% endif %}
-										</figure>
-									</div>
-								{% endfor %}
-							</div>
+							{% for item in post.meta('quote_grid') %}
+								<div class="grid tile-col__half">
+									<figure class="quote">
+										<blockquote>{{ item.quote }}</blockquote>
+										{% if item.quote_author != empty and item.quote_cite != empty %}
+											<figcaption>—{{ item.quote_author }},
+												<cite>{{ item.quote_cite }}</cite>
+											</figcaption>
+										{% endif %}
+									</figure>
+								</div>
+							{% endfor %}
 						</div>
 					</section>
 					<section>
@@ -58,7 +54,7 @@
 							{% for item in post.meta('vid_gal') %}
 								<div class="tile tile-col__third tile-tile--has-img grid grid--col-12 grid--gap-20">
 									<div class="img-wrap">
-										<img class="tile__img" src="{{ get_image(item.vid_poster).src }}"/>
+										<img class="tile__img" src="{{ Image(item.vid_poster).src }}"/>
 									</div>
 									<a class="tile__link" data-modal="#modal-{{ i }}"></a>
 									<div class="title-wrap">

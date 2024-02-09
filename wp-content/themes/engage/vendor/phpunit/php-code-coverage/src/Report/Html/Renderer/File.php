@@ -84,9 +84,7 @@ use function array_keys;
 use function array_merge;
 use function array_pop;
 use function array_unique;
-use function constant;
 use function count;
-use function defined;
 use function explode;
 use function file_get_contents;
 use function htmlspecialchars;
@@ -95,13 +93,14 @@ use function ksort;
 use function range;
 use function sort;
 use function sprintf;
+use function str_ends_with;
 use function str_replace;
-use function substr;
 use function token_get_all;
 use function trim;
-use PHPUnit\Runner\BaseTestRunner;
+use SebastianBergmann\CodeCoverage\FileCouldNotBeWrittenException;
 use SebastianBergmann\CodeCoverage\Node\File as FileNode;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
+use SebastianBergmann\Template\Exception;
 use SebastianBergmann\Template\Template;
 
 /**
@@ -112,17 +111,78 @@ final class File extends Renderer
     /**
      * @psalm-var array<int,true>
      */
-    private static $keywordTokens = [];
-
-    /**
-     * @var array
-     */
-    private static $formattedSourceCache = [];
-
-    /**
-     * @var int
-     */
-    private $htmlSpecialCharsFlags = ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE;
+    private const KEYWORD_TOKENS = [
+        T_ABSTRACT      => true,
+        T_ARRAY         => true,
+        T_AS            => true,
+        T_BREAK         => true,
+        T_CALLABLE      => true,
+        T_CASE          => true,
+        T_CATCH         => true,
+        T_CLASS         => true,
+        T_CLONE         => true,
+        T_CONST         => true,
+        T_CONTINUE      => true,
+        T_DECLARE       => true,
+        T_DEFAULT       => true,
+        T_DO            => true,
+        T_ECHO          => true,
+        T_ELSE          => true,
+        T_ELSEIF        => true,
+        T_EMPTY         => true,
+        T_ENDDECLARE    => true,
+        T_ENDFOR        => true,
+        T_ENDFOREACH    => true,
+        T_ENDIF         => true,
+        T_ENDSWITCH     => true,
+        T_ENDWHILE      => true,
+        T_ENUM          => true,
+        T_EVAL          => true,
+        T_EXIT          => true,
+        T_EXTENDS       => true,
+        T_FINAL         => true,
+        T_FINALLY       => true,
+        T_FN            => true,
+        T_FOR           => true,
+        T_FOREACH       => true,
+        T_FUNCTION      => true,
+        T_GLOBAL        => true,
+        T_GOTO          => true,
+        T_HALT_COMPILER => true,
+        T_IF            => true,
+        T_IMPLEMENTS    => true,
+        T_INCLUDE       => true,
+        T_INCLUDE_ONCE  => true,
+        T_INSTANCEOF    => true,
+        T_INSTEADOF     => true,
+        T_INTERFACE     => true,
+        T_ISSET         => true,
+        T_LIST          => true,
+        T_MATCH         => true,
+        T_NAMESPACE     => true,
+        T_NEW           => true,
+        T_PRINT         => true,
+        T_PRIVATE       => true,
+        T_PROTECTED     => true,
+        T_PUBLIC        => true,
+        T_READONLY      => true,
+        T_REQUIRE       => true,
+        T_REQUIRE_ONCE  => true,
+        T_RETURN        => true,
+        T_STATIC        => true,
+        T_SWITCH        => true,
+        T_THROW         => true,
+        T_TRAIT         => true,
+        T_TRY           => true,
+        T_UNSET         => true,
+        T_USE           => true,
+        T_VAR           => true,
+        T_WHILE         => true,
+        T_YIELD         => true,
+        T_YIELD_FROM    => true,
+    ];
+    private static array $formattedSourceCache = [];
+    private int $htmlSpecialCharsFlags         = ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE;
 
     public function render(FileNode $node, string $file): void
     {
@@ -139,7 +199,15 @@ final class File extends Renderer
             ]
         );
 
-        $template->renderTo($file . '.html');
+        try {
+            $template->renderTo($file . '.html');
+        } catch (Exception $e) {
+            throw new FileCouldNotBeWrittenException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        }
 
         if ($this->hasBranchCoverage) {
             $template->setVar(
@@ -151,7 +219,15 @@ final class File extends Renderer
                 ]
             );
 
-            $template->renderTo($file . '_branch.html');
+            try {
+                $template->renderTo($file . '_branch.html');
+            } catch (Exception $e) {
+                throw new FileCouldNotBeWrittenException(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    $e
+                );
+            }
 
             $template->setVar(
                 [
@@ -162,7 +238,15 @@ final class File extends Renderer
                 ]
             );
 
-            $template->renderTo($file . '_path.html');
+            try {
+                $template->renderTo($file . '_path.html');
+            } catch (Exception $e) {
+                throw new FileCouldNotBeWrittenException(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    $e
+                );
+            }
         }
     }
 
@@ -898,7 +982,7 @@ final class File extends Renderer
         $result              = [''];
         $i                   = 0;
         $stringFlag          = false;
-        $fileEndsWithNewLine = substr($buffer, -1) === "\n";
+        $fileEndsWithNewLine = str_ends_with($buffer, "\n");
 
         unset($buffer);
 
@@ -1005,42 +1089,21 @@ final class File extends Renderer
     {
         $testCSS = '';
 
-        if ($testData['fromTestcase']) {
-            switch ($testData['status']) {
-                case BaseTestRunner::STATUS_PASSED:
-                    switch ($testData['size']) {
-                        case 'small':
-                            $testCSS = ' class="covered-by-small-tests"';
+        switch ($testData['status']) {
+            case 'success':
+                $testCSS = match ($testData['size']) {
+                    'small'  => ' class="covered-by-small-tests"',
+                    'medium' => ' class="covered-by-medium-tests"',
+                    // no break
+                    default => ' class="covered-by-large-tests"',
+                };
 
-                            break;
+                break;
 
-                        case 'medium':
-                            $testCSS = ' class="covered-by-medium-tests"';
+            case 'failure':
+                $testCSS = ' class="danger"';
 
-                            break;
-
-                        default:
-                            $testCSS = ' class="covered-by-large-tests"';
-
-                            break;
-                    }
-
-                    break;
-
-                case BaseTestRunner::STATUS_SKIPPED:
-                case BaseTestRunner::STATUS_INCOMPLETE:
-                case BaseTestRunner::STATUS_RISKY:
-                case BaseTestRunner::STATUS_WARNING:
-                    $testCSS = ' class="warning"';
-
-                    break;
-
-                case BaseTestRunner::STATUS_FAILURE:
-                case BaseTestRunner::STATUS_ERROR:
-                    $testCSS = ' class="danger"';
-
-                    break;
-            }
+                break;
         }
 
         return sprintf(
@@ -1062,101 +1125,6 @@ final class File extends Renderer
 
     private function isKeyword(int $token): bool
     {
-        return isset(self::keywordTokens()[$token]);
-    }
-
-    /**
-     * @psalm-return array<int,true>
-     */
-    private static function keywordTokens(): array
-    {
-        if (self::$keywordTokens !== []) {
-            return self::$keywordTokens;
-        }
-
-        self::$keywordTokens = [
-            T_ABSTRACT      => true,
-            T_ARRAY         => true,
-            T_AS            => true,
-            T_BREAK         => true,
-            T_CALLABLE      => true,
-            T_CASE          => true,
-            T_CATCH         => true,
-            T_CLASS         => true,
-            T_CLONE         => true,
-            T_CONST         => true,
-            T_CONTINUE      => true,
-            T_DECLARE       => true,
-            T_DEFAULT       => true,
-            T_DO            => true,
-            T_ECHO          => true,
-            T_ELSE          => true,
-            T_ELSEIF        => true,
-            T_EMPTY         => true,
-            T_ENDDECLARE    => true,
-            T_ENDFOR        => true,
-            T_ENDFOREACH    => true,
-            T_ENDIF         => true,
-            T_ENDSWITCH     => true,
-            T_ENDWHILE      => true,
-            T_EVAL          => true,
-            T_EXIT          => true,
-            T_EXTENDS       => true,
-            T_FINAL         => true,
-            T_FINALLY       => true,
-            T_FOR           => true,
-            T_FOREACH       => true,
-            T_FUNCTION      => true,
-            T_GLOBAL        => true,
-            T_GOTO          => true,
-            T_HALT_COMPILER => true,
-            T_IF            => true,
-            T_IMPLEMENTS    => true,
-            T_INCLUDE       => true,
-            T_INCLUDE_ONCE  => true,
-            T_INSTANCEOF    => true,
-            T_INSTEADOF     => true,
-            T_INTERFACE     => true,
-            T_ISSET         => true,
-            T_LIST          => true,
-            T_NAMESPACE     => true,
-            T_NEW           => true,
-            T_PRINT         => true,
-            T_PRIVATE       => true,
-            T_PROTECTED     => true,
-            T_PUBLIC        => true,
-            T_REQUIRE       => true,
-            T_REQUIRE_ONCE  => true,
-            T_RETURN        => true,
-            T_STATIC        => true,
-            T_SWITCH        => true,
-            T_THROW         => true,
-            T_TRAIT         => true,
-            T_TRY           => true,
-            T_UNSET         => true,
-            T_USE           => true,
-            T_VAR           => true,
-            T_WHILE         => true,
-            T_YIELD         => true,
-            T_YIELD_FROM    => true,
-        ];
-
-        if (defined('T_FN')) {
-            self::$keywordTokens[constant('T_FN')] = true;
-        }
-
-        if (defined('T_MATCH')) {
-            self::$keywordTokens[constant('T_MATCH')] = true;
-        }
-
-        if (defined('T_ENUM')) {
-            self::$keywordTokens[constant('T_ENUM')] = true;
-        }
-
-        if (defined('T_READONLY')) {
-            self::$keywordTokens[constant('T_READONLY')] = true;
-        }
-
-        return self::$keywordTokens;
+        return isset(self::KEYWORD_TOKENS[$token]);
     }
 }

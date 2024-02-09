@@ -18,8 +18,10 @@ use function floor;
 use function json_encode;
 use function sprintf;
 use function str_replace;
+use SebastianBergmann\CodeCoverage\FileCouldNotBeWrittenException;
 use SebastianBergmann\CodeCoverage\Node\AbstractNode;
 use SebastianBergmann\CodeCoverage\Node\Directory as DirectoryNode;
+use SebastianBergmann\Template\Exception;
 use SebastianBergmann\Template\Template;
 
 /**
@@ -58,7 +60,15 @@ final class Dashboard extends Renderer
             ]
         );
 
-        $template->renderTo($file);
+        try {
+            $template->renderTo($file);
+        } catch (Exception $e) {
+            throw new FileCouldNotBeWrittenException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        }
     }
 
     protected function activeBreadcrumb(AbstractNode $node): string
@@ -188,7 +198,7 @@ final class Dashboard extends Renderer
 
         foreach ($classes as $className => $class) {
             foreach ($class['methods'] as $methodName => $method) {
-                if ($method['coverage'] < $this->highLowerBound) {
+                if ($method['coverage'] < $this->thresholds->highLowerBound()) {
                     $key = $methodName;
 
                     if ($className !== '*') {
@@ -199,7 +209,7 @@ final class Dashboard extends Renderer
                 }
             }
 
-            if ($class['coverage'] < $this->highLowerBound) {
+            if ($class['coverage'] < $this->thresholds->highLowerBound()) {
                 $leastTestedClasses[$className] = $class['coverage'];
             }
         }
@@ -242,7 +252,7 @@ final class Dashboard extends Renderer
 
         foreach ($classes as $className => $class) {
             foreach ($class['methods'] as $methodName => $method) {
-                if ($method['coverage'] < $this->highLowerBound && $method['ccn'] > 1) {
+                if ($method['coverage'] < $this->thresholds->highLowerBound() && $method['ccn'] > 1) {
                     $key = $methodName;
 
                     if ($className !== '*') {
@@ -253,7 +263,7 @@ final class Dashboard extends Renderer
                 }
             }
 
-            if ($class['coverage'] < $this->highLowerBound &&
+            if ($class['coverage'] < $this->thresholds->highLowerBound() &&
                 $class['ccn'] > count($class['methods'])) {
                 $classRisks[$className] = $class['crap'];
             }

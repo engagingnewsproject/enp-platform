@@ -4,7 +4,7 @@
 @import "global/variables";
 @import "global/mixins";
 @import "global/animations";
-// @import "global/reset";
+@import "global/reset";
 @import "global/base";
 @import "global/utilities";
 @import "global/typography";
@@ -14,8 +14,7 @@
 // Plugins
 @import "plugins/ninja";
 @import "plugins/events";
-@import "plugins/flickity-default";
-@import "plugins/flickity-custom";
+@import "plugins/flickity";
 
 // Layout
 @import "layout/grid";
@@ -39,7 +38,6 @@
 
 // Components
 @import "components/brandbar";
-@import "components/buttons";
 @import "components/header";
 @import "components/menu";
 @import "components/footer";

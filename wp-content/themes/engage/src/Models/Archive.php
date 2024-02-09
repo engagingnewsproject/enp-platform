@@ -3,73 +3,75 @@
 * Generic post functionality that extends TimberPost
 */
 namespace Engage\Models;
+
 use Timber\PostQuery;
-use Timber;
+use Timber\Pagination;
 
 class Archive extends PostQuery
 {
 	public $posts,
-	$pagination,
-	$slug,
-	$intro = [],
-	$vertical = false,
-	$category = false;
-	
-	public function init($query = false)
-	{
-		$this->setVertical();
-		$this->setCategory();
-		$this->setPostType();
+		   $pagination,
+		   $slug,
+		   $intro = [],
+		   $vertical = false,
+		   $category = false;
 
-		parent::__construct($query);
-		$this->setQueriedObject();
-		// $this->posts = $this->queryIterator->get_posts();
-		$this->posts = Timber::get_posts($query);
-		$this->pagination = $this->pagination();
-		$this->taxonomy = $this->queriedObject->taxonomy;
-		$this->slug = $this->queriedObject->slug;
-		$this->setIntro();
-	}
-	
-	public function setQueriedObject() {
+    public function __construct($query = false, $class = 'Engage\Models\Article')
+    {
+    	$this->setVertical();
+    	$this->setCategory();
+    	$this->setPostType();
 
-		$Permalinks = new Permalinks();
-		// because of our taxonomy rewrites, we're messing with the queried object quite a bit. As a result, we need to use this model to find the right one.
-		if($Permalinks->getQueriedCategory()) {
-			$this->queriedObject = $Permalinks->getQueriedCategory();
-		} elseif($this->vertical) {
-			$this->queriedObject = $this->vertical;
-		} else {
-			$this->queriedObject = get_queried_object();
-		}
-		
-		return;
-	}
-	
-	public function setVertical() {
-		$Permalinks = new Permalinks();
-		$this->vertical = $Permalinks->getQueriedVertical();
-	}
-	
-	public function setCategory() {
-		$Permalinks = new Permalinks();
-		$this->category = $Permalinks->getQueriedCategory();
-	}
-	
-	public function setPostType() {
-		$Permalinks = new Permalinks();
-		// TODO: issue getting postType on /vertical/media-ethics/ page
-		$this->postType = $Permalinks->getQueriedPostType();
-	}
-	
-	/**
-	* Sets the archive page title
-	*
-	* @return String
-	*/
-	public function getTitle() {
-		$title = 'Archive';
-		if ( is_day() ) {
+        parent::__construct($query, $class);
+        $this->setQueriedObject();
+        $this->posts = $this->queryIterator->get_posts();
+        $this->pagination = $this->pagination();
+        $this->taxonomy = $this->queriedObject->taxonomy;
+
+        $this->slug = $this->queriedObject->slug;
+				
+        $this->setIntro();
+    }
+
+
+    public function setQueriedObject() {
+
+    	$Permalinks = new Permalinks();
+    	// because of our taxonomy rewrites, we're messing with the queried object quite a bit. As a result, we need to use this model to find the right one.
+    	if($Permalinks->getQueriedCategory()) {
+    		$this->queriedObject = $Permalinks->getQueriedCategory();
+    	} elseif($this->vertical) {
+    		$this->queriedObject = $this->vertical;
+    	} else {
+    		$this->queriedObject = get_queried_object();
+    	}
+
+    	return;
+    }
+
+    public function setVertical() {
+    	$Permalinks = new Permalinks();
+    	$this->vertical = $Permalinks->getQueriedVertical();
+    }
+
+    public function setCategory() {
+    	$Permalinks = new Permalinks();
+    	$this->category = $Permalinks->getQueriedCategory();
+    }
+
+    public function setPostType() {
+    	$Permalinks = new Permalinks();
+    	$this->postType = $Permalinks->getQueriedPostType();
+    }
+
+    /**
+    * Sets the archive page title
+    *
+    * @return String
+    */
+    public function getTitle() {
+        $title = 'Archive';
+        if ( is_day() ) {
 			$title = 'Archive: '.get_the_date( 'D M Y' );
 		} 
 		else if ( is_month() ) {
@@ -103,7 +105,7 @@ class Archive extends PostQuery
 		}
 		return $title;
 	}
-	
+
 	public function setIntro() {
 		// initially set off queried object
 		$this->intro = [
@@ -116,7 +118,7 @@ class Archive extends PostQuery
 		if(get_class($this->queriedObject) === 'WP_Term' && $this->queriedObject->taxonomy !== 'verticals') {
 			return;
 		}
-		
+
 		// check if we have one from the settings
 		$intros = get_field('archive_landing_pages', 'option');
 		if(!$intros) {
@@ -131,6 +133,6 @@ class Archive extends PostQuery
 			}
 		}
 	}
-	
+
 }
 

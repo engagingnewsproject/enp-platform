@@ -2,7 +2,7 @@
 
 namespace Engage\Managers\Structures\PostTypes;
 
-class Announcement {
+class Announcement extends PostTypes {
 
 	public function __construct() {
 

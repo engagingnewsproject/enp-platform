@@ -28,7 +28,7 @@
 								<br>
 							{% endif %}
 							<h2>{{ item.title|title|replace('-', ' ') }}</h2>
-							<img src="{{ get_image(item.image).src }}" />
+							<img src="{{ Image(item.image).src }}" />
 							<h4>{{ item.subtitle }}</h4>
 							<p>{{ item.content }}</p>
 							<p>
