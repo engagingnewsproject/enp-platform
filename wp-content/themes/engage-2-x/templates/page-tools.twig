@@ -21,13 +21,13 @@
 
 				<div class="article__content">
 					{% for item in post.meta('repeater') %}
-						<section class="item" id="{{item.title}}">
+						<section class="item" id="{{item.anchor}}">
 							{% if item.title != "engaging-buttons-plugin" %}
 								<hr>
 							{% else %}
 								<br>
 							{% endif %}
-							<h2>{{ item.title|title|replace('-', ' ') }}</h2>
+							<h2>{{ item.title }}</h2>
 							<img src="{{ get_image(item.image).src }}" />
 							<h4>{{ item.subtitle }}</h4>
 							<p>{{ item.content }}</p>
@@ -51,7 +51,7 @@
 						<ul class="filters filters-- menu">
 							{% for item in post.meta('repeater') %}
 								<li class="filter__item filter__item--sub-item">
-									<a class="filter__link sidebar-menu__link" href="#{{ item.title }}">{{ item.title|title|replace('-', ' ') }}</a>
+									<a class="filter__link sidebar-menu__link" href="#{{ item.anchor }}">{{ item.title }}</a>
 								</li>
 							{% endfor %}
 						</ul>
