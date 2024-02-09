@@ -1,0 +1,46 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<div class="post__wrapper wrapper--pad">
+		<div class="article__wrapper container container--lg">
+				{% set hasVideo = post.getVideoEmbedLink and post.post_type != 'team' and post.post_type != 'board' %}
+				{% set hasFeaturedImage = post.thumbnail.src and post.post_type != 'team' and post.post_type != 'board' %}
+				{% set hideFeaturedImage = post.hide_feature_image %}
+				<article class="article post-type-{{ post.post_type }} {{ hasFeaturedImage ? 'article--has-featured-img' }} {{ hasVideo ? 'article--has-video'}}" id="post-{{ post.ID }}">
+						<h1 class="article__title article__title--{{ post.post_type }}">{{ post.title }}</h1>
+						{% if post.getTitleSublinkNum != 0 %}
+							<ul class="filters filters-inline-mobile">
+								{% for name, link in post.getMenuLinks|slice(0, post.getTitleSublinkNum) %}
+									<li class="filter__item">
+										<a class="filter__link sidebar-menu__link" href="{{link}}">{{name}}</a>
+									</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+						{% set getLink = post.getMenuLinks %}
+						{% include "partial/article-meta.twig" %}
+
+						<div class="article__content article__content--{{ post.post_type }}">
+							{% if hasVideo %}
+								<div class="aspect-ratio-box">
+									<div class="aspect-ratio-box-inside">
+										<iframe class="article__video article__video--{{ post.post_type }}" src="{{ post.getVideoEmbedLink }}" frameborder="0" allowfullscreen="allowfullscreen">
+											<span data-mce-type="bookmark" class="video mce_start">﻿</span>
+										</iframe>
+									</div>
+								</div>
+							{% elseif hasFeaturedImage and not hideFeaturedImage %}
+								<figure class="article__featured-img article__featured-img--{{ post.post_type }}">
+										<img class="featured-img__img" src="{{ post.thumbnail.src('featured-image') }}" {{ post.thumbnail.alt ? "alt='#{ post.thumbnail.alt}'" }} />
+										{% if post.thumbnail.caption %}
+											<figcaption>{{ post.thumbnail.caption }}</figcaption>
+										{% endif %}
+								</figure>
+							{% endif %}
+								{{ post.content }}
+						</div>
+
+				</article>
+		</div>
+</div>
+{% endblock %}

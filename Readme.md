@@ -15,11 +15,13 @@ Conversion notes:
 * Source doc: CME Updated Readme.md
 ----->
 
+Engage is a [Timber](https://timber.github.io/docs/)(Twig) powered WordPress theme for [The Center for Media Engagement](https://mediaengagement.org/) at University of Texas at Austin.
 
+_** Currently this repo includes the whole WordPress installation. This is not reccommended, but helps sync dev, staging & production enviroments. The only directory you should concern yourself with is in the actual `wp-content/themes/engage` directory. All other files are for the live sites and should not be changed._
 
-# Installing
+# Installation
 
-## The short
+## Installation - Summary
 - Download [WP Engine Local App](http://localwp.com/).
 - Connect with CME WP Engine account.
 - Download mediaengagement.org from the Local App
@@ -27,22 +29,55 @@ Conversion notes:
 - Install npm
 - Develop
 
-## The long
+## Installation Full Instructions:
 
 [View the long installation instructions here.](https://github.com/engagingnewsproject/enp-platform/wiki/Development#installation)
 
-# Running the development environment
+# Local development
 
-1. The `.nvmrc` ([/wp-content/themes/engage/.nvmrc](https://github.com/engagingnewsproject/enp-platform/blob/master/wp-content/themes/engage/.nvmrc)) file contains the Node version required for the project. In order to enable the version switch on each dev session you need to first run:
+**Updated instructions**: Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/starter-theme). Not required, but [view Timber Composer installation instructions here](https://timber.github.io/docs/getting-started/switch-to-composer/).
 
-       nvm use
+1. After cloning this repo, run these commands from the Engage theme directory: `[local app site directory]/app/public/wp-content/themes/engage`
 
-    . . . this command will switch your project node version to the version in the `.nvmrc` file. For windows users, checkout [nvm for windows](https://github.com/coreybutler/nvm-windows). Then you can run the commands below:
+2. Make sure you are on the latest version of `node` by running `npm doctor`. If anything comes up as not `ok` update your version of `npm` or `node`.
 
-2. To open a browser window with live reloading run:
+3. Install packages by running
 
-       npm run watch
+       npm install
+       
+4. Install Timber with composer and run 
+  ```
+  composer require timber/timber
+  ```
+  you should see `Using version ^2.0 for timber/timber` in the terminal output.
+  
+5. Activate the `engage-2-x` theme (if not active) from WP Admin / Appearance.
 
-3. When you are done, to compile your code & minify for the production server be sure to run:
+6. Now you can run `npm run watch` to start up your local dev server with browsersync for automatic refresh.
 
-       npm run production
+7. When your tasks are complete and you are ready to push your changes to the remote repo run `npm run production` on the /engage-2-x directory to compile all CSS & JS.
+
+## Debug Local App Connection
+
+If you run into any issues with the Engage theme try some of these workarounds to get the site and wp-admin showing up.
+
+- Check the Local App setup:
+
+  - If your Local App Web server is set to Apache switch the server to ngnix (this usually fixes the problem)
+  - PHP version above 8.1.0, something like 8.2.10.
+
+- __Switch to WordPress default theme.__
+
+  1. If you cannot access wp-admin rename the theme in your project directory to something like `/engage-0`. This will make WordPress switch to the default theme.
+	
+  2. Disable all plugins except for Advanced Custom Fields (Engage theme depends on this plugin.)
+	
+  3. Reactivate the engage theme by renaming it back to `/engage` in the project directory.
+  
+     _This is an important step, as you will need WordPress to recognize the Engage theme so you can reactivate it on the WordPress dashboard at the Appearance/Themes page._
+
+- You might have to run `composer require hellonico/timber-dump-extension` to get the [Timber Dump Extension](https://github.com/nlemoine/timber-dump-extension#timber-dump-extension).
+	
+- __Deactivate the Engaging Quiz plugin__
+
+  - This plugin is notorious for causing issues, so keep it deactivated to mitigate any related issues.

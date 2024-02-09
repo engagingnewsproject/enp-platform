@@ -2,8 +2,6 @@
 
 if (!defined('UPDRAFTCENTRAL_CLIENT_DIR')) die('Security check');
 
-// Developer note: Please avoid using the 'wp-optimize' string within the actual text unless it is being used as a translation domain (e.g. __('TEXT_THAT_NEEDS_TO_BE_TRANSLATED', 'wp-optimize'))
-
 // Translations for UpdraftCentral
 return array(
 	'updraftcentral_connection' => __('UpdraftCentral Connection', 'wp-optimize'),
@@ -88,4 +86,7 @@ return array(
 	'updraftcentral_wizard_empty_url' => __('Please enter the URL where your UpdraftCentral dashboard is hosted.', 'wp-optimize'),
 	'updraftcentral_wizard_invalid_url' => __('Please enter a valid URL e.g http://example.com', 'wp-optimize'),
 	'insufficient_privilege' => __('Sorry, you do not have enough privilege to execute the requested action.', 'wp-optimize'),
+	'copy_to_clipboard' => __('Copy to clipboard', 'wp-optimize'),
+	'key_copied' => __('The key was copied to the clipboard.', 'wp-optimize'),
+	'unable_to_copy' => __('The attempt to copy to the clipboard failed.', 'wp-optimize'),
 );

@@ -1,0 +1,6 @@
+<div class="carousel carousel-main">
+	{% for post in get_posts(post.slider_posts) %}
+		{% include "partial/hero-content.twig" with { 'tile': post } %}
+	{% endfor %}
+</div>
+

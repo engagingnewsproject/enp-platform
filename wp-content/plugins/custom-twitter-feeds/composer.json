@@ -1,0 +1,48 @@
+{
+    "name": "smashballoon/custom-twitter-feeds",
+    "description": "Displays completely customizable Twitter feeds in website",
+    "license": "GPL-2.0-only",
+    "autoload": {
+        "psr-4": {
+            "TwitterFeed\\": "inc/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:alex-plop/phpcs-diff.git"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "smashballoon/smash-bundler",
+                "version": "1.0.4",
+                "source": {
+                    "url": "git@github.com:awesomemotive/smash-bundler.git",
+                    "type": "git",
+                    "reference": "development"
+                }
+            }
+        }
+    ],
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.7",
+        "wp-coding-standards/wpcs": "^2.3",
+        "symfony/finder": "^5.4",
+        "vlucas/phpdotenv": "^5.5",
+        "phpcompatibility/php-compatibility": "^9.3",
+        "alex-plop/phpcs-diff": "^0.1",
+        "smashballoon/smash-bundler": "^1.0"
+    },
+    "scripts": {
+        "post-install-cmd": "phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs",
+        "phpcs": "phpcs --",
+        "phpcbf": "phpcbf --",
+        "phpcs-diff": "phpcs-diff --",
+        "lint-php": "phpcs --",
+        "review-php": "phpcs -s --report=summary && phpcs -a --",
+        "reformat-php": "phpcbf --",
+        "docker-phpcs": "docker run --rm --interactive --tty --volume $PWD:/app --user $(id -u):$(id -g) composer composer phpcs --",
+        "docker-phpcbf": "docker run --rm --interactive --tty --volume $PWD:/app --user $(id -u):$(id -g) composer composer phpcbf --"
+    }
+}

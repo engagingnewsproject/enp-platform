@@ -161,7 +161,7 @@ class WPO_Cache_Config {
 	 */
 	public function write($config, $only_if_present = false) {
 
-		$config_file = WPO_CACHE_CONFIG_DIR.'/'.$this->get_cache_config_filename();
+		$config_file = $this->get_config_file_path();
 
 		$this->config = wp_parse_args($config, $this->get_defaults());
 
@@ -181,7 +181,7 @@ class WPO_Cache_Config {
 			$config_content = json_encode($this->config);
 		}
 
-		if ((!$only_if_present || file_exists($config_file)) && !file_put_contents($config_file, $config_content)) {
+		if ((!$only_if_present || file_exists($config_file)) && (!is_writable(WPO_CACHE_CONFIG_DIR) || !file_put_contents($config_file, $config_content))) {
 			return new WP_Error('write_cache_config', sprintf(__('The cache configuration file could not be saved to the disk; please check the file/folder permissions of %s .', 'wp-optimize'), $config_file));
 		}
 
@@ -189,45 +189,14 @@ class WPO_Cache_Config {
 	}
 
 	/**
-	 * Verify we can write to the file system
+	 * Get config file name with full path.
 	 *
-	 * @since  1.0
-	 * @return boolean
+	 * @return string
 	 */
-	public function verify_file_access() {
-		if (function_exists('clearstatcache')) {
-			clearstatcache();
-		}
-
-		// First check wp-config.php.
-		if (!is_writable(ABSPATH . 'wp-config.php') && !is_writable(ABSPATH . '../wp-config.php')) {
-			return false;
-		}
-
-		// Now check wp-content. We need to be able to create files of the same user as this file.
-		if (!$this->_is_dir_writable(untrailingslashit(WP_CONTENT_DIR))) {
-			return false;
-		}
-
-		// If the cache and config directories exist, make sure they're writeable
-		if (file_exists(untrailingslashit(WP_CONTENT_DIR) . '/wpo-cache')) {
-			
-			if (file_exists(WPO_CACHE_DIR)) {
-				if (!$this->_is_dir_writable(WPO_CACHE_DIR)) {
-					return false;
-				}
-			}
-
-			if (file_exists(WPO_CACHE_CONFIG_DIR)) {
-				if (!$this->_is_dir_writable(WPO_CACHE_CONFIG_DIR)) {
-					return false;
-				}
-			}
-		}
-
-		return true;
+	public function get_config_file_path() {
+		return WPO_CACHE_CONFIG_DIR . '/' . $this->get_cache_config_filename();
 	}
-
+	
 	/**
 	 * Return defaults
 	 *

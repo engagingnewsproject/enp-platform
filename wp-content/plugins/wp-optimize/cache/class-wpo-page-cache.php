@@ -343,6 +343,11 @@ class WPO_Page_Cache {
 			return $already_ran_enable;
 		}
 
+		if (!file_exists($this->config->get_config_file_path())) {
+			$result = $this->update_cache_config();
+			if (is_wp_error($result)) return $result;
+		}
+
 		// if WPO_ADVANCED_CACHE isn't set, or environment doesn't contain the right constant, force regeneration
 		if (!defined('WPO_ADVANCED_CACHE') || !defined('WP_CACHE')) {
 			$force_enable = true;
@@ -904,12 +909,14 @@ EOF;
 
 	/**
 	 * Update cache config. Used to support 3d party plugins.
+	 *
+	 * @return {boolean|WP_Error}
 	 */
 	public function update_cache_config() {
 		// get current cache settings.
 		$current_config = $this->config->get();
 		// and call update to change if need cookies and query variable names.
-		$this->config->update($current_config, true);
+		return $this->config->update($current_config);
 	}
 
 	/**

@@ -56,8 +56,16 @@ function custom_setup_theme() {
     new Engage\Managers\Theme($managers);
 }
 
-// Add ACF options info site-wide
-add_filter('timber/context', 'engage_timber_context');
+// is_plugin_active() is defined in /wp-admin/includes/plugin.php, 
+// so this is only available from within the admin pages, 
+// and any references to this function must be hooked to admin_init or a later action. 
+// If you want to use this function from within a template, you will need to manually require plugin.php
+include_once(ABSPATH .'wp-admin/includes/plugin.php');
+
+if ( is_plugin_active('advanced-custom-fields-pro/acf.php')) {
+    // Add ACF options info site-wide
+    add_filter('timber/context', 'engage_timber_context');
+}
 
 function engage_timber_context($context) 
 {
@@ -65,7 +73,9 @@ function engage_timber_context($context)
     return $context;
 }
 
-add_filter('the_posts', 'tribe_past_reverse_chronological', 100);
+if ( ! is_admin() && is_plugin_active('the-events-calendar/the-events-calendar.php')) { // Function will only be executed on the front end of the site and not in WordPress admin.
+    add_filter('the_posts', 'tribe_past_reverse_chronological', 100);
+}
 // // When viewing previous events, they will be shown from most recent to oldest
 function tribe_past_reverse_chronological ($post_object) {
     $past_ajax = (defined( 'DOING_AJAX' ) && DOING_AJAX && $_REQUEST['tribe_event_display'] === 'past') ? true : false;

@@ -156,16 +156,7 @@ class CtfOauthConnect extends \TwitterFeed\CtfOauthConnect {
 		$this->buildOauth();
 		$this->encodeHeader();
 
-		switch ($this->request_method) {
-			case 'curl':
-				$this->json = $this->curlRequest($url);
-				break;
-			case 'file_get_contents':
-				$this->json = $this->fileGetContentsRequest($url);
-				break;
-			default:
-				$this->json = $this->wpHttpRequest($url);
-		}
+		$this->json = $this->wpHttpRequest($url);
 
 		if (in_array($this->feed_type, [ 'usertimeline', 'hometimeline', 'search', 'hashtag' ], true)) {
 			$this->json = $this->convertResponseToLegacy($this->json);

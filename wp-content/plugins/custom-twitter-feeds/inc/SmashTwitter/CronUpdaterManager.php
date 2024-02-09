@@ -42,7 +42,7 @@ class CronUpdaterManager
 	}
 
 	public function calculate_frequency() {
-		return WEEK_IN_SECONDS;
+		return DAY_IN_SECONDS * 3;
 	}
 
 	public function can_update() {
@@ -119,7 +119,7 @@ class CronUpdaterManager
 	public function maybe_reset_request_counter() {
 		$ctf_statuses_option = get_option( 'ctf_statuses', array() );
 		$reset_time = ! empty( $ctf_statuses_option['smash_twitter_cron']['request_counter_reset_time'] ) ? $ctf_statuses_option['smash_twitter_cron']['request_counter_reset_time'] : 0;
-		if ( $reset_time < time() - WEEK_IN_SECONDS ) {
+		if ( $reset_time < time() - DAY_IN_SECONDS * 3 ) {
 			$this->reset_request_counter();
 			return true;
 		}
@@ -300,7 +300,7 @@ class CronUpdaterManager
 	 * @return boolean
 	 */
 	public function maybe_do_updates() {
-		$this->maybe_reset_request_counter();
+		$this->maybe_reset_request_counter(); 
 
 		if ( $this->should_do_updates() ) {
 			$this->update_last_update_process( time() );

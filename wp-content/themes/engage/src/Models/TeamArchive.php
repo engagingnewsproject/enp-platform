@@ -159,7 +159,7 @@ class TeamArchive extends TileArchive
     foreach($this->posts as $post) {
         // Check to see if current member should be included in leadership array
         if (in_array($post->name, ['Scott R. Stroud', 
-        'Finja Augsburg', 'Kat Williams', 'Leah Ransome'], true)) {
+        'Finja Augsburg', 'Leah Ransome', 'Kat Williams'], true)) {
           array_push($leadership, $post);
         } else {
           array_push($media_ethics, $post);

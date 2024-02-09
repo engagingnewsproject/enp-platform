@@ -1,0 +1,6 @@
+/composer.lock
+/wordpress/
+/node_modules/
+/package-lock.json
+.vscode/launch.json
+.DS_Store

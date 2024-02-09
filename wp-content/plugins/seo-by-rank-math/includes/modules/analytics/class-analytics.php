@@ -12,14 +12,13 @@ namespace RankMath\Analytics;
 
 use RankMath\KB;
 use RankMath\Helper;
+use RankMath\Helpers\Arr;
+use RankMath\Helpers\Param;
 use RankMath\Google\Api;
 use RankMath\Module\Base;
 use RankMath\Admin\Page;
-use RankMath\Helpers\Arr;
 use RankMath\Google\Console;
 use RankMath\Google\Authentication;
-use RankMath\Helpers\Conditional;
-use RankMath\Helpers\Param;
 use RankMath\Analytics\Workflow\Jobs;
 use RankMath\Analytics\Workflow\OAuth;
 use RankMath\Analytics\Workflow\Workflow;
@@ -63,7 +62,7 @@ class Analytics extends Base {
 	 * The Constructor
 	 */
 	public function __construct() {
-		if ( Conditional::is_heartbeat() || ! Helper::has_cap( 'analytics' ) ) {
+		if ( Helper::is_heartbeat() || ! Helper::has_cap( 'analytics' ) ) {
 			return;
 		}
 
@@ -343,6 +342,8 @@ class Analytics extends Base {
 			rank_math()->version,
 			true
 		);
+
+		wp_set_script_translations( 'rank-math-analytics', 'rank-math', plugin_dir_path(__FILE__) . 'languages/' );
 
 		$this->action( 'admin_footer', 'dequeue_cmb2' );
 

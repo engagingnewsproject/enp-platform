@@ -1,0 +1,56 @@
+.page-template-page-public-interest-standard {
+	// change colors
+	.main-body-wrapper {
+		background: $purple;
+	}
+	.header,
+	.video-grid-tile,
+	.footer {
+		background: $gray-lighter;
+	}
+	// adjust spacing
+	.article__header {
+		margin-bottom: $spacer-sm;
+		@include media($laptop) {
+			overflow: hidden;
+			height: 33vh;
+			margin-bottom: $spacer-xl;
+		}
+		@include media($desktop) {
+			height: calc(40vh - 37px);
+		}
+	}
+	.article__intro,
+	.article__video {
+		margin-bottom: $spacer-lg;
+		@include media($desktop) {
+			margin-bottom: $spacer-xxl;
+		}
+	}
+	p:not(.ctf-tweet-text) {
+		color: $white;
+	}
+	// video element
+	.embed-container {
+		margin-top: $spacer-lg;
+	}
+	.wp-block-video {
+		@include media($desktop) {
+			position: relative;
+			height: 100%;
+		}
+		video {
+			@include media($desktop) {
+				position: absolute;
+				bottom: 0;
+				z-index: 0;
+				width: 100%;
+			}
+		}
+	}
+	// custom footer
+	.footer__footer {
+		margin-top: 0;
+		padding-top: 0;
+	}
+}

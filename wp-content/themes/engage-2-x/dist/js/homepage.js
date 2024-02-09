@@ -1,0 +1,2 @@
+document.querySelectorAll(".home-intro .tile__title").forEach((function(n){var e=n.innerHTML;if(e.length>42){var t=e.substring(42,e.length).indexOf(" ");e=-1!==t&&t<10?e.substring(0,t+42):e.substring(0,42),e+="...",n.innerHTML=e}}));
+//# sourceMappingURL=homepage.js.map

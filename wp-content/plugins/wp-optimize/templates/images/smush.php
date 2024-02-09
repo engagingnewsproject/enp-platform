@@ -7,7 +7,7 @@
 			<div class="wpo-video-preview">
 				<a href="https://vimeo.com/333938451" data-embed="https://player.vimeo.com/video/333938451?color=df6926&title=0&byline=0&portrait=0" target="_blank"><img src="<?php echo esc_url(trailingslashit(WPO_PLUGIN_URL) . 'images/notices/image-compression-video-preview.png'); ?>" alt="<?php esc_attr_e('Video preview', 'wp-optimize'); ?>" /></a>
 			</div>
-			<small>(<?php esc_html_e('Loads a video hosted on vimeo.com', 'wp-optimize'); ?>) - <a href="https://vimeo.com/333938451" target="_blank"><?php esc_html_e('Open the video in a new window', 'wp-optimize'); ?></a></small>
+			<small>(<?php esc_html_e('Loads a video hosted on vimeo.com', 'wp-optimize'); ?>) - <?php $wp_optimize->wp_optimize_url('https://vimeo.com/333938451', __('Open the video in a new window', 'wp-optimize')); ?></small>
 		</div>
 	</div>
 	<p>
@@ -78,7 +78,7 @@
 				</datalist>
 				<span class="slider-end"><?php esc_html_e('Best image quality', 'wp-optimize');?></span>
 			</div>
-			<p><?php esc_html_e('Not sure what to choose?', 'wp-optimize'); ?> <a href="https://getwpo.com/lossy-vs-lossless-image-compression-a-guide-to-the-trade-off-between-image-size-and-quality/" target="_blank"><?php esc_html_e('Read our article "Lossy vs Lossless image compression"', 'wp-optimize'); ?></a></p>
+			<p><?php esc_html_e('Not sure what to choose?', 'wp-optimize'); ?> <?php $wp_optimize->wp_optimize_url('https://getwpo.com/lossy-vs-lossless-image-compression-a-guide-to-the-trade-off-between-image-size-and-quality/', __('Read our article "Lossy vs Lossless image compression"', 'wp-optimize')); ?></p>
 			<?php if (WPO_USE_WEBP_CONVERSION) : ?>
 				<h3><?php esc_html_e('WebP conversion', 'wp-optimize');?></h3>
 				<?php
@@ -133,7 +133,7 @@
 				<button type="button" id="wpo_smush_mark_all_as_uncompressed_btn" class="wpo_primary_small button"><?php esc_html_e('Mark all images as uncompressed', 'wp-optimize'); ?></button>
 				<br>
 				<br>
-				<button type="button" id="wpo_smush_restore_all_compressed_images_btn" class="wpo_primary_small button"><?php _e('Restore all compressed images', 'wp-optimize'); ?></button>
+				<button type="button" id="wpo_smush_restore_all_compressed_images_btn" class="wpo_primary_small button"><?php esc_html_e('Restore all compressed images', 'wp-optimize'); ?></button>
 				<?php
 					$message = __('Only the original image will be restored.', 'wp-optimize');
 					$message .= ' ';

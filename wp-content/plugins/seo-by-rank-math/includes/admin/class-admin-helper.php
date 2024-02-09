@@ -17,7 +17,6 @@ use RankMath\Helper;
 use RankMath\Data_Encryption;
 use RankMath\Helpers\Security;
 use RankMath\Helpers\Param;
-use RankMath\Helpers\WordPress;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -39,7 +38,7 @@ class Admin_Helper {
 			];
 		}
 
-		$wp_filesystem = WordPress::get_filesystem();
+		$wp_filesystem = Helper::get_filesystem();
 		if ( empty( $wp_filesystem ) ) {
 			return;
 		}
@@ -175,6 +174,13 @@ class Admin_Helper {
 					'id'   => 'rank-math-site-url-mismatch',
 				]
 			);
+		}
+
+		/**
+		 * Ensure the site_url is returned if it is absent, as it is required for the Content AI.
+		 */
+		if ( empty( $options['site_url'] ) ) {
+			$options['site_url'] = Helper::get_home_url();
 		}
 
 		return $options;

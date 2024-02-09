@@ -8,7 +8,7 @@
 				<div class="wpo-video-preview">
 					<a href="https://vimeo.com/402556749" data-embed="https://player.vimeo.com/video/402556749?color=df6926&title=0&byline=0&portrait=0" target="_blank"><img src="<?php echo esc_url(trailingslashit(WPO_PLUGIN_URL) . 'images/notices/minify-video-preview.png'); ?>" alt="<?php esc_attr_e('Minify video preview', 'wp-optimize');?>"></a>
 				</div>
-				<small>(<?php esc_html_e('Loads a video hosted on vimeo.com', 'wp-optimize'); ?>) - <a href="https://vimeo.com/402556749" target="_blank"><?php esc_html_e('Open the video in a new window', 'wp-optimize'); ?></a></small>
+				<small>(<?php esc_html_e('Loads a video hosted on vimeo.com', 'wp-optimize'); ?>) - <?php $wp_optimize->wp_optimize_url('https://vimeo.com/402556749', __('Open the video in a new window', 'wp-optimize')); ?></small>
 				<p><a href="<?php echo esc_url(WP_Optimize()->maybe_add_affiliate_params('https://getwpo.com/faqs/category/minification/')); ?>"><?php esc_html_e('Read the documentation', 'wp-optimize'); ?></a></p>
 			</div>
 		</div>
@@ -159,7 +159,7 @@
 				<span class="save-done dashicons dashicons-yes display-none"></span>
 			</p>
 			<p>
-				<span><?php esc_html_e("The new minified files will be regenerated when visiting your website's pages.", 'wp-optimize'); ?> <a href="https://getwpo.com/faqs/what-does-reset-the-minified-files-actually-do/"><?php esc_html_e('Read more about what this does in our FAQs.', 'wp-optimize'); ?></a> (<?php esc_html_e('This will also purge the page cache', 'wp-optimize'); ?>)</span>
+				<span><?php esc_html_e("The new minified files will be regenerated when visiting your website's pages.", "wp-optimize"); ?> <?php $wp_optimize->wp_optimize_url('https://getwpo.com/faqs/what-does-reset-the-minified-files-actually-do/', __('Read more about what this does in our FAQs.', 'wp-optimize')); ?> (<?php esc_html_e('This will also purge the page cache', 'wp-optimize'); ?>)</span>
 			</p>
 			<?php if (WPO_MINIFY_PHP_VERSION_MET) : ?>
 				<?php esc_html_e('Minify cache size:', 'wp-optimize'); ?>

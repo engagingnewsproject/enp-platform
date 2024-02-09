@@ -2,10 +2,10 @@
 Contributors: rankmath
 Plugin link: https://rankmath.com/?utm_source=LP&utm_campaign=WP
 Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
-Tested up to: 6.4
+Tested up to: 6.4.1
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.0.205
+Stable tag: 1.0.207
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -583,19 +583,14 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.205 [Nov 01, 2023] =
-- Improved: [Content AI Credit refresh](https://rankmath.com/kb/how-to-use-content-ai/#credits-left) to work more efficiently
-- Added: WordPress v6.4 Compatibility
-- Fixed: [Rank Math Meta Box](https://rankmath.com/kb/on-page-seo/#classic-editor) was not expanding in Classic Editor when Visual Editor was disabled on the post
-- Fixed: [Product Category Sitemap](https://rankmath.com/kb/configure-sitemaps/#product-categories) was not appearing in the Sitemap index when the taxonomy had only `Uncategorized` category
-- Fixed: Password-protected pages were considered when creating the paginated sitemap
-- Fixed: [HTML Sitemap](https://rankmath.com/kb/html-sitemap/) was not displaying Child pages when the Parent page was set to `noindex`
-- Fixed: SQL error on [Status & Tools page](https://rankmath.com/kb/rank-math-status-and-tools/) for MySQL version 5.7 or lower
-- Fixed: Users having the `rank_math_general` capability were not able to [Submit URLs manually](https://rankmath.com/kb/how-to-use-indexnow/) for Instant indexing
-- Fixed: [Write More option](https://rankmath.com/kb/using-content-ai-in-block-editor/#write-more) was not using the language setting and generated output in an incorrect language
-- Fixed: [Content Editor](https://rankmath.com/kb/content-ai-editor/) was showing error after clicking on any paragraph
-- Fixed: Wrong link added in the admin notice for [Auto Post Redirections](https://rankmath.com/kb/general-settings/#auto-post-redirect)
-- Fixed: Minor UX issue in Content AI Toolbar
+= 1.0.207 [Nov 30, 2023] =
+- Added: Fields in [Course Schema Builder](https://rankmath.com/kb/course-schema/) to make your courses compatible with the [latest Google guidelines](https://www.seroundtable.com/google-adds-course-carousel-36398.html)
+- Improved: Strings from JS files are now available for translations
+- Improved: Error handling when [Content AI credits are refreshed from Settings](https://rankmath.com/kb/how-to-use-content-ai/#credits-left)
+- Fixed: Shortcode key `/` to display Block list was not functioning without a subsequent character
+- Fixed: Minor UI issue with [Analytics](https://rankmath.com/kb/analytics/)
+- Fixed: Missing required parameter `site_url` when using [Content AI](https://rankmath.com/content-ai/) on certain setups
+- Fixed: Minor UI issue in the [Content AI Results Overview](https://rankmath.com/kb/how-to-use-content-ai/#content-ai-results-overview) section
 
 
 Full changelog can be found here - **[Rank Math changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**
