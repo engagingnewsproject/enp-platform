@@ -1,15 +1,15 @@
-=== Rank Math SEO ===
+=== Rank Math SEO with AI SEO Tools ===
 Contributors: rankmath
 Plugin link: https://rankmath.com/?utm_source=LP&utm_campaign=WP
 Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
 Tested up to: 6.4.1
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.0.207
+Stable tag: 1.0.212.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
-Rank Math SEO is the Best WordPress SEO plugin combines the features of many SEO tools in a single package & helps you multiply your SEO traffic.
+Rank Math SEO is the Best WordPress SEO plugin with the features of many SEO and AI SEO tools in a single package to help multiply your SEO traffic.
 
 == Description ==
 
@@ -17,7 +17,7 @@ Rank Math SEO is the Best WordPress SEO plugin combines the features of many SEO
 **1st WordPress SEO Plugin to use AI (Artificial Intelligence)** 🦾
 ★★★★★<br>
 
-**SEO is the most consistent source of traffic for any website.** We created <a href="https://rankmath.com/wordpress/plugin/seo-suite/?utm_source=LP&utm_campaign=WP" target="_blank">**Rank Math, a WordPress SEO plugin**</a>, to help every website owner get access to the SEO tools they need to improve their SEO and attract more traffic to their website.
+**SEO is the most consistent source of traffic for any website.** We created <a href="https://rankmath.com/wordpress/plugin/seo-suite/?utm_source=LP&utm_campaign=WP" target="_blank">**Rank Math, a WordPress SEO plugin**</a> with AI SEO features better than ChatGPT, to help every website owner get access to the SEO tools they need to improve their SEO and attract more traffic to their website.
 ## <a href="https://demo.rankmath.com/wp-admin/admin.php?page=rank-math-wizard" target="_blank">Try The FREE Demo of Rank Math</a> ##
 
 [youtube https://www.youtube.com/watch?v=NgeaqIy2OB0]
@@ -26,13 +26,13 @@ Rank Math SEO is the Best WordPress SEO plugin combines the features of many SEO
 
 SEO might be the best and most **consistent source of traffic** for one's website, but it's not without its quirks. The constant process of optimizing your posts can sometimes take more time than actually writing the content. **If you always feel that you can do more on the SEO** front for your website but don't have the time, **then Rank Math is what you're looking for.**
 
-Its host of **intelligent features** brings top SEO capabilities in your hands that were previously out of reach. The **smart automation** features give you the **power of an entire SEO team** with just a few clicks. A **well thought out design, powerful features, and years of development** by the MyThemeShop squad make Rank Math a game-changing SEO plugin that will level the SEO playing field in your favor to help increase traffic.
+Its host of **intelligent features** brings top SEO capabilities in your hands that were previously out of reach. The **smart automation** features give you the **power of an entire SEO team** with just a few clicks. A **well-thought-out design, powerful features, and years of development** make Rank Math a game-changing SEO plugin that will level the SEO playing field in your favor to help increase traffic.
 
 ### Exclusive Content AI. Write Highly Optimized SEO Content ###
 
 [youtube https://www.youtube.com/watch?v=tm_dhgbIWow]
 
-➜ Use Artificial Intelligence to write SEO optimized content
+➜ Use AI SEO to write better than ChatGPT
 ➜ Dynamic Suggestions
 ➜ Intelligent Recommendations
 ➜ Dynamic Keywords
@@ -583,14 +583,19 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.207 [Nov 30, 2023] =
-- Added: Fields in [Course Schema Builder](https://rankmath.com/kb/course-schema/) to make your courses compatible with the [latest Google guidelines](https://www.seroundtable.com/google-adds-course-carousel-36398.html)
-- Improved: Strings from JS files are now available for translations
-- Improved: Error handling when [Content AI credits are refreshed from Settings](https://rankmath.com/kb/how-to-use-content-ai/#credits-left)
-- Fixed: Shortcode key `/` to display Block list was not functioning without a subsequent character
-- Fixed: Minor UI issue with [Analytics](https://rankmath.com/kb/analytics/)
-- Fixed: Missing required parameter `site_url` when using [Content AI](https://rankmath.com/content-ai/) on certain setups
-- Fixed: Minor UI issue in the [Content AI Results Overview](https://rankmath.com/kb/how-to-use-content-ai/#content-ai-results-overview) section
+= 1.0.212 [Jan 31, 2024] =
+- Added: Options to [Bulk generate meta tags using Content AI](https://rankmath.com/kb/bulk-generate-seo-meta-tags/) for Taxonomies (Categories, Tags, etc).
+- Improved: Images from the Product gallery are now included in the [Product Schema](https://rankmath.com/kb/woocommerce-product-schema/)
+- Improved: Reusable Block Content Analysis code
+- Fixed: Dashboard notification was persistently shown on some sites
+- Fixed: [Filter to change meta keywords](https://rankmath.com/kb/filters-hooks-api-developer/#change-meta-keywords) was not working
+- Fixed: [Instant Indexing API Key location file](https://rankmath.com/kb/how-to-use-indexnow/#check-api-key-location) was redirecting to the homepage when [Fallback Behaviour in Redirection settings](https://rankmath.com/kb/general-settings/#fallback-behaviour) was set to Homepage
+- Fixed: Child pages were duplicated in the [HTML Sitemap](https://rankmath.com/kb/html-sitemap/) on multisite setups
+- Fixed: [Researching a Keyword with Content AI](https://rankmath.com/kb/how-to-use-content-ai/#research-keywords) was not working for some countries
+
+= 1.0.212.1 [Feb 07, 2024] =
+- Fixed: [Bulk Editing for Media Library](https://rankmath.com/kb/bulk-editing-in-rank-math/#bulk-editing-media) was not working after the latest update
+- Fixed: [XML Sitemap](https://rankmath.com/kb/sitemaps-seo-benefits/#xml-sitemap) was not displaying Taxonomies after the latest update
 
 
 Full changelog can be found here - **[Rank Math changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

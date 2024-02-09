@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Ninja Forms
-Plugin URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=readme
+Plugin URI: http://ninjaforms.com/?utm_source=WordPress&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.7.0
+Version: 3.7.2
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -43,7 +43,7 @@ final class Ninja_Forms
      * @since 3.0
      */
 
-    const VERSION = '3.7.0';
+    const VERSION = '3.7.2';
 
     /**
      * @since 3.4.0
@@ -1228,7 +1228,7 @@ function nf_update_marketing_feed() {
     // Fetch our addon data.
     $data = wp_remote_get( 'http://api.ninjaforms.com/feeds/?fetch=addons' );
     // If we got a valid response...
-    if ( 200 == $data[ 'response' ][ 'code' ] ) {
+    if ( is_array($data) && 200 == $data[ 'response' ][ 'code' ] ) {
         // Save the data to our option.
         $data = wp_remote_retrieve_body( $data );
         update_option( 'ninja_forms_addons_feed', $data, false );

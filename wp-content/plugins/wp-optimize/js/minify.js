@@ -246,6 +246,24 @@
 			highlight_excluded_item(el);
 		});
 
+		// Trigger combined meta.json file download
+		$('.wpo-minify-download-metas-button').on('click', function(e) {
+			e.preventDefault();
+			send_command('get_minify_meta_files', null, function(response) {
+				if (response.hasOwnProperty('error')) {
+					// show error
+					alert(response.error);
+					return;
+				}
+
+				var link = document.body.appendChild(document.createElement('a'));
+				link.setAttribute('download', 'combined_metas.json');
+				link.setAttribute('style', "display:none;");
+				link.setAttribute('href', 'data:text/json' + ';charset=UTF-8,' + encodeURIComponent(JSON.stringify(response.combined_metas)));
+				link.click();
+			})
+		});
+
 		/**
 		 * Get excluded file url
 		 *

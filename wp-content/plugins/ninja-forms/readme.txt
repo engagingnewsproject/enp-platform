@@ -3,8 +3,8 @@ Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorho
 Tags: forms, contact form, email form, form builder, custom form, pdf form, registration form, payment form, login form, contact me, signature form, upload form, file upload form, conditional form, feedback form, appointment form, quote form, survey form, contact button, signup form, form plugin, contact form plugin, subscription form, email subscription form, newsletter form, donation form, booking form, quote request form, multi page form, conditional logic form, subscription form, application form, employment verification form, star rating form, rating form, event form, mailchimp form, campaign monitor form, constant contact form, mailpoet form, aweber form, cleverreach form, emma form, convertkit form, active campaign form, salesforce form, zoho form, capsule form, insightly form, pipelinedeals form, onepagecrm form
 
 Requires at least: 6.1
-Tested up to: 6.4.0
-Stable tag: 3.7.0
+Tested up to: 6.4.2
+Stable tag: 3.7.2
 
 License: GPLv2 or later
 
@@ -66,61 +66,61 @@ The core Ninja Forms WordPress form builder is 100% free, always. Build complex 
 * Developer friendly
 
 = Ninja Forms Add-on Features =
-As your needs grow, Ninja Forms will grow with you. Select just the individual [features](https://ninjaforms.com/add-ons/?utm_source=Ninja+Forms+Plugin&utm_medium=readme) you need as you need them, or [become a member today](https://ninjaforms.com/pricing/?utm_source=Ninja+Forms+Plugin&utm_medium=readme) with a plan that meets your needs and your budget! Take your WordPress forms farther!
+As your needs grow, Ninja Forms will grow with you. Select just the individual [features](https://ninjaforms.com/add-ons/?utm_source=WordPress&utm_medium=readme) you need as you need them, or [become a member today](https://ninjaforms.com/pricing/?utm_source=WordPress&utm_medium=readme) with a plan that meets your needs and your budget! Take your WordPress forms farther!
 
-* [Layout & Styles](https://ninjaforms.com/extensions/layout-styles/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Conditional Logic](https://ninjaforms.com/extensions/conditional-logic/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Multi-Part Forms](https://ninjaforms.com/extensions/multi-part-forms/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [File Uploads](https://ninjaforms.com/extensions/file-uploads/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [PDF Form Submissions](https://ninjaforms.com/extensions/pdf-form-submission/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Excel Export](https://ninjaforms.com/extensions/excel-export/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Save Progress](https://ninjaforms.com/extensions/save-progress/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [User Management](https://ninjaforms.com/extensions/user-management/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Front End Posting](https://ninjaforms.com/extensions/front-end-posting/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [User Analytics](https://ninjaforms.com/extensions/user-analytics/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Webhooks](https://ninjaforms.com/extensions/webhooks/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
+* [Layout & Styles](https://ninjaforms.com/extensions/layout-styles/?utm_source=WordPress&utm_medium=readme)
+* [Conditional Logic](https://ninjaforms.com/extensions/conditional-logic/?utm_source=WordPress&utm_medium=readme)
+* [Multi-Part Forms](https://ninjaforms.com/extensions/multi-part-forms/?utm_source=WordPress&utm_medium=readme)
+* [File Uploads](https://ninjaforms.com/extensions/file-uploads/?utm_source=WordPress&utm_medium=readme)
+* [PDF Form Submissions](https://ninjaforms.com/extensions/pdf-form-submission/?utm_source=WordPress&utm_medium=readme)
+* [Excel Export](https://ninjaforms.com/extensions/excel-export/?utm_source=WordPress&utm_medium=readme)
+* [Save Progress](https://ninjaforms.com/extensions/save-progress/?utm_source=WordPress&utm_medium=readme)
+* [User Management](https://ninjaforms.com/extensions/user-management/?utm_source=WordPress&utm_medium=readme)
+* [Front End Posting](https://ninjaforms.com/extensions/front-end-posting/?utm_source=WordPress&utm_medium=readme)
+* [User Analytics](https://ninjaforms.com/extensions/user-analytics/?utm_source=WordPress&utm_medium=readme)
+* [Webhooks](https://ninjaforms.com/extensions/webhooks/?utm_source=WordPress&utm_medium=readme)
 
 = Ninja Forms Integrations =
 Integrate your WordPress forms with the services your business or organization needs to communicate, organize, and grow. Don’t see the service you need listed below? Check out our FAQ for more, or contact us directly!
 
-* [PayPal](https://ninjaforms.com/extensions/paypal-express/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Stripe](https://ninjaforms.com/extensions/stripe/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Elavon](https://ninjaforms.com/extensions/elavon/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Recurly](https://ninjaforms.com/extensions/recurly/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [MailChimp](https://ninjaforms.com/extensions/mail-chimp/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Constant Contact](https://ninjaforms.com/extensions/constant-contact/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Campaign Monitor](https://ninjaforms.com/extensions/campaign-monitor/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Active Campaign](https://ninjaforms.com/extensions/active-campaign/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [AWeber](https://ninjaforms.com/extensions/aweber/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [CleverReach](https://ninjaforms.com/extensions/cleverreach/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [MailPoet](https://ninjaforms.com/extensions/mailpoet/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [ConvertKit](https://ninjaforms.com/extensions/convertkit/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Emma](https://ninjaforms.com/extensions/emma/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [EmailOctopus](https://ninjaforms.com/extensions/emailoctopus/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Help Scout](https://ninjaforms.com/extensions/help-scout/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Salesforce](https://ninjaforms.com/extensions/salesforce-crm/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Zoho CRM](https://ninjaforms.com/extensions/zoho-crm/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Insightly](https://ninjaforms.com/extensions/insightly-crm/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Capsule](https://ninjaforms.com/extensions/capsule-crm/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [PipelineDeals](https://ninjaforms.com/extensions/pipelinedeals-crm/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [OnePageCRM](https://ninjaforms.com/extensions/onepage-crm/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [ClickSend SMS](https://ninjaforms.com/extensions/clicksend-sms/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Twilio SMS](https://ninjaforms.com/extensions/twilio-sms/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Slack](https://ninjaforms.com/extensions/slack/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Trello](https://ninjaforms.com/extensions/trello/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
-* [Zapier](https://ninjaforms.com/extensions/zapier/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)
+* [PayPal](https://ninjaforms.com/extensions/paypal-express/?utm_source=WordPress&utm_medium=readme)
+* [Stripe](https://ninjaforms.com/extensions/stripe/?utm_source=WordPress&utm_medium=readme)
+* [Elavon](https://ninjaforms.com/extensions/elavon/?utm_source=WordPress&utm_medium=readme)
+* [Recurly](https://ninjaforms.com/extensions/recurly/?utm_source=WordPress&utm_medium=readme)
+* [MailChimp](https://ninjaforms.com/extensions/mail-chimp/?utm_source=WordPress&utm_medium=readme)
+* [Constant Contact](https://ninjaforms.com/extensions/constant-contact/?utm_source=WordPress&utm_medium=readme)
+* [Campaign Monitor](https://ninjaforms.com/extensions/campaign-monitor/?utm_source=WordPress&utm_medium=readme)
+* [Active Campaign](https://ninjaforms.com/extensions/active-campaign/?utm_source=WordPress&utm_medium=readme)
+* [AWeber](https://ninjaforms.com/extensions/aweber/?utm_source=WordPress&utm_medium=readme)
+* [CleverReach](https://ninjaforms.com/extensions/cleverreach/?utm_source=WordPress&utm_medium=readme)
+* [MailPoet](https://ninjaforms.com/extensions/mailpoet/?utm_source=WordPress&utm_medium=readme)
+* [ConvertKit](https://ninjaforms.com/extensions/convertkit/?utm_source=WordPress&utm_medium=readme)
+* [Emma](https://ninjaforms.com/extensions/emma/?utm_source=WordPress&utm_medium=readme)
+* [EmailOctopus](https://ninjaforms.com/extensions/emailoctopus/?utm_source=WordPress&utm_medium=readme)
+* [Help Scout](https://ninjaforms.com/extensions/help-scout/?utm_source=WordPress&utm_medium=readme)
+* [Salesforce](https://ninjaforms.com/extensions/salesforce-crm/?utm_source=WordPress&utm_medium=readme)
+* [Zoho CRM](https://ninjaforms.com/extensions/zoho-crm/?utm_source=WordPress&utm_medium=readme)
+* [Insightly](https://ninjaforms.com/extensions/insightly-crm/?utm_source=WordPress&utm_medium=readme)
+* [Capsule](https://ninjaforms.com/extensions/capsule-crm/?utm_source=WordPress&utm_medium=readme)
+* [PipelineDeals](https://ninjaforms.com/extensions/pipelinedeals-crm/?utm_source=WordPress&utm_medium=readme)
+* [OnePageCRM](https://ninjaforms.com/extensions/onepage-crm/?utm_source=WordPress&utm_medium=readme)
+* [ClickSend SMS](https://ninjaforms.com/extensions/clicksend-sms/?utm_source=WordPress&utm_medium=readme)
+* [Twilio SMS](https://ninjaforms.com/extensions/twilio-sms/?utm_source=WordPress&utm_medium=readme)
+* [Slack](https://ninjaforms.com/extensions/slack/?utm_source=WordPress&utm_medium=readme)
+* [Trello](https://ninjaforms.com/extensions/trello/?utm_source=WordPress&utm_medium=readme)
+* [Zapier](https://ninjaforms.com/extensions/zapier/?utm_source=WordPress&utm_medium=readme)
 
-Don’t see a feature you need for Ninja Forms? Just have a question about your WordPress forms? We strive to be the easiest, most beginner friendly WordPress contact form builder in the WordPress space while still bringing you all the form building features you need to succeed. Your feedback is invaluable to us, so don’t hesitate to [reach out and make a request](https://ninjaforms.com/contact/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)!
+Don’t see a feature you need for Ninja Forms? Just have a question about your WordPress forms? We strive to be the easiest, most beginner friendly WordPress contact form builder in the WordPress space while still bringing you all the form building features you need to succeed. Your feedback is invaluable to us, so don’t hesitate to [reach out and make a request](https://ninjaforms.com/contact/?utm_source=WordPress&utm_medium=readme)!
 
 == Notes ==
 
-Ninja Forms is a 100% beginner friendly WordPress form builder, appropriate for complete beginners all the way to seasoned WordPress developers. We don’t just say it, we stand by it. [Our support team](https://ninjaforms.com/contact/?utm_source=Ninja+Forms+Plugin&utm_medium=readme) is standing by to help you realize your site’s potential anywhere your forms are concerned.
+Ninja Forms is a 100% beginner friendly WordPress form builder, appropriate for complete beginners all the way to seasoned WordPress developers. We don’t just say it, we stand by it. [Our support team](https://ninjaforms.com/contact/?utm_source=WordPress&utm_medium=readme) is standing by to help you realize your site’s potential anywhere your forms are concerned.
 
-Not sure if you can build the forms you need? Wondering if forms are the answer to do the thing you or your clients need to make happen? [Reach out](https://ninjaforms.com/contact/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)! Our dedicated, professional support team is happy to help however we can, and answer any questions you might have!
+Not sure if you can build the forms you need? Wondering if forms are the answer to do the thing you or your clients need to make happen? [Reach out](https://ninjaforms.com/contact/?utm_source=WordPress&utm_medium=readme)! Our dedicated, professional support team is happy to help however we can, and answer any questions you might have!
 
 == Additional Branding and Trademark Information ==
 
-Ninja Forms&reg; is a registered trademark of Saturday Drive INC. We are a WordPress forms or WP forms builder, not to be confused with the independent WPForms brand for WordPress. All official Ninja Forms [add-ons](https://ninjaforms.com/add-ons/?utm_source=Ninja+Forms+Plugin&utm_medium=readme) and [memberships](https://ninjaforms.com/pricing/?utm_source=Ninja+Forms+Plugin&utm_medium=readme) can be found on our official website, ninjaforms.com.
+Ninja Forms&reg; is a registered trademark of Saturday Drive INC. We are a WordPress forms or WP forms builder, not to be confused with the independent WPForms brand for WordPress. All official Ninja Forms [add-ons](https://ninjaforms.com/add-ons/?utm_source=WordPress&utm_medium=readme) and [memberships](https://ninjaforms.com/pricing/?utm_source=WordPress&utm_medium=readme) can be found on our official website, ninjaforms.com.
 
 == Frequently Asked Questions ==
 
@@ -134,9 +134,9 @@ Absolutely not. While Ninja Forms has been designed to be very developer-friendl
 Yes. Ninja Forms contains a variety of features for easy, automated GDPR compliance. This includes template forms for user requests for the personally identifiable data you have on them, and to comply with the Right to be Forgotten.
 
 = Can I send email with Ninja Forms? =
-Yes! Any number of emails can be sent anytime a form is submitted. Every email sent from your WordPress forms can be customized, including form submission data, and supports attachments (can include [WordPress file uploads](https://ninjaforms.com/extensions/file-uploads/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)). These emails can also be [sent conditionally](https://ninjaforms.com/extensions/conditional-logic/?utm_source=Ninja+Forms+Plugin&utm_medium=readme) to certain recipients only, and can be set up to include a [PDF copy](https://ninjaforms.com/extensions/pdf-form-submission/?utm_source=Ninja+Forms+Plugin&utm_medium=readme) of the form.
+Yes! Any number of emails can be sent anytime a form is submitted. Every email sent from your WordPress forms can be customized, including form submission data, and supports attachments (can include [WordPress file uploads](https://ninjaforms.com/extensions/file-uploads/?utm_source=WordPress&utm_medium=readme)). These emails can also be [sent conditionally](https://ninjaforms.com/extensions/conditional-logic/?utm_source=WordPress&utm_medium=readme) to certain recipients only, and can be set up to include a [PDF copy](https://ninjaforms.com/extensions/pdf-form-submission/?utm_source=WordPress&utm_medium=readme) of the form.
 
-Having email deliverability issues with your current WordPress form plugin? We’ve also developed [SendWP](https://sendwp.com/?utm_source=Ninja+Forms+Plugin&utm_medium=readme) to work side by side with Ninja Forms to deliver your email ourselves with a 99.75% delivery success rate (and full support).
+Having email deliverability issues with your current WordPress form plugin? We’ve also developed [SendWP](https://sendwp.com/?utm_source=WordPress&utm_medium=readme) to work side by side with Ninja Forms to deliver your email ourselves with a 99.75% delivery success rate (and full support).
 
 = What form fields are included in Ninja Forms? =
 Ninja Forms has a field for just about every need. Below are the WordPress form fields included in the core Ninja Forms contact form plugin:
@@ -177,7 +177,7 @@ Ninja Forms has a field for just about every need. Below are the WordPress form 
 * Star Rating
 
 *Specialty Fields*
-Many more popular user fields like file uploads for WordPress and Save Progress can be added with Ninja Forms add-ons. [Pick and choose just the ones you need](https://ninjaforms.com/add-ons/?utm_source=Ninja+Forms+Plugin&utm_medium=readme)!
+Many more popular user fields like file uploads for WordPress and Save Progress can be added with Ninja Forms add-ons. [Pick and choose just the ones you need](https://ninjaforms.com/add-ons/?utm_source=WordPress&utm_medium=readme)!
 
 Payment fields, like subtotal, tax, and total can be added using any Common Field to easily make a payment form, donation form, order form, booking form, or any payment form using PayPal and/or Stripe and others.
 
@@ -240,9 +240,9 @@ The Ninja Forms drag and drop form builder for WordPress makes it very easy to b
 * OnePageCRM form
 
 = Can I integrate Ninja Forms with my email marketing service, CRM, or other favorite service? =
-Almost certainly. The Ninja Forms builder integrates directly with over a dozen [email marketing and CRM services](https://ninjaforms.com/add-ons/?utm_source=Ninja+Forms+Plugin&utm_medium=readme) including MailChimp, Constant Contact, Active Campaign, Salesforce, Insightly, Zoho, and many more.
+Almost certainly. The Ninja Forms builder integrates directly with over a dozen [email marketing and CRM services](https://ninjaforms.com/add-ons/?utm_source=WordPress&utm_medium=readme) including MailChimp, Constant Contact, Active Campaign, Salesforce, Insightly, Zoho, and many more.
 
-Ninja Forms also integrates with 1,000+ other popular services through our [Zapier integration](https://ninjaforms.com/extensions/zapier/?utm_source=Ninja+Forms+Plugin&utm_medium=readme). Some of the more popular services that we see our users integrate flawlessly with include:
+Ninja Forms also integrates with 1,000+ other popular services through our [Zapier integration](https://ninjaforms.com/extensions/zapier/?utm_source=WordPress&utm_medium=readme). Some of the more popular services that we see our users integrate flawlessly with include:
 * Hubspot CRM
 * HubSpot Email Marketing
 * Discord
@@ -294,7 +294,7 @@ This section describes how to install the plugin and get it working.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Visit the 'Ninja Forms' menu item in your admin sidebar
 
-[Further Installation Documentation](https://ninjaforms.com/docs/installation/?utm_medium=referral&utm_source=wordpress.org&utm_campaign=Ninja+Forms+Readme&utm_content=installation)
+[Further Installation Documentation](https://ninjaforms.com/docs/installation/?utm_source=WordPress&utm_medium=readme)
 
 == Screenshots ==
 1. The most intuitive and beautiful form building experience
@@ -304,17 +304,32 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.7.0 (07 November 2023)
-* Features:*
-- Ability to preserve 'extra' data after redirect
-
+= 3.7.2 (29 January 2024)
 * Bug Fixes: *
-- Ensure extra data on CSV export is in correct chronological order
-
-* Other: *
-- Updated end to end test
+- Prevent form display on password protected page
+- Patch a medium severity, low-risk second-order SQL Injection vulnerability
 
 == Changelog ==
+= 3.7.2 (29 January 2024)
+* Bug Fixes: *
+- Prevent form display on password protected page
+- Sanitize email address on data export request; responsibly reported by stealthcopter via Wordfence
+
+= 3.7.1 (23 January 2024)
+* Bug Fixes: *
+- Prevent deprecated warning from license updater
+- Ensure date picker calendar view honors date range year limits
+- Improved management of submission expiration request
+- Prevent autocomplete on fields set to disable autocomplete
+- Prevent error when fetching add-on list
+
+
+* Other: *
+- Add second "Add New Field" control for enhanced user experience
+- Update JS libraries
+- Update WP scripts and block utilities
+- Update UTM links
+
 = 3.7.0 (07 November 2023)
 * Features:*
 - Ability to preserve 'extra' data after redirect
@@ -1250,7 +1265,7 @@ Remove CSV temp files stored in publicly accessible location, [reported responsi
 
 * Updated several of our product images on the apps & integrations tab of the dashboard.
 * Our in-app marketing feed will now fetch from a remote site for more swift product updates.
-* [Ninja Shop](https://getninjashop.com/?utm_medium=dashboard_banner&utm_source=ninja-forms&utm_campaign=Awareness) has arrived!
+* Ninja Shop has arrived!
 
 = 3.3.16 (17 September 2018) =
 

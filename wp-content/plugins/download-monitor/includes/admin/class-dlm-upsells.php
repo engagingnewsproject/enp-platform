@@ -3,6 +3,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
+use WPChill\DownloadMonitor\Util;
 
 /**
  * Class DLM_Upsells
@@ -27,11 +28,23 @@ class DLM_Upsells {
 	private $offer = array();
 
 	/**
+	 * Holds the active license status.
+	 *
+	 * @since 4.9.4
+	 *
+	 * @var bool
+	 */
+	private $active_license = false;
+
+	/**
 	 * DLM_Upsells constructor.
 	 *
 	 * @since 4.4.5
 	 */
 	public function __construct() {
+		if ( $this->check_license_validity() ) {
+			return;
+		}
 
 		$this->set_offer();
 
@@ -65,11 +78,24 @@ class DLM_Upsells {
 
 	}
 
-	private function set_offer(){
-		$month = date('m');
+	private function set_offer() {
+		$month       = date( 'm' );
 		$this->offer = array( 'class' => '', 'column' => '', 'label' => __( 'Get Premium', 'download-monitor' ) );
-		if ( 11 == $month ) { $this->offer = array( 'class' => 'wpchill-bf-upsell', 'column' => 'bf-upsell-columns', 'label' => __( '40% OFF for Black Friday', 'download-monitor' ), 'description' => '40% OFF on new purchases, early renewals or upgrades.' ); }
-		if ( 12 == $month ) { $this->offer = array( 'class' => 'wpchill-xmas-upsell', 'column' => 'xmas-upsell-columns', 'label' => __( '25% OFF for Christmas', 'download-monitor' ) ); }
+		if ( 11 == $month ) {
+			$this->offer = array(
+				'class'       => 'wpchill-bf-upsell',
+				'column'      => 'bf-upsell-columns',
+				'label'       => __( '40% OFF for Black Friday', 'download-monitor' ),
+				'description' => '40% OFF on new purchases, early renewals or upgrades.'
+			);
+		}
+		if ( 12 == $month ) {
+			$this->offer = array(
+				'class'  => 'wpchill-xmas-upsell',
+				'column' => 'xmas-upsell-columns',
+				'label'  => __( '25% OFF for Christmas', 'download-monitor' )
+			);
+		}
 	}
 
 	/**
@@ -77,37 +103,33 @@ class DLM_Upsells {
 	 *
 	 * @since 4.4.5
 	 */
-	public function set_hooks(){
+	public function set_hooks() {
 
-		add_action( 'dlm_tab_content_general', array( $this, 'general_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_general', array( $this, 'general_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_access', array( $this, 'access_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_access', array( $this, 'access_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_logging', array( $this, 'logging_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_logging', array( $this, 'logging_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_terns_and_conditions', array( $this, 'terms_and_conditions_tab_upsell' ), 15 );
+		//add_action( 'dlm_tab_content_terns_and_conditions', array( $this, 'terms_and_conditions_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_email_notification', array( $this, 'emails_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_email_notification', array( $this, 'emails_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_pages', array( $this, 'pages_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_misc', array( $this, 'misc_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_misc', array( $this, 'misc_tab_upsell' ), 15 );
 
-		add_action( 'dlm_tab_content_endpoints', array( $this, 'endpoint_tab_upsell' ), 15 );
+		add_action( 'dlm_tab_upsell_content_endpoints', array( $this, 'endpoint_tab_upsell' ), 15 );
 
 		add_filter( 'dlm_download_metaboxes', array( $this, 'add_meta_boxes' ), 30 );
 
-		add_action( 'dlm_download_monitor_files_writepanel_start', array( $this, 'files_metabox_upsells' ), 30, 1 );
-
 		add_filter( 'dlm_settings', array( $this, 'pro_tab_upsells' ), 99, 1 );
-
-		add_action( 'admin_init', array( $this, 'set_extensions' ), 99 );
 
 		add_action( 'dlm_insights_header', array( $this, 'export_insights_header_upsell' ) );
 
-		add_action( 'dlm_reports_general_info', array( $this, 'insights_upsell' ),99, 2 );
+		add_action( 'dlm_reports_general_info', array( $this, 'insights_upsell' ), 99, 2 );
 
-		add_action( 'dlm_reports_user_reports', array( $this, 'insights_upsell' ),99, 2 );
+		add_action( 'dlm_reports_user_reports', array( $this, 'insights_upsell' ), 99, 2 );
 
 		add_action( 'dlm_insights_header', array( $this, 'insights_datepicker_upsell' ) );
 
@@ -117,12 +139,12 @@ class DLM_Upsells {
 	/**
 	 * Generate the all-purpose upsell box
 	 *
-	 * @param       $title
-	 * @param       $description
-	 * @param       $tab
-	 * @param       $extension
-	 * @param null  $utm_source
-	 * @param array $features
+	 * @param        $title
+	 * @param        $description
+	 * @param        $tab
+	 * @param        $extension
+	 * @param null   $utm_source
+	 * @param array  $features
 	 * @param string $utm_source
 	 * @param string $icon
 	 *
@@ -162,14 +184,14 @@ class DLM_Upsells {
 			}
 			echo '</ul>';
 		}
-		if( !empty( $description ) ){
+		if ( ! empty( $description ) ) {
 			echo '<p class="wpchill-upsell-description">' . esc_html( $description ) . '</p>';
 		}
 
-		echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( !empty( $extension ) ? esc_html( $extension ). '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( !empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '"><div class="dlm-available-with-pro"><span class="dashicons dashicons-lock"></span><span>' . esc_html__( 'AVAILABLE WITH PREMIUM', 'download-monitor' ) . '</span></div></a>';
+		echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( ! empty( $extension ) ? esc_html( $extension ) . '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( ! empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '"><div class="dlm-available-with-pro"><span class="dashicons dashicons-lock"></span><span>' . esc_html__( 'AVAILABLE WITH PREMIUM', 'download-monitor' ) . '</span></div></a>';
 		echo '<div class="wpchill-upsell-buttons-wrap">';
-			echo '<a target="_blank" href="' . esc_url( admin_url('edit.php?post_type=dlm_download&page=dlm-lite-vs-pro') ) . '" class="button">' . esc_html__( 'Free vs Premium', 'download-monitor' ) . '</a> ';
-			echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( !empty( $extension ) ? esc_html( $extension ). '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( !empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '" class="button-primary button">' . esc_html( $this->offer['label'] ) . '</a>';
+		echo '<a target="_blank" href="' . esc_url( admin_url( 'edit.php?post_type=dlm_download&page=dlm-lite-vs-pro' ) ) . '" class="button">' . esc_html__( 'Free vs Premium', 'download-monitor' ) . '</a> ';
+		echo '<a target="_blank" href="https://www.download-monitor.com/pricing/?utm_source=' . ( ! empty( $extension ) ? esc_html( $extension ) . '_metabox' : '' ) . '&utm_medium=lite-vs-pro&utm_campaign=' . ( ! empty( $extension ) ? esc_html( str_replace( ' ', '_', $extension ) ) : '' ) . '" class="button-primary button">' . esc_html( $this->offer['label'] ) . '</a>';
 		echo '</div>';
 		echo '</div>';
 	}
@@ -205,6 +227,17 @@ class DLM_Upsells {
 			);
 		}
 
+		if ( ! $this->check_extension( 'dlm-amazons-s3' ) || ! $this->check_extension( 'dlm-google-drive' ) ) {
+			$meta_boxes[] = array(
+				'id'       => 'dlm-external-hosting',
+				'title'    => esc_html__( 'External Hosting', 'download-monitor' ),
+				'callback' => array( $this, 'output_external_hosting_upsell' ),
+				'screen'   => 'dlm_download',
+				'context'  => 'normal',
+				'priority' => 10,
+			);
+		}
+
 		return $meta_boxes;
 	}
 
@@ -213,7 +246,7 @@ class DLM_Upsells {
 	 *
 	 * @since 4.4.5
 	 */
-	public function set_extensions() {
+	private function set_extensions() {
 
 		$dlm_Extensions = DLM_Admin_Extensions::get_instance();
 
@@ -222,7 +255,19 @@ class DLM_Upsells {
 		foreach ( $extensions as $extension ) {
 			$this->extensions[] = $extension->product_id;
 		}
+	}
 
+	/**
+	 * Get existing extensions
+	 *
+	 * @since 4.9.9
+	 */
+	private function get_extensions() {
+		if ( empty( $this->extensions ) ) {
+			$this->set_extensions();
+		}
+
+		return $this->extensions;
 	}
 
 	/**
@@ -235,8 +280,9 @@ class DLM_Upsells {
 	 * @since 4.4.5
 	 */
 	public function check_extension( $extension ) {
+		$extensions = $this->get_extensions();
 
-		if ( empty( $this->extensions ) || ! in_array( $extension, $this->extensions ) ) {
+		if ( empty( $extensions ) || ! in_array( $extension, $extensions ) ) {
 			return false;
 		}
 
@@ -251,28 +297,39 @@ class DLM_Upsells {
 	public function set_tabs() {
 		// Define our upsell tabs
 		// First is the tab and then are the sections
-		$this->upsell_tabs = apply_filters( 'dlm_upsell_tabs', array(
+		$this->upsell_tabs = apply_filters(
+			'dlm_upsell_tabs',
+			array(
 				'lead_generation'  => array(
 					'title'    => esc_html__( 'Content Locking', 'download-monitor' ),
 					'upsell'   => true,
 					'sections' => array(
 						'ninja_forms'   => array(
 							'title'    => __( 'Ninja Forms', 'download-monitor' ),
-							'sections' => array(), // Need to put sections here for backwards compatibility
+							'sections' => array(),
+							// Need to put sections here for backwards compatibility
 						),
 						'gravity_forms' => array(
 							'title'    => __( 'Gravity Forms', 'download-monitor' ),
-							'sections' => array(), // Need to put sections here for backwards compatibility
+							'sections' => array(),
+							// Need to put sections here for backwards compatibility
 							'upsell'   => true,
 							'badge'    => true,
 						),
 						'email_lock'    => array(
 							'title'    => __( 'Email lock', 'download-monitor' ),
-							'sections' => array(), // Need to put sections here for backwards compatibility
+							'sections' => array(),
+							// Need to put sections here for backwards compatibility
 						),
-						'twitter_lock' => array(
+						'twitter_lock'  => array(
 							'title'    => __( 'Twitter lock', 'download-monitor' ),
-							'sections' => array(), // Need to put sections here for backwards compatibility
+							'sections' => array(),
+							// Need to put sections here for backwards compatibility
+						),
+						'terns_and_conditions'  => array(
+							'title'    => __( 'Terms and Conditions', 'download-monitor' ),
+							'sections' => array(),
+							// Need to put sections here for backwards compatibility
 						),
 					),
 				),
@@ -281,11 +338,13 @@ class DLM_Upsells {
 					'sections' => array(
 						'amazon_s3'    => array(
 							'title'    => __( 'Amazon S3', 'download-monitor' ),
-							'sections' => array(), // Need to put sections here for backwards compatibility
+							'sections' => array(),
+							// Need to put sections here for backwards compatibility
 						),
 						'google_drive' => array(
 							'title'    => __( 'Google Drive', 'download-monitor' ),
-							'sections' => array(), // Need to put sections here for backwards compatibility
+							'sections' => array(),
+							// Need to put sections here for backwards compatibility
 						),
 					),
 				),
@@ -294,15 +353,18 @@ class DLM_Upsells {
 					'sections' => array(
 						'page_addon'       => array(
 							'title'    => __( 'Page Addon', 'download-monitor' ),
-							'sections' => array(), // Need to put sections here for backwards compatibility
+							'sections' => array(),
+							// Need to put sections here for backwards compatibility
 						),
 						'downloading_page' => array(
 							'title'    => __( 'Downloading Page', 'download-monitor' ),
-							'sections' => array(), // Need to put sections here for backwards compatibility
+							'sections' => array(),
+							// Need to put sections here for backwards compatibility
 						),
 						'captcha'          => array(
 							'title'    => __( 'Captcha', 'download-monitor' ),
-							'sections' => array(), // Need to put sections here for backwards compatibility
+							'sections' => array(),
+							// Need to put sections here for backwards compatibility
 						)
 					),
 				),
@@ -311,7 +373,8 @@ class DLM_Upsells {
 					'sections' => array(
 						'captcha' => array(
 							'title'    => __( 'Captcha', 'download-monitor' ),
-							'sections' => array(), // Need to put sections here for backwards compatibility
+							'sections' => array(),
+							// Need to put sections here for backwards compatibility
 						)
 					),
 				),
@@ -364,15 +427,14 @@ class DLM_Upsells {
 		foreach ( $this->upsell_tabs as $key => $tab ) {
 
 			if ( method_exists( 'DLM_Upsells', 'upsell_tab_content_' . $key ) ) {
-				add_action( 'dlm_tab_content_' . $key, array( $this, 'upsell_tab_content_' . $key ), 30, 1 );
+				add_action( 'dlm_tab_upsell_content_' . $key, array( $this, 'upsell_tab_content_' . $key ), 30, 1 );
 			}
 
 			foreach ( $tab['sections'] as $sub_key => $section ) {
 				if ( method_exists( 'DLM_Upsells', 'upsell_tab_section_content_' . $sub_key ) ) {
-					add_action( 'dlm_tab_section_content_' . $sub_key, array( $this, 'upsell_tab_section_content_' . $sub_key ), 30, 1 );
+					add_action( 'dlm_tab_upsell_section_content_' . $sub_key, array( $this, 'upsell_tab_section_content_' . $sub_key ), 30, 1 );
 				}
 			}
-
 		}
 	}
 
@@ -495,7 +557,7 @@ class DLM_Upsells {
 	 *
 	 * @since 4.4.5
 	 */
-	public function terms_and_conditions_tab_upsell() {
+	public function upsell_tab_section_content_terns_and_conditions() {
 
 		if ( ! $this->check_extension( 'dlm-terms-and-conditions' ) ) {
 
@@ -657,7 +719,7 @@ class DLM_Upsells {
 
 			$this->generate_upsell_box(
 				__( 'Ninja Forms Lock', 'download-monitor' ),
-				__( 'The Ninja Forms - content locking extension for Download Monitor allows you to require users to fill in a Ninja Forms form before they gain access to a download.','download-monitor' ),
+				__( 'The Ninja Forms - content locking extension for Download Monitor allows you to require users to fill in a Ninja Forms form before they gain access to a download.', 'download-monitor' ),
 				'ninja_forms',
 				'ninja-forms'
 			);
@@ -703,7 +765,7 @@ class DLM_Upsells {
 	/**
 	 * Upsell for Amazon S3 setting sub-tab
 	 *
-	 * @since 4.5.3	 
+	 * @since 4.5.3
 	 */
 	public function upsell_tab_section_content_amazon_s3() {
 
@@ -745,7 +807,6 @@ class DLM_Upsells {
 	 * @since 4.4.5
 	 */
 	public function upsell_tab_content_advanced() {
-
 		if ( ! $this->check_extension( 'dlm-page-addon' ) ) {
 
 			$this->generate_upsell_box(
@@ -792,12 +853,10 @@ class DLM_Upsells {
 	 *
 	 * @since 4.4.5
 	 */
-	public function files_metabox_upsells( $download ) {
-
-		echo '<div class="upsells-columns '. esc_attr( $this->offer['column'] ) .'">';
+	public function output_external_hosting_upsell() {
+		echo '<div class="upsells-columns ' . esc_attr( $this->offer['column'] ) . '">';
 
 		if ( ! $this->check_extension( 'dlm-amazon-s3' ) ) {
-
 			echo '<div class="upsells-column"><span class="dashicons dashicons-amazon"></span>';
 			echo '<h3>' . esc_html__( 'Amazon S3', 'download-monitor' ) . '</h3>';
 			$this->generate_upsell_box(
@@ -810,7 +869,6 @@ class DLM_Upsells {
 		}
 
 		if ( ! $this->check_extension( 'dlm-google-drive' ) ) {
-
 			echo '<div class="upsells-column"><span class="dashicons dashicons-google"></span>';
 			echo '<h3>' . esc_html__( 'Google Drive', 'download-monitor' ) . '</h3>';
 			$this->generate_upsell_box(
@@ -823,7 +881,6 @@ class DLM_Upsells {
 		}
 
 		echo '</div>';
-
 	}
 
 	/**
@@ -848,6 +905,7 @@ class DLM_Upsells {
 	 * Add lite vs pro page in menu
 	 *
 	 * @param [type] $links
+	 *
 	 * @return void
 	 */
 	public function add_lite_vs_pro_page( $links ) {
@@ -920,9 +978,9 @@ class DLM_Upsells {
 		<div class="dlm-csv-export-wrapper">
 			<div class="dlm-reports-header-export-button">
 				<button class="button button-primary"
-						disabled="disabled"><?php echo esc_html__( 'Export', 'download-monitor' ); ?> <a
-						href="<?php echo esc_url( $export_upsell_url ); ?>" 
-						target="_blank" 
+				        disabled="disabled"><?php echo esc_html__( 'Export', 'download-monitor' ); ?> <a
+						href="<?php echo esc_url( $export_upsell_url ); ?>"
+						target="_blank"
 						class="dlm-upsell-badge">PAID</a></button>
 			</div>
 			<div class="dlm-csv-export-wrapper__export_settings">
@@ -1039,6 +1097,71 @@ class DLM_Upsells {
 		</div>
 		<?php
 	}
-}
 
-DLM_Upsells::get_instance();
+	/**
+	 * Check the license validity
+	 *
+	 * @return bool
+	 * @since 4.9.4
+	 */
+	private function check_license_validity() {
+		// Return if we're doing ajax
+		if ( wp_doing_ajax() ) {
+			return true;
+		}
+
+		$return = false;
+		// First let's check the master license
+		$master_license = get_option( 'dlm_master_license', false );
+		if ( ! empty( $master_license ) ) {
+			$data = json_decode( $master_license, true );
+			// If the license is active, we return true
+			if ( ! empty( $data ) && 'active' === $data['status'] ) {
+				$return = true;
+			}
+		}
+		// Let's check the extensions licenses
+		// Retrieve all the extensions
+		if ( class_exists( 'Util\ExtensionLoader' ) ) {
+			require_once DLM_PATH . 'src/Util/ExtensionLoader.php';
+		}
+		$loader   = new Util\ExtensionLoader();
+		$response = $loader->fetch();
+		// If we have an error, we return false
+		if ( is_array( $response ) && isset( $response['success'] ) && ! $response['success'] ) {
+			// Remove other upsells also by returning true
+			if ( $return ) {
+				add_filter( 'dlm_remove_upsells', '__return_true' );
+				// If the master license is active, and we have an error, we return true
+				return true;
+			}
+
+			return false;
+		}
+		$response = json_decode( $response, true );
+		// Cycle through the extensions
+		if ( ! empty( $response ) && ! empty( $response['extensions'] ) ) {
+			foreach ( $response['extensions'] as $extension ) {
+				// Skip if we don't have a product id
+				if ( ! isset( $extension['product_id'] ) ) {
+					continue;
+				}
+				// Retrieve data from the DB.
+				$ext_data = get_option( $extension['product_id'] . '-license', false );
+				// If we have a license, we check if it's active and return true
+				if ( ! empty( $ext_data ) && 'active' === $ext_data['status'] && is_plugin_active( $extension['product_id'] . '/' . $extension['product_id'] . '.php' ) ) {
+					$return = true;
+					break;
+				}
+			}
+		}
+		// Remove other upsells also by returning true
+		if ( $return ) {
+			add_filter( 'dlm_remove_upsells', '__return_true' );
+		}
+		// Set class variable. Can be used in other functions so that we don't have to check again.
+		$this->active_license = $return;
+		// Return the value
+		return $return;
+	}
+}

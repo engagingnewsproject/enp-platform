@@ -3,7 +3,7 @@
 /**
  * Class NF_Action_Save
  */
-final class NF_Actions_Save extends NF_Abstracts_Action
+class NF_Actions_Save extends NF_Abstracts_Action
 {
     /**
     * @var string
@@ -70,33 +70,60 @@ final class NF_Actions_Save extends NF_Abstracts_Action
          */
         $expiration_value = $form_id . ',' . $action_settings[ 'subs_expire_time' ];
 
-        // Check for option value...
-        $option = get_option( 'nf_sub_expiration', array() );
+        // Get our expiration option.
+        $option = $this->getOption( 'nf_sub_expiration', array() );
 
-        // If our expiration setting is turned on...
+        // Check if form is already listed in the option and remove it if it is
+        $expiration_option = $this->clean_form_option( $expiration_value, $option );
+        
+        // If our expiration setting is turned on, add current cron interval to the form entry in the option.
         if( 1 == $action_settings[ 'set_subs_to_expire' ] ) {
-            // Send our data to the compare method to be added to the expiration option
-            $this->compare_expiration_option( $expiration_value, $option );
-        } else {
-            // Otherwise send the data to be removed from the expiration option.
-            $this->remove_expiration_option( $expiration_value, $option );
+            $expiration_option[] = $expiration_value;
         }
+
+        // Update our option.
+        $this->updateOption( 'nf_sub_expiration', $expiration_option  );
     }
 
     /**
+     * Retrieve a stored option
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    protected function getOption(string $key, $default)
+    {
+        $return = get_option( $key, $default );
+
+        return $return;
+    }
+
+    /**
+     * Update a stored value in option table
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
+    protected function updateOption(string $key,$value): void
+    {
+        update_option( $key, $value );
+    }
+    /**
      * Compare Expiration Option
      * Accepts $expiration_data and checks to see if the values already exist in the array.
-     * @since 3.3.2
+     * This allows to resave the option with new cron interval if it is set and just remove the form from the option if it is not set
+     * @since 3.6.35
      *
-     * @param array $expiration_value - key/value pair
+     * @param string $expiration_value - key/value pair
      *      $expiration_value[ 'form_id' ]      = form_id(int)
      *      $expiration_value[ 'expire_time' ]  = subs_expire_time(int)
      * @param array $expiration_option - list of key/value pairs of the expiration options.
      *
-     * @return void
+     * @return array $expiration_option without current saved form 
      */
-    public function compare_expiration_option( $expiration_value, $expiration_option )
-    {
+    public function clean_form_option( $expiration_value, $expiration_option ){
         /*
          * Breaks a part our options.
          *      $value[ 0 ] - ( int ) Form ID
@@ -105,54 +132,15 @@ final class NF_Actions_Save extends NF_Abstracts_Action
         $values = explode( ',', $expiration_value );
 
         // Find the position of the value we are tyring to update.
-        $array_position = array_search( ( int ) $values[ 0 ], $expiration_option );
-
-        /*
-         * TODO: Refactor this to only run when needed.
-         * Remove this value from the array.
-         */
-        if( isset( $array_position ) ) {
-            unset( $expiration_option[ $array_position ] );
+        //This checks if this form is already in the expiration options, removes the form from the option's array and adds it again with the new expiration time
+        foreach($expiration_option as $index => $form_option){
+            $form_option = explode( ',', $form_option );
+            if($form_option[0] == $values[0]){
+                unset($expiration_option[$index]);
+            }
         }
-
-        // Check for our value in the options and then add it if it doesn't exist.
-        if( ! in_array( $expiration_value, $expiration_option ) ) {
-            $expiration_option[] = $expiration_value;
-        }
-
-        // Update our option.
-        update_option( 'nf_sub_expiration', $expiration_option  );
-    }
-
-    /**
-     * Remove Expiration Option
-     * If the expiration action setting is turned off this helper method
-     * removes the form id and expiration time from the option.
-     *
-     * @param array $expiration_value - key/value pair
-     *      $expiration_value[ 'form_id' ]      = form_id(int)
-     *      $expiration_value[ 'expire_time' ]  = subs_expire_time(int)
-     * @param array $expiration_option - list of key/value pairs of the expiration options.
-     *
-     * @return void
-     */
-    public function remove_expiration_option( $expiration_value, $expiration_option )
-    {
-        $values = explode( ',', $expiration_value );
-
-        // Find the position of the value we are tyring to update.
-        $array_position = array_search( ( int ) $values[ 0 ], $expiration_option );
-
-        /*
-         * TODO: Refactor this to only run when needed.
-         * Remove this value from the array.
-         */
-        if( isset( $array_position ) ) {
-            unset( $expiration_option[ $array_position ] );
-        }
-
-        // Update our option.
-        update_option( 'nf_sub_expiration', $expiration_option  );
+        
+        return $expiration_option;
     }
 
     public function process( $action_settings, $form_id, $data )

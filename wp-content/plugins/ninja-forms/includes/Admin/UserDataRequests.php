@@ -272,11 +272,11 @@ class NF_Admin_UserDataRequests {
 		global $wpdb;
 
 		// query to find any submission with our requester's email as value
-		$anon_subs_query = "SELECT DISTINCT(m.post_id) FROM `" . $wpdb->prefix
-               . "postmeta` m
-				JOIN `" . $wpdb->prefix . "posts` p ON p.id = m.post_id
-				WHERE m.meta_value = '" . $email_address . "'
-				AND p.post_type = 'nf_sub'";
+		$anon_subs_query = $wpdb->prepare( "SELECT DISTINCT(m.post_id) FROM `{$wpdb->prefix}postmeta` m
+				JOIN `{$wpdb->prefix}posts` p ON p.id = m.post_id
+				WHERE m.meta_value = %s
+				AND p.post_type = 'nf_sub'",
+			$email_address );
 
 		$anon_subs = $wpdb->get_results( $anon_subs_query );
 

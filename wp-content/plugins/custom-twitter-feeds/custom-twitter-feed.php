@@ -3,13 +3,13 @@
 Plugin Name: Custom Twitter Feeds
 Plugin URI: https://smashballoon.com/custom-twitter-feeds
 Description: Customizable X Feeds, formerly known as Twitter feeds, for your website
-Version: 2.2.1
+Version: 2.2.2
 Author: Smash Balloon
 Author URI: https://smashballoon.com/
 Text Domain: custom-twitter-feeds
 */
 /*
-Copyright 2023 Smash Balloon LLC (email : hey@smashballoon.com)
+Copyright 2024 Smash Balloon LLC (email : hey@smashballoon.com)
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
@@ -29,7 +29,7 @@ if ( ! defined( 'CTF_URL' ) ) {
 	define( 'CTF_DOING_SMASH_TWITTER', empty($ctf_options['consumer_key']) && empty($ctf_options['consumer_secret']));
 
 	define( 'CTF_URL', plugin_dir_path( __FILE__ )  );
-	define( 'CTF_VERSION', '2.2.1' );
+	define( 'CTF_VERSION', '2.2.2' );
 	define( 'CTF_TITLE', 'Custom Twitter Feeds' );
 	define( 'CTF_JS_URL', plugins_url( '/js/ctf-scripts.min.js?ver=' . CTF_VERSION , __FILE__ ) );
 	define( 'CTF_PRODUCT_NAME', 'Custom Twitter Feeds' );
@@ -565,7 +565,7 @@ function ctf_get_formatted_date( $raw_date, $feed_options, $utc_offset ) {
 	$options  = get_option( 'ctf_options' );
 	$timezone = isset( $options['timezone'] ) ? $options['timezone'] : 'default';
 	// use php \DateTimeZone class to handle the date formatting and offsets
-	$date_obj = new TwitterFeed\CtfDateTime( $raw_date, new \DateTimeZone( 'UTC' ) );
+	$date_obj = new \DateTime($raw_date, new \DateTimeZone('UTC'));
 
 	if ( $timezone != 'default' ) {
 		$date_obj->setTimeZone( new \DateTimeZone( $timezone ) );
@@ -652,7 +652,7 @@ function ctf_get_formatted_date( $raw_date, $feed_options, $utc_offset ) {
                 } elseif ( $difference < 60*60*24 ) {
                     $date_str = round( $difference/3600 ) . $ctf_hour;
                 } else  {
-                    $one_year_from_date = new TwitterFeed\CtfDateTime( $raw_date, new \DateTimeZone( "UTC" ) );
+                    $one_year_from_date = new \DateTime( $raw_date, new \DateTimeZone( "UTC" ) );
                     $one_year_from_date->modify('+1 year');
                     $one_year_from_date_timestamp = $one_year_from_date->getTimestamp();
                     if ( $now > $one_year_from_date_timestamp ) {
@@ -780,27 +780,6 @@ function ctf_get_fa_el( $icon ) {
 
 	return $elems[ $icon ]['icon'];
 }
-
-/**
- * Called via ajax to automatically save access token and access token secret
- * retrieved with the big blue button
- */
-function ctf_auto_save_tokens() {
-	if ( ! ctf_current_user_can( 'manage_twitter_feed_options' ) ) {
-       wp_send_json_error();
-    }
-	wp_cache_delete ( 'alloptions', 'options' );
-
-	$options = get_option( 'ctf_options', array() );
-
-	$options['access_token'] = sanitize_text_field( $_POST['access_token'] );
-	$options['access_token_secret'] = sanitize_text_field( $_POST['access_token_secret'] );
-
-	update_option( 'ctf_options', $options );
-	delete_transient( 'ctf_reauthenticate' );
-    die();
-}
-add_action( 'wp_ajax_ctf_auto_save_tokens', 'ctf_auto_save_tokens' );
 
 /**
  * manually clears the cached tweets in case of error or user preference

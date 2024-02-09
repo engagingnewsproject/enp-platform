@@ -642,7 +642,9 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             $field_type_settings[ $id ][ 'section' ] = 'saved';
 
             $defaults = $field_type_settings[ $id ][ 'settingDefaults' ];
-            $defaults = array_merge( $defaults, $settings );
+            if(is_array($defaults)){
+                $defaults = array_merge( $defaults, $settings );
+            }
             $defaults[ 'saved' ] = TRUE;
 
             $field_type_settings[ $id ][ 'settingDefaults' ] = $defaults;

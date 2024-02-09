@@ -125,9 +125,14 @@ if (!empty($no_cache_because)) {
 		wpo_cache_add_nocache_http_header($no_cache_because_message);
 	}
 
-	// Only output if the user has turned on debugging output
-	if (((defined('WP_DEBUG') && WP_DEBUG) || isset($_GET['wpo_cache_debug'])) && (!defined('DOING_CRON') || !DOING_CRON)) {
-		wpo_cache_add_footer_output("Page not served from cache because: ".htmlspecialchars($no_cache_because_message));
+	if ((!defined('DOING_CRON') || !DOING_CRON)) {
+		$not_cached_details = "";
+		
+		// Output the reason only when the user has turned on debugging
+		if (((defined('WP_DEBUG') && WP_DEBUG) || isset($_GET['wpo_cache_debug']))) {
+			$not_cached_details = "because: ".htmlspecialchars($no_cache_because_message);
+		}
+		wpo_cache_add_footer_output(sprintf("Page not served from cache %s", $not_cached_details));
 	}
 	return;
 }

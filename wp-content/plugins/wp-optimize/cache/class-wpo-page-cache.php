@@ -1195,7 +1195,7 @@ EOF;
 	 * @param string $url
 	 * @return string
 	 */
-	private static function get_full_path_from_url($url) {
+	public static function get_full_path_from_url($url) {
 		return trailingslashit(WPO_CACHE_FILES_DIR) . trailingslashit(wpo_get_url_path($url));
 	}
 
@@ -1465,6 +1465,33 @@ EOF;
 			$config = $this->config->get();
 			$this->config->write($config);
 		}
+	}
+	
+	/**
+	 * Checks if the given cache directory is empty
+	 *
+	 * @param string $path The path to the cache directory.
+	 * @return bool Returns true if the cache directory is empty, false otherwise.
+	 */
+	public static function is_cache_empty($path) {
+		if (!is_dir($path)) return true;
+		
+		if ($handle = opendir($path)) {
+			while (false !== ($entry = readdir($handle))) {
+				if ("." == $entry || ".." == $entry) {
+					continue;
+				}
+				
+				$full_path = $path . '/' . $entry;
+				if (is_file($full_path)) {
+					closedir($handle);
+					return false;
+				}
+			}
+			closedir($handle);
+			return true;
+		}
+		return true;
 	}
 }
 

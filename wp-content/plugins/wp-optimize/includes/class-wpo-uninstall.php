@@ -30,9 +30,8 @@ class WPO_Uninstall {
 			unlink($htaccess_file);
 		}
 		
-		wp_clear_scheduled_hook('wpo_smush_clear_backup_images');
-		wp_clear_scheduled_hook('wpo_minify_purge_old_cache');
 		wp_clear_scheduled_hook('process_smush_tasks');
+		WP_Optimize()->wpo_cron_deactivate();
 	}
 
 	/**
@@ -61,6 +60,7 @@ class WPO_Uninstall {
 			'module-loaded',
 			'rewrite',
 			'server-signature',
+			'logs',
 		);
 		return apply_filters('wpo_uploads_sub_folders', $sub_folders);
 	}
@@ -76,6 +76,7 @@ class WPO_Uninstall {
 			foreach ($wpo_sub_folders as $folder) {
 				wpo_delete_files($wpo_folder . $folder);
 			}
+
 			$files = @scandir($wpo_folder); // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged -- suppress warning if it arises due to race condition
 			if (false === $files) return;
 			if (2 === count($files)) {

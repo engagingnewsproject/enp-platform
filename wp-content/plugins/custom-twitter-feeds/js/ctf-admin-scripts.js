@@ -1,57 +1,8 @@
 jQuery(document).ready(function($){
-    // access token retrieving
-    var $ctfRetrievedAccessToken = $('#ctf-retrieved-access-token'),
-        $ctfRetrievedAccessTokenSecret = $('#ctf-retrieved-access-token-secret'),
-        $ctfRetrievedDefaultScreenName = $('#ctf-retrieved-default-screen-name'),
-
     // toggle token input fields
         $ctfConsumerFields = $('.ctf-toggle-consumer'),
         $ctfAccessFields = $('.ctf-toggle-access'),
         $ctfHaveOwnTokens = $('#ctf_have_own_tokens');
-
-    if ( $ctfRetrievedAccessToken.length ) {
-        $('#ctf_access_token').val($ctfRetrievedAccessToken.val());
-        $('#ctf_access_token_secret').val($ctfRetrievedAccessTokenSecret.val());
-        if($('#ctf_usertimeline_text').val() == '') {
-            $('#ctf_usertimeline_text').val($ctfRetrievedDefaultScreenName.val());
-        }
-
-        if (!$ctfHaveOwnTokens.is(':checked')) {
-            $.ajax({
-                url: ctf.ajax_url,
-                type: 'post',
-                data: {
-                    action: 'ctf_auto_save_tokens',
-                    security: ctf.sb_nonce,
-                    access_token: $ctfRetrievedAccessToken.val(),
-                    access_token_secret: $ctfRetrievedAccessTokenSecret.val(),
-                    just_tokens: true
-                },
-                success: function (data) {
-                    $('#ctf_access_token').after('<span class="ctf-success"><span class="fa fa-check-circle"></span> saved</span>');
-                    $('#ctf_access_token_secret').after('<span class="ctf-success"><span class="fa fa-check-circle"></span> saved</span>');
-                }
-            });
-        }
-    }
-
-    function toggleAccessInputs() {
-        if($ctfHaveOwnTokens.is(':checked')) {
-            $ctfAccessFields.show();
-            $ctfConsumerFields.show();
-        } else {
-            $ctfConsumerFields.hide();
-            if($ctfAccessFields.find('#ctf_access_token').val() == '' && $ctfAccessFields.find('#ctf_access_token_secret').val() == '') {
-                $ctfAccessFields.hide();
-                $ctfConsumerFields.hide();
-            }
-        }
-    }
-    toggleAccessInputs();
-
-    $ctfHaveOwnTokens.on('change', function() {
-        toggleAccessInputs();
-    });
 
     // variables for time triggered validator
     var typingTimer,
