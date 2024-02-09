@@ -522,10 +522,9 @@ body.lightbox-open {
   content: "";
   display: inline-block;
   height: 40px;
-  vertical-align: middle;
   margin-right: -0.25em; /* Adjust for centering */
 }
 
-.lightbox img {
-  vertical-align: middle;
-}
+// .lightbox img {
+//   vertical-align: middle;
+// }

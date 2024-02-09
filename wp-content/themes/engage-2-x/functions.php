@@ -184,3 +184,19 @@ add_filter('timber/twig/functions', function ($functions) {
 // if (version_compare(Timber::$version, '2.0.0', '>=')) {
 	//     var_dump( 'Timber 2.x is installed.' );
 	// }
+	
+// list out all wp_enqueue_style handles on the front end
+
+	// function list_enqueued_styles() {
+	// 		global $wp_styles;
+
+	// 		// Get the list of enqueued styles
+	// 		$enqueued_styles = $wp_styles->queue;
+
+	// 		// Output the list of enqueued styles
+	// 		echo '<pre>';
+	// 		print_r($enqueued_styles);
+	// 		echo '</pre>';
+	// }
+
+	// add_action('wp_head', 'list_enqueued_styles');

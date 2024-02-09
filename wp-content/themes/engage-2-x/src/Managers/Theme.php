@@ -135,16 +135,34 @@ class Theme {
 		]);
 	}
 	
+	// public function enqueueStyles() {
+	// 	wp_enqueue_style('google/LibreFont', 'https://fonts.googleapis.com/css?family=Libre+Franklin:400,700', false, null);
+	// 	wp_enqueue_style('google/AntonFont', 'https://fonts.googleapis.com/css?family=Anton:400', false, null);
+	// 	wp_enqueue_style('engage/css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
+	// }
+
 	public function enqueueStyles() {
-		wp_enqueue_style('google/LibreFont', 'https://fonts.googleapis.com/css?family=Libre+Franklin:400,700', false, null);
-		wp_enqueue_style('google/AntonFont', 'https://fonts.googleapis.com/css?family=Anton:400', false, null);
-		wp_enqueue_style('engage/css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
+		if (!is_admin()) {
+			wp_register_style('google_fonts', '//fonts.googleapis.com/css?family=Libre+Franklin:400,700|Anton:400', array(), null, 'all');
+			wp_enqueue_style('google_fonts');
+			wp_enqueue_style('engage_css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
+		}
 	}
 	
 	public function dequeueStyles() {
-		// twitter plugin styles
-		wp_dequeue_style('wptt_front');
-		wp_deregister_style('wptt_front');
+		// remove styles
+		if (!is_admin()) {
+			wp_dequeue_style('wptt_front');
+			wp_deregister_style('wptt_front');
+			wp_dequeue_style('safe-svg-svg-icon-style');
+			wp_deregister_style('safe-svg-svg-icon-style');
+			wp_dequeue_style('nf-font-awesome');
+			wp_deregister_style('nf-font-awesome');
+			wp_dequeue_style('rank-math-toc-block-style');
+			wp_deregister_style('rank-math-toc-block-style');
+			wp_dequeue_style('classic-theme-styles');
+			wp_deregister_style('classic-theme-styles');
+		}
 	}
 	
 	
