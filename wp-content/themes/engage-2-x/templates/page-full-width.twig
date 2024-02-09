@@ -14,9 +14,7 @@
 			<div class="article__wrapper container container--lg">
 				{{post.content}}
 				<h1 class="section-margin">{{post.meta('tiles_title')}}</h1>
-								{% include 'tiles.twig' with {
-					posts : get_posts(post.post_tiles)
-				}%}
+				{% include 'tiles.twig' with { posts : get_posts(post.research_posts) } %}
 			</div>
 		</div>
 	</article>
