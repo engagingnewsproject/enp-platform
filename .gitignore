@@ -67,7 +67,7 @@ wp-content/themes/engage-2-x/vendor/*
 
 # But allow specific files to be tracked
 !wp-content/themes/engage-2-x/vendor/autoload.php
-!wp-content/themes/engage-2-x/vendor/composer/autoload_real.php
+!wp-content/themes/engage-2-x/vendor/composer/*
 # Ignore all files, see below to include only on the /engage directory
 # **/package.json
 # **/composer.json
