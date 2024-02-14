@@ -121,7 +121,7 @@
 				height: 16px;
 				position: absolute;
 				background-repeat: no-repeat;
-				left: 15px;
+				left: 5px;
 				top: 0px;
 				display: block;
 				background-size: cover;
@@ -138,10 +138,9 @@
 			border-radius: 40px;
 			margin: 0;
 			padding: 6px 12px;
-			border: 1px solid $navy;
 			font-size: 0.85rem;
 			@include media($tablet) {
-				padding: 10px 20px;
+				padding: 10px 30px;
 			}
 		}
 	}

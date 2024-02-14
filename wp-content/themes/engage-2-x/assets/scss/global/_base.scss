@@ -2,6 +2,23 @@ body {
   background: #fff;
   -webkit-font-smoothing: antialiased; // Improving Font Rendering With CSS (LINK: https://betterprogramming.pub/improving-font-rendering-with-css-3383fc358cbc)
   -moz-osx-font-smoothing: grayscale;
+  	.main-body-wrapper {
+		background: url("/wp-content/themes/engage/assets/img/dots.svg");
+		background-position: 150% -5%;
+		background-repeat: no-repeat;
+		background-size: 1024px;
+	}
+	&.vertical--journalism.archive,
+	&.vertical--media-ethics.archive,
+	&.vertical--science-communication.archive,
+	&.vertical--social-platforms.archive {
+		.main-body-wrapper {
+			background: url("/wp-content/themes/engage/assets/img/dots.svg");
+			background-position: 120% -1%;
+			background-size: 1024px;
+			background-repeat: no-repeat;
+		}
+	}
 }
 
 .main-body-wrapper {
@@ -20,4 +37,9 @@ body {
 
 .row_item {
   flex: 1;
+}
+
+.img-shadow img {
+	box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
+	margin-top: -50px;
 }
