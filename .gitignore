@@ -65,8 +65,9 @@ wp-content/themes/engage/*.code-workspace
 # Ignore all folders in /vendor directory
 wp-content/themes/engage-2-x/vendor/*
 
-# But allow autoload.php to be tracked
+# But allow specific files to be tracked
 !wp-content/themes/engage-2-x/vendor/autoload.php
+!wp-content/themes/engage-2-x/vendor/composer/autoload_real.php
 # Ignore all files, see below to include only on the /engage directory
 # **/package.json
 # **/composer.json
