@@ -62,8 +62,11 @@ wp-content/plugins/enp-quiz/
 
 # Engage theme
 wp-content/themes/engage/*.code-workspace
+# Ignore all folders in /vendor directory
 wp-content/themes/engage-2-x/vendor/*
 
+# But allow autoload.php to be tracked
+!wp-content/themes/engage-2-x/vendor/autoload.php
 # Ignore all files, see below to include only on the /engage directory
 # **/package.json
 # **/composer.json
