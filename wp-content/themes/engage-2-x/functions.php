@@ -200,3 +200,15 @@ add_filter('timber/twig/functions', function ($functions) {
 	// }
 
 	// add_action('wp_head', 'list_enqueued_styles');
+// Redirect users to a specific URL after login
+function custom_login_redirect($redirect_to, $request, $user) {
+    // Check if the user is an administrator
+    if (isset($user->roles) && is_array($user->roles) && in_array('administrator', $user->roles)) {
+        // Redirect administrators to the dashboard
+        return admin_url();
+    } else {
+        // Redirect other users to a different URL
+        return home_url('/enp-quiz/dashboard/user/'); // Change 'your-custom-page' to your desired URL
+    }
+}
+add_filter('login_redirect', 'custom_login_redirect', 10, 3);
