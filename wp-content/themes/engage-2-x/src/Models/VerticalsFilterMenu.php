@@ -55,16 +55,13 @@ class VerticalsFilterMenu extends FilterMenu
 	public function buildVerticalFilter($filters, $postID) {
 		
 		// get which vertical taxonomy this goes to
-		$vertical_terms = get_the_terms($postID, 'verticals');
+		// $vertical_terms = get_the_terms($postID, 'verticals');
 
-		if (!empty($vertical_terms) && is_array($vertical_terms)) {
-			$vertical = $vertical_terms[0];
-		} else {
-			// Handle the case when no terms are found for the post
-			// For example, set $vertical to null or any default value as needed
-			$vertical = null;
-		}
-		
+		// if (!empty($vertical_terms) && is_array($vertical_terms)) {
+		// 	$vertical = $vertical_terms[0];
+		// } 
+		$vertical = get_the_terms($postID, 'verticals')[0];
+
 		foreach($this->taxonomies as $taxonomy) {
 			if($taxonomy === 'vertical') {
 				continue;
@@ -76,7 +73,7 @@ class VerticalsFilterMenu extends FilterMenu
 			}
 			foreach($terms as $term) {
 				// Check if $vertical is not null before accessing its slug property
-				if($vertical !== null && !isset($filters['terms'][$vertical->slug]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
+				if(!isset($filters['terms'][$vertical->slug]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
 					$filters['terms'][$vertical->slug]['terms'][$term->slug] = $this->buildFilterTerm($term, $vertical);
 				}
 			}
