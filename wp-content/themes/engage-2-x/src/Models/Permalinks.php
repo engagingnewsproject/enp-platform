@@ -108,6 +108,11 @@ class Permalinks {
 		
 		// add in any terms
 		foreach($terms as $term) {
+			// Check if $term is an object before accessing its properties
+			if(!is_object($term)) {
+					continue;
+			}
+			// Inside this loop, $term is guaranteed to be an object
 			if($base === 'vertical' && $term->taxonomy === 'verticals') {
 					// skip it
 					continue;
