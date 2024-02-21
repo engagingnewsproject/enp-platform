@@ -338,9 +338,10 @@ class Globals {
 	 */
 	public function getTeamMenu() {
 		$menu = get_transient('team-filter-menu');
-		if(!empty($menu)) {
-			return $menu;
-		}
+		// retrieves the updated menu
+		// if(!empty($menu)) {
+		// 	return $menu;
+		// }
 		
 		$posts = Timber::get_posts([
 			'post_type'      => ['team'],
