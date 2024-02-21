@@ -55,26 +55,28 @@ class VerticalsFilterMenu extends FilterMenu
 	public function buildVerticalFilter($filters, $postID) {
 		
 		// get which vertical taxonomy this goes to
-		// $vertical_terms = get_the_terms($postID, 'verticals');
-
-		// if (!empty($vertical_terms) && is_array($vertical_terms)) {
-		// 	$vertical = $vertical_terms[0];
-		// } 
-		$vertical = get_the_terms($postID, 'verticals')[0];
+		$vertical_terms = get_the_terms($postID, 'verticals');
+		
+		if (!empty($vertical_terms) && is_array($vertical_terms)) {
+			$vertical = $vertical_terms[0];
+		} else {
+			$vertical = get_the_terms($postID, 'team_category');
+		}
 
 		foreach($this->taxonomies as $taxonomy) {
-			if($taxonomy === 'vertical') {
+			if($taxonomy === 'verticals') {
 				continue;
-			}
-			
-			$terms = get_the_terms($postID, $taxonomy);
-			if(empty($terms)) {
-				continue;
-			}
-			foreach($terms as $term) {
-				// Check if $vertical is not null before accessing its slug property
-				if(!isset($filters['terms'][$vertical->slug]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
-					$filters['terms'][$vertical->slug]['terms'][$term->slug] = $this->buildFilterTerm($term, $vertical);
+			} else if ($taxonomy === 'team_category') {
+				$terms = get_the_terms($postID, $taxonomy);
+				if(empty($terms)) {
+					continue;
+				}
+				foreach($terms as $term) {
+					do_action( 'qm/debug', $term );
+					// Check if $vertical is not null before accessing its slug property
+					if(!isset($filters['terms'][$vertical->slug]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
+						$filters['terms'][$vertical->slug]['terms'][$term->slug] = $this->buildFilterTerm($term, $vertical);
+					}
 				}
 			}
 		}
