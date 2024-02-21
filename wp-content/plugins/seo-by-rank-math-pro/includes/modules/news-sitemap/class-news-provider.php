@@ -5,7 +5,7 @@
  * @since      1.0.0
  * @package    RankMath
  * @subpackage RankMathPro
- * @author     MyThemeShop <admin@mythemeshop.com>
+ * @author     RankMath <support@rankmath.com>
  */
 
 namespace RankMathPro\Sitemap;
@@ -29,13 +29,27 @@ class News_Provider extends Post_Type {
 	public $should_show_empty = true;
 
 	/**
+	 * Holds the Sitemap slug.
+	 *
+	 * @var string
+	 */
+	protected $sitemap_slug = null;
+
+	/**
+	 * The constructor.
+	 */
+	public function __construct() {
+		$this->sitemap_slug = Router::get_sitemap_slug( 'news' );
+	}
+
+	/**
 	 * Check if provider supports given item type.
 	 *
 	 * @param  string $type Type string to check for.
 	 * @return boolean
 	 */
 	public function handles_type( $type ) {
-		return 'news' === $type;
+		return $this->sitemap_slug === $type;
 	}
 
 	/**
@@ -45,8 +59,6 @@ class News_Provider extends Post_Type {
 	 * @return array
 	 */
 	public function get_index_links( $max_entries ) { // phpcs:ignore
-		global $wpdb;
-
 		$index      = [];
 		$post_types = Helper::get_settings( 'sitemap.news_sitemap_post_type' );
 
@@ -58,7 +70,7 @@ class News_Provider extends Post_Type {
 		$item = $this->do_filter(
 			'sitemap/index/entry',
 			[
-				'loc'     => Router::get_base_url( 'news-sitemap.xml' ),
+				'loc'     => Router::get_base_url( $this->sitemap_slug . '-sitemap.xml' ),
 				'lastmod' => get_lastpostdate( 'gmt' ),
 			],
 			'news',

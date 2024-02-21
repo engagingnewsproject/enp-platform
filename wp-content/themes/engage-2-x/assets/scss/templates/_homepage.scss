@@ -95,7 +95,6 @@ $lightGrey: #fbfbfb;
 	}
 }
 .home-research {
-	background: $orange-stripe;
 	overflow: hidden;
 
 	.home-section__slanty-bar {
@@ -231,6 +230,20 @@ $lightGrey: #fbfbfb;
 		font-size: $font-size-h2;
 	}
 }
+/*                */
+/* tweets section */
+/*                */
+// .wdtf-user-card,
+// .tweets_avatar:nth-child(2) .wdtf-user-card,
+// .tweets_avatar:nth-child(3) .wdtf-user-card {
+// 	background: $gray-lighter;
+// 	padding: 0.8rem;
+// 	border-bottom: 1px solid $gray-lighter;
+// }
+
+// .tweets_avatar {
+// 	box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
+// }
 @supports not (display: flex) {
 	.home-section {
 		.tile {

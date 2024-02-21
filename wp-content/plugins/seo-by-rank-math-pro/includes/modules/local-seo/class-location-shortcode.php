@@ -14,7 +14,7 @@ use RankMath\Helper;
 use RankMath\Schema\DB;
 use RankMath\Traits\Hooker;
 use RankMath\Traits\Shortcode;
-use MyThemeShop\Helpers\Str;
+use RankMath\Helpers\Str;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -125,6 +125,12 @@ class Location_Shortcode {
 		foreach ( $this->get_attributes() as $key => $attribute ) {
 			$defaults[ $key ] = $attribute['default'];
 		}
+
+		if ( isset( $atts['show_priceRange'] ) ) {
+			$atts['show_pricerange'] = $atts['show_priceRange'];
+			unset( $atts['show_priceRange'] );
+		}
+
 		$this->atts = shortcode_atts(
 			$defaults,
 			$atts,
@@ -471,6 +477,10 @@ class Location_Shortcode {
 				'default' => false,
 			],
 			'show_coc_id'            => [
+				'type'    => 'boolean',
+				'default' => false,
+			],
+			'show_pricerange'        => [
 				'type'    => 'boolean',
 				'default' => false,
 			],

@@ -1,4 +1,4 @@
-# Copyright (C) 2023 rank-math-pro
+# Copyright (C) 2024 rank-math-pro
 # This file is distributed under the same license as the rank-math-pro package.
 msgid ""
 msgstr ""
@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Rank Math\n"
 "Last-Translator: Rank Math\n"
-"POT-Creation-Date: 2023-10-18 05:13+0000\n"
+"POT-Creation-Date: 2024-02-21 06:27+0000\n"
 "Project-Id-Version: undefined\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -1004,37 +1004,6 @@ msgstr ""
 msgid "Special Sitemaps:"
 msgstr ""
 
-msgid "&#8595; Rank Math"
-msgstr ""
-
-msgid "Set to noindex"
-msgstr ""
-
-msgid "Set to index"
-msgstr ""
-
-msgid "Set to nofollow"
-msgstr ""
-
-msgid "Set to follow"
-msgstr ""
-
-msgid "Remove custom canonical URL"
-msgstr ""
-
-msgid "Redirect"
-msgstr ""
-
-msgid "Remove redirection"
-msgstr ""
-
-msgid "Set Schema: None"
-msgstr ""
-
-#. translators: placeholder is the default Schema type setting.
-msgid "Set Schema: Default (%s)"
-msgstr ""
-
 #. translators: 1 The number of posts edited. 2 The post type name.
 #. translators: 1 The number of terms edited. 2 The term taxonomy name.
 msgid "Robots meta edited for %1$d %2$s."
@@ -1052,9 +1021,6 @@ msgstr ""
 
 #. translators: 1 The number of posts edited. 2 The post type name.
 msgid "Custom Canonical URL removed from %1$d %2$s."
-msgstr ""
-
-msgid "Are you sure you want to change the Schema type for the selected posts? Doing so may irreversibly delete the existing Schema data."
 msgstr ""
 
 msgid "Affiliate Link Prefix"
@@ -2297,6 +2263,12 @@ msgid "View Schemas"
 msgstr ""
 
 msgid "Search schemas"
+msgstr ""
+
+msgid "No schema found."
+msgstr ""
+
+msgid "No schema found in Trash."
 msgstr ""
 
 msgid "Rank Math Schema Templates"

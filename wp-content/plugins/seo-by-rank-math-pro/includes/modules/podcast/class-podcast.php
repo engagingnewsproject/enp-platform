@@ -13,7 +13,7 @@ namespace RankMathPro\Podcast;
 use RankMath\KB;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Arr;
+use RankMath\Helpers\Arr;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -42,7 +42,16 @@ class Podcast {
 	 * Intialize.
 	 */
 	public function init() {
+		/**
+		 * Filter to modify the permalink of Podcast RSS feed. Pass false to remove the feed.
+		 *
+		 * @pram string $podcast Podcast RSS feed slug.
+		 */
 		$this->podcast = $this->do_filter( 'podcast/feed', 'podcast' );
+		if ( ! $this->podcast ) {
+			return;
+		}
+
 		add_feed( $this->podcast, [ $this, 'podcast_feed' ] );
 		new Podcast_RSS();
 		new Publish_Podcast();

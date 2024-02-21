@@ -11,8 +11,8 @@
 namespace RankMathPro\Schema\Video;
 
 use RankMath\Helper;
+use RankMath\Helpers\Str;
 use RankMath\Schema\DB;
-use MyThemeShop\Helpers\Str;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -179,10 +179,12 @@ class Parser {
 	/**
 	 * Validate Video source.
 	 *
-	 * @param  string $url Video Source.
+	 * @param string  $url            Video Source.
+	 * @param boolean $generate_image Whether to generate the image.
+	 *
 	 * @return array
 	 */
-	private function get_video_metadata( $url ) {
+	private function get_video_metadata( $url, $generate_image = true ) {
 		$url = preg_replace( '/\?.*/', '', $url ); // Remove query string from URL.
 		if (
 			$url &&
@@ -209,14 +211,18 @@ class Parser {
 
 		$data = false;
 		foreach ( $networks as $network ) {
-			$data = \call_user_func( [ '\\RankMathPro\\Schema\\' . $network, 'match' ], $url );
+			$args = 'Video\WordPress' !== $network ? $url : [
+				'url'  => $url,
+				'post' => $this->post,
+			];
+			$data = \call_user_func( [ '\\RankMathPro\\Schema\\' . $network, 'match' ], $args );
 			if ( is_array( $data ) ) {
 				break;
 			}
 		}
 
 		// Save image locally.
-		if ( ! empty( $data['thumbnail'] ) ) {
+		if ( ! empty( $data['thumbnail'] ) && $generate_image ) {
 			$data['thumbnail'] = $this->save_video_thumbnail( $data );
 		}
 
@@ -283,6 +289,10 @@ class Parser {
 		$url = $data['thumbnail'];
 		if ( ! Helper::get_settings( "titles.pt_{$this->post->post_type}_autogenerate_image", 'off' ) ) {
 			return false;
+		}
+
+		if ( Str::starts_with( wp_get_upload_dir()['baseurl'], $url ) ) {
+			return $url;
 		}
 
 		if ( ! class_exists( 'WP_Http' ) ) {
@@ -369,9 +379,13 @@ class Parser {
 		}
 
 		$urls = [];
-		foreach ( $schemas as $schema ) {
+		foreach ( $schemas as $key => $schema ) {
 			if ( empty( $schema['@type'] ) || 'VideoObject' !== $schema['@type'] ) {
 				continue;
+			}
+
+			if ( ! empty( $schema['embedUrl'] ) ) {
+				$this->maybe_update_upload_date( $key, $schema );
 			}
 
 			$urls[] = ! empty( $schema['embedUrl'] ) ? $schema['embedUrl'] : '';
@@ -379,6 +393,34 @@ class Parser {
 		}
 
 		return array_filter( $urls );
+	}
+
+	/**
+	 * Update uploadDate value in the existing Video Schema.
+	 *
+	 * @param int   $meta_id    Meta id.
+	 * @param array $meta_value Schema data.
+	 *
+	 * @return array
+	 */
+	private function maybe_update_upload_date( $meta_id, $meta_value ) {
+		if ( empty( $meta_value['uploadDate'] ) ) {
+			return;
+		}
+
+		$parts = explode( 'T', $meta_value['uploadDate'] );
+		if ( ! empty( $parts[1] ) ) {
+			return;
+		}
+
+		$video_meta = $this->get_video_metadata( $meta_value['embedUrl'], false );
+		if ( empty( $video_meta['uploadDate'] ) ) {
+			return;
+		}
+
+		$meta_id                  = str_replace( 'schema-', '', $meta_id );
+		$meta_value['uploadDate'] = $video_meta['uploadDate'];
+		update_metadata_by_mid( 'post', $meta_id, $meta_value, 'rank_math_schema_VideoObject' );
 	}
 
 	/**

@@ -12,9 +12,9 @@ namespace RankMathPro\Plugin_Update;
 
 use RankMath\KB;
 use RankMath\Helper;
-use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Param;
 use RankMath\Admin\Admin_Helper;
+use RankMath\Traits\Hooker;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -638,10 +638,12 @@ class Plugin_Update {
 		}
 
 		$stored = get_site_transient( 'rank_math_pro_updates' );
+		if ( ! $force_check && ! empty( $stored ) ) {
+			return $stored;
+		}
+
 		if (
-			! $force_check
-			&& ! empty( $stored )
-			&& version_compare( $stored_versions['new_version'], RANK_MATH_PRO_VERSION, '<=' )
+			version_compare( $stored_versions['new_version'], RANK_MATH_PRO_VERSION, '<=' )
 			&& ! $this->new_beta_version_available( $stored_versions )
 		) {
 			return $stored;

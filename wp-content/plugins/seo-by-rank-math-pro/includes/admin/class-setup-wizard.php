@@ -12,10 +12,9 @@ namespace RankMathPro\Admin;
 
 use RankMath\KB;
 use RankMath\Helper;
+use RankMath\Helpers\Param;
 use RankMath\Traits\Ajax;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Param;
-use MyThemeShop\Helpers\WordPress;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -115,7 +114,7 @@ class Setup_Wizard {
 		}
 
 		// Parse Options.
-		$wp_filesystem = WordPress::get_filesystem();
+		$wp_filesystem = Helper::get_filesystem();
 		if ( is_null( $wp_filesystem ) ) {
 			return false;
 		}

@@ -11,7 +11,7 @@
 namespace RankMathPro\Analytics;
 
 use RankMath\Analytics\Stats;
-use MyThemeShop\Helpers\DB as DB_Helper;
+use RankMath\Helpers\DB as DB_Helper;
 use RankMath\Helper;
 
 defined( 'ABSPATH' ) || exit;

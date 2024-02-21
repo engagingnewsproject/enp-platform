@@ -77,7 +77,12 @@ class KML_File {
 			$address     = '';
 			if ( ! empty( $locations_data['address'] ) && isset( $locations_data['address']['@type'] ) ) {
 				unset( $locations_data['address']['@type'] );
-				$address = $locations_data['address'];
+				$address = array_map(
+					function( $value ) use ( $rm_location ) {
+						return Helper::replace_vars( $value, $rm_location );
+					},
+					$locations_data['address']
+				);
 			}
 
 			$locations[] = [
@@ -86,7 +91,7 @@ class KML_File {
 				'email'       => ! empty( $locations_data['email'] ) ? Helper::replace_vars( $locations_data['email'], $rm_location ) : '',
 				'phone'       => ! empty( $locations_data['telephone'] ) ? Helper::replace_vars( $locations_data['telephone'], $rm_location ) : '',
 				'url'         => get_the_permalink( $rm_location ),
-				'address'     => ! empty( $locations_data['address'] ) ? $locations_data['address'] : '',
+				'address'     => $address,
 				'coords'      => ! empty( $locations_data['geo'] ) ? $locations_data['geo'] : '',
 			];
 		}

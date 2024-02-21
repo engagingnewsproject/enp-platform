@@ -88,6 +88,10 @@ class Posts {
 			$data['schemas_in_use'] = Helper::get_default_schema_type( $id, true, true );
 		}
 
+		if ( ! \RankMath\Google\Analytics::is_analytics_connected() ) {
+			return $data;
+		}
+
 		// Get keywords info for this post.
 		$keywords = DB::analytics()
 			->selectCount( 'DISTINCT(query)', 'keywords' )
@@ -136,7 +140,7 @@ class Posts {
 		);
 
 		$orderby = $request->get_param( 'orderby' );
-		$order   = strtoupper( $request->get_param( 'order' ) );
+		$order   = empty( $request->get_param( 'order' ) ) ? 'DESC' : strtoupper( $request->get_param( 'order' ) );
 
 		if ( 'query' !== $orderby ) {
 			$data['rankingKeywords'] = $this->ranking_keyword_array_sort( $data['rankingKeywords'], $order, $orderby );
@@ -175,6 +179,9 @@ class Posts {
 	 * @param  Variable $arr_orderby is key for sort.
 	 */
 	public function ranking_keyword_array_sort( $arr, $arr_order, $arr_orderby ) {
+		if ( empty( $arr ) || empty( $arr_orderby ) ) {
+			return $arr;
+		}
 
 		if ( 'DESC' === $arr_order ) {
 			uasort(

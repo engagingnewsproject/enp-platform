@@ -5,12 +5,12 @@
  * @since      1.0.0
  * @package    RankMath
  * @subpackage RankMathPro
- * @author     MyThemeShop <admin@mythemeshop.com>
+ * @author     RankMath <support@rankmath.com>
  */
 
 namespace RankMathPro\Schema;
 
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 

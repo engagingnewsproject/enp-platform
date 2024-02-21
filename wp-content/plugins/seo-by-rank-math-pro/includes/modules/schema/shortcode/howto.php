@@ -6,8 +6,8 @@
  * @subpackage RankMath\Schema
  */
 
+use RankMath\Helper;
 use RankMath\Schema\Block_HowTo;
-use RankMath\Helpers\WordPress;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -15,7 +15,7 @@ $has_duration = false;
 $days         = 0;
 $hours        = 0;
 $minutes      = 0;
-if ( isset( $schema['totalTime'] ) && WordPress::get_formatted_duration( $schema['totalTime'] ) ) {
+if ( isset( $schema['totalTime'] ) && Helper::get_formatted_duration( $schema['totalTime'] ) ) {
 	$has_duration = true;
 	$duration     = new \DateInterval( $schema['totalTime'] );
 	$days         = $duration->d;

@@ -5,7 +5,7 @@
  * @since      1.0.0
  * @package    RankMath
  * @subpackage RankMathPro
- * @author     MyThemeShop <admin@mythemeshop.com>
+ * @author     RankMath <support@rankmath.com>
  */
 
 namespace RankMathPro\Sitemap;
@@ -16,7 +16,6 @@ use RankMath\Helpers\Locale;
 use RankMath\Sitemap\Cache_Watcher;
 use RankMath\Traits\Hooker;
 use RankMath\Sitemap\Router;
-use MyThemeShop\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -35,6 +34,13 @@ class News_Sitemap {
 	protected $news_publication = null;
 
 	/**
+	 * Holds the Sitemap slug.
+	 *
+	 * @var string
+	 */
+	protected $sitemap_slug = null;
+
+	/**
 	 * The Constructor.
 	 */
 	public function __construct() {
@@ -42,13 +48,14 @@ class News_Sitemap {
 			$this->filter( 'rank_math/settings/sitemap', 'add_settings', 11 );
 		}
 
+		$sitemap_slug = Router::get_sitemap_slug( 'news' );
 		new News_Metabox();
 		$this->action( 'rank_math/head', 'robots', 10 );
 		$this->filter( 'rank_math/sitemap/providers', 'add_provider' );
-		$this->filter( 'rank_math/sitemap/news_urlset', 'xml_urlset' );
-		$this->filter( 'rank_math/sitemap/xsl_news', 'sitemap_xsl' );
-		$this->filter( 'rank_math/sitemap/news_stylesheet_url', 'stylesheet_url' );
-		$this->filter( 'rank_math/sitemap/news_sitemap_url', 'sitemap_url', 10, 2 );
+		$this->filter( 'rank_math/sitemap/' . $sitemap_slug . '_urlset', 'xml_urlset' );
+		$this->filter( 'rank_math/sitemap/xsl_' . $sitemap_slug, 'sitemap_xsl' );
+		$this->filter( 'rank_math/sitemap/' . $sitemap_slug . '_stylesheet_url', 'stylesheet_url' );
+		$this->filter( 'rank_math/sitemap/' . $sitemap_slug . '_sitemap_url', 'sitemap_url', 10, 2 );
 
 		$this->filter( 'rank_math/schema/default_type', 'change_default_schema_type', 10, 3 );
 		$this->filter( 'rank_math/snippet/rich_snippet_article_entity', 'add_copyrights_data' );
@@ -125,7 +132,8 @@ class News_Sitemap {
 	 * @return array
 	 */
 	public function add_settings( $tabs ) {
-		$sitemap_url          = Router::get_base_url( 'news-sitemap.xml' );
+		$sitemap_slug         = Router::get_sitemap_slug( 'news' );
+		$sitemap_url          = Router::get_base_url( "{$sitemap_slug}-sitemap.xml" );
 		$tabs['news-sitemap'] = [
 			'icon'      => 'fa fa-newspaper-o',
 			'title'     => esc_html__( 'News Sitemap', 'rank-math-pro' ),

@@ -12,10 +12,10 @@ namespace RankMathPro\Analytics;
 
 use RankMath\KB;
 use RankMath\Helper;
+use RankMath\Helpers\Param;
+use RankMath\Helpers\DB as DB_Helper;
 use RankMath\Traits\Hooker;
 use RankMath\Analytics\Stats;
-use MyThemeShop\Helpers\Param;
-use MyThemeShop\Helpers\DB as DB_Helper;
 
 
 // Analytics.

@@ -184,3 +184,31 @@ add_filter('timber/twig/functions', function ($functions) {
 // if (version_compare(Timber::$version, '2.0.0', '>=')) {
 	//     var_dump( 'Timber 2.x is installed.' );
 	// }
+	
+// list out all wp_enqueue_style handles on the front end
+
+	// function list_enqueued_styles() {
+	// 		global $wp_styles;
+
+	// 		// Get the list of enqueued styles
+	// 		$enqueued_styles = $wp_styles->queue;
+
+	// 		// Output the list of enqueued styles
+	// 		echo '<pre>';
+	// 		print_r($enqueued_styles);
+	// 		echo '</pre>';
+	// }
+
+	// add_action('wp_head', 'list_enqueued_styles');
+// Redirect users to a specific URL after login
+function custom_login_redirect($redirect_to, $request, $user) {
+    // Check if the user is an administrator
+    if (isset($user->roles) && is_array($user->roles) && in_array('administrator', $user->roles)) {
+        // Redirect administrators to the dashboard
+        return admin_url();
+    } else {
+        // Redirect other users to a different URL
+        return home_url('/enp-quiz/dashboard/user/'); // Change 'your-custom-page' to your desired URL
+    }
+}
+add_filter('login_redirect', 'custom_login_redirect', 10, 3);

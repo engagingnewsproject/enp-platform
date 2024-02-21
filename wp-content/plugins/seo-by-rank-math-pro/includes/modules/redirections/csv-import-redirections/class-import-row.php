@@ -12,7 +12,7 @@ namespace RankMathPro\Redirections\CSV_Import_Export_Redirections;
 
 use RankMath\Redirections\DB;
 use RankMath\Redirections\Redirection;
-use MyThemeShop\Helpers\Arr;
+use RankMath\Helpers\Arr;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -214,6 +214,9 @@ class Import_Row {
 		}
 
 		$sources = $this->get_sources();
+		if ( ! is_array( $data['sources'] ) ) {
+			return;
+		}
 		$sources = array_unique( array_merge( $sources, $data['sources'] ), SORT_REGULAR );
 
 		$url_to = ! empty( $input['destination'] ) ? $input['destination'] : $data['url_to'];
@@ -281,7 +284,7 @@ class Import_Row {
 
 		$sources = [
 			[
-				'pattern'    => $this->source,
+				'pattern'    => wp_specialchars_decode( $this->source ),
 				'comparison' => $this->matching,
 				'ignore'     => $this->ignore,
 			],

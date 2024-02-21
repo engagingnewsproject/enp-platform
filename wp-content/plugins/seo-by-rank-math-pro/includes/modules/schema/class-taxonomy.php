@@ -11,13 +11,11 @@
 namespace RankMathPro\Schema;
 
 use RankMath\Helper;
+use RankMath\Helpers\Param;
 use RankMath\Admin\Admin_Helper;
 use RankMath\Schema\DB;
 use RankMath\Rest\Sanitize;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Arr;
-use MyThemeShop\Helpers\Str;
-use MyThemeShop\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 

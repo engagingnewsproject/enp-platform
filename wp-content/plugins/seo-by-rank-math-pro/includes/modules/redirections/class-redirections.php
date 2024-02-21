@@ -13,7 +13,7 @@ namespace RankMathPro\Redirections;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
 use RankMath\Redirections\DB;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Param;
 use RankMath\Admin\Admin_Helper;
 use RankMath\Redirections\Redirection;
 

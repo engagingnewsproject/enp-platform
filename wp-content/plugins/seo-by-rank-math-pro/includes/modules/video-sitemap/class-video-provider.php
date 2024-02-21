@@ -5,14 +5,13 @@
  * @since      1.0.0
  * @package    RankMath
  * @subpackage RankMathPro
- * @author     MyThemeShop <admin@mythemeshop.com>
+ * @author     RankMath <support@rankmath.com>
  */
 
 namespace RankMathPro\Sitemap;
 
 use RankMath\Helper;
 use RankMath\Sitemap\Router;
-use RankMath\Sitemap\Sitemap;
 use RankMath\Sitemap\Providers\Post_Type;
 
 defined( 'ABSPATH' ) || exit;
@@ -23,13 +22,27 @@ defined( 'ABSPATH' ) || exit;
 class Video_Provider extends Post_Type {
 
 	/**
+	 * Holds the Sitemap slug.
+	 *
+	 * @var string
+	 */
+	protected $sitemap_slug = null;
+
+	/**
+	 * The constructor.
+	 */
+	public function __construct() {
+		$this->sitemap_slug = Router::get_sitemap_slug( 'video' );
+	}
+
+	/**
 	 * Check if provider supports given item type.
 	 *
 	 * @param  string $type Type string to check for.
 	 * @return boolean
 	 */
 	public function handles_type( $type ) {
-		return 'video' === $type;
+		return $this->sitemap_slug === $type;
 	}
 
 	/**
@@ -65,15 +78,16 @@ class Video_Provider extends Post_Type {
 			$max_pages = (int) ceil( $total_count / $max_entries );
 		}
 
-		$all_dates = array_chunk( $posts, $max_entries );
-		$index     = [];
+		$sitemap_slug = $this->sitemap_slug;
+		$all_dates    = array_chunk( $posts, $max_entries );
+		$index        = [];
 		for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
 			$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
 			$video        = $all_dates[ $page_counter ][0];
 			$item         = $this->do_filter(
 				'sitemap/index/entry',
 				[
-					'loc'     => Router::get_base_url( 'video-sitemap' . $current_page . '.xml' ),
+					'loc'     => Router::get_base_url( $sitemap_slug . '-sitemap' . $current_page . '.xml' ),
 					'lastmod' => $video['post_modified_gmt'],
 				],
 				'video',

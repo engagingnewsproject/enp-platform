@@ -6,6 +6,7 @@
 @import "global/animations";
 @import "global/reset";
 @import "global/base";
+@import "global/header";
 @import "global/utilities";
 @import "global/typography";
 @import "global/structure";
@@ -39,7 +40,6 @@
 
 // Components
 @import "components/brandbar";
-@import "components/header";
 @import "components/menu";
 @import "components/footer";
 @import "components/article";
@@ -56,7 +56,6 @@
 @import "components/video";
 @import "components/twitter";
 @import "components/tree";
-@import "components/homeslider";
 @import "components/past-mei-interns";
 @import "components/modal";
 @import "components/sidebar";

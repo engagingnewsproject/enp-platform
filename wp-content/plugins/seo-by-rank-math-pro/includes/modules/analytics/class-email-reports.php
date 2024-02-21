@@ -12,6 +12,7 @@ namespace RankMathPro\Analytics;
 
 use RankMath\KB;
 use RankMath\Helper;
+use RankMath\Helpers\Param;
 use RankMath\Traits\Hooker;
 use RankMath\Analytics\Stats;
 use RankMath\Admin\Admin_Helper;
@@ -21,8 +22,6 @@ use RankMath\Analytics\Email_Reports as Email_Reports_Base;
 use RankMathPro\Admin\Admin_Helper as ProAdminHelper;
 use RankMathPro\Analytics\Keywords;
 use RankMathPro\Analytics\Posts;
-
-use MyThemeShop\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -7,7 +7,8 @@
  * @subpackage RankMathPro\Schema
  */
 
-use RankMath\Helpers\WordPress;
+use RankMath\Helper;
+use RankMath\Helpers\Url;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -33,8 +34,8 @@ $episode_title = apply_filters( 'rank_math/schema/podcast_episode_title', $episo
 
 $season        = ! empty( $schema['partOfSeason'] ) ? $schema['partOfSeason'] : [];
 $time_required = [];
-if ( isset( $schema['timeRequired'] ) && WordPress::get_formatted_duration( $schema['timeRequired'] ) ) {
-	$duration      = new \DateInterval( $schema['timeRequired'] );
+if ( isset( $schema['timeRequired'] ) && Helper::get_formatted_duration( $schema['timeRequired'] ) ) {
+	$duration        = new \DateInterval( $schema['timeRequired'] );
 	$time_required[] = ! empty( $duration->h ) ? sprintf( esc_html__( '%d Hour', 'rank-math-pro' ), $duration->h ) : '';
 	$time_required[] = ! empty( $duration->i ) ? sprintf( esc_html__( '%d Min', 'rank-math-pro' ), $duration->i ) : '';
 	$time_required[] = ! empty( $duration->s ) ?sprintf( esc_html__( '%d Sec', 'rank-math-pro' ), $duration->s ) : '';
@@ -46,7 +47,7 @@ ob_start();
 <!-- wp:columns -->
 <div class="wp-block-columns" style="gap: 2em;">
 	<!-- wp:column -->
-	<?php if ( ! empty( $schema['thumbnailUrl'] ) ) {
+	<?php if ( ! empty( $schema['thumbnailUrl'] ) && Url::is_url( $schema['thumbnailUrl'] ) ) {
 		$image_id = attachment_url_to_postid( $schema['thumbnailUrl'] );
 		$img      = '<img src="' . esc_url( $schema['thumbnailUrl'] ) . '" />';
 

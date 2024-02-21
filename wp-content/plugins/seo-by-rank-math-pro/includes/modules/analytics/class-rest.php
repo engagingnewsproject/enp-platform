@@ -15,13 +15,13 @@ namespace RankMathPro\Analytics;
 use WP_Error;
 use WP_REST_Server;
 use RankMath\Helper;
+use RankMath\Helpers\DB as DB_Helper;
 use WP_REST_Request;
 use WP_REST_Controller;
 use RankMath\Admin\Admin_Helper;
 use RankMathPro\Google\PageSpeed;
 use RankMath\SEO_Analysis\SEO_Analyzer;
 use RankMathPro\Analytics\DB;
-use MyThemeShop\Helpers\DB as DB_Helper;
 
 defined( 'ABSPATH' ) || exit;
 

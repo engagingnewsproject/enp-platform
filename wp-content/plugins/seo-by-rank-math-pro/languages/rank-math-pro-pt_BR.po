@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Rank Math SEO PRO\n"
-"POT-Creation-Date: 2023-08-11 00:24-0300\n"
-"PO-Revision-Date: 2023-08-11 01:16-0300\n"
+"POT-Creation-Date: 2024-01-08 16:16-0300\n"
+"PO-Revision-Date: 2024-01-16 16:06-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: rank-math-pro.php\n"
@@ -23,12 +23,12 @@ msgstr ""
 
 #: includes/3rdparty/divi/class-divi.php:339
 msgid "Rank Math FAQ Schema"
-msgstr "Schema (Dado estruturado) de Perguntas frequentes do Rank Math"
+msgstr "Dado estruturado (schema) de perguntas frequentes do Rank Math"
 
 #: includes/3rdparty/divi/class-divi.php:368
 #: includes/3rdparty/elementor/class-elementor.php:78
 msgid "Add FAQ Schema Markup"
-msgstr "Adicionar Schema (Dado estruturado) de Perguntas frequentes"
+msgstr "Adicionar marcação de dado estruturado (schema) de perguntas frequentes"
 
 #: includes/3rdparty/divi/class-divi.php:369
 #: includes/3rdparty/elementor/class-elementor.php:81
@@ -49,16 +49,16 @@ msgstr "Não"
 #: includes/3rdparty/elementor/class-widget-breadcrumbs.php:71
 #: includes/3rdparty/elementor/class-widget-breadcrumbs.php:139
 msgid "Breadcrumbs"
-msgstr "Breadcrumbs (Caminho de navegação)"
+msgstr "Caminhos de navegação (breadcrumbs)"
 
 #: includes/3rdparty/elementor/class-widget-breadcrumbs.php:79
 msgid "Breadcrumbs are disabled in the Rank Math SEO"
-msgstr "Breadcrumbs (Caminho de navegação) estão desativados no Rank Math SEO"
+msgstr "Caminhos de navegação (breadcrumbs) estão desativados no Rank Math SEO"
 
 #: includes/3rdparty/elementor/class-widget-breadcrumbs.php:79
 #: includes/3rdparty/elementor/class-widget-breadcrumbs.php:128
 msgid "Breadcrumbs Panel"
-msgstr "Painel do Breadcrumbs (Caminho de navegação)"
+msgstr "Painel dos caminhos de navegação (breadcrumbs)"
 
 #: includes/3rdparty/elementor/class-widget-breadcrumbs.php:89
 msgid "Alignment"
@@ -86,9 +86,9 @@ msgstr "Tag HTML"
 #: includes/modules/local-seo/views/titles-options.php:630
 #: includes/modules/local-seo/views/titles-options.php:645
 #: includes/modules/local-seo/views/titles-options.php:660
-#: includes/modules/schema/class-video.php:79
-#: includes/modules/schema/class-video.php:94
-#: includes/modules/schema/class-video.php:120
+#: includes/modules/schema/class-video.php:78
+#: includes/modules/schema/class-video.php:93
+#: includes/modules/schema/class-video.php:119
 msgid "Default"
 msgstr "Padrão"
 
@@ -119,7 +119,7 @@ msgstr "Cor"
 #: includes/admin/class-admin-helper.php:125
 #: includes/admin/class-admin-helper.php:376
 msgid "Worldwide"
-msgstr "Mundialmente"
+msgstr "Mundo todo"
 
 #: includes/admin/class-admin-helper.php:126
 #: includes/admin/class-admin-helper.php:377
@@ -1696,87 +1696,67 @@ msgstr "Região desconhecida"
 msgid "Special Sitemaps:"
 msgstr "Sitemaps especiais:"
 
-#: includes/admin/class-bulk-actions.php:59
-#: includes/admin/class-bulk-actions.php:103
+#: includes/admin/class-bulk-actions.php:62
 msgid "&#8595; Rank Math"
 msgstr "↓ Rank Math"
 
-#: includes/admin/class-bulk-actions.php:62
-#: includes/admin/class-bulk-actions.php:104
+#: includes/admin/class-bulk-actions.php:63
 msgid "Set to noindex"
 msgstr "Definir como noindex (não indexar)"
 
-#: includes/admin/class-bulk-actions.php:63
-#: includes/admin/class-bulk-actions.php:105
+#: includes/admin/class-bulk-actions.php:64
 msgid "Set to index"
 msgstr "Definir como index (indexar)"
 
-#: includes/admin/class-bulk-actions.php:64
-#: includes/admin/class-bulk-actions.php:106
+#: includes/admin/class-bulk-actions.php:65
 msgid "Set to nofollow"
 msgstr "Definir como nofollow (não seguir)"
 
-#: includes/admin/class-bulk-actions.php:65
-#: includes/admin/class-bulk-actions.php:107
+#: includes/admin/class-bulk-actions.php:66
 msgid "Set to follow"
 msgstr "Definir como follow (seguir)"
 
-#: includes/admin/class-bulk-actions.php:66
-msgid "Remove custom canonical URL"
-msgstr "Remover URL canônico personalizado"
-
 #: includes/admin/class-bulk-actions.php:69
-#: includes/admin/class-bulk-actions.php:110
 msgid "Redirect"
 msgstr "Redirecionar"
 
 #: includes/admin/class-bulk-actions.php:70
-#: includes/admin/class-bulk-actions.php:111
 msgid "Remove redirection"
 msgstr "Remover redirecionamento"
 
-#: includes/admin/class-bulk-actions.php:75
-msgid "Set Schema: None"
-msgstr "Definir Schema (Dado estruturado): Nenhum"
-
-#: includes/admin/class-bulk-actions.php:81
-#, php-format
-msgid "Set Schema: Default (%s)"
-msgstr "Definir Schema (Dado estruturado): Padrão (%s)"
-
-#: includes/admin/class-bulk-actions.php:182
-#: includes/admin/class-bulk-actions.php:335
+#: includes/admin/class-bulk-actions.php:141
+#: includes/admin/class-bulk-actions.php:294
 #, php-format
 msgid "Robots meta edited for %1$d %2$s."
 msgstr "Meta robots editados para %1$d %2$s."
 
-#: includes/admin/class-bulk-actions.php:204
-#: includes/admin/class-bulk-actions.php:361
+#: includes/admin/class-bulk-actions.php:163
+#: includes/admin/class-bulk-actions.php:320
 #, php-format
 msgid "%d redirection moved to Trash."
 msgid_plural "%d redirections moved to Trash."
-msgstr[0] "%d redirecionamento movido para a Lixeira."
-msgstr[1] "%d redirecionamentos movidos para a Lixeira."
+msgstr[0] "%d redirecionamento movido para a lixeira."
+msgstr[1] "%d redirecionamentos movidos para a lixeira."
 
-#: includes/admin/class-bulk-actions.php:218
-#: includes/admin/class-bulk-actions.php:232
+#: includes/admin/class-bulk-actions.php:177
+#: includes/admin/class-bulk-actions.php:191
 #, php-format
 msgid "Schema edited for %1$d %2$s."
-msgstr "Schema (Dado estruturado) editado para %1$d %2$s."
+msgstr "Dado estruturado (schema) editado para %1$d %2$s."
 
-#: includes/admin/class-bulk-actions.php:247
+#: includes/admin/class-bulk-actions.php:206
 #, php-format
 msgid "Custom Canonical URL removed from %1$d %2$s."
 msgstr "URL canônico personalizado removido de %1$d %2$s."
 
-#: includes/admin/class-bulk-actions.php:412
+#: includes/admin/class-bulk-actions.php:371
 msgid ""
 "Are you sure you want to change the Schema type for the selected posts? Doing "
 "so may irreversibly delete the existing Schema data."
 msgstr ""
-"Tem certeza de que deseja alterar o tipo de Schema (Dado estruturado) para os "
+"Tem certeza de que deseja alterar o tipo de dado estruturado (schema) para os "
 "posts selecionados? Fazer isso pode excluir irreversivelmente os dados do "
-"Schema existentes."
+"schema existente."
 
 #: includes/admin/class-links.php:80
 msgid "Affiliate Link Prefix"
@@ -1794,7 +1774,7 @@ msgstr ""
 
 #: includes/admin/class-links.php:88
 msgid "Example: /get/"
-msgstr "Exemplo: /get/"
+msgstr "Exemplo: /obter/"
 
 #: includes/admin/class-media-filters.php:56
 #: includes/admin/class-media-filters.php:70
@@ -1835,11 +1815,11 @@ msgstr "Posts órfãos"
 
 #: includes/admin/class-post-filters.php:55
 msgid "Filter by Schema Type"
-msgstr "Filtrar por tipo de Schema (Dado estruturado)"
+msgstr "Filtrar por tipo de dado estruturado (schema)"
 
 #: includes/admin/class-post-filters.php:72
 msgid "Turned Off"
-msgstr "Desligado"
+msgstr "Desativado"
 
 #: includes/admin/class-post-filters.php:73
 msgid "Article"
@@ -1855,7 +1835,7 @@ msgstr "Artigo de notícias"
 
 #: includes/admin/class-post-filters.php:76
 msgid "Book"
-msgstr "Reserva"
+msgstr "Livro"
 
 #: includes/admin/class-post-filters.php:77
 msgid "Course"
@@ -1865,8 +1845,8 @@ msgstr "Curso"
 msgid "Event"
 msgstr "Evento"
 
-#: includes/admin/class-post-filters.php:79 includes/class-modules.php:75
-#: includes/modules/podcast/class-podcast.php:82
+#: includes/admin/class-post-filters.php:79 includes/class-modules.php:74
+#: includes/modules/podcast/class-podcast.php:97
 msgid "Podcast"
 msgstr "Podcast"
 
@@ -1935,174 +1915,175 @@ msgstr "Como fazer"
 msgid "Clear Filter"
 msgstr "Limpar filtro"
 
-#: includes/admin/class-quick-edit.php:61
+#: includes/admin/class-quick-edit.php:60
 msgid "SEO Details"
 msgstr "Detalhes de SEO"
 
-#: includes/admin/class-quick-edit.php:218
+#: includes/admin/class-quick-edit.php:217
 msgid "Index"
 msgstr "Indexar"
 
-#: includes/admin/class-quick-edit.php:219
+#: includes/admin/class-quick-edit.php:218
 msgid "No Index"
 msgstr "Não indexar"
 
-#: includes/admin/class-quick-edit.php:220
+#: includes/admin/class-quick-edit.php:219
 msgid "No Follow"
 msgstr "Não seguir"
 
-#: includes/admin/class-quick-edit.php:221
+#: includes/admin/class-quick-edit.php:220
 msgid "No Archive"
 msgstr "Não arquivar"
 
-#: includes/admin/class-quick-edit.php:222
+#: includes/admin/class-quick-edit.php:221
 msgid "No Image Index"
 msgstr "Não indexar imagens"
 
-#: includes/admin/class-quick-edit.php:223
+#: includes/admin/class-quick-edit.php:222
 msgid "No Snippet"
-msgstr "Sem Snippet"
+msgstr "Sem fragmento de código (snippet)"
 
-#: includes/admin/class-quick-edit.php:233
-#: includes/admin/class-quick-edit.php:338
+#: includes/admin/class-quick-edit.php:232
+#: includes/admin/class-quick-edit.php:337
 msgid "SEO Settings"
 msgstr "Configurações de SEO"
 
-#: includes/admin/class-quick-edit.php:242
-#: includes/admin/class-quick-edit.php:342
+#: includes/admin/class-quick-edit.php:241
+#: includes/admin/class-quick-edit.php:341
 msgid "SEO Title"
-msgstr "Título SEO"
+msgstr "Título de SEO"
 
-#: includes/admin/class-quick-edit.php:253
-#: includes/admin/class-quick-edit.php:348
+#: includes/admin/class-quick-edit.php:252
+#: includes/admin/class-quick-edit.php:347
 msgid "SEO Description"
-msgstr "Descrição SEO"
+msgstr "Descrição de SEO"
 
-#: includes/admin/class-quick-edit.php:260
-#: includes/admin/class-quick-edit.php:352
+#: includes/admin/class-quick-edit.php:259
+#: includes/admin/class-quick-edit.php:351
 msgid "Robots Meta"
 msgstr "Meta robots"
 
-#: includes/admin/class-quick-edit.php:278
-#: includes/admin/class-quick-edit.php:365
+#: includes/admin/class-quick-edit.php:277
+#: includes/admin/class-quick-edit.php:364
 msgid "Primary Focus Keyword"
 msgstr "Palavra-chave de foco principal"
 
-#: includes/admin/class-quick-edit.php:284
-#: includes/admin/class-quick-edit.php:371
+#: includes/admin/class-quick-edit.php:283
+#: includes/admin/class-quick-edit.php:370
 msgid "Canonical URL"
 msgstr "URL canônico"
 
-#: includes/admin/class-quick-edit.php:299
+#: includes/admin/class-quick-edit.php:298
 #, php-format
 msgid "Primary %s"
 msgstr "%s Principal"
 
-#: includes/admin/class-quick-edit.php:313
+#: includes/admin/class-quick-edit.php:312
 msgid "&mdash; Not Selected &mdash;"
 msgstr "&mdash; Não selecionado &mdash;"
 
-#: includes/admin/class-setup-wizard.php:79
+#: includes/admin/class-setup-wizard.php:78
 msgid "Upload"
 msgstr "Enviar"
 
-#: includes/admin/class-setup-wizard.php:81
+#: includes/admin/class-setup-wizard.php:80
 msgid ""
 "Select a Rank Math settings file on your computer and upload it to use the "
 "custom settings."
 msgstr ""
-"Selecione um arquivo de configurações do Rank Math em seu computador e "
-"carregue-o para usar as configurações personalizadas."
+"Selecione um arquivo de configurações do Rank Math em seu computador e envie-"
+"o para usar as configurações personalizadas."
 
-#: includes/admin/class-setup-wizard.php:83
+#: includes/admin/class-setup-wizard.php:82
 #, php-format
 msgid "Allowed filetypes: %s"
 msgstr "Tipos de arquivo permitidos: %s"
 
-#: includes/admin/class-setup-wizard.php:84
+#: includes/admin/class-setup-wizard.php:83
 msgid "More information"
 msgstr "Mais informações"
 
-#: includes/admin/class-setup-wizard.php:88
+#: includes/admin/class-setup-wizard.php:87
 msgid "Uploading..."
 msgstr "Enviando..."
 
-#: includes/admin/class-setup-wizard.php:89
+#: includes/admin/class-setup-wizard.php:88
 msgid "Import finished. In the next steps you can review the settings."
 msgstr ""
-"Importação concluída. Nas próximas etapas, você pode revisar as configurações."
+"Importação concluída. Nas próximas etapas, você poderá revisar as "
+"configurações."
 
-#: includes/admin/class-setup-wizard.php:90
+#: includes/admin/class-setup-wizard.php:89
 msgid "Import failed."
 msgstr "Falha na importação."
 
 #. translators: Option Description
-#: includes/admin/class-setup-wizard.php:96
+#: includes/admin/class-setup-wizard.php:95
 #, php-format
 msgid "Easy %s"
 msgstr "Fácil %s"
 
-#: includes/admin/class-setup-wizard.php:96
+#: includes/admin/class-setup-wizard.php:95
 msgid ""
 "For websites where you only want to change the basics and let Rank Math do "
 "most of the heavy lifting. Most settings are set to default as per industry "
 "best practices. One just has to set it and forget it."
 msgstr ""
-"Para sites em que você deseja apenas alterar o básico e deixar o Rank Math "
-"fazer a maior parte do trabalho pesado. A maioria das configurações é "
+"Para sites em que você deseja alterar apenas o básico e deixar que o Rank "
+"Math faça a maior parte do trabalho pesado. A maioria das configurações é "
 "definida como padrão, de acordo com as melhores práticas do setor. Basta "
 "configurar e esquecer."
 
 #. translators: Option Description
-#: includes/admin/class-setup-wizard.php:98
+#: includes/admin/class-setup-wizard.php:97
 #, php-format
 msgid "Advanced %s"
-msgstr "%s Avançado"
+msgstr "Avançado %s"
 
-#: includes/admin/class-setup-wizard.php:98
+#: includes/admin/class-setup-wizard.php:97
 msgid ""
 "For the advanced users who want to control every SEO aspect of the website. "
 "You are offered options to change everything and have full control over the "
 "website’s SEO."
 msgstr ""
 "Para usuários avançados que desejam controlar todos os aspectos de SEO do "
-"site. Você tem opções para mudar tudo e ter controle total sobre o SEO do "
-"site."
+"site. São oferecidas opções para alterar tudo e ter controle total sobre o "
+"SEO do site."
 
 #. translators: Option Description
-#: includes/admin/class-setup-wizard.php:100
+#: includes/admin/class-setup-wizard.php:99
 #, php-format
 msgid "Custom Mode %s"
 msgstr "Modo personalizado %s"
 
-#: includes/admin/class-setup-wizard.php:100
+#: includes/admin/class-setup-wizard.php:99
 msgid ""
 "Select this if you have a custom Rank Math settings file you want to use."
 msgstr ""
-"Selecione esta opção se você tiver um arquivo de configurações do Rank Math "
-"personalizado que deseja usar."
+"Selecione esta opção se você tiver um arquivo de configurações personalizadas "
+"do Rank Math que deseja usar."
 
-#: includes/admin/class-setup-wizard.php:129
+#: includes/admin/class-setup-wizard.php:128
 msgid "Import successful."
 msgstr "Importação bem-sucedida."
 
-#: includes/admin/class-setup-wizard.php:133
+#: includes/admin/class-setup-wizard.php:132
 msgid "No settings found to be imported."
-msgstr "Nenhuma configuração encontrada para importação."
+msgstr "Nenhuma configuração encontrada para ser importada."
 
-#: includes/admin/class-setup-wizard.php:159
+#: includes/admin/class-setup-wizard.php:158
 msgid "No file selected."
 msgstr "Nenhum arquivo selecionado."
 
-#: includes/admin/class-setup-wizard.php:168
+#: includes/admin/class-setup-wizard.php:167
 msgid "Settings file could not be imported:"
 msgstr "O arquivo de configurações não pôde ser importado:"
 
-#: includes/admin/class-setup-wizard.php:173
+#: includes/admin/class-setup-wizard.php:172
 msgid "Settings could not be imported:"
 msgstr "As configurações não puderam ser importadas:"
 
-#: includes/admin/class-setup-wizard.php:178
+#: includes/admin/class-setup-wizard.php:177
 msgid "Settings could not be imported: Upload failed."
 msgstr "As configurações não puderam ser importadas: Falha ao enviar."
 
@@ -2151,17 +2132,17 @@ msgstr "Você não tem permissão para importar conteúdo para este site."
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:284
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:289
 msgid "CSV could not be imported:"
-msgstr "CSV não pôde ser importado:"
+msgstr "O CSV não pôde ser importado:"
 
 #: includes/admin/csv-import-export/class-csv-import-export.php:203
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:294
 msgid "CSV could not be imported: Upload failed."
-msgstr "CSV não pôde ser importado: Falha ao enviar."
+msgstr "O CSV não pôde ser importado: Falha ao enviar."
 
 #: includes/admin/csv-import-export/class-csv-import-export.php:209
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:300
 msgid "CSV could not be imported: File type error."
-msgstr "CSV não pôde ser importado: Erro de tipo de arquivo."
+msgstr "O CSV não pôde ser importado: Erro de tipo de arquivo."
 
 #: includes/admin/csv-import-export/class-csv-import-export.php:262
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:336
@@ -2217,7 +2198,7 @@ msgstr "Itens processados: %1$s/%2$s"
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:472
 #, php-format
 msgid "CSV import completed. Successfully imported %d rows."
-msgstr "Importação de CSV concluída. %d linhas importadas com sucesso."
+msgstr "Importação de CSV concluída. Foram importadas %d linhas."
 
 #: includes/admin/csv-import-export/class-csv-import-export.php:402
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:477
@@ -2228,12 +2209,12 @@ msgstr "Importação de CSV concluída."
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:480
 #, php-format
 msgid "Imported %d rows."
-msgstr "%d linhas importadas."
+msgstr "Foram importadas %d linhas."
 
 #: includes/admin/csv-import-export/class-csv-import-export.php:410
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:485
 msgid "One or more errors occured while importing: "
-msgstr "Ocorreram um ou mais erros durante a importação: "
+msgstr "Ocorreu um ou mais erros durante a importação: "
 
 #: includes/admin/csv-import-export/class-csv-import-export.php:414
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:489
@@ -2289,8 +2270,8 @@ msgid ""
 "Choose your Sitemap configuration and select which type of posts or pages you "
 "want to include in your Sitemaps. %s"
 msgstr ""
-"Escolha a configuração do seu Sitemap e selecione que tipo de posts ou "
-"páginas você deseja incluir em seus Sitemaps. %s"
+"Escolha a configuração do seu sitemap e selecione quais tipos de posts ou "
+"páginas você deseja incluir nos seus sitemaps. %s"
 
 #: includes/admin/wizard/class-sitemap.php:38
 msgid "Learn more."
@@ -2309,8 +2290,8 @@ msgid ""
 "XML Sitemaps help search engines index your website&#039;s content more "
 "effectively."
 msgstr ""
-"Os Sitemaps XML ajudam os mecanismos de pesquisa a indexar o conteúdo do seu "
-"site com mais eficiência."
+"Os sitemaps XML ajudam os mecanismos de pesquisa a indexar o conteúdo do seu "
+"site de forma mais eficaz."
 
 #: includes/admin/wizard/class-sitemap.php:74
 msgid "Include Images"
@@ -2321,7 +2302,7 @@ msgid ""
 "Include reference to images from the post content in sitemaps. This helps "
 "search engines index your images better."
 msgstr ""
-"Inclua referência a imagens do conteúdo do post nos sitemaps. Isso ajuda os "
+"Inclua referências às imagens do conteúdo do post nos sitemaps. Isso ajuda os "
 "mecanismos de pesquisa a indexar melhor suas imagens."
 
 #: includes/admin/wizard/class-sitemap.php:88
@@ -2333,8 +2314,8 @@ msgid ""
 "Select post types to enable SEO options for them and include them in the "
 "sitemap."
 msgstr ""
-"Selecione os tipos de post para ativar as opções de SEO para eles e inclua-os "
-"no sitemap."
+"Selecione os tipos de post para ativar as opções de SEO para eles e incluí-"
+"los no sitemap."
 
 #: includes/admin/wizard/class-sitemap.php:103
 msgid "Public Taxonomies"
@@ -2345,11 +2326,11 @@ msgid ""
 "Select taxonomies to enable SEO options for them and include them in the "
 "sitemap."
 msgstr ""
-"Selecione taxonomias para ativar as opções de SEO para elas e inclua-as no "
-"sitemap."
+"Selecione as taxonomias para ativar as opções de SEO para elas e incluí-las "
+"no sitemap."
 
-#: includes/admin/wizard/class-sitemap.php:118 includes/class-modules.php:51
-#: includes/modules/news-sitemap/class-news-sitemap.php:131
+#: includes/admin/wizard/class-sitemap.php:118 includes/class-modules.php:50
+#: includes/modules/news-sitemap/class-news-sitemap.php:139
 msgid "News Sitemap"
 msgstr "Sitemap de notícias"
 
@@ -2357,8 +2338,8 @@ msgstr "Sitemap de notícias"
 msgid ""
 "News Sitemaps allow you to control which content you submit to Google News."
 msgstr ""
-"Os Sitemaps de notícias permitem que você controle o conteúdo que você envia "
-"para o Google Notícias."
+"Os sitemaps de notícias permitem que você controle o conteúdo que envia ao "
+"Google News (Google Notícias)."
 
 #: includes/admin/wizard/class-sitemap.php:126
 msgid "News Sitemaps"
@@ -2369,8 +2350,8 @@ msgid ""
 "You will generally only need a News Sitemap when your website is included in "
 "Google News."
 msgstr ""
-"Geralmente, você só precisará de um Sitemap de notícias quando o seu site "
-"estiver incluído no Google Notícias."
+"Geralmente, você só precisará de um sitemap de notícias quando seu site "
+"estiver incluído no Google News (Google Notícias)."
 
 #: includes/admin/wizard/class-sitemap.php:137
 #: includes/modules/news-sitemap/settings-news.php:19
@@ -2385,11 +2366,10 @@ msgid ""
 "parentheticals. <a href=\"https://support.google.com/news/publisher-center/"
 "answer/9606710\" target=\"_blank\">More information at support.google.com</a>"
 msgstr ""
-"O nome da publicação de notícias. Ele deve corresponder exatamente ao nome "
-"conforme aparece em seus artigos em news.google.com, omitindo quaisquer "
-"informações entre parênteses. <a href=\"https://support.google.com/news/"
-"publisher-center/answer/9606710\" target=\"_blank\">Mais informações em "
-"support.google.com</a>"
+"O nome da publicação de notícias. Deve corresponder exatamente ao nome que "
+"aparece em seus artigos em news.google.com, omitindo quaisquer parênteses "
+"finais. <a href=\"https://support.google.com/news/publisher-center/"
+"answer/9606710\" target=\"_blank\">Mais informações em support.google.com</a>"
 
 #: includes/admin/wizard/class-sitemap.php:149
 #: includes/modules/news-sitemap/settings-news.php:33
@@ -2399,10 +2379,10 @@ msgstr "Tipo de post de notícias"
 #: includes/admin/wizard/class-sitemap.php:150
 #: includes/modules/news-sitemap/settings-news.php:34
 msgid "Select the post type you use for News articles."
-msgstr "Selecione o tipo de post que você utiliza para artigos de notícias."
+msgstr "Selecione o tipo de post que você usa para artigos de notícias."
 
-#: includes/admin/wizard/class-sitemap.php:162 includes/class-modules.php:63
-#: includes/modules/video-sitemap/class-video-sitemap.php:62
+#: includes/admin/wizard/class-sitemap.php:162 includes/class-modules.php:62
+#: includes/modules/video-sitemap/class-video-sitemap.php:64
 #: includes/modules/video-sitemap/sitemap-xsl.php:103
 msgid "Video Sitemap"
 msgstr "Sitemap de vídeo"
@@ -2412,8 +2392,8 @@ msgid ""
 "Video Sitemaps give search engines information about video content on your "
 "site."
 msgstr ""
-"Os Sitemaps de vídeo fornecem informações aos mecanismos de pesquisa sobre o "
-"conteúdo de vídeo em seu site."
+"Os sitemaps de vídeo fornecem aos mecanismos de pesquisa informações sobre o "
+"conteúdo de vídeo do seu site."
 
 #: includes/admin/wizard/class-sitemap.php:170
 msgid "Video Sitemaps"
@@ -2424,8 +2404,8 @@ msgid ""
 "You will generally only need a Video Sitemap when your website has video "
 "content."
 msgstr ""
-"Geralmente, você só precisará de um Sitemap de vídeo quando o seu site "
-"possuir conteúdo em vídeo."
+"Geralmente, você só precisará de um sitemap de vídeo quando o seu site tiver "
+"conteúdo de vídeo."
 
 #: includes/admin/wizard/class-sitemap.php:181
 #: includes/modules/video-sitemap/settings-video.php:33
@@ -2438,59 +2418,61 @@ msgid ""
 "Select the post type where you use videos and want them to be shown in the "
 "Video search."
 msgstr ""
-"Selecione o tipo de publicação onde você usa vídeos e deseja que eles sejam "
-"exibidos na Pesquisa de vídeo."
+"Selecione o tipo de post onde você usa vídeos e deseja que eles sejam "
+"mostrados na pesquisa de vídeos."
 
-#: includes/class-common.php:67
+#: includes/class-common.php:66
 msgid "Rich Pins Validator"
-msgstr "Validador de Pins Avançados"
+msgstr "Validador de Rich Pins (Pins Avançados)"
 
-#: includes/class-common.php:70
+#: includes/class-common.php:69
 msgid "Pinterest Debugger"
 msgstr "Depurador do Pinterest"
 
-#: includes/class-common.php:88
+#: includes/class-common.php:87
 msgid "Activate now"
 msgstr "Ativar agora"
 
-#: includes/class-modules.php:52
+#: includes/class-modules.php:51
 msgid ""
 "Create a News Sitemap for your news-related content. You only need a News "
 "sitemap if you plan on posting news-related content on your website."
 msgstr ""
-"Crie um Sitemap de notícias para seu conteúdo relacionado a notícias. Você só "
+"Crie um sitemap de notícias para seu conteúdo relacionado a notícias. Você só "
 "precisa de um sitemap de notícias se planeja publicar conteúdo relacionado a "
 "notícias em seu site."
 
-#: includes/class-modules.php:59
+#: includes/class-modules.php:58
 msgid "Please activate Sitemap module to use this module."
-msgstr "Ative o módulo de Sitemap para usar este recurso."
+msgstr "Ative o módulo de sitemap para usar este recurso."
 
-#: includes/class-modules.php:64
+#: includes/class-modules.php:63
 msgid ""
 "For your video content, a Video Sitemap is a recommended step for better "
 "rankings and inclusion in the Video search."
 msgstr ""
-"Para seu conteúdo de vídeo, um Sitemap de vídeo é uma etapa recomendada para "
+"Para seu conteúdo de vídeo, um sitemap de vídeo é uma etapa recomendada para "
 "obter melhores classificações e inclusão na pesquisa de vídeo."
 
-#: includes/class-modules.php:71
+#: includes/class-modules.php:70
 msgid "Please activate Schema & Sitemap module to use this module."
-msgstr "Ative o módulo Schema e Sitemap para usar este módulo."
+msgstr ""
+"Ative os módulos \"Dados estruturados (schema)\" e \"Sitemap\" para usar este "
+"recurso."
 
-#: includes/class-modules.php:76
+#: includes/class-modules.php:75
 msgid ""
 "Make your podcasts discoverable via Google Podcasts, Apple Podcasts, and "
 "similar services with Podcast RSS feed and Schema Markup generated by Rank "
 "Math."
 msgstr ""
-"Torne seus Podcasts detectáveis ​​por meio do Google Podcasts, Apple Podcasts e "
-"serviços semelhantes com o feed RSS do Podcast e a marcação de Schema gerado "
+"Torne seus podcasts detectáveis ​​por meio do Google Podcasts, Apple Podcasts e "
+"serviços semelhantes com o feed RSS do podcast e a marcação de Schema gerados "
 "pelo Rank Math."
 
-#: includes/class-modules.php:84
+#: includes/class-modules.php:83
 msgid "Please activate Schema module to use this module."
-msgstr "Ative o módulo Schema para usar este módulo."
+msgstr "Ative o módulo \"Dados estruturados (schema)\" para usar este módulo."
 
 #: includes/class-register-vars.php:40 includes/class-register-vars.php:51
 msgid "Random Word"
@@ -2506,11 +2488,11 @@ msgid ""
 "chosen on each page load."
 msgstr ""
 "Palavra aleatória não persistente escolhida de uma lista. Uma nova palavra "
-"aleatória será escolhida a cada carregamento da página."
+"aleatória será escolhida a cada carregamento de página."
 
 #: includes/class-thumbnail-overlays.php:347
 msgid "Off"
-msgstr "Desligado"
+msgstr "Desativado"
 
 #: includes/class-thumbnail-overlays.php:357
 #: includes/class-thumbnail-overlays.php:423
@@ -2523,12 +2505,12 @@ msgid ""
 "Select the default watermark that will be applied if no specific watermark is "
 "selected."
 msgstr ""
-"Selecione a marca d'água padrão que será aplicada caso nenhuma marca d'água "
-"específica seja selecionada."
+"Selecione a marca d'água padrão que será aplicada se nenhuma marca d'água "
+"específica for selecionada."
 
 #: includes/class-thumbnail-overlays.php:374
 msgid "Custom Image Watermarks"
-msgstr "Marca d'água personalizada de imagens"
+msgstr "Marcas d'água de imagem personalizadas"
 
 #: includes/class-thumbnail-overlays.php:375
 msgid "Add more image watermarks to choose from for the social thumbnails."
@@ -2564,39 +2546,39 @@ msgstr ""
 
 #: includes/class-thumbnail-overlays.php:536
 msgid "Top Left"
-msgstr "Superior esquerdo"
+msgstr "Superior à esquerda"
 
 #: includes/class-thumbnail-overlays.php:537
 msgid "Top Center"
-msgstr "Superior centro"
+msgstr "Superior ao centro"
 
 #: includes/class-thumbnail-overlays.php:538
 msgid "Top Right"
-msgstr "Superior direito"
+msgstr "Superior à direita"
 
 #: includes/class-thumbnail-overlays.php:540
 msgid "Middle Left"
-msgstr "Meio esquerda"
+msgstr "Meio à esquerda"
 
 #: includes/class-thumbnail-overlays.php:541
 msgid "Middle Center"
-msgstr "Meio centro"
+msgstr "Meio ao centro"
 
 #: includes/class-thumbnail-overlays.php:542
 msgid "Middle Right"
-msgstr "Meio direita"
+msgstr "Meio à direita"
 
 #: includes/class-thumbnail-overlays.php:544
 msgid "Bottom Left"
-msgstr "Inferior esquerda"
+msgstr "Inferior à esquerda"
 
 #: includes/class-thumbnail-overlays.php:545
 msgid "Bottom Center"
-msgstr "Inferior centro"
+msgstr "Inferior ao centro"
 
 #: includes/class-thumbnail-overlays.php:546
 msgid "Bottom Right"
-msgstr "Inferior direita"
+msgstr "Inferior à direita"
 
 #: includes/modules/404-monitor/class-monitor-pro.php:60
 #: includes/modules/404-monitor/class-monitor-pro.php:99
@@ -2614,9 +2596,9 @@ msgid ""
 "Export and download 404 logs from a selected period of time in the form of a "
 "CSV file. Leave the from/to fields empty to export all logs."
 msgstr ""
-"Exporte e baixe os registros de erro 404 de um período selecionado de tempo "
-"em um arquivo CSV. Deixe os campos \"de\" e \"para\" vazios para exportar "
-"todos os registros."
+"Exporte e baixe os registros de erro 404 de um período de tempo selecionado "
+"na forma de um arquivo CSV. Deixe os campos \"de\" e \"para\" vazios para "
+"exportar todos os registros."
 
 #: includes/modules/404-monitor/class-monitor-pro.php:86
 msgid "From date"
@@ -2652,9 +2634,9 @@ msgstr "Incluir imagens adicionadas nos campos ACF."
 #: includes/modules/local-seo/views/titles-options.php:631
 #: includes/modules/local-seo/views/titles-options.php:646
 #: includes/modules/local-seo/views/titles-options.php:661
-#: includes/modules/schema/class-video.php:80
-#: includes/modules/schema/class-video.php:95
-#: includes/modules/schema/class-video.php:121
+#: includes/modules/schema/class-video.php:79
+#: includes/modules/schema/class-video.php:94
+#: includes/modules/schema/class-video.php:120
 #: includes/modules/woocommerce/class-admin.php:47
 msgid "Custom"
 msgstr "Personalizado"
@@ -2665,16 +2647,16 @@ msgid ""
 "Data import will not work for this service as sufficient permissions are not "
 "given."
 msgstr ""
-"A importação de dados não funcionará para esse serviço, pois não foram "
+"A importação de dados não irá funcionar para este serviço, pois não foram "
 "fornecidas permissões suficientes."
 
 #: includes/modules/analytics/class-analytics.php:185
 msgid "Post Analytics"
-msgstr "Analytics de posts"
+msgstr "Análise dos posts"
 
 #: includes/modules/analytics/class-analytics.php:187
 msgid "Analytics Report"
-msgstr "Relatório do Analytics"
+msgstr "Relatório de análises"
 
 #: includes/modules/analytics/class-analytics.php:241
 #: includes/modules/analytics/class-analytics.php:260
@@ -2693,7 +2675,7 @@ msgstr ""
 
 #: includes/modules/analytics/class-analytics.php:346
 msgid "Monitor SEO Performance"
-msgstr "Acompanhar desempenho de SEO"
+msgstr "Monitorar o desempenho de SEO"
 
 #. translators: Link to kb article
 #: includes/modules/analytics/class-analytics.php:349
@@ -2703,7 +2685,7 @@ msgid ""
 "one centralized dashboard on RankMath.com, so you can check up on sites at a "
 "glance. <a href=\"%1$s\" target=\"_blank\">Learn more</a>."
 msgstr ""
-"Esta opção permite que você acompanhe o desempenho de SEO de todos os seus "
+"Esta opção permite que você monitore o desempenho de SEO de todos os seus "
 "sites em um painel centralizado no RankMath.com, para que você possa "
 "verificar os sites rapidamente. <a href=\"%1$s\" target=\"_blank\">Saiba "
 "mais</a>."
@@ -2716,7 +2698,7 @@ msgstr "Atualizações principais do Google nos gráficos"
 #: includes/modules/analytics/class-analytics.php:364
 #, php-format
 msgid "This option allows you to show %s in the Analytics graphs."
-msgstr "Esta opção permite que você mostre %s nos gráficos do Analytics."
+msgstr "Esta opção permite que você mostre %s nos gráficos de análise."
 
 #: includes/modules/analytics/class-analytics.php:365
 msgid "Google Core Updates"
@@ -2738,187 +2720,187 @@ msgstr "Tráfego de pesquisa:"
 msgid "Search Impression:"
 msgstr "Impressão de pesquisa:"
 
-#: includes/modules/analytics/class-email-reports.php:119
+#: includes/modules/analytics/class-email-reports.php:118
 #: includes/modules/local-seo/views/titles-options.php:317
 msgid "Logo"
 msgstr "Logo"
 
-#: includes/modules/analytics/class-email-reports.php:175
+#: includes/modules/analytics/class-email-reports.php:174
 msgid "Every 15 Days"
 msgstr "A cada 15 dias"
 
-#: includes/modules/analytics/class-email-reports.php:181
+#: includes/modules/analytics/class-email-reports.php:180
 msgid "Every 7 Days"
 msgstr "A cada 7 dias"
 
-#: includes/modules/analytics/class-email-reports.php:191
-#: includes/modules/analytics/class-email-reports.php:320
+#: includes/modules/analytics/class-email-reports.php:190
+#: includes/modules/analytics/class-email-reports.php:319
 msgid "Include Only Tracked Keywords"
 msgstr "Incluir apenas palavras-chave rastreadas"
 
-#: includes/modules/analytics/class-email-reports.php:192
+#: includes/modules/analytics/class-email-reports.php:191
 msgid ""
 "When enabled, the Winning Keywords section will only show Tracked Keywords."
 msgstr ""
-"Quando ativada, a seção de Palavras-chave vencedoras mostrará apenas as "
-"Palavras-chave rastreadas."
+"Quando ativada, a seção de palavras-chave vencedoras mostrará apenas as "
+"palavras-chave rastreadas."
 
-#: includes/modules/analytics/class-email-reports.php:207
-#: includes/modules/analytics/class-email-reports.php:411
+#: includes/modules/analytics/class-email-reports.php:206
+#: includes/modules/analytics/class-email-reports.php:410
 msgid "Report Email Address"
 msgstr "Endereço de e-mail do relatório"
 
-#: includes/modules/analytics/class-email-reports.php:208
-#: includes/modules/analytics/class-email-reports.php:415
+#: includes/modules/analytics/class-email-reports.php:207
+#: includes/modules/analytics/class-email-reports.php:414
 msgid ""
 "Address where the reports will be sent. You can add multiple recipients "
 "separated with commas."
 msgstr ""
-"Endereço para o qual os relatórios serão enviados. Você pode adicionar vários "
+"Endereço para onde os relatórios serão enviados. Você pode adicionar vários "
 "destinatários separados por vírgulas."
 
-#: includes/modules/analytics/class-email-reports.php:219
+#: includes/modules/analytics/class-email-reports.php:218
 msgid "Report Email Subject"
 msgstr "Assunto do email do relatório"
 
-#: includes/modules/analytics/class-email-reports.php:220
+#: includes/modules/analytics/class-email-reports.php:219
 msgid "Subject of the report emails."
 msgstr "Assunto dos e-mails do relatório."
 
-#: includes/modules/analytics/class-email-reports.php:231
+#: includes/modules/analytics/class-email-reports.php:230
 msgid "Report Logo"
 msgstr "Logo do relatório"
 
-#: includes/modules/analytics/class-email-reports.php:232
+#: includes/modules/analytics/class-email-reports.php:231
 msgid "Logo appearing in the header part of the report."
 msgstr "Logo que aparece na parte do cabeçalho do relatório."
 
-#: includes/modules/analytics/class-email-reports.php:244
+#: includes/modules/analytics/class-email-reports.php:243
 msgid "Logo Link"
 msgstr "Link do logo"
 
-#: includes/modules/analytics/class-email-reports.php:245
+#: includes/modules/analytics/class-email-reports.php:244
 msgid "URL where the logo link should point to."
 msgstr "URL para onde o link do logo deve apontar."
 
-#: includes/modules/analytics/class-email-reports.php:256
+#: includes/modules/analytics/class-email-reports.php:255
 msgid "Report Header Background"
 msgstr "Fundo do cabeçalho do relatório"
 
-#: includes/modules/analytics/class-email-reports.php:257
+#: includes/modules/analytics/class-email-reports.php:256
 msgid ""
 "Color hex code or any other valid value for the <code>background:</code> CSS "
 "property."
 msgstr ""
-"Código hexadecimal de cor ou qualquer outro valor válido para a propriedade "
+"Código hexadecimal da cor ou qualquer outro valor válido para a propriedade "
 "CSS <code>background:</code>."
 
-#: includes/modules/analytics/class-email-reports.php:271
+#: includes/modules/analytics/class-email-reports.php:270
 msgid "Link to Full Report"
 msgstr "Link para o relatório completo"
 
-#: includes/modules/analytics/class-email-reports.php:272
+#: includes/modules/analytics/class-email-reports.php:271
 msgid ""
 "Select whether to include a link to the Full Report admin page in the email "
 "or not."
 msgstr ""
-"Selecione se deseja incluir ou não um link para a página de administração do "
-"Relatório completo no e-mail."
+"Selecione se deseja incluir um link para a página de administração do "
+"relatório completo no e-mail ou não."
 
-#: includes/modules/analytics/class-email-reports.php:283
+#: includes/modules/analytics/class-email-reports.php:282
 msgid "Report Top Text"
 msgstr "Texto superior do relatório"
 
-#: includes/modules/analytics/class-email-reports.php:284
+#: includes/modules/analytics/class-email-reports.php:283
 msgid "Text or basic HTML to insert below the title."
 msgstr "Texto ou HTML básico para inserir abaixo do título."
 
-#: includes/modules/analytics/class-email-reports.php:295
+#: includes/modules/analytics/class-email-reports.php:294
 msgid "Include Sections"
 msgstr "Incluir seções"
 
-#: includes/modules/analytics/class-email-reports.php:296
+#: includes/modules/analytics/class-email-reports.php:295
 msgid "Select which tables to show in the report."
 msgstr "Selecione quais tabelas mostrar no relatório."
 
-#: includes/modules/analytics/class-email-reports.php:298
+#: includes/modules/analytics/class-email-reports.php:297
 msgid "Basic Summary"
 msgstr "Resumo básico"
 
-#: includes/modules/analytics/class-email-reports.php:299
+#: includes/modules/analytics/class-email-reports.php:298
 msgid "Positions Summary"
 msgstr "Resumo de posições"
 
-#: includes/modules/analytics/class-email-reports.php:300
+#: includes/modules/analytics/class-email-reports.php:299
 #: includes/modules/analytics/views/email-reports/sections/winning-posts.php:21
 msgid "Top Winning Posts"
 msgstr "Principais posts vencedores"
 
-#: includes/modules/analytics/class-email-reports.php:301
+#: includes/modules/analytics/class-email-reports.php:300
 #: includes/modules/analytics/views/email-reports/sections/losing-posts.php:21
 msgid "Top Losing Posts"
 msgstr "Principais posts perdedores"
 
-#: includes/modules/analytics/class-email-reports.php:302
+#: includes/modules/analytics/class-email-reports.php:301
 #: includes/modules/analytics/views/email-reports/sections/winning-keywords.php:21
 msgid "Top Winning Keywords"
-msgstr "Principais palavras-chave em alta"
+msgstr "Principais palavras-chave vencedoras"
 
-#: includes/modules/analytics/class-email-reports.php:303
+#: includes/modules/analytics/class-email-reports.php:302
 #: includes/modules/analytics/views/email-reports/sections/losing-keywords.php:21
 msgid "Top Losing Keywords"
-msgstr "Principais palavras-chave em queda"
+msgstr "Principais palavras-chave perdedoras"
 
-#: includes/modules/analytics/class-email-reports.php:321
+#: includes/modules/analytics/class-email-reports.php:320
 msgid ""
 "When enabled, the Winning Keywords and Losing Keywords sections will only "
 "show Tracked Keywords."
 msgstr ""
-"Quando ativado, as seções de Palavras-chave vencedoras e Palavras-chave "
-"perdedoras mostrarão apenas as Palavras-chave rastreadas."
+"Quando ativadas, as seções de palavras-chave vencedoras e palavras-chave "
+"perdedoras mostrarão apenas as palavras-chave rastreadas."
 
-#: includes/modules/analytics/class-email-reports.php:332
+#: includes/modules/analytics/class-email-reports.php:331
 msgid "Report Footer Text"
 msgstr "Texto do rodapé do relatório"
 
-#: includes/modules/analytics/class-email-reports.php:333
+#: includes/modules/analytics/class-email-reports.php:332
 msgid "Text or basic HTML to insert in the footer area."
 msgstr "Texto ou HTML básico para inserir na área do rodapé."
 
-#: includes/modules/analytics/class-email-reports.php:344
+#: includes/modules/analytics/class-email-reports.php:343
 msgid "Additional CSS code"
 msgstr "Código CSS adicional"
 
-#: includes/modules/analytics/class-email-reports.php:345
+#: includes/modules/analytics/class-email-reports.php:344
 msgid ""
 "Additional CSS code to customize the appearance of the reports. Insert the "
 "CSS code directly, without the wrapping style tag. Please note that the CSS "
 "support is limited in email clients and the appearance may vary greatly."
 msgstr ""
 "Código CSS adicional para personalizar a aparência dos relatórios. Insira o "
-"código CSS diretamente, sem a tag de estilo envolvente. Note que o suporte a "
-"CSS é limitado nos clientes de e-mail e a aparência pode variar "
-"significativamente."
+"código CSS diretamente, sem a tag de estilo de envolvimento. Observe que o "
+"suporte ao CSS é limitado nos clientes de e-mail e a aparência pode variar "
+"bastante."
 
-#: includes/modules/analytics/class-email-reports.php:363
+#: includes/modules/analytics/class-email-reports.php:362
 #, php-format
 msgid "This email was sent to you as a registered member of %s."
-msgstr "Este e-mail foi enviado a você como membro registrado do %s."
+msgstr "Este e-mail foi enviado a você como um membro cadastrado do site %s."
 
-#: includes/modules/analytics/class-email-reports.php:366
+#: includes/modules/analytics/class-email-reports.php:365
 #, php-format
 msgid "To update your email preferences, %s. ###ADDRESS###"
 msgstr "Para atualizar suas preferências de e-mail, %s. ###ADDRESS###"
 
-#: includes/modules/analytics/class-email-reports.php:366
+#: includes/modules/analytics/class-email-reports.php:365
 msgid "click here"
 msgstr "clique aqui"
 
-#: includes/modules/analytics/class-email-reports.php:467
+#: includes/modules/analytics/class-email-reports.php:466
 msgid "Preview"
 msgstr "Pré-visualizar"
 
-#: includes/modules/analytics/class-email-reports.php:497
+#: includes/modules/analytics/class-email-reports.php:496
 #, php-format
 msgid "Rank Math [SEO Report] - %s"
 msgstr "Rank Math [Relatório de SEO] - %s"
@@ -2950,7 +2932,7 @@ msgstr "Ícone de link externo"
 
 #: includes/modules/analytics/views/email-reports/header-after.php:37
 msgid "Uh-oh"
-msgstr "Ops"
+msgstr "Opa"
 
 #: includes/modules/analytics/views/email-reports/header-after.php:38
 msgid "It seems that there are no stats to show right now."
@@ -2963,10 +2945,10 @@ msgid ""
 "but not here, then %1$s try reconnecting your account %2$s and make sure that "
 "the correct properties are selected in the %1$s Analytics Settings%2$s."
 msgstr ""
-"Se você consegue ver os dados do site nas suas contas do Search Console e do "
+"Se você puder ver os dados do site nas suas contas do Search Console e do "
 "Analytics, mas não aqui, então %1$s tente reconectar sua conta %2$s e "
-"certifique-se de selecionar as propriedades corretas nas %1$sConfigurações do "
-"Analytics%2$s."
+"certifique-se de que as propriedades corretas estejam selecionadas nas %1$s "
+"Configurações do Analytics%2$s."
 
 #: includes/modules/analytics/views/email-reports/report.php:35
 msgid "VIEW DETAILED ANALYTICS"
@@ -2998,7 +2980,7 @@ msgstr "Posição"
 #: includes/modules/analytics/views/email-reports/sections/winning-keywords.php:58
 #: includes/modules/analytics/views/email-reports/sections/winning-posts.php:69
 msgid "No data to show."
-msgstr "Sem dados para mostrar."
+msgstr "Não há dados para mostrar."
 
 #: includes/modules/analytics/views/email-reports/sections/losing-posts.php:29
 #: includes/modules/analytics/views/email-reports/sections/winning-posts.php:29
@@ -3014,7 +2996,7 @@ msgstr "Tráfego de pesquisa"
 #: includes/modules/analytics/views/email-reports/sections/summary.php:39
 #: includes/modules/analytics/views/email-reports/sections/summary.php:70
 msgid "Total Impressions"
-msgstr "Impressões totais"
+msgstr "Total de impressões"
 
 #: includes/modules/analytics/views/email-reports/sections/summary.php:55
 msgid "Total Clicks"
@@ -3039,8 +3021,7 @@ msgstr "Marcar como resolvido."
 #: includes/modules/content-ai/assets/src/content-ai.js:8
 msgid "Contact your SEO service provider for more AI credits."
 msgstr ""
-"Entre em contato com o seu provedor de serviços de SEO para obter mais "
-"créditos de IA."
+"Fale com seu provedor de serviços de SEO para obter mais créditos de IA."
 
 #: includes/modules/content-ai/assets/src/content-ai.js:12
 msgid ""
@@ -3052,7 +3033,7 @@ msgstr ""
 
 #: includes/modules/image-seo/class-image-seo-pro.php:92
 msgid "Image Alt"
-msgstr "ALT da Imagem"
+msgstr "ALT da imagem"
 
 #: includes/modules/image-seo/class-image-seo-pro.php:93
 msgid "Alt text set for the current image."
@@ -3154,18 +3135,18 @@ msgstr "Capitalização de frases"
 #: includes/modules/image-seo/options.php:110
 #: includes/modules/image-seo/options.php:129
 msgid "all lowercase"
-msgstr "minúsculas"
+msgstr "todas minúsculas"
 
 #: includes/modules/image-seo/options.php:75
 #: includes/modules/image-seo/options.php:93
 #: includes/modules/image-seo/options.php:111
 #: includes/modules/image-seo/options.php:130
 msgid "ALL UPPERCASE"
-msgstr "MAIÚSCULAS"
+msgstr "TODAS MAIÚSCULAS"
 
 #: includes/modules/image-seo/options.php:85
 msgid "Change alt attribute casing"
-msgstr "Alterar maiúsculas e minúsculas do atributo alt"
+msgstr "Alterar a capitalização do atributo alt"
 
 #: includes/modules/image-seo/options.php:86
 msgid ""
@@ -3185,19 +3166,19 @@ msgid ""
 "<strong>all</strong> image descriptions."
 msgstr ""
 "Configurações de capitalização para as descrições das imagens. Isso será "
-"aplicado a <strong>todas</strong> as descrições de imagem."
+"aplicado para <strong>todas</strong> as descrições de imagem."
 
 #: includes/modules/image-seo/options.php:122
 msgid "Change caption casing"
-msgstr "Alterar a capitalização das legendas"
+msgstr "Alterar a capitalização da legenda"
 
 #: includes/modules/image-seo/options.php:123
 msgid ""
 "Capitalization settings for the image captions.  This will be applied for "
 "<strong>all</strong> image captions."
 msgstr ""
-"Configurações de capitalização para as legendas das imagens.  Isso será "
-"aplicado a <strong>todas</strong> as legendas das imagens."
+"Configurações de capitalização para as legendas das imagem. Isso será "
+"aplicado para <strong>todas</strong> as legendas de imagem."
 
 #: includes/modules/image-seo/options.php:140
 msgid "Add ALT attributes for avatars"
@@ -3208,9 +3189,8 @@ msgid ""
 "Add <code>alt</code> attributes for commenter profile pictures (avatars) "
 "automatically. The alt attribute value will be the username."
 msgstr ""
-"Adicionar atributos <code>alt</code> para as imagens de perfil do "
-"comentarista (avatares) automaticamente. O valor do atributo alt será o nome "
-"de usuário."
+"Adicione automaticamente atributos <code>alt</code> para as imagens de perfil "
+"dos comentaristas (avatares). O valor do atributo alt será o nome de usuário."
 
 #: includes/modules/image-seo/options.php:151
 msgid "Replacements"
@@ -3220,7 +3200,7 @@ msgstr "Substituições"
 msgid ""
 "Replace characters or words in the alt tags, title tags, or in the captions."
 msgstr ""
-"Substituir caracteres ou palavras nas tags \"alt\", tags de título ou nas "
+"Substitua caracteres ou palavras nas tags alt, nas tags de título ou nas "
 "legendas."
 
 #: includes/modules/image-seo/options.php:154
@@ -3261,13 +3241,13 @@ msgid ""
 msgstr ""
 "O KML é um formato de arquivo usado para exibir dados geográficos em um "
 "navegador da Terra, como o Google Earth. Mais informações: <a href=\"%s\" "
-"target=\"_blank\">Locais KML</a>"
+"target=\"_blank\">Localizações KML</a>"
 
 #. translators: KML File Url
 #: includes/modules/local-seo/class-admin.php:65
 #, php-format
 msgid "Your Locations KML file can be found here: %s"
-msgstr "O arquivo KML dos seus locais pode ser encontrado aqui: %s"
+msgstr "O arquivo KML de suas localizações pode ser encontrado aqui: %s"
 
 #: includes/modules/local-seo/class-admin.php:80
 #: includes/modules/podcast/views/options.php:59
@@ -3414,12 +3394,12 @@ msgstr "Pesquisar categorias"
 #: includes/modules/local-seo/class-local-seo.php:230
 #: includes/modules/redirections/class-categories.php:84
 msgid "Parent Category"
-msgstr "Categoria ascendente"
+msgstr "Categoria principal (ascendente)"
 
 #: includes/modules/local-seo/class-local-seo.php:231
 #: includes/modules/redirections/class-categories.php:85
 msgid "Parent Category:"
-msgstr "Categoria ascendente:"
+msgstr "Categoria principal (ascendente):"
 
 #: includes/modules/local-seo/class-local-seo.php:268
 #: includes/modules/local-seo/views/titles-options.php:371
@@ -3432,20 +3412,19 @@ msgstr "Endereço"
 msgid "Phone"
 msgstr "Telefone"
 
-#: includes/modules/local-seo/class-location-shortcode.php:137
+#: includes/modules/local-seo/class-location-shortcode.php:143
 #, php-format
 msgid "This page can't load Google Maps correctly. Please add %s."
-msgstr ""
-"Esta página não consegue carregar o Google Maps corretamente. Adicione %s."
+msgstr "Esta página não pode carregar o Google Maps corretamente. Adicione %s."
 
-#: includes/modules/local-seo/class-location-shortcode.php:138
+#: includes/modules/local-seo/class-location-shortcode.php:144
 msgid "API Key"
 msgstr "Chave de API"
 
-#: includes/modules/local-seo/class-location-shortcode.php:314
+#: includes/modules/local-seo/class-location-shortcode.php:320
 #: includes/modules/local-seo/shortcodes/class-store-locator.php:169
 msgid "Sorry, no locations were found."
-msgstr "Nenhum local foi encontrado."
+msgstr "Nenhuma localização foi encontrada."
 
 #: includes/modules/local-seo/shortcodes/class-address.php:42
 msgid "Secondary phone"
@@ -3496,7 +3475,7 @@ msgstr "Selecionar categoria"
 
 #: includes/modules/local-seo/shortcodes/class-opening-hours.php:31
 msgid "Open 24/7"
-msgstr "Aberto 24/7"
+msgstr "Aberto 24 horas por dia, 7 dias por semana"
 
 #: includes/modules/local-seo/shortcodes/class-opening-hours.php:41
 msgid "Opening Hours:"
@@ -3512,7 +3491,7 @@ msgstr "Aberto agora"
 
 #: includes/modules/local-seo/shortcodes/class-store-locator.php:75
 msgid "Address, Suburb, Region, Zip or Landmark"
-msgstr "Endereço, Bairro, Região, CEP ou Ponto de referência"
+msgstr "Endereço, bairro, região, CEP ou ponto de referência"
 
 #: includes/modules/local-seo/shortcodes/class-store-locator.php:81
 msgid "Search"
@@ -3540,15 +3519,15 @@ msgstr "Mostrar rota"
 
 #: includes/modules/local-seo/views/sitemap-settings.php:17
 msgid "Include KML File in the Sitemap"
-msgstr "Incluir arquivo KML no Sitemap"
+msgstr "Incluir arquivo KML no sitemap"
 
 #: includes/modules/local-seo/views/sitemap-settings.php:18
 msgid ""
 "locations.kml Sitemap is generated automatically when the Local SEO module is "
 "enabled, and the geo-coordinates are added."
 msgstr ""
-"o sitemap do arquivo locations.kml é gerado automaticamente quando o módulo "
-"de SEO local está ativado e as coordenadas geográficas são adicionadas."
+"O sitemap locations.kml é gerado automaticamente quando o módulo de SEO local "
+"está ativado e as coordenadas geográficas são adicionadas."
 
 #: includes/modules/local-seo/views/titles-options.php:23
 msgid "Choose a country"
@@ -3636,7 +3615,7 @@ msgstr "Samoa Ocidental"
 
 #: includes/modules/local-seo/views/titles-options.php:274
 msgid "Person or Company"
-msgstr "Pessoa ou Empresa"
+msgstr "Pessoa ou empresa"
 
 #: includes/modules/local-seo/views/titles-options.php:277
 msgid "Organization"
@@ -3652,7 +3631,7 @@ msgstr "Nome do site"
 
 #: includes/modules/local-seo/views/titles-options.php:289
 msgid "Enter the name of your site to appear in search results."
-msgstr "Digite o nome do seu site para aparecer nos resultados de pesquisa."
+msgstr "Digite o nome do seu site para aparecer nos resultados da pesquisa."
 
 #: includes/modules/local-seo/views/titles-options.php:298
 msgid "Website Alternate Name"
@@ -3668,22 +3647,22 @@ msgstr ""
 
 #: includes/modules/local-seo/views/titles-options.php:307
 msgid "Person/Organization Name"
-msgstr "Nome da Pessoa/Organização"
+msgstr "Nome da pessoa/organização"
 
 #: includes/modules/local-seo/views/titles-options.php:308
 msgid ""
 "Your name or company name intended to feature in Google's Knowledge Panel."
 msgstr ""
-"Seu nome ou nome da empresa destinado a aparecer no Painel de Conhecimento do "
-"Google."
+"Seu nome ou nome da empresa destinado a aparecer no painel de Conhecimento do "
+"Google (Google's Knowledge)."
 
 #: includes/modules/local-seo/views/titles-options.php:318
 msgid ""
 "<strong>Min Size: 112Χ112px</strong>.<br /> A squared image is preferred by "
 "the search engines."
 msgstr ""
-"<strong>Tamanho mínimo: 112Χ112px</strong>.<br /> Uma imagem quadrada é a "
-"preferida pelos mecanismos de busca."
+"<strong>Tamanho mínimo: 112Χ112px</strong>.<br /> Uma imagem quadrada é "
+"preferida pelos mecanismos de pesquisa."
 
 #: includes/modules/local-seo/views/titles-options.php:328
 msgid "URL of the item."
@@ -3691,7 +3670,7 @@ msgstr "URL do item."
 
 #: includes/modules/local-seo/views/titles-options.php:337
 msgid "Use Multiple Locations"
-msgstr "Usar vários locais"
+msgstr "Usar várias localizações"
 
 #: includes/modules/local-seo/views/titles-options.php:338
 msgid ""
@@ -3700,8 +3679,8 @@ msgid ""
 "organization."
 msgstr ""
 "Depois de salvar as alterações, criaremos um novo tipo de post personalizado "
-"chamado \"Locais\", onde você poderá adicionar vários locais do seu negócio/"
-"organização."
+"chamado \"Localizações\", onde você poderá adicionar vários locais do seu "
+"negócio/organização."
 
 #: includes/modules/local-seo/views/titles-options.php:353
 msgid "Search engines display your email address."
@@ -3713,8 +3692,8 @@ msgid ""
 "Search engines may prominently display your contact phone number for mobile "
 "users."
 msgstr ""
-"Os mecanismos de pesquisa podem exibir com destaque seu número de telefone de "
-"contato para usuários de dispositivos móveis."
+"Os mecanismos de pesquisa podem exibir com destaque o seu número de telefone "
+"de contato para usuários de dispositivos móveis."
 
 #: includes/modules/local-seo/views/titles-options.php:380
 msgid "Address Format"
@@ -3744,8 +3723,8 @@ msgid ""
 "or closing hours on some days or if you have a mid-day break. Times are "
 "specified using 24:00 time."
 msgstr ""
-"Selecione o horário de funcionamento. Você pode adicionar vários conjuntos se "
-"tiver horários de abertura ou fechamento diferentes em alguns dias ou se "
+"Selecione os horários de funcionamento. Você pode adicionar vários conjuntos "
+"se tiver horários de abertura ou fechamento diferentes em alguns dias ou se "
 "tiver um intervalo no meio do dia. Os horários são especificados usando o "
 "horário de 24:00."
 
@@ -3783,7 +3762,7 @@ msgstr "Domingo"
 
 #: includes/modules/local-seo/views/titles-options.php:440
 msgid "e.g. 09:00-17:00"
-msgstr "por exemplo, 09:00-17:00"
+msgstr "por exemplo: 09:00-17:00"
 
 #: includes/modules/local-seo/views/titles-options.php:448
 msgid "Opening Hours Format"
@@ -3819,33 +3798,35 @@ msgstr "Ocultar horário de funcionamento"
 
 #: includes/modules/local-seo/views/titles-options.php:507
 msgid "Don't add opening hours data in Schema"
-msgstr "Não adicionar dados de horário de funcionamento no Schema"
+msgstr ""
+"Não adicionar dados de horário de funcionamento nos dados estruturados "
+"(schema)"
 
 #: includes/modules/local-seo/views/titles-options.php:522
 msgid "Closed label"
-msgstr "Rótulo de \"fechado\""
+msgstr "Rótulo \"Fechado\""
 
 #: includes/modules/local-seo/views/titles-options.php:523
 msgid "Text to show in Opening hours when business is closed."
 msgstr ""
-"Texto a ser exibido nos horários de funcionamento quando o estabelecimento "
-"estiver fechado."
+"Texto a ser mostrado nos horários de funcionamento quando a empresa estiver "
+"fechada."
 
 #: includes/modules/local-seo/views/titles-options.php:533
 msgid "Open 24/7 label"
-msgstr "Rótulo de \"aberto\" 24/7"
+msgstr "Rótulo \"Aberto 24/7\""
 
 #: includes/modules/local-seo/views/titles-options.php:534
 msgid ""
 "Select the text to display alongside your opening hours when your store is "
 "open 24/7."
 msgstr ""
-"Selecione o texto para exibir junto com o horário de funcionamento quando sua "
-"loja estiver aberta 24/7."
+"Selecione o texto a ser exibido ao lado do horário de funcionamento quando a "
+"loja estiver aberta 24 horas por dia, 7 dias por semana."
 
 #: includes/modules/local-seo/views/titles-options.php:544
 msgid "Open 24h label"
-msgstr "Rótulo de \"aberto\" 24h"
+msgstr "Rótulo \"Aberto 24h\""
 
 #: includes/modules/local-seo/views/titles-options.php:554
 msgid "Measurement system"
@@ -3869,8 +3850,7 @@ msgstr "Estilo do mapa"
 
 #: includes/modules/local-seo/views/titles-options.php:570
 msgid "Select the map style you wish to use on the frontend of your website."
-msgstr ""
-"Selecione o estilo de mapa que você deseja usar na interface do seu site."
+msgstr "Selecione o estilo de mapa que deseja usar na interface do seu site."
 
 #: includes/modules/local-seo/views/titles-options.php:572
 msgid "Hybrid"
@@ -3890,14 +3870,14 @@ msgstr "Terreno"
 
 #: includes/modules/local-seo/views/titles-options.php:586
 msgid "Maximum number of locations to show"
-msgstr "Número máximo de locais a serem exibidos"
+msgstr "Número máximo de localizações a serem exibidos"
 
 #: includes/modules/local-seo/views/titles-options.php:587
 msgid ""
 "Limit the number of locations shown on your website to those nearest your "
 "user."
 msgstr ""
-"Limite o número de locais exibidos em seu site para aqueles mais próximos do "
+"Limite o número de localizações exibidas em seu site aos mais próximos do "
 "usuário."
 
 #: includes/modules/local-seo/views/titles-options.php:605
@@ -3914,15 +3894,15 @@ msgstr ""
 
 #: includes/modules/local-seo/views/titles-options.php:616
 msgid "Show Route label"
-msgstr "Exibir rótulo de rota"
+msgstr "Mostrar rótulo da rota"
 
 #: includes/modules/local-seo/views/titles-options.php:617
 msgid ""
 "Customize the label of the option users can use can click to get directions "
 "to your business location on the frontend."
 msgstr ""
-"Personalizar o rótulo da opção que os usuários podem clicar para obter "
-"direções até a localização do seu negócio na interface."
+"Personalize o rótulo da opção que os usuários podem usar para clicar para "
+"obter direções para a localização da sua empresa na interface."
 
 #: includes/modules/local-seo/views/titles-options.php:627
 msgid "Location Detection"
@@ -3930,8 +3910,7 @@ msgstr "Detecção de localização"
 
 #: includes/modules/local-seo/views/titles-options.php:628
 msgid "Automatically detect the user's location as the starting point."
-msgstr ""
-"Detectar automaticamente a localização do usuário como ponto de partida."
+msgstr "Detecte automaticamente a localização do usuário como ponto de partida."
 
 #: includes/modules/local-seo/views/titles-options.php:642
 msgid "All Locations are part of the same Organization"
@@ -3942,8 +3921,8 @@ msgid ""
 "Enable if all of the locations where you serve customers are a part of the "
 "same legal entity."
 msgstr ""
-"Ative se todas as localizações onde você atende clientes fazem parte da mesma "
-"entidade legal."
+"Ative se todas as localizações onde você atende clientes, fazem parte da "
+"mesma entidade legal."
 
 #: includes/modules/local-seo/views/titles-options.php:657
 msgid "Enhanced Search"
@@ -3951,7 +3930,8 @@ msgstr "Pesquisa aprimorada"
 
 #: includes/modules/local-seo/views/titles-options.php:658
 msgid "Include business locations in site-wide search results."
-msgstr "Incluir locais de negócios nos resultados de pesquisa em todo o site."
+msgstr ""
+"Inclua as localizações comerciais nos resultados da pesquisa em todo o site."
 
 #: includes/modules/local-seo/views/titles-options.php:672
 msgid "Google Maps API Key"
@@ -3981,15 +3961,15 @@ msgstr "Valores de latitude e longitude separados por vírgula."
 
 #: includes/modules/local-seo/views/titles-options.php:694
 msgid "Locations Post Type Base"
-msgstr "Base do tipo de post de locais"
+msgstr "Base do tipo de post de localização"
 
 #: includes/modules/local-seo/views/titles-options.php:705
 msgid "Locations Category Base"
-msgstr "Base de categoria de locais"
+msgstr "Base da categoria de localizações"
 
 #: includes/modules/local-seo/views/titles-options.php:716
 msgid "Location Post Type Name"
-msgstr "Nome do tipo de post de local"
+msgstr "Nome do tipo de post de localização"
 
 #: includes/modules/local-seo/views/titles-options.php:718
 msgid ""
@@ -3997,19 +3977,19 @@ msgid ""
 "add & manage locations."
 msgstr ""
 "O rótulo que aparece na barra lateral para o tipo de post personalizado onde "
-"você pode adicionar e gerenciar locais."
+"você pode adicionar e gerenciar localizações."
 
 #: includes/modules/local-seo/views/titles-options.php:727
 msgid "Locations Post Type Name (Plural)"
-msgstr "Nome do tipo de post de locais (plural):"
+msgstr "Nome do tipo de post de localizações (plural)"
 
 #: includes/modules/local-seo/views/titles-options.php:729
 msgid ""
 "As above, but the label that would be applicable for more than one location "
 "(default: RM Locations)."
 msgstr ""
-"Como mencionado acima, mas o rótulo que seria aplicável para mais de um local "
-"(padrão: Locais RM)."
+"Como acima, mas o rótulo que seria aplicável a mais de uma localização "
+"(padrão: Localizações RM)."
 
 #: includes/modules/local-seo/views/titles-options.php:735
 #: includes/modules/local-seo/views/titles-options.php:751
@@ -4025,34 +4005,34 @@ msgstr "Página sobre"
 msgid ""
 "Select a page on your site where you want to show the LocalBusiness meta data."
 msgstr ""
-"Selecione uma página do seu site onde você deseja exibir os dados de "
-"metadados do LocalBusiness."
+"Selecione uma página do seu site onde você deseja mostrar os metadados do "
+"LocalBusiness (Negócios locais)."
 
 #: includes/modules/local-seo/views/titles-options.php:760
 msgid "Contact Page"
 msgstr "Página de contato"
 
-#: includes/modules/news-sitemap/class-news-sitemap.php:133
+#: includes/modules/news-sitemap/class-news-sitemap.php:141
 #, php-format
 msgid ""
 "News Sitemaps allow you to control which content you submit to Google News. "
 "More information: <a href=\"%s\" target=\"_blank\">News Sitemaps overview</a>"
 msgstr ""
-"Os Sitemaps de notícias permitem que você controle quais conteúdos envia para "
-"o Google Notícias. Mais informações: <a href=\"%s\" target=\"_blank\">Visão "
-"geral dos Sitemaps de notícias</a>"
+"Os sitemaps de notícias permitem que você controle o conteúdo que envia ao "
+"Google News (Google Notícias). Mais informações: <a href=\"%s\" "
+"target=\"_blank\">Visão geral dos sitemaps de notícias</a>"
 
 #. translators: News Sitemap Url
-#: includes/modules/news-sitemap/class-news-sitemap.php:136
+#: includes/modules/news-sitemap/class-news-sitemap.php:144
 #, php-format
 msgid "Your News Sitemap index can be found here: : %s"
-msgstr "O índice do seu Sitemap de notícias pode ser encontrado aqui: %s"
+msgstr "O índice do seu sitemap de notícias pode ser encontrado aqui: %s"
 
 #. translators: Post Type
 #: includes/modules/news-sitemap/settings-news.php:77
 #, php-format
 msgid "Exclude %s Terms "
-msgstr "Excluir %s Termos "
+msgstr "Excluir termos %s "
 
 #. translators: 1. Taxonomy Name 2. Post Type
 #: includes/modules/news-sitemap/settings-news.php:93
@@ -4072,8 +4052,8 @@ msgid ""
 "WordPress SEO Plugin</a>. It is what search engines like Google use to crawl "
 "and re-crawl posts/pages/products/images/archives on your website."
 msgstr ""
-"Este Sitemap XML é gerado pelo <a href=\"%s\" target=\"_blank\">Plugin Rank "
-"Math WordPress SEO</a>. É o que os mecanismos de pesquisa, como o Google, "
+"Este sitemap XML é gerado pelo <a href=\"%s\" target=\"_blank\">Plugin de SEO "
+"do WordPress Rank Math</a>. É o que os mecanismos de pesquisa, como o Google, "
 "usam para rastrear e re-rastrear posts/páginas/produtos/imagens/arquivos em "
 "seu site."
 
@@ -4081,14 +4061,14 @@ msgstr ""
 #: includes/modules/news-sitemap/sitemap-xsl.php:127
 #, php-format
 msgid "Learn more about <a href=\"%s\" target=\"_blank\">XML Sitemaps</a>."
-msgstr "Saiba mais sobre <a href=\"%s\" target=\"_blank\">XML Sitemaps</a>."
+msgstr "Saiba mais sobre <a href=\"%s\" target=\"_blank\">Sitemaps XML</a>."
 
 #. translators: xsl value count
 #: includes/modules/news-sitemap/sitemap-xsl.php:139
 #: includes/modules/video-sitemap/sitemap-xsl.php:135
 #, php-format
 msgid "This XML Sitemap contains <strong>%s</strong> URLs."
-msgstr "Este Sitemap XML contém <strong>%s</strong> URLs."
+msgstr "Este sitemap XML contém <strong>%s</strong> URLs."
 
 #. translators: xsl value count
 #. translators: Sitemap index link.
@@ -4102,34 +4082,34 @@ msgstr "<a href=\"%s\">&#8592; Índice do Sitemap</a>"
 msgid "Publication Date"
 msgstr "Data de publicação"
 
-#: includes/modules/podcast/class-podcast.php:52
+#: includes/modules/podcast/class-podcast.php:67
 #: includes/modules/podcast/views/options.php:86
 msgid "Podcast Image"
-msgstr "Imagem do Podcast"
+msgstr "Imagem do podcast"
 
-#: includes/modules/podcast/class-podcast.php:53
+#: includes/modules/podcast/class-podcast.php:68
 msgid "Podcast channel image configured in the Rank Math Settings."
-msgstr "Imagem do canal do podcast configurada nas configurações do Rank Math."
+msgstr "Imagem do canal de podcast definida nas configurações do Rank Math."
 
 #. translators: Link to kb article
-#: includes/modules/podcast/class-podcast.php:84
+#: includes/modules/podcast/class-podcast.php:99
 #, php-format
 msgid ""
 "Make your podcasts discoverable via Google Podcasts, Apple Podcasts, and "
 "similar services. %s."
 msgstr ""
-"Torne seus podcasts descobríveis no Google Podcasts, Apple Podcasts e "
-"serviços similares. %s."
+"Torne seus podcasts detectáveis por meio do Google Podcasts, Apple Podcasts e "
+"serviços semelhantes. %s."
 
-#: includes/modules/podcast/class-podcast.php:84
+#: includes/modules/podcast/class-podcast.php:99
 msgid "Learn more"
 msgstr "Saiba mais"
 
 #. translators: Link to Podcast RSS feed
-#: includes/modules/podcast/class-podcast.php:87
+#: includes/modules/podcast/class-podcast.php:102
 #, php-format
 msgid "Your Podcast RSS feed can be found here: %s"
-msgstr "Seu feed RSS do podcast pode ser encontrado aqui: %s"
+msgstr "Seu feed RSS de podcast pode ser encontrado aqui: %s"
 
 #: includes/modules/podcast/views/options.php:17
 msgid "Podcast Name"
@@ -4165,11 +4145,11 @@ msgid ""
 "active and monitored."
 msgstr ""
 "O endereço de e-mail do proprietário do podcast. Certifique-se de que o "
-"endereço de e-mail esteja ativo e sendo monitorado."
+"endereço de e-mail esteja ativo e monitorado."
 
 #: includes/modules/podcast/views/options.php:57
 msgid "Podcast Category"
-msgstr "Categoria do Podcast"
+msgstr "Categoria do podcast"
 
 #: includes/modules/podcast/views/options.php:60
 msgid "Arts"
@@ -4177,7 +4157,7 @@ msgstr "Artes"
 
 #: includes/modules/podcast/views/options.php:61
 msgid "Business"
-msgstr "Negócio"
+msgstr "Negócios"
 
 #: includes/modules/podcast/views/options.php:62
 msgid "Comedy"
@@ -4193,7 +4173,7 @@ msgstr "Jogos e hobbies"
 
 #: includes/modules/podcast/views/options.php:65
 msgid "Government &amp; Organizations"
-msgstr "Governo e Organizações"
+msgstr "Governo e organizações"
 
 #: includes/modules/podcast/views/options.php:66
 msgid "Health"
@@ -4205,7 +4185,7 @@ msgstr "Crianças e família"
 
 #: includes/modules/podcast/views/options.php:69
 msgid "News &amp; Politics"
-msgstr "Notícias e Política"
+msgstr "Notícias e política"
 
 #: includes/modules/podcast/views/options.php:70
 msgid "Religion &amp; Spirituality"
@@ -4240,8 +4220,8 @@ msgid ""
 "<strong>Min Size: 1400x1400px, Max Size: 3000x3000px</strong>.<br /> The "
 "filesize should not exceed 0.5MB."
 msgstr ""
-"<strong>Tamanho mínimo: 1400x1400 pixels, Tamanho máximo: 3000x3000 pixels</"
-"strong>.<br /> O tamanho do arquivo não deve exceder 0,5 MB."
+"<strong>Tamanho mínimo: 1400x1400px, Tamanho máximo: 3000x3000px</strong>."
+"<br /> O tamanho do arquivo não deve exceder 0,5 MB."
 
 #: includes/modules/podcast/views/options.php:96
 msgid "Tracking Prefix"
@@ -4261,8 +4241,7 @@ msgstr "É explícito"
 
 #: includes/modules/podcast/views/options.php:107
 msgid "Indicates whether the podcast is explicit language or adult content."
-msgstr ""
-"Indica se o podcast contém linguagem explícita ou conteúdo para adultos."
+msgstr "Indica se o podcast tem linguagem explícita ou conteúdo adulto."
 
 #: includes/modules/podcast/views/options.php:116
 msgid "Copyright Text"
@@ -4271,8 +4250,8 @@ msgstr "Texto de direitos autorais"
 #: includes/modules/podcast/views/options.php:117
 msgid "Add copyright details if your show is copyrighted."
 msgstr ""
-"Adicione os detalhes de direitos autorais (copyright) caso o seu programa "
-"esteja protegido por direitos autorais."
+"Adicione os detalhes de direitos autorais (copyright) se seu programa tiver "
+"direitos autorais."
 
 #: includes/modules/redirections/class-categories.php:80
 msgctxt "taxonomy general name"
@@ -4360,7 +4339,7 @@ msgstr "Filtro"
 
 #: includes/modules/redirections/class-categories.php:511
 msgid "&larr; Go Back to the Redirections"
-msgstr "← Voltar para os redirecionamentos"
+msgstr "&larr; Voltar para os redirecionamentos"
 
 #: includes/modules/redirections/class-redirections.php:63
 #: includes/modules/redirections/class-redirections.php:69
@@ -4386,35 +4365,35 @@ msgstr ""
 
 #: includes/modules/redirections/class-redirections.php:99
 msgid "No valid redirection found."
-msgstr "Nenhum redirecionamento válido encontrado."
+msgstr "Nenhum redirecionamento válido foi encontrado."
 
 #: includes/modules/redirections/class-redirections.php:107
 msgid "Redirections successfully synced to the .htaccess file."
-msgstr "Redirecionamentos sincronizados com sucesso para o arquivo .htaccess."
+msgstr "Redirecionamentos sincronizados com o arquivo .htaccess."
 
-#: includes/modules/redirections/class-schedule.php:71
+#: includes/modules/redirections/class-schedule.php:70
 msgid "Scheduled Activation"
 msgstr "Ativação agendada"
 
-#: includes/modules/redirections/class-schedule.php:72
+#: includes/modules/redirections/class-schedule.php:71
 msgid "Redirection will be activated on this date (optional)."
 msgstr "O redirecionamento será ativado nesta data (opcional)."
 
-#: includes/modules/redirections/class-schedule.php:88
+#: includes/modules/redirections/class-schedule.php:87
 msgid "Scheduled Deactivation"
 msgstr "Desativação agendada"
 
-#: includes/modules/redirections/class-schedule.php:89
+#: includes/modules/redirections/class-schedule.php:88
 msgid "Redirection will be deactivated on this date (optional)."
 msgstr "O redirecionamento será desativado nesta data (opcional)."
 
-#: includes/modules/redirections/class-schedule.php:375
+#: includes/modules/redirections/class-schedule.php:374
 msgid ""
 "One or more of the selected redirections could not be changed because they "
 "are scheduled for future activation/deactivation."
 msgstr ""
-"Um ou mais redirecionamentos selecionados não puderam ser alterados porque "
-"estão agendados para ativação/desativação futura."
+"Um ou mais dos redirecionamentos selecionados não puderam ser alterados "
+"porque estão agendados para ativação/desativação futura."
 
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:59
 #, php-format
@@ -4427,12 +4406,12 @@ msgstr "Use as seguintes colunas no arquivo CSV (a ordem não importa): %s"
 msgid ""
 "Only the %1$s and the %2$s columns are required, the others are optional."
 msgstr ""
-"Apenas as colunas %1$s e %2$s são obrigatórias, as demais são opcionais."
+"Apenas as colunas %1$s e %2$s são obrigatórias, as outras são opcionais."
 
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:65
 #, php-format
 msgid "The %1$s column may contain the value %2$s, or nothing."
-msgstr "A coluna %1$s pode conter o valor %2$s ou nada."
+msgstr "A coluna %1$s pode conter o valor %2$s ou estar vazia."
 
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:68
 #, php-format
@@ -4441,8 +4420,8 @@ msgid ""
 "edited. If it is not set or empty, then a new redirection will be created."
 msgstr ""
 "Se o ID numérico for especificado na coluna %s, o redirecionamento será "
-"editado. Se não estiver definido ou vazio, um novo redirecionamento será "
-"criado."
+"editado. Se não estiver definido ou estiver vazio, será criado um novo "
+"redirecionamento."
 
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:71
 #, php-format
@@ -4452,10 +4431,11 @@ msgid ""
 "be merged into a single redirection with multiple sources. You can change "
 "this behavior with the %s filter hook."
 msgstr ""
-"Se um redirecionamento importado diferir de um redirecionamento existente (ou "
-"outro redirecionamento importado) apenas pelo valor de origem, esses "
-"redirecionamentos serão mesclados em um único redirecionamento com várias "
-"origens. Você pode alterar esse comportamento com o gancho de filtro %s."
+"Se um redirecionamento importado for diferente de um redirecionamento "
+"existente (ou de outro redirecionamento importado) apenas pelo valor da "
+"origem, esses redirecionamentos serão mesclados em um único redirecionamento "
+"com várias origens. Você pode alterar esse comportamento com o gancho de "
+"filtro %s."
 
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:74
 #, php-format
@@ -4463,13 +4443,13 @@ msgid ""
 "Use %1$s (case-sensitive) as the value for the %2$s column to delete a "
 "redirection."
 msgstr ""
-"Use %1$s (com distinção entre maiúsculas e minúsculas) como o valor da coluna "
-"%2$s para excluir um redirecionamento."
+"Use %1$s (diferencia maiúsculas de minúsculas) como o valor da coluna %2$s "
+"para excluir um redirecionamento."
 
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:77
 #, php-format
 msgid "For more information, please see %s."
-msgstr "Para obter mais informações, consulte %s."
+msgstr "Para mais informações, consulte %s."
 
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:77
 msgid "our Knowledge Base article"
@@ -4559,8 +4539,7 @@ msgstr "Mesclado"
 
 #: includes/modules/redirections/csv-import-redirections/class-csv-import-export-redirections.php:537
 msgid "Are you sure you want to import redirections from this CSV file?"
-msgstr ""
-"Tem certeza de que deseja importar os redirecionamentos deste arquivo CSV?"
+msgstr "Tem certeza de que deseja importar redirecionamentos deste arquivo CSV?"
 
 #: includes/modules/redirections/csv-import-redirections/class-import-row.php:253
 msgid "Could not import redirection."
@@ -4572,7 +4551,7 @@ msgstr "Conjunto de dados"
 
 #: includes/modules/schema/class-admin.php:110
 msgid "Fact Check"
-msgstr "Verificar fatos"
+msgstr "Verificação de fatos"
 
 #: includes/modules/schema/class-admin.php:117
 msgid "None (Click here to set one)"
@@ -4596,7 +4575,7 @@ msgstr "(sem título)"
 
 #: includes/modules/schema/class-admin.php:149
 msgid "No matches found."
-msgstr "Nenhuma correspondência encontrada."
+msgstr "Nenhuma correspondência foi encontrada."
 
 #: includes/modules/schema/class-admin.php:150
 msgid "Link selected."
@@ -4608,7 +4587,7 @@ msgstr "Link inserido."
 
 #: includes/modules/schema/class-admin.php:156
 msgid "Use in Schema Markup"
-msgstr "Usar na marcação de Schema"
+msgstr "Usar na marcação de dados estruturados (schema)"
 
 #: includes/modules/schema/class-admin.php:157
 msgid "Link Title"
@@ -4624,71 +4603,71 @@ msgstr "Nenhum URL encontrado."
 
 #: includes/modules/schema/class-parser.php:44
 msgid "No html body found."
-msgstr "Nenhum corpo html encontrado."
+msgstr "Nenhum corpo HTML encontrado."
 
 #: includes/modules/schema/class-post-type.php:40
 msgctxt "Post Type General Name"
 msgid "Schemas"
-msgstr "Schemas (Dados estruturados)"
+msgstr "Dados estruturados (schemas)"
 
 #: includes/modules/schema/class-post-type.php:41
 msgctxt "Post Type Singular Name"
 msgid "Schema"
-msgstr "Schema (Dado estruturado)"
+msgstr "Dado estruturado (schema)"
 
 #: includes/modules/schema/class-post-type.php:42
 msgid "Schemas"
-msgstr "Schemas"
+msgstr "Dados estruturados (schemas)"
 
 #: includes/modules/schema/class-post-type.php:43
 #: includes/modules/schema/class-post-type.php:56
 msgid "Schema"
-msgstr "Schema (Dado estruturado)"
+msgstr "Dado estruturado (schema)"
 
 #: includes/modules/schema/class-post-type.php:44
 msgid "All Schemas"
-msgstr "Todos os Schemas"
+msgstr "Todos os dados estruturados (schemas)"
 
 #: includes/modules/schema/class-post-type.php:45
 msgid "Add New Schema"
-msgstr "Adicionar novo Schema"
+msgstr "Adicionar novo dado estruturado (schema)"
 
 #: includes/modules/schema/class-post-type.php:46
 msgid "New Schema"
-msgstr "Novo Schema"
+msgstr "Novo dado estruturado (schema)"
 
 #: includes/modules/schema/class-post-type.php:47
 msgid "Edit Schema"
-msgstr "Editar Schema"
+msgstr "Editar dado estruturado (schema)"
 
 #: includes/modules/schema/class-post-type.php:48
 msgid "Update Schema"
-msgstr "Atualizar Schema"
+msgstr "Atualizar dado estruturado (schema)"
 
 #: includes/modules/schema/class-post-type.php:49
 msgid "View Schema"
-msgstr "Ver Schema"
+msgstr "Ver dado estruturado (schema)"
 
 #: includes/modules/schema/class-post-type.php:50
 msgid "View Schemas"
-msgstr "Ver Schemas"
+msgstr "Ver dados estruturados (schemas)"
 
 #: includes/modules/schema/class-post-type.php:51
 msgid "Search schemas"
-msgstr "Pesquisar Schemas"
+msgstr "Pesquisar dados estruturados (schemas)"
 
 #: includes/modules/schema/class-post-type.php:57
 msgid "Rank Math Schema Templates"
-msgstr "Modelos de Schema (Dado estruturado) do Rank Math"
+msgstr "Modelos de dados estruturados (schemas) do Rank Math"
 
 #: includes/modules/schema/class-post-type.php:99
 #: includes/modules/schema/class-post-type.php:100
 msgid "Schema Templates"
-msgstr "Modelos de Schema"
+msgstr "Modelos de dado estruturado (schema)"
 
 #: includes/modules/schema/class-rest.php:51
 msgid "Schema to add."
-msgstr "Esquema para adicionar."
+msgstr "Dado estruturado (schema) para adicionar."
 
 #: includes/modules/schema/class-rest.php:140
 msgid "Sorry, you are not allowed to save template."
@@ -4728,62 +4707,62 @@ msgstr "Contras"
 
 #: includes/modules/schema/class-video-schema-generator.php:78
 msgid "Rank Math: Added Video Schema to posts successfully."
-msgstr "Rank Math: Adicionado o Schema de vídeo aos posts com sucesso."
+msgstr "Rank Math: Adicionado o dado estruturado (schema) de vídeo aos posts."
 
-#: includes/modules/schema/class-video.php:76
+#: includes/modules/schema/class-video.php:75
 msgid "Autodetect Video"
 msgstr "Detecção automática de vídeo"
 
-#: includes/modules/schema/class-video.php:77
+#: includes/modules/schema/class-video.php:76
 msgid ""
 "Populate automatic Video Schema by auto-detecting any video in the content."
 msgstr ""
-"Preencher automaticamente o Schema de vídeo ao detectar qualquer vídeo no "
-"conteúdo."
+"Preenche o dado estruturado (schema) de vídeo automático, detectando "
+"automaticamente qualquer vídeo no conteúdo."
+
+#: includes/modules/schema/class-video.php:90
+msgid "Autogenerate Image"
+msgstr "Geração automática de imagem"
 
 #: includes/modules/schema/class-video.php:91
-msgid "Autogenerate Image"
-msgstr "Gerar imagem automaticamente"
-
-#: includes/modules/schema/class-video.php:92
 msgid "Auto-generate image for the auto detected video."
-msgstr "Auto-gerar imagem para o vídeo auto detectado."
+msgstr "Geração automática de imagem para o vídeo detectado automaticamente."
 
+#: includes/modules/schema/class-video.php:116
 #: includes/modules/schema/class-video.php:117
-#: includes/modules/schema/class-video.php:118
 msgid "Remove Media Data from RSS feed"
 msgstr "Remover dados de mídia do feed RSS"
 
-#: includes/modules/schema/class-video.php:193
+#: includes/modules/schema/class-video.php:192
 msgid "Generate Video Schema for Old Posts/Pages"
-msgstr "Gerar Schema de vídeo para posts/páginas antigos"
+msgstr "Gerar dado estruturado (schema) de vídeo para posts/páginas antigos"
 
-#: includes/modules/schema/class-video.php:194
+#: includes/modules/schema/class-video.php:193
 msgid ""
 "Add Video schema to posts which have YouTube or Vimeo Video in the content. "
 "Applies to only those Posts/Pages/CPTs in which Autodetect Video Option is On."
 msgstr ""
-"Adicionar Schema de vídeo aos posts que possuem vídeo do YouTube ou Vimeo no "
-"conteúdo. Aplica-se apenas aos posts/páginas/CTPs em que a opção de "
-"autodetecção de vídeo está ativada."
+"Adicione o dado estruturado (schema) de vídeo aos posts que tenham vídeos do "
+"YouTube ou do Vimeo no conteúdo. Aplica-se apenas aos posts/páginas/CPTs nos "
+"quais a opção de detecção automática de vídeo está ativada."
 
-#: includes/modules/schema/class-video.php:195
+#: includes/modules/schema/class-video.php:194
 msgid ""
 "Are you sure you want to add Video Schema to the posts/pages with the video "
 "in the content? This action is irreversible."
 msgstr ""
-"Tem certeza de que deseja adicionar o Schema de vídeo aos posts/páginas com "
-"vídeo no conteúdo? Essa ação é irreversível."
+"Tem certeza de que deseja adicionar o dado estruturado (schema) de vídeo aos "
+"posts/páginas com o vídeo no conteúdo? Esta ação é irreversível."
 
-#: includes/modules/schema/class-video.php:196
+#: includes/modules/schema/class-video.php:195
 msgid "Generate"
 msgstr "Gerar"
 
-#: includes/modules/schema/class-video.php:215
+#: includes/modules/schema/class-video.php:214
 msgid "No posts found to convert."
-msgstr "Nenhum post encontrado para converter."
+msgstr "Não foram encontrados posts para converter."
 
-#: includes/modules/schema/class-video.php:220
+#: includes/modules/schema/class-video.php:219
 msgid ""
 "Conversion started. A success message will be shown here once the process "
 "completes. You can close this page."
@@ -4801,7 +4780,7 @@ msgstr "Data de publicação"
 
 #: includes/modules/schema/shortcode/claimreview.php:40
 msgid "Appearance Headline"
-msgstr "Aparência do título"
+msgstr "Aparência do título principal (manchete)"
 
 #: includes/modules/schema/shortcode/claimreview.php:47
 msgid "Appearance URL"
@@ -4821,7 +4800,7 @@ msgstr "Nome alternativo"
 
 #: includes/modules/schema/shortcode/dataset.php:28
 msgid "Reference Web page "
-msgstr "Página de referência "
+msgstr "Página da web de referência "
 
 #: includes/modules/schema/shortcode/dataset.php:38
 msgid "Identifier"
@@ -4887,7 +4866,7 @@ msgstr "Data de expiração da publicação"
 
 #: includes/modules/schema/shortcode/jobposting.php:55
 msgid "Unpublish when expired"
-msgstr "Despublicar quando expirado"
+msgstr "Cancelar a publicação quando expirado"
 
 #: includes/modules/schema/shortcode/jobposting.php:62
 msgid "Employment Type "
@@ -4907,11 +4886,11 @@ msgstr "Logo da organização"
 
 #: includes/modules/schema/shortcode/jobposting.php:90
 msgid "Job Type"
-msgstr "Tipo de trabalho"
+msgstr "Tipo de vaga"
 
 #: includes/modules/schema/shortcode/jobposting.php:106
 msgid "Job Location"
-msgstr "Localização do trabalho"
+msgstr "Localização da vaga"
 
 #: includes/modules/schema/shortcode/jobposting.php:114
 msgid "Location"
@@ -4937,30 +4916,30 @@ msgstr "Diretor"
 msgid "Date Created"
 msgstr "Data de criação"
 
-#: includes/modules/schema/shortcode/podcastepisode.php:38
+#: includes/modules/schema/shortcode/podcastepisode.php:39
 #, php-format
 msgid "%d Hour"
 msgstr "%d Hora"
 
-#: includes/modules/schema/shortcode/podcastepisode.php:39
-#, php-format
-msgid "%d Min"
-msgstr "%d min"
-
 #: includes/modules/schema/shortcode/podcastepisode.php:40
 #, php-format
-msgid "%d Sec"
-msgstr "%d seg"
+msgid "%d Min"
+msgstr "%d Min"
 
-#: includes/modules/schema/shortcode/podcastepisode.php:78
+#: includes/modules/schema/shortcode/podcastepisode.php:41
+#, php-format
+msgid "%d Sec"
+msgstr "%d Seg"
+
+#: includes/modules/schema/shortcode/podcastepisode.php:79
 msgid "Season"
 msgstr "Temporada"
 
-#: includes/modules/schema/shortcode/podcastepisode.php:89
+#: includes/modules/schema/shortcode/podcastepisode.php:90
 msgid "Episode"
 msgstr "Episódio"
 
-#: includes/modules/schema/shortcode/podcastepisode.php:112
+#: includes/modules/schema/shortcode/podcastepisode.php:113
 msgid "By"
 msgstr "Por"
 
@@ -4995,7 +4974,7 @@ msgstr "Tipo"
 
 #: includes/modules/schema/shortcode/recipe.php:27
 msgid "Cuisine"
-msgstr "Cozinha"
+msgstr "Culinária"
 
 #: includes/modules/schema/shortcode/recipe.php:41
 msgid "Recipe Yield"
@@ -5029,22 +5008,22 @@ msgstr "Descrição do vídeo da receita"
 msgid "Recipe Video Thumbnail"
 msgstr "Miniatura do vídeo da receita"
 
-#: includes/modules/schema/shortcode/recipe.php:109
+#: includes/modules/schema/shortcode/recipe.php:110
 msgid "Recipe Ingredients"
 msgstr "Ingredientes da receita"
 
-#: includes/modules/schema/shortcode/recipe.php:118
-#: includes/modules/schema/shortcode/recipe.php:126
-#: includes/modules/schema/shortcode/recipe.php:134
-#: includes/modules/schema/shortcode/recipe.php:147
+#: includes/modules/schema/shortcode/recipe.php:119
+#: includes/modules/schema/shortcode/recipe.php:127
+#: includes/modules/schema/shortcode/recipe.php:135
+#: includes/modules/schema/shortcode/recipe.php:148
 msgid "Recipe Instructions"
 msgstr "Instruções da receita"
 
-#: includes/modules/schema/video/class-parser.php:299
+#: includes/modules/schema/video/class-parser.php:309
 msgid "Video Thumbnail"
 msgstr "Miniatura do vídeo"
 
-#: includes/modules/schema/video/class-parser.php:327
+#: includes/modules/schema/video/class-parser.php:337
 #, php-format
 msgid "Video Thumbnail: %s"
 msgstr "Miniatura do vídeo: %s"
@@ -5061,8 +5040,8 @@ msgstr "Análise da concorrência"
 msgid ""
 "Enter a site URL to see how it ranks for the same SEO criteria as your site."
 msgstr ""
-"Digite o URL do site para ver como ele se classifica nos mesmos critérios de "
-"SEO do seu site."
+"Digite o URL de um site para ver como ele se classifica de acordo com os "
+"mesmos critérios de SEO do seu site."
 
 #: includes/modules/seo-analysis/views/competitor-analysis.php:34
 msgid "Start Audit"
@@ -5086,24 +5065,24 @@ msgstr ""
 
 #: includes/modules/status/class-system-status.php:39
 msgid "Free version"
-msgstr "Versão Free"
+msgstr "Versão gratuita"
 
 #: includes/modules/status/class-system-status.php:46
 msgid "PRO version"
 msgstr "Versão PRO"
 
-#: includes/modules/video-sitemap/class-video-sitemap.php:63
+#: includes/modules/video-sitemap/class-video-sitemap.php:65
 #, php-format
 msgid ""
 "Video Sitemaps give search engines information about video content on your "
 "site. More information: <a href=\"%s\" target=\"_blank\">Video Sitemaps</a>"
 msgstr ""
-"Os mapas de vídeo fornecem aos mecanismos de pesquisa informações sobre o "
+"Os sitemaps de vídeo fornecem informações aos mecanismos de pesquisa sobre o "
 "conteúdo de vídeo em seu site. Mais informações: <a href=\"%s\" "
-"target=\"_blank\">Mapas de vídeo</a>"
+"target=\"_blank\">Sitemaps de Vídeo</a>"
 
 #. translators: Video Sitemap Url
-#: includes/modules/video-sitemap/class-video-sitemap.php:66
+#: includes/modules/video-sitemap/class-video-sitemap.php:68
 #, php-format
 msgid "Your Video Sitemap index can be found here: %s"
 msgstr "O índice do seu sitemap de vídeo pode ser encontrado aqui: %s"
@@ -5134,16 +5113,16 @@ msgid ""
 "WordPress SEO Plugin</a>. It is what search engines like Google use to find "
 "and understand the video content on your website."
 msgstr ""
-"Este sitemap de video é gerado pelo <a href=\"%s\" target=\"_blank\">Plugin "
-"Rank Math WordPress SEO</a>. É o que os mecanismos de pesquisa como o Google "
-"usam para encontrar e entender o conteúdo de vídeo em seu site."
+"Este sitemap de vídeo é gerado pelo <a href=\"%s\" target=\"_blank\">Plugin "
+"de SEO para WordPress Rank Math</a>. É o que os mecanismos de pesquisa, como "
+"o Google, usam para localizar e entender o conteúdo de vídeo do seu site."
 
 #. translators: link to rankmath.com
 #: includes/modules/video-sitemap/sitemap-xsl.php:123
 #, php-format
 msgid "Learn more about <a href=\"%s\" target=\"_blank\">Video Sitemap</a>."
 msgstr ""
-"Saiba mais sobre <a href=\"%s\" target=\"_blank\">o Sitemap de vídeo</a>."
+"Saiba mais sobre o <a href=\"%s\" target=\"_blank\">Sitemap de vídeo</a>."
 
 #: includes/modules/video-sitemap/sitemap-xsl.php:155
 msgid "Tags"
@@ -5155,7 +5134,7 @@ msgstr "Última modificação."
 
 #: includes/modules/woocommerce/class-admin.php:53
 msgid "Select Brand"
-msgstr "Selecione a marca"
+msgstr "Selecionar marca"
 
 #: includes/modules/woocommerce/class-admin.php:54
 msgid "Select Product Brand Taxonomy to use in Schema.org & OpenGraph markup."
@@ -5177,7 +5156,9 @@ msgstr "Identificador global"
 
 #: includes/modules/woocommerce/class-admin.php:74
 msgid "Global Identifier key to use in the Product Schema."
-msgstr "Chave de Identificador global a ser usada no Schema do produto."
+msgstr ""
+"Chave do identificador global a ser usada no dado estruturado (schema) do "
+"produto."
 
 #: includes/modules/woocommerce/class-admin.php:76
 msgid "GTIN-8"
@@ -5216,27 +5197,27 @@ msgid ""
 "Display the Global Identified on Product Page along with other product "
 "details."
 msgstr ""
-"Exibir o Identificador global na página do produto, juntamente com outros "
+"Exibe o Identificador global na página do produto, juntamente com outros "
 "detalhes do produto."
 
 #: includes/modules/woocommerce/class-admin.php:101
 msgid "Global Identifier label"
-msgstr "Rótulo do Identificador global"
+msgstr "Rótulo do identificador global"
 
 #: includes/modules/woocommerce/class-admin.php:102
 msgid "Global Identifier label to show on Product Page."
-msgstr "Rótulo do Identificador global a ser exibido na página do produto."
+msgstr "Rótulo do identificador global a ser mostrado na página do produto."
 
 #: includes/modules/woocommerce/class-admin.php:112
 msgid "Noindex Hidden Products"
-msgstr "Não indexar produtos ocultos"
+msgstr "Não indexar (noindex) produtos ocultos"
 
 #: includes/modules/woocommerce/class-admin.php:113
 msgid ""
 "Set Product Pages to noindex when WooCommerce Catalog visibility is set to "
 "hidden."
 msgstr ""
-"Definir as páginas de produto como noindex (não indexar) quando a "
+"Defina as páginas de produtos como noindex (não indexar) quando a "
 "visibilidade do catálogo do WooCommerce estiver definida como oculta."
 
 #: includes/modules/woocommerce/class-admin.php:124
@@ -5247,12 +5228,12 @@ msgstr "GTIN"
 #: includes/modules/woocommerce/class-admin.php:134
 #, php-format
 msgid "%s value to use in the Product schema."
-msgstr "Valor de %s a ser usado no Schema do produto."
+msgstr "Valor %s a ser usado no dado estruturado (schema) de produto."
 
 #: includes/modules/woocommerce/class-admin.php:163
 #, php-format
 msgid "%s value to use in Product schema."
-msgstr "Valor de %s a ser usado no Schema do produto."
+msgstr "Valor %s a ser usado em dado estruturado (schema) de produto."
 
 #: includes/plugin-update/class-plugin-update.php:156
 msgid ""
@@ -5266,7 +5247,7 @@ msgstr ""
 #: includes/plugin-update/class-plugin-update.php:159
 #, php-format
 msgid "%1$sConnect now%2$s. It only takes 20 seconds!"
-msgstr "%1$sConecte agora%2$s. Leva apenas 20 segundos!"
+msgstr "%1$sConectar agora%2$s. Leva apenas 20 segundos!"
 
 #: includes/plugin-update/class-plugin-update.php:193
 msgid "Enable updates"
@@ -5301,15 +5282,15 @@ msgid ""
 "more traffic to their website."
 msgstr ""
 "Criamos o %1$sRank Math, um plugin de SEO para WordPress%2$s, para ajudar "
-"cada proprietário de site a ter acesso às ferramentas de SEO de que precisam "
-"para melhorar seu SEO e atrair mais tráfego para seus sites."
+"todos os proprietários de sites a terem acesso às ferramentas de SEO de que "
+"precisam para melhorar seu SEO e atrair mais tráfego para seu site."
 
-#: includes/plugin-update/class-plugin-update.php:794
+#: includes/plugin-update/class-plugin-update.php:796
 msgid "Please update the free version before updating Rank Math SEO PRO."
 msgstr "Atualize a versão gratuita antes de atualizar o Rank Math SEO PRO."
 
 #. translators: 1: Plugin name, 2: Pricing Link's opening HTML anchor tag, 3: Pricing Link's closing HTML anchor tag.
-#: includes/plugin-update/class-plugin-update.php:797
+#: includes/plugin-update/class-plugin-update.php:799
 #, php-format
 msgid ""
 "It seems that you don't have an active subscription for %1$s. Please see "
@@ -5319,19 +5300,20 @@ msgstr ""
 "e preços%3$s."
 
 #. translators: 1: Link's opening HTML anchor tag, 2: Link's closing HTML anchor tag.
-#: includes/plugin-update/class-plugin-update.php:804
+#: includes/plugin-update/class-plugin-update.php:806
 #, php-format
 msgid "Please %1$s connect Rank Math SEO PRO %2$s for automatic updates."
 msgstr "Conecte o %1$s Rank Math SEO PRO %2$s para atualizações automáticas."
 
-#: includes/plugin-update/class-plugin-update.php:949
+#: includes/plugin-update/class-plugin-update.php:951
 msgid "Rank Math PRO"
 msgstr "Rank Math PRO"
 
 #: includes/views/csv-import-export-panel.php:21
 msgid "Import SEO meta data for posts, terms, and users from a CSV file."
 msgstr ""
-"Importe metadados de SEO para posts, termos e usuários de um arquivo CSV."
+"Importe metadados de SEO para posts, termos e usuários a partir de um arquivo "
+"CSV."
 
 #: includes/views/csv-import-export-panel.php:45
 msgid "Do not overwrite existing data"
@@ -5341,8 +5323,8 @@ msgstr "Não substitua os dados existentes"
 msgid ""
 "Check this to import meta fields only if their current meta value is empty."
 msgstr ""
-"Marque esta opção para importar campos de metadados apenas se o valor atual "
-"do meta estiver vazio."
+"Marque esta opção para importar meta campos apenas se o valor atual do meta "
+"estiver vazio."
 
 #: includes/views/csv-import-export-panel.php:50
 #, php-format
@@ -5350,13 +5332,12 @@ msgid ""
 "%s It is recommended to save a database backup before using this option "
 "because importing malformed CSV can result in loss of data."
 msgstr ""
-"%s É recomendado fazer um backup do banco de dados antes de usar essa opção, "
-"pois a importação de um arquivo CSV malformado pode resultar na perda de "
-"dados."
+"%s É recomendado salvar um backup do banco de dados antes de usar esta opção, "
+"pois a importação de CSV malformado pode resultar em perda de dados."
 
 #: includes/views/csv-import-export-panel.php:50
 msgid "Warning:"
-msgstr "Alerta:"
+msgstr "Atenção:"
 
 #: includes/views/csv-import-export-panel.php:78
 msgid "Post types:"
@@ -5372,7 +5353,8 @@ msgstr "Funções de usuário:"
 
 #: includes/views/csv-import-export-panel.php:115
 msgid "Include read-only columns (SEO score and link counts)"
-msgstr "Incluir colunas somente leitura (pontuação de SEO e contagem de links)"
+msgstr ""
+"Incluir colunas somente de leitura (pontuação de SEO e contagem de links)"
 
 #: includes/views/csv-import-export-panel.php:118
 msgid "Choose the object types to export."
@@ -5384,7 +5366,7 @@ msgstr "Usar opções avançadas"
 
 #: includes/views/csv-import-redirections-panel.php:15
 msgid "Redirections CSV"
-msgstr "Redirecionamentos CSV"
+msgstr "CSV de redirecionamentos"
 
 #: includes/views/csv-import-redirections-panel.php:18
 msgid "Add or edit redirections by importing and exporting a CSV file."
@@ -5405,45 +5387,45 @@ msgstr "Não atualizar os redirecionamentos atuais"
 
 #: includes/views/csv-import-redirections-panel.php:43
 msgid "Check this to only create non-existing redirections."
-msgstr "Marque isso para criar apenas redirecionamentos inexistentes."
+msgstr "Marque esta opção para criar apenas redirecionamentos inexistentes."
 
 #: includes/views/csv-import-redirections-panel.php:63
 msgid "Export current redirections as a CSV file."
 msgstr "Exportar os redirecionamentos atuais como um arquivo CSV."
 
-#: rank-math-pro.php:115
+#: rank-math-pro.php:113
 msgid ""
 "Please update Rank Math Free to the latest version first before using Rank "
 "Math PRO."
 msgstr ""
-"Atualize o Rank Math Free para a versão mais recente antes de usar o Rank "
+"Atualize o Rank Math Gratuito para a versão mais recente antes de usar o Rank "
 "Math PRO."
 
-#: rank-math-pro.php:139
+#: rank-math-pro.php:137
 msgid ""
 "Rank Math free version is required to run Rank Math PRO. Both plugins are now "
 "disabled."
 msgstr ""
-"A versão Gratuita do Rank Math é necessária para executar o Rank Math PRO. "
+"A versão gratuita do Rank Math é necessária para executar o Rank Math PRO. "
 "Ambos os plugins estão agora desativados."
 
-#: rank-math-pro.php:145
+#: rank-math-pro.php:143
 msgid ""
 "Rank Math free version is required to run Rank Math PRO, but it could not be "
 "installed automatically. Please install and activate the free version first."
 msgstr ""
-"A versão Gratuita do Rank Math é necessária para executar o Rank Math PRO, "
-"mas ela não pode ser instalada automaticamente. Instale e ative a versão "
-"gratuita primeiro."
+"A versão gratuita do Rank Math é necessária para executar o Rank Math PRO, "
+"mas ela não pôde ser instalada automaticamente. Instale e ative primeiro a "
+"versão gratuita."
 
-#: rank-math-pro.php:151
+#: rank-math-pro.php:149
 msgid ""
 "Rank Math free version is required to run Rank Math PRO, but it could not be "
 "activated automatically. Please install and activate the free version first."
 msgstr ""
-"A versão Gratuita do Rank Math é necessária para executar o Rank Math PRO, "
-"mas ela não pode ser ativada automaticamente. Instale e ative a versão "
-"gratuita primeiro."
+"A versão gratuita do Rank Math é necessária para executar o Rank Math PRO, "
+"mas ela não pôde ser ativada automaticamente. Instale e ative primeiro a "
+"versão gratuita."
 
 #. Plugin Name of the plugin/theme
 msgid "Rank Math SEO PRO"
@@ -5458,9 +5440,9 @@ msgid ""
 "Super-charge your website’s SEO with the Rank Math PRO options like Site "
 "Analytics, SEO Performance, Custom Schema Templates, News/Video Sitemaps, etc."
 msgstr ""
-"Turbine o SEO do seu site com as opções do Rank Math PRO, como Análises do "
-"site, Desempenho de SEO, Modelos de Schema personalizados, Sitemaps do site "
-"para Notícias/Vídeos, etc."
+"Turbine o SEO do seu site com as opções do Rank Math PRO, como análises do "
+"site, desempenho de SEO, modelos de dados estruturados (schemas) "
+"personalizados, sitemaps para notícias/vídeos, etc."
 
 #. Author of the plugin/theme
 msgid "Rank Math"
@@ -5473,6 +5455,16 @@ msgid ""
 msgstr ""
 "https://rankmath.com/?"
 "utm_source=Plugin&utm_medium=Readme%20Author%20URI&utm_campaign=WP"
+
+#~ msgid "Remove custom canonical URL"
+#~ msgstr "Remover URL canônico personalizado"
+
+#~ msgid "Set Schema: None"
+#~ msgstr "Definir Schema (Dado estruturado): Nenhum"
+
+#, php-format
+#~ msgid "Set Schema: Default (%s)"
+#~ msgstr "Definir Schema (Dado estruturado): Padrão (%s)"
 
 #, php-format
 #~ msgid ""

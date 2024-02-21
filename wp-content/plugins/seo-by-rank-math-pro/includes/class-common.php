@@ -10,14 +10,13 @@
 
 namespace RankMathPro;
 
-use RankMath\Helper;
 use RankMath\Traits\Hooker;
+use RankMath\Helper;
+use RankMath\Helpers\Url;
+use RankMath\Helpers\Str;
+use RankMath\Helpers\Arr;
 use RankMath\Admin\Admin_Helper;
 use RankMathPro\Admin\Admin_Helper as PROAdminHelper;
-use MyThemeShop\Helpers\Url;
-use MyThemeShop\Helpers\Str;
-use MyThemeShop\Helpers\Arr;
-use MyThemeShop\Helpers\Conditional;
 
 
 defined( 'ABSPATH' ) || exit;
@@ -88,7 +87,7 @@ class Common {
 			$values['trendsUpgradeLabel'] = esc_html__( 'Activate now', 'rank-math-pro' );
 		}
 
-		if ( Conditional::is_woocommerce_active() && 'product' === PROAdminHelper::get_current_post_type() ) {
+		if ( Helper::is_woocommerce_active() && 'product' === PROAdminHelper::get_current_post_type() ) {
 			$values['assessor']['isReviewEnabled'] = 'yes' === get_option( 'woocommerce_enable_reviews', 'yes' );
 		}
 
@@ -145,8 +144,8 @@ class Common {
 		}
 
 		$post_type      = PROAdminHelper::get_current_post_type();
-		$is_woocommerce = Conditional::is_woocommerce_active() && 'product' === $post_type;
-		$is_edd         = Conditional::is_edd_active() && 'download' === $post_type;
+		$is_woocommerce = Helper::is_woocommerce_active() && 'product' === $post_type;
+		$is_edd         = Helper::is_edd_active() && 'download' === $post_type;
 
 		if ( ! $is_woocommerce && ! $is_edd ) {
 			return $tests;
@@ -183,8 +182,8 @@ class Common {
 		}
 
 		$post_type      = PROAdminHelper::get_current_post_type();
-		$is_woocommerce = Conditional::is_woocommerce_active() && 'product' === $post_type;
-		$is_edd         = Conditional::is_edd_active() && 'download' === $post_type;
+		$is_woocommerce = Helper::is_woocommerce_active() && 'product' === $post_type;
+		$is_edd         = Helper::is_edd_active() && 'download' === $post_type;
 
 		if ( ! $is_woocommerce && ! $is_edd ) {
 			return;

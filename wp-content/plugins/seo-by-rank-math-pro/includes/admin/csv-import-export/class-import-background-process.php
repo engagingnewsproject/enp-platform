@@ -176,6 +176,6 @@ class Import_Background_Process extends \WP_Background_Process {
 	public function is_cancelled() {
 		// Fixes bug in parent is_cancelled()!
 		// where get_site_option( 'rank_math_csv_import_status' ) is not yet set when is_cancelled is called for the first time.
-		return ! get_site_option( 'rank_math_csv_import' );
+		return is_multisite() ? parent::is_cancelled() : ! get_site_option( $this->identifier );
 	}
 }

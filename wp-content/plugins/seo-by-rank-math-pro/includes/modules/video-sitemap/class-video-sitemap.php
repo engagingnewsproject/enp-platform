@@ -5,7 +5,7 @@
  * @since      1.0.0
  * @package    RankMath
  * @subpackage RankMathPro
- * @author     MyThemeShop <admin@mythemeshop.com>
+ * @author     RankMath <support@rankmath.com>
  */
 
 namespace RankMathPro\Sitemap;
@@ -39,11 +39,12 @@ class Video_Sitemap {
 			return;
 		}
 
+		$sitemap_slug = Router::get_sitemap_slug( 'video' );
 		$this->filter( 'rank_math/sitemap/providers', 'add_provider' );
-		$this->filter( 'rank_math/sitemap/video_urlset', 'xml_urlset' );
-		$this->filter( 'rank_math/sitemap/xsl_video', 'sitemap_xsl' );
-		$this->filter( 'rank_math/sitemap/video_stylesheet_url', 'stylesheet_url' );
-		$this->filter( 'rank_math/sitemap/video_sitemap_url', 'sitemap_url', 10, 2 );
+		$this->filter( 'rank_math/sitemap/' . $sitemap_slug . '_urlset', 'xml_urlset' );
+		$this->filter( 'rank_math/sitemap/xsl_' . $sitemap_slug, 'sitemap_xsl' );
+		$this->filter( 'rank_math/sitemap/' . $sitemap_slug . '_stylesheet_url', 'stylesheet_url' );
+		$this->filter( 'rank_math/sitemap/' . $sitemap_slug . '_sitemap_url', 'sitemap_url', 10, 2 );
 
 		$this->action( 'transition_post_status', 'status_transition', 10, 3 );
 	}
@@ -56,7 +57,8 @@ class Video_Sitemap {
 	 * @return array
 	 */
 	public function add_settings( $tabs ) {
-		$sitemap_url           = Router::get_base_url( 'video-sitemap.xml' );
+		$sitemap_slug          = Router::get_sitemap_slug( 'video' );
+		$sitemap_url           = Router::get_base_url( "$sitemap_slug-sitemap.xml" );
 		$tabs['video-sitemap'] = [
 			'icon'      => 'rm-icon rm-icon-video',
 			'title'     => esc_html__( 'Video Sitemap', 'rank-math-pro' ),

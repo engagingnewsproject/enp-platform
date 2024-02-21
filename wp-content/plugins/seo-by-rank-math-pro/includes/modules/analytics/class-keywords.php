@@ -15,7 +15,7 @@ use RankMath\Traits\Cache;
 use RankMath\Traits\Hooker;
 use RankMath\Analytics\Stats;
 use RankMath\Helper;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -386,8 +386,17 @@ class Keywords {
 			$where_like_keyword = '';
 		}
 
-		$query =  "SELECT MAX(id) as id FROM {$wpdb->prefix}rank_math_analytics_gsc WHERE 1 = 1 {$dates_query} AND {$dimension} IN ( SELECT keyword from {$wpdb->prefix}rank_math_analytics_keyword_manager {$where_like_keyword} GROUP BY keyword ) GROUP BY {$dimension}";
+		$query = $wpdb->prepare(
+			"SELECT id
+			FROM {$wpdb->prefix}rank_math_analytics_gsc AS new
+			INNER JOIN (
+				SELECT query, MAX(created)as created FROM {$wpdb->prefix}rank_math_analytics_gsc WHERE 1 = 1 {$dates_query} AND {$dimension} IN ( SELECT keyword from {$wpdb->prefix}rank_math_analytics_keyword_manager {$where_like_keyword} GROUP BY keyword ) GROUP BY {$dimension}
+			)mc
+			ON new.query = mc.query
+			AND new.created = mc.created"
+		);
 		$ids = $wpdb->get_results( $query );
+
 		// phpcs:enable
 		// Step2. Get id list from above result.
 		$ids       = wp_list_pluck( $ids, 'id' );
@@ -396,7 +405,16 @@ class Keywords {
 		// Step3. Get most recent data row id for each keyword (for comparison).
 		// phpcs:disable
 		$dates_query = sprintf( " AND created BETWEEN '%s' AND '%s' ", Stats::get()->compare_start_date, Stats::get()->compare_end_date );
-		$query = "SELECT MAX(id) as id FROM {$wpdb->prefix}rank_math_analytics_gsc WHERE 1 = 1 {$dates_query} AND {$dimension} IN ( SELECT keyword from {$wpdb->prefix}rank_math_analytics_keyword_manager {$where_like_keyword} GROUP BY keyword ) GROUP BY {$dimension}";
+
+		$query = $wpdb->prepare(
+			"SELECT id
+			FROM {$wpdb->prefix}rank_math_analytics_gsc AS old
+			INNER JOIN (
+				SELECT query, MAX(created)as created FROM {$wpdb->prefix}rank_math_analytics_gsc WHERE 1 = 1 {$dates_query} AND {$dimension} IN ( SELECT keyword from {$wpdb->prefix}rank_math_analytics_keyword_manager {$where_like_keyword} GROUP BY keyword ) GROUP BY {$dimension}
+			)mc
+			ON old.query = mc.query
+			AND old.created = mc.created"
+		);
 		$old_ids = $wpdb->get_results( $query );
 
 		// Step4. Get id list from above result.
@@ -680,7 +698,6 @@ class Keywords {
 			Stats::get()->end_date
 		);
 		$data = $wpdb->get_results( $query );
-
 		$data = Stats::get()->filter_graph_rows( $data );
 
 		return array_map( [ Stats::get(), 'normalize_graph_rows' ], $data );

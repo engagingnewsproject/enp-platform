@@ -11,7 +11,7 @@
 namespace RankMathPro\Analytics;
 
 use RankMathPro\Google\Adsense;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Param;
 use RankMath\Analytics\Workflow\Base;
 use RankMath\Analytics\Workflow\Workflow;
 

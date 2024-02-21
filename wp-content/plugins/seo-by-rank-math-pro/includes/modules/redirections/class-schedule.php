@@ -11,10 +11,9 @@
 namespace RankMathPro\Redirections;
 
 use RankMath\Helper;
+use RankMath\Helpers\Param;
 use RankMath\Traits\Hooker;
 use RankMath\Redirections\DB;
-use MyThemeShop\Helpers\Param;
-use MyThemeShop\Helpers\WordPress;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -350,7 +349,7 @@ class Schedule {
 	 * Disable bulk status change if the selected item has a locked status.
 	 */
 	public function disallow_scheduled_bulk_status_change() {
-		$action = WordPress::get_request_action();
+		$action = Helper::get_request_action();
 		if ( false === $action || empty( $_REQUEST['redirection'] ) || ! in_array( $action, [ 'activate', 'deactivate' ], true ) ) {
 			return;
 		}

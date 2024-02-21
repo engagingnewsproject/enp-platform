@@ -13,7 +13,7 @@ namespace RankMathPro\Local_Seo;
 use RankMath\Helper;
 use RankMath\Post;
 use RankMath\Schema\DB;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 

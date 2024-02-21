@@ -148,7 +148,7 @@ class Podcast_RSS {
 
 		$title          = ! empty( $podcast['name'] ) ? Helper::replace_vars( $podcast['name'], $post ) : '';
 		$description    = ! empty( $podcast['description'] ) ? Helper::replace_vars( $podcast['description'], $post ) : '';
-		$audio_file     = $podcast['associatedMedia']['contentUrl'];
+		$audio_file     = Helper::replace_vars( $podcast['associatedMedia']['contentUrl'], $post );
 		$duration       = ! empty( $podcast['timeRequired'] ) ? Helper::duration_to_seconds( $podcast['timeRequired'] ) : '';
 		$image          = ! empty( $podcast['thumbnailUrl'] ) ? Helper::replace_vars( $podcast['thumbnailUrl'], $post ) : '';
 		$author         = ! empty( $podcast['author'] ) ? Helper::replace_vars( $podcast['author']['name'], $post ) : '';

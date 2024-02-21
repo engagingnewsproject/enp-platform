@@ -1674,7 +1674,7 @@ msgid ""
 "you want to include in your Sitemaps. %s"
 msgstr ""
 "Site Haritası yapılandırmanızı seçin ve Site Haritalarınıza dahil etmek "
-"istediğiniz gönderi veya sayfa türlerini seçin. %S"
+"istediğiniz gönderi veya sayfa türlerini seçin. %s"
 
 msgid "Learn more."
 msgstr "Daha fazla bilgi edin."
@@ -2352,8 +2352,7 @@ msgstr ""
 #. translators: xsl value count
 msgid "This XML Sitemap contains <strong>%s</strong> URLs."
 msgstr ""
-"<a href=\"%s\" target=\"_blank\">XML Site Haritaları</a> hakkında daha fazla "
-"bilgi sahibi olabilirsiniz."
+"Bu XML Site Haritası <strong>%s</strong> URL içeriyor."
 
 #. translators: xsl value count
 #. translators: Sitemap index link.
@@ -3635,9 +3634,9 @@ msgid ""
 "but not here, then %1$s try reconnecting your account %2$s and make sure "
 "that the correct properties are selected in the %1$s Analytics Settings%2$s."
 msgstr ""
-"Site verilerini Search Console ve Analytics hesaplarınızda görebiliyor ancak "
-"burada göremiyorsanız, %1$s %2$s hesabınızı yeniden bağlamayı deneyin ve "
-"%1$s Analytics Ayarlarında% doğru özelliklerin seçildiğinden emin olun 2$."
+"Site verilerini Search Console ve Analytics hesaplarınızda görebiliyorsanız, "
+"ancak burada değilse %1$s, %2$s hesabınızı yeniden bağlamayı deneyin ve emin olun "
+"%1$s Analytics Ayarları%2$s'nda doğru özelliklerin seçildiğinden emin olun."
 
 msgid "VIEW DETAILED ANALYTICS"
 msgstr "AYRINTILI ANALİTİKLERİ GÖRÜNTÜLE"

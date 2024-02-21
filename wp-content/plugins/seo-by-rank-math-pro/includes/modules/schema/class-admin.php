@@ -15,8 +15,8 @@ use RankMath\Admin\Admin_Helper;
 use RankMath\Schema\DB;
 use RankMath\Traits\Hooker;
 use RankMath\Rest\Sanitize;
-use MyThemeShop\Helpers\Str;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Str;
+use RankMath\Helpers\Param;
 use WP_Screen;
 
 defined( 'ABSPATH' ) || exit;

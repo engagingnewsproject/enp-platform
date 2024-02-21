@@ -5,15 +5,14 @@
  * @since      1.0.0
  * @package    RankMath
  * @subpackage RankMathPro
- * @author     MyThemeShop <admin@mythemeshop.com>
+ * @author     RankMath <support@rankmath.com>
  */
 
 namespace RankMathPro;
 
 use RankMath\Helper;
+use RankMath\Helpers\Param;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Conditional;
-use MyThemeShop\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -28,7 +27,7 @@ class Modules {
 	 * The Constructor.
 	 */
 	public function __construct() {
-		if ( Conditional::is_heartbeat() ) {
+		if ( Helper::is_heartbeat() ) {
 			return;
 		}
 

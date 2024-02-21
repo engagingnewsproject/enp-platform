@@ -5,7 +5,7 @@
  * @since      1.0.0
  * @package    RankMath
  * @subpackage RankMathPro\Admin
- * @author     MyThemeShop <admin@mythemeshop.com>
+ * @author     RankMath <support@rankmath.com>
  */
 
 namespace RankMathPro\Admin;
@@ -13,8 +13,8 @@ namespace RankMathPro\Admin;
 use RankMathPro\Updates;
 use RankMathPro\Status\System_Status;
 use RankMath\Helper;
+use RankMath\Helpers\Param;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Param;
 use RankMathPro\Google\Adsense;
 
 defined( 'ABSPATH' ) || exit;

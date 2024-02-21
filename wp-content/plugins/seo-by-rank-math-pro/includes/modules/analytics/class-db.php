@@ -11,13 +11,13 @@
 namespace RankMathPro\Analytics;
 
 use RankMath\Helper;
+use RankMath\Helpers\Str;
 use RankMath\Admin\Admin_Helper;
 use RankMath\Google\Analytics as Analytics_Free;
 use RankMath\Analytics\Stats;
 use RankMathPro\Google\Adsense;
 use RankMathPro\Analytics\Keywords;
-use MyThemeShop\Helpers\Str;
-use MyThemeShop\Database\Database;
+use RankMath\Admin\Database\Database;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -31,7 +31,7 @@ class DB {
 	 *
 	 * @param string $table_name Table name.
 	 *
-	 * @return \MyThemeShop\Database\Query_Builder
+	 * @return \RankMath\Admin\Database\Query_Builder
 	 */
 	public static function table( $table_name ) {
 		return Database::table( $table_name );
@@ -40,7 +40,7 @@ class DB {
 	/**
 	 * Get console data table.
 	 *
-	 * @return \MyThemeShop\Database\Query_Builder
+	 * @return \RankMath\Admin\Database\Query_Builder
 	 */
 	public static function analytics() {
 		return Database::table( 'rank_math_analytics_gsc' );
@@ -49,7 +49,7 @@ class DB {
 	/**
 	 * Get analytics data table.
 	 *
-	 * @return \MyThemeShop\Database\Query_Builder
+	 * @return \RankMath\Admin\Database\Query_Builder
 	 */
 	public static function traffic() {
 		return Database::table( 'rank_math_analytics_ga' );
@@ -58,7 +58,7 @@ class DB {
 	/**
 	 * Get adsense data table.
 	 *
-	 * @return \MyThemeShop\Database\Query_Builder
+	 * @return \RankMath\Admin\Database\Query_Builder
 	 */
 	public static function adsense() {
 		return Database::table( 'rank_math_analytics_adsense' );
@@ -67,7 +67,7 @@ class DB {
 	/**
 	 * Get objects table.
 	 *
-	 * @return \MyThemeShop\Database\Query_Builder
+	 * @return \RankMath\Admin\Database\Query_Builder
 	 */
 	public static function objects() {
 		return Database::table( 'rank_math_analytics_objects' );
@@ -76,7 +76,7 @@ class DB {
 	/**
 	 * Get inspections table.
 	 *
-	 * @return \MyThemeShop\Database\Query_Builder
+	 * @return \RankMath\Admin\Database\Query_Builder
 	 */
 	public static function inspections() {
 		return Database::table( 'rank_math_analytics_inspections' );
@@ -85,7 +85,7 @@ class DB {
 	/**
 	 * Get links table.
 	 *
-	 * @return \MyThemeShop\Database\Query_Builder
+	 * @return \RankMath\Admin\Database\Query_Builder
 	 */
 	public static function links() {
 		return Database::table( 'rank_math_internal_meta' );
@@ -94,7 +94,7 @@ class DB {
 	/**
 	 * Get keywords table.
 	 *
-	 * @return \MyThemeShop\Database\Query_Builder
+	 * @return \RankMath\Admin\Database\Query_Builder
 	 */
 	public static function keywords() {
 		return Database::table( 'rank_math_analytics_keyword_manager' );
@@ -391,7 +391,7 @@ class DB {
 	 * @param array $rows Data rows to insert.
 	 */
 	public static function add_adsense( $rows ) {
-		if ( ! \MyThemeShop\Helpers\DB::check_table_exists( 'rank_math_analytics_adsense' ) ) {
+		if ( ! \RankMath\Helpers\DB::check_table_exists( 'rank_math_analytics_adsense' ) ) {
 			return;
 		}
 

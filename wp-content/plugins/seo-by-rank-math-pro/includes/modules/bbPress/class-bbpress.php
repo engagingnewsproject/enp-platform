@@ -12,7 +12,7 @@ namespace RankMathPro;
 
 use RankMath\Traits\Hooker;
 use RankMath\Traits\Ajax;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 

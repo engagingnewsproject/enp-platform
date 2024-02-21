@@ -62,7 +62,6 @@ wp-content/plugins/enp-quiz/
 
 # Engage theme
 wp-content/themes/engage/*.code-workspace
-# wp-content/themes/engage/vendor/
 
 # Ignore all files, see below to include only on the /engage directory
 # **/package.json
@@ -75,3 +74,4 @@ wp-content/themes/engage/*.code-workspace
 local-phpinfo.php
 php.ini
 wp-content/themes/engage/package-lock.json
+wp-content/plugins/wp-optimize

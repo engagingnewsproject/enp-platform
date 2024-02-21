@@ -110,7 +110,6 @@ class Video_Schema_Generator extends \WP_Background_Process {
 	 * @param int $post_id Post ID.
 	 */
 	public function convert( $post_id ) {
-		update_post_meta( $post_id, '_rank_math_video', 'true' );
 		( new Video\Parser( get_post( $post_id ) ) )->save();
 	}
 
@@ -139,12 +138,6 @@ class Video_Schema_Generator extends \WP_Background_Process {
 				'post_type'   => array_keys( $post_types ),
 				'numberposts' => -1,
 				'fields'      => 'ids',
-				'meta_query'  => [
-					[
-						'key'     => 'rank_math_schema_VideoObject',
-						'compare' => 'NOT EXISTS',
-					],
-				],
 			]
 		);
 

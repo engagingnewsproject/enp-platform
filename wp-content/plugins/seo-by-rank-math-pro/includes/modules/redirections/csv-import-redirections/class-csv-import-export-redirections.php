@@ -12,7 +12,7 @@ namespace RankMathPro\Redirections\CSV_Import_Export_Redirections;
 
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Param;
+use RankMath\Helpers\Param;
 
 defined( 'ABSPATH' ) || exit;
 

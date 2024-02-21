@@ -11,9 +11,9 @@
 namespace RankMathPro;
 
 use RankMath\Helper;
+use RankMath\Helpers\Param;
 use RankMath\Traits\Hooker;
-use MyThemeShop\Helpers\Param;
-use MyThemeShop\Database\Database;
+use RankMath\Admin\Database\Database;
 use RankMathPro\Admin\CSV;
 
 defined( 'ABSPATH' ) || exit;

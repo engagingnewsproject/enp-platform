@@ -30,7 +30,7 @@ function spliceAllInstantiations(Source $s)
     }
     foreach ($s->all(T_NEW) as $new) {
         $begin = $s->skip(Source::junk(), $new);
-        if ($s->is(T_CLASS, $begin)) {
+        if ($s->is([T_CLASS, Generic\READONLY, Generic\ATTRIBUTE], $begin)) {
             # Anonymous class
             continue;
         }
@@ -162,6 +162,8 @@ function hasExtraParentheses(Source $s, $new)
         Generic\NAME_FULLY_QUALIFIED,
         Generic\NAME_QUALIFIED,
         Generic\NAME_RELATIVE,
+        Generic\RIGHT_ROUND,
+        Generic\RIGHT_SQUARE,
     ];
     $left = $s->skipBack(Source::junk(), $new);
     if (!$s->is(Generic\LEFT_ROUND, $left)) {
