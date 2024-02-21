@@ -55,7 +55,15 @@ class VerticalsFilterMenu extends FilterMenu
 	public function buildVerticalFilter($filters, $postID) {
 		
 		// get which vertical taxonomy this goes to
-		$vertical = get_the_terms($postID, 'verticals')[0];
+		$vertical_terms = get_the_terms($postID, 'verticals');
+
+		if (!empty($vertical_terms) && is_array($vertical_terms)) {
+			$vertical = $vertical_terms[0];
+		} else {
+			// Handle the case when no terms are found for the post
+			// For example, set $vertical to null or any default value as needed
+			$vertical = null;
+		}
 		
 		foreach($this->taxonomies as $taxonomy) {
 			if($taxonomy === 'vertical') {
