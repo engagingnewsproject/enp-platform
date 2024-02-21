@@ -75,9 +75,8 @@ class VerticalsFilterMenu extends FilterMenu
 				continue;
 			}
 			foreach($terms as $term) {
-				// check if this taxonomy already exists in the filters
-				if(!isset($filters['terms'][$vertical->slug]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
-					
+				// Check if $vertical is not null before accessing its slug property
+				if($vertical !== null && !isset($filters['terms'][$vertical->slug]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
 					$filters['terms'][$vertical->slug]['terms'][$term->slug] = $this->buildFilterTerm($term, $vertical);
 				}
 			}
