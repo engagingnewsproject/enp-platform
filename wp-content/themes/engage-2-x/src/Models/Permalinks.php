@@ -112,6 +112,7 @@ class Permalinks {
                 // skip it
                 continue;
             }
+            // WARNING: Attempt to read property "taxonomy" on bool	TODO
             if(array_key_exists($term->taxonomy, $this->taxRewriteMap)) {
                 $taxonomy = $this->taxRewriteMap[$term->taxonomy];
                 // add it to the link
