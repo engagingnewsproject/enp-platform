@@ -72,7 +72,6 @@ class VerticalsFilterMenu extends FilterMenu
 					continue;
 				}
 				foreach($terms as $term) {
-					do_action( 'qm/debug', $term );
 					// Check if $vertical is not null before accessing its slug property
 					if(!isset($filters['terms'][$vertical->slug]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
 						// WARNING: Attempt to read property "slug" on array TODO
