@@ -18,7 +18,7 @@ class TileArchive extends Archive
 		
 		$options = array_merge($defaults, $options);
 		$this->filters = $options['filters'];
-
+		
 		parent::init($query);
 		
 		// loop through the posts and if it's an event, set it as the event model instead
@@ -51,12 +51,12 @@ class TileArchive extends Archive
 				$currentSlug = $this->category->slug;
 			}
 		} else {
-			$currentSlug = $this->category->slug;
+			$currentSlug = $this->postType->name;
 		}
 		
 		if($this->filters['terms']) {
 			foreach($this->filters['terms'] as $parentTerm) {
-				if($currentSlug === $parentTerm['slug']) {
+								if($currentSlug === $parentTerm['slug']) {
 					// found the parent match!
 					$this->filters['terms'][$parentTerm['slug']]['currentParent'] = true;
 					
