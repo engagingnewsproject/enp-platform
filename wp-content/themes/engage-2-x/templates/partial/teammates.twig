@@ -22,10 +22,25 @@
 as it is the only vertical requiring the display of past interns now #}
 {% if vertical == "media-ethics" %}
 	<section class="past-interns-spacing">
-		<div class="past-interns-title past-interns-title__2019-2020" data-toggle-arrow="&#9658;" aria-expanded="false">
+		<div class="past-interns-title past-interns-title__2022-2023" data-toggle-arrow="&#9658;" aria-expanded="false">
+			Research Scholars 2022-2023
+					
+		</div>
+		<section class="mates grid grid--gap-20 past-interns-list past-interns-list__2022-2023" aria-hidden="true">
+			{% for mate in mates %}
+				{% set semester_value = (mate.getTermSemester)[0] %}
+				{% if semester_value.name == "2022-2023" %}
+					{% include "partial/teammate.twig" with { 'mate' : mate } %}
+				{% endif %}
+			{% endfor %}
+		</section>
+	</section>
+
+	<section>
+		<div class="past-interns-title past-interns-title__2021-2022" data-toggle-arrow="&#9658;" aria-expanded="false">
 			Research Scholars 2021-2022
 		</div>
-		<section class="mates grid grid--gap-20 past-interns-list past-interns-list__2019-2020" aria-hidden="true">
+		<section class="mates grid grid--gap-20 past-interns-list past-interns-list__2021-2022" aria-hidden="true">
 			{% for mate in mates %}
 				{% set semester_value = (mate.getTermSemester)[0] %}
 				{% if semester_value.name == "2021-2022" %}
@@ -35,10 +50,10 @@ as it is the only vertical requiring the display of past interns now #}
 		</section>
 	</section>
 	<section>
-		<div class="past-interns-title past-interns-title__2019-2020" data-toggle-arrow="&#9658;" aria-expanded="false">
+		<div class="past-interns-title past-interns-title__2020-2021" data-toggle-arrow="&#9658;" aria-expanded="false">
 			Research Scholars 2020-2021
 		</div>
-		<section class="mates grid grid--gap-20 past-interns-list past-interns-list__2019-2020" aria-hidden="true">
+		<section class="mates grid grid--gap-20 past-interns-list past-interns-list__2020-2021" aria-hidden="true">
 			{% for mate in mates %}
 				{% set semester_value = (mate.getTermSemester)[0] %}
 				{% if semester_value.name == "2020-2021" %}
