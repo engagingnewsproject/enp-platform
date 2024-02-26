@@ -51,12 +51,12 @@ class TileArchive extends Archive
 				$currentSlug = $this->category->slug;
 			}
 		} else {
-			$currentSlug = $this->category->slug;
+			$currentSlug = $this->postType->name;
 		}
 		
 		if($this->filters['terms']) {
 			foreach($this->filters['terms'] as $parentTerm) {
-				if($currentSlug !== $parentTerm['slug']) {
+								if($currentSlug === $parentTerm['slug']) {
 					// found the parent match!
 					$this->filters['terms'][$parentTerm['slug']]['currentParent'] = true;
 					

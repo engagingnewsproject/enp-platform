@@ -103,7 +103,7 @@
 			}
 		}
 		&_whole {
-			align-items: start;
+			align-items: flex-start;
 			grid-template-rows: auto 1fr;
 			grid-row-gap: 20px;
 		}
@@ -307,7 +307,7 @@
 		grid-template-columns: 1fr;
 		grid-template-rows: 1fr 1fr auto auto;
 		align-items: center;
-		align-self: start;
+		align-self: flex-start;
 		justify-items: center;
 		padding-bottom: 5rem;
 		img {

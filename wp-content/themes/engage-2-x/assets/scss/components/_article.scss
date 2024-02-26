@@ -36,7 +36,7 @@
 	font-family: $font-family-sans-serif;
 	color: $black-grey;
 	font-size: $font-size-small;
-	align-self: start;
+	align-self: flex-start;
 	.vertical-name {
 		font-size: 15px;
 		font-weight: 700;
@@ -47,7 +47,7 @@
 	font-family: $font-family-sans-serif;
 	color: $gray-dark;
 	font-size: $font-size-small;
-	align-self: start;
+	align-self: flex-start;
 	grid-row: 2;
     background: #fff;
     border-bottom: 1px solid rgba(0,0,0,.1);

@@ -107,9 +107,6 @@
 		margin-right: $spacer-xs;
 	}
 	.btn {
-		&:hover a:before {
-			left: 10px;
-		}
 		a {
 			border: none;
 			color: #bf5700;
@@ -121,19 +118,30 @@
 				height: 16px;
 				position: absolute;
 				background-repeat: no-repeat;
-				left: 5px;
+				left: -10px;
 				top: 0px;
 				display: block;
 				background-size: cover;
 				transition: all 0.3s;
+				@include media($laptop) {
+					margin-left: 15px;
+				}
+			}
+		}
+		&:hover a:before {
+			left: 10px;
+			@include media($laptop) {
+				left: -5px;
 			}
 		}
 	}
 	.btn,
 	.button {
 		@include btn-reset;
-		margin-left: $spacer-sm;
-
+		margin-left: 1.5rem;
+		@include media($laptop) {
+			margin-left: $spacer-sm;
+		}
 		a {
 			border-radius: 40px;
 			margin: 0;

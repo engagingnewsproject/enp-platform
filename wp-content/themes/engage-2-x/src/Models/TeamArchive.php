@@ -16,7 +16,7 @@ class TeamArchive extends TileArchive
         if ($vertical == "center-leadership") {
           $this->regroupByLeadershipPosition();
         } else if ($vertical == "media-ethics") {
-          $this->regroupForMediaEthics();
+        $this->regroupForMediaEthics();
         } else if ($vertical == "science-communication") {
           $this->regroupForScienceComm();
         } else if ($this->category && $this->slug == "administrative-and-technology") {
@@ -44,8 +44,13 @@ class TeamArchive extends TileArchive
 
   function desigOrderCompare($a, $b) {
     // Gets the order # of each posts designation
-    $desigA = get_field('order', $a->getTermDesign()[0]) ?? 100;
-    $desigB = get_field('order', $b->getTermDesign()[0]) ?? 100;
+    // OLD CODE:
+    // $desigA = get_field('order', $a->getTermDesign()[0]) ?? 100;
+    // $desigB = get_field('order', $b->getTermDesign()[0]) ?? 100;
+    // NEW CODE:
+    $desigA = (int) get_field('order', $a->getTermDesign()[0]) ?? 100;
+    $desigB = (int) get_field('order', $b->getTermDesign()[0]) ?? 100;
+    // NEW CODE end
     if ($desigA < $desigB) {
       return -1;
     }
@@ -64,7 +69,14 @@ class TeamArchive extends TileArchive
     $groups = array();
     // Splits the queried posts by designation, using the slugs as keys
     foreach($this->posts as $post) {
-      $design_slug = $post->getTermDesign()[0]->slug;
+      // PRIOR CODE:
+      // $design_slug = $post->getTermDesign()[0]->slug;
+      // NEW CODE:
+      $design_slug = '';
+      if(!empty($post->getTermDesign()[0])) {
+        $design_slug = $post->getTermDesign()[0]->slug;
+      }
+      // NEW CODE end
       if (!in_array($design_slug, ['director', 'assistant-director'], true )) {
         $design_slug = "other";
       }
