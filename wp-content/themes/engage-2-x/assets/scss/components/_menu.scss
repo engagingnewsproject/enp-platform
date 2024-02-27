@@ -1,40 +1,42 @@
-.collapsable.is-hidden {
-	@include media($tablet) {
-		&.menu__main-menu {
-			display: block;
-		}
+// .collapsable.is-hidden {
+// 	@include media($tablet) {
+// 		&.menu__main-menu {
+// 			display: block;
+// 		}
 
-		&.menu__secondary {
-			display: flex;
-		}
-	}
-}
+// 		&.menu__secondary {
+// 			display: flex;
+// 		}
+// 	}
+// }
 
-.collapsable.is-open {
-	&.menu__secondary {
-		margin-bottom: $spacer-sm;
-		@include media($mobile) {
-			display: flex;
-		}
-		@include media($tablet) {
-			margin-bottom: 0;
-		}
+// .collapsable.is-open {
+// 	&.menu__secondary {
+// 		margin-bottom: $spacer-sm;
+// 		@include media($mobile) {
+// 			display: flex;
+// 		}
+// 		@include media($tablet) {
+// 			margin-bottom: 0;
+// 		}
 
-		.menu__list {
-			margin-bottom: $spacer-sm;
-			@include media($mobile) {
-				margin-bottom: 0;
-			}
-		}
-	}
-}
+// 		.menu__list {
+// 			margin-bottom: $spacer-sm;
+// 			@include media($mobile) {
+// 				margin-bottom: 0;
+// 			}
+// 		}
+// 	}
+// }
 
 .menu__item {
 	display: inline-block;
 	margin-left: $spacer-sm;
 	position: relative;
 }
-
+.navbar {
+	width: 100%;
+}
 .menu__link {
 	color: $black-grey;
 	text-decoration: none;
@@ -52,27 +54,27 @@
 }
 
 .menu__main-menu {
-	align-self: end;
-	justify-self: end;
-	padding-bottom: 30px;
-	width: 100%;
+	// align-self: end;
+	// justify-self: end;
+	// padding-bottom: 30px;
+	// width: 100%;
 	&.searchform {
 		background-color: $white;
 	}
-	&:not(.searchform) {
-		@include media("max", $tablet) {
-			position: absolute;
-			background-color: $white;
-		}
-	}
-	@include media($laptop) {
-		position: relative;
-		padding-bottom: unset;
-	}
-	@include media($desktop) {
-		float: right;
-		clear: right;
-	}
+	// &:not(.searchform) {
+		// @include media("max", $tablet) {
+		// 	position: absolute;
+		// 	background-color: $white;
+		// }
+	// }
+	// @include media($laptop) {
+	// 	position: relative;
+	// 	padding-bottom: unset;
+	// }
+	// @include media($desktop) {
+	// 	float: right;
+	// 	clear: right;
+	// }
 
 	.menu__item {
 		cursor: pointer;
@@ -353,7 +355,7 @@
 	&.menu__main-menu {
 		display: block;
 		padding-left: $spacer-sm;
-		box-shadow: $mobile-menu-shadow;
+		// box-shadow: $mobile-menu-shadow;
 		@include media($tablet) {
 			display: none;
 		}
@@ -407,15 +409,15 @@
 @supports (display: flex) {
 	.menu__main-menu {
 		&:not(.searchform) {
-			@include media("max", $tablet) {
-				top: 85px;
-			}
-			@include media($tablet) {
-				margin-top: $spacer-sm;
-			}
-			@include media($laptop) {
-				flex: 0 0 75%;
-			}
+			// @include media("max", $tablet) {
+			// 	top: 85px;
+			// }
+			// @include media($tablet) {
+			// 	margin-top: $spacer-sm;
+			// }
+			// @include media($laptop) {
+			// 	flex: 0 0 75%;
+			// }
 		}
 		.menu__list {
 			@include media($tablet) {
@@ -434,10 +436,10 @@
 
 @supports (display: grid) {
 	.menu__main-menu {
-		@include media($tablet) {
-			grid-column: 2;
-			grid-row: 2;
-		}
+		// @include media($tablet) {
+		// 	grid-column: 2;
+		// 	grid-row: 2;
+		// }
 	}
 	.menu__secondary {
 		@include media($tablet) {
