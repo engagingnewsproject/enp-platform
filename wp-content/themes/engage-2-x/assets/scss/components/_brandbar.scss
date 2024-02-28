@@ -1,6 +1,8 @@
 .brandbar {
+  position: relative;
   height: 34px;
   background: $blue-dark;
+  z-index: 9;
 }
 .brandbar__link {
   float: right;

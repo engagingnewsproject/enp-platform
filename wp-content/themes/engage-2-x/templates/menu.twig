@@ -1,7 +1,7 @@
 {# Main menu: https://dev.to/polgarj/bootstrap-navbar-with-vanilla-js-46km #}
 
 {% if menu == mainMenu %}
-	{% set navClass = 'menu navbar navbar-expand-lg navbar-light' %}
+	{% set navClass = 'menu navbar navbar-light' %}
 {% else %}
 	{% set navClass = 'menu' %}
 {% endif %}
@@ -9,17 +9,21 @@
 {% if menu %}
 	<nav {{ id ? "id='#{id}'" }} class="{{navClass}} menu__{{ menu.slug }} {{ collapsable ? " collapsable" }}" role="navigation">
 		{% if menu == mainMenu %}
-			<h1 class="header__logo navbar-brand" role="banner">
-				<a class="header__logo__link" href="{{ site.link }}" rel="home">
-					<span class="sr-text">
-						{{ site.name }}
-					</span>
-					<img src="{{ theme.link }}/assets/img/cme-logo.png" alt="{{ site.name }} Logo" />
-				</a>
-			</h1>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+			<div class="navbar__components">
+				<h1 class="header__logo navbar-brand" role="banner">
+					<a class="header__logo__link" href="{{ site.link }}" rel="home">
+						<span class="sr-text">
+							{{ site.name }}
+						</span>
+						<img src="{{ theme.link }}/assets/img/cme-logo.png" alt="{{ site.name }} Logo" />
+					</a>
+				</h1>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+					{# <span class="navbar-toggler-icon"></span> #}
+					<span class="hamburger-bars"></span>
+				</button>
+			</div>
+
 			<div class="collapse navbar-collapse" id="navbarNavDropdown">
 				<ul class="menu__list navbar-nav">
 					{% for item in menu.items %}
@@ -28,7 +32,7 @@
 								{{ item.title }}
 							</a>
 							{% if item.children %}
-								<ul class="menu__sublist {{ collapsable ? " collapsable" }}">
+								<ul class="menu__sublist">
 									{% for child in item.children %}
 										<li class="menu__item menu__sublist-item {{ child.classes | join(' ') }} {{ child.children ? " has-nested-menu" }}">
 											<a tabindex="0" class="menu__link menu__sublist-link" target="{{ child.target }}" {% if child.link %} href="{{ child.link }}" {% endif %}>

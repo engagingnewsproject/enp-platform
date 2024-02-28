@@ -6,6 +6,7 @@ let navbarDropdownExpanded = navbarDropdown.getAttribute("aria-expanded");
 
 navbarToggler.addEventListener("click", function () {
   navbarDropdown.classList.toggle("show");
+	navbarToggler.classList.toggle("is-open");
 
   if (navbarDropdownExpanded == "true") {
     navbarDropdownExpanded = "false";
@@ -70,3 +71,17 @@ navbar.addEventListener("focusout", function () {
     }
   };
 });
+
+// Close mobile menu when clicking outside
+document.addEventListener("click", function(event) {
+  // Check if the clicked element is within the navbar or dropdown menu
+  if (!navbar.contains(event.target) && !navbarDropdown.contains(event.target)) {
+    closeMobileMenu();
+  }
+});
+
+function closeMobileMenu() {
+  navbarDropdown.classList.remove("show");
+  navbarToggler.classList.remove("is-open");
+  navbarDropdown.setAttribute("aria-expanded", "false");
+}
