@@ -9,7 +9,7 @@ body {
   background-color: transparent !important;
 
   .main-body-wrapper {
-    background: url("/wp-content/themes/engage/assets/img/dots.svg");
+    background: url("/wp-content/themes/engage-2-x/assets/img/dots.svg");
     background-position: 150% -5%;
     background-repeat: no-repeat;
     background-size: 1024px;
@@ -26,7 +26,7 @@ body.vertical--media-ethics.archive,
 body.vertical--science-communication.archive,
 body.vertical--social-platforms.archive {
   .main-body-wrapper {
-    background: url("/wp-content/themes/engage/assets/img/dots.svg");
+    background: url("/wp-content/themes/engage-2-x/assets/img/dots.svg");
     background-position: 120% -1%;
     background-size: 1024px;
     background-repeat: no-repeat;
@@ -44,7 +44,7 @@ body.vertical--social-platforms.archive {
 }
 
 // .dots-left::before {
-//   background: url("/wp-content/themes/engage/assets/img/dots.svg");
+//   background: url("/wp-content/themes/engage-2-x/assets/img/dots.svg");
 //   background-repeat: no-repeat;
 //   background-size: 100%;
 //   height: 780px;
@@ -57,7 +57,7 @@ body.vertical--social-platforms.archive {
 // }
 
 .dots-right::before {
-  background: url("/wp-content/themes/engage/assets/img/dots.svg");
+  background: url("/wp-content/themes/engage-2-x/assets/img/dots.svg");
   background-repeat: no-repeat;
   background-size: 120%;
   height: 780px;
