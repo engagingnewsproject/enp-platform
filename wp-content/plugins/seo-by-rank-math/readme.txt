@@ -2,10 +2,10 @@
 Contributors: rankmath
 Plugin link: https://rankmath.com/?utm_source=LP&utm_campaign=WP
 Tags: seo, sitemap, google search console, schema, redirection, WordPress SEO
-Tested up to: 6.4.1
+Tested up to: 6.5
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.0.213
+Stable tag: 1.0.216
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -583,13 +583,13 @@ Please drop us an email at support@rankmath.com and we would be more than happy 
 
 == Changelog ==
 
-= 1.0.213 [Feb 21, 2024] =
-- Fixed: [Content AI Research](https://rankmath.com/kb/how-to-use-content-ai/#research-keywords) was not displaying existing results when the site had fewer than 500 credits
-- Fixed: [Content AI History tab](https://rankmath.com/kb/content-ai-history/) was not displaying all output from the [FAQ tool](https://rankmath.com/kb/content-ai-frequently-asked-questions-tool/)
-- Fixed: UX issue that hid some prompts in the [Content AI Prompts Library](https://rankmath.com/kb/how-to-use-rankbot-ai/#how-to-use-the-prompts-library) modal
-- Fixed: Hidden products were submitted to [Instant Indexing](https://rankmath.com/blog/google-indexing-api/)
-- Fixed: Duplicate Schema issue on [Easy Digital Download product pages](https://rankmath.com/kb/edd-product-schema/)
-- Fixed: [Exclude Posts option](https://rankmath.com/kb/configure-sitemaps/#exclude-posts) was not effective in the [HTML Sitemap](https://rankmath.com/kb/html-sitemap/)
+= 1.0.216 [Apr 03, 2024] =
+- Improved: [Debug Redirections option](https://rankmath.com/kb/solving-redirection-issues-using-rank-math-seo/#redirection-debug) can now track other Rank Math system redirections, such as [Redirect Attachments](https://rankmath.com/kb/general-settings/#redirect-attachments) and [Author/Date archives redirects](https://rankmath.com/kb/titles-and-meta/#author-archives)
+- Fixed: PHP error with the alignment option in [FAQ Block](https://rankmath.com/kb/faq-schema-block/)
+- Fixed: [Remove Base option](https://rankmath.com/kb/general-settings/#remove-base) was not working on subsites within a multisite setup
+- Fixed: Missing WooCommerce Settings page link on the [Modules page](https://rankmath.com/kb/managing-modules/)
+- Fixed: PHP warning related to [Open Graph image](https://rankmath.com/kb/open-graph-meta-tags/#og-image) on some setups
+- Fixed: Sitewide noindex notification not being displayed when the option was enabled before the plugin installation
 
 
 Full changelog can be found here - **[Rank Math changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

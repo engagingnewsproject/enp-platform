@@ -1,100 +1,35 @@
-.collapsable.is-hidden {
-	@include media($tablet) {
-		&.menu__main-menu {
-			display: block;
-		}
-
-		&.menu__secondary {
-			display: flex;
-		}
-	}
-}
-
-.collapsable.is-open {
-	&.menu__secondary {
-		margin-bottom: $spacer-sm;
-		@include media($mobile) {
-			display: flex;
-		}
-		@include media($tablet) {
-			margin-bottom: 0;
-		}
-
-		.menu__list {
-			margin-bottom: $spacer-sm;
-			@include media($mobile) {
-				margin-bottom: 0;
-			}
-		}
-	}
-}
-
-.menu__item {
-	display: inline-block;
-	margin-left: $spacer-sm;
-	position: relative;
-}
-
-.menu__link {
-	color: $black-grey;
-	text-decoration: none;
-}
-
-.menu__link:hover {
-	color: lighten($orange-light, 15%);
-}
-
-.menu__list {
-	margin-bottom: $spacer-sm;
-	@include media($tablet) {
-		margin-bottom: 0;
-	}
-}
 
 .menu__main-menu {
-	align-self: end;
-	justify-self: end;
-	padding-bottom: 30px;
-	width: 100%;
 	&.searchform {
 		background-color: $white;
 	}
-	&:not(.searchform) {
-		@include media("max", $tablet) {
-			position: absolute;
-			background-color: $white;
-		}
-	}
-	@include media($laptop) {
-		position: relative;
-		padding-bottom: unset;
-	}
-	@include media($desktop) {
-		float: right;
-		clear: right;
-	}
-
 	.menu__item {
-		cursor: pointer;
 		font-weight: 700;
-		position: relative;
-		@include media("max", $tablet) {
-			display: block;
-			margin-bottom: 10px;
-		}
-		@include media($tablet) {
-			font-size: 1rem;
-		}
-		@include media($laptop) {
-			margin-left: $spacer;
-		}
 	}
 }
-
+// secondary nav
 .menu__secondary {
 	font-size: 0.8rem;
 	align-items: center;
-	@include media($laptop) {
+	background-color: #fff;
+	z-index: 9;
+	padding-top: $spacer-sm;
+	@include media($phablet) {
+		padding-top: 1em;
+		margin-bottom: 0;
+	}
+	.menu__list {
+		margin-bottom: $spacer-sm;
+		@include media($tablet) {
+			margin-bottom: 0;
+		}
+	}
+	.menu__item {
+		display: inline-block;
+		margin-left: $spacer-sm;
+		position: relative;
+	}
+	@include media($desktop) {
 		float: right;
 		margin-bottom: 1em;
 	}
@@ -161,139 +96,54 @@
 }
 // END .menu__secondary
 
-.navbar-toggle {
-	@include btn-reset;
-	position: absolute;
-	top: 0;
-	right: -10px;
-	padding: 15px 10px;
-	border: 1px solid transparent;
-	@include media($mobile) {
-		top: 10px;
-	}
-	&:hover {
-		background: transparent;
-	}
-	// We remove the `outline` here, but later compensate by attaching `:hover`
-	// styles to `:focus`.
-	&:focus {
-		background: $gray-lighter;
-		outline: 0;
-	}
-	// Bars
-	.hamburger-bars,
-	.hamburger-bars:after,
-	.hamburger-bars:before {
-		display: block;
-		width: 24px;
-		height: 3px;
-		border-radius: 10px;
-		background: $navy;
-	}
-
-	.hamburger-bars {
-		position: relative;
-	}
-
-	.hamburger-bars:after,
-	.hamburger-bars:before {
-		content: "";
-		position: absolute;
-	}
-
-	.hamburger-bars:before {
-		top: -6px;
-	}
-
-	.hamburger-bars:after {
-		top: 6px;
-	}
-	@include media($tablet) {
-		display: none;
-	}
-}
-
-/*             */
-/* Mobile Menu */
-/*             */
-
-.navbar-toggle {
-	top: 40px;
-	background: #fff;
-	box-shadow: 1px 2px 3px $gray;
-	-webkit-box-shadow: 1px 2px 3px $gray;
-	-moz-box-shadow: 1px 2px 3px $gray;
-	border-radius: 3px;
-	margin-right: 20px;
-}
-
-.navbar-toggle:focus {
-	background: #fff;
-}
-
-.navbar-toggle .hamburger-bars,
-.navbar-toggle .hamburger-bars:after,
-.navbar-toggle .hamburger-bars:before {
-	background: $blue-dark;
-}
-// collapse button
-
-.navbar-toggle.is-open {
-	.hamburger-bars {
-		transform: rotate(-45deg);
-		transition: transform 0.275s 0.15s ease-out;
-
-		&:after,
-		&:before {
-			top: 0;
-			transform: rotate(-90deg);
-			transition: top 0.15s ease-out, transform 0.275s 0.15s ease-out;
-		}
-	}
-}
-
-.navbar-toggle.is-closed {
-	.hamburger-bars {
-		transform: rotate(0deg);
-		transition: transform 0.275s ease-out;
-
-		&:after,
-		&:before {
-			transition: top 0.15s 0.275s ease-out, transform 0.275s ease-out;
-		}
-	}
-}
 // Styles for dropdown menus
+.menu__link {
+	color: $black-grey;
+	text-decoration: none;
+}
+
 
 .menu__sublist {
 	z-index: 999;
 	position: absolute;
+	top: 100%;
 	display: none;
-	padding: 5px 0 5px 15px;
+	padding: 0 15px 0 15px;
 	text-align: left;
 	border-top: none;
 	border-bottom-left-radius: 4px;
 	border-bottom-right-radius: 4px;
 	box-shadow: $dropdown-shadow;
 	background-color: $white;
+	margin-bottom: 0;
 	@include media($tablet) {
 		white-space: nowrap;
 	}
-	@include media("max", $tablet) {
+	@include media("max", $desktop) { // for mobile
 		padding: 5px 0 5px 10px;
 		left: 0;
 		border: none;
 		position: relative;
-		margin-left: 30px;
+		margin-left: 15px;
 		box-shadow: none;
+	}
+}
+.menu__sublist {
+	.menu__item {
+		&:hover {
+			a {
+				color: lighten($orange-light, 15%);
+			}
+		}
 	}
 }
 
 .menu__sublist-link {
 	font-size: 14px;
 	font-weight: normal;
-	display: inline-block;
+	display: block;
 	line-height: 1.3rem;
+	padding: .5rem 0;
 }
 
 .menu__sublist .menu__sublist {
@@ -333,8 +183,6 @@
 .menu__item.menu__sublist-item {
 	margin-left: 0;
 	display: block;
-	padding-top: 5px;
-	padding-right: 15px;
 	z-index: 9;
 }
 
@@ -352,8 +200,8 @@
 	// when in main menu
 	&.menu__main-menu {
 		display: block;
-		padding-left: $spacer-sm;
-		box-shadow: $mobile-menu-shadow;
+		margin-left: 1.6rem;
+		// box-shadow: $mobile-menu-shadow;
 		@include media($tablet) {
 			display: none;
 		}
@@ -366,8 +214,6 @@
 		}
 	}
 }
-// @supports queries
-// @supports queries
 // @supports queries
 @supports not (display: flex) {
 	.menu__main-menu {
@@ -405,25 +251,6 @@
 } // END not (display: flex)
 
 @supports (display: flex) {
-	.menu__main-menu {
-		&:not(.searchform) {
-			@include media("max", $tablet) {
-				top: 85px;
-			}
-			@include media($tablet) {
-				margin-top: $spacer-sm;
-			}
-			@include media($laptop) {
-				flex: 0 0 75%;
-			}
-		}
-		.menu__list {
-			@include media($tablet) {
-				display: flex;
-				justify-content: flex-end;
-			}
-		}
-	}
 	.menu__secondary {
 		display: flex;
 		flex: 1 100%;
@@ -433,12 +260,6 @@
 }
 
 @supports (display: grid) {
-	.menu__main-menu {
-		@include media($tablet) {
-			grid-column: 2;
-			grid-row: 2;
-		}
-	}
 	.menu__secondary {
 		@include media($tablet) {
 			grid-column: 2;

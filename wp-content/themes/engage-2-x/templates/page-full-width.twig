@@ -13,8 +13,10 @@
 		<div class="post__wrapper wrapper--pad">
 			<div class="article__wrapper container container--lg">
 				{{post.content}}
-				<h1 class="section-margin">{{post.meta('tiles_title')}}</h1>
-				{% include 'tiles.twig' with { posts : get_posts(post.research_posts) } %}
+				{% if post.research_posts %}  
+					<h1 class="section-margin">{{post.meta('tiles_title')}}</h1>
+					{% include 'tiles.twig' with { posts : get_posts(post.research_posts) } %}
+				{% endif %}
 			</div>
 		</div>
 	</article>

@@ -347,10 +347,12 @@ class SubmissionAggregateCsvExportAdapter
 
             if (isset($repeaterFieldArray['key'])) {
                 $repeaterFieldArray['slug'] = $repeaterFieldArray['key'];
+                unset($repeaterFieldArray['key']);
             }
 
             if (isset($repeaterFieldArray['admin_label'])) {
                 $repeaterFieldArray['adminLabel'] = $repeaterFieldArray['admin_label'];
+                unset($repeaterFieldArray['admin_label']);
             }
 
             $id = isset($repeaterFieldArray)?$repeaterFieldArray['id']:'';
@@ -360,6 +362,7 @@ class SubmissionAggregateCsvExportAdapter
             } else {
                 $repeaterFieldArray['original'] = [];
             }
+
 
             $repeaterField = SubmissionField::fromArray($repeaterFieldArray);
 

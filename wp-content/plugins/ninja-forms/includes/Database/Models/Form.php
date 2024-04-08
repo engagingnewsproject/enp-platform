@@ -783,7 +783,7 @@ final class NF_Database_Models_Form extends NF_Abstracts_Model
         }
 
         if( 'submit' == $field[ 'type' ] ){
-            $field[ 'processing_label' ] = 'Processing';
+            $field[ 'processing_label' ] = esc_html__( 'Processing', 'ninja-forms' );
         }
 
         if( isset( $field[ 'email' ] ) ){

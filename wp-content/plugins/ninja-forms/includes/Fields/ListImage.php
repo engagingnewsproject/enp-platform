@@ -119,9 +119,9 @@ class NF_Fields_ListImage extends NF_Abstracts_List
                 if ($post) {
                     $img_alt = get_post_meta($img['image_id'], '_wp_attachment_image_alt');
 
-                    $field['settings']['image_options'][$index]['img_title'] = $post->post_title;
+                    $field['settings']['image_options'][$index]['img_title'] = esc_attr($post->post_title);
                     if (is_array($img_alt) && ! empty($img_alt)) {
-                        $field['settings']['image_options'][$index]['alt_text'] = $img_alt[0];
+                        $field['settings']['image_options'][$index]['alt_text'] = esc_attr($img_alt[0]);
                     } else {
                         $field['settings']['image_options'][$index]['alt_text'] = '';
                     }

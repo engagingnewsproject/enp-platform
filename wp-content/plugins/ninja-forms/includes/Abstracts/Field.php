@@ -217,7 +217,7 @@ abstract class NF_Abstracts_Field extends NF_Abstracts_Element
         }
 
         // If a type is not set, return 'textbox'
-        return ( get_parent_class() && isset ( parent::$_type ) ) ? parent::$_type : 'textbox';
+        return ( get_parent_class(self::class) && isset ( parent::$_type ) ) ? parent::$_type : 'textbox';
     }
 
     public function get_settings()

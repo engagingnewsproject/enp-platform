@@ -13,7 +13,7 @@ return apply_filters( 'ninja_forms_form_display_settings', array(
 		'width' => 'full',
 		'group' => 'primary',
 		'value' => '',
-
+		'help'  => esc_html__( 'The name entered here will be used as this form’s title both in the Ninja Forms Dashboard for admin purposes, and on the published form itself if enabled by the Display Form Title Setting below.', 'ninja-forms' ),
 	),
 
 	/*
@@ -27,6 +27,7 @@ return apply_filters( 'ninja_forms_form_display_settings', array(
 		'width' => 'full',
 		'group' => 'primary',
 		'value' => 1,
+		'help'  => esc_html__( 'Turn on or off the front end display of the Form Title on published forms.', 'ninja-forms' ),
 	),
 
 	/*
@@ -242,61 +243,71 @@ return apply_filters( 'ninja_forms_form_display_settings', array(
 				'name' => 'changeEmailErrorMsg',
 				'type' => 'textbox',
 				'label' => esc_html__( 'Please enter a valid email address!', 'ninja-forms' ),
-				'width' => 'full'
+				'width' => 'full',
+				'help'  => esc_html__( 'Email field error for improperly formatted email address.', 'ninja-forms' ),
 			),
 			array(
 				'name' => 'changeDateErrorMsg',
 				'type' => 'textbox',
 				'label' => esc_html__( 'Please enter a valid date!', 'ninja-forms' ),
-				'width' => 'full'
+				'width' => 'full',
+				'help'  => esc_html__( 'Date field error for improperly formatted date.', 'ninja-forms' ),
 			),
 			array(
 				'name' => 'confirmFieldErrorMsg',
 				'type' => 'textbox',
 				'label' => esc_html__( 'These fields must match!', 'ninja-forms' ),
-				'width' => 'full'
+				'width' => 'full',
+				'help'  => esc_html__( 'Error displayed when using a Confirm field to force a match in another field.', 'ninja-forms' ),
 			),
 			array(
 				'name' => 'fieldNumberNumMinError',
 				'type' => 'textbox',
 				'label' => esc_html__( 'Number Min Error', 'ninja-forms' ),
-				'width' => 'full'
+				'width' => 'full',
+				'help'  => esc_html__( 'Number field error displayed when a value entered that is less than the designated minimum value.', 'ninja-forms' ),
 			),
 			array(
 				'name' => 'fieldNumberNumMaxError',
 				'type' => 'textbox',
 				'label' => esc_html__( 'Number Max Error', 'ninja-forms' ),
-				'width' => 'full'
+				'width' => 'full',
+				'help'  => esc_html__( 'Number field error displayed when a value entered that is greater than the designated maximum value.', 'ninja-forms' ),
 			),
 			array(
 				'name' => 'fieldNumberIncrementBy',
 				'type' => 'textbox',
 				'label' => esc_html__( 'Please increment by ', 'ninja-forms' ),
-				'width' => 'full'
+				'width' => 'full',
+				'help'  => esc_html__( 'Number field error displayed when a value entered does not meet the required value incrementation. (e.g. the field is set to increment by tens but a number not divisible by ten is entered)', 'ninja-forms' ),
 			),
 			array(
 				'name' => 'formErrorsCorrectErrors',
 				'type' => 'textbox',
 				'label' => esc_html__( 'Please correct errors before submitting this form.', 'ninja-forms' ),
-				'width' => 'full'
+				'width' => 'full',
+				'help'  => esc_html__( 'Error that is displayed when attempting to submit a form with an unresolved error message still present on the form.', 'ninja-forms' ),
 			),
 			array(
 				'name' => 'validateRequiredField',
 				'type' => 'textbox',
 				'label' => esc_html__( 'This is a required field.', 'ninja-forms' ),
-				'width' => 'full'
+				'width' => 'full',
+				'help'  => esc_html__( 'Error displayed when a field designated as required is left blank after interacting with that field.', 'ninja-forms' ),
 			),
 			array(
 				'name' => 'honeypotHoneypotError',
 				'type' => 'textbox',
 				'label' => esc_html__( 'Honeypot Error', 'ninja-forms' ),
-				'width' => 'full'
+				'width' => 'full',
+				'help'  => esc_html__( 'Administrative only. Displayed on a form when the hidden honeypot field is interacted with by a bot (e.g. spam) and the submission attempt is rejected.', 'ninja-forms' ),
 			),
 			array(
 				'name' => 'fieldsMarkedRequired',
 				'type' => 'textbox',
 				'label' => sprintf( esc_html__( 'Fields marked with an %s*%s are required', 'ninja-forms' ), '<span class="ninja-forms-req-symbol">', '</span>' ),
-				'width' => 'full'
+				'width' => 'full',
+				'help'  => esc_html__( 'Error displayed when a field designated as required is left blank and the user attempts to submit the form.', 'ninja-forms' ),
 			),
 		)
 	),
@@ -312,7 +323,8 @@ return apply_filters( 'ninja_forms_form_display_settings', array(
 		'label'   => esc_html__( 'Currency', 'ninja-forms' ),
 		'width' => 'full',
 		'group' => 'advanced',
-		'value'   => ''
+		'value'   => '',
+		'help'  => esc_html__( 'By default the form will display currency in the proper format as determined by the language selected under the WordPress General settings for the site. If you wish to use a different currency format in the form, it can be selected here from supported options.', 'ninja-forms' ),
 	)
 
 ));

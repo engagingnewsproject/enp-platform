@@ -1,6 +1,0 @@
-.tl-timeline .tl-timenav-slider {
-  left: 50px !important;
-}
-.tl-timeaxis-minor .tl-timeaxis-tick:nth-child(n+19) {
-    display: none !important;
-} 

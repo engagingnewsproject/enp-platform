@@ -302,26 +302,6 @@ input[type="submit"],
 	font-size: $font-size-h4;
 }
 
-.btn--sm,
-input.btn--sm {
-	font-size: $font-size-small;
-	padding: 0.5em 1em;
-}
-
-.btn--sm_reg_dark {
-	font-size: $font-size-small;
-	padding: 0.5em 1em;
-	text-decoration: none;
-	border-radius: 20px;
-	color: #fff;
-	background-color: $teal-light;
-}
-
-.btn--lg {
-	font-size: $font-size-h3;
-	padding: 0.5em 1.2em;
-}
-
 .btn--ghost,
 input.btn--ghost {
 	background: transparent !important;
@@ -348,6 +328,32 @@ input.btn--ghost {
 		background: transparent !important;
 		fill: darken($orange, 3.25%);
 	}
+}
+
+.btn--xsm,
+input.btn--xsm {
+	font-size: $font-size-small;
+	padding: 0.5em 0.5em;
+}
+
+.btn--sm,
+input.btn--sm {
+	font-size: $font-size-small;
+	padding: 0.5em 1em;
+}
+
+.btn--sm_reg_dark {
+	font-size: $font-size-small;
+	padding: 0.5em 1em;
+	text-decoration: none;
+	border-radius: 20px;
+	color: #fff;
+	background-color: $teal-light;
+}
+
+.btn--lg {
+	font-size: $font-size-h3;
+	padding: 0.5em 1.2em;
 }
 
 .btn--stretch {

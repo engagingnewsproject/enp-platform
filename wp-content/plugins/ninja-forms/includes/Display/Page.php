@@ -2,6 +2,8 @@
 
 abstract class NF_Display_Page
 {
+	protected $_wp_query;
+	
 	public function __construct()
 	{
 		$this->_wp_query = $GLOBALS['wp_query'];

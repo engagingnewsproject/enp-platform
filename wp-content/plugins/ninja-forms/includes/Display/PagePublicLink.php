@@ -2,6 +2,9 @@
 
 class NF_Display_PagePublicLink extends NF_Display_Page
 {
+	protected $form_id;
+	protected $form;
+
 	public function __construct($form_id)
 	{
 		$this->form_id = $form_id;

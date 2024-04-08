@@ -391,7 +391,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
 
                 if ( isset ( $_REQUEST['form_id'] ) && ! empty ( $_REQUEST['form_id'] ) ) {
                     $redirect = urlencode( remove_query_arg( array( 'download_all', 'download_file' ) ) );
-                    $url = admin_url( 'admin.php?page=nf-processing&action=download_all_subs&form_id=' . absint( $_REQUEST['form_id'] ) . '&redirect=' . $redirect );
+                    $url = admin_url( 'admin.php?page=nf-processing&action=download_all_subs&form_id=' . absint( $_REQUEST['form_id'] ) . '&redirect=' . $redirect . '&security=' . wp_create_nonce( 'ninja_forms_batch_nonce' ) );
                     $url = esc_url( $url );
                     ?>
                     var button = '<a href="<?php echo $url; ?>" class="button-secondary nf-download-all"><?php echo esc_html__( 'Download All Submissions', 'ninja-forms' ); ?></a>';

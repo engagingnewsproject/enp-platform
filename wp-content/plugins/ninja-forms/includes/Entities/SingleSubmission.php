@@ -78,6 +78,13 @@ class SingleSubmission extends SimpleEntity
     protected $submissionHandlers=[];
 
     /**
+     * Sequence number
+     *
+     * @var int
+     */
+    protected $seq_num;
+
+    /**
      * User ID of the submitter, "0" if user non logged-in
      *
      * @var string

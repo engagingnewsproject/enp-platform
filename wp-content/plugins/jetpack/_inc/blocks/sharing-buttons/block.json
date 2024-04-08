@@ -7,12 +7,14 @@
     "keywords": [
         "sharing",
         "social",
+        "bluesky",
         "twitter",
         "x",
         "linkedin",
         "facebook",
         "mastodon",
         "tumblr",
+        "threads",
         "whatsapp",
         "telegram",
         "pinterest",
@@ -79,7 +81,6 @@
             "center",
             "right"
         ],
-        "multiple": false,
         "anchor": true,
         "__experimentalExposeControlsToChildren": true,
         "layout": {

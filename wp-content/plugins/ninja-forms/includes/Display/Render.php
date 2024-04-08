@@ -66,7 +66,7 @@ class NF_Display_Render
 
         $settings = $form->get_settings();
 
-        foreach( $settings as $name => $value ){
+        foreach( $settings as $name => &$value ){
             if( ! in_array(
                 $name,
                 array(
@@ -83,7 +83,10 @@ class NF_Display_Render
                 )
             ) ) continue;
 
-            if( $value ) continue;
+            if( $value ) {
+                $value = esc_html($value);
+                continue;
+            }
 
             unset( $settings[ $name ] );
         }

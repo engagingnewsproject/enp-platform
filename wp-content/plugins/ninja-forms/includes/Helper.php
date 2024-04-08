@@ -30,10 +30,41 @@ final class WPN_Helper
         if ( is_array( $input ) )    {
             return array_map( 'WPN_Helper::utf8_encode' , $input );
         } elseif ( function_exists( 'utf8_encode' ) ) {
-            return utf8_encode( $input );
+            return static::iso8859_1_to_utf8( $input );
         } else {
             return $input;
         }
+    }
+
+    /**
+     * Replace utf8_encode with mimicked functionaliy
+     * 
+     * Deprecated in PHP8 and removed in PHP9
+     * 
+     * Replacement credit: https://php.watch/versions/8.2/utf8_encode-utf8_decode-deprecated
+     * and https://github.com/symfony/polyfill-php72/blob/v1.26.0/Php72.php#L32-39
+     *
+     * @param string $string
+     * @return string
+     */
+    public static function iso8859_1_to_utf8( $s) {
+        
+        if(!is_string($s)){
+            return $s;
+        }
+
+        $s .= $s;
+        $len = \strlen($s);
+    
+        for ($i = $len >> 1, $j = 0; $i < $len; ++$i, ++$j) {
+            switch (true) {
+                case $s[$i] < "\x80": $s[$j] = $s[$i]; break;
+                case $s[$i] < "\xC0": $s[$j] = "\xC2"; $s[++$j] = $s[$i]; break;
+                default: $s[$j] = "\xC3"; $s[++$j] = \chr(\ord($s[$i]) - 64); break;
+            }
+        }
+    
+        return substr($s, 0, $j);
     }
 
     /**
@@ -44,12 +75,57 @@ final class WPN_Helper
         if ( is_array( $input ) )    {
             return array_map( 'WPN_Helper::utf8_decode' , $input );
         } elseif ( function_exists( 'utf8_decode' ) ) {
-            return utf8_decode( $input );
+            return self::utf8_to_iso8859_1( $input );
         } else {
             return $input;
         }
     }
     
+    /**
+     * Replace utf8_decode with mimicked functionaliy
+     * 
+     * Deprecated in PHP8 and removed in PHP9
+     * 
+     * Replacement credit: https://php.watch/versions/8.2/utf8_encode-utf8_decode-deprecated
+     * and https://github.com/symfony/polyfill-php72/blob/v1.26.0/Php72.php#L40-69
+     *
+     * @param string $string
+     * @return string
+     */
+    public static function utf8_to_iso8859_1( $string)
+    {        
+        if(!is_string($string)){
+            return $string;
+        }
+
+        $s = (string) $string;
+        $len = \strlen($s);
+    
+        for ($i = 0, $j = 0; $i < $len; ++$i, ++$j) {
+            switch ($s[$i] & "\xF0") {
+                case "\xC0":
+                case "\xD0":
+                    $c = (\ord($s[$i] & "\x1F") << 6) | \ord($s[++$i] & "\x3F");
+                    $s[$j] = $c < 256 ? \chr($c) : '?';
+                    break;
+    
+                case "\xF0":
+                    ++$i;
+                    // no break
+    
+                case "\xE0":
+                    $s[$j] = '?';
+                    $i += 2;
+                    break;
+    
+                default:
+                    $s[$j] = $s[$i];
+            }
+        }
+    
+        return substr($s, 0, $j);
+    }
+
     /**
      * Function to clean json data before json_decode.
      * @since 3.2
@@ -587,6 +663,7 @@ final class WPN_Helper
     */
     public static function maybe_disallow_unfiltered_html_for_escaping():bool {
 
+        // Default intentinally left set to false to avoid breaking countless pre-existing forms using this feature.
         $disallow_unfiltered_html = defined( 'DISALLOW_UNFILTERED_HTML' ) ? DISALLOW_UNFILTERED_HTML : false;
 
         return $disallow_unfiltered_html;

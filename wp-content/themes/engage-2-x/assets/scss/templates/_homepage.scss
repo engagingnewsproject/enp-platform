@@ -1,10 +1,17 @@
 $lightGrey: #fbfbfb;
-
+// @media (max-width: 599px) {
+// 	.home-section .tile:nth-of-type(1n + 5) {
+// 		display: none;
+// 	}
+// }
 .home-section {
 	padding-top: $spacer-sm;
 	padding-bottom: $spacer-lg;
 	position: relative;
 	.tile {
+		// &:nth-of-type(1n + 5) {
+		// 	display: none;
+		// }
 		&:hover {
 			transform: scale(1.015) translate3d(0, -2px, 0);
 			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);

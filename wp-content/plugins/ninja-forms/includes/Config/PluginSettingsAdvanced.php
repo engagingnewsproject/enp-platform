@@ -51,7 +51,7 @@ return apply_filters( 'ninja_forms_plugin_settings_advanced', array(
     'builder_dev_mode' => array(
         'id'    => 'builder_dev_mode',
         'type'  => 'checkbox',
-        'label' => esc_html__( 'Form Builder "Dev Mode"', 'ninja-forms' ),
+        'label' => esc_html__( 'Form Builder "Dev Mode"', 'ninja-forms' ) . ' <a href="https://ninjaforms.com/docs/developer-mode/?utm_source=Ninja+Forms+Plugin&utm_medium=Settings&utm_campaign=Documentation&utm_content=Dev+Mode+Documentation" target="_blank"><img src="' . Ninja_Forms::$url . 'assets/img/help_icon.png" alt="Documentation Link" width="25" height="25"></a>',
     ),
 
     'load_legacy_submissions' => array(

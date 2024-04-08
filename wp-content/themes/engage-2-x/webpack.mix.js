@@ -1,5 +1,9 @@
 const mix = require('laravel-mix');
-
+if (!mix.inProduction()) {
+  mix.webpackConfig({
+    devtool: "inline-source-map",
+  });
+}
 mix
   .js("assets/js/app.js", "dist/js")
   .js("assets/js/homepage.js", "dist/js")
