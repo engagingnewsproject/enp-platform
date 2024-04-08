@@ -126,7 +126,7 @@
 	width: 100%;
 	top: 100%;
 	left: 0;
-	background: transparent;
+	// background: transparent;
 	box-shadow: $mobile-menu-shadow;
 	visibility: hidden;
 	transform: translateY(-100%);
@@ -143,6 +143,7 @@
 		top: unset;
 	}
 	&.show {
+		background: #fff;
 		visibility: visible;
 		transform: translateY(0%);
 		transition: transform 0.4s ease-in-out;
