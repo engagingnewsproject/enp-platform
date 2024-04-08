@@ -20,9 +20,9 @@ module.exports = {
       },
       backgroundImage: {
         annualReportDotsTopRight:
-          "url('/wp-content/themes/engage/assets/img/header-top-right-graphic.svg')",
+          "url('/wp-content/themes/engage-2-x/assets/img/header-top-right-graphic.svg')",
         annualReportDotsBottomLeft:
-          "url('/wp-content/themes/engage/assets/img/dots-cut-header.svg')",
+          "url('/wp-content/themes/engage-2-x/assets/img/dots-cut-header.svg')",
       },
       teal: {
         DEFAULT: "#00a9b7",

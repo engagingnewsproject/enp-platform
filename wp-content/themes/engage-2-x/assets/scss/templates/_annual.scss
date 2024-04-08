@@ -25,12 +25,12 @@
 		}
 	}
 	&::before {
-		background-image: url("/wp-content/themes/engage/assets/img/header-top-right-graphic.svg");
+		background-image: url("/wp-content/themes/engage-2-x/assets/img/header-top-right-graphic.svg");
 		background-position: 100% 0;
 	}
 	// // header bottom left svg
 	&::after {
-		background-image: url("/wp-content/themes/engage/assets/img/dots-cut-header.svg");
+		background-image: url("/wp-content/themes/engage-2-x/assets/img/dots-cut-header.svg");
 		background-position: 0 100%;
 	}
 }
@@ -187,7 +187,7 @@
 			&::before {
 				content: "";
 				position: absolute;
-				background-image: url("/wp-content/themes/engage/assets/img/grey-dots-1.svg");
+				background-image: url("/wp-content/themes/engage-2-x/assets/img/grey-dots-1.svg");
 				background-position: right bottom;
 				background-repeat: no-repeat;
 				background-size: 80%;
@@ -238,7 +238,7 @@
 }
 
 .ann__sct_quote {
-	background-image: url("/wp-content/themes/engage/assets/img/grey-dots-2.svg");
+	background-image: url("/wp-content/themes/engage-2-x/assets/img/grey-dots-2.svg");
 	background-repeat: no-repeat;
 	background-size: 20%;
 	background-position: right top;
