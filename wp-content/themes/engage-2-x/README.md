@@ -124,7 +124,7 @@ If it is not [a hotfix](#hotfix-branches), the flow for a normal deployment is:
 
     `npm run production` first to compile files for production.
 
-    ```
+    ```bash
     git push dev master
 
     git checkout stable && git merge master
