@@ -52,4 +52,17 @@ return apply_filters( 'ninja_forms_merge_tags_other', array(
         'callback' => 'user_ip'
     ),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Referer URL
+    |--------------------------------------------------------------------------
+    */
+
+    'referer_url' => array(
+        'id' => 'referer_url',
+        'tag' => '{other:referer_url}',
+        'label' => esc_html__( 'Referer URL', 'ninja_forms' ),
+        'callback' => 'referer_url'
+    ),
+
 ));

@@ -201,18 +201,18 @@ abstract class NF_Abstracts_Action
         if( ! isset( Ninja_Forms()->actions[ $a->get_setting( 'type' ) ] ) ) return 1;
         if( ! isset( Ninja_Forms()->actions[ $b->get_setting( 'type' ) ] ) ) return 1;
 
-        $a->timing   = Ninja_Forms()->actions[ $a->get_setting( 'type' ) ]->get_timing();
-        $a->priority = Ninja_Forms()->actions[ $a->get_setting( 'type' ) ]->get_priority();
+        $aTiming   = Ninja_Forms()->actions[ $a->get_setting( 'type' ) ]->get_timing();
+        $aPriority = Ninja_Forms()->actions[ $a->get_setting( 'type' ) ]->get_priority();
 
-        $b->timing   = Ninja_Forms()->actions[ $b->get_setting( 'type' ) ]->get_timing();
-        $b->priority = Ninja_Forms()->actions[ $b->get_setting( 'type' ) ]->get_priority();
+        $bTiming   = Ninja_Forms()->actions[ $b->get_setting( 'type' ) ]->get_timing();
+        $bPriority = Ninja_Forms()->actions[ $b->get_setting( 'type' ) ]->get_priority();
 
         // Compare Priority if Timing is the same
-        if( $a->timing == $b->timing)
-            return $a->priority > $b->priority ? 1 : -1;
+        if( $aTiming == $bTiming)
+            return $aPriority > $bPriority ? 1 : -1;
 
         // Compare Timing
-        return $a->timing < $b->timing ? 1 : -1;
+        return $aTiming < $bTiming ? 1 : -1;
     }
 
     protected function load_settings( $only_settings = array() )

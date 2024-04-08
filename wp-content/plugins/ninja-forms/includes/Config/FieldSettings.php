@@ -151,7 +151,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
         'width' => 'one-half',
         'group' => 'primary',
         'value' => 'unchecked',
-
+        'help' => esc_html__( 'Choose here whether the checkbox will be checked or unchecked by default when the user first views the form.', 'ninja-forms' ),
     ),
 
     /*
@@ -170,6 +170,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'label' => esc_html__( 'Checked Value', 'ninja-forms' ),
                 'value' => esc_textarea( __( 'Checked', 'ninja-forms' ) ),
                 'width' => 'one-half',
+                'help' => esc_html__( 'Text entered here will display in submissions for this form if the user checks the box.', 'ninja-forms' ),
             ),
             array(
                 'name'  => 'unchecked_value',
@@ -177,6 +178,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'label' => esc_html__( 'Unchecked Value', 'ninja-forms' ),
                 'value' => esc_textarea( __( 'Unchecked', 'ninja-forms' ) ),
                 'width' => 'one-half',
+                'help' => esc_html__( 'Text entered here will display in submissions for this form if the user does not check the box.', 'ninja-forms' ),
             ),
         ),
     ),
@@ -195,6 +197,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
         ),
         'label' => esc_html__( 'List Orientation', 'ninja-forms' ),
         'value' => 'horizontal',
+        'help' => esc_html__( 'Enter text you would like displayed in the field before a user enters any data.', 'ninja-forms' ),
     ),
 
     /*
@@ -480,6 +483,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'fields'
             )
         ),
+        'help' => esc_html__( 'Text entered here will display in the field by default but can be deleted by the user.', 'ninja-forms' ),
     ),
 
     /*
@@ -747,7 +751,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
      */
 
     'help'           => array(
-        'name'              => 'help',
+        'name'              => 'help_text',
         'type'              => 'fieldset',
         'label'             => esc_html__( 'Help Text', 'ninja-forms' ),
         'group'             => 'display',
@@ -765,6 +769,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'group'             => 'advanced',
                 'value'             => '',
                 'use_merge_tags'    => true,
+                'help'              => esc_html__( 'Entering text here will display an informational icon next to the field label. When a user hovers over it, a small window will appear containing this text.', 'ninja-forms' ),
             ),
         ),
     ),
@@ -789,6 +794,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'label'             => '',
                 'width'             => 'full',
                 'use_merge_tags'    => true,
+                'help'              => esc_html__( 'Any text entered here will appear between the label and the field.', 'ninja-forms' ),
             ),
         ),
     ),
@@ -808,13 +814,13 @@ return apply_filters( 'ninja_forms_field_settings', array(
     ),
 
     'personally_identifiable'   => array(
-	    'name'           => 'personally_identifiable',
-	    'type'           => 'toggle',
-	    'group'          => 'advanced',
-	    'label'          => esc_html__( 'This Field Is Personally Identifiable Data', 'ninja-forms' ),
-	    'width'          => 'full',
-	    'value'          => '',
-	    'help'           => esc_html__( 'This option helps with privacy regulation compliance', 'ninja-forms' ),
+        'name'           => 'personally_identifiable',
+        'type'           => 'toggle',
+        'group'          => 'advanced',
+        'label'          => esc_html__( 'This Field Is Personally Identifiable Data', 'ninja-forms' ),
+        'width'          => 'full',
+        'value'          => '',
+        'help'           => esc_html__( 'This option helps with privacy regulation compliance', 'ninja-forms' ),
     ),
 
     /*
@@ -831,6 +837,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
         'width' => 'one-half',
         'group' => 'advanced',
         'value' => 5,
+        'help'  => esc_html__( 'Adjusts the number of list option selections that are viewable by the user at one time without scrolling through the list.', 'ninja-forms' ),
     ),
 
     /*
@@ -943,6 +950,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
         'label'     => esc_html__( 'Disable Input', 'ninja-forms' ),
         'width'     => 'full',
         'group'     => 'restrictions',
+        'help'      => esc_html__( 'Prevents users from typing into the field.', 'ninja-forms' ),
     ),
 
     //TODO: Ask about the list of states and countries.
@@ -1053,7 +1061,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
         'label' => esc_html__( 'Processing Label', 'ninja-forms' ),
         'width' => 'full',
         'group' => 'primary',
-        'value' => esc_textarea( __( 'Processing', 'ninja-forms' ) )
+        'value' => esc_html__( 'Processing', 'ninja-forms' )
     ),
 
     /*

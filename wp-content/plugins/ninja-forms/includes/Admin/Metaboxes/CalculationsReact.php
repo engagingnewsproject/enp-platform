@@ -113,9 +113,25 @@ class CalculationsReact
      */
     protected  function isDebugSet( ): bool
     {
-        $referer= filter_input(INPUT_SERVER,'HTTP_REFERER');
+        $referer= $this->getReferer();
+        
+        if(\is_null($referer)){
+            return FALSE;
+        }
 
         $return = strpos($referer,'calcs_debug')>0?TRUE:FALSE;  
+        
+        return $return;
+    }
+
+    /**
+     * Get the input server referer
+     *
+     * @return mixed
+     */
+    protected function getReferer( )
+    {
+        $return= filter_input(INPUT_SERVER,'HTTP_REFERER');
         
         return $return;
     }

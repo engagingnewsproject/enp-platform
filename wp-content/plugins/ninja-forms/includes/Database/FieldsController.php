@@ -1,8 +1,8 @@
 <?php
-final class NF_Database_FieldsController
+class NF_Database_FieldsController
 {
     private $db;
-    private $factory;
+    private $form_id;
     private $fields_data;
     private $new_field_ids;
     private $insert_fields;

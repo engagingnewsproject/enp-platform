@@ -123,18 +123,18 @@ $ads = array(
                                             </div>',
     ),
 
-    'paypal-payment'                    => array(
-        'id'                            => 'paypal-payment',
-        'title'                         => esc_html__( 'PayPal Payment', 'ninja-forms' ),
-        'template-desc'                 => esc_html__( 'Collect a payment using PayPal Express. You can add and remove fields as needed.', 'ninja-forms' ),
+    'paypal-checkout'                    => array(
+        'id'                            => 'paypal-checkout',
+        'title'                         => esc_html__( 'PayPal Checkout', 'ninja-forms' ),
+        'template-desc'                 => esc_html__( 'Collect a payment using PayPal. You can add and remove fields as needed.', 'ninja-forms' ),
         'type'                          => 'ad',
-        'modal-title'                   => 'Get PayPal Express for Ninja Forms',
+        'modal-title'                   => 'Get PayPal for Ninja Forms',
         'modal-content'                 => '<div class="modal-template">
-                                                <img src="' . Ninja_Forms::$url . 'assets/img/add-ons/paypal-express.png"/>
-                                                <p>In order to use this template, you need PayPal Express for Ninja Forms.</p>
-                                                <p>Did you know you can accept PayPal payments or donations from any form? Connect any form completely and securely to your PayPal Express account!</p>
+                                                <img src="' . Ninja_Forms::$url . 'assets/img/add-ons/paypal-checkout.png"/>
+                                                <p>In order to use this template, you need PayPal for Ninja Forms.</p>
+                                                <p>Did you know you can accept PayPal payments or donations from any form? Connect any form completely and securely to your PayPal account!</p>
                                                 <div class="actions">
-                                                    <a target="_blank" href="https://ninjaforms.com/extensions/paypal-express/?utm_source=Ninja+Forms+Plugin&utm_medium=Forms+Tab&utm_campaign=Templates&utm_content=PayPal+Template" title="PayPal Express" class="primary nf-button">Learn More</a>
+                                                    <a target="_blank" href="https://ninjaforms.com/extensions/paypal-checkout/?utm_source=Ninja+Forms+Plugin&utm_medium=Forms+Tab&utm_campaign=Templates&utm_content=PayPal+Template" title="PayPal" class="primary nf-button">Learn More</a>
                                               </div>
                                             </div>',
     ),

@@ -136,6 +136,12 @@ class NF_AJAX_Controllers_Preview extends NF_Abstracts_Controller
                 $form_data[ 'fields' ] = array();
                 $form_data[ 'actions' ] = array();
             } else {
+                /*
+                 * Form data is not string and evals to false, so initialize as empty array
+                 * Resolves a PHP deprecated notice
+                 */
+                $form_data =[];
+
                 $form = Ninja_Forms()->form($form_id)->get();
                 $form_data['id'] = $form_id;
 

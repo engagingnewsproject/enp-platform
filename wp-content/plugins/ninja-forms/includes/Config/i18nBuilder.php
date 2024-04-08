@@ -92,4 +92,6 @@ return apply_filters( 'ninja_forms_i18n_builder', array(
     'workflowActionNicename' => esc_html__( 'Document & Workflow Management', 'ninja-forms' ),
     'notificationsActionNicename' => esc_html__( 'Send SMS Form Notifications', 'ninja-forms' ),
     'miscActionNicename' => esc_html__( 'Integrate with 1000+ More Services', 'ninja-forms' ),
+    'htmlDetectedError' => esc_html__('HTML classes only allow - _ and alphanumeric characters.', 'ninja-forms'),
+    'titleLabelsErrorMessage'   => esc_html__('This character is forbidden. Title and labels must not contain / " < > ` characters.', 'ninja-forms')
 ));

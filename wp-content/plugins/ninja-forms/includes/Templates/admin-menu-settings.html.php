@@ -1,6 +1,9 @@
 <div class="wrap">
 
-    <h1><?php esc_html_e( 'Settings', 'ninja-forms' ); ?></h1>
+    <h1><?php esc_html_e( 'Settings',  'ninja-forms' ); ?>
+    <a href="https://ninjaforms.com/docs/plugin-settings/?utm_source=Ninja+Forms+Plugin&utm_medium=Settings&utm_campaign=Documentation&utm_content=Plugin+Settings+Documentation" target="_blank">
+        <img src="<?php echo Ninja_Forms::$url . 'assets/img/help_icon.png'; ?>" alt="Documentation Link" width="25" height="25"></a>
+    </h1>
 
     <h2 class="nav-tab-wrapper">
         <?php foreach( $tabs as $tab => $name ): ?>

@@ -3,8 +3,8 @@ Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorho
 Tags: forms, contact form, email form, form builder, custom form, pdf form, registration form, payment form, login form, contact me, signature form, upload form, file upload form, conditional form, feedback form, appointment form, quote form, survey form, contact button, signup form, form plugin, contact form plugin, subscription form, email subscription form, newsletter form, donation form, booking form, quote request form, multi page form, conditional logic form, subscription form, application form, employment verification form, star rating form, rating form, event form, mailchimp form, campaign monitor form, constant contact form, mailpoet form, aweber form, cleverreach form, emma form, convertkit form, active campaign form, salesforce form, zoho form, capsule form, insightly form, pipelinedeals form, onepagecrm form
 
 Requires at least: 6.1
-Tested up to: 6.4.2
-Stable tag: 3.7.2
+Tested up to: 6.4.3
+Stable tag: 3.8.2
 
 License: GPLv2 or later
 
@@ -304,12 +304,48 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.7.2 (29 January 2024)
+= 3.8.2 (29 March 2024)
 * Bug Fixes: *
-- Prevent form display on password protected page
-- Patch a medium severity, low-risk second-order SQL Injection vulnerability
+- Allow default span tags in form labels
+
+* Other: *
+- Update add-on images
 
 == Changelog ==
+= 3.8.2 (29 March 2024)
+* Bug Fixes: *
+- Allow default span tags in form labels
+
+= 3.8.1 (27 March 2024)
+* Bug Fixes: *
+- Ensure submission exports can't be called from any unintended pages
+- Prevent injected scripts into submit button and advanced labels
+- Prevent XSS on image lists
+
+* Other: *
+- Update add-on images
+
+= 3.8.0 (20 February 2024)
+* Features: *
+- Add 'referer URL' merge tag
+
+* Bug Fixes: *
+- Prevent display error when date format is not set
+- Ensure current date stored when default is not modified
+- Ensure translation of date strings
+
+* Other: *
+- Add user help text and images
+- Add automated tests
+
+= 3.7.3 (12 February 2024)
+* Bug Fixes: *
+- Update code for PHP 8.3
+
+* Other: *
+- Add in-app documentation text and links
+- Add scroll bar for long vertical content
+
 = 3.7.2 (29 January 2024)
 * Bug Fixes: *
 - Prevent form display on password protected page

@@ -77,7 +77,7 @@ return apply_filters( 'ninja_forms_i18n_front_end', array(
                                                 esc_html__( 'Fri', 'ninja-forms' ),
                                                 esc_html__( 'Sat', 'ninja-forms' ),
                                             ),
-    'weekdaysMin'                           => array(
+    'weekdaysMin'                           => array(//DEPRECATED format in the new date field
                                                 esc_html__( 'Su', 'ninja-forms' ),
                                                 esc_html__( 'Mo', 'ninja-forms' ),
                                                 esc_html__( 'Tu', 'ninja-forms' ),

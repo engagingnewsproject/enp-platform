@@ -312,7 +312,7 @@ class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
         }
 
         if( 'submit' == $field[ 'type' ] ){
-            $field[ 'processing_label' ] = 'Processing';
+            $field[ 'processing_label' ] = esc_html__( 'Processing', 'ninja-forms' );
         }
 
         if( 'calc' == $field[ 'type' ] ){

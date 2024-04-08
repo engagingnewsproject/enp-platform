@@ -263,18 +263,10 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
      */
     public function insert_form()
     {
-        $insert_columns = array();
-        $insert_columns_types = array();
-        foreach ( $this->forms_db_columns as $column_name => $setting_name ) {
-            // Make sure we don't try to set created_at to NULL.
-            if( 'created_at' === $column_name && is_null( $this->form[ 'settings' ][ $setting_name ] ) ) continue;
-            $insert_columns[ $column_name ] = $this->form[ 'settings' ][ $setting_name ];
-            if ( is_numeric( $this->form[ 'settings' ][ $setting_name ] ) ) {
-                array_push( $insert_columns_types, '%d' );
-            } else {
-                array_push( $insert_columns_types, '%s' );
-            }
-        }
+        $constructedColumnsAndTypes = $this->constructFormColumnsAndTypes();
+
+        $insert_columns = $constructedColumnsAndTypes['insert_columns'];
+        $insert_columns_types = $constructedColumnsAndTypes['insert_columns_types'];
 
         $this->_db->insert( "{$this->_db->prefix}nf3_forms", $insert_columns, $insert_columns_types );
 
@@ -291,6 +283,43 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
 
         // Remove our settings and actions array items.
         unset( $this->form[ 'settings' ], $this->form[ 'actions' ] );
+    }
+
+    /**
+     * Construct columns and column types from form settings
+     *
+     * @return array
+     */
+    protected function constructFormColumnsAndTypes(): array
+    {
+        $insert_columns = array();
+        $insert_columns_types = array();
+
+        foreach ( $this->forms_db_columns as $column_name => $setting_name ) {
+            // Make sure we don't try to set created_at to NULL.
+            if( 'created_at' === $column_name && (!isset($this->form[ 'settings' ][ $setting_name ]) || is_null( $this->form[ 'settings' ][ $setting_name ] ) ) ) continue;
+
+            $formColumnName = null;
+
+            if(isset($this->form[ 'settings' ][ $setting_name ])){
+                $formColumnName = $this->form[ 'settings' ][ $setting_name ];
+            }    
+
+            $insert_columns[ $column_name ] = $formColumnName;
+
+            if ( is_numeric( $formColumnName) ) {
+                array_push( $insert_columns_types, '%d' );
+            } else {
+                array_push( $insert_columns_types, '%s' );
+            }
+        }
+
+        $return =[
+            'insert_columns'=>$insert_columns,
+            'insert_columns_types'=>$insert_columns_types
+        ];
+
+        return $return;
     }
 
     /**
@@ -356,8 +385,16 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
             $insert_columns_types = array();
             // Loop over all our action columns to get their values.
             foreach ( $this->actions_db_columns as $column_name => $setting_name ) {
-                $insert_columns[ $column_name ] = $action_settings[ $setting_name ];
-                if ( is_numeric( $action_settings[ $setting_name ] ) ) {
+
+                // ensure default value, then try to extract action setting value
+                $extractedValue = null;
+                if(isset($action_settings[ $setting_name ])){
+                    $extractedValue=$action_settings[ $setting_name ];
+                }
+
+                $insert_columns[ $column_name ] = $extractedValue;
+
+                if ( is_numeric( $extractedValue) ) {
                     array_push( $insert_columns_types, '%d' );
                 } else {
                     array_push( $insert_columns_types, '%s' );
@@ -453,8 +490,16 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
             $insert_columns_types = array();
             // Loop over all our action columns to get their values.
             foreach ( $this->fields_db_columns as $column_name => $setting_name ) {
-                $insert_columns[ $column_name ] = $field_settings[ $setting_name ];
-                if ( is_numeric( $field_settings[ $setting_name ] ) ) {
+
+                // ensure default value, then try to extract action setting value
+                $extractedValue = null;
+                if(isset($field_settings[ $setting_name ])){
+                    $extractedValue = $field_settings[ $setting_name ];
+                }
+ 
+                $insert_columns[ $column_name ] = $extractedValue;
+
+                if ( is_numeric( $extractedValue ) ) {
                     array_push( $insert_columns_types, '%d' );
                 } else {
                     array_push( $insert_columns_types, '%s' );
@@ -754,7 +799,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
         }
 
         if( 'submit' == $field[ 'type' ] ){
-            $field[ 'processing_label' ] = 'Processing';
+            $field[ 'processing_label' ] =  esc_html__( 'Processing', 'ninja-forms' );
         }
 
         if( isset( $field[ 'email' ] ) ){

@@ -152,5 +152,10 @@ class NF_MergeTags_Other extends NF_Abstracts_MergeTags
         return apply_filters( 'ninja_forms-get_ip', apply_filters( 'nf_get_ip', $ip ) );
     }
 
+    protected function referer_url()
+    {   
+        return apply_filters( 'ninja_forms-referer_url_mt', wp_get_referer() );
+    }
+
 
 } // END CLASS NF_MergeTags_Other
