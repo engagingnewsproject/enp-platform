@@ -65,7 +65,7 @@ Project lead only instructions:
 
 2. First run `npm run production` to compile files for production.
 
-3. Push to the dev site (https://cmedev.wpengine.com/)
+3. Push to the dev site.
     
 ```
 git push dev master
@@ -77,7 +77,7 @@ git push dev master
 git checkout stable && git merge master
 ```
 
-5. Tag and push to staging site (https://cmestaging.wpengine.com/)
+5. Tag and push to staging site.
 
 ```
 git tag -a 2.2.8 -m "message here" && git push origin stable --tags && git push staging stable
