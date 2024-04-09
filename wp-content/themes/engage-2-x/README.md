@@ -72,6 +72,10 @@ To adjust a query, you'll need to add/modify the query in `src/Managers/Permalin
 
 Before doing any deployment, **make sure the .js and .css files are minified**.
 
+### **IMPORTANT** 
+#### _YOU MUST NOTIFY KAT BEFORE YOU PUSH ANY UPDATES TO THE LIVE SITE_
+#### AGAIN: _YOU MUST NOTIFY KAT BEFORE YOU PUSH ANY UPDATES TO THE LIVE SITE_
+
 There are three sites that make up our deployment flow:
 
 1. Dev:         [https://cmedev.wpengine.com](https://cmedev.wpengine.com)
@@ -122,17 +126,35 @@ If it is not [a hotfix](#hotfix-branches), the flow for a normal deployment is:
 
 ## Deployment quick instructions
 
-    `npm run production` first to compile files for production.
+1. #### YOU MUST NOTIFY KAT BEFORE YOU PUSH ANY UPDATES TO THE LIVE SITE
 
-    ```bash
-    git push dev master
+2. First run `npm run production` to compile files for production.
 
-    git checkout stable && git merge master
+3. Push to the dev site (https://cmedev.wpengine.com/)
+    
+```
+git push dev master
+```
+    
+4. Merge `master` into `stable`
+    
+```
+git checkout stable && git merge master
+```
 
-    git tag -a 2.2.8 -m "ninja forms file uploads & jetpack plugin update " && git push origin stable --tags && git push staging stable
+5. Tag and push to staging site (https://cmestaging.wpengine.com/)
 
-    git push production stable
-    ```
+```
+git tag -a 2.2.8 -m "message here" && git push origin stable --tags && git push staging stable
+```
+
+6. #### _!!REMINDER:_ YOU MUST NOTIFY KAT BEFORE YOU PUSH ANY UPDATES TO THE LIVE SITE
+
+7. Push to the live site
+
+```
+git push production stable
+```
 
 ## Updated setup instructions
 
