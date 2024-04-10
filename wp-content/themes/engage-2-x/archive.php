@@ -67,6 +67,27 @@ if ((
 			is_tax('board_category')
 	)) {
 	$archive = new TeamArchive( $wp_query, $options );
+	// if research archive page for bridging-divides vertical
+} else if (is_tax('verticals', 'bridging-divides') && is_post_type_archive(['research'])) {
+	// remove the "Quick Reads" sidebar menu item from the $options var.
+	if (isset($options['filters']['terms']['blogs'])) {
+		unset($options['filters']['terms']['blogs']);
+	}
+	$args = [
+		'post_type' => ['research', 'blogs'], // include both research and blogs in wp_query
+		'tax_query' => [
+			'relation' => 'AND',
+			[
+					'taxonomy' => 'verticals',
+					'field' => 'slug',
+					'terms' => ['bridging-divides'], // filter by bridging-divides vertical
+			],
+		],
+	];
+	$query = new WP_Query($args);
+	$archive = new TileArchive($options, $query);
+	// original query:
+	// $archive = new TileArchive($options, $wp_query);
 } else {
 	$archive = new TileArchive(  $options, $wp_query );
 }
