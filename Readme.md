@@ -57,6 +57,40 @@ _** Currently this repo includes the whole WordPress installation. This is not r
 
 7. When your tasks are complete and you are ready to push your changes to the remote repo run `npm run production` on the /engage-2-x directory to compile all CSS & JS.
 
+## Deployment
+
+Project lead only instructions:
+
+1. #### YOU MUST NOTIFY KAT BEFORE YOU PUSH ANY UPDATES TO THE LIVE SITE
+
+2. First run `npm run production` to compile files for production.
+
+3. Push to the dev site.
+    
+```
+git push dev master
+```
+    
+4. Merge `master` into `stable`
+    
+```
+git checkout stable && git merge master
+```
+
+5. Tag and push to staging site.
+
+```
+git tag -a 2.2.8 -m "message here" && git push origin stable --tags && git push staging stable
+```
+
+6. #### _!!REMINDER:_ YOU MUST NOTIFY KAT BEFORE YOU PUSH ANY UPDATES TO THE LIVE SITE
+
+7. Push to the live site
+
+```
+git push production stable
+```
+
 ## Debug Local App Connection
 
 If you run into any issues with the Engage theme try some of these workarounds to get the site and wp-admin showing up.
