@@ -101,7 +101,7 @@ class NF_Fields_Repeater extends NF_Abstracts_Field
 
             $field['value'] = '';
             foreach ($field as $key => $setting) {
-                if (is_numeric($setting) && 'custom_mask' != $key )
+                if (is_numeric($setting) && 'custom_mask' != $key  && 'id' != $key)
                     $field[$key] =
                     floatval($setting);
             }

@@ -12,6 +12,9 @@
 		</header>
 		{{ post.generate_table }} {# This line calls the src/Models/Press.php Press class to populate the table #}
 		<div class="article__content">
+			{% if post.meta('above') %}
+				{{ post.meta('above') }}
+			{% endif %}
 			<table> 
 				<colgroup>
 					<col class="press-table-side-col">
@@ -29,6 +32,9 @@
 					</tr>
 				{% endfor %}
 			</table>
+			{% if post.meta('below') %}
+				{{ post.meta('below') }}
+			{% endif %}
 			{# ACF press articles #}
 			{% if post.meta('press_articles') %}
 				<ul class="press-list" style="list-style:none;">
