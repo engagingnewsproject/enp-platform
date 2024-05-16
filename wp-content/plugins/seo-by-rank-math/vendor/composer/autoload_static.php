@@ -111,7 +111,6 @@ class ComposerStaticInite0bd047aa5058f04568aa38dfc5ac000
         'RankMath\\Admin\\Post_Filters' => __DIR__ . '/../..' . '/includes/admin/class-post-filters.php',
         'RankMath\\Admin\\Pro_Notice' => __DIR__ . '/../..' . '/includes/admin/class-pro-notice.php',
         'RankMath\\Admin\\Registration' => __DIR__ . '/../..' . '/includes/admin/class-registration.php',
-        'RankMath\\Admin\\Serp_Preview' => __DIR__ . '/../..' . '/includes/admin/class-serp-preview.php',
         'RankMath\\Admin\\Setup_Wizard' => __DIR__ . '/../..' . '/includes/admin/class-setup-wizard.php',
         'RankMath\\Admin\\Watcher' => __DIR__ . '/../..' . '/includes/admin/watcher/class-watcher.php',
         'RankMath\\Admin_Bar_Menu' => __DIR__ . '/../..' . '/includes/admin/class-admin-bar-menu.php',

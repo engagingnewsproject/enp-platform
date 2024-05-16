@@ -81,7 +81,6 @@ return array(
     'RankMath\\Admin\\Post_Filters' => $baseDir . '/includes/admin/class-post-filters.php',
     'RankMath\\Admin\\Pro_Notice' => $baseDir . '/includes/admin/class-pro-notice.php',
     'RankMath\\Admin\\Registration' => $baseDir . '/includes/admin/class-registration.php',
-    'RankMath\\Admin\\Serp_Preview' => $baseDir . '/includes/admin/class-serp-preview.php',
     'RankMath\\Admin\\Setup_Wizard' => $baseDir . '/includes/admin/class-setup-wizard.php',
     'RankMath\\Admin\\Watcher' => $baseDir . '/includes/admin/watcher/class-watcher.php',
     'RankMath\\Admin_Bar_Menu' => $baseDir . '/includes/admin/class-admin-bar-menu.php',
