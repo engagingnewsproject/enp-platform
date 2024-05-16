@@ -99,7 +99,8 @@ class Block_TOC extends Block {
 			return $block_content;
 		}
 
-		$title_wrapper = $parsed_block['attrs']['titleWrapper'] ?? 'h2';
+		$allowed_tags = [ 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div' ];
+		$title_wrapper = in_array( $parsed_block['attrs']['titleWrapper'], $allowed_tags, true ) ? $parsed_block['attrs']['titleWrapper'] : 'h2';
 
 		$block_content = preg_replace_callback(
 			'/(<div class=".*?wp-block-rank-math-toc-block.*?"\>)/i',
@@ -113,8 +114,14 @@ class Block_TOC extends Block {
 			},
 			$block_content
 		);
+		$block_content = str_replace( 'class=""', '', $block_content );
 
-		return str_replace( 'class=""', '', $block_content );
+		return apply_filters(
+			'rank_math/schema/block/toc/content',
+			wp_kses_post( $block_content ),
+			$block_content,
+			$parsed_block['attrs'],
+		);
 	}
 
 	/**

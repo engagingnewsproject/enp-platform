@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-3.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Rank Math SEO with AI Best SEO Tools 1.0.218\n"
+"Project-Id-Version: Rank Math SEO with AI Best SEO Tools 1.0.219\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seo-by-rank-math\n"
 "Last-Translator: Rank Math <support@rankmath.com>\n"
 "Language-Team: Rank Math <support@rankmath.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-05-02T08:50:02+00:00\n"
+"POT-Creation-Date: 2024-05-15T09:28:26+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: rank-math\n"
@@ -770,7 +770,6 @@ msgstr ""
 msgid "By connecting your free account, you get keyword suggestions directly from Google when entering the focus keywords. Not only that, get access to our revolutionary Content AI, SEO Analyzer inside WordPress that scans your website for SEO errors and suggest improvements. %s"
 msgstr ""
 
-#. translators: Link to Free Account Benefits KB article
 msgid "Read more by following this link."
 msgstr ""
 
@@ -778,74 +777,6 @@ msgid "Account Successfully Connected"
 msgstr ""
 
 msgid "You have successfully activated Rank Math."
-msgstr ""
-
-msgid "Preview"
-msgstr ""
-
-msgid "Desktop Preview"
-msgstr ""
-
-msgid "Mobile Preview"
-msgstr ""
-
-msgid "Click to enter permalink"
-msgstr ""
-
-msgid "Click to enter custom title"
-msgstr ""
-
-msgid "Click to enter custom meta description"
-msgstr ""
-
-msgid "Noindex robots meta is enabled"
-msgstr ""
-
-msgid "This page will not appear in search results. You can disable noindex in the Advanced tab."
-msgstr ""
-
-msgid "Price range: "
-msgstr ""
-
-msgid "Calories: "
-msgstr ""
-
-#. translators: total reviews
-msgid "Rating: %s"
-msgstr ""
-
-#. translators: total reviews
-msgid "%s reviews"
-msgstr ""
-
-msgid "Price"
-msgstr ""
-
-msgid "Price range"
-msgstr ""
-
-msgid "Cooking time"
-msgstr ""
-
-msgid "Calories"
-msgstr ""
-
-msgid "In Stock"
-msgstr ""
-
-msgid "Date"
-msgstr ""
-
-msgid "Location"
-msgstr ""
-
-msgid "Rating"
-msgstr ""
-
-msgid "Out of stock"
-msgstr ""
-
-msgid "In stock"
 msgstr ""
 
 msgid "Requirements"
@@ -1413,7 +1344,6 @@ msgstr ""
 msgid "Choose your Sitemap configuration and select which type of posts or pages you want to include in your Sitemaps. %s"
 msgstr ""
 
-#. translators: Link to How to Setup Sitemap KB article
 #. Translators: placeholder is the KB link.
 msgid "Learn more."
 msgstr ""
@@ -4607,6 +4537,9 @@ msgstr ""
 msgid "Organization Logo"
 msgstr ""
 
+msgid "Location"
+msgstr ""
+
 msgid "Gender"
 msgstr ""
 
@@ -4640,6 +4573,9 @@ msgstr ""
 msgid "Recipe Yield"
 msgstr ""
 
+msgid "Calories"
+msgstr ""
+
 msgid "Preparation Time"
 msgstr ""
 
@@ -4671,6 +4607,9 @@ msgid "Menu URL"
 msgstr ""
 
 msgid "Service Type"
+msgstr ""
+
+msgid "Price"
 msgstr ""
 
 msgid "Price Currency"
@@ -5591,6 +5530,9 @@ msgid "Brand"
 msgstr ""
 
 msgid "Select Product Brand Taxonomy to use in Schema.org & OpenGraph markup."
+msgstr ""
+
+msgid "In stock"
 msgstr ""
 
 msgid "Written by"
@@ -7388,6 +7330,15 @@ msgstr ""
 msgid "Rating: "
 msgstr ""
 
+msgid "Preview"
+msgstr ""
+
+msgid "Desktop Preview"
+msgstr ""
+
+msgid "Mobile Preview"
+msgstr ""
+
 msgid "Videos"
 msgstr ""
 
@@ -7401,6 +7352,12 @@ msgid "Tools"
 msgstr ""
 
 msgid "About 43,700,000 results (0.32 seconds) "
+msgstr ""
+
+msgid "Noindex robots meta is enabled"
+msgstr ""
+
+msgid "This page will not appear in search results. You can disable noindex in the Advanced tab."
 msgstr ""
 
 msgid "Replace Image"
@@ -8973,6 +8930,9 @@ msgid "Author Name"
 msgstr ""
 
 msgid "Image URL"
+msgstr ""
+
+msgid "Rating"
 msgstr ""
 
 msgid "Rating score"
