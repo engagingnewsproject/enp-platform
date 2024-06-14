@@ -155,105 +155,114 @@
 .emoji {
 	max-width: 20px;
 }
-// Recent posts extended widget
-.recent-posts-extended .widget__title {
-	font-style: normal;
-	text-decoration: none;
-}
 
-.rpwe-block ul{
-	list-style: none;
+// Plugin: Recent Posts Extended (RPE)
+// START RPE Required reset css. Info: https://wordpress.org/plugins/recent-posts-widget-extended/#how%20to%20add%20custom%20style%3F
+.rpwe-block ul {
+	list-style: none !important;
+	margin-left: 0 !important;
+	padding-left: 0 !important;
+	// custom
+	display: grid;
+	grid-auto-rows: auto;
+	grid-column-gap: 0px;
+	grid-row-gap: 20px;
+	@include media($phablet) {
+		grid-template-columns: repeat(12, 1fr);
+		column-gap: 20px;
+	}
+}
+.rpwe-block li {
+	border-bottom: none;
+	margin-bottom: 0;
 	margin-left: 0;
-	padding-left: 0;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	@include media($tablet) {
-		flex-direction: row;
-	}
-}
-
-.rpwe-block li{
+	padding-bottom: 0;
+	list-style-type: none;
+	// custom
 	@include tile-style;
-	margin: 0 0 10px 0;
-	flex: 1 0 21%;
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-template-rows: auto;
 	&:hover {
-		transform: scale(1.015) translate3d(0, -2px, 0);
-		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+		@include tile-style-hover
 	}
-	@include media($tablet) {
-		margin: 0 10px 0 0;
-		max-height: 120px;
-    	overflow: hidden;
+	@include media($phablet) {
+		grid-column-end: span 6;
+	}
+	@include media($desktop) {
+		grid-column-end: span 3;
 	}
 }
-
-.rpwe-title a{
-	display: inline;
+.rpwe-block a {
+	display: inline !important;
 	text-decoration: none;
+	// custom
 	font-size: $font-size-base;
 	font-weight: 700;
-	font-style: normal;
-	text-decoration: none;
-	  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;  
-  overflow: hidden;
 }
-
-.rpwe-block h3{
-	margin-bottom: 0;
+.rpwe-block h3 {
+	background: none !important;
+	clear: none;
+	margin-bottom: 0 !important;
+	margin-top: 0 !important;
+	font-weight: 400;
+	font-size: 12px !important;
+	line-height: 1.5em;
+	// custom
 	padding-top: 10px;
-    text-overflow: ellipsis;
-    overflow: hidden;
 }
-
-.rpwe-thumb{
-	border: 1px solid #eee;
-	box-shadow: none;
-	margin: 0 10px 0 0;
-	padding: 0;
+.rpwe-thumb {
+	border: none !important;
+	box-shadow: none !important;
+	margin: 0;
+	padding: 0 !important;
+	// custom
+	@include media($desktop) {
+		height: 100%;
+		object-fit: cover;
+	}
 }
-
-.rpwe-time{
+.rpwe-summary {
+	font-size: 12px;
+}
+.rpwe-time {
 	color: #bbb;
 	font-size: $font-size-small;
-	text-decoration: none;
-	font-style: normal;
 }
-
-.rpwe-comment{
-color: #bbb;
-font-size: 11px;
-padding-left: 5px;
+.rpwe-alignleft {
+	display: inline;
+	float: left;
 }
-
-.rpwe-alignleft{
-display: inline;
-float: left;
+.rpwe-alignright {
+	display: inline;
+	float: right;
 }
-
-.rpwe-alignright{
-display: inline;
-float: right;
+.rpwe-aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
-
-.rpwe-aligncenter{
-display: block;
-margin-left: auto;
-margin-right: auto;
-}
-
 .rpwe-clearfix:before,
-.rpwe-clearfix:after{
-content: "";
-display: table;
+.rpwe-clearfix:after {
+	content: "";
+	display: table !important;
 }
-
-.rpwe-clearfix:after{
-clear: both;
+.rpwe-clearfix:after {
+	clear: both;
 }
-
-.rpwe-clearfix{
-zoom: 1;
+.rpwe-clearfix {
+	zoom: 1;
 }
+// // START extra custom
+.rpwe-img {
+	grid-column: span 10 / 5;
+	grid-row: 1/span 2;
+	width: 100%;
+	height: 100%;
+}
+.rpwe-title,
+.rpwe-time {
+	grid-column: span 6 / 12;
+}
+// // END extra custom
+// END RPE Required reset css
