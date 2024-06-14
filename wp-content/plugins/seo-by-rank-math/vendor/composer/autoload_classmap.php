@@ -114,6 +114,8 @@ return array(
     'RankMath\\CMB2' => $baseDir . '/includes/class-cmb2.php',
     'RankMath\\Common' => $baseDir . '/includes/class-common.php',
     'RankMath\\Compatibility' => $baseDir . '/includes/class-compatibility.php',
+    'RankMath\\ContentAI\\Admin' => $baseDir . '/includes/modules/content-ai/class-admin.php',
+    'RankMath\\ContentAI\\Assets' => $baseDir . '/includes/modules/content-ai/class-assets.php',
     'RankMath\\ContentAI\\Block_Command' => $baseDir . '/includes/modules/content-ai/blocks/command/class-block-command.php',
     'RankMath\\ContentAI\\Bulk_Actions' => $baseDir . '/includes/modules/content-ai/class-bulk-actions.php',
     'RankMath\\ContentAI\\Bulk_Edit_SEO_Meta' => $baseDir . '/includes/modules/content-ai/class-bulk-edit-seo-meta.php',

@@ -23,6 +23,11 @@ abstract class NF_Abstracts_Action
     /**
      * @var string
      */
+    protected $_group = '';
+
+    /**
+     * @var string
+     */
     protected $_image = '';
 
     /**
@@ -161,6 +166,18 @@ abstract class NF_Abstracts_Action
     public function get_section()
     {
         return $this->_section;
+    }
+
+    /**
+     * Get Group
+     *
+     * Returns the drawer group for an action.
+     *
+     * @return string
+     */
+    public function get_group()
+    {
+        return $this->_group;
     }
 
     /**

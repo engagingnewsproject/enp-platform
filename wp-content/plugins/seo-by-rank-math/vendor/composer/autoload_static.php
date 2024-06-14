@@ -144,6 +144,8 @@ class ComposerStaticInite0bd047aa5058f04568aa38dfc5ac000
         'RankMath\\CMB2' => __DIR__ . '/../..' . '/includes/class-cmb2.php',
         'RankMath\\Common' => __DIR__ . '/../..' . '/includes/class-common.php',
         'RankMath\\Compatibility' => __DIR__ . '/../..' . '/includes/class-compatibility.php',
+        'RankMath\\ContentAI\\Admin' => __DIR__ . '/../..' . '/includes/modules/content-ai/class-admin.php',
+        'RankMath\\ContentAI\\Assets' => __DIR__ . '/../..' . '/includes/modules/content-ai/class-assets.php',
         'RankMath\\ContentAI\\Block_Command' => __DIR__ . '/../..' . '/includes/modules/content-ai/blocks/command/class-block-command.php',
         'RankMath\\ContentAI\\Bulk_Actions' => __DIR__ . '/../..' . '/includes/modules/content-ai/class-bulk-actions.php',
         'RankMath\\ContentAI\\Bulk_Edit_SEO_Meta' => __DIR__ . '/../..' . '/includes/modules/content-ai/class-bulk-edit-seo-meta.php',

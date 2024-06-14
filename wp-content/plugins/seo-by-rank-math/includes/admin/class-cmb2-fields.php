@@ -143,7 +143,7 @@ class CMB2_Fields implements Runner {
 			'warning' => 'notice notice-alt notice-warning warning inline rank-math-notice',
 		];
 
-		echo '<div class="' . esc_attr( $hash[ $field->args( 'what' ) ] ) . '"><p>' . wp_kses_post( $field->args( 'content' ) ) . '</p></div>';
+		echo '<div class="' . esc_attr( $hash[ $field->args( 'what' ) ] ) . '"><p>' . $field->args( 'content' ) . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CMB2 handles escaping.
 	}
 
 	/**

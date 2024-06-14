@@ -26,6 +26,11 @@ final class NF_Actions_Redirect extends NF_Abstracts_Action
     protected $_priority = 20;
 
     /**
+     * @var string
+     */
+    protected $_group = 'core';
+
+    /**
     * Constructor
     */
     public function __construct()

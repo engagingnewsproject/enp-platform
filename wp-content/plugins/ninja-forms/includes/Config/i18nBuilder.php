@@ -85,7 +85,7 @@ return apply_filters( 'ninja_forms_i18n_builder', array(
 		. ' can use the option label in your success message(s) or email action(s) by adding'
 		. ' the :label attribute to your list field merge tags. For example:'
         . ' {field:key:label}', 'ninja-forms' ),
-        
+
     'paymentsActionNicename' => esc_html__( 'Accept Payments & Donations', 'ninja-forms' ),
     'marketingActionNicename' => esc_html__( 'Connect to Your Email Marketing or CRM Account', 'ninja-forms' ),
     'managementActionNicename' => esc_html__( 'Manage Your Users Better', 'ninja-forms' ),

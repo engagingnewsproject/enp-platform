@@ -676,6 +676,7 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             $action_type_settings[ $name ] = array(
                 'id' => $name,
                 'section' => $action->get_section(),
+                'group' => $action->get_group(),
                 'nicename' => $action->get_nicename(),
                 'image' => $action->get_image(),
                 'settingGroups' => $settings_groups,

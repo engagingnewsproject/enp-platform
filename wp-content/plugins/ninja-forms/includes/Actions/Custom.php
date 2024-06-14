@@ -26,6 +26,11 @@ final class NF_Actions_Custom extends NF_Abstracts_Action
     protected $_priority = 10;
 
     /**
+     * @var string
+     */
+    protected $_group = 'core';
+
+    /**
      * Constructor
      */
     public function __construct()

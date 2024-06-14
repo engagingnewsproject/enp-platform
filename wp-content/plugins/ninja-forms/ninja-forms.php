@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=WordPress&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.8.3
+Version: 3.8.4
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -43,7 +43,7 @@ final class Ninja_Forms
      * @since 3.0
      */
 
-    const VERSION = '3.8.3';
+    const VERSION = '3.8.4';
 
     /**
      * @since 3.4.0
@@ -942,10 +942,21 @@ final class Ninja_Forms
 
         Ninja_Forms()->template( 'display-noscript-message.html.php', array( 'message' => $noscript_message ) );
 
-        if( ! $preview ) {
-            NF_Display_Render::localize($form_id);
+        //Detect Page builder editor
+        $visual_composer_screen = !empty(get_post_meta(get_queried_object_id(), '_vcv-editorStartedAt', true)) && isset( $_GET['vcv-ajax'] );
+        //Set a list of conditions that would lead to loading the iFrame
+        $set_load_iframe_condition = $visual_composer_screen;
+        //FIlter the current result of the conditions
+        $load_iframe = apply_filters("ninja_forms_display_iframe",  $set_load_iframe_condition, $form_id);
+        
+        if( $load_iframe  ) {
+            NF_Display_Render::localize_iframe($form_id);
         } else {
-            NF_Display_Render::localize_preview($form_id);
+            if( ! $preview ) {
+                NF_Display_Render::localize($form_id);
+            } else {
+                NF_Display_Render::localize_preview($form_id);
+            }
         }
     }
 
@@ -1246,3 +1257,19 @@ function nf_marketing_feed_cron_job() {
         wp_schedule_event( current_time( 'timestamp' ), 'nf-weekly', 'nf_marketing_feed_cron' );
     }
 }
+
+/**
+ * Make sure the marketing feed is updated after an update
+ *
+ * @since 3.8.1
+ */
+add_action("upgrader_process_complete", function($upgrader_object, $options){
+    if(
+        $options["type"] === "plugin" && 
+        $options["action"] === "update" && 
+        $upgrader_object->result["destination_name"] === "ninja-forms" &&
+        function_exists("nf_update_marketing_feed")
+    ){
+        nf_update_marketing_feed();
+    }
+}, 10, 2);

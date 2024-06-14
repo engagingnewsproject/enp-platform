@@ -65,4 +65,56 @@ return apply_filters( 'ninja_forms_merge_tags_other', array(
         'callback' => 'referer_url'
     ),
 
-));
+    /*
+    |--------------------------------------------------------------------------
+    | Random String
+    |--------------------------------------------------------------------------
+    */
+
+    'mergetag_random' => array(
+        'id'        => 'mergetag_random',
+        'tag'       => '{other:random}',
+        'label'     => esc_html__( 'Random 5 character string.', 'ninja_forms' ),
+        'callback'  => 'mergetag_random'
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Year
+    |--------------------------------------------------------------------------
+    */
+
+    'mergetag_year' => array(
+        'id'        => 'mergetag_year',
+        'tag'       => '{other:year}',
+        'label'     => __( 'Year in yyyy format', 'ninja-forms' ),
+        'callback'  => 'mergetag_year'
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Month
+    |--------------------------------------------------------------------------
+    */
+
+    'mergetag_month' => array(
+        'id'         => 'mergetag_month',
+        'tag'        => '{other:month}',
+        'label'      => __( 'Month in mm format', 'ninja-forms' ),
+        'callback'   => 'mergetag_month'
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Day
+    |--------------------------------------------------------------------------
+    */
+
+    'mergetag_day' => array(
+        'id'       => 'mergetag_day',
+        'tag'      => '{other:day}',
+        'label'    => __( 'Day in dd format', 'ninja-forms' ),
+        'callback' => 'mergetag_day'
+    ),
+
+)); 

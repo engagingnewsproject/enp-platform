@@ -4,7 +4,7 @@ Tags: forms, form builder, contact form, lead form, registration form
 
 Requires at least: 6.3
 Tested up to: 6.5.2
-Stable tag: 3.8.3
+Stable tag: 3.8.4
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -310,14 +310,29 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.8.3 (1 May 2024)
+= 3.8.4 (28 May 2024)
 * Bug Fixes: *
-- Ensure fieldset repeaters function on index values ending in 0 (10, 20, etc)
+- Ensure first name field populates only first, not full, name 
+- Enable personally identifiable setting outside of dev mode
+- Add merge tags 'other' for random, year, month, day
 
 * Other: *
-- Update tests to run on 6.5.2
+- Set version resolutions for certain packages
+- Improve discoverability of available actions
+- Update marketing feed
 
 == Changelog ==
+= 3.8.4 (28 May 2024)
+* Bug Fixes: *
+- Ensure first name field populates only first, not full, name 
+- Enable personally identifiable setting outside of dev mode
+- Add merge tags 'other' for random, year, month, day
+
+* Other: *
+- Set version resolutions for certain packages
+- Improve discoverability of available actions
+- Update marketing feed
+
 = 3.8.3 (1 May 2024)
 * Bug Fixes: *
 - Ensure fieldset repeaters function on index values ending in 0 (10, 20, etc)

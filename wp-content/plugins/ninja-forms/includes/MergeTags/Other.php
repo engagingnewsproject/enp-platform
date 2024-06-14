@@ -157,5 +157,32 @@ class NF_MergeTags_Other extends NF_Abstracts_MergeTags
         return apply_filters( 'ninja_forms-referer_url_mt', wp_get_referer() );
     }
 
+    protected function mergetag_random( $length = 5 ) {
+        $characters    = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $random_string = '';
+        
+        for ( $i = 0; $i < $length; $i++ ) {
+            $random_string .= $characters[ rand( 0, strlen( $characters ) - 1 ) ];
+        }
+    
+        return apply_filters('ninja_forms-mergetag_random', $random_string );
+    }
+
+    protected function mergetag_year()
+    {   
+
+
+        return apply_filters( 'ninja_forms-mergetag_year', date( 'Y' ) );
+    }
+
+    protected function mergetag_month()
+    {   
+        return apply_filters( 'ninja_forms-mergetag_month', date( 'm' ) );
+    }
+
+    protected function mergetag_day()
+    {   
+        return apply_filters( 'ninja_forms-mergetag_day', date( 'd' ) );
+    }
 
 } // END CLASS NF_MergeTags_Other

@@ -29,6 +29,11 @@ final class NF_Actions_Akismet extends NF_Abstracts_Action {
 	 */
 	protected $_priority = '10';
 
+    /**
+     * @var string
+     */
+    protected $_group = 'core';
+
 	/**
 	 * Constructor
 	 */
