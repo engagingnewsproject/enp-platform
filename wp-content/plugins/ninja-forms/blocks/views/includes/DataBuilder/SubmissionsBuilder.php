@@ -121,8 +121,9 @@ class SubmissionsBuilder
     {
         $keys = array_map(function ($key) {
             return str_replace('_field_', '', $key);
-        }, array_flip($values));
-        return array_flip($keys);
+        }, array_keys($values));
+
+        return \array_combine($keys,\array_values($values));
     }
 
     /**

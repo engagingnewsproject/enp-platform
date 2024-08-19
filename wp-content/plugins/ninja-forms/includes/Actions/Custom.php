@@ -18,6 +18,11 @@ final class NF_Actions_Custom extends NF_Abstracts_Action
     /**
      * @var string
      */
+    protected $_documentation_url = 'https://ninjaforms.com/docs/wp-hook/';
+
+    /**
+     * @var string
+     */
     protected $_timing = 'normal';
 
     /**

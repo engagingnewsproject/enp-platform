@@ -31,6 +31,11 @@ abstract class NF_Abstracts_Action
     protected $_image = '';
 
     /**
+     * @var string
+     */
+    protected $_documentation_url = '';
+
+    /**
      * @var array
      */
     protected $_tags = array();
@@ -190,6 +195,18 @@ abstract class NF_Abstracts_Action
     public function get_image()
     {
         return $this->_image;
+    }
+
+    /**
+     * Get Documentation URL
+     *
+     * Returns the action's documentation URL.
+     *
+     * @return string
+     */
+    public function get_doc_url()
+    {
+        return $this->_documentation_url;
     }
 
     /**

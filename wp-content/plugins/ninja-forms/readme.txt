@@ -2,9 +2,11 @@
 Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorhouse, jmcelhaney, wpnzach, ericwindhamsd
 Tags: forms, form builder, contact form, lead form, registration form
 
-Requires at least: 6.3
-Tested up to: 6.5.2
-Stable tag: 3.8.4
+
+Requires at least: 6.4
+Tested up to: 6.6.1
+Stable tag: 3.8.12
+
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -310,41 +312,92 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.8.4 (28 May 2024)
-* Bug Fixes: *
-- Ensure first name field populates only first, not full, name 
-- Enable personally identifiable setting outside of dev mode
-- Add merge tags 'other' for random, year, month, day
-
-* Other: *
-- Set version resolutions for certain packages
-- Improve discoverability of available actions
-- Update marketing feed
+= 3.8.12 (13 August 2024) =
+*Bug Fixes:*
+- Validate label settings on change event
 
 == Changelog ==
-= 3.8.4 (28 May 2024)
-* Bug Fixes: *
+= 3.8.12 (13 August 2024) =
+*Bug Fixes:*
+- Validate label settings on change event
+
+= 3.8.11 (07 August 2024) =
+*Bug Fixes:*
+- Prevent unused key values on Survey Promo link
+
+= 3.8.10 (05 August 2024) =
+*Bug Fixes:*
+- Submissions Table block not displayed on published page on some themes
+- Phone field not disabled when expected
+- calc value option of list fields not set with help text
+- Submission page tooltip icon not displayed on environment not using conventional plugins folder path
+
+*Other:*
+- @wordpress dependencies updates
+
+= 3.8.9 (29 July 2024) =
+*Bug Fixes:*
+- Submissions Block not showing all submissions data.
+- Fix deleted repeater field missing required data halting submission
+- Add "Administration" section for all fields
+- Add missing check_admin_referrer parameter
+- Sort by Shortcode on forms page as numerical
+- Accessibility: update field description and screen readers
+- Enable hidden fields in the unique field
+- Fix display Form iFrame in Elementor editor
+
+*Other:*
+- Refactor telemetry dispatch to add unit tests
+
+= 3.8.8 (22 July 2024) =
+*Bug Fixes:*
+- Ensure submissions page and Append Ninja Form block are visible on WP 6.6
+
+*Other:*
+- Update readme 'tested up to' and 'requires at least'
+
+= 3.8.7 (15 July 2024) =
+*Bug Fixes:*
+- prevent licensing CSRF
+
+= 3.8.6 (8 July 2024) =
+*Bug Fixes:*
+- prevent deprecated false to array notice in preview
+- prevent undefined array key 'plugin' warning in class extension updater
+- prevent invalid date error when setting default date format to "j F Y" on non-English languages
+
+*Other:*
+- automated test for version number
+- update wordpress library packages
+- add documentation links to settings in the form builder
+
+= 3.8.5 (13 June 2024) =
+*Bug Fixes:*
+- Protect preview query parameters
+
+= 3.8.4 (28 May 2024) =
+*Bug Fixes:*
 - Ensure first name field populates only first, not full, name 
 - Enable personally identifiable setting outside of dev mode
 - Add merge tags 'other' for random, year, month, day
 
-* Other: *
+*Other:*
 - Set version resolutions for certain packages
 - Improve discoverability of available actions
 - Update marketing feed
 
-= 3.8.3 (1 May 2024)
-* Bug Fixes: *
+= 3.8.3 (1 May 2024) =
+*Bug Fixes:*
 - Ensure fieldset repeaters function on index values ending in 0 (10, 20, etc)
 
-* Other: *
+*Other:*
 - Update tests to run on 6.5.2
 
-= 3.8.2 (29 March 2024)
+= 3.8.2 (29 March 2024) =
 *Bug Fixes:*
 - Allow default span tags in form labels
 
-= 3.8.1 (27 March 2024)
+= 3.8.1 (27 March 2024) =
 *Bug Fixes:*
 - Ensure submission exports can't be called from any unintended pages
 - Prevent injected scripts into submit button and advanced labels
@@ -353,7 +406,7 @@ This section describes how to install the plugin and get it working.
 *Other:*
 - Update add-on images
 
-= 3.8.0 (20 February 2024)
+= 3.8.0 (20 February 2024) =
 *Features:*
 - Add 'referer URL' merge tag
 
@@ -366,7 +419,7 @@ This section describes how to install the plugin and get it working.
 - Add user help text and images
 - Add automated tests
 
-= 3.7.3 (12 February 2024)
+= 3.7.3 (12 February 2024) =
 *Bug Fixes:*
 - Update code for PHP 8.3
 
@@ -374,12 +427,12 @@ This section describes how to install the plugin and get it working.
 - Add in-app documentation text and links
 - Add scroll bar for long vertical content
 
-= 3.7.2 (29 January 2024)
+= 3.7.2 (29 January 2024) =
 *Bug Fixes:*
 - Prevent form display on password protected page
 - Sanitize email address on data export request; responsibly reported by stealthcopter via Wordfence
 
-= 3.7.1 (23 January 2024)
+= 3.7.1 (23 January 2024) =
 *Bug Fixes:*
 - Prevent deprecated warning from license updater
 - Ensure date picker calendar view honors date range year limits
@@ -393,64 +446,64 @@ This section describes how to install the plugin and get it working.
 - Update WP scripts and block utilities
 - Update UTM links
 
-= 3.7.0 (07 November 2023)
+= 3.7.0 (07 November 2023) =
 * Features:*
 - Ability to preserve 'extra' data after redirect
 
-* Bug Fixes: *
+*Bug Fixes:*
 - Ensure extra data on CSV export is in correct chronological order
 
-* Other: *
+*Other:*
 - Updated end to end test
 
-= 3.6.34 (11 October 2023)
+= 3.6.34 (11 October 2023) =
 
-* Bug Fixes: *
+*Bug Fixes:*
 - Prevent script triggers in field labels
 - Ensure needed export data present before action
 
-* Other: *
+*Other:*
 - Update to country list
 - Close notice from bulk export results
 
-= 3.6.33 (3 October 2023)
+= 3.6.33 (3 October 2023) =
 
-* Bug Fixes: *
+*Bug Fixes:*
 - Error re-triggering email action when PDF is active
 - Display anonymized repeater field data in submissions
 - Error on missing class name
 - Remove Max-width CSS being applied to form content
 - misspelled text fixes
 
-* Other *
+*Other*
 - Dependencies bumps
 
 == Changelog ==
-= 3.6.32 (21 September 2023)
+= 3.6.32 (21 September 2023) =
 
-* Bug Fixes: *
+*Bug Fixes:*
 - rePrints data on the template for the frontend in order to prevent conflicts with other plugins
 - checks if the description of fields in the builder is set before running trim
 
-= 3.6.31 (19 September 2023)
+= 3.6.31 (19 September 2023) =
 
-* Bug Fixes: *
+*Bug Fixes:*
 - Fixes form not displaying and form stuck on processing from jQuery trim() failure on non-string
 
-* Other: *
+*Other:*
 - Remove old promotions banner
 
-= 3.6.30 (14 September 2023)
+= 3.6.30 (14 September 2023) =
 
-* Bug Fixes: *
+*Bug Fixes:*
 - Form should now submit properly if submit button label and processing label match.
 - Ensure forms display on themes using wp_localize_script
 
-* Other: *
+*Other:*
 - Remove support for NF 2.9
 - JS dependency updates: update to React 18, WordPress block editor/scripts/server side render/i18n, babel-jest, core-js
 
-= 3.6.29 (16 August 2023)
+= 3.6.29 (16 August 2023) =
 
 *Bug fixes:*
 * Fix submission retrieval error missing submissions within time stamp on date
@@ -460,17 +513,17 @@ This section describes how to install the plugin and get it working.
 * Update library for autonumeric, WP scripts
 * Update tested up to, now 6.3 was 6.2.2
 
-= 3.6.28 (06 July 2023)
+= 3.6.28 (06 July 2023) =
 
 *Bug fixes:*
 * Correct issue that prevented form deletion
 
-= 3.6.27 (04 July 2023)
+= 3.6.27 (04 July 2023) =
 
 *Bug fixes:*
 * Use static call for class name for PHP 7 support 
 
-= 3.6.26 (04 July 2023)
+= 3.6.26 (04 July 2023) =
 
 *Other:*
 * Ensure minimum required version on packages
@@ -482,7 +535,7 @@ This section describes how to install the plugin and get it working.
 * Prevent excess extra data through automated form submission
 * Prevent override access where not permitted
 
-= 3.6.25 (14 June 2023)
+= 3.6.25 (14 June 2023) =
 *Bug Fixes:*
 - Remove duplicate radio bubble on opionated styles mobile
 - Restrict delete file route to uploads directory
@@ -499,22 +552,22 @@ This section describes how to install the plugin and get it working.
  - Uncontrolled Resource Consumption in trim-newlines
  - Inefficient Regular Expression Complexity in nth-check
 
-= 3.6.24 (12 May 2023)
+= 3.6.24 (12 May 2023) =
 *Bug Fixes:*
 - Prevent bypass of required field with modified data
 - Prevent datepicker to break the view when set with 0 minutes increment
 - Prevent Submit button to double submit a form
 
-= 3.6.23 (26 April 2023)
+= 3.6.23 (26 April 2023) =
 *Bug Fixes:*
 - Ensure HTML fields load merge data
 - Add fieldset repeater uploads to CSV and emails
 
-= 3.6.22 (20 April 2023)
+= 3.6.22 (20 April 2023) =
 *Bug Fixes:*
 - Prevent possible XSS vulnerability
 
-= 3.6.21 (12 April 2023)
+= 3.6.21 (12 April 2023) =
 *Bug Fixes:*
 - Ensure cron_interval value is integer
 - Ensure option definition value has fallback value
@@ -522,7 +575,7 @@ This section describes how to install the plugin and get it working.
 - Replace deprecated use of self in callable
 - Use form Id to filter field searches for faster response
 
-= 3.6.20 (14 March 2023)
+= 3.6.20 (14 March 2023) =
 *Bug Fixes:*
 - Error management in Repeater fieldsets (fields inside repeater fieldsets now respond to frontend validation)
 - Display repeater field data in HTML field via merge tags
@@ -537,7 +590,7 @@ This section describes how to install the plugin and get it working.
 - Save progress display repeater field without errors
 - Multi-part compatibility display repeater field, with merge tags and data saved correctly
 
-= 3.6.19 (22 February 2023)
+= 3.6.19 (22 February 2023) =
 *Bug Fixes:*
 - Migrate/update jBox library
 - Ensure language filter results are passed to downstream filters
@@ -546,7 +599,7 @@ This section describes how to install the plugin and get it working.
 *Other:*
 - Add version checks for extensions
 
-= 3.6.18 (16 February 2023)
+= 3.6.18 (16 February 2023) =
 *Bug Fixes:*
 - Prevent deprecated warning null preg_match_all
 - Ensure empty form does not throw error on preview
@@ -555,7 +608,7 @@ This section describes how to install the plugin and get it working.
 - Prevent undefined array key error
 - Ensure missing key in recaptcha field doesn't fail
 
-= 3.6.17 (8 February 2023)
+= 3.6.17 (8 February 2023) =
 *Bug Fixes:*
 - Ensure HTML injected in label is sanitized
 - Correct typo in date format for option DD/MM/YYYY
@@ -564,7 +617,7 @@ This section describes how to install the plugin and get it working.
 - Prevent deprecated notice for jsonSerialize
 - Prevent deprecated notice for passing null value
 
-= 3.6.16 (18 January 2023)
+= 3.6.16 (18 January 2023) =
 *Bug Fixes:*
   * Import buffer class to re-enable download as PDF
 *Other Enhancements:*

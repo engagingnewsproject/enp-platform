@@ -320,7 +320,7 @@ msgid "Form Title"
 msgstr ""
 
 #: includes/Admin/AllFormsTable.php:75
-#: includes/Templates/admin-menu-dashboard.html.php:188
+#: includes/Templates/admin-menu-dashboard.html.php:187
 msgid "Shortcode"
 msgstr ""
 
@@ -414,6 +414,7 @@ msgstr ""
 #: includes/Config/FieldSettings.php:249
 #: includes/Config/FieldSettings.php:287
 #: includes/Config/FieldSettings.php:1194
+#: includes/Templates/admin-menu-dashboard.html.php:170
 msgid "Add New"
 msgstr ""
 
@@ -647,6 +648,7 @@ msgstr ""
 #: includes/Templates/admin-menu-new-form.html.php:625
 #: build/submissions.js:1
 #: src/components/bulkExportComponent/displayBulkExport.js:265
+#: includes/Templates/admin-menu-dashboard.html.php:171
 msgid "Cancel"
 msgstr ""
 
@@ -1329,6 +1331,7 @@ msgstr ""
 
 #: includes/Config/ActionSettings.php:27
 #: includes/Templates/admin-menu-addons.html.php:64
+#: src/components/dashboard/components/addonSingle.js:29
 msgid "Active"
 msgstr ""
 
@@ -2684,6 +2687,7 @@ msgid "Apps & Integrations"
 msgstr ""
 
 #: includes/Config/DashboardMenuItems.php:19
+#: includes/Config/DashboardMenuItems.php:15
 msgid "User access"
 msgstr ""
 
@@ -3946,7 +3950,7 @@ msgstr ""
 msgid "Allow users to upload files with their forms. You can add and remove fields as needed."
 msgstr ""
 
-#: includes/Config/NewFormTemplates.php:129
+#: includes/Config/NewFormTemplates.php:128
 msgid "PayPal Payment"
 msgstr ""
 
@@ -4246,6 +4250,7 @@ msgstr ""
 
 #: includes/Config/i18nBuilder.php:13
 #: includes/Templates/admin-menu-addons.html.php:68
+#: src/components/dashboard/components/addonSingle.js:31
 msgid "Installed"
 msgstr ""
 
@@ -5664,16 +5669,20 @@ msgid " installed. The current version is "
 msgstr ""
 
 #: includes/Templates/admin-menu-addons.html.php:53
+#: src/components/dashboard/components/addonSingle.js:24
 msgid "Docs"
 msgstr ""
 
 #: includes/Templates/admin-menu-addons.html.php:56
+#: src/components/dashboard/components/addonSingle.js:26
 msgid "Documentation coming soon."
 msgstr ""
 
 #: includes/Templates/admin-menu-addons.html.php:72
 #: includes/Templates/admin-menu-addons.html.php:78
 #: lib/NF_VersionSwitcher.php:274
+#: src/components/dashboard/components/addonSingle.js:33
+#: src/components/dashboard/components/serviceSingle.js:21
 msgid "Learn More"
 msgstr ""
 
@@ -5684,6 +5693,7 @@ msgstr ""
 #: src/components/singleSubmission/singleSubmission.js:121
 #: includes/Templates/admin-menu-new-form.html.php:271
 #: build/submissions.js:1
+#: includes/Templates/admin-menu-dashboard.html.php:209
 msgid "Edit"
 msgstr ""
 
@@ -5691,16 +5701,18 @@ msgstr ""
 #: includes/Templates/admin-menu-dashboard.html.php:211
 #: includes/Templates/ui-item-controls.html.php:3
 #: includes/Templates/ui-nf-drawer-buttons.html.php:3
+#: includes/Templates/admin-menu-dashboard.html.php:210
 msgid "Duplicate"
 msgstr ""
 
 #: includes/Templates/admin-menu-all-forms-column-title.html.php:23
 #: includes/Templates/admin-menu-dashboard.html.php:212
+#: includes/Templates/admin-menu-dashboard.html.php:211
 msgid "Preview Form"
 msgstr ""
 
 #: includes/Templates/admin-menu-all-forms-column-title.html.php:27
-#: includes/Templates/admin-menu-dashboard.html.php:223
+#: includes/Templates/admin-menu-dashboard.html.php:222
 msgid "View Submissions"
 msgstr ""
 
@@ -5712,23 +5724,23 @@ msgstr ""
 msgid "Setup"
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:137
+#: includes/Templates/admin-menu-dashboard.html.php:136
 msgid "Required Updates"
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:140
+#: includes/Templates/admin-menu-dashboard.html.php:139
 msgid "Ninja Forms needs to run some updates on your installation before you can continue. You'll be able to create and edit forms after the updates listed below have completed."
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:143
+#: includes/Templates/admin-menu-dashboard.html.php:142
 msgid "Normally, users will still be able to view and submit forms while these updates take place. If an update needs to modify database information, we'll put the affected form in maintenance mode until we get done with that update."
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:146
+#: includes/Templates/admin-menu-dashboard.html.php:145
 msgid "It's always a good idea to have an up to date backup of your WordPress site on hand. That's especially true when you run plugin and theme updates. Luckily, there are plenty of good backup plugins available."
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:149
+#: includes/Templates/admin-menu-dashboard.html.php:148
 msgid "When you're ready, just click the \"Do Required Updates\" button below to get started. You'll be able to create and edit forms in no time."
 msgstr ""
 
@@ -5736,49 +5748,49 @@ msgstr ""
 msgid "Do Required Updates"
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:181
+#: includes/Templates/admin-menu-dashboard.html.php:180
 msgid "Search Forms"
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:187
+#: includes/Templates/admin-menu-dashboard.html.php:186
 msgid "Title"
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:189
+#: includes/Templates/admin-menu-dashboard.html.php:188
 msgid "Date Created"
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:193
+#: includes/Templates/admin-menu-dashboard.html.php:192
 msgid "Loading Forms..."
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:198
+#: includes/Templates/admin-menu-dashboard.html.php:197
 msgid "More"
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:199
+#: includes/Templates/admin-menu-dashboard.html.php:198
 msgid "Less"
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:221
 #: includes/Templates/admin-menu-new-form.html.php:177
 #: includes/Templates/admin-menu-new-form.html.php:198
+#: includes/Templates/admin-menu-dashboard.html.php:220
 msgid "Public Link"
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:238
+#: includes/Templates/admin-menu-dashboard.html.php:237
 msgid "No Forms"
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:241
+#: includes/Templates/admin-menu-dashboard.html.php:240
 msgid "Loading Forms"
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:247
+#: includes/Templates/admin-menu-dashboard.html.php:246
 msgid "Available Templates"
 msgstr ""
 
-#: includes/Templates/admin-menu-dashboard.html.php:252
+#: includes/Templates/admin-menu-dashboard.html.php:251
 msgid "Additional Templates"
 msgstr ""
 
@@ -6391,10 +6403,13 @@ msgstr ""
 
 #: services/bootstrap.php:73
 #: services/bootstrap.php:83
+#: services/bootstrap.php:32
+#: services/bootstrap.php:42
 msgid "Sorry, you are not allowed to install plugins on this site."
 msgstr ""
 
 #: services/bootstrap.php:76
+#: services/bootstrap.php:35
 msgid "Invalid nonce."
 msgstr ""
 
@@ -6549,7 +6564,7 @@ msgstr ""
 msgid "Select Form"
 msgstr ""
 
-#: src/components/displaySubmissionsPage.js:292
+
 #: src/components/submissionsTable/pagination.js:56
 #: src/components/submissionsTable/table.js:256
 #: build/submissions.js:1
@@ -6558,13 +6573,11 @@ msgstr ""
 msgid "Loading Submissions"
 msgstr ""
 
-#: src/components/displaySubmissionsPage.js:302
 #: build/submissions.js:1
 #: src/components/displaySubmissionsPage.js:301
 msgid "Exporting Submissions"
 msgstr ""
 
-#: src/components/displaySubmissionsPage.js:342
 #: build/submissions.js:1
 #: src/components/displaySubmissionsPage.js:341
 msgid "Delete Submission"
@@ -6572,7 +6585,6 @@ msgid_plural "Delete Submissions"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/components/displaySubmissionsPage.js:353
 #: build/submissions.js:1
 #: src/components/displaySubmissionsPage.js:352
 #, javascript-format
@@ -6581,7 +6593,6 @@ msgid_plural "This action will delete submissions %s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/components/displaySubmissionsPage.js:365
 #: build/submissions.js:1
 #: src/components/displaySubmissionsPage.js:364
 msgid "Restore Submission"
@@ -6596,7 +6607,6 @@ msgstr[1] ""
 msgid "Restore"
 msgstr ""
 
-#: src/components/displaySubmissionsPage.js:376
 #: build/submissions.js:1
 #: src/components/displaySubmissionsPage.js:375
 #, javascript-format
@@ -6605,7 +6615,6 @@ msgid_plural "This action will restore submissions %s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/components/displaySubmissionsPage.js:388
 #: build/submissions.js:1
 #: src/components/displaySubmissionsPage.js:387
 msgid "Export Submission"
@@ -6708,7 +6717,6 @@ msgstr ""
 msgid "Submissions downloaded in one CSV File."
 msgstr ""
 
-#: src/components/singleSubmission/singleSubmission.js:114
 #: build/submissions.js:1
 #: src/components/singleSubmission/singleSubmission.js:113
 #, javascript-format
@@ -6730,7 +6738,6 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: src/components/singleSubmission/singleSubmission.js:154
 #: build/submissions.js:1
 #: src/components/singleSubmission/singleSubmission.js:153
 msgid "Only Submissions processed via Ninja Forms can be edited at the moment."
@@ -6797,7 +6804,7 @@ msgstr ""
 msgid "Unselect to hide corresponding column"
 msgstr ""
 
-#: src/components/submissionsTable/pagination.js:28
+
 #: build/submissions.js:1
 #: src/components/submissionsTable/pagination.js:27
 #, javascript-format
@@ -6806,7 +6813,6 @@ msgid_plural "%d submissions in the Form"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/components/submissionsTable/pagination.js:43
 #: build/submissions.js:1
 #: src/components/submissionsTable/pagination.js:42
 #, javascript-format
@@ -6892,7 +6898,7 @@ msgstr ""
 msgid "Submission successfully exported"
 msgstr ""
 
-#: src/components/submissionsTable/rowExportAction.js:36
+
 #: build/submissions.js:1
 #: src/components/submissionsTable/rowExportAction.js:35
 msgid "The export failed. Contact developper or read logs if this failure persists."

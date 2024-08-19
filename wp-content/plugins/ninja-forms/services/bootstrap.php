@@ -11,48 +11,7 @@ OAuth::set_base_url( NF_SERVER_URL . '/oauth' );
 OAuth::getInstance()->setup();
 
 add_action( 'wp_ajax_nf_services', function(){
-  $services = apply_filters( 'ninja_forms_services', [
-    'ninja-forms-addon-manager' => [
-      'name' => esc_html__( 'Add-on Manager (Beta)', 'ninja-mail' ),
-      'slug' => 'ninja-forms-addon-manager',
-      'installPath' => 'ninja-forms-addon-manager/ninja-forms-addon-manager.php',
-      'description' => 'Install any purchased Ninja Forms add-ons with a single click. No need to download a file or copy/paste a license key! <strong>* Won\'t work on a local dev environment.</strong>',
-      'enabled' => null,
-      'learnMore' => '
-      <div style="padding:20px;">
-        <p>Here at Ninja Forms, we love add-ons. Add-ons let us create awesome products that serve very specific users with integrations, workflows, and power features, while keeping those options away from users that don’t need them. It also lets our users pay for what they need, rather than a bloated, one-size-fits-all solution.</p>
-        <p>Despite all the great things about add-ons, there’s a glaring downside: installing 40+ add-ons and setting up licensing for all of those add-ons is a pain. We’re trying to change all of that with the Ninja Forms Add-on Manager, and we want your help putting it through its paces!</p>
-        <p>The Add-on Manager makes installing Ninja Forms Add-ons a snap. Once you connect your site to my.ninjaforms.com using the Setup button, you can install add-ons and setup their licenses with a single click!</p>
-        <p>
-          How it works:
-          <ol>
-            <li>Connect to my.ninjaforms.com using the Try the Add-on Manager Beta button.</li>
-            <li>Click the “Install Plugins” button.</li>
-            <li>Click “Install” for the plugins you want to install.</li>
-            <li>Make awesome stuff using Ninja Forms!</li>
-          </ol>
-        </p>
-        <p>The add-on manager is free to use for anyone that has a Ninja Forms add-on purchase. At the moment, it’s in a Beta state as we work out some bugs. We’d love your feedback. Please, try it out today!</p>
-        <br />
-        <button style="display:block;width:100%;text-align:center;" class="nf-button primary" onclick="Backbone.Radio.channel( \'dashboard\' ).request( \'install:service\', \'ninja-forms-addon-manager\' );var spinner = document.createElement(\'span\'); spinner.classList.add(\'dashicons\', \'dashicons-update\', \'dashicons-update-spin\'); this.innerHTML = spinner.outerHTML; console.log( spinner )">Try the Add-on Manager (Beta)</button>
-      </div>
-      ',
-    ],
-    'sendwp' => [
-      'name' => esc_html__( 'SendWP - Transactional Email', 'ninja-forms' ),
-      'slug' => 'sendwp',
-      'installPath' => 'sendwp/sendwp.php',
-      'description' => 'SendWP makes getting emails delivered as simple as a few clicks. So you can relax, knowing those important emails are being delivered on time.',
-      'enabled' => null,
-      'learnMore' => '
-        <div>
-          <h2>Getting WordPress email into an inbox just got a lot easier</h2>
-          <p>SendWP makes getting emails delivered as simple as a few clicks. So you can relax, knowing those important emails are being delivered on time.</p>
-          <button style="display:block;width:100%;text-align:center;" class="nf-button primary" onclick="Backbone.Radio.channel( \'dashboard\' ).request( \'install:service\', \'sendwp\' );var spinner = document.createElement(\'span\'); spinner.classList.add(\'dashicons\', \'dashicons-update\', \'dashicons-update-spin\'); this.innerHTML = spinner.outerHTML; console.log( spinner )">Signup for SendWP</button>
-        </div>
-      ',
-    ]
-  ] );
+  $services = Ninja_Forms()->config( 'DashboardServices' );
   wp_die( json_encode( [ 'data' => array_values( $services ) ] ) );
 });
 

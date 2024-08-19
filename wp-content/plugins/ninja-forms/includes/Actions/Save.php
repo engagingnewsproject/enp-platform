@@ -16,6 +16,11 @@ class NF_Actions_Save extends NF_Abstracts_Action
     protected $_tags = array();
 
     /**
+     * @var string
+     */
+    protected $_documentation_url = 'https://ninjaforms.com/docs/record-submission-action/';
+
+    /**
     * @var string
     */
     protected $_timing = 'late';

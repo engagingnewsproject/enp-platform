@@ -16,6 +16,11 @@ final class NF_Actions_Email extends NF_Abstracts_Action
     protected $_tags = array();
 
     /**
+     * @var string
+     */
+    protected $_documentation_url = 'https://ninjaforms.com/docs/email/';
+
+    /**
     * @var string
     */
     protected $_timing = 'late';

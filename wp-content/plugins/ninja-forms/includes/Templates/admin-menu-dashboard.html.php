@@ -68,7 +68,7 @@
 		<div class="widget widget-forms"></div>
 </script>
 
-<!-- Section: Services -->
+<!-- Section: Services -- !!!!!!!!!!!!!  Replaced by a WP element loaded via dashboard.js !!!!!!!!!!!!-->
 <script id="tmpl-nf-services" type="text/template">
 	<div class="services"></div>
 </script>
@@ -116,8 +116,7 @@
 	</div>
 </script>
 
-
-<!-- Section: apps and Integrations -->
+<!-- Section: apps and Integrations !!!!!!!!!!!!!  Replaced by a WP element loaded via dashboard.js !!!!!!!!!!!! -->
 <script id="tmpl-nf-apps" type="text/template">
 
 		<div class="widget widget-plan-notice">

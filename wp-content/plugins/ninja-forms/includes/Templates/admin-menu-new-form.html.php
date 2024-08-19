@@ -399,6 +399,14 @@
     <h2>{{{ data.renderTypeNicename() }}}</h2>
 </script>
 
+<script id="tmpl-nf-drawer-content-edit-settings-title-actions" type="text/template">
+    <h2>{{{ data.renderTypeNicename() }}}{{{ data.renderDocLink() }}}</h2>
+</script>
+
+<script id="tmpl-nf-drawer-content-edit-settings-title-calculations" type="text/template">
+    <h2>{{{ data.renderDocLink() }}}</h2>
+</script>
+
 <script id="tmpl-nf-drawer-content-edit-settings-title-fields" type="text/template">
     <h2>{{{ data.renderSavedStar() }}} {{{ data.renderTypeNicename() }}}</h2>
     <span class="nf-add-saved-field" style="display:none"></span>
@@ -780,7 +788,7 @@ Label Three
 
 <script id="tmpl-nf-edit-setting-fieldset" type="text/template">
     <fieldset>
-        <legend>{{{ data.label }}}</legend>
+        <legend>{{{ data.label }}} {{{ data.renderTooltip() }}}{{{ data.renderInfo() }}}</legend>
         <span class="nf-field-sub-settings"></span>
     </fieldset>
 </script>

@@ -128,6 +128,7 @@ class NF_AJAX_Controllers_Preview extends NF_Abstracts_Controller
         $form_data = get_user_option( self::$transient_prefix . $form_id, FALSE );
 
         if( ! $form_data ){
+            $form_data = array(); // Initialize $form_data as an empty array. Resolves a PHP deprecated notice
 
             if( is_string( $form_id ) ){
                 $form = Ninja_Forms()->form()->get();
