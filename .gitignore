@@ -59,7 +59,6 @@ wp-content/plugins/php-compatibility-checker/
 wp-content/plugins/admin-columns-pro/
 wp-content/plugins/hummingbird-performance/
 wp-content/plugins/enp-quiz/
-wp-content/plugins/query-monitor/*
 
 # Engage theme
 wp-content/themes/engage/*.code-workspace
@@ -75,3 +74,4 @@ wp-content/themes/engage/*.code-workspace
 local-phpinfo.php
 php.ini
 wp-content/themes/engage/package-lock.json
+wp-content/plugins/query-monitor/
