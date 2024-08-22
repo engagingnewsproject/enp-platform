@@ -1,0 +1,149 @@
+{
+    "key": "group_5e6aa9089d12e",
+    "title": "Vertical Landing Pages",
+    "fields": [
+        {
+            "key": "field_6410eaf7cf8d0",
+            "label": "Mobile title sublinks",
+            "name": "mobile_title_sublinks",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "Subcategory links listed for only mobile.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 0,
+            "min": "",
+            "max": "",
+            "placeholder": "",
+            "step": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_5e6aa955ebe9e",
+            "label": "Video Embed Link",
+            "name": "video_embed_link",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_5e6aa95bebe9f",
+            "label": "Project Team Member",
+            "name": "project_team_member",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "Select one or more Directors. Drag to reorder.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "team"
+            ],
+            "taxonomy": [],
+            "filters": [
+                "search"
+            ],
+            "elements": "",
+            "min": "",
+            "max": "",
+            "return_format": "id",
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_5e6aa98debea0",
+            "label": "Vertical Menu Links",
+            "name": "vertical_menu_links",
+            "aria-label": "",
+            "type": "flexible_content",
+            "instructions": "Add a new row and format as follows \"Name: Link\"\r\nEx. \r\nResearch: https:\/\/localhost:3000\/vertical\/journalism\/research\/",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layouts": {
+                "5e6aa99ebe0fb": {
+                    "key": "5e6aa99ebe0fb",
+                    "name": "menu_link",
+                    "label": "Menu Link",
+                    "display": "row",
+                    "sub_fields": [
+                        {
+                            "key": "field_5e6aa9b0ebea1",
+                            "label": "Menu Item",
+                            "name": "menu_item",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": ""
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                }
+            },
+            "button_label": "Add Row",
+            "min": "",
+            "max": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "page-landing.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "discussion",
+        "comments",
+        "tags",
+        "send-trackbacks"
+    ],
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1724343219
+}
