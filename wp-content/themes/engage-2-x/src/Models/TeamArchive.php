@@ -16,7 +16,7 @@ class TeamArchive extends TileArchive
     * the posts using various regrouping methods.
     *
     * If the current post type archive is "team" and there is a matching vertical or category:
-    * - Reorganizes the posts according to specific ACF fields based on the vertical taxonomy.
+    * - Reorganizes the posts according to "Team Leadership" ACF field group based on the vertical taxonomy.
     * - Applies different regrouping methods based on the vertical term slug:
     *   - 'center-leadership': Regroups posts by the 'team_leadership_center' ACF field.
     *   - 'journalism': Regroups posts by the 'team_leadership_journalism' ACF field.
