@@ -115,3 +115,32 @@ If you run into any issues with the Engage theme try some of these workarounds t
 - __Deactivate the Engaging Quiz plugin__
 
   - This plugin is notorious for causing issues, so keep it deactivated to mitigate any related issues.
+
+## ACF Field Group Syncing Across Developers (acf-json directory)
+
+### Setup Overview
+
+To ensure all developers have synchronized Advanced Custom Fields (ACF) field groups across environments, we've configured our project to automatically save field groups as JSON files in the `acf-json` directory. This allows us to track field group changes in Git and share them easily with the team.
+
+### Syncing ACF Fields Across Developers
+
+1. **Automatic JSON File Creation:**
+   - When you create or update a field group in the WordPress admin, a corresponding JSON file is automatically generated in the `acf-json` directory.
+   - This JSON file represents the configuration of the ACF field group and will be tracked by Git.
+
+2. **Pulling Changes:**
+   - To get the latest field group updates, simply pull the latest changes from the repository.
+   - The JSON files in `acf-json` will be updated, and ACF will automatically sync the field groups to your local environment.
+
+3. **Editing and Updating Fields:**
+   - You can edit ACF field groups in the WordPress admin as needed.
+   - After saving any changes, a new or updated JSON file will be generated in the `acf-json` directory.
+   - Remember to commit and push these changes to the repository to share them with the rest of the team.
+
+### Hiding ACF Admin in Production
+
+To prevent direct edits to ACF field groups on production:
+
+- We've set up a conditional check in `functions.php` that hides the ACF admin interface in non-local environments.
+- The ACF admin interface will only be visible when `WP_ENVIRONMENT_TYPE` is set to `'local'`.
+- On production (or any environment with `WP_ENVIRONMENT_TYPE` set to `'production'` or similar), the ACF admin interface will be hidden.
