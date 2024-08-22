@@ -26,17 +26,27 @@ class VerticalLanding extends Article {
 	}
 	
 	public function getDirectors() {
-		if($this->directors === false) {
-			$this->directors = Timber::get_posts(
-				[
-					'post_type'=> 'team',
-					'post_status' => 'publish',
-					'post__in' => get_field('project_team_member', $this->ID),
-					'orderby' => 'post__in',
-					'order' => 'ASC',
-					'posts_per_page' => -1
-				]
-			);
+		if ($this->directors === false) {
+			// Get the selected team members from the ACF field
+			$team_members = get_field('project_team_member', $this->ID);
+
+			// Check if the field is empty
+			if (empty($team_members)) {
+				// Return an empty array if no members are selected
+				$this->directors = [];
+			} else {
+				// Otherwise, get the selected posts
+				$this->directors = Timber::get_posts(
+					[
+						'post_type' => 'team',
+						'post_status' => 'publish',
+						'post__in' => $team_members,
+						'orderby' => 'post__in',
+						'order' => 'ASC',
+						'posts_per_page' => -1
+					]
+				);
+			}
 		}
 		return $this->directors;
 	}

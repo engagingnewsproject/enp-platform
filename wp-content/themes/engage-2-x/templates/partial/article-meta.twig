@@ -61,12 +61,15 @@
 		</section>
 	{% endif %}
 	{% if post.post_type == "page" %}
-		<section class="director-tease">
-			<h4 class="director-tease__title">Directors</h4>
-			{% for director in post.getDirectors %}
-				{% include 'partial/teammate-tease.twig' with { mate: director } %}
-			{% endfor %}
-		</section>
+		{# checks if the getDirectors array has a length greater than 0, meaning there are directors assigned #}
+		{% if post.getDirectors | length > 0 %}
+			<section class="director-tease">
+				<h4 class="director-tease__title">Directors</h4>
+				{% for director in post.getDirectors %}
+					{% include 'partial/teammate-tease.twig' with { mate: director } %}
+				{% endfor %}
+			</section>
+		{% endif %}
 		<section class="sidebar-menu sidebar-menu__{{post.post_type}}">
 			<h4 class="sidebar-menu__title">Menu</h4>
 			<ul class="filters filters--{{ post.vertical.slug }}-menu">
