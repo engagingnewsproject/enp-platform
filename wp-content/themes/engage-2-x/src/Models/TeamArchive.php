@@ -4,6 +4,15 @@
 */
 namespace Engage\Models;
 
+/**
+ * Class TeamArchive
+ *
+ * Extends the TileArchive class to manage and organize team posts on team archive pages.
+ * Handles custom sorting and regrouping of posts based on various criteria, such as ACF fields and taxonomies.
+ *
+ * @package Engage\Models
+ */
+
 class TeamArchive extends TileArchive
 {
 
@@ -69,6 +78,15 @@ class TeamArchive extends TileArchive
         }
     }
   
+    /**
+ * Compare two posts by their last name.
+ *
+ * Splits the title of each post to extract the last name, and compares them alphabetically.
+ *
+ * @param object $a The first post object to compare.
+ * @param object $b The second post object to compare.
+ * @return int Returns -1, 0, or 1 based on the comparison result.
+ */
     public function lastNameCompare($a, $b)
     {
         // Gets the last name of each Team Member
@@ -76,6 +94,17 @@ class TeamArchive extends TileArchive
         $nameB = explode(' ', $b->title);
         return strcmp(end($nameA), end($nameB));
     }
+
+    /**
+ * Compare two posts by their designation order.
+ *
+ * Fetches the 'order' field from the first term in the 'team_designation' taxonomy
+ * for each post and compares them numerically.
+ *
+ * @param object $a The first post object to compare.
+ * @param object $b The second post object to compare.
+ * @return int Returns -1, 0, or 1 based on the comparison result.
+ */
 
     public function desigOrderCompare($a, $b)
     {
@@ -96,7 +125,7 @@ class TeamArchive extends TileArchive
             return 0;
         }
     }
-  
+    
     /**
      * Regroups posts by a specified ACF relationship field.
      *
@@ -111,6 +140,7 @@ class TeamArchive extends TileArchive
      *
      * @param string $acf_field_name The name of the ACF relationship field used to determine the order of selected team members.
      */
+
     public function regroupByACFField($acf_field_name)
     {
         // Get selected team members from the ACF relationship field
@@ -147,9 +177,10 @@ class TeamArchive extends TileArchive
     }
 
     /**
-     * Reorganizes posts by their designation (taxonomy terms)
-     * and then sorts each group alphabetically by last name.
-     * `getTermDesign` method fetches the designation term(s) for each post.
+     * Reorganizes posts by their designation (taxonomy terms) and then sorts each group alphabetically by last name.
+     *
+     * Fetches the 'team_designation' term for each post and groups them by their slug.
+     * The posts are then sorted within each group alphabetically by last name.
      *
      * @return void
      */
