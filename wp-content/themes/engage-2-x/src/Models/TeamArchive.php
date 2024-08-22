@@ -7,6 +7,32 @@ namespace Engage\Models;
 class TeamArchive extends TileArchive
 {
 
+ 
+  /**
+    * Constructor for the TeamArchive class.
+    *
+    * Initializes the object by calling the parent constructor with the provided query and options.
+    * Based on the context of the current archive (team post type archive), the function reorganizes
+    * the posts using various regrouping methods.
+    *
+    * If the current post type archive is "team" and there is a matching vertical or category:
+    * - Reorganizes the posts according to specific ACF fields based on the vertical taxonomy.
+    * - Applies different regrouping methods based on the vertical term slug:
+    *   - 'center-leadership': Regroups posts by the 'team_leadership_center' ACF field.
+    *   - 'journalism': Regroups posts by the 'team_leadership_journalism' ACF field.
+    *   - 'propaganda': Regroups posts by the 'team_leadership_propaganda' ACF field.
+    *   - 'media-ethics': Regroups posts by the 'team_leadership_media_ethics' ACF field.
+    *   - 'science-communication': Regroups posts by the 'team_leadership_sci_comm' ACF field.
+    * - If the current category is 'administrative-and-technology', regroups posts by the
+    *   'team_leadership_admin_tech' ACF field.
+    * - If no specific vertical is matched, the posts are regrouped by designation.
+    *
+    * If the conditions do not match a specific vertical or category, the posts are sorted
+    * alphabetically by last name using the "lastNameCompare" method.
+    *
+    * @param array $options Options passed to the parent constructor and used for post regrouping.
+    * @param mixed $query Optional. The WP_Query object or false if none is provided.
+    */
   public function __construct( $options, $query = false )
   {
 
@@ -71,6 +97,20 @@ class TeamArchive extends TileArchive
     }
   }
   
+  /**
+   * Regroups posts by a specified ACF relationship field.
+   *
+   * This method is used to reorder posts based on a custom field specified by the
+   * `$acf_field_name` parameter. The function separates the posts into two groups:
+   * selected team members and other members. The selected members are ordered
+   * according to the order specified in the ACF relationship field, while the other
+   * members are sorted alphabetically by last name.
+   *
+   * The function then merges these two groups, placing the selected members at the top
+   * followed by the alphabetically sorted remaining members.
+   *
+   * @param string $acf_field_name The name of the ACF relationship field used to determine the order of selected team members.
+   */
   public function regroupByACFField($acf_field_name) {
     // Get selected team members from the ACF relationship field
     $selected_team_members = get_field($acf_field_name, 'option');
@@ -103,7 +143,7 @@ class TeamArchive extends TileArchive
 
     // Merge the leadership and remaining team members arrays
     $this->posts = array_merge($ordered_leadership, $other_members);
-}
+  }
 
   /**
    * Reorganizes posts by their designation (taxonomy terms) 
