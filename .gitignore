@@ -75,3 +75,5 @@ local-phpinfo.php
 php.ini
 wp-content/themes/engage/package-lock.json
 wp-content/plugins/query-monitor/
+wp-content/themes/engage-2-x/.php-cs-fixer.php
+wp-content/themes/engage-2-x/.vscode/settings.json
