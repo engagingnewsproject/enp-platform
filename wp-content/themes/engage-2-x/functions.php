@@ -212,3 +212,11 @@ function custom_login_redirect($redirect_to, $request, $user) {
     }
 }
 add_filter('login_redirect', 'custom_login_redirect', 10, 3);
+
+// disables the ACF field group editing interface if the environment is set to production
+add_filter('acf/settings/show_admin', function ($show_admin) {
+	if (defined('WP_ENVIRONMENT_TYPE') && WP_ENVIRONMENT_TYPE === 'production') {
+			return false;
+	}
+	return $show_admin;
+});
