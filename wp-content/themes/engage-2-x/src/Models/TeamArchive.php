@@ -244,9 +244,9 @@ usort($leadership, function ($a, $b) {
       }
     $order = array(
       'Samuel C. Woolley',
-      'Craig R. Scott', 
-      'Jo Lukito', 
-      'Inga Kristina Trauthig'
+      'Craig R. Scott',  
+      'Inga Kristina Trauthig',
+      'Jo Lukito'
     );
     usort($leadership, function ($a, $b) use ($order) {
       $pos_a = array_search($a->title, $order);
