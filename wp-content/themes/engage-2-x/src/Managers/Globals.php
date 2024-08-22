@@ -9,13 +9,13 @@ use Engage\Models\VerticalsFilterMenu;
 use Engage\Models\FilterMenu;
 
 class Globals {
-	
-	function __construct() {
-		
-	}
+	/**
+	 * Constructor to initialize the Globals class.
+	 */
+	function __construct() {}
 	
 	/**
-	 * Run clear filters.
+	 * Initiates the process to clear filters by setting up the necessary actions.
 	 *
 	 * @return void
 	 */
@@ -24,7 +24,10 @@ class Globals {
 	}
 	
 	/**
-	 * Clear research category menu
+	 * Sets up actions to clear various filter menus when certain taxonomy events occur.
+	 *
+	 * This method attaches WordPress actions to handle clearing the cache
+	 * for various filter menus when taxonomies are edited, created, or deleted.
 	 *
 	 * @return void
 	 */
@@ -81,9 +84,13 @@ class Globals {
 	}
 	
 	/**
-	 * Clear menus
+	 * Clears all relevant menus based on the post type.
 	 *
-	 * @param [type] $postID
+	 * This method is triggered on saving a post and checks the post type to determine
+	 * which menus need to be cleared. If the post belongs to a vertical, the corresponding
+	 * vertical menu is also cleared.
+	 *
+	 * @param int $postID The ID of the post being saved.
 	 * @return void
 	 */
 	public function clearMenus($postID) {
@@ -121,10 +128,10 @@ class Globals {
 	}
 	
 	/**
-	 * Clear the cache for the annoucnement menu
+	 * Clears the cache for the announcement menu.
 	 *
-	 * @param [type] $term_id
-	 * @param [type] $tt_id
+	 * @param int $term_id Term ID that triggered the cache clear.
+	 * @param int $tt_id Term Taxonomy ID that triggered the cache clear.
 	 * @return void
 	 */
 	public function clearAnnouncementMenu($term_id, $tt_id) {
@@ -133,9 +140,9 @@ class Globals {
 	}
 	
 	/**
-	 * Get the announcement menu.
+	 * Retrieves the cached announcement menu or builds it if not cached.
 	 *
-	 * @return void
+	 * @return array The announcement menu.
 	 */
 	public function getAnnouncementMenu() {
 		$menu = get_transient('announcement-filter-menu');
@@ -166,10 +173,10 @@ class Globals {
 	}
 	
 	/**
-	 * Clear the cache for the blogs menu
+	 * Clears the cache for the blog menu.
 	 *
-	 * @param [type] $term_id
-	 * @param [type] $tt_id
+	 * @param int $term_id Term ID that triggered the cache clear.
+	 * @param int $tt_id Term Taxonomy ID that triggered the cache clear.
 	 * @return void
 	 */
 	public function clearBlogMenu($term_id, $tt_id) {
@@ -178,9 +185,9 @@ class Globals {
 	}
 	
 	/**
-	 * Get the blog menu
+	 * Retrieves the cached blog menu or builds it if not cached.
 	 *
-	 * @return void
+	 * @return array The blog menu.
 	 */
 	public function getBlogMenu() {
 		$menu = get_transient('blogs-filter-menu');
@@ -211,10 +218,10 @@ class Globals {
 	}
 	
 	/**
-	 * Clear the cache for the event menu
+	 * Clears the cache for the event menu.
 	 *
-	 * @param [type] $term_id
-	 * @param [type] $tt_id
+	 * @param int $term_id Term ID that triggered the cache clear.
+	 * @param int $tt_id Term Taxonomy ID that triggered the cache clear.
 	 * @return void
 	 */
 	public function clearEventMenu($term_id, $tt_id) {
@@ -223,9 +230,9 @@ class Globals {
 	}
 	
 	/**
-	 * Get the event menu.
+	 * Retrieves the cached event menu or builds it if not cached.
 	 *
-	 * @return void
+	 * @return array The event menu.
 	 */
 	public function getEventMenu() {
 		$menu = get_transient('event-filter-menu');
@@ -275,10 +282,10 @@ class Globals {
 	}
 
 	/**
-	 * Clear the cache for the research menu
+	 * Clears the cache for the research menu.
 	 *
-	 * @param [type] $term_id
-	 * @param [type] $tt_id
+	 * @param int $term_id Term ID that triggered the cache clear.
+	 * @param int $tt_id Term Taxonomy ID that triggered the cache clear.
 	 * @return void
 	 */
 	public function clearResearchMenu($term_id, $tt_id) {
@@ -287,9 +294,9 @@ class Globals {
 	}
 
 	/**
-	 * Get the research menu.
+	 * Retrieves the cached research menu or builds it if not cached.
 	 *
-	 * @return void
+	 * @return array The research menu.
 	 */
 	public function getResearchMenu() {
 		$menu = get_transient('research-filter-menu');
@@ -320,10 +327,10 @@ class Globals {
 	}
 
 	/**
-	 * Clear the cache for the team menu
+	 * Clears the cache for the team menu.
 	 *
-	 * @param [type] $term_id
-	 * @param [type] $tt_id
+	 * @param int $term_id Term ID that triggered the cache clear.
+	 * @param int $tt_id Term Taxonomy ID that triggered the cache clear.
 	 * @return void
 	 */
 	public function clearTeamMenu($term_id, $tt_id) {
@@ -332,9 +339,9 @@ class Globals {
 	}
 
 	/**
-	 * Get the team menu
+	 * Retrieves the cached team menu or builds it if not cached.
 	 *
-	 * @return void
+	 * @return array The team menu.
 	 */
 	public function getTeamMenu() {
 		$menu = get_transient('team-filter-menu');
@@ -383,10 +390,10 @@ class Globals {
 	}
 
 	/**
-	 * Clear the board menu.
+	 * Clears the cache for the board menu.
 	 *
-	 * @param [type] $term_id
-	 * @param [type] $tt_id
+	 * @param int $term_id Term ID that triggered the cache clear.
+	 * @param int $tt_id Term Taxonomy ID that triggered the cache clear.
 	 * @return void
 	 */
 	public function clearBoardMenu($term_id, $tt_id) {
@@ -395,9 +402,9 @@ class Globals {
 	}
 
 	/**
-	 * Same as team member stuff, but with board members instead
+	 * Retrieves the cached board menu or builds it if not cached.
 	 *
-	 * @return void
+	 * @return array The board menu.
 	 */
 	public function getBoardMenu() {
 		$menu = get_transient('board-filter-menu');
@@ -429,10 +436,10 @@ class Globals {
 
 
 	/**
-	 * Clear the cache for the vertical menu
+	 * Clears the cache for the vertical menu.
 	 *
-	 * @param [type] $termID
-	 * @param [type] $tt_id
+	 * @param int $termID The term ID associated with the vertical.
+	 * @param int $tt_id The term taxonomy ID associated with the vertical.
 	 * @return void
 	 */
 	public function clearVerticalMenu($termID, $tt_id) {
@@ -442,10 +449,10 @@ class Globals {
 	}
 
 	/**
-	 * Get the vertical menu
+	 * Retrieves the cached vertical menu or builds it if not cached.
 	 *
-	 * @param [type] $vertical
-	 * @return void
+	 * @param string $vertical The slug of the vertical.
+	 * @return array The vertical menu.
 	 */
 	public function getVerticalMenu($vertical) {
 		$menu = get_transient('vertical-filter-menu--'.$vertical);
