@@ -3,12 +3,32 @@ namespace Engage\Models;
 
 use Timber\Post;
 
-class Article extends Post {
+/**
+ * Class Article
+ *
+ * Extends Timber's Post class to add custom functionality for articles.
+ *
+ * @package Engage\Models
+ */
+class Article extends Post
+{
 
-	public $vertical;
+    /**
+     * The vertical associated with the article.
+     *
+     * @var mixed
+     */
+    public $vertical;
 
-	public function init($postID = null)
+    /**
+     * Initializes the Article object.
+     *
+     * Calls the parent constructor from Timber\Post to initialize the article with an optional post ID.
+     *
+     * @param int|null $postID The ID of the post to initialize. Defaults to null.
+     */
+    public function init($postID = null)
     {
-			parent::__construct($postID);
+        parent::__construct($postID);
     }
 }
