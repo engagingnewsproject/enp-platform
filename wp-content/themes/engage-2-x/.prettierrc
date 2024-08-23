@@ -3,8 +3,8 @@
 	"useTabs": true,
 	"tabWidth": 4,
 	"plugins": ["./node_modules/prettier-plugin-twig-melody"],
-	"twigMelodyPrintWidth": 120,
+	"twigMelodyPrintWidth": 220,
 	"twigMelodySingleQuote": true,
-	"twigMelodyTabWidth": 4,
+	"twigMelodyTabWidth": 2,
 	"twigMelodyUseTabs": true
 }
