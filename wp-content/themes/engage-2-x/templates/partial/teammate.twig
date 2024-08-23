@@ -1,35 +1,55 @@
-<div id="{{ mate.slug }}" class="mate {{ mate.thumbnail ? ' mate--has-img'}} grid grid--col-12 grid--gap-20">
+{# 
+  teammates.twig - Template partial to display a team member's profile.
+  
+  This template handles the display of an individual team member's details, 
+  including their image, name, designation, bio, and contact information. 
+  The content is dynamically populated based on the available data for each 
+  team member and the provided context.
+  
+  Available variables:
+  - mate: The team member object containing the member's data (e.g., name, email, etc.).
+  - format: The format to display the team member (e.g., 'excerpt' or 'full').
+  - vertical_value: The current vertical (category) of the team member (e.g., 'propaganda').
+#}
+
+<div
+	class="mate {{ mate.thumbnail ? ' mate--has-img'}} grid grid--col-12 grid--gap-20" id="{{ mate.slug }}">
+	{# Display team member's image if available #}
 	{% if mate.thumbnail.src('thumbnail') | length > 0 %}
 		<div class="mate__img-wrap">
 			<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
 		</div>
 	{% endif %}
-	<div class="mate__content">
+	<div
+		class="mate__content">
+		{# Display team member's name as a heading. Link to bio or external page if applicable. #}
 		<h3
 			class="mate__name mate__name--{{ format }}">
-			{# if format excerpt or full and not in propoganda vertical #}
+			{# If format is 'excerpt' or 'full' and not in 'propaganda' vertical, show name as a link #}
 			{% if (format == "excerpt" or "full") and vertical_value != "propaganda" %}
 				{% if mate.getExternalLink != "" %}
 					{% if mate.getLinkOption != "" %}
-					{# Clicking on a Visiting Scholar redirects to an external page instead of an internal bio page #}
-						<a class="mate__name" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>	
+						{# Link redirects to an external page instead of an internal bio page if 'external_link_checkbox' is set #}
+						<a class="mate__name" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>
 					{% else %}
 						<a class="mate__name" href="{{ mate.link }}">{{ mate.title }}</a>
 					{% endif %}
 				{% else %}
 					<a class="mate__name" href="{{ mate.link }}">{{ mate.title }}</a>
 				{% endif %}
-				{# otherwise (you are in the propoganda vertical) print only the name without the link to bio #}
+				{# Otherwise, just display the name without a link (e.g., in 'propaganda' vertical) #}
 			{% else %}
 				{{ mate.name }}
 			{% endif %}
 		</h3>
+		{# Display team member's designation if the format is 'excerpt' #}
 		{% if format == "excerpt" %}
 			{% if mate.getDesignation or mate.vertical %}
 				<p class="mate__labels size">
 					{{ mate.designation }}
 				</p>
 			{% endif %}
+			{# Display the first 45 words of the bio with a 'Read More' link if the format is 'full' #}
 		{% elseif format == "full" %}
 			{% set content = mate.content | striptags | split(' ') | slice(0, 45) | join(' ') ~ ' ... ' %}
 			<p class="mate__bio">
@@ -41,11 +61,13 @@
 				</a>
 			</p>
 		{% endif %}
+		{# Display email if available and not in the 'propaganda' vertical #}
 		{% if mate.getEmail and vertical_value != "propaganda" %}
 			<p class="mate__email size">
 				<a href="mailto:{{ mate.email }}">{{ mate.email }}</a>
 			</p>
 		{% endif %}
+		{# Display phone number if available #}
 		{% if mate.getPhone %}
 			<p class="mate__phone size">
 				<a href="tel:{{ mate.phone }}">{{ mate.phone }}</a>
