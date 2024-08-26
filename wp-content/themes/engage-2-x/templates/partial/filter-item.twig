@@ -26,12 +26,12 @@
 	{% endif %}
 
 	{# 
-		    Render subterms as a nested list if:
-		    - The term has subterms (term.terms).
-		    - The term title is set.
-		    - The term is not 'team' or 'blogs' (these are excluded from having subterms).
-		    - The filter menu slug is not 'social-platforms-menu' or 'bridging-divides-menu' (these menus do not display subterms).
-		  #}
+		Render subterms as a nested list if:
+		- The term has subterms (term.terms).
+		- The term title is set.
+		- The term is not 'team' or 'blogs' (these are excluded from having subterms).
+		- The filter menu slug is not 'social-platforms-menu' or 'bridging-divides-menu' (these menus do not display subterms).
+	#}
 	{% if (term.terms) and (term.title) and (term.slug != "team") and (term.slug != "blogs") and (filters.slug != "social-platforms-menu") and (filters.slug != "bridging-divides-menu") %}
 		<ul
 			class="filter__sublist">
