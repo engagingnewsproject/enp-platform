@@ -27,7 +27,7 @@
 					{% if filters.slug == 'media-ethics-menu' and term.slug == 'research' %}
 						{% set term = term|merge({'title': "Case Studies"}) %}
 
-						{# Modify: If the term is 'blogs', replace it with the first sub-term title under it #}
+					{# Modify: If the term is 'blogs', replace it with the first sub-term title under it #}
 					{% elseif term.slug == 'blogs' %}
 						{% set nextTerm = term.terms | first %}
 						{% set term = term|merge({'title': nextTerm.title}) %}
