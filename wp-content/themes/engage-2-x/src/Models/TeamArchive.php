@@ -79,14 +79,14 @@ class TeamArchive extends TileArchive
     }
   
     /**
- * Compare two posts by their last name.
- *
- * Splits the title of each post to extract the last name, and compares them alphabetically.
- *
- * @param object $a The first post object to compare.
- * @param object $b The second post object to compare.
- * @return int Returns -1, 0, or 1 based on the comparison result.
- */
+     * Compare two posts by their last name.
+     *
+     * Splits the title of each post to extract the last name, and compares them alphabetically.
+     *
+     * @param object $a The first post object to compare.
+     * @param object $b The second post object to compare.
+     * @return int Returns -1, 0, or 1 based on the comparison result.
+     */
     public function lastNameCompare($a, $b)
     {
         // Gets the last name of each Team Member
@@ -96,15 +96,15 @@ class TeamArchive extends TileArchive
     }
 
     /**
- * Compare two posts by their designation order.
- *
- * Fetches the 'order' field from the first term in the 'team_designation' taxonomy
- * for each post and compares them numerically.
- *
- * @param object $a The first post object to compare.
- * @param object $b The second post object to compare.
- * @return int Returns -1, 0, or 1 based on the comparison result.
- */
+     * Compare two posts by their designation order.
+     *
+     * Fetches the 'order' field from the first term in the 'team_designation' taxonomy
+     * for each post and compares them numerically.
+     *
+     * @param object $a The first post object to compare.
+     * @param object $b The second post object to compare.
+     * @return int Returns -1, 0, or 1 based on the comparison result.
+     */
 
     public function desigOrderCompare($a, $b)
     {
