@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=WordPress&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.8.12
+Version: 3.8.13
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -43,7 +43,7 @@ final class Ninja_Forms
      * @since 3.0
      */
 
-    const VERSION = '3.8.12';
+    const VERSION = '3.8.13';
 
     /**
      * @since 3.4.0
@@ -149,7 +149,7 @@ final class Ninja_Forms
     /**
      * Dispatcher
      *
-     * @var string
+     * @var NF_Dispatcher
      */
     protected $_dispatcher = '';
 
@@ -430,12 +430,6 @@ final class Ninja_Forms
 
             self::$instance->metaboxes[ 'append-form' ] = new NF_Admin_Metaboxes_AppendAForm();
 
-            /*
-                * Email Telemetry
-                */
-
-            $email_telemetry = new NF_EmailTelemetry( get_option( 'ninja_forms_optin_reported' ) );
-            $email_telemetry->setup();
 
             /*
                 * Require EDD auto-update file
@@ -546,6 +540,17 @@ final class Ninja_Forms
             // Record that there are no required updates.
             update_option( 'ninja_forms_needs_updates', 0 );
         }
+
+        //Enqueue forms scripts for WP bakery frontend editor
+        if(isset($_GET['vc_action']) && $_GET['vc_action'] === "vc_inline"){
+            $forms_list = Ninja_Forms()->form()->get_forms();
+            if ( ! empty( $forms_list ) ) {
+                foreach ( $forms_list as $form ) {
+                    NF_Display_Render::enqueue_scripts($form->get_id());
+                }
+            }
+        }
+
     }
 
     function maybe_load_public_form($template) {
@@ -839,6 +844,11 @@ final class Ninja_Forms
         return $this->_logger;
     }
 
+    /**
+     * Return dispatcher
+     *
+     * @return NF_Dispatcher
+     */
     public function dispatcher()
     {
         return $this->_dispatcher;
@@ -949,8 +959,17 @@ final class Ninja_Forms
         $set_load_iframe_condition = $visual_composer_screen || $elementor_screen;
         //Filter the current result of the conditions
         $load_iframe = apply_filters("ninja_forms_display_iframe",  $set_load_iframe_condition, $form_id);
+
+        //Detect cases when page needs to refresh and load the iFrame onlmy on that first load
+        $wp_bakery_frontend_first_display = isset( $_POST['action'] ) && $_POST['action'] === "vc_load_shortcode";
+        //Set list of condition that would lead to refresh page needed
+        $set_refresh_page_needed_condition = $wp_bakery_frontend_first_display;
+        //Filter the current result of the conditions
+        $refresh_page_needed = apply_filters("ninja_forms_display_reload_page_message", $set_refresh_page_needed_condition, $form_id);
         
         if( $load_iframe  ) {
+            NF_Display_Render::localize_iframe($form_id);
+        } else if( $refresh_page_needed ) {
             NF_Display_Render::localize_iframe($form_id);
         } else {
             if( ! $preview ) {
@@ -1193,7 +1212,7 @@ function nf_optin_update_environment_vars() {
     /**
      * Send updated environment variables.
      */
-    Ninja_Forms()->dispatcher()->update_environment_vars();
+    Ninja_Forms()->dispatcher()->sendTelemetryData();
 
     /**
      * Make sure that we've reported our opt-in.
