@@ -42,6 +42,7 @@ class swas_wp_footnotes {
 
 	private $current_options;
 	private $default_options;
+	private $styles;
 
 	const OPTIONS_VERSION = "5"; // Incremented when the options array changes
 
