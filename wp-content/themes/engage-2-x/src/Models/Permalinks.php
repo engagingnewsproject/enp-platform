@@ -4,9 +4,10 @@
  */
 namespace Engage\Models;
 
-class Permalinks {
+class Permalinks
+{
 
-    public  $taxRewriteMap = [  // Map the slugs of the taxonomies to the corresponding name. Most just get changed straight to category.
+    public $taxRewriteMap = [  // Map the slugs of the taxonomies to the corresponding name. Most just get changed straight to category.
             'category_name'             => 'category',
             'category'                  => 'category',
             'research-tags'             => 'tag',
@@ -16,19 +17,21 @@ class Permalinks {
             'blogs-category'            => 'category',
             'tribe_events_cat'          => 'category',
             'verticals'                 => 'vertical'
-            // add new taxonomies with 
+            // add new taxonomies with
             //'taxonomy-slug'          => 'category' or whatever you want the base name of the url to be
-        ],
-        $vertical,
-        $category,
-        $postType;
+        ];
+    public $vertical;
+    public $category;
+    public $postType;
 
 
-    public function __construct() {
+    public function __construct()
+    {
 
     }
 
-    public function getQueriedCategory() {
+    public function getQueriedCategory()
+    {
         foreach($this->taxRewriteMap as $key => $val) {
             $category = get_query_var($key, false);
             if($category) {
@@ -43,23 +46,26 @@ class Permalinks {
         return false;
     }
 
-    public function getQueriedVertical() {
+    public function getQueriedVertical()
+    {
         $vertical = get_query_var('verticals', false);
 
         return ($vertical ? get_term_by('slug', $vertical, 'verticals') : false);
     }
 
-    public function getQueriedPostType() {
+    public function getQueriedPostType()
+    {
         $postType = get_query_var('post_type', false);
 
         return ($postType ? get_post_type_object($postType) : false);
     }
 
-    public function getPostTypeByTaxonomy( $taxonomySlug ){
+    public function getPostTypeByTaxonomy($taxonomySlug)
+    {
         $post_types = get_post_types();
-        foreach( $post_types as $post_type ){
-            $taxonomies = get_object_taxonomies( $post_type );
-            if( in_array( $taxonomySlug, $taxonomies ) ){
+        foreach($post_types as $post_type) {
+            $taxonomies = get_object_taxonomies($post_type);
+            if(in_array($taxonomySlug, $taxonomies)) {
                 return $post_type;
             }
         }
@@ -69,7 +75,8 @@ class Permalinks {
      * Builds the correct link for all our crazy term structures
      *
      */
-    public function getTermLink($options = []) {
+    public function getTermLink($options = [])
+    {
         $defaults = [
             'terms'     => [],
             'postType'  => false,
@@ -79,7 +86,7 @@ class Permalinks {
         $options = array_merge($defaults, $options);
 
         $terms = $options['terms'];
-        $postType = ( $options['postType'] ? $options['postType'] : get_query_var('post_type', false));
+        $postType = ($options['postType'] ? $options['postType'] : get_query_var('post_type', false));
 
         // map tribe_events to event
         $postType = ($postType === 'tribe_events' ? 'events' : $postType);
@@ -93,14 +100,14 @@ class Permalinks {
             }
             if($term->taxonomy === 'verticals') {
                 $vertical = $term;
-            } 
+            }
         }
 
 
         $link = get_site_url();
 
         // what's our base?
-        // start with the vertical 
+        // start with the vertical
         $link .= ($base === 'vertical' ? '/vertical/'.$vertical->slug : '');
 
         // add in the post type
@@ -108,6 +115,9 @@ class Permalinks {
 
         // add in any terms
         foreach($terms as $term) {
+            if (!is_object($term)) {
+                continue;
+            }
             if($base === 'vertical' && $term->taxonomy === 'verticals') {
                 // skip it
                 continue;
