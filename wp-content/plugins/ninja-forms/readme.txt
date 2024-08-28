@@ -5,7 +5,7 @@ Tags: forms, form builder, contact form, lead form, registration form
 
 Requires at least: 6.4
 Tested up to: 6.6.1
-Stable tag: 3.8.12
+Stable tag: 3.8.13
 
 Requires PHP: 7.4
 
@@ -312,11 +312,43 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.8.12 (13 August 2024) =
+= 3.8.13 (26 August 2024) =
 *Bug Fixes:*
-- Validate label settings on change event
+- Prevent mouse scroll wheel from updating currency masked fields - Issues 
+- Resolved an error where required field validation was not always firing properly on masked fields  
+- Correct list value tooltip styling error for Safari and Firefox 
+- A repeatable fieldset that has triggered a required error maintains the error when the repeatable fieldset is deleted 
+- First Repeated Fieldset's data is not captured when deleting one of the sets 
+- Ensure form displays in WP Bakery without needing to refresh page
+
+*Other:*
+- Correct deprecation warnings in SCSS files
+- Library updates: The updates affect the structure of the components - mounting and data flow - and the blocks and styling 
+- Set security resolution for Axios as a dependency of our dependencies
+- Reorganize cypress tests
+- Add unit tests
+- Add initial usage data to telemetry
+- High impact accessibility factor corrections
 
 == Changelog ==
+= 3.8.13 (26 August 2024) =
+*Bug Fixes:*
+- Prevent mouse scroll wheel from updating currency masked fields - Issues 
+- Resolved an error where required field validation was not always firing properly on masked fields  
+- Correct list value tooltip styling error for Safari and Firefox 
+- A repeatable fieldset that has triggered a required error maintains the error when the repeatable fieldset is deleted 
+- First Repeated Fieldset's data is not captured when deleting one of the sets 
+- Ensure form displays in WP Bakery without needing to refresh page
+
+*Other:*
+- Correct deprecation warnings in SCSS files
+- Library updates: The updates affect the structure of the components - mounting and data flow - and the blocks and styling 
+- Set security resolution for Axios as a dependency of our dependencies
+- Reorganize cypress tests
+- Add unit tests
+- Add initial usage data to telemetry
+- High impact accessibility factor corrections
+
 = 3.8.12 (13 August 2024) =
 *Bug Fixes:*
 - Validate label settings on change event
