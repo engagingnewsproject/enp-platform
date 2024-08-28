@@ -277,6 +277,14 @@
 						</div>
 					{% endif %}
 				</footer>
+			{# PARALLAX #} 
+			{% elseif main.acf_fc_layout == 'parallax' %}
+				TESTING-- <pre>PARALLAX LAYOUT YES</pre>
+				{% if main.background_image %}
+					<img src="{{ get_image(main.background_image).src }}" 
+						sizes="{{ get_image(main.background_image).img_sizes }}"
+						alt="{{ get_image(main.background_image).alt }}" />
+				{% endif %}
 
 			{% endif %}
 				
