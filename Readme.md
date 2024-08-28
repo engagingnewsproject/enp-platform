@@ -37,18 +37,19 @@ _** Currently this repo includes the whole WordPress installation. This is not r
 
 **Updated instructions**: Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/starter-theme). Not required, but [view Timber Composer installation instructions here](https://timber.github.io/docs/getting-started/switch-to-composer/).
 
-1. After cloning this repo, run these commands from the Engage theme directory: `[local app site directory]/app/public/wp-content/themes/engage`
+1. After cloning this repo, run these commands from the `yourSiteName/app/public/wp-content/themes/engage-2-x` directory: 
 
-2. Make sure you are on the latest version of `node` by running `npm doctor`. If anything comes up as not `ok` update your version of `npm` or `node`.
+2. Make sure you are on the latest version of `node` by running `npm doctor`. If anything comes up as not `ok` update your version of `npm` or `node` [How to Check Node.js and npm Versions](https://docs.mediaengagement.org/how-tos/#step-1-check-nodejs-and-npm-versions).
 
 3. Install packages by running
 
        npm install
        
-4. Install Timber with composer and run 
-  ```
-  composer require timber/timber
-  ```
+4. Install Timber with composer by running: 
+  
+    ```
+    composer require timber/timber
+    ```
   you should see `Using version ^2.0 for timber/timber` in the terminal output.
   
 5. Activate the `engage-2-x` theme (if not active) from WP Admin / Appearance.
