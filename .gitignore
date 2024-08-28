@@ -54,6 +54,8 @@ README.mdown
 # Local App
 local-phpinfo.php
 php.ini
+local-xdebuginfo.php
+LocalValetDriver.php
 
 # Editor
 **/.php-cs-fixer.php
