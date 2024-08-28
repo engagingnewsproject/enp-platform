@@ -119,14 +119,4 @@ phpunit.xml
 *.wmv
 *.avi
 
-# Old ignored files & folders
-# we can delete everything below after testing a push
-# wp_admin/
-# wp_content/
-# composer.phar
-# **/package.json
-# **/composer.json
-# Exclude the config files from the /themes/engage directory
-# !wp-content/themes/engage/package.json
-# !wp-content/themes/engage/composer.json
-# wp-content/themes/engage/package-lock.json
+# Old ignored files & folders deleted
