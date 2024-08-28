@@ -104,8 +104,10 @@
 		}
 		&_whole {
 			align-items: flex-start;
+			// TODO: change for 2023 version
 			grid-template-rows: auto 1fr;
 			grid-row-gap: 20px;
+			
 		}
 		&_quote {
 			@include media($desktop) {
@@ -284,6 +286,8 @@
 		}
 	}
 }
+
+
 // // grid
 .ann__grid {
 	grid: repeat(4, auto) / repeat(2, 1fr);
@@ -332,8 +336,16 @@
 .ann__list {
 	list-style: none;
 	margin-bottom: 0;
+
+	&.three-columns {
+		grid-template-columns: repeat(3, minmax(250px, 1fr));
+
+	}
+
+
+	// grid-template-columns: 1fr 1fr 1fr;
+
 	.ann__list_item {
-		grid-template-columns: 1fr 1fr;
 		grid-template-rows: repeat(2, auto);
 		grid-column-gap: 20px;
 		grid-row-gap: 45px;
@@ -543,6 +555,26 @@
 			font-size: $font-size-h2;
 		}
 	}
+	&_main {
+		font-size: $font-size-h2;
+		text-transform: uppercase;
+		font-weight: bold;
+	}
+
+	&_orange {
+		color: $orange;
+	}
+
+	&_navy {
+		color: $blue-dark;
+	}
+
+	&_bolded {
+		font-size: $font-size-xlarge;
+		text-transform: uppercase;
+		font-weight: bold;
+
+	}
 	&_center {
 		align-items: center;
 		justify-content: center;
@@ -556,6 +588,34 @@
 	&.ann__info_title {
 		padding: 0;
 	}
+}
+
+// research section, 2023
+.ann__sct_research {
+	&_grid {
+		display: grid;
+		// TODO: change so that they are in a row
+		grid-template-columns: auto 1fr;
+
+	}
+	
+	&_grid_item {
+		text-align: center;
+		color: $blue-dark;
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr auto;
+		align-items: center;
+		align-self: flex-start;
+		justify-items: center;
+		padding-bottom: 5rem;
+	}
+	&_title_text {
+		color: $orange;
+	}
+
+
+
 }
 // END elements
 

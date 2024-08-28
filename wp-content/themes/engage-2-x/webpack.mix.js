@@ -10,7 +10,7 @@ mix
   .sass("assets/scss/app.scss", "dist/css")
   .sourceMaps() // Add this line to enable source maps for SCSS
   .browserSync({
-    proxy: "http://localhost:10028", // Replace with your local URL
+    proxy: "https://mediaengagementorg.local", // Replace with your local URL
     files: [
       "**/*.php",
       "dist/css/**/*.css",
