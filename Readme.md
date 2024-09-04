@@ -17,7 +17,7 @@ Conversion notes:
 
 Engage is a [Timber](https://timber.github.io/docs/)(Twig) powered WordPress theme for [The Center for Media Engagement](https://mediaengagement.org/) at University of Texas at Austin.
 
-_** Currently this repo includes the whole WordPress installation. This is not reccommended, but helps sync dev, staging & production enviroments. The only directory you should concern yourself with is in the actual `wp-content/themes/engage` directory. All other files are for the live sites and should not be changed._
+_** Currently this repo includes the whole WordPress installation. This is not reccommended, but helps sync dev, staging & production enviroments. The only directory you should concern yourself with is in the actual `wp-content/themes/engage-2-x` directory. All other files are for the live sites and should not be changed._
 
 # Installation
 
@@ -107,7 +107,7 @@ If you run into any issues with the Engage theme try some of these workarounds t
 	
   2. Disable all plugins except for Advanced Custom Fields (Engage theme depends on this plugin.)
 	
-  3. Reactivate the engage theme by renaming it back to `/engage` in the project directory.
+  3. Reactivate the engage theme by renaming it back to `/engage-2-x` in the project directory.
   
      _This is an important step, as you will need WordPress to recognize the Engage theme so you can reactivate it on the WordPress dashboard at the Appearance/Themes page._
 
