@@ -1,0 +1,25 @@
+{
+  "depcheck": {
+    "ignoreMatches": [
+			"popper.js", 
+			"jquery", 
+			"scss-tokenizer",
+			"sass-loader", 
+			"postcss-cli",
+			"resolve-url-loader",
+			"prettier-plugin-twig-melody",
+			"prettier",
+			"postcss-import",
+			"postcss",
+			"img-loader",
+			"cssnano",
+			"cross-env",
+			"browser-sync-webpack-plugin",
+			"browser-sync",
+			"autoprefixer",
+			"@wordpress/scripts",
+			"imagemin",
+			"ajv"
+		]
+  }
+}
