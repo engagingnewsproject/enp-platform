@@ -71,11 +71,19 @@ Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/s
     ```bash
     npm run watch
     ```
+    or
+    ```bash
+    yarn watch
+    ```
 
 7. Before pushing changes, compile assets for production:
 
     ```bash
     npm run production
+    ```
+    or
+    ```bash
+    yarn production
     ```
 
 ## Deployment (For Project Leads Only)
@@ -132,6 +140,35 @@ If you encounter issues with the Engage theme:
     ```
 
 4. **Deactivate the Engaging Quiz Plugin:** It is known to cause issues.
+
+## Manage dependencies
+
+### Using `npx npm-check`
+
+We use `npx npm-check` to monitor and manage the dependencies in our project. This tool helps us:
+
+1. **Identify Outdated Dependencies**: `npx npm-check` shows any packages that have newer versions available, allowing us to keep our dependencies up to date.
+2. **Find Unused Dependencies**: It helps us find and remove packages that are listed in our `package.json` but are no longer being used in the codebase.
+3. **Identify Missing Dependencies**: It flags missing dependencies, which might be required by the project but are not installed in `node_modules`.
+
+### How to Run `npx npm-check`
+
+To check the status of the project’s dependencies, run:
+
+```bash
+npx npm-check
+```
+
+This will display a report that lists:
+- Packages that have newer versions available.
+- Packages that are no longer being used in the code.
+- Missing packages that need to be installed.
+
+This ensures that the project stays clean, up-to-date, and avoids any unnecessary dependencies.
+
+### .npmcheckrc:
+
+Ignore Certain Packages: You can tell npm-check to skip specific packages that might be falsely flagged as unused or missing.
 
 ## ACF Field Group Syncing
 
