@@ -74,7 +74,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "http:\/\/localhost:10006\/wp-content\/uploads\/2021\/03\/CME-2020-Annual-Report.pdf",
+            "default_value": "http:\/\/localhost:10005\/wp-content\/uploads\/2021\/03\/CME-2020-Annual-Report.pdf",
             "placeholder": ""
         },
         {
@@ -1367,18 +1367,18 @@
                     "min": "",
                     "max": ""
                 },
-                "layout_66e899554ed1a": {
-                    "key": "layout_66e899554ed1a",
-                    "name": "parallax",
-                    "label": "Parallax",
-                    "display": "block",
+                "layout_66e44a43cc620": {
+                    "key": "layout_66e44a43cc620",
+                    "name": "landing",
+                    "label": "Landing",
+                    "display": "table",
                     "sub_fields": [
                         {
-                            "key": "field_66e8996d4ed1c",
-                            "label": "Parallax Image",
-                            "name": "parallax_image",
+                            "key": "field_66e44a961307a",
+                            "label": "Landing header",
+                            "name": "landing_header",
                             "aria-label": "",
-                            "type": "image",
+                            "type": "text",
                             "instructions": "",
                             "required": 0,
                             "conditional_logic": 0,
@@ -1387,24 +1387,19 @@
                                 "class": "",
                                 "id": ""
                             },
-                            "return_format": "id",
-                            "library": "all",
-                            "min_width": "",
-                            "min_height": "",
-                            "min_size": "",
-                            "max_width": "",
-                            "max_height": "",
-                            "max_size": "",
-                            "mime_types": "",
-                            "preview_size": "medium"
+                            "default_value": "Center for Media Engagement",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
                         },
                         {
-                            "key": "field_66e9f8eb22ef6",
-                            "label": "Logo image",
-                            "name": "landing_logo_image",
+                            "key": "field_66e893773d019",
+                            "label": "Landing background image",
+                            "name": "landing_background_image",
                             "aria-label": "",
                             "type": "image",
-                            "instructions": "Logo for CME",
+                            "instructions": "",
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
@@ -1518,5 +1513,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1727303063
+    "modified": 1726520854
 }
