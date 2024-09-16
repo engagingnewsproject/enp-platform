@@ -27,12 +27,12 @@
 				<section class="ann__sct ann__sct_split wrapper--pad-huge">
 					<div class="ann__block flex_row">
 						<div class="ann__card"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
-							{% if post.meta('director_image') %}
+							{% if main.director_image %}
 								<div class="ann__img-wrap">
 									<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__img-director"/>
 								</div>
 							{% endif %}
-							{% if post.meta('director_title') %}
+							{% if main.director_title %}
 								<div class="ann__title ann__title_center">
 									<h2 class="m--no"{% if main.title_color %} style="color:{{ main.title_color }};"{% endif %}>{{ main.director_title }}</h2>
 								</div>
@@ -46,6 +46,34 @@
 							</div>
 						</div>
 					{% endif %}
+				</section>
+			
+			{# RESEARCH #}
+			{% elseif main.acf_fc_layout == 'research' %}
+				<section class="ann__sct grid wrapper--pad-xlg vert-pad-sm">
+					{% if main.research_title %}
+						<div class={% if main.research_bolded_title %}"ann__title_main ann__title_navy"{% else %}"ann__title"{% endif %}>
+							{{ main.research_title }}
+						</div>
+					{% endif %}
+					{% if main.research_bolded_title %}
+						<h2 class="ann__title_bolded ann__title_orange">{{ main.research_bolded_title}}</h2>
+					{% endif %}
+					{% if main.research_subtext %}
+						<div class="ann__sct_research_subtext"><h3>{{ main.research_subtext}}</h3></div>
+					{% endif %}
+					{# TODO: create class for #}
+					<div class="ann__sct_research_grid grid">
+						{% for item in main.research_block %}
+							<div class="ann__sct_research_grid_item">
+								{% if item.research_title %}
+									<h2 class="ann__sct_research_title_text">{{ item.research_title }}</h2>
+								{% endif %}
+								{% if item.research_body %}
+									<p class="ann__sct_research_body_text">{{ item.research_body }}</p>
+								{% endif %}
+						{% endfor %}
+					</div>
 				</section>
 
 			{# HIGHLIGHTS #}
@@ -111,13 +139,16 @@
 
 			{# FALCULTY #}
 			{% elseif main.acf_fc_layout == 'faculty' %}
-				<section class="ann__sct ann__sct_whole testing ann__sct_grid_pt ann__sct_faculty wrapper--pad-xlg">
+				<section class="ann__sct ann__sct_whole ann__sct_grid_pt wrapper--pad-xlg ann__sct_faculty">
 					{% if main.faculty_title %}
-						<div class="ann__title">
+						<div class="ann__title ann__title_main">
 							<h2>{{ main.faculty_title }}</h2>
 						</div>
 					{% endif %}
-					<ul class="ann__list grid">
+					{% if main.faculty_bolded_title %}
+						<div class="ann__title_bolded ann__title_orange">{{main.faculty_bolded_title}} </div>
+					{% endif %}
+					<ul class="grid ann__list">
 						{% for member in main.members %}
 							<li class="ann__list_item grid">
 								{% if member.member_image %}
@@ -246,6 +277,14 @@
 						</div>
 					{% endif %}
 				</footer>
+			{# PARALLAX #} 
+			{% elseif main.acf_fc_layout == 'parallax' %}
+				TESTING-- <pre>PARALLAX LAYOUT YES</pre>
+				{% if main.background_image %}
+					<img src="{{ get_image(main.background_image).src }}" 
+						sizes="{{ get_image(main.background_image).img_sizes }}"
+						alt="{{ get_image(main.background_image).alt }}" />
+				{% endif %}
 
 			{% endif %}
 				

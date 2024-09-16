@@ -15,133 +15,149 @@ Conversion notes:
 * Source doc: CME Updated Readme.md
 ----->
 
-Engage is a [Timber](https://timber.github.io/docs/)(Twig) powered WordPress theme for [The Center for Media Engagement](https://mediaengagement.org/) at University of Texas at Austin.
+# Engage Theme for CME
 
-_** Currently this repo includes the whole WordPress installation. This is not reccommended, but helps sync dev, staging & production enviroments. The only directory you should concern yourself with is in the actual `wp-content/themes/engage` directory. All other files are for the live sites and should not be changed._
+Engage is a [Timber](https://timber.github.io/docs/)-powered WordPress theme for [The Center for Media Engagement](https://mediaengagement.org/) at the University of Texas at Austin.
 
-# Installation
+> **Note:** This repo includes the entire WordPress installation. However, the only directory you should work on is `wp-content/themes/engage-2-x`. Avoid making changes to other files as they are tied to live sites.
 
-## Installation - Summary
-- Download [WP Engine Local App](http://localwp.com/).
-- Connect with CME WP Engine account.
-- Download mediaengagement.org from the Local App
-- Connect to the GitHub repo & fetch.
-- Install npm
-- Develop
+## Installation
 
-## Installation Full Instructions:
+### Summary
 
-[View the long installation instructions here.](https://github.com/engagingnewsproject/enp-platform/wiki/Development#installation)
+1. Install [WP Engine Local App](http://localwp.com/).
+2. Connect with the CME WP Engine account.
+3. Download `mediaengagement.org` from Local App.
+4. Clone this GitHub repo and fetch.
+5. Install npm dependencies.
+6. Start development.
 
-# Local development
+For full installation instructions, refer to the [development guide](https://docs.mediaengagement.org/mediaengagement/#installation).
 
-**Updated instructions**: Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/starter-theme). Not required, but [view Timber Composer installation instructions here](https://timber.github.io/docs/getting-started/switch-to-composer/).
+## Local Development
 
-1. After cloning this repo, run these commands from the `yourSiteName/app/public/wp-content/themes/engage-2-x` directory: 
+Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/starter-theme). You can follow the [Timber Composer installation guide](https://timber.github.io/docs/getting-started/switch-to-composer/) for additional setup details.
 
-2. Make sure you are on the latest version of `node` by running `npm doctor`. If anything comes up as not `ok` update your version of `npm` or `node` [How to Check Node.js and npm Versions](https://docs.mediaengagement.org/how-tos/#step-1-check-nodejs-and-npm-versions).
+### Steps:
 
-3. Install packages by running
+1. Clone the repo and navigate to the theme directory:
 
-       npm install
-       
-4. Install Timber with composer by running: 
-  
+    ```bash
+    cd yourSiteName/app/public/wp-content/themes/engage-2-x
     ```
+
+2. Check if you're using the correct Node version:
+
+    ```bash
+    npm doctor
+    ```
+
+3. Install npm dependencies:
+
+    ```bash
+    npm install
+    ```
+
+4. Install Timber via Composer:
+
+    ```bash
     composer require timber/timber
     ```
-  you should see `Using version ^2.0 for timber/timber` in the terminal output.
-  
-5. Activate the `engage-2-x` theme (if not active) from WP Admin / Appearance.
 
-6. Now you can run `npm run watch` to start up your local dev server with browsersync for automatic refresh.
+5. Activate the `engage-2-x` theme from WP Admin → Appearance.
 
-7. When your tasks are complete and you are ready to push your changes to the remote repo run `npm run production` on the /engage-2-x directory to compile all CSS & JS.
+6. Run the development server:
 
-## Deployment
+    ```bash
+    npm run watch
+    ```
+    or
+    ```bash
+    yarn watch
+    ```
 
-Project lead only instructions:
+7. Before pushing changes, compile assets for production:
 
-1. #### YOU MUST NOTIFY KAT BEFORE YOU PUSH ANY UPDATES TO THE LIVE SITE
+    ```bash
+    npm run production
+    ```
+    or
+    ```bash
+    yarn production
+    ```
 
-2. First run `npm run production` to compile files for production.
+## Debugging Local App Connection
 
-3. Push to the dev site.
-    
-```
-git push dev master
-```
-    
-4. Merge `master` into `stable`
-    
-```
-git checkout stable && git merge master
-```
+If you encounter issues with the Engage theme:
 
-5. Tag and push to staging site.
+1. **Check the Local App setup:**
+    - Switch the web server to nginx.
+    - Ensure PHP version is 8.2.10 or higher.
 
-```
-git tag -a 2.2.8 -m "message here" && git push origin stable --tags && git push staging stable
-```
+2. **Switch to a default theme:**
+    - Rename the `engage` theme folder to force WordPress to switch to a default theme.
+    - Disable all plugins except for ACF.
+    - Rename the theme back and reactivate it in WP Admin.
 
-6. #### _!!REMINDER:_ YOU MUST NOTIFY KAT BEFORE YOU PUSH ANY UPDATES TO THE LIVE SITE
+3. **Install Timber Dump Extension (if needed):**
 
-7. Push to the live site
+    ```bash
+    composer require hellonico/timber-dump-extension
+    ```
 
-```
-git push production stable
-```
+4. **Deactivate the Engaging Quiz Plugin:** It is known to cause issues.
 
-## Debug Local App Connection
+## Deployment (for project leads only)
 
-If you run into any issues with the Engage theme try some of these workarounds to get the site and wp-admin showing up.
+1. **Notify Kat** before pushing updates to the live site.
+2. Compile production assets:
 
-- Check the Local App setup:
+    ```bash
+    npm run production
+    ```
 
-  - If your Local App Web server is set to Apache switch the server to ngnix (this usually fixes the problem)
-  - PHP version above 8.1.0, something like 8.2.10.
+3. Push changes to the development site:
 
-- __Switch to WordPress default theme.__
+    ```bash
+    git push dev master
+    ```
 
-  1. If you cannot access wp-admin rename the theme in your project directory to something like `/engage-0`. This will make WordPress switch to the default theme.
-	
-  2. Disable all plugins except for Advanced Custom Fields (Engage theme depends on this plugin.)
-	
-  3. Reactivate the engage theme by renaming it back to `/engage` in the project directory.
-  
-     _This is an important step, as you will need WordPress to recognize the Engage theme so you can reactivate it on the WordPress dashboard at the Appearance/Themes page._
+4. Merge `master` into `stable`:
 
-- You might have to run `composer require hellonico/timber-dump-extension` to get the [Timber Dump Extension](https://github.com/nlemoine/timber-dump-extension#timber-dump-extension).
-	
-- __Deactivate the Engaging Quiz plugin__
+    ```bash
+    git checkout stable && git merge master
+    ```
 
-  - This plugin is notorious for causing issues, so keep it deactivated to mitigate any related issues.
+5. Tag and push to staging:
 
-## ACF Field Group Syncing Across Developers (acf-json directory)
+    ```bash
+    git tag -a 2.2.8 -m "message" && git push origin stable --tags && git push staging stable
+    ```
 
-### Setup Overview
+6. **Notify Kat** before pushing to the live site.
+7. Push to the live site:
 
-To ensure all developers have synchronized Advanced Custom Fields (ACF) field groups across environments, we've configured our project to automatically save field groups as JSON files in the `acf-json` directory. This allows us to track field group changes in Git and share them easily with the team.
+    ```bash
+    git push production stable
+    ```
 
-### Syncing ACF Fields Across Developers
+## ACF Field Group Syncing
 
-1. **Automatic JSON File Creation:**
-   - When you create or update a field group in the WordPress admin, a corresponding JSON file is automatically generated in the `acf-json` directory.
-   - This JSON file represents the configuration of the ACF field group and will be tracked by Git.
+### Overview
 
-2. **Pulling Changes:**
-   - To get the latest field group updates, simply pull the latest changes from the repository.
-   - The JSON files in `acf-json` will be updated, and ACF will automatically sync the field groups to your local environment.
+ACF field groups are automatically synced across environments via JSON files in the `acf-json` directory.
 
-3. **Editing and Updating Fields:**
-   - You can edit ACF field groups in the WordPress admin as needed.
-   - After saving any changes, a new or updated JSON file will be generated in the `acf-json` directory.
-   - Remember to commit and push these changes to the repository to share them with the rest of the team.
+### Steps to Sync:
 
-### Hiding ACF Admin in Production
+1. **Field group changes are automatically saved as JSON** in `acf-json` when updated in WP Admin.
+2. **Pull changes** from the repo to sync ACF fields on your local environment.
+3. **Commit and push** any changes after updating field groups to share them with the team.
 
-To prevent direct edits to ACF field groups on production:
+### Hiding ACF Admin in Production:
 
-- We've set up a conditional check in `functions.php` that hides the ACF admin interface in non-local environments.
-- The ACF admin interface will only be visible when `WP_ENVIRONMENT_TYPE` is set to `'local'`.
-- On production (or any environment with `WP_ENVIRONMENT_TYPE` set to `'production'` or similar), the ACF admin interface will be hidden.
+- The ACF admin is hidden on production and non-local environments by checking `WP_ENVIRONMENT_TYPE`. It is only visible in local environments.
+
+## Additional Information
+
+- [Timber Documentation](https://timber.github.io/docs/)
+- [Local Development](https://docs.mediaengagement.org/mediaengagement/#local-development)

@@ -1,4 +1,10 @@
 const mix = require('laravel-mix');
+// Each developer may have a different local development URL, 
+// to fix this, a configuration file (config.json, added to .gitignore) contains 
+// each developers Local App URL without affecting the shared codebase.
+const config = require('./config.json');
+
+const proxyUrl = config.proxy || 'https://default-url.local';
 if (!mix.inProduction()) {
   mix.webpackConfig({
     devtool: "inline-source-map",
@@ -10,7 +16,7 @@ mix
   .sass("assets/scss/app.scss", "dist/css")
   .sourceMaps() // Add this line to enable source maps for SCSS
   .browserSync({
-    proxy: "http://localhost:10028", // Replace with your local URL
+    proxy: proxyUrl,
     files: [
       "**/*.php",
       "dist/css/**/*.css",

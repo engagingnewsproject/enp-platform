@@ -56,6 +56,7 @@ local-phpinfo.php
 php.ini
 local-xdebuginfo.php
 LocalValetDriver.php
+wp-content/themes/engage-2-x/config.json
 
 # Editor
 **/.php-cs-fixer.php
@@ -120,3 +121,4 @@ phpunit.xml
 *.avi
 
 # Old ignored files & folders deleted
+wp-content/themes/engage-2-x/yarn.lock
