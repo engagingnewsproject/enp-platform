@@ -12,6 +12,11 @@
 	}
 	
 }
+
+.grid--auto {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
 @supports (display: flex) {
 	.grid {
 		@include media($phablet) {
@@ -54,4 +59,11 @@
 			grid-column-gap: 0;
 		}
 	}
+}
+
+
+// teammate container
+.container_team {
+	max-width: 1300px;
+	margin: auto;
 }

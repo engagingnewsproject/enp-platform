@@ -46,36 +46,48 @@ class TeamArchive extends TileArchive
     {
 
         parent::__construct($query, $options);
-        if(is_post_type_archive('team') && $this->vertical or $this->category) {
-            $vertical = get_query_var('verticals', false);
-        
-            switch ($vertical) {
-                case 'center-leadership':
-                    $this->regroupByACFField('team_leadership_center');
-                    break;
-                case 'journalism':
-                    $this->regroupByACFField('team_leadership_journalism');
-                    break;
-                case 'propaganda':
-                    $this->regroupByACFField('team_leadership_propaganda');
-                    break;
-                case 'media-ethics':
-                    $this->regroupByACFField('team_leadership_media_ethics');
-                    break;
-                case 'science-communication':
-                    $this->regroupByACFField('team_leadership_sci_comm');
-                    break;
-                default:
-                    if ($this->category && $this->slug == 'administrative-and-technology') {
-                        $this->regroupByACFField('team_leadership_admin_tech');
-                    } else {
-                        $this->regroupByDesignation();
-                    }
-                    break;
-            }
+        if(is_post_type_archive('team')) {
+            $this->regroupByCategory();
         } else {
-            usort($this->posts, [$this, 'lastNameCompare']);
+        // TODO: CAUSING ISSUES
+
+        $postsArray = iterator_to_array($this->posts);
+
+        usort($postsArray, [$this, 'lastNameCompare']);
+        $this->posts = $postsArray;
+
         }
+        // }
+        // if(is_post_type_archive('team') && $this->vertical or $this->category) {
+        //     $vertical = get_query_var('verticals', false);
+        
+        //     switch ($vertical) {
+        //         case 'center-leadership':
+        //             $this->regroupByACFField('team_leadership_center');
+        //             break;
+        //         case 'journalism':
+        //             $this->regroupByACFField('team_leadership_journalism');
+        //             break;
+        //         case 'propaganda':
+        //             $this->regroupByACFField('team_leadership_propaganda');
+        //             break;
+        //         case 'media-ethics':
+        //             $this->regroupByACFField('team_leadership_media_ethics');
+        //             break;
+        //         case 'science-communication':
+        //             $this->regroupByACFField('team_leadership_sci_comm');
+        //             break;
+        //         default:
+        //             if ($this->category && $this->slug == 'administrative-and-technology') {
+        //                 $this->regroupByACFField('team_leadership_admin_tech');
+        //             } else {
+        //                 $this->regroupByDesignation();
+        //             }
+        //             break;
+        //     }
+        // } else {
+        //     usort($this->posts, [$this, 'lastNameCompare']);
+        // }
     }
   
     /**
@@ -176,6 +188,56 @@ class TeamArchive extends TileArchive
         $this->posts = array_merge($ordered_leadership, $other_members);
     }
 
+      /**
+     * Returns an array of posts grouped by their category  (taxonomy terms) and then sorts each group alphabetically by last name.
+     *
+     * 
+     *
+     * @return void
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+     /**
+     * Reorganizes posts by their category  (taxonomy terms) and then sorts each group alphabetically by last name.
+     *
+     * Fetches the 'team_category' term for each post and groups them by their slug.
+     * The posts are then sorted within each group alphabetically by last name.
+     *
+     * @return void
+     */
+    public function regroupByCategory()
+    {
+        $postsArray = iterator_to_array($this->posts);
+        // usort($postsArray, [$this, 'desigOrderCompare']);
+        $groups = [];
+        // Splits the queried posts by category, using the slugs as keys
+        foreach($postsArray as $post) {
+            $design_slug = '';
+            if(!empty($post->getTermCat()[0])) {
+                $design_slug = $post->getTermCat()[0]->slug;
+                // var_dump( $design_slug );
+            }
+
+            // Adds team members to group based on their category
+            if (!array_key_exists($design_slug, $groups)) {
+                $groups[$design_slug] = [$post];
+            } else {
+                array_push($groups[$design_slug], $post);
+            }
+        }
+
+        // Sorts each designation group alphabetically then merges back to posts
+        $this->posts = [];
+        foreach($groups as $group) {
+            usort($group, [$this, 'lastNameCompare']);
+            // $this->posts = array_merge($this->posts, $group);
+            // $this->categories = ['Principal Investigators', 'Staff', 'Student Researchers', 'Research Collaborators', 'Board', 'Alumni'];
+        }
+        $this->posts = $groups;
+    }
     /**
      * Reorganizes posts by their designation (taxonomy terms) and then sorts each group alphabetically by last name.
      *

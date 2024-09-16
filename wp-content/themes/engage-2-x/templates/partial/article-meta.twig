@@ -109,6 +109,8 @@
 	{% endif %}
 
 	{# Include social share buttons or other sharing options. #}
-	{% include 'partial/share.twig' %}
+	{% if post.post_type != 'team' %}
+		{% include 'partial/share.twig' %}
+	{% endif %}
 
 </div>
