@@ -285,7 +285,15 @@
 						sizes="{{ get_image(main.background_image).img_sizes }}"
 						alt="{{ get_image(main.background_image).alt }}" />
 				{% endif %}
-
+			{# LANDING #}
+			{% elseif main.acf_fc_layout == 'landing' %}
+				<section class="ann__landing ann__landing_background" style="{% if main.landing_background_image %}background-image:url({{ get_image(main.landing_background_image).src }});{% endif %}">
+				{% if main.landing_header %}
+					<h1 class="ann__landing_header">
+						{{ main.landing_header }}
+					</h1>
+				{% endif %}
+				</section>
 			{% endif %}
 				
 		{% endfor %}
