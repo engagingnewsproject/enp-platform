@@ -629,3 +629,10 @@
 	}
 }
 // END modifiers
+
+.ann_pg3_grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr;
+	column-gap: 20px;
+}
