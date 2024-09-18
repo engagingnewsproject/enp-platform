@@ -109,6 +109,68 @@
 			grid-row-gap: 20px;
 			
 		}
+    &_parallax {
+      perspective: 1px;
+      height: 100vh;
+      overflow-x: hidden;
+      overflow-y: hidden;
+
+      .ann__sct_parallax__group {
+        position: relative;
+        transform-style: preserve-3d;
+        height: 120vh;
+        z-index: 5;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+      }
+
+      .ann__sct_parallax__container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        color: $white;
+        transform: translateZ(0);
+        z-index: 4;
+				width: 50%;
+
+				opacity: 0;
+				animation: slideInFadeIn 1.5s forwards;
+      }
+
+			.ann__sct_parallax__container > h1 {
+				margin: 2.5rem auto;
+				display: flex;
+				flex-direction: column;
+				gap: 4rem;
+			}
+			
+			.ann__sct_parallax__container > h1 > p {
+				margin-bottom: 0;
+			}
+
+			.ann__sct_parallax-bar {
+				width: 50%;
+        height: 6px;
+        border: none;
+        margin: 0;
+
+				transform: scaleX(0);
+				animation: parallaxBarScale 1.5s 0.85s forwards;
+			}
+
+      .ann__sct_parallax__layer--back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        transform: translateZ(-1px) scale(2);
+        z-index: 1;
+      }
+    }
 		&_quote {
 			@include media($desktop) {
 				min-height: 100vh;
@@ -148,6 +210,7 @@
 					font-size: 30px;
 					max-width: 50vw;
 				}
+			}
 			}
 		}
 		&_tiles {
@@ -236,7 +299,7 @@
 				margin: 0 auto;
 			}
 		}
-	}
+
 }
 
 .ann__sct_quote {
@@ -247,6 +310,13 @@
 	@include media($tablet) {
 			background-size: 50%;
 	}
+}
+
+.ann__sct_parallax {
+	perspective: 1px;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .ann__sct_faculty {
@@ -629,3 +699,9 @@
 	}
 }
 // END modifiers
+@keyframes fadeIn {
+	to {
+		opacity: 1;
+		transform: translateY(0px);
+	}
+}
