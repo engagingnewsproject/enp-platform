@@ -2,6 +2,7 @@
 {% block brandbar %}{% endblock %}
 {% block header %}
 	{# HEADER #}
+
 	{% if post.meta('header_image_enabled') %}
 		<header class="ann__header">
 			<div class="ann__header-wrapper">
@@ -16,6 +17,7 @@
 				{% endif %}
 			</div>
 		</header>	
+
 	{% endif %}
 {% endblock %}
 {% block content %}
@@ -28,8 +30,7 @@
 			{% if main.acf_fc_layout == 'director' %}
 				<section class="ann__sct ann__sct_split wrapper--pad-huge">
 					<div class="ann__block flex_row">
-						<div class="ann__card" {% if main.background_color %} style="background-color:{{ main.background_color }};" {% endif %}>
-							{% if main.director_image %}
+						<div class="ann 
 								<div class="ann__img-wrap">
 									<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__img-director"/>
 								</div>
@@ -277,9 +278,9 @@
 					</footer>
 					{# PARALLAX #}
 				{% elseif main.acf_fc_layout == 'parallax' %}
-					<section class="ann__sct ann__sct_parallax" id='ann__sct_parallax'>
-						<div class=" ann__sct_parallax__layer--back" style=" {% if main.parallax_image %} background-image:url({{ get_image(main.parallax_image).src }});{% endif %} "></div>
+					<section class="ann__sct ann__sct_parallax">
 						<div class="ann__sct_parallax__group">
+							<div class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});background-position:center;background-repeat:no-repeat;background-size:cover;width:100%;height:100%;{% endif %}"></div>
 							<div class="ann__sct_parallax__container">
 								{% if main.parallax_text %}
 									{% if main.parallax_bar %}
@@ -291,66 +292,13 @@
 							{% endif %}
 						{% endif %}
 					</div>
-					{% if main.gift_button_text %}
-						<div class="ann__gift_btn">
-							<a href="{{ main.gift_button_url }}" class="btn--ghost">
-								{{ main.gift_button_text }}
-							</a>
-						</div>
-					{% endif %}
-				</footer>
-			{# PARALLAX #} 
-			{% elseif main.acf_fc_layout == 'parallax' %}
-				TESTING-- <pre>PARALLAX LAYOUT YES</pre>
-				{% if main.background_image %}
-					<img src="{{ get_image(main.background_image).src }}" 
-						sizes="{{ get_image(main.background_image).img_sizes }}"
-						alt="{{ get_image(main.background_image).alt }}" />
-				{% endif %}
-			{# LANDING #}
-			{% elseif main.acf_fc_layout == 'landing' %}
-				<section class="ann__landing ann__landing_background" style="{% if main.landing_background_image %}background-image:url({{ get_image(main.landing_background_image).src }});{% endif %}">
-					<div class="ann__landing_circle_container">
-						<svg class="ann__landing_circle_svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-							<path class="ann__landing_circle ann__landing_half_circle_dashed ann__landing_rotate_81" d="M 10,100 A 50,50 0 0,1 190,100" />
-							<path class="ann__landing_circle ann__landing_half_circle_blue ann__landing_rotate_counter_90" d="M 20,100 A 70,70 0 0,1 180,100" />
-							<path class="ann__landing_circle ann__landing_half_circle_orange ann__landing_rotate_counter_95" d="M 28,100 A 60,60 0 0,1 172,100" />
-							<path class="ann__landing_circle ann__landing_half_circle_yellow ann__landing_rotate_85" d="M 40,100 A 50,50 0 0,1 160,100" />
-						</svg>
-						<svg class="ann__landing_circle_logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 200">
-							<g fill="none" fill-rule="evenodd" font-style="condensed" font-weight="bold">
-								<text class="ann__landing_circle_cme ann__landing_fade_in ann__landing_fade_in_delay_1" fill="#AE542D" font-size="24" letter-spacing="0">
-									<tspan x="0" y="48">CENTER FOR MEDIA ENGAGEMENT</tspan>
-								</text>
-								<text class="ann__landing_circle_2023 ann__landing_fade_in ann__landing_fade_in_delay_2" fill="#3C4952" font-size="160" letter-spacing=".31">
-									<tspan x="0" y="198">2023</tspan>
-								</text>
-							</g>
-						</svg>
-					</div>
-					
-					<div>
-						{% if main.landing_header_top is defined and main.landing_header_top and main.landing_header_bottom is defined and main.landing_header_bottom %}
-						<div class="ann__landing_header_container ann__landing_fade_in_and_up_delay_1">
-							<h1 class="ann__landing_header">
-								<span class="ann__landing_header_top ann__landing_fade_in_and_up_delay_1">{{ main.landing_header_top }}</span>
-								<span class="ann__landing_header_bottom ann__landing_fade_in_and_up_delay_2">{{ main.landing_header_bottom }}</span>
-							</h1>
-						</div>
-						{% endif %}
+				</div>
+			</section>
+		{% endif %}
 
-						{% if main.landing_logo_image %}
-							<img  src="{{ get_image(main.landing_logo_image).src }}" srcset="{{ get_image(main.landing_logo_image).srcset }}" sizes="{{ get_image(main.landing_logo_image).img_sizes }}" alt="{{ get_image(main.landing_logo_image).alt }}" class="ann__landing_logo ann__landing_fade_in_and_up_delay_3" />
-						{% endif %}
-					</div>
-				</section>
-			{% endif %}
-				
-		{% endfor %}
+	{% endfor %}
 
-	</section>
-	{% block footer %}
-		{{ function('wp_footer') }}
-	{% endblock %}
-
-{% endblock content %}
+</section>
+{% block footer %}
+	{{ function('wp_footer') }}
+{% endblock %}{% endblock content %}
