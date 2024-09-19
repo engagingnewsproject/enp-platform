@@ -178,11 +178,102 @@
                             "toolbar": "full",
                             "media_upload": 0,
                             "delay": 0
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_66eaf22511737": {
+                    "key": "layout_66eaf22511737",
+                    "name": "page_3",
+                    "label": "Page 3",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_66eaf22511738",
+                            "label": "Background color",
+                            "name": "background_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "#f8971f",
+                            "enable_opacity": 0,
+                            "return_format": "string"
                         },
                         {
-                            "key": "field_66e9f0b9d1f5e",
-                            "label": "content_1",
-                            "name": "content_1",
+                            "key": "field_66eaf22511739",
+                            "label": "Title",
+                            "name": "director_title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "From the Director",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_66eaf2251173a",
+                            "label": "Title color",
+                            "name": "title_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "#ff9900",
+                            "enable_opacity": 0,
+                            "return_format": "string"
+                        },
+                        {
+                            "key": "field_66eaf2251173b",
+                            "label": "Image",
+                            "name": "director_image",
+                            "aria-label": "",
+                            "type": "image",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "id",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "preview_size": "medium"
+                        },
+                        {
+                            "key": "field_66eaf2621173d",
+                            "label": "paragraph_1",
+                            "name": "paragraph_1",
                             "aria-label": "",
                             "type": "wysiwyg",
                             "instructions": "",
@@ -200,9 +291,9 @@
                             "delay": 0
                         },
                         {
-                            "key": "field_66e9f0c8d1f5f",
-                            "label": "content_2",
-                            "name": "content_2",
+                            "key": "field_66eaf26c1173e",
+                            "label": "paragraph_2",
+                            "name": "paragraph_2",
                             "aria-label": "",
                             "type": "wysiwyg",
                             "instructions": "",
@@ -220,9 +311,9 @@
                             "delay": 0
                         },
                         {
-                            "key": "field_66e9f0f7d1f60",
-                            "label": "content_3",
-                            "name": "content_3",
+                            "key": "field_66eaf2761173f",
+                            "label": "paragraph_3",
+                            "name": "paragraph_3",
                             "aria-label": "",
                             "type": "wysiwyg",
                             "instructions": "",
@@ -1408,9 +1499,9 @@
                     "max": ""
                 }
             },
-            "button_label": "Add Section",
             "min": "",
-            "max": ""
+            "max": "",
+            "button_label": "Add Section"
         }
     ],
     "location": [
@@ -1438,5 +1529,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1726610297
+    "modified": 1726673548
 }

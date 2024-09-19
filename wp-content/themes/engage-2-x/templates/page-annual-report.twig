@@ -24,49 +24,29 @@
 		{% for main in post.meta('main') %}
 			{# DIRECTOR #}
 			{% if main.acf_fc_layout == 'director' %}
-			<section class="ann_pg3_grid">
-					{# Left column - 1 column, 3 rows #}
-						<div class="grid grid_1col_3row">
-							<div class="grid__item">
-								{% if main.director_title %}
-									<h2 class="ann__title" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.director_title }}</h2>
-								{% endif %}
-							</div>
-							<div class="grid__item">
-								{% if main.content_1 %}
-									<div class="ann__content">
-										{{ main.content_1 }}
-									</div>
-								{% endif %}
-							</div>
-							<div class="grid__item">
-								{% if main.content_2 %}
-									<div class="ann__content">
-										{{ main.content_2 }}
-									</div>
-								{% endif %}
-							</div>
-						</div>
-
-					{# Right column - 1 column, 2 rows #}
-						<div class="grid grid_1col_2row">
-							<div class="grid__item">
+				<section class="ann__sct ann__sct_split wrapper--pad-huge">
+						<div class="ann__block flex_row">
+							<div class="ann__card"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
 								{% if main.director_image %}
-									<div class="">
-										<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__img"/>
+									<div class="ann__img-wrap">
+										<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__img-director"/>
 									</div>
 								{% endif %}
-							</div>
-							<div class="grid__item">
-								{% if main.content_3 %}
-									<div class="ann__content">
-										{{ main.content_3 }}
+								{% if main.director_title %}
+									<div class="ann__title ann__title_center">
+										<h2 class="m--no"{% if main.title_color %} style="color:{{ main.title_color }};"{% endif %}>{{ main.director_title }}</h2>
 									</div>
 								{% endif %}
 							</div>
 						</div>
-			</section>
-
+						{% if main.director_content %}
+							<div class="grid">
+								<div class="ann__content_size_sm">
+									{{ main.director_content }}
+								</div>
+							</div>
+						{% endif %}
+					</section>
 			
 			{# RESEARCH #}
 			{% elseif main.acf_fc_layout == 'research' %}
@@ -306,6 +286,50 @@
 						alt="{{ get_image(main.background_image).alt }}" />
 				{% endif %}
 
+			{# Page 3 #}
+			{% elseif main.acf_fc_layout == 'page_3' %}
+				<section class="ann__pg3">
+					{# Left column - 1 column, 3 rows #}
+						<div class="grid grid_1col_3row">
+							<div class="grid__item">
+								{% if main.director_title %}
+									<h2 class="ann__title" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.director_title }}</h2>
+								{% endif %}
+							</div>
+							<div class="grid__item">
+								{% if main.paragraph_1 %}
+									<div class="ann__content">
+										{{ main.paragraph_1 }}
+									</div>
+								{% endif %}
+							</div>
+							<div class="grid__item">
+								{% if main.paragraph_2 %}
+									<div class="ann__content">
+										{{ main.paragraph_2 }}
+									</div>
+								{% endif %}
+							</div>
+						</div>
+
+					{# Right column - 1 column, 2 rows #}
+						<div class="grid grid_1col_2row">
+							<div class="grid__item">
+								{% if main.director_image %}
+									<div class="ann__pg3_img_div">
+										<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__pg3_img"/>
+									</div>
+								{% endif %}
+							</div>
+							<div class="grid__item">
+								{% if main.paragraph_3 %}
+									<div class="ann__pg3_paragraph_3">
+										{{ main.paragraph_3 }}
+									</div>
+								{% endif %}
+							</div>
+						</div>
+				</section>
 			{% endif %}
 				
 		{% endfor %}

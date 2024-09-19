@@ -630,9 +630,25 @@
 }
 // END modifiers
 
-.ann_pg3_grid {
+
+.ann__pg3_paragraph_3 {
+	margin-top: 1.6rem;
+}
+.ann__pg3_img {
+	max-width: 75%;
+	margin-top: 7.5rem;
+}
+.ann__pg3_img_div {
+	display: flex;
+	justify-content: center;
+}
+
+.ann__pg3 {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 1fr;
-	column-gap: 20px;
+	place-items: center;
+	max-width: 50rem;
+    margin: 0 auto;
+	column-gap: 5rem;
 }
