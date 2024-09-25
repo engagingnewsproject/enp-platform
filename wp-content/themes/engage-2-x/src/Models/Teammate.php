@@ -129,6 +129,14 @@ class Teammate extends Article
         return $this->link_option;
     }
 
+    public function getMemberDisplayLink()
+    {
+        if ($this->member_link_option == false) {
+            $this->member_link_option = get_post_meta($this->ID, 'member_display_link', true);
+        }
+        return $this->member_link_option;
+    }
+
     /**
      * Gets the vertical associated with the team member.
      *
