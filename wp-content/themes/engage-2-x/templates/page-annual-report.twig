@@ -2,19 +2,21 @@
 {% block brandbar %}{% endblock %}
 {% block header %}
 	{# HEADER #}
-	<header class="ann__header">
-		<div class="ann__header-wrapper">
-			{% if post.thumbnail %}
-				<img src="{{ post.thumbnail.src | resize(500,300) }}" srcset="{{ post.thumbnail.srcset }}" sizes="{{ post.thumbnail.img_sizes }}" alt="{{ post.thumbnail.alt }}" class="ann__header-img"/>
-			{% endif %}
-			{% if post.meta('download_report_button_url') %}
-				<a href="{{ post.meta('download_report_button_url') }}" class="btn btn--annual-report" download>
-					{% include "partial/cloud.twig" %}
-					<span>{{ post.meta('download_report_button') }}</span>
-				</a>
-			{% endif %}
-		</div>
-	</header>
+	{% if post.meta('header_image_enabled') %}
+		<header class="ann__header">
+			<div class="ann__header-wrapper">
+				{% if post.thumbnail %}
+					<img src="{{ post.thumbnail.src | resize(500,300) }}" srcset="{{ post.thumbnail.srcset }}" sizes="{{ post.thumbnail.img_sizes }}" alt="{{ post.thumbnail.alt }}" class="ann__header-img"/>
+				{% endif %}
+				{% if post.meta('download_report_button_url') %}
+					<a href="{{ post.meta('download_report_button_url') }}" class="btn btn--annual-report" download>
+						{% include "partial/cloud.twig" %}
+						<span>{{ post.meta('download_report_button') }}</span>
+					</a>
+				{% endif %}
+			</div>
+		</header>	
+	{% endif %}
 {% endblock %}
 {% block content %}
 
