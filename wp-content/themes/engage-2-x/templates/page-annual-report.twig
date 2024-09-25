@@ -139,16 +139,16 @@
 
 			{# FALCULTY #}
 			{% elseif main.acf_fc_layout == 'faculty' %}
-				<section class="ann__sct ann__sct_whole testing ann__sct_grid_pt wrapper--pad-xlg {% if main.annual_report_year == "2022" %} ann__sct_faculty{% endif %}">
+				<section class="ann__sct ann__sct_whole ann__sct_grid_pt wrapper--pad-xlg ann__sct_faculty">
 					{% if main.faculty_title %}
-						<div class="{% if main.annual_report_year == "2023" %}ann__title_main ann__title_orange {% else %}ann__title ann__title_main{% endif %}">
+						<div class="ann__title ann__title_main">
 							<h2>{{ main.faculty_title }}</h2>
 						</div>
 					{% endif %}
 					{% if main.faculty_bolded_title %}
 						<div class="ann__title_bolded ann__title_orange">{{main.faculty_bolded_title}} </div>
 					{% endif %}
-					<ul class="grid ann__list {% if main.annual_report_year == "2023" %}three-columns {% endif %}">
+					<ul class="grid ann__list">
 						{% for member in main.members %}
 							<li class="ann__list_item grid">
 								{% if member.member_image %}

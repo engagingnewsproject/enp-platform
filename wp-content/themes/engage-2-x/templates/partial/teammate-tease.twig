@@ -13,11 +13,11 @@
 
 {% if mate %}
 	<div
-		class="mate{{ mate.member_image ? ' mate--has-img'}} mate--tease grid grid--col-12{{status}}">
+		class="{{ mate.member_image ? ' mate--has-img'}} mate--tease grid grid--col-12{{status}}">
 
 		{# Conditional link wrapping based on the post type (e.g., research or page) #}
 		{% if post.post_type == 'research' or post.post_type == 'page' %}
-			{% if mate.member_image and mate.terms('team_category') | join(', ') != "Former CME" %}
+			{% if mate.getDisplayLink %}
 				<a class="mate-tease__link" href="{{site.url}}/team/{{mate.slug}}/"></a>
 			{% endif %}
 		{% endif %}
@@ -32,7 +32,6 @@
 				<img class="mate__img member--image" src="{{ image.src }}" alt="{{ image.alt }}"/>
 			</div>
 		{% endif %}
-
 		{# Display the team member's name, with a fallback to 'researcher.name' or 'mate' #}
 		<div class="mate__content{{status}}">
 			<p class="mate__name">{{ researcher.name|default(mate) }}</p>

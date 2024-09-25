@@ -353,7 +353,7 @@
 		padding-left: 0;
 		margin-left: 0;
 		@include media($tablet) {
-			grid-template-columns: auto 1fr;
+			grid-template-columns: 1fr 1fr;
 			padding-left: 10rem;
 		}
 	}
