@@ -1,0 +1,47 @@
+{
+    "key": "group_5cb4b258697f1",
+    "title": "Team Member Category",
+    "fields": [
+        {
+            "key": "field_5cb4b2bf7f426",
+            "label": "Index",
+            "name": "index",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "Index that the post category will appear. 0 comes first.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "min": "",
+            "max": "",
+            "step": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "taxonomy",
+                "operator": "==",
+                "value": "team_category"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1727312364
+}

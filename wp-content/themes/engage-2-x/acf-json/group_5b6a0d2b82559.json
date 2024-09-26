@@ -1,0 +1,142 @@
+{
+    "key": "group_5b6a0d2b82559",
+    "title": "Archive Landing Pages",
+    "fields": [
+        {
+            "key": "field_5b6a0d3da7efc",
+            "label": "Landing Pages",
+            "name": "archive_landing_pages",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "Add Row",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_5b6a0d54a7efd",
+                    "label": "Landing Page Type",
+                    "name": "landing_slug",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "research": "research",
+                        "verticals": "verticals"
+                    },
+                    "default_value": false,
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "ui": 1,
+                    "ajax": 0,
+                    "return_format": "array",
+                    "placeholder": "",
+                    "parent_repeater": "field_5b6a0d3da7efc"
+                },
+                {
+                    "key": "field_5b6b45fbabed2",
+                    "label": "Landing Vertical",
+                    "name": "landing_vertical",
+                    "aria-label": "",
+                    "type": "taxonomy",
+                    "instructions": "Is this an intro page for a vertical sub category of another post type? Like if this is all the Research for Journalism (\/research\/?vertical=journalism). This is confusing. Sorry...",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "taxonomy": "verticals",
+                    "field_type": "select",
+                    "allow_null": 1,
+                    "add_term": 0,
+                    "save_terms": 0,
+                    "load_terms": 0,
+                    "return_format": "object",
+                    "multiple": 0,
+                    "bidirectional_target": [],
+                    "parent_repeater": "field_5b6a0d3da7efc"
+                },
+                {
+                    "key": "field_5b6a0db8a7efe",
+                    "label": "Landing Page Title",
+                    "name": "landing_page_title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": "",
+                    "parent_repeater": "field_5b6a0d3da7efc"
+                },
+                {
+                    "key": "field_5b6a0dc6a7eff",
+                    "label": "Landing Page Content",
+                    "name": "landing_page_content",
+                    "aria-label": "",
+                    "type": "wysiwyg",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "tabs": "all",
+                    "toolbar": "basic",
+                    "media_upload": 0,
+                    "delay": 1,
+                    "parent_repeater": "field_5b6a0d3da7efc"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "acf-options"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1727312307
+}
