@@ -9,7 +9,7 @@
             "aria-label": "",
             "type": "text",
             "instructions": "",
-            "required": 1,
+            "required": 0,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
@@ -17,11 +17,10 @@
                 "id": ""
             },
             "default_value": "",
+            "maxlength": "",
             "placeholder": "",
             "prepend": "",
-            "append": "",
-            "formatting": "html",
-            "maxlength": ""
+            "append": ""
         },
         {
             "key": "field_535e5b2a85a22",
@@ -106,7 +105,7 @@
             "placeholder": ""
         },
         {
-            "key": "field_66e136dc07c2b",
+            "key": "field_66f6d641ef359",
             "label": "Member Display Link",
             "name": "member_display_link",
             "aria-label": "",
@@ -155,5 +154,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1726035747
+    "modified": 1727452883
 }
