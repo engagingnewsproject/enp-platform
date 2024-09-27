@@ -17,7 +17,15 @@
 	{# Display team member's image if available #}
 	{% if mate.thumbnail.src('thumbnail') | length > 0 %}
 		<div class="mate__img-wrap">
-			<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
+			{% set img_tag = '<img class="mate__img" src="' ~ mate.thumbnail.src('thumbnail') ~ '" alt="' ~ mate.thumbnail.alt ~ '"/>' %}
+			
+			{% if mate.getDisplayLink %}
+				<a class="mate__name" href="{{ mate.link }}">
+					{{ img_tag | raw }}
+				</a>
+			{% else %}
+				{{ img_tag | raw }}
+			{% endif %}
 		</div>
 	{% endif %}
 	<div
@@ -30,9 +38,9 @@
 				{% if mate.getExternalLink != "" %}
 					{% if mate.getLinkOption != "" %}
 						{# Link redirects to an external page instead of an internal bio page if 'external_link_checkbox' is set #}
-						<a class="mate__name" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>
+						<a class="mate__name a" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>
 					{% else %}
-						<a class="mate__name" href="{{ mate.link }}">{{ mate.title }}</a>
+						<a class="mate__name b" href="{{ mate.link }}">{{ mate.title }}</a>
 					{% endif %}
 				{% else %}
 					<a class="mate__name" href="{{ mate.link }}">{{ mate.title }}</a>
