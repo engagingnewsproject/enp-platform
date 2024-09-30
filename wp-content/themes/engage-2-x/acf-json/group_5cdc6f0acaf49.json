@@ -24,31 +24,6 @@
             "maxlength": ""
         },
         {
-            "key": "field_535e5b2a85a22",
-            "label": "Member Image",
-            "name": "member_image",
-            "aria-label": "",
-            "type": "image",
-            "instructions": "You don't have to upload an image here. Use the \"Featured Image\" on the right sidebar instead :)",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "return_format": "url",
-            "preview_size": "thumbnail",
-            "library": "all",
-            "min_width": "",
-            "min_height": "",
-            "min_size": "",
-            "max_width": "",
-            "max_height": "",
-            "max_size": "",
-            "mime_types": ""
-        },
-        {
             "key": "field_5a6b776d9f657",
             "label": "Member Email",
             "name": "member_email",
@@ -106,7 +81,7 @@
             "placeholder": ""
         },
         {
-            "key": "field_66e136dc07c2b",
+            "key": "field_66f5d566adcc3",
             "label": "Member Display Link",
             "name": "member_display_link",
             "aria-label": "",
@@ -155,5 +130,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1726035747
+    "modified": 1727721114
 }
