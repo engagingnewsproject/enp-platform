@@ -21,6 +21,26 @@
             "esc_html": 0
         },
         {
+            "key": "field_66f44050380b7",
+            "label": "Header image enabled",
+            "name": "header_image_enabled",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Enables the header image",
+            "default_value": 1,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
             "key": "field_61aebcbcc13bc",
             "label": "Download Report Button",
             "name": "download_report_button",
@@ -54,7 +74,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "https:\/\/mediaengagement.org\/wp-content\/uploads\/2021\/03\/CME-2020-Annual-Report.pdf",
+            "default_value": "http:\/\/localhost:10005\/wp-content\/uploads\/2021\/03\/CME-2020-Annual-Report.pdf",
             "placeholder": ""
         },
         {
@@ -246,7 +266,6 @@
                             "max": 0,
                             "layout": "block",
                             "button_label": "Add Icon",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_61ae9c85e24a8",
@@ -337,7 +356,8 @@
                                     "new_lines": "",
                                     "parent_repeater": "field_61ae9c68e24a7"
                                 }
-                            ]
+                            ],
+                            "rows_per_page": 20
                         }
                     ],
                     "min": "",
@@ -388,7 +408,6 @@
                             "max": 0,
                             "layout": "block",
                             "button_label": "Add tile",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_61afc4b75b35a",
@@ -458,7 +477,8 @@
                                     "delay": 0,
                                     "parent_repeater": "field_61afc4a75b359"
                                 }
-                            ]
+                            ],
+                            "rows_per_page": 20
                         }
                     ],
                     "min": "",
@@ -491,26 +511,6 @@
                             "maxlength": ""
                         },
                         {
-                            "key": "field_66c7832d9db9c",
-                            "label": "Faculty Bolded Title",
-                            "name": "faculty_bolded_title",
-                            "aria-label": "",
-                            "type": "text",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
-                        },
-                        {
                             "key": "field_61aea7d8c0188",
                             "label": "Members",
                             "name": "members",
@@ -529,7 +529,6 @@
                             "max": 0,
                             "layout": "table",
                             "button_label": "Add Row",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_61aea827c018a",
@@ -617,7 +616,8 @@
                                     "mime_types": "",
                                     "parent_repeater": "field_61aea7d8c0188"
                                 }
-                            ]
+                            ],
+                            "rows_per_page": 20
                         }
                     ],
                     "min": "",
@@ -1004,256 +1004,6 @@
                     "min": "",
                     "max": ""
                 },
-                "layout_66c765ebfc24c": {
-                    "key": "layout_66c765ebfc24c",
-                    "name": "impact",
-                    "label": "Impact",
-                    "display": "block",
-                    "sub_fields": [
-                        {
-                            "key": "field_66c765ebfc24e",
-                            "label": "Impact Title",
-                            "name": "impact_title",
-                            "aria-label": "",
-                            "type": "text",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "100",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
-                        },
-                        {
-                            "key": "field_66c76b7a08114",
-                            "label": "Impact Bolded Title",
-                            "name": "impact_bolded_title",
-                            "aria-label": "",
-                            "type": "text",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
-                        },
-                        {
-                            "key": "field_66c76b4f08111",
-                            "label": "Highlight Section",
-                            "name": "highlight_section",
-                            "aria-label": "",
-                            "type": "repeater",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "layout": "table",
-                            "min": 0,
-                            "max": 0,
-                            "collapsed": "",
-                            "button_label": "Add Row",
-                            "rows_per_page": 20,
-                            "sub_fields": [
-                                {
-                                    "key": "field_66c76b5b08112",
-                                    "label": "Section Title",
-                                    "name": "section_title",
-                                    "aria-label": "",
-                                    "type": "text",
-                                    "instructions": "",
-                                    "required": 0,
-                                    "conditional_logic": 0,
-                                    "wrapper": {
-                                        "width": "",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "default_value": "",
-                                    "maxlength": "",
-                                    "placeholder": "",
-                                    "prepend": "",
-                                    "append": "",
-                                    "parent_repeater": "field_66c76b4f08111"
-                                },
-                                {
-                                    "key": "field_66c76b6308113",
-                                    "label": "Section Body",
-                                    "name": "section_body",
-                                    "aria-label": "",
-                                    "type": "wysiwyg",
-                                    "instructions": "",
-                                    "required": 0,
-                                    "conditional_logic": 0,
-                                    "wrapper": {
-                                        "width": "",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "default_value": "",
-                                    "tabs": "all",
-                                    "toolbar": "full",
-                                    "media_upload": 1,
-                                    "delay": 0,
-                                    "parent_repeater": "field_66c76b4f08111"
-                                }
-                            ]
-                        }
-                    ],
-                    "min": "",
-                    "max": ""
-                },
-                "layout_66c765e6fc242": {
-                    "key": "layout_66c765e6fc242",
-                    "name": "research",
-                    "label": "Research",
-                    "display": "block",
-                    "sub_fields": [
-                        {
-                            "key": "field_66c765e6fc243",
-                            "label": "Research Title",
-                            "name": "research_title",
-                            "aria-label": "",
-                            "type": "text",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "100",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
-                        },
-                        {
-                            "key": "field_66c7a6a2ce2bb",
-                            "label": "Research Bolded Title",
-                            "name": "research_bolded_title",
-                            "aria-label": "",
-                            "type": "text",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
-                        },
-                        {
-                            "key": "field_66c765e6fc244",
-                            "label": "Research subtext",
-                            "name": "research_subtext",
-                            "aria-label": "",
-                            "type": "wysiwyg",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "100",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "tabs": "visual",
-                            "toolbar": "basic",
-                            "media_upload": 0,
-                            "delay": 0
-                        },
-                        {
-                            "key": "field_66c7a630ce2b8",
-                            "label": "Research Block",
-                            "name": "research_block",
-                            "aria-label": "",
-                            "type": "repeater",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "layout": "block",
-                            "min": 0,
-                            "max": 0,
-                            "collapsed": "",
-                            "button_label": "Add Row",
-                            "rows_per_page": 20,
-                            "sub_fields": [
-                                {
-                                    "key": "field_66ccc8072fadc",
-                                    "label": "Research Title",
-                                    "name": "research_title",
-                                    "aria-label": "",
-                                    "type": "text",
-                                    "instructions": "",
-                                    "required": 0,
-                                    "conditional_logic": 0,
-                                    "wrapper": {
-                                        "width": "",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "default_value": "",
-                                    "maxlength": "",
-                                    "placeholder": "",
-                                    "prepend": "",
-                                    "append": "",
-                                    "parent_repeater": "field_66c7a630ce2b8"
-                                },
-                                {
-                                    "key": "field_66ccc8122fadd",
-                                    "label": "Research Body",
-                                    "name": "research_body",
-                                    "aria-label": "",
-                                    "type": "text",
-                                    "instructions": "",
-                                    "required": 0,
-                                    "conditional_logic": 0,
-                                    "wrapper": {
-                                        "width": "",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "default_value": "",
-                                    "maxlength": "",
-                                    "placeholder": "",
-                                    "prepend": "",
-                                    "append": "",
-                                    "parent_repeater": "field_66c7a630ce2b8"
-                                }
-                            ]
-                        }
-                    ],
-                    "min": "",
-                    "max": ""
-                },
                 "layout_61aeb4f729398": {
                     "key": "layout_61aeb4f729398",
                     "name": "footer",
@@ -1299,7 +1049,6 @@
                             "max": 0,
                             "layout": "table",
                             "button_label": "Add Row",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_6392938dc896a",
@@ -1370,7 +1119,8 @@
                                     "placeholder": "",
                                     "parent_repeater": "field_61aeb5302939a"
                                 }
-                            ]
+                            ],
+                            "rows_per_page": 20
                         },
                         {
                             "key": "field_61aeb5752939d",
@@ -1438,7 +1188,6 @@
                             "max": 0,
                             "layout": "table",
                             "button_label": "Add Tile",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_61aec17c653a2",
@@ -1567,8 +1316,6 @@
                                     "max": 0,
                                     "layout": "table",
                                     "button_label": "Add link",
-                                    "rows_per_page": 20,
-                                    "parent_repeater": "field_61aec13b653a1",
                                     "sub_fields": [
                                         {
                                             "key": "field_61aec2f7653a8",
@@ -1609,9 +1356,112 @@
                                             "placeholder": "",
                                             "parent_repeater": "field_61aec2d7653a7"
                                         }
-                                    ]
+                                    ],
+                                    "rows_per_page": 20,
+                                    "parent_repeater": "field_61aec13b653a1"
                                 }
-                            ]
+                            ],
+                            "rows_per_page": 20
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_66e44a43cc620": {
+                    "key": "layout_66e44a43cc620",
+                    "name": "landing",
+                    "label": "Landing",
+                    "display": "table",
+                    "sub_fields": [
+                        {
+                            "key": "field_66e8a60557793",
+                            "label": "Header top",
+                            "name": "landing_header_top",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "Text for the top line of the header",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "Annual",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_66e44a961307a",
+                            "label": "Header bottom",
+                            "name": "landing_header_bottom",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "Text for the bottom line of the header",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "Report",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_66e893773d019",
+                            "label": "Background image",
+                            "name": "landing_background_image",
+                            "aria-label": "",
+                            "type": "image",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "id",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "preview_size": "medium"
+                        },
+                        {
+                            "key": "field_66e9f8eb22ef6",
+                            "label": "Logo image",
+                            "name": "landing_logo_image",
+                            "aria-label": "",
+                            "type": "image",
+                            "instructions": "Logo for CME",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "id",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "preview_size": "medium"
                         }
                     ],
                     "min": "",
@@ -1630,6 +1480,13 @@
                 "operator": "==",
                 "value": "page-annual-report.php"
             }
+        ],
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "default"
+            }
         ]
     ],
     "menu_order": 1,
@@ -1640,6 +1497,6 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "show_in_rest": 1,
-    "modified": 1726511107
+    "show_in_rest": 0,
+    "modified": 1727283469
 }
