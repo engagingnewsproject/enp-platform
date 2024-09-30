@@ -30,7 +30,8 @@
 			{% if main.acf_fc_layout == 'director' %}
 				<section class="ann__sct ann__sct_split wrapper--pad-huge">
 					<div class="ann__block flex_row">
-						<div class="ann 
+						<div class="ann__card" {% if main.background_color %} style="background-color:{{ main.background_color }};" {% endif %}>
+							{% if main.director_image %}
 								<div class="ann__img-wrap">
 									<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__img-director"/>
 								</div>
@@ -294,6 +295,13 @@
 					</div>
 				</div>
 			</section>
+			<script>
+				document.addEventListener('scroll', function () {
+					const parallax = document.querySelector('#ann__sct_parallax .ann__sct_parallax__layer--back');
+					let scrollPosition = window.pageYOffset;
+					parallax.style.transform = 'translateY(' + (scrollPosition - window.innerHeight) * {{ main.parallax_speed }} + 'px)';
+				});
+			</script>
 		{% endif %}
 
 	{% endfor %}
