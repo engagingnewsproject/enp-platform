@@ -40,8 +40,19 @@ class Archive extends PostQuery
         $this->setQueriedObject(); // Set the queried object
         $this->posts = Timber::get_posts($query); // Get posts using Timber
         $this->pagination = $this->pagination(); // Set pagination
-        $this->taxonomy = $this->queriedObject->taxonomy; // Set taxonomy
-        $this->slug = $this->queriedObject->slug; // Set slug
+        
+        // Check if the queried object is a WP_Term (taxonomy term)
+        if (get_class($this->queriedObject) === 'WP_Term') {
+            $this->taxonomy = $this->queriedObject->taxonomy; // Set taxonomy
+        } elseif (get_class($this->queriedObject) === 'WP_Post_Type') {
+            // If the queried object is a post type, set taxonomy to empty or handle accordingly
+            $this->taxonomy = ''; // Or handle in a different way if needed
+        } else {
+            $this->taxonomy = ''; // Set to empty or handle accordingly for other cases
+        }
+        
+        // $this->taxonomy = $this->queriedObject->taxonomy; // Set taxonomy
+        $this->slug = isset($this->queriedObject->slug) ? $this->queriedObject->slug : ''; // Set slug
         $this->setIntro(); // Set intro information
     }
 

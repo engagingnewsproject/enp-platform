@@ -44,7 +44,8 @@ class TileArchive extends Archive
 		
 		// Needed to add ability to add team category info to array and filter css.
 		// Might consider re-doing some of the filter stuff to acount for things like these.
-		if ($this->filters['structure'] === 'vertical') {
+
+		if ($this->filters['structure'] === 'vertical' || $this->filters['structure'] === 'postTypes') {
 			if (isset($this->vertical->slug)) {
 				$currentSlug = $this->vertical->slug;
 			} elseif (isset($this->category->slug)) {
