@@ -26,6 +26,7 @@ class Teammate extends Article
      * @var array|bool $termCat The team category associated with the team member.
      * @var array|bool $termDesign The team designation term associated with the team member.
      * @var array|bool $termSemester The team semester term associated with the team member.
+     * @var array|bool $displayLink The option to display the link.
      */
     public $name;
     public $designation = false;
@@ -37,6 +38,7 @@ class Teammate extends Article
     public $termCat = false;
     public $termDesign = false;
     public $termSemester = false;
+    public $displayLink = false;
 
     /**
      * Initializes the Teammate object.
@@ -193,5 +195,20 @@ class Teammate extends Article
             $this->termSemester = get_the_terms($this->ID, 'team_semester');
         }
         return $this->termSemester;
+    }
+
+    /**
+     * Gets the option to display the external link.
+     *
+     * Retrieves the 'member_display_link' meta field for the post.
+     *
+     * @return string|bool The option to display the link, or false if not set.
+     */
+    public function getDisplayLink()
+    {
+        if ($this->displayLink == false) {
+            $this->displayLink = get_post_meta($this->ID, 'member_display_link', true);
+        }
+        return $this->displayLink;
     }
 }
