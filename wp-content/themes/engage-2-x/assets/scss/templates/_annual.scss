@@ -639,6 +639,18 @@
     max-width: 50rem;
     margin: 0 auto;
     column-gap: 5rem;
+	animation: fadeInUp 2s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .grid_1col_2row {
@@ -654,6 +666,7 @@
     width: 100%;
     padding-top: 100%; /* Creates a square aspect ratio */
     overflow: hidden;
+	padding-bottom: 2rem;
 }
 
 .ann__pg3_circle_container {

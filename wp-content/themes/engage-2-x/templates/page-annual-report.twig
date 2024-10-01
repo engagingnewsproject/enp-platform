@@ -283,8 +283,7 @@
 
 					{# Page 3 #}
 				{% elseif main.acf_fc_layout == 'page_3' %}
-					<section
-						class="ann__pg3">
+					<section class="ann__pg3">
 						{# Left column - 1 column, 3 rows #}
 						<div class="grid grid_1col_3row">
 							<div class="grid__item">
@@ -333,9 +332,6 @@
 								{% endif %}
 							</div>
 						</div>
-						{% if main.corner_image %}
-							<img src="{{ get_image(main.corner_image).src }}" sizes="{{ get_image(main.corner_image).img_sizes }}" alt="{{ get_image(main.corner_image).alt }}" class="ann__pg3_corner_img"/>
-						{% endif %}
 					</section>
 				{% endif %}
 
