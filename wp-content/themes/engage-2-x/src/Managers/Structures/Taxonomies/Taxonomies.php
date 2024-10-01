@@ -56,8 +56,8 @@ class Taxonomies {
 				$args = array(
 						'hierarchical'      => true,
 						'labels'            => $labels,
-						'show_ui'           => true,
-						'show_admin_column' => true,
+						'show_ui'           => false,
+						'show_admin_column' => false,
 						'query_var'         => true,
 						'has_archive'       => true,
 						'rewrite'           => [ 'slug' => 'vertical' ],
