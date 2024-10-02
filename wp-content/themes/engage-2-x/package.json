@@ -26,7 +26,7 @@
 		"scss-tokenizer": "^0.4.3"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^29.0.0",
+		"@wordpress/scripts": "^30.0.2",
 		"autoprefixer": "^10.4.20",
 		"browser-sync": "^3.0.2",
 		"browser-sync-webpack-plugin": "^2.3.0",
