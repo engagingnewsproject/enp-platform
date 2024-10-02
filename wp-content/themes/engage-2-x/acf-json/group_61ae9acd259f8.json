@@ -1414,6 +1414,28 @@
                             "append": ""
                         },
                         {
+                            "key": "field_66fd677c7aad0",
+                            "label": "Header year",
+                            "name": "landing_header_year",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "Year for annual report",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": 2023,
+                            "min": "",
+                            "max": "",
+                            "placeholder": "",
+                            "step": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
                             "key": "field_66e893773d019",
                             "label": "Background image",
                             "name": "landing_background_image",
@@ -1498,5 +1520,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1727283469
+    "modified": 1727883630
 }
