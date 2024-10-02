@@ -1,7 +1,7 @@
 === Jetpack - WP Security, Backup, Speed, & Growth ===
 Contributors: automattic, adamkheckler, adrianmoldovanwp, aduth, akirk, allendav, alternatekev, andy, annamcphee, annezazu, apeatling, arcangelini, arsihasi, azaozz, barry, batmoo, beaulebens, bindlegirl, biskobe, bjorsch, blobaugh, brbrr, brileyhooper, cainm, cena, cfinke, cgastrell, chaselivingston, chellycat, clickysteve, csonnek, danielbachhuber, daniloercoli, davoraltman, delawski, designsimply, dkmyta, dllh, drawmyface, dsmart, dun2mis, dzver, ebinnion, egregor, eliorivero, enej, eoigal, erania-pinnera, ethitter, fgiannar, gcorne, georgestephanis, gibrown, goldsounds, hew, hugobaeta, hypertextranch, iammattthomas, iandunn, joen, jblz, jeffgolenski, jeherve, jenhooks, jenia, jessefriedman, jgs, jkudish, jmdodd, joanrho, johnjamesjacoby, jshreve, kbrownkd, keoshi, koke, kraftbj, lancewillett, leogermani, lhkowalski, lschuyler, macmanx, martinremy, matt, mattwiebe, matveb, maverick3x6, mcsf, mdawaffe, mdbitz, MichaelArestad, migueluy, miguelxavierpenha, mikeyarce, mkaz, nancythanki, nickmomrik, njweller, nunyvega, obenland, oskosk, pento, professor44, rachelsquirrel, rdcoll, renatoagds, retrofox, richardmtl, richardmuscat, robertbpugh, roccotripaldi, ryancowles, samhotchkiss, samiff, scarstocea, scottsweb, sdixon194, sdquirk, sermitr, simison, stephdau, thehenridev, tmoorewp, tyxla, Viper007Bond, westi, williamvianas, wpkaren, yoavf, zinigor
 Tags: Security, backup, malware, scan, performance
-Stable tag: 13.7
+Stable tag: 13.9
 Requires at least: 6.5
 Requires PHP: 7.0
 Tested up to: 6.6
@@ -326,45 +326,38 @@ Jetpack Backup can do a full website migration to a new host, migrate theme file
 
 
 == Changelog ==
-### 13.7 - 2024-08-06
+### 13.9 - 2024-10-01
+#### Major Enhancements
+- Jetpack plugin: Remove the 'WordPress.com Toolbar' module.
+
 #### Enhancements
-- AI Assistant: Add feedback link to the sidebar.
-- AI Assistant: Breve UI enhancements.
-- AI Assistant: Disable first Breve hover on mobile.
-- AI Assistant: Disable long sentences Breve feature by default.
-- AI Assistant: Enable Breve for 10% of production sites.
-- AI Assistant: Enable Breve for 20% of production sites.
-- AI Assistant: Make Jetpack Breve available to general public.
-- AI Assistant: The general purpose image generator is now available to all users.
-- Blocks: Add the EventCoutdown block.
-- Blocks: Add the Timeline block.
-- Dashboard: Add a dashboard card for AI Assistant.
-- General: Losslessly optimized PNG images.
-- Jetpack: Port additional Full Site Editing features from WP Cloud.
-- Jetpack AI: Enable the AI Logo generator extension.
-- Jetpack Newsletter: Add Jetpack Newsletter menu with preview option.
-- Newsletter: Improve the modal overlay.
-- Security: Add separate IP allow and block list toggles in Web Application Firewall settings.
-- Settings: Add a link to the AI assistant product page.
-- Site Editor: Remove extra site editor notices in favor of the ones provided by WordPress directly.
-- Social: Added recommendation steps for the Social plan.
-- Subscriptions: Add command palette commands for quickly changing post access.
-- Subscriptions: Implemented a more dynamic approach to displaying the modal.
-- Subscriptions: Improve the Subscribe block loading animation.
+- Blocks: Transition from an option to a module to improve caching.
+- Jetpack AI: Add AI SEO title optimization.
+- Jetpack Stats: Do not check for capabilities if the user is not signed in when deciding whether to show the admin bar widget.
+- My Jetpack: Visual update to the GlobalNotice component for better mobile presentation.
+- Performance: Set the concatenated CSS to off by default. The era where this was helpful is passing.
+- SSO: Remove legacy codebase in favor of the newer SSO codebase introduced in Jetpack 13.5.
 
 #### Improved compatibility
-- Blocks: Changed the use of default parameters in the Map block for React 19 compatibility.
-- Contact Form: Ensure checkboxes are properly displayed when using the Twenty Twenty or the Twenty Twenty One theme.
-- General: Remove code for compatibility with WordPress versions before 6.5.
-- General: Update WordPress version requirements to WordPress 6.5.
-- Masterbar: Always show the notification bell.
+- Dashboard: Disable portfolio toggle if theme supports portfolio for specific environments.
 
 #### Bug fixes
-- Blocks: Check if the fontFamily block attribute is a string before trying to format.
-- Donations Block: Fix undefined array key warnings with old/malformed blocks.
-- Jetpack Comments: Fix replying to comments in Chrome when logged in to both WordPress.com and Jetpack.
-- Like block: Fix warning displayed when trying to load the Like block on unsupported pages.
-- Sharing: Do not include Gravatar images in Open Graph Meta tags.
+- Ai Assistant: Do not show Jetpack AI excerpt UI outside of correct context.
+- AI Assistant: Fix Write Brief highlight position on spelling mistake following ignored special word.
+- AI Assistant: Remove autofocus on extended blocks while previewing.
+- AI Content Lens: Fix the feature of the AI Content Lens is gone.
+- Blocks: Prevent Memberships blocks from being registered when the site is not connected to Jetpack.
+- Dashboard: Display the yearly Stats plan in the Jetpack dashboard immediately after you've purchased the plan.
+- Help Center: Fix the icon color when previewing color scheme.
+- Hosting Configuration: Make the menu title under the settings the same as the destination.
+- Jetpack REST API: Fix missing requirement in admin-menu endpoint.
+- Shortcode: Fix the YouTube URL embedding failure due to the trailing question mark of the ID.
+- Shortcode: Fix the YouTube URL for the private videos.
+- Shortcode: Fix the YouTube URL for the `/embed` type.
+- Sidebar: Show correct product name for "VaultPress Backup".
+- Social: Fix social previews button sometimes not fitting all the text.
+- Subscriptions: Fix added slashes in the Follow Blog widget.
+- WooCommerce Analytics: Check whether a constant is defined before attempting to use it, for compatibility with WooCommerce <8.4.0.
 
 --------
 
