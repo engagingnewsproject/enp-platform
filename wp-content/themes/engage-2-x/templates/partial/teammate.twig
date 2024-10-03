@@ -19,7 +19,7 @@
     {# Display team member's image if available, otherwise use default image #}
     {% set img_src = mate.thumbnail and mate.thumbnail.src('thumbnail') | length > 0 ? mate.thumbnail.src('thumbnail') : defaultimg %}
     <div class="mate__img-wrap">
-		{% set img_tag = '<img class="mate__img" style="width: 150px; height: 150px; object-fit: cover" src="' ~ img_src ~ '" alt="' ~ (mate.thumbnail ? mate.thumbnail.alt : 'Default Image') ~ '"/>' %}
+		{% set img_tag = '<img class="mate__img" style="width: 150px; height: 150px; object-fit: cover; border: 2px solid #333f48;" src="' ~ img_src ~ '" alt="' ~ (mate.thumbnail ? mate.thumbnail.alt : 'Default Image') ~ '"/>' %}
 
         {% if mate.getDisplayLink %}
             <a class="mate__name" href="{{ mate.link }}">
@@ -28,7 +28,7 @@
         {% else %}
             {{ img_tag | raw }}
         {% endif %}
-    </div>
+    </div>	
 	<div
 		class="mate__content">
 		{# Display team member's name as a heading. Link to bio or external page if applicable. #}
