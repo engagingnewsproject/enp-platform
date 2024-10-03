@@ -3,13 +3,11 @@
 {% block content %}
 
 <div class="container_team">
-	{% if archive.postType.name == "team" %}
 	
-		{% for category in categories %}
-			<h2 class="category_title">{{category_titles[category]}}</h2>
-			{% include 'partial/teammates_new.twig' with { mates: filtered_posts[category], format: "excerpt" } %}
-		{% endfor %}
+	{% for category in categories %}
+		<h2 class="category_title">{{category_titles[category]}}</h2>
+		{% include 'partial/teammates_new.twig' with { mates: filtered_posts[category], format: "excerpt" } %}
+	{% endfor %}
 
-	{% endif %}
 </div>
 {% endblock %}
