@@ -12,6 +12,7 @@ use Automattic\Jetpack\Connection\Initial_State as Connection_Initial_State;
 use Automattic\Jetpack\Connection\Manager as Connection_Manager;
 use Automattic\Jetpack\Constants;
 use Automattic\Jetpack\Current_Plan as Jetpack_Plan;
+use Automattic\Jetpack\Modules;
 use Automattic\Jetpack\My_Jetpack\Initializer as My_Jetpack_Initializer;
 use Automattic\Jetpack\Publicize\Jetpack_Social_Settings\Dismissed_Notices;
 use Automattic\Jetpack\Status;
@@ -432,18 +433,23 @@ class Jetpack_Gutenberg {
 			return false;
 		}
 
-		if ( get_option( 'jetpack_blocks_disabled', false ) ) {
-			return false;
+		$return = true;
+
+		if ( ! ( new Modules() )->is_active( 'blocks' ) ) {
+			$return = false;
 		}
 
 		/**
-		 * Filter to disable Gutenberg blocks
+		 * Filter to enable Gutenberg blocks.
+		 *
+		 * Defaults to true if (connected or in offline mode) and the Blocks module is active.
 		 *
 		 * @since 6.5.0
+		 * @since 13.9 Filter is able to activate or deactivate Gutenberg blocks.
 		 *
 		 * @param bool true Whether to load Gutenberg blocks
 		 */
-		return (bool) apply_filters( 'jetpack_gutenberg', true );
+		return (bool) apply_filters( 'jetpack_gutenberg', $return );
 	}
 
 	/**
@@ -728,7 +734,7 @@ class Jetpack_Gutenberg {
 				 * @module publicize
 				 *
 				 * @since 10.3.0
-				 * @deprecated $$next_version$$ This is a feature flag that is no longer used.
+				 * @deprecated 11.5 This is a feature flag that is no longer used.
 				 *
 				 * @param bool true Enable the RePublicize UI in the block editor context. Defaults to true.
 				 */
@@ -759,7 +765,6 @@ class Jetpack_Gutenberg {
 				'isSocialImageGeneratorEnabled'   => $social_initial_state['socialImageGeneratorSettings']['enabled'],
 				'dismissedNotices'                => Dismissed_Notices::get_dismissed_notices(),
 				'supportedAdditionalConnections'  => $publicize->get_supported_additional_connections(),
-				'autoConversionSettings'          => $social_initial_state['autoConversionSettings'],
 				'jetpackSharingSettingsUrl'       => esc_url_raw( admin_url( 'admin.php?page=jetpack#/sharing' ) ),
 				'userConnectionUrl'               => esc_url_raw( admin_url( 'admin.php?page=my-jetpack#/connection' ) ),
 				'useAdminUiV1'                    => $social_initial_state['useAdminUiV1'],
@@ -771,9 +776,9 @@ class Jetpack_Gutenberg {
 
 				$initial_state['social']['connectionRefreshPath'] = $social_initial_state['connectionRefreshPath'];
 			}
-		}
 
-		$initial_state['social']['featureFlags'] = $social_initial_state['featureFlags'];
+			$initial_state['social']['featureFlags'] = $social_initial_state['featureFlags'];
+		}
 
 		wp_localize_script(
 			'jetpack-blocks-editor',

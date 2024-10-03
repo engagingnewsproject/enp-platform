@@ -2,7 +2,6 @@
 {% block brandbar %}{% endblock %}
 {% block header %}
 	{# HEADER #}
-
 	{% if post.meta('header_image_enabled') %}
 		<header class="ann__header">
 			<div class="ann__header-wrapper">
@@ -17,7 +16,6 @@
 				{% endif %}
 			</div>
 		</header>	
-
 	{% endif %}
 {% endblock %}
 {% block content %}
@@ -115,156 +113,29 @@
 							<div class="ann__title">
 								<h2>{{ main.newsworthy_title }}</h2>
 							</div>
-						{% endif %}
-						<div class="grid tiles grid--col-12 grid--gap-30">
-							{% for tile in main.tiles %}
-								<div class="tile tile--has-img tile--research-cat--reader-engagement tile--vertical--bridging-divides">
-									{% if tile.image %}
-										<div class="tile__img-wrap">
-											<img src="{{ get_image(tile.image).src }}" sizes="{{ get_image(tile.image).img_sizes }}" alt="{{ get_image(tile.image).alt }}"/>
-										</div>
-									{% endif %}
-									<div class="tile__title-wrap">
-										<div class="tile__label">
-											<div class="tile__bar"></div>
-										</div>
-										{% if tile.title %}
-											<h3 class="tile__title h3">{{ tile.title|length > 50 ? tile.title|slice(0, 50) ~ "..." : tile.title}}</h3>
-										{% endif %}
-										{% if tile.content %}
-											<div class="tile__excerpt">{{ tile.content }}</div>
-										{% endif %}
-									</div>
-								</div>
-							{% endfor %}
+						{% endfor %}
+					</div>
+				</section>
+
+			{# FALCULTY #}
+			{% elseif main.acf_fc_layout == 'faculty' %}
+				<section class="ann__sct ann__sct_whole ann__sct_grid_pt wrapper--pad-xlg ann__sct_faculty">
+					{% if main.faculty_title %}
+						<div class="ann__title ann__title_main">
+							<h2>{{ main.faculty_title }}</h2>
 						</div>
-					</section>
-
-					{# FALCULTY #}
-				{% elseif main.acf_fc_layout == 'faculty' %}
-					<section class="ann__sct ann__sct_whole testing ann__sct_grid_pt wrapper--pad-xlg {% if main.annual_report_year == " 2022" %} ann__sct_faculty{% endif %}">
-						{% if main.faculty_title %}
-							<div class="{% if main.annual_report_year == "2023" %}ann__title_main ann__title_orange {% else %}ann__title ann__title_main{% endif %}">
-								<h2>{{ main.faculty_title }}</h2>
-							</div>
-						{% endif %}
-						{% if main.faculty_bolded_title %}
-							<div class="ann__title_bolded ann__title_orange">{{main.faculty_bolded_title}}
-							</div>
-						{% endif %}
-						<ul class="grid ann__list {% if main.annual_report_year == " 2023" %}three-columns {% endif %}">
-							{% for member in main.members %}
-								<li class="grid ann__list_item">
-									{% if member.member_image %}
-										<div class="grid ann__list_img">
-											<img src="{{ get_image(member.member_image).src | resize(300) }}" sizes="{{ get_image(member.member_image).img_sizes }}" alt="{{ get_image(member.member_image).alt }}"/>
-										</div>
-									{% endif %}
-									<div class="ann__list_title">
-										{% if member.member_name %}
-											<h4>{{ member.member_name }}</h4>
-										{% endif %}
-										{% if member.member_title %}
-											<p>{{ member.member_title }}</p>
-										{% endif %}
-										{% if member.member_link %}
-											<a href="{{ member.member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
-										{% endif %}
-									</div>
-								</li>
-							{% endfor %}
-						</ul>
-					</section>
-
-					{# FULL IMAGE #}
-				{% elseif main.acf_fc_layout == 'full_image' %}
-					<section class="ann__sct ann__sct_pad_img {% if main.width == 'ann__sct_full' %}ann__sct_full {% elseif main.width == 'wrapper--pad-xlg' %} wrapper--pad-xlg {% else %} wrapper--pad-huge {% endif %}" {% if main.background_color %} style="background-color:{{ main.background_color }};" {% endif %}>
-						{% if main.title %}
-							<div class="ann__title">
-								<h2>{{ main.title }}</h2>
-							</div>
-						{% endif %}
-						{% if main.image %}
-							<img src="{{ get_image(main.image).src }}" sizes="{{ get_image(main.image).img_sizes }}" alt="{{ get_image(main.image).alt }}"/>
-						{% endif %}
-					</section>
-
-					{# QUOTE #}
-				{% elseif main.acf_fc_layout == 'quote' %}
-					<section class="ann__sct ann__sct_quote">
-						<div class="ann__sect_quote__container" style="{% if main.quote_image %}background-image:url({{ get_image(main.quote_image).src }});background-position:center;background-repeat:no-repeat;{% endif %}{% if main.quote_section_background %}background-color:{{ main.quote_section_background }};{% endif %}">
-							{% if main.quote_text %}
-								<h1 class="ann__sect_quote-img container--xl" {% if main.quote_background %} style="background-color:{{ main.quote_background }};" {% endif %}>{{ main.quote_text }}</h1>
-							{% endif %}
-						</div>
-					</section>
-
-					{# LARGE TILES #}
-				{% elseif main.acf_fc_layout == 'large_tiles' %}
-					{% include 'tiles-annual-report.twig' %}
-
-					{# OUTREACH #}
-				{% elseif main.acf_fc_layout == 'outreach' %}
-					<section class="grid ann__sct ann__sct_full_content wrapper--pad-xlg vert-pad-sm">
-						{% if main.outreach_title %}
-							<div class="ann__title">
-								<h2>{{ main.outreach_title }}</h2>
-							</div>
-						{% endif %}
-						{% if main.outreach_subtext %}
-							<div class="ann__subtitle">{{ main.outreach_subtext }}</div>
-						{% endif %}
-						{% if main.row_one_intro %}
-							<div class="ann__intro">{{ main.row_one_intro }}</div>
-						{% endif %}
-						{% if main.row_one_column_one %}
-							<div class="ann__col ann__col_first">
-								{{ main.row_one_column_one }}
-							</div>
-						{% endif %}
-						{% if main.row_one_column_two %}
-							<div class="ann__col ann__col_second">
-								{{ main.row_one_column_two }}
-							</div>
-						{% endif %}
-						{# row two #}
-						{% if main.row_two_intro %}
-							<div class="ann__intro">{{ main.row_two_intro }}</div>
-						{% endif %}
-						{% if main.row_two_column_one %}
-							<div class="ann__col ann__col_first">
-								{{ main.row_two_column_one }}
-							</div>
-						{% endif %}
-						{% if main.row_two_column_two %}
-							<div class="ann__col ann__col_second">
-								{{ main.row_two_column_two }}
-							</div>
-						{% endif %}
-						{% if main.row_two_footer  %}
-							<div class="ann__intro">{{ main.row_two_footer }}</div>
-						{% endif %}
-					</section>
-
-					{# FOOTER #}
-				{% elseif main.acf_fc_layout == 'footer' %}
-					<footer class="ann__sct ann__sct_full_content_slim wrapper--pad-huge">
-						{% if main.contact_info %}
-							<div class="ann__contact_info">
-								{{ main.contact_info }}
-							</div>
-						{% endif %}
-						<div class="grid ann__social">
-							{% for social in main.socials %}
-								{% if social.social_name %}
-									{% set name = social.social_name %}
-									{% set path, name, ending = 'assets/img/icon-', name, '.svg' %}
-									{% set svg = [path, name, ending]|join %}
-									<div class="social">
-										<a href="{{ social.social_url }}" target="_blank">
-											{{ source(svg) }}
-											{{ social.social_handle }}
-										</a>
+					{% endif %}
+					{% if main.faculty_bolded_title %}
+						<div class="ann__title_bolded ann__title_orange">{{main.faculty_bolded_title}} </div>
+					{% endif %}
+					<ul class="grid ann__list">
+						{% for member in main.members %}
+							<li class="ann__list_item grid">
+								{% if member.member_image %}
+									<div class="ann__list_img grid">
+										<img src="{{ get_image(member.member_image).src | resize(300) }}"
+											sizes="{{ get_image(member.member_image).img_sizes }}"
+											alt="{{ get_image(member.member_image).alt }}" />
 									</div>
 								{% endif %}
 							{% endfor %}

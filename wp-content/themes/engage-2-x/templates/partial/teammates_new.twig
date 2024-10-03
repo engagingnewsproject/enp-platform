@@ -8,6 +8,7 @@
 #}
 
 {% set vertical = archive.vertical.slug %}
+<!-- teammates_new.twig -->
 <section
 	class="grid grid--auto grid--gap-20">
 	{# Loop through each team member and render their information.
@@ -16,15 +17,7 @@
 						to avoid hiding the past Media Ethics Interns section.
 					#}
 	{% for mate in mates %}
-		{# PIs have their first vertical value as 'Center Leadership' and appear first,
-										but this prevents the past Media Ethics Interns section from showing #}
-		{# Set the value of the current team member's semester term. #}
-		{% set semester_value = (mate.getTermSemester)[0] %}
-
-		{# If no specific semester is set for the team member, include the teammate partial template. #}
-		{% if semester_value == "" %}
-			{% include "partial/teammate.twig" with { 'mate' : mate } %}
-		{% endif %}
+		{% include "partial/teammate.twig" with { 'mate' : mate } %}
 	{% endfor %}
 </section>
 

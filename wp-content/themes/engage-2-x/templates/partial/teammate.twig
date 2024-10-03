@@ -12,22 +12,23 @@
   - vertical_value: The current vertical (category) of the team member (e.g., 'propaganda').
 #}
 
-<div
-	class="mate {{ mate.thumbnail ? ' mate--has-img'}}" id="{{ mate.slug }}">
-	{# Display team member's image if available #}
-	{% if mate.thumbnail.src('thumbnail') | length > 0 %}
-		<div class="mate__img-wrap">
-			{% set img_tag = '<img class="mate__img" src="' ~ mate.thumbnail.src('thumbnail') ~ '" alt="' ~ mate.thumbnail.alt ~ '"/>' %}
-			
-			{% if mate.getDisplayLink %}
-				<a class="mate__name" href="{{ mate.link }}">
-					{{ img_tag | raw }}
-				</a>
-			{% else %}
-				{{ img_tag | raw }}
-			{% endif %}
-		</div>
-	{% endif %}
+{# sets default feature image #}
+{% set defaultimg = theme.link ~ '/assets/img/default-staff-image.png' %}
+
+<div class="mate {{ mate.thumbnail ? ' mate--has-img'}}" id="{{ mate.slug }}">
+    {# Display team member's image if available, otherwise use default image #}
+    {% set img_src = mate.thumbnail and mate.thumbnail.src('thumbnail') | length > 0 ? mate.thumbnail.src('thumbnail') : defaultimg %}
+    <div class="mate__img-wrap">
+		{% set img_tag = '<img class="mate__img" style="width: 150px; height: 150px; object-fit: cover" src="' ~ img_src ~ '" alt="' ~ (mate.thumbnail ? mate.thumbnail.alt : 'Default Image') ~ '"/>' %}
+
+        {% if mate.getDisplayLink %}
+            <a class="mate__name" href="{{ mate.link }}">
+                {{ img_tag | raw }}
+            </a>
+        {% else %}
+            {{ img_tag | raw }}
+        {% endif %}
+    </div>
 	<div
 		class="mate__content">
 		{# Display team member's name as a heading. Link to bio or external page if applicable. #}

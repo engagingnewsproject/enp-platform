@@ -85,6 +85,7 @@ class WPCOM_JSON_API_GET_Site_Endpoint extends WPCOM_JSON_API_Endpoint {
 		'wpcom_site_setup'            => '(string) The WP.com site setup identifier.',
 		'is_deleted'                  => '(bool) If the site flagged as deleted.',
 		'is_a4a_client'               => '(bool) If the site is an A4A client site.',
+		'is_a4a_dev_site'             => '(bool) If the site is an A4A dev site.',
 	);
 
 	/**
@@ -120,6 +121,7 @@ class WPCOM_JSON_API_GET_Site_Endpoint extends WPCOM_JSON_API_Endpoint {
 		'is_wpcom_staging_site',
 		'is_deleted',
 		'is_a4a_client',
+		'is_a4a_dev_site',
 	);
 
 	/**
@@ -232,6 +234,7 @@ class WPCOM_JSON_API_GET_Site_Endpoint extends WPCOM_JSON_API_Endpoint {
 		'was_migration_trial',
 		'was_hosting_trial',
 		'was_upgraded_from_trial',
+		'is_a4a_dev_site',
 	);
 
 	/**
@@ -611,6 +614,9 @@ class WPCOM_JSON_API_GET_Site_Endpoint extends WPCOM_JSON_API_Endpoint {
 				break;
 			case 'is_a4a_client':
 				$response[ $key ] = $this->site->is_a4a_client();
+				break;
+			case 'is_a4a_dev_site':
+				$response[ $key ] = $this->site->is_a4a_dev_site();
 				break;
 		}
 
