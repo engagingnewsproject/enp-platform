@@ -1434,16 +1434,24 @@
                                 "class": "",
                                 "id": ""
                             },
-                            "default_value": "",
-                            "enable_opacity": 0,
-                            "return_format": "string"
+                            "return_format": "array",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "allow_in_bindings": 1,
+                            "preview_size": "medium"
                         },
                         {
-                            "key": "field_66f48d7148edb",
-                            "label": "Parallax Speed",
-                            "name": "parallax_speed",
+                            "key": "field_6700609ee8c11",
+                            "label": "Parallax Text",
+                            "name": "parallax_text",
                             "aria-label": "",
-                            "type": "number",
+                            "type": "wysiwyg",
                             "instructions": "",
                             "required": 0,
                             "conditional_logic": 0,
@@ -1452,13 +1460,31 @@
                                 "class": "",
                                 "id": ""
                             },
-                            "default_value": "0.5",
-                            "min": "",
-                            "max": "",
-                            "placeholder": "",
-                            "step": "",
-                            "prepend": "",
-                            "append": ""
+                            "default_value": "",
+                            "allow_in_bindings": 1,
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 0
+                        },
+                        {
+                            "key": "field_6700609ee8c12",
+                            "label": "Parallax Bar",
+                            "name": "parallax_bar",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "enable_opacity": 0,
+                            "return_format": "string",
+                            "allow_in_bindings": 1
                         }
                     ],
                     "min": "",
