@@ -10,15 +10,30 @@
 {% set vertical = archive.vertical.slug %}
 <!-- teammates_new.twig -->
 <section
+	style="margin-bottom: 4rem;"
 	class="grid grid--auto grid--gap-20">
 	{# Loop through each team member and render their information.
 						The first vertical value is fetched if it's not set, but PIs (Principal Investigators)
 						who have 'Center Leadership' as their first vertical are prevented from appearing first
 						to avoid hiding the past Media Ethics Interns section.
 					#}
-	{% for mate in mates %}
-		{% include "partial/teammate.twig" with { 'mate' : mate } %}
-	{% endfor %}
+	{% if category == "alumni" %}
+		<section class="past-interns-spacing">
+			<div class="past-interns-title past-interns-title__2022-2023" data-toggle-arrow="&#9658;" aria-expanded="false">
+				Alumni
+			</div>
+			<section class="mates grid grid--gap-20 past-interns-list past-interns-list__2022-2023" aria-hidden="true">
+				{% for mate in mates %}
+					{% include "partial/teammate.twig" with { 'mate' : mate, 'category' : category } %}
+				{% endfor %}
+			</section>
+		</section>
+	{% else %}
+		{% for mate in mates %}
+			{% include "partial/teammate.twig" with { 'mate' : mate, 'category' : category } %}
+		{% endfor %}
+	{% endif %}
+		
 </section>
 
 {% if vertical == "media-ethics" %}
