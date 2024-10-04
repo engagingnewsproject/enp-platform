@@ -251,3 +251,28 @@ add_filter('acf/settings/show_admin', function ($show_admin) {
     }
     return $show_admin;
 });
+
+// Add a custom link next to "Terms and Conditions" on the registration page
+function add_custom_link_to_registration_page() {
+    // Check if we are on the registration page
+    if (isset($_GET['action']) && $_GET['action'] === 'register') {
+        echo '
+        <div class="terms-page-link" style="text-align: center">
+            <a href="/terms-and-conditions/" rel="custom-link">Terms and Conditions</a>
+        </div>';
+    }
+}
+add_action('login_footer', 'add_custom_link_to_registration_page');
+
+// Add a custom link next to "Terms and Conditions" on the login page
+function add_custom_link_to_login_page() {
+    // Check if we are on the login page
+    if (!isset($_GET['action']) || $_GET['action'] === 'login') {
+        echo '
+        <div class="terms-page-link" style="text-align: center">
+            <a href="/terms-and-conditions/" rel="custom-link">Terms and Conditions</a>
+        </div>';
+    }
+}
+add_action('login_footer', 'add_custom_link_to_login_page');
+
