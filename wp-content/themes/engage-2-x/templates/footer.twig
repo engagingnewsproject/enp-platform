@@ -1,3 +1,8 @@
+{% set current_url = post.link %}
+{% if current_url matches '/tax-day-quiz/' %}
+  {# Code or condition to handle when the URL contains "enp-quiz" #}
+  <p style="text-align: center"><a href="/privacy-policy">Privacy Policy</a></p>
+{% endif %}
 <div class="footer__container container">
 	<div class="footer__top">
 		{{ topFooterWidgets }}
