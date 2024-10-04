@@ -5,6 +5,145 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.35.9] - 2024-09-30
+### Changed
+- Fix parameters to allow for connectAfterCheckout flow from recommendation card [#39578]
+- My Jetpack Welcome Flow: Display default recommendations upfront first, then offer optional survey for customized recommendations. [#39485]
+
+### Fixed
+- Fixed a bug where the purchases and highlights APIs were being called without a valid Jetpack connection [#39522]
+- My Jetpack: visual update to make the GlobalNotice component look better on mobile. [#39537]
+
+## [4.35.8] - 2024-09-25
+### Changed
+- Update dependencies. [#38910]
+
+## [4.35.7] - 2024-09-23
+### Changed
+- Get active element from tooltip button's document rather than the global `document`. [#39364]
+- My Jetpack product interstitial: Don't show intro offer price if user is not eligible for the offer. [#39403]
+- Send non-connected users to a "connect after checkout" flow [#39444]
+
+### Fixed
+- Fix issue on interstitials show both buttons loading when only one is pressed [#39356]
+- Fix issue where recommendations are showing slightly before the welcome banner dismisses [#39383]
+
+## [4.35.6] - 2024-09-16
+### Added
+- Add new action myjetpack_enqueue_scripts [#39380]
+
+### Changed
+- My Jetpack: Always show the purchase link regardless of the number of plans owned. [#39299]
+- Updated package dependencies. [#39332]
+
+## [4.35.5] - 2024-09-10
+### Changed
+- Updated package dependencies. [#39302]
+
+## [4.35.4] - 2024-09-09
+### Added
+- Jetpack AI: add fair usage policy link to the Jetpack AI product interstitial. [#39281]
+
+### Changed
+- Updated package dependencies. [#39278]
+
+### Fixed
+- Jetpack AI: fix default_content filter so it doesn't enforce parameter type [#39276]
+
+## [4.35.3] - 2024-09-06
+### Fixed
+- Optimize repeated requests for unavailable WPCOM. [#39218]
+
+## [4.35.2] - 2024-09-06
+### Changed
+- Internal updates.
+
+## [4.35.1] - 2024-09-05
+### Changed
+- Internal updates.
+
+## [4.35.0] - 2024-09-05
+### Added
+- My Jetpack: add support for feature-specific handling to product interstitials. [#38661]
+
+### Changed
+- Jetpack AI product page: add fair usage link on over quota notice [#39192]
+- Updated package dependencies. [#39176]
+
+### Fixed
+- Gracefully fail when user data fetch failed. [#39179]
+
+## [4.34.0] - 2024-09-02
+### Changed
+- My Jetpack: show over quota notice and period usage counter for unlimited plans [#39129]
+- We update Welcome Flow A/B experiment to test other things [#39154]
+
+### Fixed
+- My Jetpack: change Jetpack AI post checkout URL so the redirect works [#39166]
+
+## [4.33.1] - 2024-08-29
+### Changed
+- Admin menu: change order of Jetpack sub-menu items [#39095]
+- My Jetpack: reflect tier filters properly on product class and UI. Fix little nuances with date constructor [#39074]
+- Updated package dependencies. [#39111]
+
+### Fixed
+- Don't consider user lifecycle status when repeating evaluation [#39069]
+- My Jetpack: Fix the popover and active button of the Bboost card are overlapping [#39067]
+
+## [4.33.0] - 2024-08-26
+### Added
+- Add context switching to videopress card from yearly views to monthly views [#38979]
+
+### Changed
+- My Jetpack: AI product class to handle better disabling tiers [#38989]
+- Updated package dependencies. [#39004]
+
+### Fixed
+- allow user currency in My Jetpack pricing [#38977]
+- Fix tooltip title for videopress card [#39030]
+
+## [4.32.4] - 2024-08-21
+### Changed
+- Removed unnecessary WAF dependency in My Jetpack. [#38942]
+
+### Fixed
+- Notification bubbles: avoid PHP warning when information is missing. [#38963]
+- Revert recent SVG image optimizations. [#38981]
+
+## [4.32.3] - 2024-08-19
+### Added
+- Add stat trends for videopress card. [#38868]
+- Add tooltip to VideoPress card. [#38842]
+- Add value to active card state on VideoPress My Jetpack card. [#38812]
+
+### Changed
+- Updated package dependencies. [#38893]
+
+### Fixed
+- Lossless image optimization for images (should improve performance with no visible changes). [#38750]
+- My Jetpack: ensure product screens redirect to the correct post-checkout URLs. [#38704]
+
+## [4.32.2] - 2024-08-15
+### Changed
+- Updated package dependencies. [#38665]
+
+### Fixed
+- fix empty hrefs causing page reload [#38845]
+
+## [4.32.1] - 2024-08-09
+### Added
+- Add value to the inactive state on the VideoPress card in My Jetpack [#38748]
+
+### Changed
+- Update uses of useConnection to useMyJetpackConnection and improve typing in a few places [#38721]
+
+### Removed
+- Tests: Removed react-test-renderer. [#38755]
+
+### Fixed
+- My Jetpack: fix a bug where a user would see and infinite loading spinner when trying to connect Jetpack with one click in the Welcome flow. [#38813]
+
 ## [4.32.0] - 2024-08-05
 ### Added
 - Add Tracks events for Welcome Flow [#38641]
@@ -1616,6 +1755,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Created package
 
+[4.35.9]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.35.8...4.35.9
+[4.35.8]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.35.7...4.35.8
+[4.35.7]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.35.6...4.35.7
+[4.35.6]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.35.5...4.35.6
+[4.35.5]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.35.4...4.35.5
+[4.35.4]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.35.3...4.35.4
+[4.35.3]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.35.2...4.35.3
+[4.35.2]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.35.1...4.35.2
+[4.35.1]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.35.0...4.35.1
+[4.35.0]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.34.0...4.35.0
+[4.34.0]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.33.1...4.34.0
+[4.33.1]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.33.0...4.33.1
+[4.33.0]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.32.4...4.33.0
+[4.32.4]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.32.3...4.32.4
+[4.32.3]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.32.2...4.32.3
+[4.32.2]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.32.1...4.32.2
+[4.32.1]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.32.0...4.32.1
 [4.32.0]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.31.0...4.32.0
 [4.31.0]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.30.0...4.31.0
 [4.30.0]: https://github.com/Automattic/jetpack-my-jetpack/compare/4.29.0...4.30.0

@@ -11,7 +11,7 @@
 
     <div class="nf-box">
         <div class="submit debug-report">
-    		<h3>To Get Help:</h3>
+    		<h3><?php esc_html_e('To Get Help:', 'ninja-forms'); ?></h3>
             <ol>
                 <li><?php esc_html_e( 'Copy your System Report first with the button below', 'ninja-forms' ); ?> </li>
                 <li><?php esc_html_e( 'Click "Submit a Support Request" to be directed to our site.', 'ninja-forms' ); ?> </li>

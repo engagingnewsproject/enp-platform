@@ -120,5 +120,3 @@ phpunit.xml
 *.wmv
 *.avi
 
-# Old ignored files & folders deleted
-wp-content/themes/engage-2-x/yarn.lock

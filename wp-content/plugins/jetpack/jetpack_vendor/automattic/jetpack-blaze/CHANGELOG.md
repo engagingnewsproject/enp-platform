@@ -5,6 +5,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.22.12] - 2024-09-30
+### Changed
+- Remove user connection nudges where they aren't needed. Add user connection nudges where needed [#39533]
+- Update dependencies. [#39528]
+
+## [0.22.11] - 2024-09-23
+### Fixed
+- Increases the timeout for the Blaze payment checkout endpoint [#39420]
+
+## [0.22.10] - 2024-09-10
+### Changed
+- Updated package dependencies. [#39302]
+
+## [0.22.9] - 2024-09-09
+### Changed
+- Updated package dependencies. [#39176]
+
+### Fixed
+- Address React usage errors found by eslint. [#39214]
+
+## [0.22.8] - 2024-08-30
+### Changed
+- Updated package dependencies. [#39111]
+
+## [0.22.7] - 2024-08-23
+### Changed
+- Updated package dependencies. [#39004]
+
+## [0.22.6] - 2024-08-21
+### Changed
+- Internal updates.
+
+## [0.22.5] - 2024-08-19
+### Changed
+- Updated package dependencies. [#38662]
+
+## [0.22.4] - 2024-08-12
+### Changed
+- Allows request to the v1.1 endpoints of Blaze campaigns [#38771]
+
 ## [0.22.3] - 2024-07-26
 ### Changed
 - Update dependencies. [#37356]
@@ -416,6 +456,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated package dependencies. [#27906]
 
+[0.22.12]: https://github.com/automattic/jetpack-blaze/compare/v0.22.11...v0.22.12
+[0.22.11]: https://github.com/automattic/jetpack-blaze/compare/v0.22.10...v0.22.11
+[0.22.10]: https://github.com/automattic/jetpack-blaze/compare/v0.22.9...v0.22.10
+[0.22.9]: https://github.com/automattic/jetpack-blaze/compare/v0.22.8...v0.22.9
+[0.22.8]: https://github.com/automattic/jetpack-blaze/compare/v0.22.7...v0.22.8
+[0.22.7]: https://github.com/automattic/jetpack-blaze/compare/v0.22.6...v0.22.7
+[0.22.6]: https://github.com/automattic/jetpack-blaze/compare/v0.22.5...v0.22.6
+[0.22.5]: https://github.com/automattic/jetpack-blaze/compare/v0.22.4...v0.22.5
+[0.22.4]: https://github.com/automattic/jetpack-blaze/compare/v0.22.3...v0.22.4
 [0.22.3]: https://github.com/automattic/jetpack-blaze/compare/v0.22.2...v0.22.3
 [0.22.2]: https://github.com/automattic/jetpack-blaze/compare/v0.22.1...v0.22.2
 [0.22.1]: https://github.com/automattic/jetpack-blaze/compare/v0.22.0...v0.22.1

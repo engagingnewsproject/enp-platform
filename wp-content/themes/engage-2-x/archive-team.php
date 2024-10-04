@@ -31,9 +31,9 @@ if ((
     is_post_type_archive(['team']) || 
     is_tax('team_category'))) {
       
-        $archive = new TeamArchive( $wp_query, $options );
-        $context['archive'] = $archive;
-        $context['filtered_posts'] = $archive->getPosts();
+    $archive = new TeamArchive($options, $wp_query); // Props need to be in correct order
+        // No need to set context archive, we'll do that below
+        $context['filtered_posts'] = $archive->getFilteredPosts(); // Retrieve grouped and sorted posts from the TeamArchive class
         $context['category_titles'] = ['principal-investigators' =>"Principal Investigators", 'staff'=>"Staff", 'student-researchers'=>"Student Researchers",'research-collaborators'=>"Research Collaborators", 'board'=>"Board", 'alumni' =>"Alumni"];
 
         $context['categories'] = ['principal-investigators', 'staff', 'student-researchers', 'research-collaborators', 'board', 'alumni'];

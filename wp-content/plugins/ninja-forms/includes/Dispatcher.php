@@ -47,7 +47,8 @@ class NF_Dispatcher
     public function sendTelemetryData() {
 
         $environment = $this->constructNfSiteEnvironment();
-        $usage = $this->constructUsage();
+
+        $usage = $this->constructUsage( $environment->nf_db_version);
 
         $data = array_merge($environment->toArray(),$usage->toArray());
         
