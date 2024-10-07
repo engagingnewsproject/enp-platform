@@ -102,7 +102,7 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
         if ( $is_maintenance ) {
             $message = sprintf(
                 esc_html__( 'This form is currently undergoing maintenance. Please %sclick here%s to reload the form and try again.', 'ninja-forms' )
-                ,'<a href="' . $_SERVER[ 'HTTP_REFERER' ] . '">', '</a>'
+                ,'<a href="' . esc_html($_SERVER[ 'HTTP_REFERER' ]) . '">', '</a>'
             );
             $this->_errors[ 'form' ][] = apply_filters( 'nf_maintenance_message', $message  ) ;
             $this->_respond();
@@ -560,6 +560,11 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
         if( ! is_string( $field_settings['type'] ) ) return;
 
         $field_class = Ninja_Forms()->fields[ $field_settings['type'] ];
+
+        // If $field_class is not object or string, return w/o checking for method_exists
+        if(!is_object($field_class) && !is_string($field_class)){
+            return;
+        }
 
         if( ! method_exists( $field_class, 'process' ) ) return;
 

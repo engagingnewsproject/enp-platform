@@ -2,19 +2,21 @@
 {% block brandbar %}{% endblock %}
 {% block header %}
 	{# HEADER #}
-	<header class="ann__header">
-		<div class="ann__header-wrapper">
-			{% if post.thumbnail %}
-				<img src="{{ post.thumbnail.src | resize(500,300) }}" srcset="{{ post.thumbnail.srcset }}" sizes="{{ post.thumbnail.img_sizes }}" alt="{{ post.thumbnail.alt }}" class="ann__header-img"/>
-			{% endif %}
-			{% if post.meta('download_report_button_url') %}
-				<a href="{{ post.meta('download_report_button_url') }}" class="btn btn--annual-report" download>
-					{% include "partial/cloud.twig" %}
-					<span>{{ post.meta('download_report_button') }}</span>
-				</a>
-			{% endif %}
-		</div>
-	</header>
+	{% if post.meta('header_image_enabled') %}
+		<header class="ann__header">
+			<div class="ann__header-wrapper">
+				{% if post.thumbnail %}
+					<img src="{{ post.thumbnail.src | resize(500,300) }}" srcset="{{ post.thumbnail.srcset }}" sizes="{{ post.thumbnail.img_sizes }}" alt="{{ post.thumbnail.alt }}" class="ann__header-img"/>
+				{% endif %}
+				{% if post.meta('download_report_button_url') %}
+					<a href="{{ post.meta('download_report_button_url') }}" class="btn btn--annual-report" download>
+						{% include "partial/cloud.twig" %}
+						<span>{{ post.meta('download_report_button') }}</span>
+					</a>
+				{% endif %}
+			</div>
+		</header>	
+	{% endif %}
 {% endblock %}
 {% block content %}
 
@@ -26,7 +28,7 @@
 			{% if main.acf_fc_layout == 'director' %}
 				<section class="ann__sct ann__sct_split wrapper--pad-huge">
 					<div class="ann__block flex_row">
-						<div class="ann__card" {% if main.background_color %} style="background-color:{{ main.background_color }};" {% endif %}>
+						<div class="ann__card"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
 							{% if main.director_image %}
 								<div class="ann__img-wrap">
 									<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__img-director"/>
@@ -34,7 +36,7 @@
 							{% endif %}
 							{% if main.director_title %}
 								<div class="ann__title ann__title_center">
-									<h2 class="m--no" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.director_title }}</h2>
+									<h2 class="m--no"{% if main.title_color %} style="color:{{ main.title_color }};"{% endif %}>{{ main.director_title }}</h2>
 								</div>
 							{% endif %}
 						</div>
@@ -47,12 +49,12 @@
 						</div>
 					{% endif %}
 				</section>
-
-				{# RESEARCH #}
+			
+			{# RESEARCH #}
 			{% elseif main.acf_fc_layout == 'research' %}
 				<section class="ann__sct grid wrapper--pad-xlg vert-pad-sm">
 					{% if main.research_title %}
-						<div class={% if main.research_bolded_title %} "ann__title_main ann__title_navy" {% else %} "ann__title" {% endif %}>
+						<div class={% if main.research_bolded_title %}"ann__title_main ann__title_navy"{% else %}"ann__title"{% endif %}>
 							{{ main.research_title }}
 						</div>
 					{% endif %}
@@ -60,9 +62,7 @@
 						<h2 class="ann__title_bolded ann__title_orange">{{ main.research_bolded_title}}</h2>
 					{% endif %}
 					{% if main.research_subtext %}
-						<div class="ann__sct_research_subtext">
-							<h3>{{ main.research_subtext}}</h3>
-						</div>
+						<div class="ann__sct_research_subtext"><h3>{{ main.research_subtext}}</h3></div>
 					{% endif %}
 					{# TODO: create class for #}
 					<div class="ann__sct_research_grid grid">
@@ -74,274 +74,263 @@
 								{% if item.research_body %}
 									<p class="ann__sct_research_body_text">{{ item.research_body }}</p>
 								{% endif %}
-							{% endfor %}
-						</div>
-					</section>
+						{% endfor %}
+					</div>
+				</section>
 
-					{# HIGHLIGHTS #}
-				{% elseif main.acf_fc_layout == 'highlights' %}
-					<section class="ann__sct ann__sct_grid ann__sct_grid_pt wrapper--pad-xlg" {% if main.background_color %} style="background-color:{{ main.background_color }};" {% endif %}>
-						<div class="ann__title ann__top_title ann__title_light">
-							<h2>{{ main.highlights_title }}</h2>
-						</div>
-						<div class="ann__grid grid">
-							{% for item in main.highlight %}
-								<div class="ann__grid_item">
-									{% if item.highlight_icon %}
-										<img src="{{ get_image(item.highlight_icon).src }}" sizes="{{ get_image(item.highlight_icon).img_sizes }}" alt="{{ get_image(item.highlight_icon).alt }}"/>
-									{% endif %}
-									{% if item.highlight_number %}
-										<h2 class="ann__grid_num">{{ item.highlight_number }}</h2>
-									{% endif %}
-									{% if item.highlight_title %}
-										<h3 class="ann__grid_title">{{ item.highlight_title }}</h3>
-									{% endif %}
-									{% if item.highlight_text %}
-										<p class="ann__grid_text">{{ item.highlight_text }}</p>
-									{% endif %}
-								</div>
-							{% endfor %}
-						</div>
-					</section>
-
-					{# NEWSWORTHY #}
-				{% elseif main.acf_fc_layout == 'newsworthy' %}
-					<section class="ann__sct ann__sct_grid wrapper--pad-xlg container--xl">
-						{% if main.newsworthy_title %}
-							<div class="ann__title">
-								<h2>{{ main.newsworthy_title }}</h2>
-							</div>
-						{% endif %}
-						<div class="tiles grid grid--col-12 grid--gap-30">
-							{% for tile in main.tiles %}
-								<div class="tile tile--has-img tile--research-cat--reader-engagement tile--vertical--bridging-divides">
-									{% if tile.image %}
-										<div class="tile__img-wrap">
-											<img src="{{ get_image(tile.image).src }}" sizes="{{ get_image(tile.image).img_sizes }}" alt="{{ get_image(tile.image).alt }}"/>
-										</div>
-									{% endif %}
-									<div class="tile__title-wrap">
-										<div class="tile__label">
-											<div class="tile__bar"></div>
-										</div>
-										{% if tile.title %}
-											<h3 class="tile__title h3">{{ tile.title|length > 50 ? tile.title|slice(0, 50) ~ "..." : tile.title}}</h3>
-										{% endif %}
-										{% if tile.content %}
-											<div class="tile__excerpt">{{ tile.content }}</div>
-										{% endif %}
-									</div>
-								</div>
-							{% endfor %}
-						</div>
-					</section>
-
-					{# FALCULTY #}
-				{% elseif main.acf_fc_layout == 'faculty' %}
-					<section class="ann__sct ann__sct_whole testing ann__sct_grid_pt wrapper--pad-xlg {% if main.annual_report_year == " 2022" %} ann__sct_faculty{% endif %}">
-						{% if main.faculty_title %}
-							<div class="{% if main.annual_report_year == "2023" %}ann__title_main ann__title_orange {% else %}ann__title ann__title_main{% endif %}">
-								<h2>{{ main.faculty_title }}</h2>
-							</div>
-						{% endif %}
-						{% if main.faculty_bolded_title %}
-							<div class="ann__title_bolded ann__title_orange">{{main.faculty_bolded_title}}
-							</div>
-						{% endif %}
-						<ul class="grid ann__list {% if main.annual_report_year == " 2023" %}three-columns {% endif %}">
-							{% for member in main.members %}
-								<li class="ann__list_item grid">
-									{% if member.member_image %}
-										<div class="ann__list_img grid">
-											<img src="{{ get_image(member.member_image).src | resize(300) }}" sizes="{{ get_image(member.member_image).img_sizes }}" alt="{{ get_image(member.member_image).alt }}"/>
-										</div>
-									{% endif %}
-									<div class="ann__list_title">
-										{% if member.member_name %}
-											<h4>{{ member.member_name }}</h4>
-										{% endif %}
-										{% if member.member_title %}
-											<p>{{ member.member_title }}</p>
-										{% endif %}
-										{% if member.member_link %}
-											<a href="{{ member.member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
-										{% endif %}
-									</div>
-								</li>
-							{% endfor %}
-						</ul>
-					</section>
-
-					{# FULL IMAGE #}
-				{% elseif main.acf_fc_layout == 'full_image' %}
-					<section class="ann__sct ann__sct_pad_img {% if main.width == 'ann__sct_full' %}ann__sct_full {% elseif main.width == 'wrapper--pad-xlg' %} wrapper--pad-xlg {% else %} wrapper--pad-huge {% endif %}" {% if main.background_color %} style="background-color:{{ main.background_color }};" {% endif %}>
-						{% if main.title %}
-							<div class="ann__title">
-								<h2>{{ main.title }}</h2>
-							</div>
-						{% endif %}
-						{% if main.image %}
-							<img src="{{ get_image(main.image).src }}" sizes="{{ get_image(main.image).img_sizes }}" alt="{{ get_image(main.image).alt }}"/>
-						{% endif %}
-					</section>
-
-					{# QUOTE #}
-				{% elseif main.acf_fc_layout == 'quote' %}
-					<section class="ann__sct ann__sct_quote">
-						<div class="ann__sect_quote__container" style="{% if main.quote_image %}background-image:url({{ get_image(main.quote_image).src }});background-position:center;background-repeat:no-repeat;{% endif %}{% if main.quote_section_background %}background-color:{{ main.quote_section_background }};{% endif %}">
-							{% if main.quote_text %}
-								<h1 class="ann__sect_quote-img container--xl" {% if main.quote_background %} style="background-color:{{ main.quote_background }};" {% endif %}>{{ main.quote_text }}</h1>
+			{# HIGHLIGHTS #}
+			{% elseif main.acf_fc_layout == 'highlights' %}
+				<section class="ann__sct ann__sct_grid ann__sct_grid_pt wrapper--pad-xlg"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
+					<div class="ann__title ann__top_title ann__title_light">
+						<h2>{{ main.highlights_title }}</h2>
+					</div>
+					<div class="ann__grid grid">
+					{% for item in main.highlight %}
+						<div class="ann__grid_item">
+							{% if item.highlight_icon %}
+								<img src="{{ get_image(item.highlight_icon).src }}" sizes="{{ get_image(item.highlight_icon).img_sizes }}"
+									alt="{{ get_image(item.highlight_icon).alt }}" />
+							{% endif %}
+							{% if item.highlight_number %}
+								<h2 class="ann__grid_num">{{ item.highlight_number }}</h2>
+							{% endif %}
+							{% if item.highlight_title %}
+								<h3 class="ann__grid_title">{{ item.highlight_title }}</h3>
+							{% endif %}
+							{% if item.highlight_text %}
+								<p class="ann__grid_text">{{ item.highlight_text }}</p>
 							{% endif %}
 						</div>
-					</section>
+					{% endfor %}
+					</div>
+				</section>
 
-					{# LARGE TILES #}
-				{% elseif main.acf_fc_layout == 'large_tiles' %}
-					{% include 'tiles-annual-report.twig' %}
-
-					{# OUTREACH #}
-				{% elseif main.acf_fc_layout == 'outreach' %}
-					<section class="ann__sct ann__sct_full_content grid wrapper--pad-xlg vert-pad-sm">
-						{% if main.outreach_title %}
-							<div class="ann__title">
-								<h2>{{ main.outreach_title }}</h2>
-							</div>
-						{% endif %}
-						{% if main.outreach_subtext %}
-							<div class="ann__subtitle">{{ main.outreach_subtext }}</div>
-						{% endif %}
-						{% if main.row_one_intro %}
-							<div class="ann__intro">{{ main.row_one_intro }}</div>
-						{% endif %}
-						{% if main.row_one_column_one %}
-							<div class="ann__col ann__col_first">
-								{{ main.row_one_column_one }}
-							</div>
-						{% endif %}
-						{% if main.row_one_column_two %}
-							<div class="ann__col ann__col_second">
-								{{ main.row_one_column_two }}
-							</div>
-						{% endif %}
-						{# row two #}
-						{% if main.row_two_intro %}
-							<div class="ann__intro">{{ main.row_two_intro }}</div>
-						{% endif %}
-						{% if main.row_two_column_one %}
-							<div class="ann__col ann__col_first">
-								{{ main.row_two_column_one }}
-							</div>
-						{% endif %}
-						{% if main.row_two_column_two %}
-							<div class="ann__col ann__col_second">
-								{{ main.row_two_column_two }}
-							</div>
-						{% endif %}
-						{% if main.row_two_footer  %}
-							<div class="ann__intro">{{ main.row_two_footer }}</div>
-						{% endif %}
-					</section>
-
-					{# FOOTER #}
-				{% elseif main.acf_fc_layout == 'footer' %}
-					<footer class="ann__sct ann__sct_full_content_slim wrapper--pad-huge">
-						{% if main.contact_info %}
-							<div class="ann__contact_info">
-								{{ main.contact_info }}
-							</div>
-						{% endif %}
-						<div class="ann__social grid">
-							{% for social in main.socials %}
-								{% if social.social_name %}
-									{% set name = social.social_name %}
-									{% set path, name, ending = 'assets/img/icon-', name, '.svg' %}
-									{% set svg = [path, name, ending]|join %}
-									<div class="social">
-										<a href="{{ social.social_url }}" target="_blank">
-											{{ source(svg) }}
-											{{ social.social_handle }}
-										</a>
+			{# NEWSWORTHY #}
+			{% elseif main.acf_fc_layout == 'newsworthy' %}
+				<section class="ann__sct ann__sct_grid wrapper--pad-xlg container--xl">
+					{% if main.newsworthy_title %}
+						<div class="ann__title">
+							<h2>{{ main.newsworthy_title }}</h2>
+						</div>
+					{% endif %}
+					<div class="tiles grid grid--col-12 grid--gap-30">
+						{% for tile in main.tiles %}
+							<div class="tile tile--has-img tile--research-cat--reader-engagement tile--vertical--bridging-divides">
+								{% if tile.image %}
+									<div class="tile__img-wrap">
+										<img src="{{ get_image(tile.image).src }}" 
+											sizes="{{ get_image(tile.image).img_sizes }}"
+											alt="{{ get_image(tile.image).alt }}" />
 									</div>
 								{% endif %}
-							{% endfor %}
+								<div class="tile__title-wrap">
+									<div class="tile__label">
+										<div class="tile__bar"></div>
+									</div>
+									{% if tile.title %}
+										<h3 class="tile__title h3">{{ tile.title|length > 50 ? tile.title|slice(0, 50) ~ "..." : tile.title}}</h3>
+									{% endif %}
+									{% if tile.content %}
+										<div class="tile__excerpt">{{ tile.content }}</div>
+									{% endif %}
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</section>
+
+			{# FALCULTY #}
+			{% elseif main.acf_fc_layout == 'faculty' %}
+				<section class="ann__sct ann__sct_whole ann__sct_grid_pt wrapper--pad-xlg ann__sct_faculty">
+					{% if main.faculty_title %}
+						<div class="ann__title ann__title_main">
+							<h2>{{ main.faculty_title }}</h2>
 						</div>
-						{% if main.gift_button_text %}
-							<div class="ann__gift_btn">
-								<a href="{{ main.gift_button_url }}" class="btn--ghost">
-									{{ main.gift_button_text }}
+					{% endif %}
+					{% if main.faculty_bolded_title %}
+						<div class="ann__title_bolded ann__title_orange">{{main.faculty_bolded_title}} </div>
+					{% endif %}
+					<ul class="grid ann__list">
+						{% for member in main.members %}
+							<li class="ann__list_item grid">
+								{% if member.member_image %}
+									<div class="ann__list_img grid">
+										<img src="{{ get_image(member.member_image).src | resize(300) }}"
+											sizes="{{ get_image(member.member_image).img_sizes }}"
+											alt="{{ get_image(member.member_image).alt }}" />
+									</div>
+								{% endif %}
+								<div class="ann__list_title">
+									{% if member.member_name %}
+										<h4>{{ member.member_name }}</h4>
+									{% endif %}
+									{% if member.member_title %}
+										<p>{{ member.member_title }}</p>
+									{% endif %}
+									{% if member.member_link %}
+										<a href="{{ member.member_link }}" class="btn btn--sm_reg_dark">Read more ></a>
+									{% endif %}
+								</div>
+							</li>
+						{% endfor %}
+					</ul>
+				</section>
+			
+			{# FULL IMAGE #}
+			{% elseif main.acf_fc_layout == 'full_image' %}
+				<section class="ann__sct ann__sct_pad_img {% if main.width == 'ann__sct_full' %}ann__sct_full {% elseif main.width == 'wrapper--pad-xlg' %} wrapper--pad-xlg {% else %} wrapper--pad-huge {% endif %}"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
+					{% if main.title %}
+						<div class="ann__title">
+							<h2>{{ main.title }}</h2>
+						</div>
+					{% endif %}
+					{% if main.image %}
+						<img src="{{ get_image(main.image).src }}" 
+							sizes="{{ get_image(main.image).img_sizes }}"
+							alt="{{ get_image(main.image).alt }}" />
+					{% endif %}
+				</section>
+
+			{# QUOTE #}
+			{% elseif main.acf_fc_layout == 'quote' %}
+				<section class="ann__sct ann__sct_quote">
+				<div class="ann__sect_quote__container" style="{% if main.quote_image %}background-image:url({{ get_image(main.quote_image).src }});background-position:center;background-repeat:no-repeat;{% endif %}{% if main.quote_section_background %}background-color:{{ main.quote_section_background }};{% endif %}">
+					{% if main.quote_text %}
+						<h1 class="ann__sect_quote-img container--xl"{% if main.quote_background %} style="background-color:{{ main.quote_background }};"{% endif %}>{{ main.quote_text }}</h1>
+					{% endif %}
+					</div>
+				</section>
+
+			{# LARGE TILES #}
+			{% elseif main.acf_fc_layout == 'large_tiles' %}
+				{% include 'tiles-annual-report.twig' %}
+
+			{# OUTREACH #} 
+			{% elseif main.acf_fc_layout == 'outreach' %}
+				<section class="ann__sct ann__sct_full_content grid wrapper--pad-xlg vert-pad-sm">
+					{% if main.outreach_title %}
+						<div class="ann__title">
+							<h2>{{ main.outreach_title }}</h2>
+						</div>
+					{% endif %}
+					{% if main.outreach_subtext %}
+						<div class="ann__subtitle">{{ main.outreach_subtext }}</div>
+					{% endif %}
+					{% if main.row_one_intro %}
+						<div class="ann__intro">{{ main.row_one_intro }}</div>
+					{% endif %}
+					{% if main.row_one_column_one %}
+						<div class="ann__col ann__col_first">
+							{{ main.row_one_column_one }}
+						</div>
+					{% endif %}
+					{% if main.row_one_column_two %}
+						<div class="ann__col ann__col_second">
+							{{ main.row_one_column_two }}
+						</div>
+					{% endif %}
+					{# row two #}
+					{% if main.row_two_intro %}
+						<div class="ann__intro">{{ main.row_two_intro }}</div>
+					{% endif %}
+					{% if main.row_two_column_one %}
+						<div class="ann__col ann__col_first">
+							{{ main.row_two_column_one }}
+						</div>
+					{% endif %}
+					{% if main.row_two_column_two %}
+						<div class="ann__col ann__col_second">
+							{{ main.row_two_column_two }}
+						</div>
+					{% endif %}
+					{% if main.row_two_footer  %}
+						<div class="ann__intro">{{ main.row_two_footer }}</div>
+					{% endif %}
+				</section>
+
+			{# FOOTER #} 
+			{% elseif main.acf_fc_layout == 'footer' %}
+				<footer class="ann__sct ann__sct_full_content_slim wrapper--pad-huge">
+					{% if main.contact_info %}
+						<div class="ann__contact_info">
+							{{ main.contact_info }}
+						</div>
+					{% endif %}
+					<div class="ann__social grid">
+					{% for social in main.socials %}
+						{% if social.social_name %}
+							{% set name = social.social_name %}
+							{% set path, name, ending = 'assets/img/icon-', name, '.svg' %}
+							{% set svg = [path, name, ending]|join %}
+							<div class="social">
+								<a href="{{ social.social_url }}" target="_blank">
+									{{ source(svg) }}
+									{{ social.social_handle }}
 								</a>
 							</div>
 						{% endif %}
-					</footer>
-					{# PARALLAX #}
-				{% elseif main.acf_fc_layout == 'parallax' %}
-					TESTING--
-					<pre>PARALLAX LAYOUT YES</pre>
-					{% if main.background_image %}
-						<img src="{{ get_image(main.background_image).src }}" sizes="{{ get_image(main.background_image).img_sizes }}" alt="{{ get_image(main.background_image).alt }}"/>
+					{% endfor %}
+					</div>
+					{% if main.gift_button_text %}
+						<div class="ann__gift_btn">
+							<a href="{{ main.gift_button_url }}" class="btn--ghost">
+								{{ main.gift_button_text }}
+							</a>
+						</div>
 					{% endif %}
-
-					{# Page 3 #}
-				{% elseif main.acf_fc_layout == 'page_3' %}
-					<section
-						class="ann__pg3">
-						{# Left column - 1 column, 3 rows #}
-						<div class="grid grid_1col_3row">
-							<div class="grid__item">
-								{% if main.director_title %}
-									<h2 class="ann__title" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.director_title }}</h2>
-								{% endif %}
-							</div>
-							{% if main.paragraphs %}
-								{% set paragraphs = main.paragraphs|split('\n') %}
-								{% set half = (paragraphs|length / 2)|round(0, 'ceil') %}
-
-								{% for paragraph in paragraphs[:half] %}
-									<div class="grid__item">
-										<div class="ann__content">
-											{{ paragraph|nl2br|raw }}
-										</div>
-									</div>
-								{% endfor %}
-							{% endif %}
-
-						</div>
-
-						{# Right column - 1 column, 2 rows #}
-						<div class="grid grid_1col_2row">
-							<div class="grid__item">
-								{% if main.director_image %}
-									<div class="ann__pg3_img_div">
-										<div class="ann__pg3_circle_container">
-											<svg class="ann__pg3_circle_svg" preserveaspectratio="xMidYMid meet" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-												<path class="ann__pg3_circle ann__pg3_half_circle_dashed ann__pg3_rotate_81" d="M 10,100 A 90,90 0 0,1 190,100"/>
-												<path class="ann__pg3_circle ann__pg3_half_circle_blue ann__pg3_rotate_counter_90" d="M 20,100 A 80,80 0 0,1 180,100"/>
-												<path class="ann__pg3_circle ann__pg3_half_circle_orange ann__pg3_rotate_counter_95" d="M 30,100 A 70,70 0 0,1 170,100"/>
-												<path class="ann__pg3_circle ann__pg3_half_circle_yellow ann__pg3_rotate_85" d="M 40,100 A 60,60 0 0,1 160,100"/>
-											</svg>
-										</div>
-										<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__pg3_img"/>
-									</div>
-								{% endif %}
-							</div>
-							{% if main.paragraphs %}
-								{% for paragraph in paragraphs[half:] %}
-									<div class="grid__item">
-										<div class="ann__content">
-											{{ paragraph|nl2br|raw }}
-										</div>
-									</div>
-								{% endfor %}
-							{% endif %}
-						</div>
-					</section>
+				</footer>
+			{# PARALLAX #} 
+			{% elseif main.acf_fc_layout == 'parallax' %}
+				TESTING-- <pre>PARALLAX LAYOUT YES</pre>
+				{% if main.background_image %}
+					<img src="{{ get_image(main.background_image).src }}" 
+						sizes="{{ get_image(main.background_image).img_sizes }}"
+						alt="{{ get_image(main.background_image).alt }}" />
 				{% endif %}
+			{# LANDING #}
+			{% elseif main.acf_fc_layout == 'landing' %}
+				<section class="ann__landing ann__landing_background" style="{% if main.landing_background_image %}background-image:url({{ get_image(main.landing_background_image).src }});{% endif %}">
+					<div class="ann__landing_circle_container">
+						<svg class="ann__landing_circle_svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+							<path class="ann__landing_circle ann__landing_half_circle_dashed ann__landing_rotate_81" d="M 10,100 A 50,50 0 0,1 190,100" />
+							<path class="ann__landing_circle ann__landing_half_circle_blue ann__landing_rotate_counter_90" d="M 20,100 A 70,70 0 0,1 180,100" />
+							<path class="ann__landing_circle ann__landing_half_circle_orange ann__landing_rotate_counter_95" d="M 28,100 A 60,60 0 0,1 172,100" />
+							<path class="ann__landing_circle ann__landing_half_circle_yellow ann__landing_rotate_85" d="M 40,100 A 50,50 0 0,1 160,100" />
+						</svg>
+						<svg class="ann__landing_circle_logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 200">
+							<g fill="none" fill-rule="evenodd" font-style="condensed" font-weight="bold">
+								<text class="ann__landing_circle_cme ann__landing_fade_in ann__landing_fade_in_delay_1" fill="#AE542D" font-size="24" letter-spacing="0">
+									<tspan x="0" y="48">CENTER FOR MEDIA ENGAGEMENT</tspan>
+								</text>
+								<text class="ann__landing_circle_2023 ann__landing_fade_in ann__landing_fade_in_delay_2" fill="#3C4952" font-size="160" letter-spacing=".31">
+									<tspan x="0" y="198">2023</tspan>
+								</text>
+							</g>
+						</svg>
+					</div>
+					
+					<div>
+						{% if main.landing_header_top is defined and main.landing_header_top and main.landing_header_bottom is defined and main.landing_header_bottom %}
+						<div class="ann__landing_header_container ann__landing_fade_in_and_up_delay_1">
+							<h1 class="ann__landing_header">
+								<span class="ann__landing_header_top ann__landing_fade_in_and_up_delay_1">{{ main.landing_header_top }}</span>
+								<span class="ann__landing_header_bottom ann__landing_fade_in_and_up_delay_2">{{ main.landing_header_bottom }}</span>
+							</h1>
+						</div>
+						{% endif %}
 
-			{% endfor %}
+						{% if main.landing_logo_image %}
+							<img  src="{{ get_image(main.landing_logo_image).src }}" srcset="{{ get_image(main.landing_logo_image).srcset }}" sizes="{{ get_image(main.landing_logo_image).img_sizes }}" alt="{{ get_image(main.landing_logo_image).alt }}" class="ann__landing_logo ann__landing_fade_in_and_up_delay_3" />
+						{% endif %}
+					</div>
+				</section>
+			{% endif %}
+				
+		{% endfor %}
 
-		</section>
-		{% block footer %}
-			{{ function('wp_footer') }}
-		{% endblock %}
+	</section>
+	{% block footer %}
+		{{ function('wp_footer') }}
+	{% endblock %}
 
-	{% endblock content %}
+{% endblock content %}

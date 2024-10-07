@@ -251,7 +251,7 @@ function stats_admin_menu() {
 	} else {
 		// Enable the new Odyssey Stats experience.
 		$stats_dashboard = new Stats_Dashboard();
-		$hook            = Admin_Menu::add_menu( __( 'Stats', 'jetpack' ), __( 'Stats', 'jetpack' ), 'view_stats', 'stats', array( $stats_dashboard, 'render' ) );
+		$hook            = Admin_Menu::add_menu( __( 'Stats', 'jetpack' ), __( 'Stats', 'jetpack' ), 'view_stats', 'stats', array( $stats_dashboard, 'render' ), 1 );
 		add_action( "load-$hook", array( $stats_dashboard, 'admin_init' ) );
 	}
 }
@@ -1032,6 +1032,11 @@ function stats_hide_smile_css() {
  * @return void
  */
 function stats_admin_bar_head() {
+	// Let's not show the stats admin bar to users who are not logged in.
+	if ( ! is_user_logged_in() ) {
+		return;
+	}
+
 	if ( ! Stats_Options::get_option( 'admin_bar' ) ) {
 		return;
 	}

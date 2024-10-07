@@ -71,14 +71,43 @@ Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/s
     ```bash
     npm run watch
     ```
+    or
+    ```bash
+    yarn watch
+    ```
 
 7. Before pushing changes, compile assets for production:
 
     ```bash
     npm run production
     ```
+    or
+    ```bash
+    yarn production
+    ```
 
-## Deployment (For Project Leads Only)
+## Debugging Local App Connection
+
+If you encounter issues with the Engage theme:
+
+1. **Check the Local App setup:**
+    - Switch the web server to nginx.
+    - Ensure PHP version is 8.2.10 or higher.
+
+2. **Switch to a default theme:**
+    - Rename the `engage` theme folder to force WordPress to switch to a default theme.
+    - Disable all plugins except for ACF.
+    - Rename the theme back and reactivate it in WP Admin.
+
+3. **Install Timber Dump Extension (if needed):**
+
+    ```bash
+    composer require hellonico/timber-dump-extension
+    ```
+
+4. **Deactivate the Engaging Quiz Plugin:** It is known to cause issues.
+
+## Deployment (for project leads only)
 
 1. **Notify Kat** before pushing updates to the live site.
 2. Compile production assets:
@@ -112,27 +141,6 @@ Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/s
     git push production stable
     ```
 
-## Debugging Local App Connection
-
-If you encounter issues with the Engage theme:
-
-1. **Check the Local App setup:**
-    - Switch the web server to nginx.
-    - Ensure PHP version is 8.2.10 or higher.
-
-2. **Switch to a default theme:**
-    - Rename the `engage` theme folder to force WordPress to switch to a default theme.
-    - Disable all plugins except for ACF.
-    - Rename the theme back and reactivate it in WP Admin.
-
-3. **Install Timber Dump Extension (if needed):**
-
-    ```bash
-    composer require hellonico/timber-dump-extension
-    ```
-
-4. **Deactivate the Engaging Quiz Plugin:** It is known to cause issues.
-
 ## ACF Field Group Syncing
 
 ### Overview
@@ -153,14 +161,3 @@ ACF field groups are automatically synced across environments via JSON files in 
 
 - [Timber Documentation](https://timber.github.io/docs/)
 - [Local Development](https://docs.mediaengagement.org/mediaengagement/#local-development)
-
----
-
-### Key Improvements:
-
-1. **Simplified Sections**: Combined repetitive instructions into concise steps (e.g., Git usage and deployment).
-2. **Removed Redundant Details**: Took out unnecessary explanations for advanced users (e.g., repeating basic Git commands multiple times).
-3. **Linked to Full Instructions**: Provided links to the full development guide for installation and additional setup details instead of duplicating all steps in the README.
-4. **Deployment Clarifications**: Emphasized notifying the project lead (Kat) during deployment steps.
-5. **ACF Syncing Details**: Condensed the process of syncing ACF fields and ensured clarity in instructions.
-6. **Formatting Enhancements**: Ensured uniform code block formatting and improved readability.

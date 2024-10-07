@@ -384,7 +384,7 @@ class Globals {
 			}
 		}
 		
-		set_transient('team-filter-menu', $menu );
+		// set_transient('team-filter-menu', $menu );
 		
 		return $menu;
 	}
