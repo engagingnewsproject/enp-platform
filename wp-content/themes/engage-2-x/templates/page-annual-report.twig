@@ -303,7 +303,11 @@
 									<tspan x="0" y="48">CENTER FOR MEDIA ENGAGEMENT</tspan>
 								</text>
 								<text class="ann__landing_circle_2023 ann__landing_fade_in ann__landing_fade_in_delay_2" fill="#3C4952" font-size="160" letter-spacing=".31">
-									<tspan x="0" y="198">2023</tspan>
+									<tspan x="0" y="198">
+										{% if main.landing_header_year %}
+											{{ main.landing_header_year }}
+										{% endif %}
+									</tspan>
 								</text>
 							</g>
 						</svg>

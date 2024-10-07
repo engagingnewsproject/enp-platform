@@ -1392,11 +1392,33 @@
                                 "class": "",
                                 "id": ""
                             },
-                            "default_value": "",
-                            "tabs": "all",
-                            "toolbar": "full",
-                            "media_upload": 1,
-                            "delay": 0
+                            "default_value": "Report",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_66fd677c7aad0",
+                            "label": "Header year",
+                            "name": "landing_header_year",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "Year for annual report",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": 2023,
+                            "min": "",
+                            "max": "",
+                            "placeholder": "",
+                            "step": "",
+                            "prepend": "",
+                            "append": ""
                         },
                         {
                             "key": "field_66e8ad5583f02",
@@ -1466,5 +1488,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1728079626
+    "modified": 1727883630
 }
