@@ -291,20 +291,19 @@
 									<h2 class="ann__title" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.director_title }}</h2>
 								{% endif %}
 							</div>
-							<div class="grid__item">
-								{% if main.paragraph_1 %}
+							{% if main.paragraphs %}
+                {% set paragraphs = main.paragraphs|split('\n') %}
+                {% set half = (paragraphs|length / 2)|round(0, 'ceil') %}
+                
+                {% for paragraph in paragraphs[:half] %}
+                    <div class="grid__item">
 									<div class="ann__content">
-										{{ main.paragraph_1 }}
+										{{ paragraph|nl2br|raw }}
 									</div>
-								{% endif %}
 							</div>
-							<div class="grid__item">
-								{% if main.paragraph_2 %}
-									<div class="ann__content">
-										{{ main.paragraph_2 }}
-									</div>
-								{% endif %}
-							</div>
+                {% endfor %}
+            {% endif %}
+							
 						</div>
 
 						{# Right column - 1 column, 2 rows #}
@@ -324,13 +323,15 @@
 									</div>
 								{% endif %}
 							</div>
-							<div class="grid__item">
-								{% if main.paragraph_3 %}
-									<div class="ann__pg3_paragraph_3">
-										{{ main.paragraph_3 }}
+							{% if main.paragraphs %}
+                {% for paragraph in paragraphs[half:] %}
+                     <div class="grid__item">
+									<div class="ann__content">
+										{{ paragraph|nl2br|raw }}
 									</div>
-								{% endif %}
 							</div>
+                {% endfor %}
+            {% endif %}
 						</div>
 					</section>
 				{% endif %}
