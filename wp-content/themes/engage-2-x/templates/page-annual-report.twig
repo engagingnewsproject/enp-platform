@@ -283,7 +283,8 @@
 
 					{# Page 3 #}
 				{% elseif main.acf_fc_layout == 'page_3' %}
-					<section class="ann__pg3">
+					<section
+						class="ann__pg3">
 						{# Left column - 1 column, 3 rows #}
 						<div class="grid grid_1col_3row">
 							<div class="grid__item">
@@ -292,18 +293,18 @@
 								{% endif %}
 							</div>
 							{% if main.paragraphs %}
-                {% set paragraphs = main.paragraphs|split('\n') %}
-                {% set half = (paragraphs|length / 2)|round(0, 'ceil') %}
-                
-                {% for paragraph in paragraphs[:half] %}
-                    <div class="grid__item">
-									<div class="ann__content">
-										{{ paragraph|nl2br|raw }}
+								{% set paragraphs = main.paragraphs|split('\n') %}
+								{% set half = (paragraphs|length / 2)|round(0, 'ceil') %}
+
+								{% for paragraph in paragraphs[:half] %}
+									<div class="grid__item">
+										<div class="ann__content">
+											{{ paragraph|nl2br|raw }}
+										</div>
 									</div>
-							</div>
-                {% endfor %}
-            {% endif %}
-							
+								{% endfor %}
+							{% endif %}
+
 						</div>
 
 						{# Right column - 1 column, 2 rows #}
@@ -324,14 +325,14 @@
 								{% endif %}
 							</div>
 							{% if main.paragraphs %}
-                {% for paragraph in paragraphs[half:] %}
-                     <div class="grid__item">
-									<div class="ann__content">
-										{{ paragraph|nl2br|raw }}
+								{% for paragraph in paragraphs[half:] %}
+									<div class="grid__item">
+										<div class="ann__content">
+											{{ paragraph|nl2br|raw }}
+										</div>
 									</div>
-							</div>
-                {% endfor %}
-            {% endif %}
+								{% endfor %}
+							{% endif %}
 						</div>
 					</section>
 				{% endif %}
