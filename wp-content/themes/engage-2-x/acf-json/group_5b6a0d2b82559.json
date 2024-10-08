@@ -21,6 +21,7 @@
             "max": 0,
             "layout": "table",
             "button_label": "Add Row",
+            "rows_per_page": 20,
             "sub_fields": [
                 {
                     "key": "field_5b6a0d54a7efd",
@@ -40,7 +41,7 @@
                         "research": "research",
                         "verticals": "verticals"
                     },
-                    "default_value": [],
+                    "default_value": false,
                     "allow_null": 0,
                     "multiple": 0,
                     "ui": 1,
@@ -116,8 +117,7 @@
                     "delay": 1,
                     "parent_repeater": "field_5b6a0d3da7efc"
                 }
-            ],
-            "rows_per_page": 20
+            ]
         }
     ],
     "location": [
@@ -137,6 +137,6 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "show_in_rest": 0,
-    "modified": 1724343138
+    "show_in_rest": false,
+    "modified": 1728381544
 }

@@ -29,7 +29,7 @@
             {
                 "param": "post_category",
                 "operator": "==",
-                "value": "category:latest-news"
+                "value": "42"
             }
         ]
     ],
@@ -50,6 +50,6 @@
     ],
     "active": true,
     "description": "",
-    "show_in_rest": 0,
-    "modified": 1724343177
+    "show_in_rest": false,
+    "modified": 1728381544
 }

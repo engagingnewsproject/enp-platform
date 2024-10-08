@@ -1,11 +1,98 @@
 {
-    "key": "group_5cdc6f0a904b0",
-    "title": "Homepage Detail",
+    "key": "group_63594dc68c9fe",
+    "title": "Homepage Detail (backup)",
     "fields": [
         {
-            "key": "field_631f6ed181c34",
-            "label": "Slider posts",
-            "name": "slider_posts",
+            "key": "field_63594dc757ff1",
+            "label": "Facebook",
+            "name": "facebook",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "https:\/\/www.facebook.com\/EngagingNewsProject",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "formatting": "html",
+            "maxlength": ""
+        },
+        {
+            "key": "field_63594dc758039",
+            "label": "Twitter",
+            "name": "twitter",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "https:\/\/twitter.com\/EngagingNews",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "formatting": "html",
+            "maxlength": ""
+        },
+        {
+            "key": "field_63594dc75807e",
+            "label": "Main Description",
+            "name": "homepage_about",
+            "aria-label": "",
+            "type": "wysiwyg",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "toolbar": "full",
+            "media_upload": 1,
+            "tabs": "all",
+            "delay": 0
+        },
+        {
+            "key": "field_63594dc7580c6",
+            "label": "Featured Post",
+            "name": "featured_post",
+            "aria-label": "",
+            "type": "post_object",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "post",
+                "research"
+            ],
+            "taxonomy": [],
+            "allow_null": 0,
+            "multiple": 0,
+            "return_format": "object",
+            "ui": 1,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_63594dc758107",
+            "label": "Related Research",
+            "name": "enp_featured_related_research",
             "aria-label": "",
             "type": "relationship",
             "instructions": "",
@@ -16,27 +103,23 @@
                 "class": "",
                 "id": ""
             },
-            "post_type": [
-                "research",
-                "blogs"
-            ],
-            "post_status": "",
-            "taxonomy": "",
-            "filters": [
-                "search",
-                "post_type",
-                "taxonomy"
-            ],
             "return_format": "id",
-            "min": 1,
-            "max": 6,
+            "post_type": [
+                "research"
+            ],
+            "taxonomy": [],
+            "filters": [
+                "search"
+            ],
+            "max": 3,
+            "min": 0,
             "elements": [
-                "featured_image"
+                "post_type"
             ],
             "bidirectional_target": []
         },
         {
-            "key": "field_60230d3db1edc",
+            "key": "field_63594dc758146",
             "label": "Quiz Section",
             "name": "quiz_info",
             "aria-label": "",
@@ -52,7 +135,7 @@
             "layout": "block",
             "sub_fields": [
                 {
-                    "key": "field_6022d79a673af",
+                    "key": "field_63594dc77ad59",
                     "label": "Title",
                     "name": "title",
                     "aria-label": "",
@@ -72,7 +155,7 @@
                     "maxlength": ""
                 },
                 {
-                    "key": "field_6022d998673b0",
+                    "key": "field_63594dc77ad9f",
                     "label": "Description",
                     "name": "description",
                     "aria-label": "",
@@ -92,7 +175,7 @@
                     "new_lines": ""
                 },
                 {
-                    "key": "field_60230a028d4d0",
+                    "key": "field_63594dc77ade4",
                     "label": "Button Title",
                     "name": "button_title",
                     "aria-label": "",
@@ -112,7 +195,7 @@
                     "maxlength": ""
                 },
                 {
-                    "key": "field_60230a268d4d1",
+                    "key": "field_63594dc77ae32",
                     "label": "Button link",
                     "name": "button_link",
                     "aria-label": "",
@@ -131,7 +214,7 @@
             ]
         },
         {
-            "key": "field_60230d56b1edd",
+            "key": "field_63594dc758186",
             "label": "",
             "name": "quiz_images",
             "aria-label": "",
@@ -147,7 +230,7 @@
             "layout": "block",
             "sub_fields": [
                 {
-                    "key": "field_6022f70a61a7f",
+                    "key": "field_63594dc796f02",
                     "label": "Image",
                     "name": "image",
                     "aria-label": "",
@@ -172,7 +255,7 @@
                     "mime_types": ""
                 },
                 {
-                    "key": "field_6023090e21766",
+                    "key": "field_63594dc796f62",
                     "label": "Image",
                     "name": "image_two",
                     "aria-label": "",
@@ -199,7 +282,7 @@
             ]
         },
         {
-            "key": "field_60232a1442a71",
+            "key": "field_63594dc7581c6",
             "label": "Tool Section",
             "name": "tool_section",
             "aria-label": "",
@@ -220,7 +303,7 @@
             "rows_per_page": 20,
             "sub_fields": [
                 {
-                    "key": "field_60232a9042a74",
+                    "key": "field_63594dc7aaad8",
                     "label": "Info",
                     "name": "info",
                     "aria-label": "",
@@ -234,10 +317,10 @@
                         "id": ""
                     },
                     "layout": "block",
-                    "parent_repeater": "field_60232a1442a71",
+                    "parent_repeater": "field_63594dc7581c6",
                     "sub_fields": [
                         {
-                            "key": "field_60232a9042a75",
+                            "key": "field_63594dc7b080b",
                             "label": "Title",
                             "name": "title",
                             "aria-label": "",
@@ -257,7 +340,7 @@
                             "maxlength": ""
                         },
                         {
-                            "key": "field_60232a9042a76",
+                            "key": "field_63594dc7b0853",
                             "label": "Description",
                             "name": "description",
                             "aria-label": "",
@@ -277,7 +360,7 @@
                             "new_lines": ""
                         },
                         {
-                            "key": "field_60232a9042a77",
+                            "key": "field_63594dc7b0896",
                             "label": "Button Title",
                             "name": "button_title",
                             "aria-label": "",
@@ -297,7 +380,7 @@
                             "maxlength": ""
                         },
                         {
-                            "key": "field_60232a9042a78",
+                            "key": "field_63594dc7b08d9",
                             "label": "Button link",
                             "name": "button_link",
                             "aria-label": "",
@@ -316,7 +399,7 @@
                     ]
                 },
                 {
-                    "key": "field_60232ae442a79",
+                    "key": "field_63594dc7aab1e",
                     "label": "Images",
                     "name": "images",
                     "aria-label": "",
@@ -330,10 +413,10 @@
                         "id": ""
                     },
                     "layout": "block",
-                    "parent_repeater": "field_60232a1442a71",
+                    "parent_repeater": "field_63594dc7581c6",
                     "sub_fields": [
                         {
-                            "key": "field_60232ae442a7a",
+                            "key": "field_63594dc7cef5f",
                             "label": "Image",
                             "name": "image_one",
                             "aria-label": "",
@@ -358,7 +441,7 @@
                             "mime_types": ""
                         },
                         {
-                            "key": "field_60232ae442a7b",
+                            "key": "field_63594dc7cefac",
                             "label": "Image",
                             "name": "image_two",
                             "aria-label": "",
@@ -368,7 +451,7 @@
                             "conditional_logic": [
                                 [
                                     {
-                                        "field": "field_60232ae442a7a",
+                                        "field": "field_63594dc7cef5f",
                                         "operator": "!=empty"
                                     }
                                 ]
@@ -411,7 +494,7 @@
     "hide_on_screen": [
         "the_content"
     ],
-    "active": true,
+    "active": false,
     "description": "",
     "show_in_rest": 0,
     "modified": 1728381544

@@ -43,6 +43,7 @@
         "permalink",
         "the_content",
         "excerpt",
+        "custom_fields",
         "discussion",
         "comments",
         "revisions",
@@ -56,6 +57,6 @@
     ],
     "active": true,
     "description": "",
-    "show_in_rest": 0,
-    "modified": 1724343158
+    "show_in_rest": false,
+    "modified": 1728381544
 }

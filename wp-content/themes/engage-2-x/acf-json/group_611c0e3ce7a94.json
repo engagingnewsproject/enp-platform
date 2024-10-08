@@ -56,7 +56,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "http:\/\/localhost:10028\/wp-content\/uploads\/2021\/08\/Public.Interest.Standard.Roundtable.pdf",
+            "default_value": "https:\/\/mediaengagement.org\/wp-content\/uploads\/2021\/08\/Public.Interest.Standard.Roundtable.pdf",
             "placeholder": ""
         },
         {
@@ -73,7 +73,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "http:\/\/localhost:10028\/wp-content\/uploads\/2021\/08\/In-Page-Titles-Finding_1.gif",
+            "default_value": "https:\/\/mediaengagement.org\/wp-content\/uploads\/2021\/08\/In-Page-Titles-Finding_1.gif",
             "placeholder": ""
         },
         {
@@ -130,7 +130,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "http:\/\/localhost:10028\/wp-content\/uploads\/2021\/08\/In-Page-Titles-Finding_2.gif",
+            "default_value": "https:\/\/mediaengagement.org\/wp-content\/uploads\/2021\/08\/In-Page-Titles-Finding_2.gif",
             "placeholder": ""
         },
         {
@@ -187,7 +187,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "http:\/\/localhost:10028\/wp-content\/uploads\/2021\/08\/In-Page-Titles-Finding_3.gif",
+            "default_value": "https:\/\/mediaengagement.org\/wp-content\/uploads\/2021\/08\/In-Page-Titles-Finding_3.gif",
             "placeholder": ""
         },
         {
@@ -244,7 +244,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "http:\/\/localhost:10028\/wp-content\/uploads\/2021\/08\/In-Page-Titles-Finding_4.gif",
+            "default_value": "https:\/\/mediaengagement.org\/wp-content\/uploads\/2021\/08\/In-Page-Titles-Finding_4.gif",
             "placeholder": ""
         },
         {
@@ -301,7 +301,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "http:\/\/localhost:10028\/wp-content\/uploads\/2021\/08\/In-Page-Titles-Finding_5.gif",
+            "default_value": "https:\/\/mediaengagement.org\/wp-content\/uploads\/2021\/08\/In-Page-Titles-Finding_5.gif",
             "placeholder": ""
         },
         {
@@ -362,6 +362,6 @@
     "hide_on_screen": "",
     "active": true,
     "description": "",
-    "show_in_rest": 0,
-    "modified": 1724343188
+    "show_in_rest": false,
+    "modified": 1728381545
 }

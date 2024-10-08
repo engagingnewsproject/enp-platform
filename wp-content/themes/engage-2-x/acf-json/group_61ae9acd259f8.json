@@ -54,7 +54,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "http:\/\/localhost:10006\/wp-content\/uploads\/2021\/03\/CME-2020-Annual-Report.pdf",
+            "default_value": "https:\/\/mediaengagement.org\/wp-content\/uploads\/2021\/03\/CME-2020-Annual-Report.pdf",
             "placeholder": ""
         },
         {
@@ -1346,128 +1346,11 @@
                     ],
                     "min": "",
                     "max": ""
-                },
-                "layout_66e899554ed1a": {
-                    "key": "layout_66e899554ed1a",
-                    "name": "parallax",
-                    "label": "Parallax",
-                    "display": "block",
-                    "sub_fields": [
-                        {
-                            "key": "field_66e8996d4ed1c",
-                            "label": "Parallax Image",
-                            "name": "parallax_image",
-                            "aria-label": "",
-                            "type": "image",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "return_format": "array",
-                            "library": "all",
-                            "min_width": "",
-                            "min_height": "",
-                            "min_size": "",
-                            "max_width": "",
-                            "max_height": "",
-                            "max_size": "",
-                            "mime_types": "",
-                            "preview_size": "medium"
-                        },
-                        {
-                            "key": "field_66e89a1b4ed1d",
-                            "label": "Parallax Text",
-                            "name": "parallax_text",
-                            "aria-label": "",
-                            "type": "wysiwyg",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "Report",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
-                        },
-                        {
-                            "key": "field_66fd677c7aad0",
-                            "label": "Header year",
-                            "name": "landing_header_year",
-                            "aria-label": "",
-                            "type": "number",
-                            "instructions": "Year for annual report",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": 2023,
-                            "min": "",
-                            "max": "",
-                            "placeholder": "",
-                            "step": "",
-                            "prepend": "",
-                            "append": ""
-                        },
-                        {
-                            "key": "field_66e8ad5583f02",
-                            "label": "Parallax Bar",
-                            "name": "parallax_bar",
-                            "aria-label": "",
-                            "type": "color_picker",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "enable_opacity": 0,
-                            "return_format": "string"
-                        },
-                        {
-                            "key": "field_66f48d7148edb",
-                            "label": "Parallax Speed",
-                            "name": "parallax_speed",
-                            "aria-label": "",
-                            "type": "number",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "0.5",
-                            "min": "",
-                            "max": "",
-                            "placeholder": "",
-                            "step": "",
-                            "prepend": "",
-                            "append": ""
-                        }
-                    ],
-                    "min": "",
-                    "max": ""
                 }
             },
+            "button_label": "Add Section",
             "min": "",
-            "max": "",
-            "button_label": "Add Section"
+            "max": ""
         }
     ],
     "location": [
@@ -1488,5 +1371,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1727883630
+    "modified": 1728381546
 }
