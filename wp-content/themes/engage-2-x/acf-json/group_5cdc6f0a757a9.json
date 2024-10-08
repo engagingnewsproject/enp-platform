@@ -29,7 +29,7 @@
             {
                 "param": "post_type",
                 "operator": "==",
-                "value": "workshop"
+                "value": "post"
             }
         ]
     ],
@@ -38,9 +38,9 @@
     "style": "default",
     "label_placement": "top",
     "instruction_placement": "label",
-    "hide_on_screen": [],
+    "hide_on_screen": "",
     "active": true,
     "description": "",
-    "show_in_rest": false,
-    "modified": 1728381544
+    "show_in_rest": 0,
+    "modified": 1728383280
 }
