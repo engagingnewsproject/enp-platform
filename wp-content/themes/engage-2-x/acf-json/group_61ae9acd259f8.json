@@ -246,7 +246,6 @@
                             "max": 0,
                             "layout": "block",
                             "button_label": "Add Icon",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_61ae9c85e24a8",
@@ -337,7 +336,8 @@
                                     "new_lines": "",
                                     "parent_repeater": "field_61ae9c68e24a7"
                                 }
-                            ]
+                            ],
+                            "rows_per_page": 20
                         }
                     ],
                     "min": "",
@@ -388,7 +388,6 @@
                             "max": 0,
                             "layout": "block",
                             "button_label": "Add tile",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_61afc4b75b35a",
@@ -458,7 +457,8 @@
                                     "delay": 0,
                                     "parent_repeater": "field_61afc4a75b359"
                                 }
-                            ]
+                            ],
+                            "rows_per_page": 20
                         }
                     ],
                     "min": "",
@@ -509,7 +509,6 @@
                             "max": 0,
                             "layout": "table",
                             "button_label": "Add Row",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_61aea827c018a",
@@ -597,7 +596,8 @@
                                     "mime_types": "",
                                     "parent_repeater": "field_61aea7d8c0188"
                                 }
-                            ]
+                            ],
+                            "rows_per_page": 20
                         }
                     ],
                     "min": "",
@@ -1029,7 +1029,6 @@
                             "max": 0,
                             "layout": "table",
                             "button_label": "Add Row",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_6392938dc896a",
@@ -1100,7 +1099,8 @@
                                     "placeholder": "",
                                     "parent_repeater": "field_61aeb5302939a"
                                 }
-                            ]
+                            ],
+                            "rows_per_page": 20
                         },
                         {
                             "key": "field_61aeb5752939d",
@@ -1168,7 +1168,6 @@
                             "max": 0,
                             "layout": "table",
                             "button_label": "Add Tile",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_61aec17c653a2",
@@ -1297,8 +1296,6 @@
                                     "max": 0,
                                     "layout": "table",
                                     "button_label": "Add link",
-                                    "rows_per_page": 20,
-                                    "parent_repeater": "field_61aec13b653a1",
                                     "sub_fields": [
                                         {
                                             "key": "field_61aec2f7653a8",
@@ -1339,22 +1336,25 @@
                                             "placeholder": "",
                                             "parent_repeater": "field_61aec2d7653a7"
                                         }
-                                    ]
+                                    ],
+                                    "rows_per_page": 20,
+                                    "parent_repeater": "field_61aec13b653a1"
                                 }
-                            ]
+                            ],
+                            "rows_per_page": 20
                         }
                     ],
                     "min": "",
                     "max": ""
                 },
-                "layout_66e899554ed1a": {
-                    "key": "layout_66e899554ed1a",
+                "layout_6705a5e888c50": {
+                    "key": "layout_6705a5e888c50",
                     "name": "parallax",
                     "label": "Parallax",
                     "display": "block",
                     "sub_fields": [
                         {
-                            "key": "field_66e8996d4ed1c",
+                            "key": "field_6705a5e888c51",
                             "label": "Parallax Image",
                             "name": "parallax_image",
                             "aria-label": "",
@@ -1376,10 +1376,11 @@
                             "max_height": "",
                             "max_size": "",
                             "mime_types": "",
+                            "allow_in_bindings": 1,
                             "preview_size": "medium"
                         },
                         {
-                            "key": "field_66e89a1b4ed1d",
+                            "key": "field_6705a5e888c52",
                             "label": "Parallax Text",
                             "name": "parallax_text",
                             "aria-label": "",
@@ -1392,36 +1393,15 @@
                                 "class": "",
                                 "id": ""
                             },
-                            "default_value": "Report",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
+                            "default_value": "",
+                            "allow_in_bindings": 1,
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 0
                         },
                         {
-                            "key": "field_66fd677c7aad0",
-                            "label": "Header year",
-                            "name": "landing_header_year",
-                            "aria-label": "",
-                            "type": "number",
-                            "instructions": "Year for annual report",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": 2023,
-                            "min": "",
-                            "max": "",
-                            "placeholder": "",
-                            "step": "",
-                            "prepend": "",
-                            "append": ""
-                        },
-                        {
-                            "key": "field_66e8ad5583f02",
+                            "key": "field_6705a5e888c53",
                             "label": "Parallax Bar",
                             "name": "parallax_bar",
                             "aria-label": "",
@@ -1436,29 +1416,8 @@
                             },
                             "default_value": "",
                             "enable_opacity": 0,
-                            "return_format": "string"
-                        },
-                        {
-                            "key": "field_66f48d7148edb",
-                            "label": "Parallax Speed",
-                            "name": "parallax_speed",
-                            "aria-label": "",
-                            "type": "number",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "0.5",
-                            "min": "",
-                            "max": "",
-                            "placeholder": "",
-                            "step": "",
-                            "prepend": "",
-                            "append": ""
+                            "return_format": "string",
+                            "allow_in_bindings": 1
                         }
                     ],
                     "min": "",
@@ -1477,6 +1436,13 @@
                 "operator": "==",
                 "value": "page-annual-report.php"
             }
+        ],
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "default"
+            }
         ]
     ],
     "menu_order": 1,
@@ -1488,5 +1454,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1727883630
+    "modified": 1728423422
 }

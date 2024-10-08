@@ -279,14 +279,39 @@
 						</div>
 					{% endif %}
 				</footer>
-			{# PARALLAX #} 
-			{% elseif main.acf_fc_layout == 'parallax' %}
-				TESTING-- <pre>PARALLAX LAYOUT YES</pre>
-				{% if main.background_image %}
-					<img src="{{ get_image(main.background_image).src }}" 
-						sizes="{{ get_image(main.background_image).img_sizes }}"
-						alt="{{ get_image(main.background_image).alt }}" />
-				{% endif %}
+			{# PARALLAX #}
+      {% elseif main.acf_fc_layout == 'parallax' %}
+        <section class="ann__sct ann__sct_parallax">
+          <div class="ann__sct_parallax__group">
+            <div class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});background-position:center;background-size:cover;width:100%;height:100vh;{% endif %}"></div>
+            <div class="ann__sct_parallax__container">
+              {% if main.parallax_text %}
+                {% if main.parallax_bar %}
+                    <hr class="ann__sct_parallax-bar" style="background-color:{{ main.parallax_bar }}"></hr>
+                {% endif %}
+                <h1 class="container--xl" style="color:white;">{{ main.parallax_text }}</h1>
+                {% if main.parallax_bar %}
+                  <hr class="ann__sct_parallax-bar" style="background-color:{{ main.parallax_bar }}"></hr>
+                {% endif %}
+              {% endif %}
+            </div>
+          </div>
+          <script>
+              const parallax = document.querySelector('.ann__sct_parallax__layer--back');
+
+              function calculateDistanceFromTop() {
+                  const rect = parallax.getBoundingClientRect();
+                  return rect.top + window.scrollY;
+              }
+
+              document.addEventListener('scroll', function () {
+                const scrollPosition = window.pageYOffset;
+                const distanceFromTop = calculateDistanceFromTop();
+                
+                parallax.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)';
+              });
+          </script>
+        </section>
 			{# LANDING #}
 			{% elseif main.acf_fc_layout == 'landing' %}
 				<section class="ann__landing ann__landing_background" style="{% if main.landing_background_image %}background-image:url({{ get_image(main.landing_background_image).src }});{% endif %}">
