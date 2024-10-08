@@ -54,7 +54,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "http:\/\/localhost:10006\/wp-content\/uploads\/2021\/03\/CME-2020-Annual-Report.pdf",
+            "default_value": "http:\/\/localhost:10004\/wp-content\/uploads\/2021\/03\/CME-2020-Annual-Report.pdf",
             "placeholder": ""
         },
         {
@@ -183,6 +183,122 @@
                     "min": "",
                     "max": ""
                 },
+                "layout_670597c9dc172": {
+                    "key": "layout_670597c9dc172",
+                    "name": "page_3",
+                    "label": "page_3",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_670597c9dc173",
+                            "label": "Background color",
+                            "name": "background_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "#f8971f",
+                            "enable_opacity": 0,
+                            "return_format": "string",
+                            "allow_in_bindings": 1
+                        },
+                        {
+                            "key": "field_670597c9dc174",
+                            "label": "Title",
+                            "name": "director_title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "From the Director",
+                            "maxlength": "",
+                            "allow_in_bindings": 1,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_670597cadc175",
+                            "label": "Title color",
+                            "name": "title_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "#ff9900",
+                            "enable_opacity": 0,
+                            "return_format": "string",
+                            "allow_in_bindings": 1
+                        },
+                        {
+                            "key": "field_670597cadc176",
+                            "label": "Image",
+                            "name": "director_image",
+                            "aria-label": "",
+                            "type": "image",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "id",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "allow_in_bindings": 1,
+                            "preview_size": "medium"
+                        },
+                        {
+                            "key": "field_6705982adc178",
+                            "label": "paragraphs",
+                            "name": "paragraphs",
+                            "aria-label": "",
+                            "type": "textarea",
+                            "instructions": "Split paragraphs by new lines.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "rows": "",
+                            "placeholder": "",
+                            "new_lines": ""
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
                 "layout_61ae9c30e24a5": {
                     "key": "layout_61ae9c30e24a5",
                     "name": "highlights",
@@ -246,7 +362,6 @@
                             "max": 0,
                             "layout": "block",
                             "button_label": "Add Icon",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_61ae9c85e24a8",
@@ -337,7 +452,8 @@
                                     "new_lines": "",
                                     "parent_repeater": "field_61ae9c68e24a7"
                                 }
-                            ]
+                            ],
+                            "rows_per_page": 20
                         }
                     ],
                     "min": "",
@@ -388,7 +504,6 @@
                             "max": 0,
                             "layout": "block",
                             "button_label": "Add tile",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_61afc4b75b35a",
@@ -458,7 +573,8 @@
                                     "delay": 0,
                                     "parent_repeater": "field_61afc4a75b359"
                                 }
-                            ]
+                            ],
+                            "rows_per_page": 20
                         }
                     ],
                     "min": "",
@@ -509,7 +625,6 @@
                             "max": 0,
                             "layout": "table",
                             "button_label": "Add Row",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_61aea827c018a",
@@ -597,7 +712,8 @@
                                     "mime_types": "",
                                     "parent_repeater": "field_61aea7d8c0188"
                                 }
-                            ]
+                            ],
+                            "rows_per_page": 20
                         }
                     ],
                     "min": "",
@@ -1029,7 +1145,6 @@
                             "max": 0,
                             "layout": "table",
                             "button_label": "Add Row",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_6392938dc896a",
@@ -1100,7 +1215,8 @@
                                     "placeholder": "",
                                     "parent_repeater": "field_61aeb5302939a"
                                 }
-                            ]
+                            ],
+                            "rows_per_page": 20
                         },
                         {
                             "key": "field_61aeb5752939d",
@@ -1168,7 +1284,6 @@
                             "max": 0,
                             "layout": "table",
                             "button_label": "Add Tile",
-                            "rows_per_page": 20,
                             "sub_fields": [
                                 {
                                     "key": "field_61aec17c653a2",
@@ -1297,8 +1412,6 @@
                                     "max": 0,
                                     "layout": "table",
                                     "button_label": "Add link",
-                                    "rows_per_page": 20,
-                                    "parent_repeater": "field_61aec13b653a1",
                                     "sub_fields": [
                                         {
                                             "key": "field_61aec2f7653a8",
@@ -1339,126 +1452,12 @@
                                             "placeholder": "",
                                             "parent_repeater": "field_61aec2d7653a7"
                                         }
-                                    ]
+                                    ],
+                                    "rows_per_page": 20,
+                                    "parent_repeater": "field_61aec13b653a1"
                                 }
-                            ]
-                        }
-                    ],
-                    "min": "",
-                    "max": ""
-                },
-                "layout_66e899554ed1a": {
-                    "key": "layout_66e899554ed1a",
-                    "name": "parallax",
-                    "label": "Parallax",
-                    "display": "block",
-                    "sub_fields": [
-                        {
-                            "key": "field_66e8996d4ed1c",
-                            "label": "Parallax Image",
-                            "name": "parallax_image",
-                            "aria-label": "",
-                            "type": "image",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "return_format": "array",
-                            "library": "all",
-                            "min_width": "",
-                            "min_height": "",
-                            "min_size": "",
-                            "max_width": "",
-                            "max_height": "",
-                            "max_size": "",
-                            "mime_types": "",
-                            "preview_size": "medium"
-                        },
-                        {
-                            "key": "field_66e89a1b4ed1d",
-                            "label": "Parallax Text",
-                            "name": "parallax_text",
-                            "aria-label": "",
-                            "type": "wysiwyg",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "Report",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
-                        },
-                        {
-                            "key": "field_66fd677c7aad0",
-                            "label": "Header year",
-                            "name": "landing_header_year",
-                            "aria-label": "",
-                            "type": "number",
-                            "instructions": "Year for annual report",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": 2023,
-                            "min": "",
-                            "max": "",
-                            "placeholder": "",
-                            "step": "",
-                            "prepend": "",
-                            "append": ""
-                        },
-                        {
-                            "key": "field_66e8ad5583f02",
-                            "label": "Parallax Bar",
-                            "name": "parallax_bar",
-                            "aria-label": "",
-                            "type": "color_picker",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "enable_opacity": 0,
-                            "return_format": "string"
-                        },
-                        {
-                            "key": "field_66f48d7148edb",
-                            "label": "Parallax Speed",
-                            "name": "parallax_speed",
-                            "aria-label": "",
-                            "type": "number",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "0.5",
-                            "min": "",
-                            "max": "",
-                            "placeholder": "",
-                            "step": "",
-                            "prepend": "",
-                            "append": ""
+                            ],
+                            "rows_per_page": 20
                         }
                     ],
                     "min": "",
@@ -1477,6 +1476,13 @@
                 "operator": "==",
                 "value": "page-annual-report.php"
             }
+        ],
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "default"
+            }
         ]
     ],
     "menu_order": 1,
@@ -1488,5 +1494,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1727883630
+    "modified": 1728421479
 }

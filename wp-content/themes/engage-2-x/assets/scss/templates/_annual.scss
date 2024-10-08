@@ -938,3 +938,146 @@
 	}
 }
 // END modifiers
+.ann__pg3 {
+	position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    place-items: center;
+    max-width: 50rem;
+    margin: 0 auto;
+    column-gap: 5rem;
+	animation: fadeInUp 2s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.grid_1col_2row {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: auto auto;
+	max-width: 50rem;
+	margin: 0 auto;
+}
+
+.ann__pg3_img_div {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* Creates a square aspect ratio */
+    overflow: hidden;
+	padding-bottom: 2rem;
+}
+
+.ann__pg3_circle_container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    animation: fadeInBackground 2s ease forwards;
+}
+
+.ann__pg3_circle_container > .ann__pg3_circle_svg {
+    position: absolute;
+    top: 0;
+    left: 2.4rem;
+    width: 75%;
+    height: 100%;
+    transform: scale(1.5);
+}
+
+.ann__pg3_img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 75%;
+    max-height: 75%;
+    object-fit: contain;
+    z-index: 1;
+}
+
+.ann__pg3_circle {
+    fill: none;
+    transform-origin: center;
+}
+
+.ann__pg3_half_circle_blue {
+    stroke: #3c4952;
+    stroke-width: 10;
+}
+
+.ann__pg3_half_circle_orange {
+	position: absolute;
+    stroke: #be5701;
+    stroke-width: 7;
+    transform: rotate(50deg);
+	z-index: 2;
+}
+
+.ann__pg3_half_circle_yellow {
+	position: absolute;
+    stroke: #d9ad76;
+    stroke-width: 5;
+    transform: rotate(40deg);
+	z-index: 2;
+}
+
+.ann__pg3_half_circle_dashed {
+    fill: none;
+    stroke: #3c4952;
+    stroke-width: 0.5;
+    stroke-dasharray: 2, 2;
+    transform: rotate(35deg);
+}
+
+.ann__pg3_rotate_counter_90 {
+    animation: rotateCounter90 1s forwards ease 0s;
+}
+
+.ann__pg3_rotate_counter_95 {
+    animation: rotateCounter95 1s forwards ease 0.25s;
+}
+
+.ann__pg3_rotate_85 {
+    animation: rotate85 1s forwards ease 0.5s;
+}
+
+.ann__pg3_rotate_81 {
+    animation: rotate81 1s forwards ease 0.75s;
+}
+
+@keyframes fadeInBackground {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes rotateCounter90 {
+    from { transform: rotate(45deg); }
+    to { transform: rotate(-90deg); }
+}
+
+@keyframes rotateCounter95 {
+    from { transform: rotate(50deg); }
+    to { transform: rotate(-110deg); }
+}
+
+@keyframes rotate85 {
+    from { transform: rotate(40deg); }
+    to { transform: rotate(200deg); }
+}
+
+@keyframes rotate81 {
+    from { transform: rotate(35deg); }
+    to { transform: rotate(200deg); }
+}
