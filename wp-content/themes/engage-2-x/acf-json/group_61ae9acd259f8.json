@@ -1492,7 +1492,7 @@
                 "layout_66e899554ed1a": {
                     "key": "layout_66e899554ed1a",
                     "name": "parallax",
-                    "label": "Parallax intro",
+                    "label": "Parallax",
                     "display": "block",
                     "sub_fields": [
                         {
@@ -1608,5 +1608,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1728391704
+    "modified": 1728392240
 }
