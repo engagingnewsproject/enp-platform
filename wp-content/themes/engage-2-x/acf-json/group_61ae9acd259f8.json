@@ -21,6 +21,26 @@
             "esc_html": 0
         },
         {
+            "key": "field_66f44050380b7",
+            "label": "Header image enabled",
+            "name": "header_image_enabled",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Enables the header image",
+            "default_value": 1,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
             "key": "field_61aebcbcc13bc",
             "label": "Download Report Button",
             "name": "download_report_button",
@@ -1472,7 +1492,7 @@
                 "layout_66e899554ed1a": {
                     "key": "layout_66e899554ed1a",
                     "name": "parallax",
-                    "label": "Parallax",
+                    "label": "Parallax intro",
                     "display": "block",
                     "sub_fields": [
                         {
@@ -1588,5 +1608,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1728388265
+    "modified": 1728391704
 }
