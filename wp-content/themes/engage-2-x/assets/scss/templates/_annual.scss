@@ -107,8 +107,70 @@
 			// TODO: change for 2023 version
 			grid-template-rows: auto 1fr;
 			grid-row-gap: 20px;
-			
+
 		}
+		&_parallax {
+      perspective: 1px;
+      height: 100vh;
+      overflow-x: hidden;
+      overflow-y: hidden;
+
+      .ann__sct_parallax__group {
+        position: relative;
+        transform-style: preserve-3d;
+        height: 120vh;
+        z-index: 5;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+      }
+
+      .ann__sct_parallax__container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        color: $white;
+        transform: translateZ(0);
+        z-index: 4;
+				width: 50%;
+
+				opacity: 0;
+				animation: slideInFadeIn 1.5s forwards;
+      }
+
+			.ann__sct_parallax__container > h1 {
+				margin: 2.5rem auto;
+				display: flex;
+				flex-direction: column;
+				gap: 4rem;
+			}
+
+			.ann__sct_parallax__container > h1 > p {
+				margin-bottom: 0;
+			}
+
+			.ann__sct_parallax-bar {
+				width: 50%;
+        height: 6px;
+        border: none;
+        margin: 0;
+
+				transform: scaleX(0);
+				animation: parallaxBarScale 1.5s 0.85s forwards;
+			}
+
+      .ann__sct_parallax__layer--back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        transform: translateZ(-1px) scale(2);
+        z-index: 1;
+      }
+    }
 		&_quote {
 			@include media($desktop) {
 				min-height: 100vh;
@@ -247,6 +309,13 @@
 	@include media($tablet) {
 			background-size: 50%;
 	}
+}
+
+.ann__sct_parallax {
+	perspective: 1px;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .ann__sct_faculty {
@@ -598,7 +667,7 @@
 		grid-template-columns: auto 1fr;
 
 	}
-	
+
 	&_grid_item {
 		text-align: center;
 		color: $blue-dark;
@@ -627,13 +696,13 @@
 	padding: 2rem;
 
 	overflow: hidden;
-	
+
 	@include media($tablet) {
 		padding: 4rem;
 	}
 
 	&_logo {
-		
+
 		max-width: 25rem;
 
 		@include media($tablet) {
@@ -657,7 +726,7 @@
 	&_header_container {
 		padding-left: 1rem;
 		border-left: 3px solid #3c4952;
-	}	
+	}
 
 	&_header {
 		display: grid;
@@ -776,20 +845,20 @@
 			transform: $transform;
 		}
 	}
-	
+
 	&_half_circle {
 		&_blue {
 			@include half-circle-stroke(#3c4952, 10);
 		}
-	
+
 		&_orange {
 			@include half-circle-stroke(#be5701, 7, rotate(50deg));
 		}
-	
+
 		&_yellow {
 			@include half-circle-stroke(#d9ad76, 5, rotate(40deg));
 		}
-	
+
 		&_dashed {
 			fill: none;
 			@include half-circle-stroke(#3c4952, 0.5);
@@ -802,32 +871,32 @@
 		transform-origin: center;
 		animation: #{$name} 1s forwards ease #{$delay};
 	}
-	
+
 	&_rotate_counter_90 {
 		@include rotate-animation(rotateCounter90, 0s);
 	}
-	
+
 	&_rotate_counter_95 {
 		@include rotate-animation(rotateCounter95, 0.25s);
 	}
-	
+
 	&_rotate_85 {
 		@include rotate-animation(rotate85, 0.5s);
 	}
-	
+
 	&_rotate_81 {
 		@include rotate-animation(rotate81, 0.75s);
 	}
 
 	&_fade_in {
 		animation: fadeIn 1s ease forwards;
-	
+
 		&_delay_1 {
 			animation-delay: 1s;
 		}
-	
+
 		&_delay_2 {
-			animation-delay: 1.25s; 
+			animation-delay: 1.25s;
 		}
 	}
 
@@ -840,19 +909,19 @@
 		&_delay_1 {
 			opacity: 0;
 			animation: fadeIn 1s ease forwards, slideIn 1s ease forwards;
-			animation-delay: 0.5s; 
+			animation-delay: 0.5s;
 		}
 
 		&_delay_2 {
 			opacity: 0;
 			animation: fadeIn 1s ease forwards, slideIn 1s ease forwards;
-			animation-delay: 0.7s; 
+			animation-delay: 0.7s;
 		}
 
 		&_delay_3 {
 			opacity: 0;
 			animation: fadeIn 1s ease forwards, slideIn 1s ease forwards;
-			animation-delay: 0.9s; 
+			animation-delay: 0.9s;
 		}
 	}
 
@@ -864,52 +933,52 @@
 			opacity: 1;
 		}
 	}
-	
+
 	@keyframes rotateCounter90 {
 		from {
 			transform: rotate(45deg);
 		}
-	
+
 		to {
 			transform: rotate(-90deg);
 		}
 	}
-	
+
 	@keyframes rotateCounter95 {
 		from {
 			transform: rotate(50deg);
 		}
-	
+
 		to {
 			transform: rotate(-110deg);
 		}
 	}
-	
+
 	@keyframes rotate85 {
 		from {
 			transform: rotate(40deg);
 		}
-	
+
 		to {
 			transform: rotate(200deg);
 		}
 	}
-	
+
 	@keyframes rotate81 {
 		from {
 			transform: rotate(35deg);
 		}
-	
+
 		to {
 			transform: rotate(200deg);
 		}
 	}
-	
+
 	@keyframes fadeIn {
 		from {
 			opacity: 0;
 		}
-	
+
 		to {
 			opacity: 1;
 		}
@@ -919,7 +988,7 @@
 		from {
 			transform: translateY(24px);
 		}
-	
+
 		to {
 			transform: translateY(0);
 		}
