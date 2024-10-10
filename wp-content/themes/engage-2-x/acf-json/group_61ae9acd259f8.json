@@ -74,7 +74,7 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "http:\/\/localhost:10006\/wp-content\/uploads\/2021\/03\/CME-2020-Annual-Report.pdf",
+            "default_value": "http:\/\/localhost:10004\/wp-content\/uploads\/2021\/03\/CME-2020-Annual-Report.pdf",
             "placeholder": ""
         },
         {
@@ -198,6 +198,122 @@
                             "toolbar": "full",
                             "media_upload": 0,
                             "delay": 0
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_670597c9dc172": {
+                    "key": "layout_670597c9dc172",
+                    "name": "page_3",
+                    "label": "page_3",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_670597c9dc173",
+                            "label": "Background color",
+                            "name": "background_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "#f8971f",
+                            "enable_opacity": 0,
+                            "return_format": "string",
+                            "allow_in_bindings": 1
+                        },
+                        {
+                            "key": "field_670597c9dc174",
+                            "label": "Title",
+                            "name": "director_title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "From the Director",
+                            "maxlength": "",
+                            "allow_in_bindings": 1,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_670597cadc175",
+                            "label": "Title color",
+                            "name": "title_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "#ff9900",
+                            "enable_opacity": 0,
+                            "return_format": "string",
+                            "allow_in_bindings": 1
+                        },
+                        {
+                            "key": "field_670597cadc176",
+                            "label": "Image",
+                            "name": "director_image",
+                            "aria-label": "",
+                            "type": "image",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "id",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "allow_in_bindings": 1,
+                            "preview_size": "medium"
+                        },
+                        {
+                            "key": "field_6705982adc178",
+                            "label": "paragraphs",
+                            "name": "paragraphs",
+                            "aria-label": "",
+                            "type": "textarea",
+                            "instructions": "Split paragraphs by new lines.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "rows": "",
+                            "placeholder": "",
+                            "new_lines": ""
                         }
                     ],
                     "min": "",
@@ -357,6 +473,7 @@
                                     "parent_repeater": "field_61ae9c68e24a7"
                                 }
                             ],
+
                             "rows_per_page": 20
                         }
                     ],
@@ -1577,6 +1694,13 @@
                 "param": "page_template",
                 "operator": "==",
                 "value": "page-annual-report.php"
+            }
+        ],
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "default"
             }
         ],
         [
