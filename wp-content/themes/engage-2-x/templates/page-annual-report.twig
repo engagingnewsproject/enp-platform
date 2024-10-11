@@ -15,7 +15,7 @@
 					</a>
 				{% endif %}
 			</div>
-		</header>	
+		</header>
 	{% endif %}
 {% endblock %}
 {% block content %}
@@ -49,12 +49,12 @@
 						</div>
 					{% endif %}
 				</section>
-			
+
 			{# RESEARCH #}
 			{% elseif main.acf_fc_layout == 'research' %}
 				<section class="ann__sct grid wrapper--pad-xlg vert-pad-sm">
 					{% if main.research_title %}
-						<div class={% if main.research_bolded_title %}"ann__title_main ann__title_navy"{% else %}"ann__title"{% endif %}>
+						<div class="{% if main.research_bolded_title %}ann__title_main ann__title_navy{% else %}ann__title{% endif %}">
 							{{ main.research_title }}
 						</div>
 					{% endif %}
@@ -74,6 +74,7 @@
 								{% if item.research_body %}
 									<p class="ann__sct_research_body_text">{{ item.research_body }}</p>
 								{% endif %}
+							</div>
 						{% endfor %}
 					</div>
 				</section>
@@ -118,7 +119,7 @@
 							<div class="tile tile--has-img tile--research-cat--reader-engagement tile--vertical--bridging-divides">
 								{% if tile.image %}
 									<div class="tile__img-wrap">
-										<img src="{{ get_image(tile.image).src }}" 
+										<img src="{{ get_image(tile.image).src }}"
 											sizes="{{ get_image(tile.image).img_sizes }}"
 											alt="{{ get_image(tile.image).alt }}" />
 									</div>
@@ -175,7 +176,7 @@
 						{% endfor %}
 					</ul>
 				</section>
-			
+
 			{# FULL IMAGE #}
 			{% elseif main.acf_fc_layout == 'full_image' %}
 				<section class="ann__sct ann__sct_pad_img {% if main.width == 'ann__sct_full' %}ann__sct_full {% elseif main.width == 'wrapper--pad-xlg' %} wrapper--pad-xlg {% else %} wrapper--pad-huge {% endif %}"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
@@ -185,7 +186,7 @@
 						</div>
 					{% endif %}
 					{% if main.image %}
-						<img src="{{ get_image(main.image).src }}" 
+						<img src="{{ get_image(main.image).src }}"
 							sizes="{{ get_image(main.image).img_sizes }}"
 							alt="{{ get_image(main.image).alt }}" />
 					{% endif %}
@@ -205,7 +206,7 @@
 			{% elseif main.acf_fc_layout == 'large_tiles' %}
 				{% include 'tiles-annual-report.twig' %}
 
-			{# OUTREACH #} 
+			{# OUTREACH #}
 			{% elseif main.acf_fc_layout == 'outreach' %}
 				<section class="ann__sct ann__sct_full_content grid wrapper--pad-xlg vert-pad-sm">
 					{% if main.outreach_title %}
@@ -248,7 +249,7 @@
 					{% endif %}
 				</section>
 
-			{# FOOTER #} 
+			{# FOOTER #}
 			{% elseif main.acf_fc_layout == 'footer' %}
 				<footer class="ann__sct ann__sct_full_content_slim wrapper--pad-huge">
 					{% if main.contact_info %}
@@ -287,7 +288,7 @@
             <div class="ann__sct_parallax__container">
               {% if main.parallax_text %}
                 {% if main.parallax_bar %}
-                    <hr class="ann__sct_parallax-bar" style="background-color:{{ main.parallax_bar }}"></hr>
+                    <hr class="ann__sct_parallax-bar" style="background-color:{{ main.parallax_bar }}">
                 {% endif %}
                 <h1 class="container--xl" style="color:white;">{{ main.parallax_text }}</h1>
                 {% if main.parallax_bar %}
@@ -307,7 +308,7 @@
               document.addEventListener('scroll', function () {
                 const scrollPosition = window.pageYOffset;
                 const distanceFromTop = calculateDistanceFromTop();
-                
+
                 parallax.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)';
               });
           </script>
@@ -337,7 +338,7 @@
 							</g>
 						</svg>
 					</div>
-					
+
 					<div>
 						{% if main.landing_header_top is defined and main.landing_header_top and main.landing_header_bottom is defined and main.landing_header_bottom %}
 						<div class="ann__landing_header_container ann__landing_fade_in_and_up_delay_1">
@@ -353,63 +354,62 @@
 						{% endif %}
 					</div>
 				</section>
-			{% endif %}
 			{# Page 3 #}
-				{% elseif main.acf_fc_layout == 'page_3' %}
-					<section
-						class="ann__pg3">
-						{# Left column - 1 column, 3 rows #}
-						<div class="grid grid_1col_3row">
-							<div class="grid__item">
-								{% if main.director_title %}
-									<h2 class="ann__title" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.director_title }}</h2>
-								{% endif %}
-							</div>
-							{% if main.paragraphs %}
-								{% set paragraphs = main.paragraphs|split('\n') %}
-								{% set half = (paragraphs|length / 2)|round(0, 'ceil') %}
-
-								{% for paragraph in paragraphs[:half] %}
-									<div class="grid__item">
-										<div class="ann__content">
-											{{ paragraph|nl2br|raw }}
-										</div>
-									</div>
-								{% endfor %}
-							{% endif %}
-
-						</div>
-
-						{# Right column - 1 column, 2 rows #}
-						<div class="grid grid_1col_2row">
-							<div class="grid__item">
-								{% if main.director_image %}
-									<div class="ann__pg3_img_div">
-										<div class="ann__pg3_circle_container">
-											<svg class="ann__pg3_circle_svg" preserveaspectratio="xMidYMid meet" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-												<path class="ann__pg3_circle ann__pg3_half_circle_dashed ann__pg3_rotate_81" d="M 10,100 A 90,90 0 0,1 190,100"/>
-												<path class="ann__pg3_circle ann__pg3_half_circle_blue ann__pg3_rotate_counter_90" d="M 20,100 A 80,80 0 0,1 180,100"/>
-												<path class="ann__pg3_circle ann__pg3_half_circle_orange ann__pg3_rotate_counter_95" d="M 30,100 A 70,70 0 0,1 170,100"/>
-												<path class="ann__pg3_circle ann__pg3_half_circle_yellow ann__pg3_rotate_85" d="M 40,100 A 60,60 0 0,1 160,100"/>
-											</svg>
-										</div>
-										<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__pg3_img"/>
-									</div>
-								{% endif %}
-							</div>
-							{% if main.paragraphs %}
-								{% for paragraph in paragraphs[half:] %}
-									<div class="grid__item">
-										<div class="ann__content">
-											{{ paragraph|nl2br|raw }}
-										</div>
-									</div>
-								{% endfor %}
+			{% elseif main.acf_fc_layout == 'page_3' %}
+				<section
+					class="ann__pg3">
+					{# Left column - 1 column, 3 rows #}
+					<div class="grid grid_1col_3row">
+						<div class="grid__item">
+							{% if main.director_title %}
+								<h2 class="ann__title" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.director_title }}</h2>
 							{% endif %}
 						</div>
-					</section>
-				{% endif %}
-				
+						{% if main.paragraphs %}
+							{% set paragraphs = main.paragraphs|split('\n') %}
+							{% set half = (paragraphs|length / 2)|round(0, 'ceil') %}
+
+							{% for paragraph in paragraphs[:half] %}
+								<div class="grid__item">
+									<div class="ann__content">
+										{{ paragraph|nl2br|raw }}
+									</div>
+								</div>
+							{% endfor %}
+						{% endif %}
+
+					</div>
+
+					{# Right column - 1 column, 2 rows #}
+					<div class="grid grid_1col_2row">
+						<div class="grid__item">
+							{% if main.director_image %}
+								<div class="ann__pg3_img_div">
+									<div class="ann__pg3_circle_container">
+										<svg class="ann__pg3_circle_svg" preserveaspectratio="xMidYMid meet" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+											<path class="ann__pg3_circle ann__pg3_half_circle_dashed ann__pg3_rotate_81" d="M 10,100 A 90,90 0 0,1 190,100"/>
+											<path class="ann__pg3_circle ann__pg3_half_circle_blue ann__pg3_rotate_counter_90" d="M 20,100 A 80,80 0 0,1 180,100"/>
+											<path class="ann__pg3_circle ann__pg3_half_circle_orange ann__pg3_rotate_counter_95" d="M 30,100 A 70,70 0 0,1 170,100"/>
+											<path class="ann__pg3_circle ann__pg3_half_circle_yellow ann__pg3_rotate_85" d="M 40,100 A 60,60 0 0,1 160,100"/>
+										</svg>
+									</div>
+									<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__pg3_img"/>
+								</div>
+							{% endif %}
+						</div>
+						{% if main.paragraphs %}
+							{% for paragraph in paragraphs[half:] %}
+								<div class="grid__item">
+									<div class="ann__content">
+										{{ paragraph|nl2br|raw }}
+									</div>
+								</div>
+							{% endfor %}
+						{% endif %}
+					</div>
+				</section>
+			{% endif %}
+
 		{% endfor %}
 
 	</section>
