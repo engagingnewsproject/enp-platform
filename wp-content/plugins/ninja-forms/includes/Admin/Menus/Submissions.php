@@ -745,6 +745,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                     'timeFormat'            =>  esc_attr( get_option('time_format') ),
                     'siteUrl'               =>  esc_url_raw( site_url() ),
                     'adminUrl'              =>  esc_url_raw( admin_url() ),
+                    'pluginsUrl'            =>  esc_url_raw( plugins_url() ),
                     'restUrl'               =>  esc_url_raw( get_rest_url() ),
                     'token'                 =>  wp_create_nonce( 'wp_rest' ),
                     'submissionsSettings'   =>  get_option( 'ninja_forms_submissions_settings' )

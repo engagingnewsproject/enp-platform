@@ -186,7 +186,8 @@ class NF_Extension_Updater
     {
         // If the plugin being installed isn't this one, bail.
         $plugin = plugin_basename( $this->file );
-        if( $plugin != $extra[ 'plugin' ] ) {
+
+        if(!isset($extra['plugin']) ||  $plugin != $extra[ 'plugin' ] ) {
             return $default;
         }
 

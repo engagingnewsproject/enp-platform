@@ -17,7 +17,7 @@ class NF_Fields_HTML extends NF_Abstracts_Input
 
     protected $_templates = 'html';
 
-    protected $_settings_only = array( 'label', 'default', 'classes' );
+    protected $_settings_only = array( 'label', 'default', 'classes', 'admin_label', 'key' );
 
     protected $_use_merge_tags_include = array( 'calculations' );
 

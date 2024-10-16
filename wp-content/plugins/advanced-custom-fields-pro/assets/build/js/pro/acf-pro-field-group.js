@@ -204,6 +204,7 @@
     initialize: function () {
       // add sortable
       var $tbody = this.$el.parent();
+      $tbody.css('position', 'relative');
       if (!$tbody.hasClass('ui-sortable')) {
         $tbody.sortable({
           items: '> .acf-field-setting-fc_layout',
@@ -232,11 +233,11 @@
       const name = this.get('layoutName');
       const $layoutHeaderLabelText = this.$el.find('> .acf-label .acf-fc-layout-label');
       if (label) {
-        $layoutHeaderLabelText.html(label);
+        $layoutHeaderLabelText.text(acf.decode(label));
       }
       const $layoutHeaderNameText = this.$el.find('> .acf-label .acf-fc-layout-name span');
       if (name) {
-        $layoutHeaderNameText.html(name);
+        $layoutHeaderNameText.text(name);
         $layoutHeaderNameText.parent().css('display', '');
       } else {
         $layoutHeaderNameText.parent().css('display', 'none');
@@ -254,6 +255,7 @@
       return $settings.hasClass('open');
     },
     open: function (element, isAddingLayout) {
+      const $header = element ? element.children('.acf-field-settings-fc_head') : this.$el.children('.acf-field-settings-fc_head');
       const $settings = element ? element.children('.acf-field-layout-settings') : this.$el.children('.acf-field-layout-settings');
       const toggle = element ? element.find('.toggle-indicator').first() : this.$el.find('.toggle-indicator').first();
 
@@ -275,8 +277,10 @@
         toggle.removeClass('closed');
       }
       $settings.addClass('open');
+      $header.addClass('open');
     },
     close: function () {
+      const $header = this.$el.children('.acf-field-settings-fc_head');
       const $settings = this.$el.children('.acf-field-layout-settings');
       const toggle = this.$el.find('.toggle-indicator').first();
 
@@ -284,6 +288,7 @@
       $settings.slideUp();
       $settings.removeClass('open');
       toggle.removeClass('open');
+      $header.removeClass('open');
       if (!toggle.hasClass('closed')) {
         toggle.addClass('closed');
       }
@@ -292,10 +297,11 @@
       acf.doAction('hide', $settings);
     },
     onChangeLabel: function (e, $el) {
-      var label = $el.val();
-      this.set('layoutLabel', label);
-      this.$el.attr('data-layout-label', label);
-      var $name = this.$input('name');
+      let label = $el.val();
+      const safeLabel = acf.encode(label);
+      this.set('layoutLabel', safeLabel);
+      this.$el.attr('data-layout-label', safeLabel);
+      let $name = this.$input('name');
 
       // render name
       if ($name.val() == '') {
@@ -304,7 +310,7 @@
       }
     },
     onChangeName: function (e, $el) {
-      const sanitizedName = acf.strSanitize($el.val());
+      const sanitizedName = acf.strSanitize($el.val(), false);
       $el.val(sanitizedName);
       this.set('layoutName', sanitizedName);
       this.$el.attr('data-layout-name', sanitizedName);

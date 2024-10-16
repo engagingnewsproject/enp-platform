@@ -3,7 +3,7 @@
 Plugin Name: Footnotes Made Easy
 Plugin URI: https://github.com/wpcorner/footnotes-made-easy/
 Description: Allows post authors to easily add and manage footnotes in posts.
-Version: 3.0.3
+Version: 3.0.4
 Author: Patrick Lumumba
 Author URI: https://wpcorner.co/author/patrick-l/
 Text Domain: footnotes-made-easy
@@ -42,6 +42,7 @@ class swas_wp_footnotes {
 
 	private $current_options;
 	private $default_options;
+	private $styles;
 
 	const OPTIONS_VERSION = "5"; // Incremented when the options array changes
 

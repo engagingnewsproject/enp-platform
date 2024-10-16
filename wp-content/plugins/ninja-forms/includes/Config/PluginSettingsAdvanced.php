@@ -58,7 +58,7 @@ return apply_filters( 'ninja_forms_plugin_settings_advanced', array(
         'id'    => 'load_legacy_submissions',
         'type'  => 'checkbox',
         'label' => esc_html__( 'Show Legacy Submissions Page', 'ninja-forms' ),
-        'desc'  => sprintf( esc_html__( 'This setting is used to see the "old" submissions page. If you are experiencing issues with your submissions page, please notify us at %s.%sPlease refresh your settings page after saving this setting before navigating to the submissions page.' ), '<a href="https://ninjaforms.com/contact" target="_blank">https://ninjaforms.com/contact</a>', '<br /><br />' ),
+        'desc'  => sprintf( esc_html__( 'This setting is used to see the "old" submissions page. If you are experiencing issues with your submissions page, please notify us at %s.%sPlease refresh your settings page after saving this setting before navigating to the submissions page.', 'ninja-forms' ), '<a href="https://ninjaforms.com/contact" target="_blank">https://ninjaforms.com/contact</a>', '<br /><br />' ),
     ),
 
     /*

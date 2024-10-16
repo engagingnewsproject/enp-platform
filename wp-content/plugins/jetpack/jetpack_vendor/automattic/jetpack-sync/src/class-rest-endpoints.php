@@ -288,7 +288,7 @@ class REST_Endpoints {
 						'required'    => false,
 					),
 					'only_range_edges'        => array(
-						'description' => __( 'Should only range endges be returned', 'jetpack-sync' ),
+						'description' => __( 'Should only range edges be returned', 'jetpack-sync' ),
 						'type'        => 'boolean',
 						'required'    => false,
 					),
@@ -698,6 +698,7 @@ class REST_Endpoints {
 		// Update Full Sync Status if queue is "full_sync".
 		if ( 'full_sync' === $queue_name ) {
 			$full_sync_module = Modules::get_module( 'full-sync' );
+			'@phan-var Modules\Full_Sync_Immediately|Modules\Full_Sync $full_sync_module';
 			$full_sync_module->update_sent_progress_action( $items );
 		}
 
@@ -763,7 +764,7 @@ class REST_Endpoints {
 	 * @see Actions::init
 	 * @see Sender::do_dedicated_sync_and_exit
 	 *
-	 * @since $$next_version$$
+	 * @since 1.34.0
 	 *
 	 * @return \WP_REST_Response
 	 */

@@ -15,6 +15,11 @@ final class NF_Actions_ExportDataRequest extends NF_Abstracts_Action
 	 */
 	protected $_tags = array();
 
+    /**
+     * @var string
+     */
+    protected $_documentation_url = 'https://ninjaforms.com/docs/export-data-request-action/';
+
 	/**
 	 * @var string
 	 */
@@ -24,6 +29,11 @@ final class NF_Actions_ExportDataRequest extends NF_Abstracts_Action
 	 * @var int
 	 */
 	protected $_priority = 10;
+
+    /**
+     * @var string
+     */
+    protected $_group = 'core';
 
 	/**
 	 * Constructor

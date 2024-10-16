@@ -1,5 +1,13 @@
+{# 
+  This template displays metadata for research and blog posts, 
+  specifically the post type label (e.g., "Research" or "Blog") 
+  along with a bookmark icon. The metadata is styled and wrapped 
+  in a div container with classes for further customization in CSS.
+#}
 {% if post.post_type == "research" or post.post_type == "blogs" %}
-	<div class="article__meta article__meta__data">
+	<div
+		class="article__meta article__meta__data">
+		{# Display the post type label with an associated bookmark icon #}
 		<p class="article__post-type article-meta__item article__post-type--{{ post.post_type }}">
 			{% include 'assets/img/bookmark-regular.svg' %}
 			{{ post.type.labels.singular_name }}

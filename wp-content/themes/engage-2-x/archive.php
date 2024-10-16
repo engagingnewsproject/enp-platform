@@ -44,7 +44,7 @@ if(get_query_var('vertical_base')) {
 	];
 } else if(is_post_type_archive(['team']) || is_tax('team_category')) {
 	$options = [
-		'filters'	=> $globals->getTeamMenu()
+		// 'filters'	=> $globals->getTeamMenu()
 	];
 } else if(is_post_type_archive(['board']) || is_tax('board_category')) {
 	$options = [
@@ -59,16 +59,18 @@ if(get_query_var('vertical_base')) {
 // Build intro
 // //
 
-if ((
-		is_post_type_archive(['team']) || 
-		is_tax('team_category')) || 
-		(
-			is_post_type_archive(['board']) || 
-			is_tax('board_category')
-	)) {
-	$archive = new TeamArchive( $wp_query, $options );
-	// if research archive page for bridging-divides vertical
-} else if (is_tax('verticals', 'bridging-divides') && is_post_type_archive(['research'])) {
+
+// if ((
+//		is_post_type_archive(['team']) || 
+//		is_tax('team_category')) || 
+//		(
+//			is_post_type_archive(['board']) || 
+//			is_tax('board_category')
+//	)) {
+//	$archive = new TeamArchive( $wp_query, $options );
+// if research archive page for bridging-divides vertical
+//} else 
+if (is_tax('verticals', 'bridging-divides') && is_post_type_archive(['research'])) {
 	// remove the "Quick Reads" sidebar menu item from the $options var.
 	if (isset($options['filters']['terms']['blogs'])) {
 		unset($options['filters']['terms']['blogs']);

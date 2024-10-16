@@ -1,30 +1,49 @@
+{#
+	teammates.twig
+	
+	This template is responsible for rendering the list of team members
+	(referred to as "mates") on the teams page. Depending on the current vertical
+	(a taxonomy term representing the context or department), it displays different
+	groups of team members such as current members, past interns, or alumni.
+#}
 
 {% set vertical = archive.vertical.slug %}
 
-<section class="mates grid grid--col-12 grid--gap-20">
+<section
+	class="mates grid grid--col-12 grid--gap-20">
+	{# Loop through each team member and render their information.
+						The first vertical value is fetched if it's not set, but PIs (Principal Investigators)
+						who have 'Center Leadership' as their first vertical are prevented from appearing first
+						to avoid hiding the past Media Ethics Interns section.
+					#}
 	{% for mate in mates %}
-		{# PIs have their first vertical value as 'Center Leadership' and appear first, 
-		but this prevents the past Media Ethics Interns section from showing #}
+		{# PIs have their first vertical value as 'Center Leadership' and appear first,
+										but this prevents the past Media Ethics Interns section from showing #}
 		{% if vertical == False and 'Director' not in mate.getDesignation %}
 			{# this only fetches the first vertical value of the first non-PI element in the mates #}
 			{% set vertical = mate.getVertical %}
 		{% endif %}
 
+		{# Set the value of the current team member's semester term. #}
 		{% set semester_value = (mate.getTermSemester)[0] %}
 
+		{# If no specific semester is set for the team member, include the teammate partial template. #}
 		{% if semester_value == "" %}
 			{% include "partial/teammate.twig" with { 'mate' : mate } %}
 		{% endif %}
 	{% endfor %}
 </section>
 
-{# the code below only displays when the vertical value fetched is Media Ethics 
-as it is the only vertical requiring the display of past interns now #}
+{#
+	Conditional block for displaying past interns only if the vertical
+	is 'media-ethics'. The code below handles displaying past interns
+	for different academic years.
+#}
 {% if vertical == "media-ethics" %}
+	{# Display past interns for 2022-2023 academic year. #}
 	<section class="past-interns-spacing">
 		<div class="past-interns-title past-interns-title__2022-2023" data-toggle-arrow="&#9658;" aria-expanded="false">
 			Research Scholars 2022-2023
-					
 		</div>
 		<section class="mates grid grid--gap-20 past-interns-list past-interns-list__2022-2023" aria-hidden="true">
 			{% for mate in mates %}
@@ -35,7 +54,6 @@ as it is the only vertical requiring the display of past interns now #}
 			{% endfor %}
 		</section>
 	</section>
-
 	<section>
 		<div class="past-interns-title past-interns-title__2021-2022" data-toggle-arrow="&#9658;" aria-expanded="false">
 			Research Scholars 2021-2022
@@ -101,32 +119,44 @@ as it is the only vertical requiring the display of past interns now #}
 			{% endfor %}
 		</section>
 	</section>
+
 {% elseif vertical == "propaganda" or vertical == "journalism" %}
-	{# first check if there are any members marked as alumni #}
+	{# Repeat similar blocks for other academic years (2021-2022, 2020-2021, etc.). #}
+	{#
+						If the vertical is 'propaganda' or 'journalism', check if there are
+						any alumni members to display. If any alumni are found, display their information.
+					#}
 	{% set semester_alumni = false %}
-	{# set your variable outside of the for loop so you can use it after the check #}
-	{% for mate in mates %}
+
+	{# Loop through team members to determine if any of them are alumni. #}
+		{% for mate in mates %}
 		{% set semester_value = (mate.getTermSemester)[0] %}
 		{# get the term semester  #}
-		{% if semester_value.name == "Alumni" %}
-			{# if we have alumni set the semester_alumni variable to true #}
-			{% set semester_alumni = true %}
-		{% endif %}
+			{% if semester_value.name == "Alumni" %}
+			{# If alumni are found, display them. #}
+		{% set semester_alumni = true %}
+	{% endif %}
 	{% endfor %}
-	{# END first check if there are any members marked as alumni #}
+
 	{# if we have alumni print out the html #}
-	{% if semester_alumni == true %}
-		<section>
-			<div class="past-interns-title past-interns-title__alumni" data-toggle-arrow="&#9658;" aria-expanded="false">
-				<span>Alumni</span>
+		{% if semester_alumni == true %}
+			<section>
+				<div class="past-interns-title past-interns-title__alumni" data-toggle-arrow="&#9658;" aria-expanded="false"> <span>
+					Alumni
+				</span>
 			</div>
 			<section class="mates grid grid--gap-20 past-interns-list past-interns-list__alumni" aria-hidden="true">
 				{% for mate in mates %}
 					{% set semester_value = (mate.getTermSemester)[0] %}
 					{% set vertical_value = mate.vertical.slug %}
-					{# if member is alumni and in the journalisim vertical print only their name #}
+
+					{#
+																										If the team member is alumni and belongs to the journalism vertical,
+																										only print their name. Otherwise, include their full card info.
+																									#}
 					{% if semester_value.name == "Alumni" and vertical_value == "journalism" %}
-						{{ mate.name }}<br>
+						{{ mate.name }}
+						<br>
 						{# otherwise if the member is alumni include all card info #}
 					{% elseif semester_value.name == "Alumni" %}
 						{% include "partial/teammate.twig" with { 'mate' : mate } %}
@@ -135,5 +165,4 @@ as it is the only vertical requiring the display of past interns now #}
 			</section>
 		</section>
 	{% endif %}
-
 {% endif %}

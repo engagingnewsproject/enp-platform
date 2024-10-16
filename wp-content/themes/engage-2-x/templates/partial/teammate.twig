@@ -1,36 +1,71 @@
-<div id="{{ mate.slug }}" class="mate {{ mate.thumbnail ? ' mate--has-img'}} grid grid--col-12 grid--gap-20">
-	{% if mate.thumbnail.src('thumbnail') | length > 0 %}
-		<div class="mate__img-wrap">
-			<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
-		</div>
-	{% endif %}
-	<div class="mate__content">
+{# 
+  teammates.twig - Template partial to display a team member's profile.
+  
+  This template handles the display of an individual team member's details, 
+  including their image, name, designation, bio, and contact information. 
+  The content is dynamically populated based on the available data for each 
+  team member and the provided context.
+  
+  Available variables:
+  - mate: The team member object containing the member's data (e.g., name, email, etc.).
+  - format: The format to display the team member (e.g., 'excerpt' or 'full').
+  - vertical_value: The current vertical (category) of the team member (e.g., 'propaganda').
+#}
+
+{# sets default feature image #}
+{% set defaultimg = theme.link ~ '/assets/img/default-staff-image.png' %}
+{% set is_alumni = category == 'alumni' %}
+
+
+<div class="mate {{ mate.thumbnail ? ' mate--has-img'}}" id="{{ mate.slug }}">
+	{# Display team member's image if available, otherwise use default image #}
+	{% if not is_alumni %}
+		{% set img_src = mate.thumbnail and mate.thumbnail.src('thumbnail') | length > 0 ? mate.thumbnail.src('thumbnail') : defaultimg %}
+        <div style="border: 2px solid #333f48; border-radius: 50%; display: inline-block; overflow: hidden; width: 150px; height: 150px;" class="mate__img-wrap">
+            {% set img_tag = '<img class="mate__img" style="border-radius: 50%; display: block; width: 150px; height: 150px;" src="' ~ img_src ~ '" alt="' ~ (mate.thumbnail ? mate.thumbnail.alt : 'Default Image') ~ '"/>' %}
+            
+            {% if mate.getDisplayLink %}
+                <a class="mate__name" href="{{ mate.link }}">
+                    {{ img_tag | raw }}
+                </a>
+            {% else %}
+                {{ img_tag | raw }}
+            {% endif %}
+        </div>
+    {% endif %}
+	<div
+		class="mate__content">
+		{# Display team member's name as a heading. Link to bio or external page if applicable. #}
 		<h3
-			class="mate__name mate__name--{{ format }}">
-			{# if format excerpt or full and not in propoganda vertical #}
-			{% if (format == "excerpt" or "full") and vertical_value != "propaganda" %}
+			class="mate__name mate__name--{{ format }}" style="{{ is_alumni ? 'text-align: left;' : '' }}">
+			{# If format is 'excerpt' or 'full' and not in 'propaganda' vertical, show name as a link #}
+			{% if (format == "excerpt" or "full") and vertical_value != "propaganda" and (mate.getDisplayLink) %}
 				{% if mate.getExternalLink != "" %}
 					{% if mate.getLinkOption != "" %}
-					{# Clicking on a Visiting Scholar redirects to an external page instead of an internal bio page #}
-						<a class="mate__name" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>	
+						{# Link redirects to an external page instead of an internal bio page if 'external_link_checkbox' is set #}
+						<a class="mate__name a" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>
 					{% else %}
-						<a class="mate__name" href="{{ mate.link }}">{{ mate.title }}</a>
+						<a class="mate__name b" href="{{ mate.link }}">{{ mate.title }}</a>
 					{% endif %}
 				{% else %}
 					<a class="mate__name" href="{{ mate.link }}">{{ mate.title }}</a>
 				{% endif %}
-				{# otherwise (you are in the propoganda vertical) print only the name without the link to bio #}
+				{# Otherwise, just display the name without a link (e.g., in 'propaganda' vertical) #}
 			{% else %}
-				{{ mate.name }}
+				{{ mate.title}}
 			{% endif %}
+
+			
 		</h3>
+		{# Display team member's designation if the format is 'excerpt' #}
 		{% if format == "excerpt" %}
 			{% if mate.getDesignation or mate.vertical %}
-				<p class="mate__labels size">
+				<p class="mate__labels size" style="{{ is_alumni ? 'text-align: left;' : '' }}">
 					{{ mate.designation }}
 				</p>
 			{% endif %}
-		{% elseif format == "full" %}
+			{# Display the first 45 words of the bio with a 'Read More' link if the format is 'full' #}
+		{% elseif format == "full" and mate.getDisplayLink %}
 			{% set content = mate.content | striptags | split(' ') | slice(0, 45) | join(' ') ~ ' ... ' %}
 			<p class="mate__bio">
 				{{ content }}
@@ -41,15 +76,6 @@
 				</a>
 			</p>
 		{% endif %}
-		{% if mate.getEmail and vertical_value != "propaganda" %}
-			<p class="mate__email size">
-				<a href="mailto:{{ mate.email }}">{{ mate.email }}</a>
-			</p>
-		{% endif %}
-		{% if mate.getPhone %}
-			<p class="mate__phone size">
-				<a href="tel:{{ mate.phone }}">{{ mate.phone }}</a>
-			</p>
-		{% endif %}
+		
 	</div>
 </div>

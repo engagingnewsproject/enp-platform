@@ -17,7 +17,7 @@ class NF_Fields_Hr extends NF_Abstracts_Input
 
     protected $_templates = 'hr';
 
-    protected $_settings_only = array( 'classes' );
+    protected $_settings_only = array( 'classes', 'admin_label' );
 
     public function __construct()
     {

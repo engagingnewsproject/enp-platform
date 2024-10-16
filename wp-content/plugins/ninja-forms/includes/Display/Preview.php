@@ -65,7 +65,7 @@ final class NF_Display_Preview
 		    return esc_html__( 'You must provide a valid form ID.', 'ninja-forms' );
 	    }
 
-        return do_shortcode( "[nf_preview id='{$this->_form_id}']" );
+        return do_shortcode( "[nf_preview id='". esc_attr($this->_form_id) . "']" );
     }
 
     /**

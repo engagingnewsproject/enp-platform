@@ -84,3 +84,12 @@ wp-content/plugins/autoupdater*
 #*.zip
 #*.tar
 #*.tgz
+
+# CME plugins ignore 
+# Since we do not want to include these plugins on dev installs
+# we will manage the updates manually on the production site.
+# And ignore the plugins on WP Engine push so they are not deleted on the production site.
+wp-content/plugins/admin-bar-disabler/
+wp-content/plugins/seo-by-rank-math/
+wp-content/plugins/seo-by-rank-math-pro/
+wp-content/plugins/download-monitor/

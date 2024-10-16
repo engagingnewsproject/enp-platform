@@ -158,6 +158,7 @@ $cmb->add_field(
 		'options'    => [
 			'US English' => esc_html__( 'US English', 'rank-math' ),
 			'UK English' => esc_html__( 'UK English', 'rank-math' ),
+			'Arabic'     => esc_html__( 'Arabic', 'rank-math' ),
 			'Bulgarian'  => esc_html__( 'Bulgarian', 'rank-math' ),
 			'Chinese'    => esc_html__( 'Chinese', 'rank-math' ),
 			'Czech'      => esc_html__( 'Czech', 'rank-math' ),
@@ -185,6 +186,7 @@ $cmb->add_field(
 			'Slovenian'  => esc_html__( 'Slovenian', 'rank-math' ),
 			'Spanish'    => esc_html__( 'Spanish', 'rank-math' ),
 			'Swedish'    => esc_html__( 'Swedish', 'rank-math' ),
+			'Turkish'    => esc_html__( 'Turkish', 'rank-math' ),
 		],
 	],
 );

@@ -684,6 +684,17 @@ class Contact_Form_Plugin {
 			do_blocks( '<!-- wp:template-part ' . wp_json_encode( $attributes ) . ' /-->' );
 		} else {
 			// It's a form embedded in a post
+
+			if ( ! is_post_publicly_viewable( $id ) && ! current_user_can( 'read_post', $id ) ) {
+				// The user can't see the post.
+				return false;
+			}
+
+			if ( post_password_required( $id ) ) {
+				// The post is password-protected and the password is not provided.
+				return false;
+			}
+
 			$post = get_post( $id );
 
 			// Process the content to populate Contact_Form::$last
@@ -1478,7 +1489,7 @@ class Contact_Form_Plugin {
 	 *
 	 * @param  string $search SQL where clause.
 	 *
-	 * @return array          Filtered SQL where clause.
+	 * @return string         Filtered SQL where clause.
 	 */
 	public function personal_data_search_filter( $search ) {
 		global $wpdb;
@@ -1488,7 +1499,7 @@ class Contact_Form_Plugin {
 		 * author's email address whenever it's on a line by itself.
 		 */
 		if ( $this->pde_email_address && str_contains( $search, '..PDE..AUTHOR EMAIL:..PDE..' ) ) {
-			$search = $wpdb->prepare(
+			$search = (string) $wpdb->prepare(
 				" AND (
 					{$wpdb->posts}.post_content LIKE %s
 					OR {$wpdb->posts}.post_content LIKE %s

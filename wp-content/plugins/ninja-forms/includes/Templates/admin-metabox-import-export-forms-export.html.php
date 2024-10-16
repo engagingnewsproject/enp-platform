@@ -21,7 +21,7 @@
 		                <input type="text" name="nf_export_form_2"
 		                       id="nf_export_form_2"
 		                       class="nf_export_input" autocomplete="off"
-		                       placeholder="Filter Forms"
+		                       placeholder="<?php esc_attr_e('Filter Forms', 'ninja-forms'); ?>"
 		                />
 		                <div class="nf-form-dropdown">
 			                <ul class="widefat" id="nf_form_export_options">
@@ -51,8 +51,8 @@
                                id="nf_export_form_turn_off_encoding">
 	                    <label style="color:red;font-style: italic;"
 			                    for="nf_export_form_turn_off_encoding">
-		                    If you are having trouble with form imports, please
-		                    click here to disable UTF-8 encoding and try again.
+		                    <?php esc_html_e("If you are having trouble with form imports, please
+		                    click here to disable UTF-8 encoding and try again.", 'ninja-forms'); ?>
 	                    </label>
                     </td>
                 </tr>

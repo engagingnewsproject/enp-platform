@@ -23,7 +23,17 @@ abstract class NF_Abstracts_Action
     /**
      * @var string
      */
+    protected $_group = '';
+
+    /**
+     * @var string
+     */
     protected $_image = '';
+
+    /**
+     * @var string
+     */
+    protected $_documentation_url = '';
 
     /**
      * @var array
@@ -164,6 +174,18 @@ abstract class NF_Abstracts_Action
     }
 
     /**
+     * Get Group
+     *
+     * Returns the drawer group for an action.
+     *
+     * @return string
+     */
+    public function get_group()
+    {
+        return $this->_group;
+    }
+
+    /**
      * Get Image
      *
      * Returns the url of a branded action's image.
@@ -173,6 +195,18 @@ abstract class NF_Abstracts_Action
     public function get_image()
     {
         return $this->_image;
+    }
+
+    /**
+     * Get Documentation URL
+     *
+     * Returns the action's documentation URL.
+     *
+     * @return string
+     */
+    public function get_doc_url()
+    {
+        return $this->_documentation_url;
     }
 
     /**

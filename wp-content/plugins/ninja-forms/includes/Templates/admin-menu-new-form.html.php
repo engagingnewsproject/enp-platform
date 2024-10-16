@@ -335,15 +335,18 @@
 </script>
 
 <script id="tmpl-nf-drawer-content-add-action" type="text/template">
-    <span id="nf-drawer-primary"></span>
+    <div class="nf-actions-itmes-installed">
+        <span id="nf-drawer-primary-core"></span>
+        <span id="nf-drawer-primary"></span>
+    </div>
 
     <div class="nf-actions-items-available">
-        <span id="nf-drawer-secondary-payments"></span>
-        <span id="nf-drawer-secondary-marketing"></span>
         <span id="nf-drawer-secondary-management"></span>
-        <span id="nf-drawer-secondary-workflow"></span>
+        <span id="nf-drawer-secondary-payments"></span>
+        <span id="nf-drawer-secondary-automation"></span>
+        <span id="nf-drawer-secondary-marketing"></span>
+        <span id="nf-drawer-secondary-crms"></span>
         <span id="nf-drawer-secondary-notifications"></span>
-        <span id="nf-drawer-secondary-misc"></span>
     </div>
 </script>
 
@@ -394,6 +397,14 @@
 
 <script id="tmpl-nf-drawer-content-edit-settings-title-default" type="text/template">
     <h2>{{{ data.renderTypeNicename() }}}</h2>
+</script>
+
+<script id="tmpl-nf-drawer-content-edit-settings-title-actions" type="text/template">
+    <h2>{{{ data.renderTypeNicename() }}}{{{ data.renderDocLink() }}}</h2>
+</script>
+
+<script id="tmpl-nf-drawer-content-edit-settings-title-calculations" type="text/template">
+    <h2>{{{ data.renderDocLink() }}}</h2>
 </script>
 
 <script id="tmpl-nf-drawer-content-edit-settings-title-fields" type="text/template">
@@ -463,7 +474,7 @@
 
 <script id="tmpl-nf-drawer-action-type-button" type="text/template">
     <div class="nf-one-third nf-action-type-draggable" data-type="{{{ data.id }}}">
-        <div class="{{{ data.renderClasses() }}}" style="{{{ data.renderStyle() }}}">{{{ data.nicename }}}</div>
+        <div class="{{{ data.renderClasses() }}}">{{{ data.nicename }}}</div>
     </div>
 </script>
 
@@ -777,7 +788,7 @@ Label Three
 
 <script id="tmpl-nf-edit-setting-fieldset" type="text/template">
     <fieldset>
-        <legend>{{{ data.label }}}</legend>
+        <legend>{{{ data.label }}} {{{ data.renderTooltip() }}}{{{ data.renderInfo() }}}</legend>
         <span class="nf-field-sub-settings"></span>
     </fieldset>
 </script>

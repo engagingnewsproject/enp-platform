@@ -19,6 +19,8 @@ use WP_REST_Controller;
 use RankMath\Helper;
 use RankMath\Traits\Hooker;
 use RankMath\Traits\Meta;
+use RankMath\Role_Manager\Capability_Manager;
+use RankMath\Redirections\Redirection;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -83,7 +85,7 @@ class Admin extends WP_REST_Controller {
 		);
 
 		register_rest_route(
-			\RankMath\Rest\Rest_Helper::BASE,
+			$this->namespace,
 			'/dashboardWidget',
 			[
 				'methods'             => \WP_REST_Server::READABLE,
@@ -95,12 +97,32 @@ class Admin extends WP_REST_Controller {
 		);
 
 		register_rest_route(
-			\RankMath\Rest\Rest_Helper::BASE,
+			$this->namespace,
 			'/updateSeoScore',
 			[
 				'methods'             => \WP_REST_Server::EDITABLE,
 				'callback'            => [ $this, 'update_seo_score' ],
 				'permission_callback' => [ $this, 'can_edit_posts' ],
+			]
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/updateSettings',
+			[
+				'methods'             => WP_REST_Server::EDITABLE,
+				'callback'            => [ $this, 'update_settings' ],
+				'permission_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'can_manage_settings' ],
+			]
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/resetSettings',
+			[
+				'methods'             => WP_REST_Server::EDITABLE,
+				'callback'            => [ $this, 'reset_settings' ],
+				'permission_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'can_manage_settings' ],
 			]
 		);
 	}
@@ -148,28 +170,6 @@ class Admin extends WP_REST_Controller {
 		ob_start();
 		$this->do_action( 'dashboard/widget' );
 		return ob_get_clean();
-	}
-
-	/**
-	 * Get save module endpoint arguments.
-	 *
-	 * @return array
-	 */
-	private function get_save_module_args() {
-		return [
-			'module' => [
-				'type'              => 'string',
-				'required'          => true,
-				'description'       => esc_html__( 'Module slug', 'rank-math' ),
-				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
-			],
-			'state'  => [
-				'type'              => 'string',
-				'required'          => true,
-				'description'       => esc_html__( 'Module state either on or off', 'rank-math' ),
-				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
-			],
-		];
 	}
 
 	/**
@@ -253,5 +253,103 @@ class Admin extends WP_REST_Controller {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Update Settings.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function update_settings( WP_REST_Request $request ) {
+		$settings = $request->get_param( 'settings' );
+		$type     = $request->get_param( 'type' );
+
+		if ( $type === 'roleCapabilities' ) {
+			Helper::set_capabilities( $settings );
+			return true;
+		}
+
+		if ( $type === 'redirections' ) {
+			$redirection = Redirection::from(
+				[
+					'id'          => isset( $settings['id'] ) ? $settings['id'] : '',
+					'sources'     => $settings['sources'],
+					'url_to'      => isset( $settings['url_to'] ) ? $settings['url_to'] : '',
+					'header_code' => $settings['header_code'],
+					'status'      => $settings['status'],
+				]
+			);
+			if ( $redirection->is_infinite_loop() ) {
+				if ( ! $redirection->get_id() ) {
+					$redirection->set_status( 'inactive' );
+					return rest_ensure_response(
+						[
+							'error' => __( 'The redirection you are trying to create may cause an infinite loop. Please check the source and destination URLs. The redirection has been deactivated.', 'rank-math' ),
+						]
+					);
+				}
+
+				return rest_ensure_response(
+					[
+						'error' => __( 'The redirection you are trying to update may cause an infinite loop. Please check the source and destination URLs.', 'rank-math' ),
+					]
+				);
+
+			}
+
+			if ( false === $redirection->save() ) {
+				return __( 'Please add at least one valid source URL.', 'rank-math' );
+			}
+
+			$this->do_action( 'redirection/saved', $redirection, $settings );
+			return true;
+		}
+
+		Helper::update_all_settings( ...$settings );
+		rank_math()->settings->reset();
+
+		return true;
+	}
+
+	/**
+	 * Reset settings.
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function reset_settings( WP_REST_Request $request ) {
+		$type = $request->get_param( 'type' );
+		if ( $type === 'roleCapabilities' ) {
+			Capability_Manager::get()->reset_capabilities();
+			return true;
+		}
+
+		delete_option( "rank-math-options-$type" );
+		return true;
+	}
+
+	/**
+	 * Get save module endpoint arguments.
+	 *
+	 * @return array
+	 */
+	private function get_save_module_args() {
+		return [
+			'module' => [
+				'type'              => 'string',
+				'required'          => true,
+				'description'       => esc_html__( 'Module slug', 'rank-math' ),
+				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
+			],
+			'state'  => [
+				'type'              => 'string',
+				'required'          => true,
+				'description'       => esc_html__( 'Module state either on or off', 'rank-math' ),
+				'validate_callback' => [ '\\RankMath\\Rest\\Rest_Helper', 'is_param_empty' ],
+			],
+		];
 	}
 }

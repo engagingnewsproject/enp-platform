@@ -171,7 +171,7 @@ class NF_Admin_Notices
         // If user clicks to ignore the notice, update the option to not show it again
         if ( isset($_GET['nf_admin_notice_ignore']) && current_user_can( apply_filters( 'ninja_forms_admin_parent_menu_capabilities', 'manage_options' ) ) ) {
 
-            if ( ! check_admin_referer() ) {
+            if ( ! check_admin_referer("nf_admin_notice_ignore") ) {
                 $query_str = remove_query_arg( array( 'nf_admin_notice_ignore', '_wpnonce' ) );
                 wp_safe_redirect( $query_str );
                 exit;

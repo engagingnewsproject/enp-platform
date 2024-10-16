@@ -8,19 +8,34 @@ class Taxonomies {
 		// An array to store the taxonomies that need to be registered
 		protected $taxonomies = [];
 
-		// Constructor to set the initial list of taxonomies
+		/**
+		 * Constructor to initialize the class with a list of taxonomies.
+		 *
+		 * @param array $taxonomies An array of taxonomy method names to be registered.
+		 */
 		public function __construct($taxonomies) {
 				$this->taxonomies = $taxonomies;
 		}
 
-		// Method to run the registration process for each taxonomy
+		/**
+		 * Method to run the registration process for each taxonomy.
+		 *
+		 * Iterates over the list of taxonomies provided during class instantiation
+		 * and calls each taxonomy's registration method.
+		 */
 		public function run() {
 				foreach($this->taxonomies as $taxonomy) {
 						$this->$taxonomy();
 				}
 		}
 
-		// Method to register the 'Verticals' taxonomy
+		/**
+		 * Method to register the 'Verticals' taxonomy.
+		 *
+		 * This method defines the 'Verticals' taxonomy, including its labels, 
+		 * settings, and the post types it applies to. It registers the taxonomy
+		 * with WordPress using the specified settings.
+		 */
 		public function Verticals() {
 				// Labels for the 'Verticals' taxonomy
 				$labels = array(
@@ -41,8 +56,8 @@ class Taxonomies {
 				$args = array(
 						'hierarchical'      => true,
 						'labels'            => $labels,
-						'show_ui'           => true,
-						'show_admin_column' => true,
+						'show_ui'           => false,
+						'show_admin_column' => false,
 						'query_var'         => true,
 						'has_archive'       => true,
 						'rewrite'           => [ 'slug' => 'vertical' ],

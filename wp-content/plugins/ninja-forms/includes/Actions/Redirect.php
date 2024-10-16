@@ -16,6 +16,11 @@ final class NF_Actions_Redirect extends NF_Abstracts_Action
     protected $_tags = array();
 
     /**
+     * @var string
+     */
+    protected $_documentation_url = 'https://ninjaforms.com/docs/redirect-action/';
+
+    /**
     * @var string
     */
     protected $_timing = 'late';
@@ -24,6 +29,11 @@ final class NF_Actions_Redirect extends NF_Abstracts_Action
     * @var int
     */
     protected $_priority = 20;
+
+    /**
+     * @var string
+     */
+    protected $_group = 'core';
 
     /**
     * Constructor

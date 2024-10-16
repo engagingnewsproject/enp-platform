@@ -40,11 +40,11 @@ class Tribe__Events__Assets {
 			$plugin,
 			[
 				[ 'jquery-placeholder', 'vendor/jquery-placeholder/jquery.placeholder.js', [ 'jquery' ] ],
-				[ 'tribe-events-php-date-formatter', 'vendor/php-date-formatter/js/php-date-formatter.js', [] ],
 				[ 'tribe-events-custom-jquery-styles', 'vendor/jquery/smoothness/jquery-ui-1.8.23.custom.css', [] ],
 				[ 'tribe-events-jquery-resize', 'vendor/jquery-resize/jquery.ba-resize.js', [ 'jquery' ] ],
 				[ 'tribe-events-chosen-style', 'vendor/chosen/public/chosen.css', [] ],
 				[ 'tribe-events-chosen-jquery', 'vendor/chosen/public/chosen.jquery.js', [ 'jquery' ] ],
+				[ 'tribe-events-php-date-formatter', 'vendor/php-date-formatter/js/php-date-formatter.js', [] ],
 				[
 					'tribe-events-bootstrap-datepicker-css',
 					'vendor/bootstrap-datepicker/css/bootstrap-datepicker.standalone.css',
@@ -301,18 +301,22 @@ class Tribe__Events__Assets {
 			]
 		);
 
+		// Custom stylesheet.
+		$override_sheet = Tribe__Events__Templates::locate_stylesheet( 'tribe-events/tribe-events.css' );
 
-		tribe_asset(
-			$plugin,
-			'tribe-events-calendar-override-style',
-			Tribe__Events__Templates::locate_stylesheet( 'tribe-events/tribe-events.css' ),
-			[],
-			'wp_enqueue_scripts',
-			[
-				'groups'       => [ 'events-styles' ],
-				'conditionals' => [ $this, 'should_enqueue_frontend' ],
-			]
-		);
+		if ( ! empty( $override_sheet ) && file_exists( $override_sheet ) ) {
+			tribe_asset(
+				$plugin,
+				'tribe-events-calendar-override-style',
+				$override_sheet,
+				[],
+				'wp_enqueue_scripts',
+				[
+					'groups'       => [ 'events-styles' ],
+					'conditionals' => [ $this, 'should_enqueue_frontend' ],
+				]
+			);
+		}
 	}
 
 	/**
@@ -519,6 +523,24 @@ class Tribe__Events__Assets {
 		$admin_helpers = Tribe__Admin__Helpers::instance();
 
 		return $admin_helpers->is_screen( 'settings_page_tribe-settings' );
+	}
+
+	/**
+	 * Check if the override stylesheet exists.
+	 *
+	 * @since 6.6.0
+	 *
+	 * @return bool
+	 */
+	public function override_style_exists(): bool {
+		_deprecated_function( __METHOD__, '6.6.1', 'Tribe__Events__Assets::should_enqueue_frontend' );
+		// This is a frontend script, let's bail early if we can.
+		if ( ! $this->should_enqueue_frontend() ) {
+			return false;
+		}
+
+		$file = Tribe__Events__Templates::locate_stylesheet( 'tribe-events/tribe-events.css' );
+		return $file && file_exists( $file );
 	}
 
 	/**

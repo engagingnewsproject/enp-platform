@@ -9,6 +9,7 @@ use Automattic\Jetpack\Connection\Client;
 use Automattic\Jetpack\Connection\Manager as Connection_Manager;
 use Automattic\Jetpack\Connection\Rest_Authentication;
 use Automattic\Jetpack\Connection\REST_Connector;
+use Automattic\Jetpack\Connection\SSO;
 use Automattic\Jetpack\Current_Plan as Jetpack_Plan;
 use Automattic\Jetpack\Jetpack_CRM_Data;
 use Automattic\Jetpack\Plugins_Installer;
@@ -784,6 +785,36 @@ class Jetpack_Core_Json_Api_Endpoints {
 						'format'            => 'uri',
 					),
 				),
+			)
+		);
+
+		/**
+		 * Get the list of available Jetpack features.
+		 *
+		 * @since 13.9
+		 */
+		register_rest_route(
+			'jetpack/v4',
+			'/features/available',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( static::class, 'get_features_available' ),
+				'permission_callback' => array( static::class, 'get_features_permission_check' ),
+			)
+		);
+
+		/**
+		 * Get the list of enabled Jetpack features.
+		 *
+		 * @since 13.9
+		 */
+		register_rest_route(
+			'jetpack/v4',
+			'/features/enabled',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( static::class, 'get_features_enabled' ),
+				'permission_callback' => array( static::class, 'get_features_permission_check' ),
 			)
 		);
 	}
@@ -1593,10 +1624,7 @@ class Jetpack_Core_Json_Api_Endpoints {
 		return rest_ensure_response(
 			array(
 				'code'  => 'response',
-				'debug' => array(
-					'data' => $encrypted['data'],
-					'key'  => $encrypted['key'],
-				),
+				'debug' => $encrypted,
 			)
 		);
 	}
@@ -2337,8 +2365,8 @@ class Jetpack_Core_Json_Api_Endpoints {
 				'validate_callback' => __CLASS__ . '::validate_boolean',
 				'jp_group'          => 'waf',
 			),
-			'jetpack_waf_ip_list'                   => array(
-				'description'       => esc_html__( 'Allow / Block list - Block or allow a specific request IP.', 'jetpack' ),
+			'jetpack_waf_ip_block_list_enabled'     => array(
+				'description'       => esc_html__( 'Block list - Block a specific request IP.', 'jetpack' ),
 				'type'              => 'boolean',
 				'default'           => 0,
 				'validate_callback' => __CLASS__ . '::validate_boolean',
@@ -2351,6 +2379,13 @@ class Jetpack_Core_Json_Api_Endpoints {
 				'validate_callback' => __CLASS__ . '::validate_string',
 				'sanitize_callback' => 'esc_textarea',
 				'jp_group'          => 'waf',
+			),
+			'jetpack_waf_ip_allow_list_enabled'     => array(
+				'description'       => esc_html__( 'Allow list - Allow a specific request IP.', 'jetpack' ),
+				'type'              => 'boolean',
+				'default'           => 0,
+				'validate_callback' => __CLASS__ . '::validate_boolean',
+				'jp_group'          => 'settings',
 			),
 			'jetpack_waf_ip_allow_list'             => array(
 				'description'       => esc_html__( 'Always allowed IP addresses', 'jetpack' ),
@@ -2590,7 +2625,7 @@ class Jetpack_Core_Json_Api_Endpoints {
 			'jetpack_sso_require_two_step'          => array(
 				'description'       => esc_html__( 'Require Two-Step Authentication', 'jetpack' ),
 				'type'              => 'boolean',
-				'default'           => 0,
+				'default'           => SSO\Helpers::is_require_two_step_checkbox_disabled(),
 				'validate_callback' => __CLASS__ . '::validate_boolean',
 				'jp_group'          => 'sso',
 			),
@@ -2638,10 +2673,31 @@ class Jetpack_Core_Json_Api_Endpoints {
 				'validate_callback' => __CLASS__ . '::validate_boolean',
 				'jp_group'          => 'subscriptions',
 			),
+			'jetpack_gravatar_in_email'             => array(
+				'description'       => esc_html__( 'Whether to show author avatar in the email byline', 'jetpack' ),
+				'type'              => 'boolean',
+				'default'           => 1,
+				'validate_callback' => __CLASS__ . '::validate_boolean',
+				'jp_group'          => 'subscriptions',
+			),
+			'jetpack_author_in_email'               => array(
+				'description'       => esc_html__( 'Whether to show author display name in the email byline', 'jetpack' ),
+				'type'              => 'boolean',
+				'default'           => 1,
+				'validate_callback' => __CLASS__ . '::validate_boolean',
+				'jp_group'          => 'subscriptions',
+			),
+			'jetpack_post_date_in_email'            => array(
+				'description'       => esc_html__( 'Whether to show date in the email byline', 'jetpack' ),
+				'type'              => 'boolean',
+				'default'           => 1,
+				'validate_callback' => __CLASS__ . '::validate_boolean',
+				'jp_group'          => 'subscriptions',
+			),
 			'wpcom_subscription_emails_use_excerpt' => array(
 				'description'       => esc_html__( 'Whether to use the excerpt in the email or not', 'jetpack' ),
 				'type'              => 'boolean',
-				'default'           => 1,
+				'default'           => 0,
 				'validate_callback' => __CLASS__ . '::validate_boolean',
 				'jp_group'          => 'subscriptions',
 			),
@@ -2652,8 +2708,22 @@ class Jetpack_Core_Json_Api_Endpoints {
 				'validate_callback' => __CLASS__ . '::validate_subscriptions_reply_to',
 				'jp_group'          => 'subscriptions',
 			),
+			'jetpack_subscriptions_from_name'       => array(
+				'description'       => esc_html__( 'From name for newsletters emails', 'jetpack' ),
+				'type'              => 'string',
+				'default'           => '',
+				'validate_callback' => __CLASS__ . '::validate_subscriptions_reply_to_name',
+				'jp_group'          => 'subscriptions',
+			),
 			'sm_enabled'                            => array(
 				'description'       => esc_html__( 'Show popup Subscribe modal to readers.', 'jetpack' ),
+				'type'              => 'boolean',
+				'default'           => 0,
+				'validate_callback' => __CLASS__ . '::validate_boolean',
+				'jp_group'          => 'subscriptions',
+			),
+			'jetpack_subscribe_overlay_enabled'     => array(
+				'description'       => esc_html__( 'Show subscribe overlay on homepage.', 'jetpack' ),
 				'type'              => 'boolean',
 				'default'           => 0,
 				'validate_callback' => __CLASS__ . '::validate_boolean',
@@ -2668,6 +2738,13 @@ class Jetpack_Core_Json_Api_Endpoints {
 			),
 			'jetpack_subscriptions_login_navigation_enabled' => array(
 				'description'       => esc_html__( 'Add Subscriber Login block to the navigation.', 'jetpack' ),
+				'type'              => 'boolean',
+				'default'           => 0,
+				'validate_callback' => __CLASS__ . '::validate_boolean',
+				'jp_group'          => 'subscriptions',
+			),
+			'jetpack_subscriptions_subscribe_navigation_enabled' => array(
+				'description'       => esc_html__( 'Add Subscribe block to the navigation.', 'jetpack' ),
 				'type'              => 'boolean',
 				'default'           => 0,
 				'validate_callback' => __CLASS__ . '::validate_boolean',
@@ -2787,6 +2864,13 @@ class Jetpack_Core_Json_Api_Endpoints {
 			),
 			'wordads_second_belowpost'              => array(
 				'description'       => esc_html__( 'Display second ad below post?', 'jetpack' ),
+				'type'              => 'boolean',
+				'default'           => 1,
+				'validate_callback' => __CLASS__ . '::validate_boolean',
+				'jp_group'          => 'wordads',
+			),
+			'wordads_inline_enabled'                => array(
+				'description'       => esc_html__( 'Display inline ad within post content?', 'jetpack' ),
 				'type'              => 'boolean',
 				'default'           => 1,
 				'validate_callback' => __CLASS__ . '::validate_boolean',
@@ -2992,28 +3076,6 @@ class Jetpack_Core_Json_Api_Endpoints {
 				'jp_group'    => 'settings',
 			),
 
-			'onboarding'                            => array(
-				'description'       => '',
-				'type'              => 'object',
-				'default'           => array(
-					'siteTitle'          => '',
-					'siteDescription'    => '',
-					'siteType'           => 'personal',
-					'homepageFormat'     => 'posts',
-					'addContactForm'     => 0,
-					'businessAddress'    => array(
-						'name'   => '',
-						'street' => '',
-						'city'   => '',
-						'state'  => '',
-						'zip'    => '',
-					),
-					'installWooCommerce' => false,
-				),
-				'validate_callback' => __CLASS__ . '::validate_onboarding',
-				'jp_group'          => 'settings',
-			),
-
 			// SEO Tools.
 			'advanced_seo_front_page_description'   => array(
 				'description'       => esc_html__( 'Front page meta description.', 'jetpack' ),
@@ -3095,28 +3157,16 @@ class Jetpack_Core_Json_Api_Endpoints {
 	 *
 	 * @since 5.4.0
 	 *
+	 * @deprecated since 13.9
+	 *
 	 * @param array           $onboarding_data Values to check.
 	 * @param WP_REST_Request $request         The request sent to the WP REST API.
 	 * @param string          $param           Name of the parameter passed to endpoint holding $value.
 	 *
 	 * @return bool|WP_Error
 	 */
-	public static function validate_onboarding( $onboarding_data, $request, $param ) {
-		if ( ! is_array( $onboarding_data ) ) {
-			return new WP_Error( 'invalid_param', esc_html__( 'Not valid onboarding data.', 'jetpack' ) );
-		}
-		foreach ( $onboarding_data as $value ) {
-			if ( is_string( $value ) ) {
-				$onboarding_choice = self::validate_string( $value, $request, $param );
-			} elseif ( is_array( $value ) ) {
-				$onboarding_choice = self::validate_onboarding( $value, $request, $param );
-			} else {
-				$onboarding_choice = self::validate_boolean( $value, $request, $param );
-			}
-			if ( is_wp_error( $onboarding_choice ) ) {
-				return $onboarding_choice;
-			}
-		}
+	public static function validate_onboarding( $onboarding_data, $request, $param ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+		_deprecated_function( __METHOD__, '13.9' );
 		return true;
 	}
 
@@ -3402,8 +3452,33 @@ class Jetpack_Core_Json_Api_Endpoints {
 	 * @return bool|WP_Error
 	 */
 	public static function validate_subscriptions_reply_to( $value, $request, $param ) {
-		$valid_values = array( 'author', 'no-reply' );
-		if ( ! empty( $value ) && ! in_array( $value, $valid_values, true ) ) {
+		require_once JETPACK__PLUGIN_DIR . 'modules/subscriptions/class-settings.php';
+		if ( ! empty( $value ) && ! Automattic\Jetpack\Modules\Subscriptions\Settings::is_valid_reply_to( $value ) ) {
+			return new WP_Error(
+				'invalid_param',
+				sprintf(
+					/* Translators: Placeholder is a parameter name. */
+					esc_html__( '%s must be a valid type.', 'jetpack' ),
+					$param
+				)
+			);
+		}
+		return true;
+	}
+
+	/**
+	 * Validates that the parameter is among the valid reply-to types for subscriptions.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param string|bool     $value Value to check.
+	 * @param WP_REST_Request $request The request sent to the WP REST API.
+	 * @param string          $param Name of the parameter passed to endpoint holding $value.
+	 *
+	 * @return bool|WP_Error
+	 */
+	public static function validate_subscriptions_reply_to_name( $value, $request, $param ) {
+		if ( ! empty( $value ) && ! is_string( $value ) ) {
 			return new WP_Error(
 				'invalid_param',
 				sprintf(
@@ -4421,5 +4496,54 @@ class Jetpack_Core_Json_Api_Endpoints {
 				'data' => $data,
 			)
 		);
+	}
+
+	/**
+	 * Return the list of available features.
+	 *
+	 * @return array
+	 */
+	public static function get_features_available() {
+		$raw_modules = Jetpack::get_available_modules();
+		$modules     = array();
+		foreach ( $raw_modules as $module ) {
+			$modules[] = Jetpack::get_module_slug( $module );
+		}
+
+		return $modules;
+	}
+
+	/**
+	 * Returns what features are enabled. Uses the slug of the modules files.
+	 *
+	 * @return array
+	 */
+	public static function get_features_enabled() {
+		$raw_modules = Jetpack::get_active_modules();
+		$modules     = array();
+		foreach ( $raw_modules as $module ) {
+			$modules[] = Jetpack::get_module_slug( $module );
+		}
+
+		return $modules;
+	}
+
+	/**
+	 * Verify that the API client is allowed to replace user token.
+	 *
+	 * @since 1.29.0
+	 *
+	 * @return bool|WP_Error
+	 */
+	public static function get_features_permission_check() {
+		if ( ! Rest_Authentication::is_signed_with_blog_token() ) {
+			$message = esc_html__(
+				'You do not have the correct user permissions to perform this action. Please contact your site admin if you think this is a mistake.',
+				'jetpack'
+			);
+			return new WP_Error( 'invalid_permission_fetch_features', $message, array( 'status' => rest_authorization_required_code() ) );
+		}
+
+		return true;
 	}
 } // class end

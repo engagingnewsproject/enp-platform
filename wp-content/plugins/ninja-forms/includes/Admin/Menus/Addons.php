@@ -4,7 +4,7 @@ final class NF_Admin_Menus_Addons extends NF_Abstracts_Submenu
 {
     public $parent_slug = 'ninja-forms';
 
-    public $menu_slug = 'ninja-forms#apps';
+    public $menu_slug = 'ninja-forms#add-ons';
 
     public $position = 7;
 
@@ -59,6 +59,10 @@ final class NF_Admin_Menus_Addons extends NF_Abstracts_Submenu
 
         $notices = array();
 
+        //Check if an affiliate ID is set
+        $u_id = get_option( 'nf_aff', false );
+        if ( !$u_id ) $u_id = apply_filters( 'ninja_forms_affiliate_id', false );
+
         foreach ($items as &$item) {
             $plugin_data = array();
             if( !empty( $item['plugin'] ) && file_exists( WP_PLUGIN_DIR.'/'.$item['plugin'] ) ){
@@ -71,6 +75,14 @@ final class NF_Admin_Menus_Addons extends NF_Abstracts_Submenu
 
             $version = isset ( $plugin_data['Version'] ) ? $plugin_data['Version'] : '';
 
+            //Rewrite link for affiliates
+            if ( $u_id && $item[ 'link' ]) {
+                $last_slash = strripos( $item[ 'link' ], '/' );
+                $item[ 'link' ] = substr( $item[ 'link' ], 0, $last_slash );
+                $item[ 'link' ] =  urlencode( $item[ 'link' ] );
+                $item[ 'link' ] = 'http://www.shareasale.com/r.cfm?u=' . $u_id . '&b=812237&m=63061&afftrack=&urllink=' . $item[ 'link' ];
+            }
+
             if ( ! empty ( $version ) && $version < $item['version'] ) {
 
                 $notices[] = array(
@@ -79,45 +91,46 @@ final class NF_Admin_Menus_Addons extends NF_Abstracts_Submenu
                     'new_version' => $item[ 'version' ]
                 );
             }
+
+            $item["status"] = self::getItemStatus($item);
         }
 
         $groups = [
-            'popular' => [
-                'title' => __( 'You Can Build Smart, Beautiful WordPress Forms!', 'ninja-forms' ),
-                'items' => self::filterItemsByCategroy( $items, 'form-function-design' ),
+            'advanced' => [
+                'title' => __( 'Advanced Form Features', 'ninja-forms' ),
+                'items' => self::filterItemsByCategroy( $items, 'advanced-form-features' ),
             ],
-            'documents' => [
-                'title' => __( 'Better Document Sharing will Take Your Business Further', 'ninja-forms' ),
-                'items' => self::filterItemsByCategroy( $items, 'file-management' ),
+            'submissions' => [
+                'title' => __( 'Submissions Extended', 'ninja-forms' ),
+                'items' => self::filterItemsByCategroy( $items, 'submissions-extended' ),
             ],
             'payments' => [
-                'title' => __( 'Accept Payments & Donations Without Breaking the Bank', 'ninja-forms' ),
-                'items' => self::filterItemsByCategroy( $items, 'payment-gateways' ),
+                'title' => __( 'Accept Payments', 'ninja-forms' ),
+                'items' => self::filterItemsByCategroy( $items, 'accept-payments' ),
+            ],
+            'automation' => [
+                'title' => __( 'Automation', 'ninja-forms' ),
+                'items' => self::filterItemsByCategroy( $items, 'automation' ),
             ],
             'marketing' => [
-                'title' => __( 'Want to Attract More Subscribers to Your Mailing Lists?', 'ninja-forms' ),
+                'title' => __( 'Email Marketing', 'ninja-forms' ),
                 'items' => self::filterItemsByCategroy( $items, 'email-marketing' ),
             ],
-            'website' => [
-                'title' => __( 'Let Your Users Do More, and Do More for Your Users', 'ninja-forms' ),
-                'items' => self::filterItemsByCategroy( $items, 'user-management' ),
-            ],
             'crm' => [
-                'title' => __( 'Generate More Leads Than You Ever Thought Possible', 'ninja-forms' ),
+                'title' => __( 'CRMs', 'ninja-forms' ),
                 'items' => self::filterItemsByCategroy( $items, 'crm-integrations' ),
             ],
             'notifications' => [
-                'title' => __( 'Never Miss an Important Submission or Lead Again!', 'ninja-forms' ),
+                'title' => __( 'Notifications & Workflow', 'ninja-forms' ),
                 'items' => self::filterItemsByCategroy( $items, 'notification-workflow' ),
             ],
-            'misc' => [
-                'title' => __( 'Don’t See Your Favorite Service Above? We Can Likely Still Help.', 'ninja-forms' ),
-                'items' => self::filterItemsByCategroy( $items, 'custom-integrations' ),
-            ],
         ];
-        
 
-        Ninja_Forms::template( 'admin-menu-addons.html.php', compact( 'items', 'notices', 'groups' ) );
+        return [
+            "notices"   =>  $notices,
+            "groups"    =>  $groups,
+            "items"     =>  $items
+        ];
     }
 
     public static function filterItemsByCategroy( $items, $category ) {
@@ -126,6 +139,21 @@ final class NF_Admin_Menus_Addons extends NF_Abstracts_Submenu
                 return $category === $itemCategory['slug'];
             });
         });
+    }
+
+    public static function getItemStatus( $item ) {
+        $status = "unknown";
+        
+        if( ! empty( $item['plugin'] ) && file_exists( WP_PLUGIN_DIR.'/'.$item['plugin'] ) ) {
+
+            if( is_plugin_active( $item['plugin'] ) ) {
+                $status =  'active';
+            } elseif( is_plugin_inactive( $item['plugin'] ) ) {
+                $status = "installed";
+            }
+
+        } 
+        return $status;
     }
 
 } // End Class NF_Admin_Addons

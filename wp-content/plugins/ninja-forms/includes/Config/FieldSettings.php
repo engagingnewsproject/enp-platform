@@ -542,7 +542,6 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'value' => 'date_and_time',
             ),
         ),
-        'help' => '',
         'default' => 'date_only',
         'value' => 'date_only',
     ),
@@ -560,7 +559,6 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'label' => esc_html__( '24 Hour Input', 'ninja-forms' ),
                 'width' => 'one-half',
                 'group' => 'primary',
-                'help' => '',
                 'default' => 0,
                 'value' => 0,
             ),
@@ -570,7 +568,6 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'label' => esc_html__( 'Minute Increment', 'ninja-forms' ),
                 'width' => 'full',
                 'group' => 'primary',
-                'help' => '',
                 'default' => 5,
                 'value' => 5,
                 'min_val' => 1,
@@ -755,7 +752,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
         'type'              => 'fieldset',
         'label'             => esc_html__( 'Help Text', 'ninja-forms' ),
         'group'             => 'display',
-        'help'              => esc_html__( 'Shown to users as a hover.', 'ninja-forms' ),
+        'help'              => esc_html__( 'Entering text here will display an informational icon next to the field label. When a user hovers over it, a small window will appear containing this text.', 'ninja-forms' ),
         'settings'          => array(
             /*
              * HELP TEXT
@@ -769,7 +766,6 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'group'             => 'advanced',
                 'value'             => '',
                 'use_merge_tags'    => true,
-                'help'              => esc_html__( 'Entering text here will display an informational icon next to the field label. When a user hovers over it, a small window will appear containing this text.', 'ninja-forms' ),
             ),
         ),
     ),
@@ -783,6 +779,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
         'type'              => 'fieldset',
         'label'             => esc_html__( 'Description', 'ninja-forms' ),
         'group'             => 'display',
+        'help'              => esc_html__( 'Any text entered here will appear between the label and the field.', 'ninja-forms' ),
         'settings'          => array(
             /*
              * DESCRIPTION TEXT
@@ -794,7 +791,6 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'label'             => '',
                 'width'             => 'full',
                 'use_merge_tags'    => true,
-                'help'              => esc_html__( 'Any text entered here will appear between the label and the field.', 'ninja-forms' ),
             ),
         ),
     ),

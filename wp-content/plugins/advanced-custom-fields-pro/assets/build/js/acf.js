@@ -1238,6 +1238,7 @@
       timeout: 0,
       dismiss: true,
       target: false,
+      location: 'before',
       close: function () {}
     },
     events: {
@@ -1289,8 +1290,13 @@
     },
     show: function () {
       var $target = this.get('target');
+      var location = this.get('location');
       if ($target) {
-        $target.prepend(this.$el);
+        if (location === 'after') {
+          $target.append(this.$el);
+        } else {
+          $target.prepend(this.$el);
+        }
       }
     },
     hide: function () {
@@ -2463,17 +2469,25 @@
   //console.log( acf.escHtml( '<script>js1</script><script>js2</script>' ) );
 
   /**
-   *  acf.decode
+   * Encode a string potentially containing HTML into it's HTML entities equivalent.
    *
-   *  description
+   * @since 6.3.6
    *
-   *  @date	13/1/18
-   *  @since	5.6.5
-   *
-   *  @param	type $var Description. Default.
-   *  @return	type Description.
+   * @param {string} string String to encode.
+   * @return {string} The encoded string
    */
+  acf.encode = function (string) {
+    return $('<textarea/>').text(string).html();
+  };
 
+  /**
+   * Decode a HTML encoded string into it's original form.
+   *
+   * @since 5.6.5
+   *
+   * @param {string} string String to encode.
+   * @return {string} The encoded string
+   */
   acf.decode = function (string) {
     return $('<textarea/>').html(string).text();
   };
@@ -3300,31 +3314,26 @@
   };
 
   /**
-   *  acf.prepareForAjax
+   * Prepares AJAX data prior to being sent.
    *
-   *  description
+   * @since 5.6.5
    *
-   *  @date	4/1/18
-   *  @since	5.6.5
-   *
-   *  @param	type $var Description. Default.
-   *  @return	type Description.
+   * @param Object  data             The data to prepare
+   * @param boolean use_global_nonce Should we ignore any nonce provided in the data object and force ACF's global nonce for this request
+   * @return Object The prepared data.
    */
-
-  acf.prepareForAjax = function (data) {
-    // required
-    data.nonce = acf.get('nonce');
+  acf.prepareForAjax = function (data, use_global_nonce = false) {
+    // Set a default nonce if we don't have one already.
+    if (use_global_nonce || 'undefined' === typeof data.nonce) {
+      data.nonce = acf.get('nonce');
+    }
     data.post_id = acf.get('post_id');
-
-    // language
     if (acf.has('language')) {
       data.lang = acf.get('language');
     }
 
-    // filter for 3rd party customization
+    // Filter for 3rd party customization.
     data = acf.applyFilters('prepare_for_ajax', data);
-
-    // return
     return data;
   };
 
@@ -3869,7 +3878,6 @@
           itemsHtml += '<option value="' + acf.escAttr(id) + '"' + (item.disabled ? ' disabled="disabled"' : '') + '>' + acf.strEscape(text) + '</option>';
         }
       });
-
       // return
       return itemsHtml;
     };
@@ -4348,6 +4356,15 @@
     $(window).trigger('acfrefresh');
     acf.doAction('refresh');
   }, 0);
+
+  /**
+   * Log something to console if we're in debug mode.
+   *
+   * @since 6.3
+   */
+  acf.debug = function () {
+    if (acf.get('debug')) console.log.apply(null, arguments);
+  };
 
   // Set up actions from events
   $(document).ready(function () {

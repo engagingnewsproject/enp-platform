@@ -1,0 +1,10 @@
+{
+	"singleQuote": true,
+	"useTabs": true,
+	"tabWidth": 4,
+	"plugins": ["./node_modules/prettier-plugin-twig-melody"],
+	"twigMelodyPrintWidth": 220,
+	"twigMelodySingleQuote": true,
+	"twigMelodyTabWidth": 2,
+	"twigMelodyUseTabs": true
+}

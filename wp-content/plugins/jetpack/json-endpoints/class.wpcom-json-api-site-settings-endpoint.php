@@ -121,9 +121,19 @@ new WPCOM_JSON_API_Site_Settings_Endpoint(
 			'rss_use_excerpt'                         => '(bool) Whether the RSS feed will use post excerpts',
 			'launchpad_screen'                        => '(string) Whether or not launchpad is presented and what size it will be',
 			'sm_enabled'                              => '(bool) Whether the newsletter subscribe modal is enabled',
+			'jetpack_subscribe_overlay_enabled'       => '(bool) Whether the newsletter subscribe overlay is enabled',
 			'jetpack_subscriptions_subscribe_post_end_enabled' => '(bool) Whether the Subscribe block at the end of each post placement is enabled',
 			'jetpack_subscriptions_login_navigation_enabled' => '(bool) Whether the Subscriber Login block navigation placement is enabled',
+			'jetpack_subscriptions_subscribe_navigation_enabled' => '(Bool) Whether the Subscribe block navigation placement is enabled',
 			'wpcom_ai_site_prompt'                    => '(string) User input in the AI site prompt',
+			'jetpack_waf_automatic_rules'             => '(bool) Whether the WAF should enforce automatic firewall rules',
+			'jetpack_waf_ip_allow_list'               => '(string) List of IP addresses to always allow',
+			'jetpack_waf_ip_allow_list_enabled'       => '(bool) Whether the IP allow list is enabled',
+			'jetpack_waf_ip_block_list'               => '(string) List of IP addresses the WAF should always block',
+			'jetpack_waf_ip_block_list_enabled'       => '(bool) Whether the IP block list is enabled',
+			'jetpack_waf_share_data'                  => '(bool) Whether the WAF should share basic data with Jetpack',
+			'jetpack_waf_share_debug_data'            => '(bool) Whether the WAF should share debug data with Jetpack',
+			'jetpack_waf_automatic_rules_last_updated_timestamp' => '(int) Timestamp of the last time the automatic rules were updated',
 		),
 
 		'response_format'     => array(
@@ -420,7 +430,6 @@ class WPCOM_JSON_API_Site_Settings_Endpoint extends WPCOM_JSON_API_Endpoint {
 						? get_lang_id_by_code( wpcom_l10n_get_blog_locale_variant( $blog_id, true ) )
 						: get_option( 'lang_id' ),
 						'site_vertical_id'                 => (string) get_option( 'site_vertical_id' ),
-						'wga'                              => $this->get_google_analytics(),
 						'jetpack_cloudflare_analytics'     => get_option( 'jetpack_cloudflare_analytics' ),
 						'disabled_likes'                   => (bool) get_option( 'disabled_likes' ),
 						'disabled_reblogs'                 => (bool) get_option( 'disabled_reblogs' ),
@@ -453,15 +462,21 @@ class WPCOM_JSON_API_Site_Settings_Endpoint extends WPCOM_JSON_API_Endpoint {
 						'rss_use_excerpt'                  => (bool) get_option( 'rss_use_excerpt' ),
 						'launchpad_screen'                 => (string) get_option( 'launchpad_screen' ),
 						'wpcom_featured_image_in_email'    => (bool) get_option( 'wpcom_featured_image_in_email' ),
+						'jetpack_gravatar_in_email'        => (bool) get_option( 'jetpack_gravatar_in_email', true ),
+						'jetpack_author_in_email'          => (bool) get_option( 'jetpack_author_in_email', true ),
+						'jetpack_post_date_in_email'       => (bool) get_option( 'jetpack_post_date_in_email', true ),
 						'wpcom_newsletter_categories'      => $newsletter_category_ids,
 						'wpcom_newsletter_categories_enabled' => (bool) get_option( 'wpcom_newsletter_categories_enabled' ),
 						'sm_enabled'                       => (bool) get_option( 'sm_enabled' ),
+						'jetpack_subscribe_overlay_enabled' => (bool) get_option( 'jetpack_subscribe_overlay_enabled' ),
 						'jetpack_subscriptions_subscribe_post_end_enabled' => (bool) get_option( 'jetpack_subscriptions_subscribe_post_end_enabled' ),
 						'jetpack_subscriptions_login_navigation_enabled' => (bool) get_option( 'jetpack_subscriptions_login_navigation_enabled' ),
+						'jetpack_subscriptions_subscribe_navigation_enabled' => (bool) get_option( 'jetpack_subscriptions_subscribe_navigation_enabled' ),
 						'wpcom_gifting_subscription'       => (bool) get_option( 'wpcom_gifting_subscription', $this->get_wpcom_gifting_subscription_default() ),
 						'wpcom_reader_views_enabled'       => (bool) get_option( 'wpcom_reader_views_enabled', true ),
 						'wpcom_subscription_emails_use_excerpt' => $this->get_wpcom_subscription_emails_use_excerpt_option(),
 						'jetpack_subscriptions_reply_to'   => (string) $this->get_subscriptions_reply_to_option(),
+						'jetpack_subscriptions_from_name'  => (string) get_option( 'jetpack_subscriptions_from_name' ),
 						'show_on_front'                    => (string) get_option( 'show_on_front' ),
 						'page_on_front'                    => (string) get_option( 'page_on_front' ),
 						'page_for_posts'                   => (string) get_option( 'page_for_posts' ),
@@ -473,6 +488,15 @@ class WPCOM_JSON_API_Site_Settings_Endpoint extends WPCOM_JSON_API_Endpoint {
 						'jetpack_comment_form_color_scheme' => (string) get_option( 'jetpack_comment_form_color_scheme' ),
 						'in_site_migration_flow'           => (string) get_option( 'in_site_migration_flow', '' ),
 						'migration_source_site_domain'     => (string) get_option( 'migration_source_site_domain' ),
+						'jetpack_waf_automatic_rules'      => (bool) get_option( 'jetpack_waf_automatic_rules' ),
+						'jetpack_waf_ip_allow_list'        => (string) get_option( 'jetpack_waf_ip_allow_list' ),
+						'jetpack_waf_ip_allow_list_enabled' => (bool) get_option( 'jetpack_waf_ip_allow_list_enabled' ),
+						'jetpack_waf_ip_block_list'        => (string) get_option( 'jetpack_waf_ip_block_list' ),
+						'jetpack_waf_ip_block_list_enabled' => (bool) get_option( 'jetpack_waf_ip_block_list_enabled' ),
+						'jetpack_waf_share_data'           => (bool) get_option( 'jetpack_waf_share_data' ),
+						'jetpack_waf_share_debug_data'     => (bool) get_option( 'jetpack_waf_share_debug_data' ),
+						'jetpack_waf_automatic_rules_last_updated_timestamp' => (int) get_option( 'jetpack_waf_automatic_rules_last_updated_timestamp' ),
+						'is_fully_managed_agency_site'     => (bool) get_option( 'is_fully_managed_agency_site' ),
 					);
 
 					if ( defined( 'IS_WPCOM' ) && IS_WPCOM ) {
@@ -507,10 +531,12 @@ class WPCOM_JSON_API_Site_Settings_Endpoint extends WPCOM_JSON_API_Endpoint {
 					 * @module json-api
 					 *
 					 * @since 3.9.3
+					 * @since 13.6 Added the API object parameter.
 					 *
 					 * @param mixed $response_item A single site setting.
+					 * @param WPCOM_JSON_API_Site_Settings_Endpoint $this The API object.
 					 */
-					$response[ $key ] = apply_filters( 'site_settings_endpoint_get', $response[ $key ] );
+					$response[ $key ] = apply_filters( 'site_settings_endpoint_get', $response[ $key ], $this );
 
 					if ( class_exists( 'Sharing_Service' ) ) {
 						$ss                                       = new Sharing_Service();
@@ -586,29 +612,9 @@ class WPCOM_JSON_API_Site_Settings_Endpoint extends WPCOM_JSON_API_Endpoint {
 	}
 
 	/**
-	 * Get GA tracking code.
-	 */
-	protected function get_google_analytics() {
-		$option_name = $this->get_google_analytics_option_name();
-
-		return get_option( $option_name );
-	}
-
-	/**
-	 * Get GA tracking code option name.
-	 */
-	protected function get_google_analytics_option_name() {
-		/** This filter is documented in class.json-api-endpoints.php */
-		$is_jetpack  = true === apply_filters( 'is_jetpack_site', false, get_current_blog_id() );
-		$option_name = $is_jetpack ? 'jetpack_wga' : 'wga';
-
-		return $option_name;
-	}
-
-	/**
 	 * Updates site settings for authorized users
 	 *
-	 * @return array
+	 * @return array|WP_Error
 	 */
 	public function update_settings() {
 		/*
@@ -711,42 +717,6 @@ class WPCOM_JSON_API_Site_Settings_Endpoint extends WPCOM_JSON_API_Endpoint {
 					$coerce_value = ( $value ) ? 'on' : 'off';
 					if ( update_option( $key, $coerce_value ) ) {
 						$updated[ $key ] = $value;
-					}
-					break;
-				case 'wga':
-				case 'jetpack_wga':
-					if ( ! isset( $value['code'] ) || ! preg_match( '/^$|^(UA-\d+-\d+)|(G-[A-Z0-9]+)$/i', $value['code'] ) ) {
-						return new WP_Error( 'invalid_code', 'Invalid UA ID' );
-					}
-
-					$option_name = $this->get_google_analytics_option_name();
-
-					$wga         = get_option( $option_name, array() );
-					$wga['code'] = $value['code']; // maintain compatibility with wp-google-analytics.
-
-					/**
-					 * Allow newer versions of this endpoint to filter in additional fields for Google Analytics
-					 *
-					 * @since 5.4.0
-					 *
-					 * @param array $wga Associative array of existing Google Analytics settings.
-					 * @param array $value Associative array of new Google Analytics settings passed to the endpoint.
-					 */
-					$wga = apply_filters( 'site_settings_update_wga', $wga, $value );
-
-					if ( update_option( $option_name, $wga ) ) {
-						$updated[ $key ] = $value;
-					}
-
-					$enabled_or_disabled = $wga['code'] ? 'enabled' : 'disabled';
-
-					/** This action is documented in modules/widgets/social-media-icons.php */
-					do_action( 'jetpack_bump_stats_extras', 'google-analytics', $enabled_or_disabled );
-
-					$is_wpcom = defined( 'IS_WPCOM' ) && IS_WPCOM;
-					if ( $is_wpcom ) {
-						$business_plugins = WPCOM_Business_Plugins::instance();
-						$business_plugins->activate_plugin( 'wp-google-analytics' );
 					}
 					break;
 
@@ -1019,7 +989,9 @@ class WPCOM_JSON_API_Site_Settings_Endpoint extends WPCOM_JSON_API_Endpoint {
 					break;
 
 				case 'rss_use_excerpt':
-					update_option( 'rss_use_excerpt', (int) (bool) $value );
+					$sanitized_value = (int) (bool) $value;
+					update_option( $key, $sanitized_value );
+					$updated[ $key ] = $sanitized_value;
 					break;
 
 				case 'wpcom_subscription_emails_use_excerpt':
@@ -1028,9 +1000,21 @@ class WPCOM_JSON_API_Site_Settings_Endpoint extends WPCOM_JSON_API_Endpoint {
 					break;
 
 				case 'jetpack_subscriptions_reply_to':
-					$to_set_value = (string) in_array( $value, array( 'no-reply', 'author' ), true ) ? $value : 'no-reply';
-					update_option( 'jetpack_subscriptions_reply_to', (string) $to_set_value );
-					$updated[ $key ] = (bool) $value;
+					require_once JETPACK__PLUGIN_DIR . 'modules/subscriptions/class-settings.php';
+					$to_set_value = Automattic\Jetpack\Modules\Subscriptions\Settings::is_valid_reply_to( $value )
+						? (string) $value
+						: Automattic\Jetpack\Modules\Subscriptions\Settings::get_default_reply_to();
+
+					if ( update_option( $key, $to_set_value ) ) {
+						$updated[ $key ] = $to_set_value;
+					}
+					break;
+
+				case 'jetpack_subscriptions_from_name':
+					$sanitized_value = sanitize_text_field( $value );
+					if ( update_option( $key, $sanitized_value ) ) {
+						$updated[ $key ] = $sanitized_value;
+					}
 					break;
 
 				case 'instant_search_enabled':
@@ -1089,7 +1073,7 @@ class WPCOM_JSON_API_Site_Settings_Endpoint extends WPCOM_JSON_API_Endpoint {
 					);
 
 					if ( update_option( $key, $new_value ) ) {
-						$updated[ $key ] = $new_value;
+						$updated[ $key ] = $sanitized_category_ids;
 					}
 					break;
 
@@ -1103,6 +1087,11 @@ class WPCOM_JSON_API_Site_Settings_Endpoint extends WPCOM_JSON_API_Endpoint {
 					$updated[ $key ] = (int) (bool) $value;
 					break;
 
+				case 'jetpack_subscribe_overlay_enabled':
+					update_option( 'jetpack_subscribe_overlay_enabled', (int) (bool) $value );
+					$updated[ $key ] = (int) (bool) $value;
+					break;
+
 				case 'jetpack_subscriptions_subscribe_post_end_enabled':
 					update_option( 'jetpack_subscriptions_subscribe_post_end_enabled', (int) (bool) $value );
 					$updated[ $key ] = (int) (bool) $value;
@@ -1110,6 +1099,11 @@ class WPCOM_JSON_API_Site_Settings_Endpoint extends WPCOM_JSON_API_Endpoint {
 
 				case 'jetpack_subscriptions_login_navigation_enabled':
 					update_option( 'jetpack_subscriptions_login_navigation_enabled', (int) (bool) $value );
+					$updated[ $key ] = (int) (bool) $value;
+					break;
+
+				case 'jetpack_subscriptions_subscribe_navigation_enabled':
+					update_option( 'jetpack_subscriptions_subscribe_navigation_enabled', (int) (bool) $value );
 					$updated[ $key ] = (int) (bool) $value;
 					break;
 
@@ -1181,6 +1175,13 @@ class WPCOM_JSON_API_Site_Settings_Endpoint extends WPCOM_JSON_API_Endpoint {
 					$updated[ $key ] = $value;
 					break;
 
+				case 'is_fully_managed_agency_site':
+					$coerce_value = (int) (bool) $value;
+					if ( update_option( $key, $coerce_value ) ) {
+						$updated[ $key ] = (bool) $coerce_value;
+					}
+					break;
+
 				default:
 					// allow future versions of this endpoint to support additional settings keys.
 					if ( has_filter( 'site_settings_endpoint_update_' . $key ) ) {
@@ -1190,11 +1191,20 @@ class WPCOM_JSON_API_Site_Settings_Endpoint extends WPCOM_JSON_API_Endpoint {
 						 * @module json-api
 						 *
 						 * @since 3.9.3
+						 * @since 13.6 Added the API object parameter.
 						 *
 						 * @param mixed $response_item A single site setting value.
+						 * @param WPCOM_JSON_API_Site_Settings_Endpoint The API object parameter.
 						 */
-						$value           = apply_filters( 'site_settings_endpoint_update_' . $key, $value );
-						$updated[ $key ] = $value;
+						$value = apply_filters( 'site_settings_endpoint_update_' . $key, $value, $this );
+
+						if ( is_wp_error( $value ) ) {
+							return $value;
+						}
+
+						if ( $value ) {
+							$updated[ $key ] = $value;
+						}
 						break;
 					}
 					// no worries, we've already whitelisted and casted arguments above.
@@ -1291,7 +1301,8 @@ class WPCOM_JSON_API_Site_Settings_Endpoint extends WPCOM_JSON_API_Endpoint {
 	protected function get_subscriptions_reply_to_option() {
 		$reply_to = get_option( 'jetpack_subscriptions_reply_to', null );
 		if ( $reply_to === null ) {
-			return 'no-reply';
+			require_once JETPACK__PLUGIN_DIR . 'modules/subscriptions/class-settings.php';
+			return Automattic\Jetpack\Modules\Subscriptions\Settings::get_default_reply_to();
 		}
 		return $reply_to;
 	}

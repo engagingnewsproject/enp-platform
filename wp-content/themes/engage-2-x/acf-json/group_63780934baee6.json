@@ -1,0 +1,67 @@
+{
+    "key": "group_63780934baee6",
+    "title": "Page settings",
+    "fields": [
+        {
+            "key": "field_63780e8f36cd4",
+            "label": "",
+            "name": "show_header",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Header",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui_on_text": "Show",
+            "ui_off_text": "Hide",
+            "ui": 1
+        },
+        {
+            "key": "field_63780935b5d8b",
+            "label": "",
+            "name": "show_newsletter",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Newsletter",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 1,
+            "ui_on_text": "Show",
+            "ui_off_text": "Hide",
+            "ui": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "side",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "revisions"
+    ],
+    "active": true,
+    "description": "(show\/hide header or newsletter module)",
+    "show_in_rest": 1,
+    "modified": 1724343182
+}

@@ -82,7 +82,8 @@ class Replicastore implements Replicastore_Interface {
 	 */
 	public function term_count() {
 		global $wpdb;
-		return $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->terms" );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->terms" );
 	}
 
 	/**
@@ -94,7 +95,8 @@ class Replicastore implements Replicastore_Interface {
 	 */
 	public function term_taxonomy_count() {
 		global $wpdb;
-		return $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->term_taxonomy" );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->term_taxonomy" );
 	}
 
 	/**
@@ -106,7 +108,8 @@ class Replicastore implements Replicastore_Interface {
 	 */
 	public function term_relationship_count() {
 		global $wpdb;
-		return $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->term_relationships" );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->term_relationships" );
 	}
 
 	/**
@@ -140,8 +143,8 @@ class Replicastore implements Replicastore_Interface {
 			$where .= ' AND ID <= ' . (int) $max_id;
 		}
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE $where" );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE $where" );
 	}
 
 	/**
@@ -319,8 +322,8 @@ class Replicastore implements Replicastore_Interface {
 			$where .= ' AND comment_ID <= ' . (int) $max_id;
 		}
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments WHERE $where" );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->comments WHERE $where" );
 	}
 
 	/**
@@ -874,9 +877,9 @@ class Replicastore implements Replicastore_Interface {
 	 *
 	 * @access public
 	 *
-	 * @param string $taxonomy   Taxonomy slug.
-	 * @param int    $term_id    ID of the term.
-	 * @param string $term_key   ID Field `term_id` or `term_taxonomy_id`.
+	 * @param string|false $taxonomy   Taxonomy slug.
+	 * @param int          $term_id    ID of the term.
+	 * @param string       $term_key   ID Field `term_id` or `term_taxonomy_id`.
 	 *
 	 * @return \WP_Term|WP_Error Term object on success, \WP_Error object on failure.
 	 */
@@ -1172,7 +1175,6 @@ class Replicastore implements Replicastore_Interface {
 
 	/**
 	 * Retrieve all the checksums we are interested in.
-	 * Currently that is posts, comments, post meta and comment meta.
 	 *
 	 * @access public
 	 *
@@ -1234,6 +1236,29 @@ class Replicastore implements Replicastore_Interface {
 				$result['woocommerce_order_itemmeta'] = $this->summarize_checksum_histogram( $woocommerce_order_itemmeta_checksum );
 			} catch ( Exception $ex ) {
 				$result['woocommerce_order_itemmeta'] = null;
+			}
+
+			if ( Table_Checksum::enable_woocommerce_hpos_tables() ) {
+				try {
+					$woocommerce_hpos_orders_checksum = $this->checksum_histogram( 'wc_orders' );
+					$result['wc_orders']              = $this->summarize_checksum_histogram( $woocommerce_hpos_orders_checksum );
+				} catch ( Exception $ex ) {
+					$result['wc_orders'] = null;
+				}
+
+				try {
+					$woocommerce_hpos_order_addresses_checksum = $this->checksum_histogram( 'wc_order_addresses' );
+					$result['wc_order_addresses']              = $this->summarize_checksum_histogram( $woocommerce_hpos_order_addresses_checksum );
+				} catch ( Exception $ex ) {
+					$result['wc_order_addresses'] = null;
+				}
+
+				try {
+					$woocommerce_hpos_order_operational_data_checksum = $this->checksum_histogram( 'wc_order_operational_data' );
+					$result['wc_order_operational_data']              = $this->summarize_checksum_histogram( $woocommerce_hpos_order_operational_data_checksum );
+				} catch ( Exception $ex ) {
+					$result['wc_order_operational_data'] = null;
+				}
 			}
 		}
 

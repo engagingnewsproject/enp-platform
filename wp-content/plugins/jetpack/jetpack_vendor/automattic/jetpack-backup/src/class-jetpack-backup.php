@@ -124,7 +124,8 @@ class Jetpack_Backup {
 			_x( 'VaultPress Backup', 'The Jetpack VaultPress Backup product name, without the Jetpack prefix', 'jetpack-backup-pkg' ),
 			'manage_options',
 			'jetpack-backup',
-			array( __CLASS__, 'plugin_settings_page' )
+			array( __CLASS__, 'plugin_settings_page' ),
+			7
 		);
 		add_action( 'load-' . $page_suffix, array( __CLASS__, 'admin_init' ) );
 
@@ -369,6 +370,17 @@ class Jetpack_Backup {
 						'type'     => 'numeric',
 					),
 				),
+			)
+		);
+
+		// Enqueue a new backup
+		register_rest_route(
+			'jetpack/v4',
+			'/site/backup/enqueue',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => __CLASS__ . '::enqueue_backup',
+				'permission_callback' => __CLASS__ . '::backups_permissions_callback',
 			)
 		);
 	}
@@ -742,6 +754,35 @@ class Jetpack_Backup {
 		);
 
 		return rest_ensure_response( $response );
+	}
+
+	/**
+	 * Enqueue a new backup on demand
+	 *
+	 * @return string|WP_Error A JSON object with `success` if the request was successful,
+	 * or a WP_Error otherwise.
+	 */
+	public static function enqueue_backup() {
+		$blog_id  = Jetpack_Options::get_option( 'id' );
+		$endpoint = sprintf( '/sites/%d/rewind/backups/enqueue', $blog_id );
+
+		$response = Client::wpcom_json_api_request_as_user(
+			$endpoint,
+			'v2',
+			array(
+				'method' => 'POST',
+			),
+			null,
+			'wpcom'
+		);
+
+		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) {
+			return null;
+		}
+
+		return rest_ensure_response(
+			json_decode( $response['body'], true )
+		);
 	}
 
 	/**

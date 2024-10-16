@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Main Tribe Events Calendar class.
  */
@@ -40,23 +39,23 @@ if ( ! class_exists( 'Tribe__Events__Main' ) ) {
 		const POSTTYPE            = 'tribe_events';
 		const VENUE_POST_TYPE     = 'tribe_venue';
 		const ORGANIZER_POST_TYPE = 'tribe_organizer';
-		const VERSION             = '6.5.0';
+		const VERSION             = '6.7.0';
 
 		/**
 		 * Min Pro Addon.
 		 *
 		 * @deprecated 4.8
 		 */
-		const MIN_ADDON_VERSION   = '6.5.0';
+		const MIN_ADDON_VERSION = '6.7.0';
 
 		/**
-		 * Min Common
+		 * Min Common.
 		 *
 		 * @deprecated 4.8
 		 */
-		const MIN_COMMON_VERSION  = '6.4.1-dev';
+		const MIN_COMMON_VERSION = '5.2.7-dev';
 
-		const WP_PLUGIN_URL       = 'https://wordpress.org/extend/plugins/the-events-calendar/';
+		const WP_PLUGIN_URL = 'https://wordpress.org/extend/plugins/the-events-calendar/';
 
 		/**
 		 * Min Version of WordPress
@@ -403,7 +402,7 @@ if ( ! class_exists( 'Tribe__Events__Main' ) ) {
 		}
 
 		/**
-		 * Resets the global common info back to ET's common path
+		 * Resets the global common info back to ET's common path.
 		 *
 		 * @since 4.9.3.2
 		 */
@@ -676,9 +675,6 @@ if ( ! class_exists( 'Tribe__Events__Main' ) ) {
 				tribe_register_provider( '\\TEC\\Events\\Custom_Tables\\V1\\Provider' );
 			}
 
-			// Filter Bar.
-			tribe_register_provider( Tribe\Events\Admin\Filter_Bar\Provider::class );
-
 			// Blocks
 			tribe_register_provider( TEC\Events\Blocks\Controller::class );
 
@@ -702,6 +698,9 @@ if ( ! class_exists( 'Tribe__Events__Main' ) ) {
 
 			// Register new Admin Notice system.
 			tribe_register_provider( TEC\Events\Admin\Notice\Provider::class );
+
+			// Register new Admin Settings system.
+			tribe_register_provider( TEC\Events\Admin\Settings\Provider::class );
 
 			/**
 			 * Allows other plugins and services to override/change the bound implementations.
@@ -931,7 +930,7 @@ if ( ! class_exists( 'Tribe__Events__Main' ) ) {
 			add_filter( 'tribe_events_google_maps_api', [ $google_maps_api_key, 'filter_tribe_events_google_maps_api' ] );
 			add_filter( 'tribe_events_pro_google_maps_api', [ $google_maps_api_key, 'filter_tribe_events_google_maps_api' ] );
 			add_filter( 'tribe_field_value', [ $google_maps_api_key, 'populate_field_with_default_api_key' ], 10, 2 );
-			add_filter( 'tribe_field_tooltip', [ $google_maps_api_key, 'populate_field_tooltip_with_helper_text' ], 10, 2 );
+			add_filter( 'tribe_field_append', [ $google_maps_api_key, 'populate_field_tooltip_with_helper_text' ], 10, 2 );
 
 			// Preview handling
 			add_action( 'template_redirect', [ Tribe__Events__Revisions__Preview::instance(), 'hook' ] );
@@ -973,7 +972,6 @@ if ( ! class_exists( 'Tribe__Events__Main' ) ) {
 			tribe( 'tec.rest-v1.main' );
 			tribe( 'tec.privacy' );
 			tribe( Tribe__Events__Capabilities::class );
-			tribe( Tribe\Events\Admin\Filter_Bar\Provider::class );
 		}
 
 		/**
@@ -1265,7 +1263,13 @@ if ( ! class_exists( 'Tribe__Events__Main' ) ) {
 			$edit_settings_link = __( ' ask the site administrator to set a different Events URL slug.', 'the-events-calendar' );
 
 			if ( current_user_can( $settings_cap ) ) {
-				$setting_page_link  = tribe( Tribe\Events\Admin\Settings::class )->get_url() . '#tribe-field-eventsSlug';
+				$setting_page_link = tribe( Tribe\Events\Admin\Settings::class )->get_url(
+					[
+						'anchor' => 'tribe-field-eventsSlug',
+						'tab'    => 'general-viewing-tab',
+					]
+				);
+
 				$edit_settings_link = sprintf( '<a href="%1$s">%2$s</a>', $setting_page_link, __( 'edit Events settings.', 'the-events-calendar' ) );
 			}
 
@@ -3976,7 +3980,6 @@ if ( ! class_exists( 'Tribe__Events__Main' ) ) {
 		/**
 		 * Specify the "preview venue" to link to an event.
 		 *
-		 *
 		 * @since 4.5.1
 		 *
 		 * @param int $event_id The ID of the event being previewed.
@@ -4005,7 +4008,6 @@ if ( ! class_exists( 'Tribe__Events__Main' ) ) {
 
 		/**
 		 * Specify the "preview organizer" to link to an event.
-		 *
 		 *
 		 * @since 4.5.1
 		 *

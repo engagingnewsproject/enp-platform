@@ -12,11 +12,11 @@
         }
     }
     .tease__img {
+        max-height: unset;  // Moved this line up
         @include media($phablet) {
             grid-column: 1/2;
             align-self: auto;
         }
-        max-height: unset;
     }
     .tease__excerpt {
         grid-column: auto;

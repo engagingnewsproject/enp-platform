@@ -90,3 +90,7 @@
 .nf-admin-error .nf-notice-body {
     margin: 10px 0 10px 130px;
 }
+/* Don't display on VC editors */
+.vc_editor .nf-admin-notice {
+    display: none;
+}

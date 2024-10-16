@@ -6,7 +6,9 @@
 
     <table class="form-table">
         <tbody>
-        <?php foreach( $licenses as $license ): ?>
+        <?php foreach( $licenses as $license ): 
+            $nonce = wp_create_nonce( $license[ 'id' ] . '-nonce' );
+        ?>
             <tr>
                 <th>
                     <?php echo $license[ 'name' ]; ?>
@@ -15,6 +17,7 @@
                 <td>
                     <form action="" method="POST">
                         <input type="hidden" name="ninja_forms_license[name]" value="<?php echo $license[ 'id' ]; ?>">
+                        <input type="hidden" name="ninja_forms_license[nonce]" value="<?php echo $nonce; ?>">
                         <input type="text" class="widefat" name="ninja_forms_license[key]" value="<?php echo $license[ 'license' ];?>">
 
                         <?php if( $license[ 'error' ] ): ?>

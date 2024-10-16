@@ -5,6 +5,76 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.34] - 2024-09-30
+### Changed
+- Update dependencies. [#39528]
+
+## [0.3.33] - 2024-09-23
+### Changed
+- Update dependencies. [#38017]
+
+## [0.3.32] - 2024-09-16
+### Changed
+- Updated package dependencies. [#39332]
+
+## [0.3.31] - 2024-09-10
+### Changed
+- Updated package dependencies. [#39302]
+
+## [0.3.30] - 2024-09-09
+### Changed
+- Updated package dependencies. [#39176] [#39278]
+
+## [0.3.29] - 2024-09-02
+### Changed
+- Admin menu: change order of Jetpack sub-menu items [#39095]
+- Updated package dependencies. [#39111]
+
+## [0.3.28] - 2024-08-26
+### Changed
+- Updated package dependencies. [#39004]
+
+## [0.3.27] - 2024-08-21
+### Changed
+- Internal updates.
+
+## [0.3.26] - 2024-08-19
+### Changed
+- Updated package dependencies. [#38662]
+
+## [0.3.25] - 2024-07-29
+### Fixed
+- Updated package dependencies. [#38464]
+
+## [0.3.24] - 2024-07-22
+### Changed
+- Update dependencies. [#38017]
+
+## [0.3.23] - 2024-07-08
+### Changed
+- Updated package dependencies. [#38132] [#38133]
+
+## [0.3.22] - 2024-06-24
+### Changed
+- Update dependencies. [#37979]
+
+## [0.3.21] - 2024-06-17
+### Changed
+- Updated package dependencies. [#37796]
+
+## [0.3.20] - 2024-06-10
+### Changed
+- Change codebase to use clsx instead of classnames. [#37708]
+- Updated package dependencies. [#37669]
+
+## [0.3.19] - 2024-05-20
+### Changed
+- Updated package dependencies. [#37379] [#37380] [#37382]
+
+## [0.3.18] - 2024-05-13
+### Changed
+- Update dependencies. [#37280]
+
 ## [0.3.17] - 2024-05-06
 ### Changed
 - Updated package dependencies. [#37147]
@@ -33,8 +103,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.3.11] - 2024-03-12
 ### Changed
 - Updated package dependencies. [#36325]
-- Update to the most recent version of the @automattic/calypso-color-schemes package. [#36187]
-- Update to the most recent version of the @automattic/calypso-color-schemes package. [#36227]
+- Update to the most recent version of the @automattic/calypso-color-schemes package. [#36187] [#36227]
 
 ## [0.3.10] - 2024-03-04
 ### Changed
@@ -347,6 +416,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPCS: Fix `WordPress.Security.ValidatedSanitizedInput`
 - Updated package dependencies.
 
+[0.3.34]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.33...v0.3.34
+[0.3.33]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.32...v0.3.33
+[0.3.32]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.31...v0.3.32
+[0.3.31]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.30...v0.3.31
+[0.3.30]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.29...v0.3.30
+[0.3.29]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.28...v0.3.29
+[0.3.28]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.27...v0.3.28
+[0.3.27]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.26...v0.3.27
+[0.3.26]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.25...v0.3.26
+[0.3.25]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.24...v0.3.25
+[0.3.24]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.23...v0.3.24
+[0.3.23]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.22...v0.3.23
+[0.3.22]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.21...v0.3.22
+[0.3.21]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.20...v0.3.21
+[0.3.20]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.19...v0.3.20
+[0.3.19]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.18...v0.3.19
+[0.3.18]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.17...v0.3.18
 [0.3.17]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.16...v0.3.17
 [0.3.16]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.15...v0.3.16
 [0.3.15]: https://github.com/Automattic/jetpack-wordads/compare/v0.3.14...v0.3.15

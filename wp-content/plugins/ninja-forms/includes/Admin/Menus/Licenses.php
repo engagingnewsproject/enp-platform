@@ -20,6 +20,8 @@ final class NF_Admin_Menus_Licenses
 
         if( ! isset( $_POST[ 'ninja_forms_license' ] ) || ! $_POST[ 'ninja_forms_license' ] ) return;
 
+        if ( ! wp_verify_nonce( $_POST[ 'ninja_forms_license' ][ 'nonce' ], $_POST[ 'ninja_forms_license' ][ 'name' ] . "-nonce" ) ) die( __( 'Security failed', 'ninja-forms' ) ); 
+
         $key    = sanitize_text_field( $_POST[ 'ninja_forms_license' ][ 'key' ]    );
         $name   = sanitize_text_field( $_POST[ 'ninja_forms_license' ][ 'name' ]   );
         $action = sanitize_text_field( $_POST[ 'ninja_forms_license' ][ 'action' ] );

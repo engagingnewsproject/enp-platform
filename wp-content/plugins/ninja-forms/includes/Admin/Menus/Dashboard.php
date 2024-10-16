@@ -62,18 +62,25 @@ final class NF_Admin_Menus_Dashboard extends NF_Abstracts_Submenu
                 //Register Dashboard script
                 wp_register_script( 'ninja_forms_admin_dashboard', Ninja_Forms::$url . 'build/dashboard.js',  $dashboard_asset_php["dependencies"], $dashboard_asset_php["version"], false );
                 wp_enqueue_script( 'ninja_forms_admin_dashboard' );
-                wp_set_script_translations( "ninja_forms_admin_dashboard", "ninja-forms-user-management", Ninja_Forms::$dir . 'lang' );
+                wp_set_script_translations( "ninja_forms_admin_dashboard", "ninja-forms", Ninja_Forms::$dir . 'lang' );
                 //Enqueue dashboard style
                 wp_enqueue_style( 'ninja_forms_admin_dashboard_style', Ninja_Forms::$url . 'build/dashboard.scss.css',  [], $dashboard_asset_scss_version );
 
+                //Provide server side and saved data
+                $addons_instance = new NF_Admin_Menus_Addons;
+                $addons_data = $addons_instance->display();
+                $services_data = Ninja_Forms()->config( 'DashboardServices' );
                 wp_localize_script('ninja_forms_admin_dashboard', 'ninja_forms_admin_dashboard_data', [
+                    'addonsData'                        =>  $addons_data,
+                    'servicesData'                      =>  $services_data,
                     'siteUrl'                           =>  esc_url_raw( site_url() ),
                     'adminUrl'                          =>  esc_url_raw( admin_url() ),
                     'restUrl'                           =>  esc_url_raw( get_rest_url() ),
                     'ajaxUrl'                           =>  esc_url_raw( admin_url( 'admin-ajax.php' ) ),
                     'pluginDir'                         =>  plugin_dir_url('ninja-forms.php'),
+                    'pluginURL'                         =>  NF_PLUGIN_URL,
                     'token'                             =>  wp_create_nonce( 'wp_rest' ),
-                    'load_user_management'            =>  !in_array('ninja-forms-user-management/ninja-forms-user-management.php', get_option('active_plugins'))
+                    'load_user_management'              =>  !in_array('ninja-forms-user-management/ninja-forms-user-management.php', get_option('active_plugins'))
                 ]);
                 
             }

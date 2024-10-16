@@ -2,20 +2,20 @@
 # This file is distributed under the GPL-3.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Rank Math SEO with AI Best SEO Tools 1.0.219\n"
+"Project-Id-Version: Rank Math SEO 1.0.226\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/seo-by-rank-math\n"
 "Last-Translator: Rank Math <support@rankmath.com>\n"
 "Language-Team: Rank Math <support@rankmath.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-05-15T09:28:26+00:00\n"
+"POT-Creation-Date: 2024-08-21T04:28:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: rank-math\n"
 
 #. Plugin Name of the plugin
-msgid "Rank Math SEO with AI Best SEO Tools"
+msgid "Rank Math SEO"
 msgstr ""
 
 #. Plugin URI of the plugin
@@ -44,9 +44,6 @@ msgid "Please enter a valid email address."
 msgstr ""
 
 msgid "Please enter a valid URL."
-msgstr ""
-
-msgid "Rank Math SEO"
 msgstr ""
 
 msgid "Rank Math Dashboard"
@@ -506,7 +503,6 @@ msgstr ""
 #. translators: Link to KB article
 #. translators: Redirection page url
 #. translators: 1. Link to KB article 2. Link to redirection setting scree
-#. translators: %s is a Learn More link to the documentation.
 #. translators: Learn more link.
 #. translators: %1$s: thing, %2$s: Learn more link.
 msgid "Learn more"
@@ -2965,6 +2961,19 @@ msgstr ""
 msgid "Group Advanced Robots Meta"
 msgstr ""
 
+#. translators: Link to kb article
+msgid "Get sophisticated AI suggestions for related Keywords, Questions & Links to include in the SEO meta & Content Area. %s."
+msgstr ""
+
+msgid "Content AI Plan"
+msgstr ""
+
+msgid "Content AI Credits"
+msgstr ""
+
+msgid "Content AI Refresh Date"
+msgstr ""
+
 msgid "&#8595; Rank Math Content AI"
 msgstr ""
 
@@ -2981,6 +2990,19 @@ msgid "Write Image Alt Text with AI"
 msgstr ""
 
 msgid "Another bulk editing process is already running. Please try again later after the existing process is complete."
+msgstr ""
+
+msgid "Cancel Content AI Bulk Editing Process"
+msgstr ""
+
+#. Translators: placeholders are the number of posts that were processed.
+msgid "Terminate the ongoing Content AI Bulk Editing Process to halt any pending modifications and revert to the previous state. The bulk metadata has been generated for %1$d out of %1$d posts so far."
+msgstr ""
+
+msgid "Terminate"
+msgstr ""
+
+msgid "Bulk Editing Process Successfully Cancelled"
 msgstr ""
 
 msgid "Bulk editing SEO meta started. It might take few minutes to complete the process."
@@ -3044,32 +3066,6 @@ msgid "History"
 msgstr ""
 
 msgid "Content AI History"
-msgstr ""
-
-msgid "Cancel Content AI Bulk Editing Process"
-msgstr ""
-
-#. Translators: placeholders are the number of posts that were processed.
-msgid "Terminate the ongoing Content AI Bulk Editing Process to halt any pending modifications and revert to the previous state. The bulk metadata has been generated for %1$d out of %1$d posts so far."
-msgstr ""
-
-msgid "Terminate"
-msgstr ""
-
-msgid "Bulk Editing Process Successfully Cancelled"
-msgstr ""
-
-#. translators: Link to kb article
-msgid "Get sophisticated AI suggestions for related Keywords, Questions & Links to include in the SEO meta & Content Area. %s."
-msgstr ""
-
-msgid "Content AI Plan"
-msgstr ""
-
-msgid "Content AI Credits"
-msgstr ""
-
-msgid "Content AI Refresh Date"
 msgstr ""
 
 msgid "Sorry, only authenticated users can research the keyword."
@@ -3343,6 +3339,9 @@ msgstr ""
 msgid "UK English"
 msgstr ""
 
+msgid "Arabic"
+msgstr ""
+
 msgid "Bulgarian"
 msgstr ""
 
@@ -3419,6 +3418,9 @@ msgid "Spanish"
 msgstr ""
 
 msgid "Swedish"
+msgstr ""
+
+msgid "Turkish"
 msgstr ""
 
 msgid "Select Post Type"
@@ -3959,12 +3961,6 @@ msgstr ""
 msgid "Multiple Locations are available in the %s."
 msgstr ""
 
-msgid "Maintenance Code"
-msgstr ""
-
-msgid "This field must not be empty."
-msgstr ""
-
 #. translators: Link to kb article
 msgid "Easily create redirects without fiddling with tedious code. %s."
 msgstr ""
@@ -3973,6 +3969,12 @@ msgid "No valid ID found."
 msgstr ""
 
 msgid "No valid action found."
+msgstr ""
+
+msgid "Add New"
+msgstr ""
+
+msgid "Export Options"
 msgstr ""
 
 msgid "Redirection successfully activated."
@@ -3989,45 +3991,6 @@ msgstr ""
 
 #. translators: delete counter
 msgid "%d redirection(s) successfully deleted."
-msgstr ""
-
-msgid "Add New"
-msgstr ""
-
-msgid "Export Options"
-msgstr ""
-
-msgid "Update Redirection"
-msgstr ""
-
-msgid "Add Redirection"
-msgstr ""
-
-msgid "Source URLs"
-msgstr ""
-
-msgid "Ignore Case"
-msgstr ""
-
-msgid "Destination URL"
-msgstr ""
-
-msgid "Redirection Type"
-msgstr ""
-
-msgid "Activate"
-msgstr ""
-
-msgid "Deactivate"
-msgstr ""
-
-msgid "The redirection you are trying to create may cause an infinite loop. Please check the source and destination URLs. The redirection has been deactivated."
-msgstr ""
-
-msgid "The redirection you are trying to update may cause an infinite loop. Please check the source and destination URLs."
-msgstr ""
-
-msgid "Please add at least one valid source URL."
 msgstr ""
 
 #. Translators: Placeholder expands to number of redirections.
@@ -4102,6 +4065,12 @@ msgid "Delete Permanently"
 msgstr ""
 
 msgid "Edit"
+msgstr ""
+
+msgid "Deactivate"
+msgstr ""
+
+msgid "Activate"
 msgstr ""
 
 msgid "Trash"
@@ -4228,6 +4197,9 @@ msgstr ""
 msgid "Custom Url "
 msgstr ""
 
+msgid "Redirection Type"
+msgstr ""
+
 msgid "Auto Post Redirect"
 msgstr ""
 
@@ -4285,19 +4257,6 @@ msgid "On-Page Social Settings"
 msgstr ""
 
 msgid "Top Admin Bar"
-msgstr ""
-
-#. translators: %s is a Learn More link to the documentation.
-msgid "Control which user has access to which options of Rank Math. %s"
-msgstr ""
-
-msgid "Reset"
-msgstr ""
-
-msgid "Update Capabilities"
-msgstr ""
-
-msgid "Toggle All"
 msgstr ""
 
 msgid "Blocks"
@@ -5893,6 +5852,15 @@ msgstr ""
 msgid "The $%1$s is required for variable %2$s."
 msgstr ""
 
+msgid "The redirection you are trying to create may cause an infinite loop. Please check the source and destination URLs. The redirection has been deactivated."
+msgstr ""
+
+msgid "The redirection you are trying to update may cause an infinite loop. Please check the source and destination URLs."
+msgstr ""
+
+msgid "Please add at least one valid source URL."
+msgstr ""
+
 msgid "Module slug"
 msgstr ""
 
@@ -7132,6 +7100,9 @@ msgstr ""
 msgid "Add the Schema generated by Rank Math anywhere on your page using this Block."
 msgstr ""
 
+msgid "Not available"
+msgstr ""
+
 msgid "Content is %1$d words long. Consider using at least 300 words."
 msgstr ""
 
@@ -7145,6 +7116,9 @@ msgid "Edit Schema"
 msgstr ""
 
 msgid "Auto redirection created."
+msgstr ""
+
+msgid "Make Term Primary"
 msgstr ""
 
 msgid "Are you sure, you want to create a new GA4 Property?"
@@ -7163,6 +7137,18 @@ msgid "Authorize"
 msgstr ""
 
 msgid "Search &hellip;"
+msgstr ""
+
+msgid "Select / Deselect All"
+msgstr ""
+
+msgid "Search …"
+msgstr ""
+
+msgid "No results found"
+msgstr ""
+
+msgid "Add or Upload File"
 msgstr ""
 
 msgid "Something went wrong! Please try again."
@@ -7232,6 +7218,9 @@ msgid "To access this Content AI feature, you have to purchase a Content AI Subs
 msgstr ""
 
 msgid "You are one step away from unlocking this premium feature along with many more."
+msgstr ""
+
+msgid "1-Click Article Generation"
 msgstr ""
 
 msgid "Bulk Update Your SEO Meta using AI"
@@ -7594,6 +7583,9 @@ msgstr ""
 msgid "This option prevents images on a page from being indexed by Google and other search engines"
 msgstr ""
 
+msgid "Destination URL"
+msgstr ""
+
 msgid "Canonical URL"
 msgstr ""
 
@@ -7703,9 +7695,6 @@ msgid "Unspecified"
 msgstr ""
 
 msgid "Excluded"
-msgstr ""
-
-msgid "Not available"
 msgstr ""
 
 msgid "No data to display. Check back later or try to update data manually from %s"
@@ -7900,9 +7889,6 @@ msgstr ""
 msgid "Indexing Allowed"
 msgstr ""
 
-msgid "Mobile Usability"
-msgstr ""
-
 msgid "Rich Results"
 msgstr ""
 
@@ -8000,6 +7986,18 @@ msgid "Note:"
 msgstr ""
 
 msgid "The statistics that appear in the Rank Math Analytics module won’t match with the data from the Google Search Console as we only track posts and keywords that rank in the top 100 positions in the selected timeframe. We do this to help make decision-making easier and for faster data processing since this is the data you really need to prioritize your SEO efforts on."
+msgstr ""
+
+msgid "Failed to generate alt text."
+msgstr ""
+
+msgid "Generate Alt"
+msgstr ""
+
+msgid "Generating…"
+msgstr ""
+
+msgid "Generate Alt with AI"
 msgstr ""
 
 msgid "Blog Post Idea"
@@ -8566,9 +8564,6 @@ msgstr ""
 msgid "Outputs"
 msgstr ""
 
-msgid "Generating…"
-msgstr ""
-
 msgid "Generate"
 msgstr ""
 
@@ -8734,13 +8729,7 @@ msgstr ""
 msgid "Shorten with AI"
 msgstr ""
 
-msgid "Failed to generate alt text."
-msgstr ""
-
 msgid "Image URL is missing."
-msgstr ""
-
-msgid "Generate Alt"
 msgstr ""
 
 msgid "50 Content AI credits will be used to generate the Alt"
@@ -8758,6 +8747,33 @@ msgstr ""
 msgid "Type / to choose a block or // to use Content AI"
 msgstr ""
 
+msgid "Back"
+msgstr ""
+
+msgid "Upgrade to buy more credits from "
+msgstr ""
+
+msgid "Content AI Pricing."
+msgstr ""
+
+msgid "here."
+msgstr ""
+
+msgid "Suggested length 2-3 Words"
+msgstr ""
+
+msgid "To learn how to use it"
+msgstr ""
+
+msgid "Refresh will use 500 Credit."
+msgstr ""
+
+msgid "500 credits will be used."
+msgstr ""
+
+msgid "Research"
+msgstr ""
+
 msgid "Score:"
 msgstr ""
 
@@ -8765,27 +8781,6 @@ msgid "100"
 msgstr ""
 
 msgid "to"
-msgstr ""
-
-msgid "Use Keyword in"
-msgstr ""
-
-msgid "Headings"
-msgstr ""
-
-msgid "Know more about Keywords."
-msgstr ""
-
-msgid "Click on any keyword to copy it."
-msgstr ""
-
-msgid "Please use only one or two keywords from here."
-msgstr ""
-
-msgid "Related Keywords"
-msgstr ""
-
-msgid "There are no recommended Keywords for this researched keyword."
 msgstr ""
 
 msgid "Copied"
@@ -8804,6 +8799,27 @@ msgid "Click to copy keyword"
 msgstr ""
 
 msgid "No data available"
+msgstr ""
+
+msgid "Use Keyword in"
+msgstr ""
+
+msgid "Headings"
+msgstr ""
+
+msgid "Know more about Keywords."
+msgstr ""
+
+msgid "Click on any keyword to copy it."
+msgstr ""
+
+msgid "Please use only one or two keywords from here."
+msgstr ""
+
+msgid "There are no recommended Keywords for this researched keyword."
+msgstr ""
+
+msgid "Related Keywords"
 msgstr ""
 
 msgid "There are no recommended Questions for this researched keyword."
@@ -8857,31 +8873,37 @@ msgstr ""
 msgid "Content AI Knowledge Base."
 msgstr ""
 
-msgid "Back"
+msgid "Generate with AI"
 msgstr ""
 
-msgid "Upgrade to buy more credits from "
+msgid "Blog Post Wizard"
 msgstr ""
 
-msgid "Content AI Pricing."
+msgid "Create a complete blog post in one go. Just fill in some details and Content AI will create a complete blog post for you."
 msgstr ""
 
-msgid "here."
+msgid "Skip"
 msgstr ""
 
-msgid "Suggested length 2-3 Words"
+msgid "Write Post"
 msgstr ""
 
-msgid "To learn how to use it"
+msgid "Next Step"
 msgstr ""
 
-msgid "Refresh will use 500 Credit."
+msgid "Post Outline"
 msgstr ""
 
-msgid "500 credits will be used."
+msgid "Steps"
 msgstr ""
 
-msgid "Research"
+msgid "Multistep Wizard"
+msgstr ""
+
+msgid "Updating…"
+msgstr ""
+
+msgid "Prompt with this name already exists"
 msgstr ""
 
 msgid "Credits"
@@ -8905,9 +8927,6 @@ msgstr ""
 msgid "Improve Now"
 msgstr ""
 
-msgid "Generate Alt with AI"
-msgstr ""
-
 msgid "You have exhausted your Content AI Credits."
 msgstr ""
 
@@ -8923,7 +8942,43 @@ msgstr ""
 msgid "Start using Content AI by connecting your RankMath account."
 msgstr ""
 
-msgid "Are you sure? You want to reset settings."
+msgid "This field must not be empty."
+msgstr ""
+
+msgid "Maintenance Code"
+msgstr ""
+
+msgid "Resetting…"
+msgstr ""
+
+msgid "Resetted"
+msgstr ""
+
+msgid "Updated"
+msgstr ""
+
+msgid "Update Redirection"
+msgstr ""
+
+msgid "Add Redirection"
+msgstr ""
+
+msgid "Source URLs"
+msgstr ""
+
+msgid "Ignore Case"
+msgstr ""
+
+msgid "Toggle All"
+msgstr ""
+
+msgid "Control which user has access to which options of Rank Math."
+msgstr ""
+
+msgid "Reset"
+msgstr ""
+
+msgid "Update Capabilities"
 msgstr ""
 
 msgid "Author Name"
@@ -8977,7 +9032,7 @@ msgstr ""
 msgid "Course Schedule"
 msgstr ""
 
-msgid "Total time to watch all videos and complete all assignments and exams for the course. Use the 8601 format"
+msgid "Suggested pacing in repeatFrequency units (8601 duration format). For example, PT5H monthly means 5 hours per month. Use courseWorkload for total length."
 msgstr ""
 
 msgid "The numerical value for how long the course lasts for, in repeatFrequency units. For example, if the repeatFrequency is monthly and the repeatCount is 4, the course lasts for 4 months."

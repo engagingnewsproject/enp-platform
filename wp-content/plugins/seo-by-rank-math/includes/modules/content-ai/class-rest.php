@@ -230,7 +230,7 @@ class Rest extends WP_REST_Controller {
 		$object_id    = $request->get_param( 'objectID' );
 		$country      = $request->get_param( 'country' );
 		$keyword      = mb_strtolower( $request->get_param( 'keyword' ) );
-		$force_update = $request->get_param( 'force_update' );
+		$force_update = $request->get_param( 'forceUpdate' );
 		$keyword_data = get_option( 'rank_math_ca_data' );
 
 		if ( ! in_array( get_post_type( $object_id ), (array) Helper::get_settings( 'general.content_ai_post_types' ), true ) ) {
@@ -307,7 +307,8 @@ class Rest extends WP_REST_Controller {
 	 */
 	public function create_post( WP_REST_Request $request ) {
 		$content       = $request->get_param( 'content' );
-		$title         = 'Content AI Post';
+		$title         = $request->get_param( 'title' );
+		$title         = $title ? $title : 'Content AI Post';
 		$blocks        = parse_blocks( $content );
 		$current_block = ! empty( $blocks ) ? current( $blocks ) : '';
 		if (

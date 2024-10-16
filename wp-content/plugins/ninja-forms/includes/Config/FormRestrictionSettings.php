@@ -10,6 +10,7 @@ return apply_filters( 'ninja_forms_from_restriction_settings', array(
         'name'    => 'unique-field-set',
         'type'    => 'fieldset',
         'label'   => esc_html__( 'Unique Field', 'ninja-forms' ),
+        'info'    => 'https://ninjaforms.com/docs/unique-field-validation/',
         'width' => 'full',
         'group' => 'primary',
         'settings' => array(
@@ -31,7 +32,8 @@ return apply_filters( 'ninja_forms_from_restriction_settings', array(
                     'listselect',
                     'listradio',
                     'listmultiselect',
-                    'date'
+                    'date',
+                    'hidden'
                 ),
             ),
             
