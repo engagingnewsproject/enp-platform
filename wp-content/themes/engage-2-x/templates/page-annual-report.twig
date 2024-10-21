@@ -408,6 +408,38 @@
 						{% endif %}
 					</div>
 				</section>
+			{% elseif main.acf_fc_layout == 'content_table'%}
+			<section class="ann__content-table">
+				<div class="ann__content-table_container">
+					<div class="ann__content-table_container-top">
+						<h1 class="ann__content-table_header">
+							<span class="ann__content-table_header-top">Report</span>
+							<span class="ann__content-table_header-bottom">Content</span>
+						</h1>
+						<div class="ann__content-table_report-pages">
+						{% for page in main.content_table_pages %}
+							<div class="ann__content-table_report-page">
+								{% if page.page_number %}
+									<h2 class="ann__content-table_page-number">{{ page.page_number }}</h2>
+								{% endif %}
+								{% if page.page_title %}
+									<h3 class="ann__content-table_page-title">{{ page.page_title }}</h3>
+								{% endif %}
+									<div class="ann__content-table_dots">....................</div>
+							</div>
+						{% endfor %}
+						</div>
+					</div>
+					<div class="ann__content-table_container-bottom">
+						<div class="ann__content-table_img-wrapper">
+							{% if main.content_table_image %}
+								<img src="{{ get_image(main.content_table_image).src }}" alt="{{ get_image(main.content_table_image).alt }}" class="ann__content-table_img">
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</section>
+				
 			{% endif %}
 
 		{% endfor %}
