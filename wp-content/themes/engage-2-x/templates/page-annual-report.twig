@@ -81,25 +81,63 @@
 
 			{# HIGHLIGHTS #}
 			{% elseif main.acf_fc_layout == 'highlights' %}
-				<section class="ann__sct ann__sct_grid ann__sct_grid_pt wrapper--pad-xlg"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
-					<div class="ann__title ann__top_title ann__title_light">
-						<h2>{{ main.highlights_title }}</h2>
-					</div>
-					<div class="ann__grid grid">
+				{# Logic #}
+				{# vars #}
+				{% set background_color = null %}
+				{% set main_title_color = null %}
+				{% set main_subtitle_color = null %}
+				{% set subtitle_color = null %}
+				{% set border_color = null %}
+				{% set align_content = '' %}
+				{% set align = main.align %}
+				{% set align_text = main.align_text %}
+				{# background color #}
+				{% if main.background_color %} 
+					{% set background_color = 'style="background-color:' ~ main.background_color ~ ';"' %}
+				{% endif %}
+				{# section title color #}
+				{% if main.highlights_title_color %}
+					{% set main_title_color = 'style="color:' ~ main.highlights_title_color ~ ';"' %}
+				{% endif %}
+				{# section subtitle color #}
+				{% if main.highlights_subtitle_color %}
+					{% set main_subtitle_color = 'style="color:' ~ main.highlights_subtitle_color ~ ';"' %}
+				{% endif %}
+				{# border #}
+				{% if main.highlights_title_border_color %}
+					{% set border_color = 'style="border-left: 7px solid ' ~ main.highlights_title_border_color ~ ';"' %}
+				{% endif %}
+				{# align #}
+				{% if main.change_alignment %}
+					{% set align_content = 'style="justify-items:' ~ align ~ '; text-align:' ~ align_text ~ '"' %}
+				{% endif %}
+				{# columns #}
+				{% set columns = 'grid_columns-' ~ main.grid_columns %}
+				{# END logic #}
+				<section class="ann__sct ann__sct_grid wrapper--pad-xlg" {{background_color}}>
+					<h2 class="ann__content-table_header" {{border_color}}>
+						{% if main.highlights_subtitle %}
+							<span class="ann__content-table_header-top fade-in-up-1" {{main_subtitle_color}}>{{ main.highlights_subtitle }}</span>
+						{% endif %}
+						{% if main.highlights_title %}
+							<span class="ann__content-table_header-bottom fade-in-up-2" {{main_title_color}}>{{ main.highlights_title }}</span>
+						{% endif %}
+					</h2>
+					<div class="ann__grid grid {{columns}}">
 					{% for item in main.highlight %}
-						<div class="ann__grid_item">
+						<div class="ann__grid_item item-animate" {{align_content}}>
 							{% if item.highlight_icon %}
 								<img src="{{ get_image(item.highlight_icon).src }}" sizes="{{ get_image(item.highlight_icon).img_sizes }}"
 									alt="{{ get_image(item.highlight_icon).alt }}" />
 							{% endif %}
 							{% if item.highlight_number %}
-								<h2 class="ann__grid_num">{{ item.highlight_number }}</h2>
+								<h2 class="ann__grid_num" {% if main.number_color %}style="color:{{ main.number_color }}"{% endif %}>{{ item.highlight_number }}</h2>
 							{% endif %}
 							{% if item.highlight_title %}
-								<h3 class="ann__grid_title">{{ item.highlight_title }}</h3>
+								<h3 class="ann__grid_title" {% if main.title_color %}style="color:{{ main.title_color }}"{% endif %}>{{ item.highlight_title }}</h3>
 							{% endif %}
 							{% if item.highlight_text %}
-								<p class="ann__grid_text">{{ item.highlight_text }}</p>
+								<p class="ann__grid_text" {% if main.text_color %}style="color:{{ main.text_color }}"{% endif %}>{{ item.highlight_text }}</p>
 							{% endif %}
 						</div>
 					{% endfor %}
