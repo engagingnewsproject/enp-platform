@@ -1109,6 +1109,9 @@
 				align-items: center;
 				margin-top: 5rem;
 
+				opacity: 0;
+				animation: fadeIn 1.75s forwards;
+
 				&_text {
 					position: absolute;
 					transform: translate(15%, calc(65% + 10px));
@@ -1128,6 +1131,9 @@
 			margin-top: 10rem;
 			flex: 1;
 
+			transform: translateY(30px);	
+			animation: slideInFadeIn 1.5s forwards;
+
 			&_text > h3 {
 				font-size: calc(100% + 8px);
 				color: $orange;
@@ -1140,16 +1146,28 @@
 		align-items: end;
 		width: 100%;
 		text-transform: uppercase;
+		z-index: 2;
+		transform: scale3d(1, 0, 1);
+		animation: scaleUp 1.5s forwards;
+
+		overflow: hidden;
 
 		&-top {
 			font-size: 48px;
 			font-weight: 600;
-
 			margin-left: 10px;
+			transform: translateX(120%);
+			animation: slideInFadeIn 1s forwards;
+			animation-delay: 1.5s;
+			z-index: 1;
 		}
 	
 		&-bottom {
 			font-size: 80px;
+
+			transform: translateX(120%);
+			animation: slideInFadeIn 1s forwards;
+			animation-delay: 1.5s;
 		}
 	}
 
