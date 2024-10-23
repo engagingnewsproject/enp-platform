@@ -28,3 +28,42 @@
     transform: scale3d(1, 1, 1);
   }
 }
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+      transform: translateY(24px);
+  }
+  to {
+      transform: translateY(0);
+  }
+}
+.fade-in-up-1,
+.fade-in-up-2,
+.ann__grid_item {
+  opacity: 0;
+}
+
+.fade_in_and_up {
+  animation: fadeIn 1s ease forwards, slideIn 1s ease forwards;
+  &.delay_1 {
+    animation-delay: 0.5s;
+  }
+  &.delay_2 {
+    animation-delay: 0.6s;
+  }
+  &.delay_3 {
+    animation-delay: 0.7s;
+  }
+  &.delay_4 {
+    animation-delay: 0.8s;
+  }
+}
