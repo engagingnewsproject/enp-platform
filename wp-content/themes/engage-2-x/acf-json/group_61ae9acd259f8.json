@@ -502,33 +502,6 @@
                             "selected": 0
                         },
                         {
-                            "key": "field_671834e769f99",
-                            "label": "Grid columns",
-                            "name": "grid_columns",
-                            "aria-label": "",
-                            "type": "radio",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "33.333",
-                                "class": "",
-                                "id": ""
-                            },
-                            "choices": {
-                                "5": "5 columns",
-                                "4": "4 columns",
-                                "3": "3 columns"
-                            },
-                            "default_value": 5,
-                            "return_format": "value",
-                            "allow_null": 0,
-                            "other_choice": 0,
-                            "allow_in_bindings": 0,
-                            "layout": "vertical",
-                            "save_other_choice": 0
-                        },
-                        {
                             "key": "field_61afc089d48ff",
                             "label": "Background color",
                             "name": "background_color",
@@ -652,6 +625,61 @@
                             "selected": 0
                         },
                         {
+                            "key": "field_671834e769f99",
+                            "label": "Grid columns",
+                            "name": "grid_columns",
+                            "aria-label": "",
+                            "type": "radio",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "5": "5 columns",
+                                "4": "4 columns",
+                                "3": "3 columns"
+                            },
+                            "default_value": 5,
+                            "return_format": "value",
+                            "allow_null": 0,
+                            "other_choice": 0,
+                            "allow_in_bindings": 0,
+                            "layout": "vertical",
+                            "save_other_choice": 0
+                        },
+                        {
+                            "key": "field_6718ef397783a",
+                            "label": "Grid gap",
+                            "name": "grid_columns_gap",
+                            "aria-label": "",
+                            "type": "radio",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "small": "Small",
+                                "medium": "Medium",
+                                "large": "Large",
+                                "xlarge": "Extra Large"
+                            },
+                            "default_value": "medium",
+                            "return_format": "value",
+                            "allow_null": 0,
+                            "other_choice": 0,
+                            "allow_in_bindings": 1,
+                            "layout": "vertical",
+                            "save_other_choice": 0
+                        },
+                        {
                             "key": "field_6717e2428bd3f",
                             "label": "Number color",
                             "name": "number_color",
@@ -709,6 +737,48 @@
                             "allow_in_bindings": 1
                         },
                         {
+                            "key": "field_6718ead773189",
+                            "label": "Title underline dots",
+                            "name": "title_underline_dots",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "33.333",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "allow_in_bindings": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": "",
+                            "ui": 1
+                        },
+                        {
+                            "key": "field_6718e3323da9f",
+                            "label": "Grid item decorative border",
+                            "name": "deco_border",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "33.333",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "allow_in_bindings": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": "",
+                            "ui": 1
+                        },
+                        {
                             "key": "field_671856a228fac",
                             "label": "Change alignment",
                             "name": "change_alignment",
@@ -747,7 +817,7 @@
                                 ]
                             ],
                             "wrapper": {
-                                "width": "33.333",
+                                "width": "50",
                                 "class": "",
                                 "id": ""
                             },
@@ -783,7 +853,7 @@
                                 ]
                             ],
                             "wrapper": {
-                                "width": "33.333",
+                                "width": "50",
                                 "class": "",
                                 "id": ""
                             },
@@ -2132,6 +2202,37 @@
                     ],
                     "min": "",
                     "max": ""
+                },
+                "layout_67190eae6dcfb": {
+                    "key": "layout_67190eae6dcfb",
+                    "name": "editor",
+                    "label": "Editor",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_67190eb56dcfd",
+                            "label": "WYSIWYG",
+                            "name": "wysiwyg",
+                            "aria-label": "",
+                            "type": "wysiwyg",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "allow_in_bindings": 0,
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 0
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
                 }
             },
             "min": "",
@@ -2171,5 +2272,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1729650475
+    "modified": 1729695442
 }
