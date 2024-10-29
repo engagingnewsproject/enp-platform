@@ -439,7 +439,35 @@
 					</div>
 				</div>
 			</section>
-				
+
+			{% elseif main.acf_fc_layout == 'research_initiatives' %}
+			<section class="ann__research-initiatives">
+				<div class="ann__research-initiatives_container">
+					{% if header_text_top or main.header_text_bottom or main.circle_image %}
+						<div class="ann__research-initiatives_container-top">
+							<div class="ann__research-initiatives_container-top-left">
+								{% if main.circle_image %}
+									<img src="{{ get_image(main.circle_image).src }}" alt="{{ get_image(main.circle_image).alt }}" class="ann__research-initiatives_img">
+									<p class="ann__research-initiatives_container-top-left_text" style="color:{{ main.secondary_color }}">{{ main.circle_text_content }}</p>
+								{% endif %}
+							</div>
+							{% if main.header_text_top or main.header_text_bottom %}
+								<div class="ann__research-initiatives_header" style="{% if main.header_bar %}padding-right:1rem;border-right:7px;border-style:solid;border-color:{{ main.primary_color }};height:100%{% endif %}">
+									<h2 class="ann__research-initiatives_header-top" style="color:{{ main.secondary_color }}">{{ main.header_text_top }}</h2>
+									<h1 class="ann__research-initiatives_header-bottom" style="color:{{ main.primary_color }}">{{main.header_text_bottom}}</h2>
+								</div>
+							{% endif %}
+						</div>
+					{% endif %}
+					<div class="ann__research-initiatives_container-bottom">
+					{% if main.body_content %}
+						<div class="ann__research-initiatives_container-bottom_text">
+							{{ main.body_content}}
+						</div>
+					{% endif %}
+					</div>
+				</div>
+			</section>		
 			{% endif %}
 
 		{% endfor %}

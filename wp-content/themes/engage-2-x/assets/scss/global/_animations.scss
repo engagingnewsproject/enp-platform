@@ -28,3 +28,15 @@
     transform: scale3d(1, 1, 1);
   }
 }
+
+@keyframes scaleUp {
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes fadeIn {
+  100% {
+    opacity: 1;
+  }
+}
