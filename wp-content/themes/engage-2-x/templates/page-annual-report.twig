@@ -466,42 +466,99 @@
 				</section>
 			{# Content table #}
 			{% elseif main.acf_fc_layout == 'content_table'%}
-				<section class="ann__content-table">
-					<div class="ann__content-table_container">
-						<div class="ann__content-table_container-top">
-							<h1 class="ann__content-table_header">
-								<span class="ann__content-table_header-top">Report</span>
-								<span class="ann__content-table_header-bottom">Content</span>
-							</h1>
-							<div class="ann__content-table_report-pages">
-							{% for page in main.content_table_pages %}
-								<div class="ann__content-table_report-page">
-									{% if page.page_number %}
-										<h2 class="ann__content-table_page-number">{{ page.page_number }}</h2>
-									{% endif %}
-									{% if page.page_title %}
-										<h3 class="ann__content-table_page-title">{{ page.page_title }}</h3>
-									{% endif %}
-										<div class="ann__content-table_dots">....................</div>
-								</div>
-							{% endfor %}
+			<section class="ann__content-table">
+				<div class="ann__content-table_container">
+					<div class="ann__content-table_container-top">
+						<h1 class="ann__content-table_header">
+							<span class="ann__content-table_header-top">Report</span>
+							<span class="ann__content-table_header-bottom">Content</span>
+						</h1>
+						<div class="ann__content-table_report-pages">
+						{% for page in main.content_table_pages %}
+							<div class="ann__content-table_report-page">
+								{% if page.page_number %}
+									<h2 class="ann__content-table_page-number">{{ page.page_number }}</h2>
+								{% endif %}
+								{% if page.page_title %}
+									<h3 class="ann__content-table_page-title">{{ page.page_title }}</h3>
+								{% endif %}
+									<div class="ann__content-table_dots">....................</div>
 							</div>
+						{% endfor %}
 						</div>
-						<div class="ann__content-table_container-bottom">
-							<div class="ann__content-table_img-wrapper">
-								{% if main.content_table_image %}
-									<img src="{{ get_image(main.content_table_image).src }}" alt="{{ get_image(main.content_table_image).alt }}" class="ann__content-table_img">
+					</div>
+					<div class="ann__content-table_container-bottom">
+						<div class="ann__content-table_img-wrapper">
+							{% if main.content_table_image %}
+								<img src="{{ get_image(main.content_table_image).src }}" alt="{{ get_image(main.content_table_image).alt }}" class="ann__content-table_img">
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{% elseif main.acf_fc_layout == 'research_initiatives' %}
+			<section class="ann__research-initiatives">
+				<div class="ann__research-initiatives_container">
+					{% if header_text_top or main.header_text_bottom or main.circle_image %}
+						<div class="ann__research-initiatives_container-top">
+							<div class="ann__research-initiatives_container-top-left">
+								{% if main.circle_image %}
+									<img src="{{ get_image(main.circle_image).src }}" alt="{{ get_image(main.circle_image).alt }}" class="ann__research-initiatives_img">
+									<p class="ann__research-initiatives_container-top-left_text" style="color:{{ main.secondary_color }}">{{ main.circle_text_content }}</p>
 								{% endif %}
 							</div>
+							{% if main.header_text_top or main.header_text_bottom %}
+								<div class="ann__research-initiatives_header" style="{% if main.header_bar %}padding-right:1rem;border-right:7px;border-style:solid;border-color:{{ main.primary_color }};height:100%{% endif %}">
+									<h2 class="ann__research-initiatives_header-top" style="color:{{ main.secondary_color }}">{{ main.header_text_top }}</h2>
+									<h1 class="ann__research-initiatives_header-bottom" style="color:{{ main.primary_color }}">{{main.header_text_bottom}}</h2>
+								</div>
+							{% endif %}
+						</div>
+					{% endif %}
+					<div class="ann__research-initiatives_container-bottom">
+					{% if main.body_content %}
+						<div class="ann__research-initiatives_container-bottom_text">
+							{{ main.body_content}}
+						</div>
+					{% endif %}
+					</div>
+				</div>
+			</section>		
+			
+			{# OUTCOMES #}
+			{% elseif main.acf_fc_layout == 'outcomes' %}
+				<section class="ann__outcomes">
+					<div class="ann__outcomes_container">
+						{% if header_text_top or main.header_text_bottom or main.circle_image %}
+							<div class="ann__outcomes_container-top">
+								{% if main.header_text_top or main.header_text_bottom %}
+									<div class="ann__outcomes_header" style="align-items:{% if main.header_alignment %}end{% else %}start{% endif %};{% if main.header_bar %}padding-{% if main.header_alignment %}right{% else %}left{% endif %}:1rem;border-{% if main.header_alignment %}right{% else %}left{% endif %}:7px;border-style:solid;border-color:{{ main.primary_color }};height:100%{% endif %}">
+										<h2 class="ann__outcomes_header-top" style="color:{{ main.secondary_color }}; transform: translateX({% if main.header_alignment %}{% else %}-{% endif %}130%);">{{ main.header_text_top }}</h2>
+										<h1 class="ann__outcomes_header-bottom" style="color:{{ main.primary_color }}; transform: translateX({% if main.header_alignment %} {% else %}-{% endif %}130%);">{{main.header_text_bottom}}</h2>
+									</div>
+								{% endif %}
+							</div>
+						{% endif %}
+						<div class="ann__outcomes_container-bottom">
+					{% for item in main.outcome_items %}
+						<div class="ann__outcomes_item" style="flex-direction:{% if item.item_direction %}row-reverse{% else %}row{% endif %};">
+							{% if item.outcome_image %}
+								<div class="ann__outcomes_item-left">
+									<img src="{{ get_image(item.outcome_image).src }}" alt="{{ get_image(item.outcome_image).alt }}" />
+								</div>
+							{% endif %}
+							{% if item.outcome_content %}
+								<div class="ann__outcomes_item-right">
+									{{ item.outcome_content }}
+								</div>
+							{% endif %}
+						</div>
+					{% endfor %}
 						</div>
 					</div>
 				</section>
-			{% elseif main.acf_fc_layout == 'editor'%}
-				{# {% if main.wysiwyg %} #}
-					{{wysiwyg}}
-				{# {% endif %} #}
 			{% endif %}
-
 		{% endfor %}
 
 	</section>
