@@ -112,7 +112,7 @@
 }
 
 // SVG
-body:not(.enp-quiz) svg {
+body:not(.enp-quiz):not(.page-template-page-annual-report) svg {
     width: 1.1em;
     height: 1.1em;
     

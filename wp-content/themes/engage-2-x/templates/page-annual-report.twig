@@ -81,25 +81,81 @@
 
 			{# HIGHLIGHTS #}
 			{% elseif main.acf_fc_layout == 'highlights' %}
-				<section class="ann__sct ann__sct_grid ann__sct_grid_pt wrapper--pad-xlg"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
-					<div class="ann__title ann__top_title ann__title_light">
-						<h2>{{ main.highlights_title }}</h2>
-					</div>
-					<div class="ann__grid grid">
+				{# Logic #}
+				{# vars #}
+				{% set background_color = null %}
+				{% set main_title_color = null %}
+				{% set main_subtitle_color = null %}
+				{% set subtitle_color = null %}
+				{% set border_color = null %}
+				{% set deco_border = null %}
+				{% set align_content = '' %}
+				{% set align = main.align %}
+				{% set align_text = main.align_text %}
+				{# background color #}
+				{% if main.background_color %} 
+					{% set background_color = 'style="background-color:' ~ main.background_color ~ ';"' %}
+				{% endif %}
+				{# section title color #}
+				{% if main.highlights_title_color %}
+					{% set main_title_color = 'style="color:' ~ main.highlights_title_color ~ ';"' %}
+				{% endif %}
+				{# section subtitle color #}
+				{% if main.highlights_subtitle_color %}
+					{% set main_subtitle_color = 'style="color:' ~ main.highlights_subtitle_color ~ ';"' %}
+				{% endif %}
+				{# border #}
+				{% if main.highlights_title_border_color %}
+					{% set border_color = 'style="border-left: 7px solid ' ~ main.highlights_title_border_color ~ ';"' %}
+				{% endif %}
+				{# grid item deco border #}
+				{% if main.deco_border %}
+						{% set deco_border = theme.link ~ '/assets/img/annual-staff-border.svg' %}
+				{% endif %}
+				{# grid align #}
+				{% if main.change_alignment %}
+					{% set align_content = 'style="justify-items:' ~ align ~ '; text-align:' ~ align_text ~ '"' %}
+				{% endif %}
+				{# grid columns #}
+				{% set columns = 'grid_columns-' ~ main.grid_columns %}
+				{# grid columns #}
+				{% set gap = 'grid_columns_gap-' ~ main.grid_columns_gap %}
+				{# END logic #}
+				{# markup START #}
+				<section class="ann__sct ann__sct_grid wrapper--pad-xlg" {{background_color}}>
+					<h2 class="ann__content-table_header" {{border_color}}>
+						{% if main.highlights_subtitle %}
+							<span class="ann__content-table_header-top fade-in-up-1" {{main_subtitle_color}}>{{ main.highlights_subtitle }}</span>
+						{% endif %}
+						{% if main.highlights_title %}
+							<span class="ann__content-table_header-bottom fade-in-up-2" {{main_title_color}}>{{ main.highlights_title }}</span>
+						{% endif %}
+					</h2>
+					<div class="ann__grid grid {{columns}} {{gap}}">
 					{% for item in main.highlight %}
-						<div class="ann__grid_item">
+						<div class="ann__grid_item {% if deco_border %}ann__grid_item-relative{% endif %} item-animate" {{align_content}}>
 							{% if item.highlight_icon %}
 								<img src="{{ get_image(item.highlight_icon).src }}" sizes="{{ get_image(item.highlight_icon).img_sizes }}"
 									alt="{{ get_image(item.highlight_icon).alt }}" />
+								{% if deco_border %}
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 153 155" class="deco-border-svg">
+										<g fill="none" fill-rule="evenodd">
+											<path stroke="#30383D" stroke-width="3" d="M75.763 146.488c38.375 0 69.485-31.335 69.485-69.99 0-38.656-31.11-69.991-69.485-69.991-38.374 0-69.485 31.335-69.485 69.991 0 38.655 31.11 69.99 69.485 69.99Z"/>
+											<path fill="#AE542D" d="M19.08 25.828c-27.812 31.666-24.875 80.045 6.562 108.06 9.667 8.616 20.906 14.29 32.64 17.112l.002-3.16c-11.01-2.768-21.544-8.149-30.628-16.245-30.18-26.895-32.999-73.34-6.298-103.737 26.7-30.4 72.807-33.239 102.987-6.345 30.177 26.894 32.998 73.337 6.298 103.737-9.869 11.236-22.39 18.694-35.779 22.29v3.174c14.242-3.662 27.583-11.51 38.056-23.434 27.812-31.665 24.875-80.046-6.56-108.06C94.921-8.797 46.891-5.838 19.08 25.827"/>
+											<path fill="#AE542D" d="M71.05 152.95a7.001 7.001 0 1 0 9.9-9.902 7.001 7.001 0 0 0-9.9 9.902"/>
+											<path fill="#30383D" d="M75.992 151 79 147.848l-.808-.848-2.249 2.355-2.182-2.287-.761.798z"/>
+										</g>
+									</svg>
+								{% endif %}
 							{% endif %}
 							{% if item.highlight_number %}
-								<h2 class="ann__grid_num">{{ item.highlight_number }}</h2>
+								<h2 class="ann__grid_num" {% if main.number_color %}style="color:{{ main.number_color }}"{% endif %}>{{ item.highlight_number }}</h2>
 							{% endif %}
 							{% if item.highlight_title %}
-								<h3 class="ann__grid_title">{{ item.highlight_title }}</h3>
+								<h3 class="ann__grid_title {% if main.title_underline_dots %}bottom-dots{% endif %} {% if item.highlight_number == null %}number-null{% endif %}" {% if main.title_color %}style="color:{{ main.title_color }}"{% endif %}>{{ item.highlight_title }}</h3>
 							{% endif %}
 							{% if item.highlight_text %}
-								<p class="ann__grid_text">{{ item.highlight_text }}</p>
+								<p class="ann__grid_text" {% if main.text_color %}style="color:{{ main.text_color }}"{% endif %}>{{ item.highlight_text }}</p>
 							{% endif %}
 						</div>
 					{% endfor %}
@@ -385,6 +441,7 @@
 						<div class="grid__item">
 							{% if main.director_image %}
 								<div class="ann__pg3_img_div">
+									<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__pg3_img"/>
 									<div class="ann__pg3_circle_container">
 										<svg class="ann__pg3_circle_svg" preserveaspectratio="xMidYMid meet" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
 											<path class="ann__pg3_circle ann__pg3_half_circle_dashed ann__pg3_rotate_81" d="M 10,100 A 90,90 0 0,1 190,100"/>
@@ -393,7 +450,6 @@
 											<path class="ann__pg3_circle ann__pg3_half_circle_yellow ann__pg3_rotate_85" d="M 40,100 A 60,60 0 0,1 160,100"/>
 										</svg>
 									</div>
-									<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__pg3_img"/>
 								</div>
 							{% endif %}
 						</div>
@@ -408,6 +464,7 @@
 						{% endif %}
 					</div>
 				</section>
+			{# Content table #}
 			{% elseif main.acf_fc_layout == 'content_table'%}
 			<section class="ann__content-table">
 				<div class="ann__content-table_container">
