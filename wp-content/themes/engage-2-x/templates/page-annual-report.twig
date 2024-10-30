@@ -26,7 +26,7 @@
 		{% for main in post.meta('main') %}
 			{# DIRECTOR #}
 			{% if main.acf_fc_layout == 'director' %}
-				<section class="ann__sct ann__sct_split wrapper--pad-huge">
+				<section class="ann__sct ann__sct_split ann__width-page">
 					<div class="ann__block flex_row">
 						<div class="ann__card"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
 							{% if main.director_image %}
@@ -413,118 +413,90 @@
 			{# Page 3 #}
 			{% elseif main.acf_fc_layout == 'page_3' %}
 				<section
-					class="ann__pg3">
+					class="ann__pg3 ann__width-page">
 					{# Left column - 1 column, 3 rows #}
-					<div class="grid grid_1col_3row">
+					<div class="grid">
 						<div class="grid__item">
 							{% if main.director_title %}
 								<h2 class="ann__title" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.director_title }}</h2>
 							{% endif %}
 						</div>
 						{% if main.paragraphs %}
-							{% set paragraphs = main.paragraphs|split('\n') %}
-							{% set half = (paragraphs|length / 2)|round(0, 'ceil') %}
-
-							{% for paragraph in paragraphs[:half] %}
 								<div class="grid__item">
 									<div class="ann__content">
-										{{ paragraph|nl2br|raw }}
+										{% if main.director_image %}
+											<div class="ann__director_image">
+												<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__pg3_img"/>
+											</div>
+										{% endif %}
+										{{ main.paragraphs }}
 									</div>
 								</div>
-							{% endfor %}
 						{% endif %}
 
-					</div>
-
-					{# Right column - 1 column, 2 rows #}
-					<div class="grid grid_1col_2row">
-						<div class="grid__item">
-							{% if main.director_image %}
-								<div class="ann__pg3_img_div">
-									<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__pg3_img"/>
-									<div class="ann__pg3_circle_container">
-										<svg class="ann__pg3_circle_svg" preserveaspectratio="xMidYMid meet" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-											<path class="ann__pg3_circle ann__pg3_half_circle_dashed ann__pg3_rotate_81" d="M 10,100 A 90,90 0 0,1 190,100"/>
-											<path class="ann__pg3_circle ann__pg3_half_circle_blue ann__pg3_rotate_counter_90" d="M 20,100 A 80,80 0 0,1 180,100"/>
-											<path class="ann__pg3_circle ann__pg3_half_circle_orange ann__pg3_rotate_counter_95" d="M 30,100 A 70,70 0 0,1 170,100"/>
-											<path class="ann__pg3_circle ann__pg3_half_circle_yellow ann__pg3_rotate_85" d="M 40,100 A 60,60 0 0,1 160,100"/>
-										</svg>
-									</div>
-								</div>
-							{% endif %}
-						</div>
-						{% if main.paragraphs %}
-							{% for paragraph in paragraphs[half:] %}
-								<div class="grid__item">
-									<div class="ann__content">
-										{{ paragraph|nl2br|raw }}
-									</div>
-								</div>
-							{% endfor %}
-						{% endif %}
 					</div>
 				</section>
 			{# Content table #}
 			{% elseif main.acf_fc_layout == 'content_table'%}
-			<section class="ann__content-table">
-				<div class="ann__content-table_container">
-					<div class="ann__content-table_container-top">
-						<h1 class="ann__content-table_header">
-							<span class="ann__content-table_header-top">Report</span>
-							<span class="ann__content-table_header-bottom">Content</span>
-						</h1>
-						<div class="ann__content-table_report-pages">
-						{% for page in main.content_table_pages %}
-							<div class="ann__content-table_report-page">
-								{% if page.page_number %}
-									<h2 class="ann__content-table_page-number">{{ page.page_number }}</h2>
-								{% endif %}
-								{% if page.page_title %}
-									<h3 class="ann__content-table_page-title">{{ page.page_title }}</h3>
-								{% endif %}
-									<div class="ann__content-table_dots">....................</div>
-							</div>
-						{% endfor %}
-						</div>
-					</div>
-					<div class="ann__content-table_container-bottom">
-						<div class="ann__content-table_img-wrapper">
-							{% if main.content_table_image %}
-								<img src="{{ get_image(main.content_table_image).src }}" alt="{{ get_image(main.content_table_image).alt }}" class="ann__content-table_img">
-							{% endif %}
-						</div>
-					</div>
-				</div>
-			</section>
-
-			{% elseif main.acf_fc_layout == 'research_initiatives' %}
-			<section class="ann__research-initiatives">
-				<div class="ann__research-initiatives_container">
-					{% if header_text_top or main.header_text_bottom or main.circle_image %}
-						<div class="ann__research-initiatives_container-top">
-							<div class="ann__research-initiatives_container-top-left">
-								{% if main.circle_image %}
-									<img src="{{ get_image(main.circle_image).src }}" alt="{{ get_image(main.circle_image).alt }}" class="ann__research-initiatives_img">
-									<p class="ann__research-initiatives_container-top-left_text" style="color:{{ main.secondary_color }}">{{ main.circle_text_content }}</p>
-								{% endif %}
-							</div>
-							{% if main.header_text_top or main.header_text_bottom %}
-								<div class="ann__research-initiatives_header" style="{% if main.header_bar %}padding-right:1rem;border-right:7px;border-style:solid;border-color:{{ main.primary_color }};height:100%{% endif %}">
-									<h2 class="ann__research-initiatives_header-top" style="color:{{ main.secondary_color }}">{{ main.header_text_top }}</h2>
-									<h1 class="ann__research-initiatives_header-bottom" style="color:{{ main.primary_color }}">{{main.header_text_bottom}}</h2>
+				<section class="ann__content-table">
+					<div class="ann__content-table_container">
+						<div class="ann__content-table_container-top">
+							<h1 class="ann__content-table_header">
+								<span class="ann__content-table_header-top">Report</span>
+								<span class="ann__content-table_header-bottom">Content</span>
+							</h1>
+							<div class="ann__content-table_report-pages">
+							{% for page in main.content_table_pages %}
+								<div class="ann__content-table_report-page">
+									{% if page.page_number %}
+										<h2 class="ann__content-table_page-number">{{ page.page_number }}</h2>
+									{% endif %}
+									{% if page.page_title %}
+										<h3 class="ann__content-table_page-title">{{ page.page_title }}</h3>
+									{% endif %}
+										<div class="ann__content-table_dots">....................</div>
 								</div>
-							{% endif %}
+							{% endfor %}
+							</div>
 						</div>
-					{% endif %}
-					<div class="ann__research-initiatives_container-bottom">
-					{% if main.body_content %}
-						<div class="ann__research-initiatives_container-bottom_text">
-							{{ main.body_content}}
+						<div class="ann__content-table_container-bottom">
+							<div class="ann__content-table_img-wrapper">
+								{% if main.content_table_image %}
+									<img src="{{ get_image(main.content_table_image).src }}" alt="{{ get_image(main.content_table_image).alt }}" class="ann__content-table_img">
+								{% endif %}
+							</div>
 						</div>
-					{% endif %}
 					</div>
-				</div>
-			</section>		
+				</section>
+			{# Research Initiatives #}
+			{% elseif main.acf_fc_layout == 'research_initiatives' %}
+				<section class="ann__research-initiatives">
+					<div class="ann__research-initiatives_container">
+						{% if header_text_top or main.header_text_bottom or main.circle_image %}
+							<div class="ann__research-initiatives_container-top">
+								<div class="ann__research-initiatives_container-top-left">
+									{% if main.circle_image %}
+										<img src="{{ get_image(main.circle_image).src }}" alt="{{ get_image(main.circle_image).alt }}" class="ann__research-initiatives_img">
+										<p class="ann__research-initiatives_container-top-left_text" style="color:{{ main.colors.secondary_color }}">{{ main.circle_text_content }}</p>
+									{% endif %}
+								</div>
+								{% if main.header_text_top or main.header_text_bottom %}
+									<div class="ann__research-initiatives_header" style="{% if main.header_bar %}padding-right:1rem;border-right:7px;border-style:solid;border-color:{{ main.colors.primary_color }};height:100%{% endif %}">
+										<h2 class="ann__research-initiatives_header-top" style="color:{{ main.colors.secondary_color }}">{{ main.header_text_top }}</h2>
+										<h1 class="ann__research-initiatives_header-bottom" style="color:{{ main.colors.primary_color }}">{{main.header_text_bottom}}</h2>
+									</div>
+								{% endif %}
+							</div>
+						{% endif %}
+						<div class="ann__research-initiatives_container-bottom">
+						{% if main.body_content %}
+							<div class="ann__research-initiatives_container-bottom_text">
+								{{ main.body_content}}
+							</div>
+						{% endif %}
+						</div>
+					</div>
+				</section>		
 			
 			{# OUTCOMES #}
 			{% elseif main.acf_fc_layout == 'outcomes' %}

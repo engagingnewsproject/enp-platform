@@ -1,4 +1,16 @@
 // background dots
+.ann__width-page {
+	@include media($laptop) {
+		max-width: 60rem;
+		margin: 0 auto;
+	}
+}
+.ann__width-full > * {
+	@include media($laptop) {
+		max-width: 80rem;
+		margin: 0 auto;
+	}
+}
 .ann__header {
 	background-color: $teal-light;
 	z-index: 1;
@@ -1356,14 +1368,27 @@ svg.deco-border-svg {
 .ann__pg3 {
 	position: relative;
 	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr;
+	grid-template-columns: 1fr;
 	place-items: flex-start;
-	max-width: 60rem;
 	margin: 0 auto;
 	column-gap: 5rem;
 	animation: fadeInUp 2s ease-out forwards;
 	padding-top: 3em;
+	
+	.ann__content {
+		column-count: 2;
+		@include media($laptop) {
+			column-gap: 5em;
+		}
+		blockquote {
+			column-span: all;
+			font-family: $font-family-sans-serif;
+			border: none;
+		}
+	}
+	.ann__director_image {
+		grid-column: 2;
+	}
 }
 
 @keyframes fadeInUp {
@@ -1383,15 +1408,19 @@ svg.deco-border-svg {
 	grid-template-rows: auto auto;
 	max-width: 50rem;
 	margin: 0 auto;
+	
+	.ann__content {
+		column-count: 2; /* Splits the text into two columns */
+	}
 }
 
-.ann__pg3_img_div {
-    position: relative;
-    width: 100%;
-    padding-top: 100%; /* Creates a square aspect ratio */
-    overflow: hidden;
-	padding-bottom: 2rem;
-}
+// .ann__pg3_img_div {
+//     position: relative;
+//     width: 100%;
+//     padding-top: 100%; /* Creates a square aspect ratio */
+//     overflow: hidden;
+// 	padding-bottom: 2rem;
+// }
 
 .ann__pg3_circle_container {
     position: absolute;
@@ -1414,16 +1443,16 @@ svg.deco-border-svg {
 		z-index: 9;
 }
 
-.ann__pg3_img {
-    position: absolute;
-    top: 50%;
-    left: 54%;
-    transform: translate(-50%, -50%);
-    max-width: 76%;
-    max-height: 75%;
-    object-fit: contain;
-    z-index: 1;
-}
+// .ann__pg3_img {
+//     position: absolute;
+//     top: 50%;
+//     left: 54%;
+//     transform: translate(-50%, -50%);
+//     max-width: 76%;
+//     max-height: 75%;
+//     object-fit: contain;
+//     z-index: 1;
+// }
 
 .ann__pg3_circle {
     fill: none;
@@ -1498,4 +1527,12 @@ svg.deco-border-svg {
 @keyframes rotate81 {
     from { transform: rotate(35deg); }
     to { transform: rotate(200deg); }
+}
+
+.img-with-text-overlay {
+	position: relative;
+}
+.img-with-text-overlay + figcaption {
+	position: absolute;
+	top: 0;
 }
