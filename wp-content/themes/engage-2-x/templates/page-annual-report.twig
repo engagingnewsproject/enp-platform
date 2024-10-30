@@ -468,8 +468,40 @@
 					</div>
 				</div>
 			</section>		
+			
+			{# OUTCOMES #}
+			{% elseif main.acf_fc_layout == 'outcomes' %}
+				<section class="ann__outcomes">
+					<div class="ann__outcomes_container">
+						{% if header_text_top or main.header_text_bottom or main.circle_image %}
+							<div class="ann__outcomes_container-top">
+								{% if main.header_text_top or main.header_text_bottom %}
+									<div class="ann__outcomes_header" style="align-items:{% if main.header_alignment %}end{% else %}start{% endif %};{% if main.header_bar %}padding-{% if main.header_alignment %}right{% else %}left{% endif %}:1rem;border-{% if main.header_alignment %}right{% else %}left{% endif %}:7px;border-style:solid;border-color:{{ main.primary_color }};height:100%{% endif %}">
+										<h2 class="ann__outcomes_header-top" style="color:{{ main.secondary_color }}; transform: translateX({% if main.header_alignment %}{% else %}-{% endif %}130%);">{{ main.header_text_top }}</h2>
+										<h1 class="ann__outcomes_header-bottom" style="color:{{ main.primary_color }}; transform: translateX({% if main.header_alignment %} {% else %}-{% endif %}130%);">{{main.header_text_bottom}}</h2>
+									</div>
+								{% endif %}
+							</div>
+						{% endif %}
+						<div class="ann__outcomes_container-bottom">
+					{% for item in main.outcome_items %}
+						<div class="ann__outcomes_item" style="flex-direction:{% if item.item_direction %}row-reverse{% else %}row{% endif %};">
+							{% if item.outcome_image %}
+								<div class="ann__outcomes_item-left">
+									<img src="{{ get_image(item.outcome_image).src }}" alt="{{ get_image(item.outcome_image).alt }}" />
+								</div>
+							{% endif %}
+							{% if item.outcome_content %}
+								<div class="ann__outcomes_item-right">
+									{{ item.outcome_content }}
+								</div>
+							{% endif %}
+						</div>
+					{% endfor %}
+						</div>
+					</div>
+				</section>
 			{% endif %}
-
 		{% endfor %}
 
 	</section>
