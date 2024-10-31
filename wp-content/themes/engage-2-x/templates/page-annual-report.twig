@@ -123,14 +123,14 @@
 				{# END logic #}
 				{# markup START #}
 				<section class="ann__sct ann__sct_grid wrapper--pad-xlg" {{background_color}}>
-					<h2 class="ann__content-table_header" {{border_color}}>
+					<div class="ann__content-table_header" {{border_color}}>
 						{% if main.highlights_subtitle %}
-							<span class="ann__content-table_header-top fade-in-up-1" {{main_subtitle_color}}>{{ main.highlights_subtitle }}</span>
+							<h3 class="ann__content-table_header-top fade-in-up-1" {{main_subtitle_color}}>{{ main.highlights_subtitle }}</h3>
 						{% endif %}
 						{% if main.highlights_title %}
-							<span class="ann__content-table_header-bottom fade-in-up-2" {{main_title_color}}>{{ main.highlights_title }}</span>
+							<h2 class="ann__content-table_header-bottom fade-in-up-2" {{main_title_color}}>{{ main.highlights_title }}</h2>
 						{% endif %}
-					</h2>
+					</div>
 					<div class="ann__grid grid {{columns}} {{gap}}">
 					{% for item in main.highlight %}
 						<div class="ann__grid_item {% if deco_border %}ann__grid_item-relative{% endif %} item-animate" {{align_content}}>
@@ -340,13 +340,24 @@
       {% elseif main.acf_fc_layout == 'parallax' %}
         <section class="ann__sct ann__sct_parallax">
           <div class="ann__sct_parallax__group">
-            <div class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});background-position:center;background-size:cover;width:100%;height:100vh;{% endif %}"></div>
-            <div class="ann__sct_parallax__container">
+						{% if main.show_title %}
+							<div class="ann__title-container {% if main.title_border %}title-border title-border-{{ main.title_border_side }}{% endif %} {% if main.title_deco %}title-deco{% endif %}">
+								<div class="ann__title-wrap" {% if main.title_border %}style="border-color:{{ main.title_border }};"{% endif %}>
+									<h3 class="ann__subtitle fade-in-up-2" {% if main.subtitle_color %} style="color:{{ main.subtitle_color }};" {% endif %}>{{ main.subtitle }}</h3>
+									<h2 class="ann__title fade-in-up-1" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.title }}</h2>
+								</div>
+							</div>
+						{% endif %}
+            <div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});background-position:center;background-size:cover;width:100%;height:100vh;{% endif %}"></div>
+						{% if main.overlay %}
+            	<div class="parallax-overlay" {% if main.overlay_color %}style="background-color: {{ main.overlay_color }}"{% endif %}></div>
+						{% endif %}
+						<div class="ann__sct_parallax__container">
               {% if main.parallax_text %}
                 {% if main.parallax_bar %}
                     <hr class="ann__sct_parallax-bar" style="background-color:{{ main.parallax_bar }}">
                 {% endif %}
-                <h1 class="container--xl" style="color:white;">{{ main.parallax_text }}</h1>
+                <div class="ann__wysiwyg-wrap container--xl">{{ main.parallax_text }}</div>
                 {% if main.parallax_bar %}
                   <hr class="ann__sct_parallax-bar" style="background-color:{{ main.parallax_bar }}"></hr>
                 {% endif %}
@@ -354,19 +365,22 @@
             </div>
           </div>
           <script>
-              const parallax = document.querySelector('.ann__sct_parallax__layer--back');
+						// Encapsulate each parallax instance by targeting its unique ID
+						(function() {
+								const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
 
-              function calculateDistanceFromTop() {
-                  const rect = parallax.getBoundingClientRect();
-                  return rect.top + window.scrollY;
-              }
+								function calculateDistanceFromTop() {
+										const rect = parallaxLayer.getBoundingClientRect()
+										return rect.top + window.scrollY
+								}
 
-              document.addEventListener('scroll', function () {
-                const scrollPosition = window.pageYOffset;
-                const distanceFromTop = calculateDistanceFromTop();
+								document.addEventListener('scroll', function () {
+									const scrollPosition = window.pageYOffset
+									const distanceFromTop = calculateDistanceFromTop()
 
-                parallax.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)';
-              });
+									parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
+								})
+						})()
           </script>
         </section>
 			{# LANDING #}
@@ -410,32 +424,50 @@
 						{% endif %}
 					</div>
 				</section>
-			{# Page 3 #}
+				
+				
+				
+			{# WYSIWYG #}
 			{% elseif main.acf_fc_layout == 'page_3' %}
-				<section
-					class="ann__pg3 ann__width-page">
-					{# Left column - 1 column, 3 rows #}
-					<div class="grid">
-						<div class="grid__item">
-							{% if main.director_title %}
-								<h2 class="ann__title" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.director_title }}</h2>
+			 {% set columns = main.grid_columns %}
+				<section class="ann__pg3" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %}>
+					<div class="ann__width-page">
+						{% if main.show_title %}
+							<h2 class="ann__title" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.title }}</h2>
+						{% endif %}
+						<div {% if main.grid_columns > 1 %}class="columns"{% endif %}>
+							{% if main.column_1 %}
+								<div class="{% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+									{{main.column_1}}
+								</div>
+							{% endif %}
+							{% if main.column_2 %}
+								<div class="{% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+									{{main.column_2}}
+								</div>
 							{% endif %}
 						</div>
-						{% if main.paragraphs %}
-								<div class="grid__item">
-									<div class="ann__content">
-										{% if main.director_image %}
-											<div class="ann__director_image">
-												<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__pg3_img"/>
-											</div>
-										{% endif %}
-										{{ main.paragraphs }}
-									</div>
-								</div>
+						
+						{% if main.quote %}
+							<div class="column-quote h1 item-animate">
+								{{main.quote}}
+							</div>
 						{% endif %}
-
+						
+						<div class="columns">
+							{% if main.column_3 %}
+								<div class="{% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+									{{main.column_3}}
+								</div>
+							{% endif %}
+							{% if main.column_4 %}
+								<div class="{% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+									{{main.column_4}}
+								</div>
+							{% endif %}
+						</div>
 					</div>
-				</section>
+				</section> 
 			{# Content table #}
 			{% elseif main.acf_fc_layout == 'content_table'%}
 				<section class="ann__content-table">
@@ -470,8 +502,8 @@
 				</section>
 			{# Research Initiatives #}
 			{% elseif main.acf_fc_layout == 'research_initiatives' %}
-				<section class="ann__research-initiatives">
-					<div class="ann__research-initiatives_container">
+				<section class="ann__research-initiatives" {% if main.colors.background_color %}style="background-color: {{ main.colors.background_color }}"{% endif %}>
+					<div class="ann__research-initiatives_container ann__width-page">
 						{% if header_text_top or main.header_text_bottom or main.circle_image %}
 							<div class="ann__research-initiatives_container-top">
 								<div class="ann__research-initiatives_container-top-left">
@@ -482,8 +514,8 @@
 								</div>
 								{% if main.header_text_top or main.header_text_bottom %}
 									<div class="ann__research-initiatives_header" style="{% if main.header_bar %}padding-right:1rem;border-right:7px;border-style:solid;border-color:{{ main.colors.primary_color }};height:100%{% endif %}">
-										<h2 class="ann__research-initiatives_header-top" style="color:{{ main.colors.secondary_color }}">{{ main.header_text_top }}</h2>
-										<h1 class="ann__research-initiatives_header-bottom" style="color:{{ main.colors.primary_color }}">{{main.header_text_bottom}}</h2>
+										<h3 class="ann__research-initiatives_header-top" style="color:{{ main.colors.secondary_color }}">{{ main.header_text_top }}</h3>
+										<h2 class="ann__research-initiatives_header-bottom" style="color:{{ main.colors.primary_color }}">{{main.header_text_bottom}}</h2>
 									</div>
 								{% endif %}
 							</div>
@@ -500,14 +532,14 @@
 			
 			{# OUTCOMES #}
 			{% elseif main.acf_fc_layout == 'outcomes' %}
-				<section class="ann__outcomes">
-					<div class="ann__outcomes_container">
+				<section class="ann__outcomes" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %}>
+					<div class="ann__outcomes_container ann__width-page">
 						{% if header_text_top or main.header_text_bottom or main.circle_image %}
 							<div class="ann__outcomes_container-top">
 								{% if main.header_text_top or main.header_text_bottom %}
 									<div class="ann__outcomes_header" style="align-items:{% if main.header_alignment %}end{% else %}start{% endif %};{% if main.header_bar %}padding-{% if main.header_alignment %}right{% else %}left{% endif %}:1rem;border-{% if main.header_alignment %}right{% else %}left{% endif %}:7px;border-style:solid;border-color:{{ main.primary_color }};height:100%{% endif %}">
-										<h2 class="ann__outcomes_header-top" style="color:{{ main.secondary_color }}; transform: translateX({% if main.header_alignment %}{% else %}-{% endif %}130%);">{{ main.header_text_top }}</h2>
-										<h1 class="ann__outcomes_header-bottom" style="color:{{ main.primary_color }}; transform: translateX({% if main.header_alignment %} {% else %}-{% endif %}130%);">{{main.header_text_bottom}}</h2>
+										<h3 class="ann__outcomes_header-top" style="color:{{ main.secondary_color }}; transform: translateX({% if main.header_alignment %}{% else %}-{% endif %}130%);">{{ main.header_text_top }}</h3>
+										<h2 class="ann__outcomes_header-bottom" style="color:{{ main.primary_color }}; transform: translateX({% if main.header_alignment %} {% else %}-{% endif %}130%);">{{main.header_text_bottom}}</h2>
 									</div>
 								{% endif %}
 							</div>
