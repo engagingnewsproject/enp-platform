@@ -29,3 +29,7 @@ mix
       "./../../plugins/enp-quiz/**/*.js",
     ],
   });
+
+  mix.options({
+    processCssUrls: false, // Disable processing of URLs in CSS
+  })
