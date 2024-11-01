@@ -307,39 +307,62 @@
 
 			{# FOOTER #}
 			{% elseif main.acf_fc_layout == 'footer' %}
-				<footer class="ann__sct ann__sct_full_content_slim wrapper--pad-huge">
+				{% if main.social_icon_color %}
+					{% set icon_color = main.social_icon_color %}
+					<style>
+					.social svg path,
+					.social svg rect {
+						fill: {{ icon_color }};
+					}
+					</style>
+				{% endif %}
+				<footer class="ann__sct ann__sct_footer wrapper--pad-huge">
 					{% if main.contact_info %}
 						<div class="ann__contact_info">
 							{{ main.contact_info }}
 						</div>
 					{% endif %}
-					<div class="ann__social grid">
-					{% for social in main.socials %}
-						{% if social.social_name %}
-							{% set name = social.social_name %}
-							{% set path, name, ending = 'assets/img/icon-', name, '.svg' %}
-							{% set svg = [path, name, ending]|join %}
-							<div class="social">
-								<a href="{{ social.social_url }}" target="_blank">
-									{{ source(svg) }}
-									{{ social.social_handle }}
-								</a>
-							</div>
-						{% endif %}
-					{% endfor %}
+					<div class="ann__social {% if main.social_icon_layout %} ann__social-{{ main.social_icon_layout }}{% endif %}">
+						{% for social in main.socials %}
+							{% if social.social_name %}
+								{% set name = social.social_name %}
+								{% set path, name, ending = 'assets/img/icon-', name, '.svg' %}
+								{% set svg = [path, name, ending]|join %}
+								<div class="social item-animate">
+									<a href="{{ social.social_url }}" target="_blank">
+										{{ source(svg) }}
+										{% if main.show_handle %}
+											{{ social.social_handle }}
+										{% endif %}
+									</a>
+								</div>
+							{% endif %}
+						{% endfor %}
 					</div>
 					{% if main.gift_button_text %}
 						<div class="ann__gift_btn">
-							<a href="{{ main.gift_button_url }}" class="btn--ghost">
+						{% if condition %}{% endif %}
+							<a href="{{ main.gift_button_url }}" class="btn--ghost fade-in-up-1" {% if main.button_color %}style="color:{{main.button_color}};border-color:{{main.button_color}};"{% endif %}>
 								{{ main.gift_button_text }}
 							</a>
 						</div>
+					{% endif %}
+					{# background center image #}
+					{% if main.background_image %}
+						<div class="background_image-wrap">
+							<img class="background_image fade-in-up-1" src="{{ get_image(main.background_image_src).src }}" srcset="{{ get_image(main.background_image_src).srcset }}" sizes="{{ get_image(main.background_image_src).img_sizes }}" alt="{{ get_image(main.background_image_src).alt }}" />
+						</div>
+					{% endif %}
+					{# background bottom left image #}
+					{% if main.bottom_left_deco_graphic %}
+						<img class="bottom_left_deco_graphic fade-in-up-1" src="{{ get_image(main.bottom_left_deco_graphic).src }}" srcset="{{ get_image(main.bottom_left_deco_graphic).srcset }}" sizes="{{ get_image(main.bottom_left_deco_graphic).img_sizes }}" alt="{{ get_image(main.bottom_left_deco_graphic).alt }}" />
 					{% endif %}
 				</footer>
 			{# PARALLAX #}
       {% elseif main.acf_fc_layout == 'parallax' %}
         <section class="ann__sct ann__sct_parallax">
           <div class="ann__sct_parallax__group">
+						
 						{% if main.show_title %}
 							<div class="ann__title-container {% if main.title_border %}title-border title-border-{{ main.title_border_side }}{% endif %} {% if main.title_deco %}title-deco{% endif %}">
 								<div class="ann__title-wrap" {% if main.title_border %}style="border-color:{{ main.title_border }};"{% endif %}>
@@ -348,7 +371,8 @@
 								</div>
 							</div>
 						{% endif %}
-            <div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});background-position:center;background-size:cover;width:100%;height:100vh;{% endif %}"></div>
+            
+						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});background-position:center;background-size:cover;width:100%;height:100vh;{% endif %}"></div>
 						{% if main.overlay %}
             	<div class="parallax-overlay" {% if main.overlay_color %}style="background-color: {{ main.overlay_color }}"{% endif %}></div>
 						{% endif %}
