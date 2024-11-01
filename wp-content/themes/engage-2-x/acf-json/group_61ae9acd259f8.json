@@ -2055,13 +2055,19 @@
                                         "facebook": "Facebook",
                                         "instagram": "Instagram",
                                         "twitter": "Twitter",
+                                        "x": "X",
                                         "mastodon": "Mastodon",
-                                        "tiktok": "Tiktok"
+                                        "tiktok": "Tiktok",
+                                        "threads": "Threads",
+                                        "linkedin": "LinkedIn",
+                                        "youtube": "YouTube",
+                                        "bluesky": "Bluesky"
                                     },
                                     "default_value": "facebook",
                                     "return_format": "value",
                                     "multiple": 0,
                                     "allow_null": 0,
+                                    "allow_in_bindings": 1,
                                     "ui": 1,
                                     "ajax": 0,
                                     "placeholder": "",
@@ -2144,6 +2150,182 @@
                             },
                             "default_value": "https:\/\/utdirect.utexas.edu\/apps\/utgiving\/online\/nlogon\/?menu=COEN",
                             "placeholder": ""
+                        },
+                        {
+                            "key": "field_6723b8eb6c4d2",
+                            "label": "Settings",
+                            "name": "",
+                            "aria-label": "",
+                            "type": "tab",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placement": "top",
+                            "endpoint": 0,
+                            "selected": 0
+                        },
+                        {
+                            "key": "field_6723b987a5969",
+                            "label": "Background image",
+                            "name": "background_image",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 1,
+                            "allow_in_bindings": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": "",
+                            "ui": 1
+                        },
+                        {
+                            "key": "field_6723b99ea596a",
+                            "label": "Background image",
+                            "name": "background_image_src",
+                            "aria-label": "",
+                            "type": "image",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "allow_in_bindings": 0,
+                            "preview_size": "medium"
+                        },
+                        {
+                            "key": "field_6725108a3a3b0",
+                            "label": "Bottom left deco graphic",
+                            "name": "bottom_left_deco_graphic",
+                            "aria-label": "",
+                            "type": "image",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "allow_in_bindings": 0,
+                            "preview_size": "medium"
+                        },
+                        {
+                            "key": "field_672513eb91187",
+                            "label": "Button color",
+                            "name": "button_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "enable_opacity": 0,
+                            "return_format": "string",
+                            "allow_in_bindings": 0
+                        },
+                        {
+                            "key": "field_6723b8fa6c4d3",
+                            "label": "Social show handle",
+                            "name": "social_show_handle",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "Social icons",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 1,
+                            "allow_in_bindings": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": "",
+                            "ui": 1
+                        },
+                        {
+                            "key": "field_672425e845f32",
+                            "label": "Social icon color",
+                            "name": "social_icon_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "Social icons",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "enable_opacity": 0,
+                            "return_format": "string",
+                            "allow_in_bindings": 0
+                        },
+                        {
+                            "key": "field_67240fbc01b7d",
+                            "label": "Social icon layout",
+                            "name": "social_icon_layout",
+                            "aria-label": "",
+                            "type": "radio",
+                            "instructions": "Social icons",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "list": "List",
+                                "grid": "Grid"
+                            },
+                            "default_value": "list",
+                            "return_format": "value",
+                            "allow_null": 0,
+                            "other_choice": 0,
+                            "allow_in_bindings": 0,
+                            "layout": "horizontal",
+                            "save_other_choice": 0
                         }
                     ],
                     "min": "",
@@ -2737,11 +2919,11 @@
                         },
                         {
                             "key": "field_6723a1b4a8522",
-                            "label": "Title border",
+                            "label": "Title border color",
                             "name": "title_border",
                             "aria-label": "",
                             "type": "color_picker",
-                            "instructions": "",
+                            "instructions": "Must set a border color to display the border on the front end.",
                             "required": 0,
                             "conditional_logic": [
                                 [
@@ -2761,6 +2943,39 @@
                             "enable_opacity": 0,
                             "return_format": "string",
                             "allow_in_bindings": 0
+                        },
+                        {
+                            "key": "field_6723aae2a4fe7",
+                            "label": "Title border side",
+                            "name": "title_border_side",
+                            "aria-label": "",
+                            "type": "radio",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_6723a1b4a8522",
+                                        "operator": "!=empty"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "l": "Left",
+                                "r": "Right"
+                            },
+                            "default_value": "",
+                            "return_format": "value",
+                            "allow_null": 0,
+                            "other_choice": 0,
+                            "allow_in_bindings": 0,
+                            "layout": "vertical",
+                            "save_other_choice": 0
                         },
                         {
                             "key": "field_6723a2f7c9409",
@@ -3577,5 +3792,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1730389162
+    "modified": 1730483213
 }
