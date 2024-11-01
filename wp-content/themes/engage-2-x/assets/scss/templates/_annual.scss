@@ -10,6 +10,11 @@ $annual-subtitle-size: 1.5rem;
 blockquote, .founders {
 	font-family: $font-family-founders-grotesk-bold;
 }
+// .ann__landing_circle_cme,
+// .ann__landing_circle_2023 {
+// 	font-family: $font-family-founders-grotesk-bold;
+// }
+// typography END
 h2 {
 	@include media($laptop) {
 		font-size: 180%;
@@ -22,6 +27,8 @@ hr {
 	background-color: $annual-red;
 	height: 4px;
 }
+
+// Widths
 .ann__width-page {
 	@include media($laptop) {
 		max-width: 55rem;
@@ -38,6 +45,14 @@ hr {
 // Titles START
 // Titles START
 // Title
+// .ann__landing_circle_cme {
+// 	font-size: 2.6em;
+// 	letter-spacing: .548;
+// }
+// .ann__landing_circle_2023 {
+// 	font-size: 8em;
+// 	letter-spacing: .31;
+// }
 .ann__title {
 	text-transform: uppercase;
 	color: $teal-light;
@@ -1025,8 +1040,8 @@ svg.deco-border-svg {
 	/* circle animations */
 	&_circle_container > &_circle_logo {
 		position: absolute;
-		top: 51px;
-		right: 18px;
+		top: 43px;
+		right: 11px;
 		max-width: 172px;
 		width: 100%;
 		height: auto;
