@@ -9,11 +9,28 @@ $annual-subtitle-size: 1.5rem;
 // typography
 blockquote, .founders {
 	font-family: $font-family-founders-grotesk-bold;
+	font-style: condensed;
+	font-weight: bold;
 }
-// .ann__landing_circle_cme,
-// .ann__landing_circle_2023 {
-// 	font-family: $font-family-founders-grotesk-bold;
-// }
+.ann__landing_circle_logo {
+	.ann__landing_circle_cme {
+		fill: #AE542D;
+		font-size: 31px;
+		letter-spacing: .548px;
+		        text-anchor: start; // This will align the text to the start of the x position
+
+	}
+	.ann__landing_circle_2023 {
+		fill: #3C4952;
+		font-size: 201px;
+		letter-spacing: .31px;
+		        text-anchor: start; // This will align the text to the start of the x position
+
+	}
+	text {
+		font-family: $font-family-founders-grotesk-bold;
+	}
+}
 // typography END
 h2 {
 	@include media($laptop) {
@@ -145,6 +162,7 @@ hr {
 		width: 30vw;
 		height: 45vh;
 		clip-path: ellipse(100% 100% at 100% -33%);
+		-webkit-clip-path: ellipse(100% 100% at 100% -33%);
 		z-index: 4;
 		&::after {
 			content: '';
@@ -155,6 +173,7 @@ hr {
 			left: 0;
 			background-color: white; /* Change this to create a shadow or overlay */
 			clip-path: ellipse(100% 100% at 112% -25%);
+			-webkit-clip-path: ellipse(100% 100% at 112% -25%);
 			z-index: -1; /* Position it behind the content of ann__title-wrap */
 		}
 	}
@@ -977,7 +996,7 @@ svg.deco-border-svg {
 
 		&_top {
 			grid-row: 1;
-			font-weight: 600;
+			font-weight: 400;
 			color: #3c4952;
 		}
 
@@ -997,15 +1016,13 @@ svg.deco-border-svg {
 		opacity: 0; /* Initially hidden */
 		animation: fadeInBackground 2s ease forwards; /* Apply fade-in effect */
 		transform-origin: top right;
-		translate: translateX(50%) translateY(-50%);
-		scale: 0.9;
 
 		@media (min-width: 350px) {
 			scale: 1.2;
 		}
 
 		@include media($phablet) {
-			scale: 0.95;
+			scale: 1;
 		}
 
 		@include media($desktop) {
@@ -1020,7 +1037,10 @@ svg.deco-border-svg {
 		height: auto;
 		width: 450px;
 		transform: translate(140px, -140px);
-		clip-path: polygon(25% 28%, 22% 32%, 72% 50%, 73% 100%, 0 100%, 0 0);
+		animation: clipPathAnimation 3s forwards;
+
+		// clip-path: polygon(25% 28%, 22% 32%, 72% 50%, 73% 100%, 0 100%, 0 0);
+    // -webkit-clip-path: polygon(25% 28%, 22% 32%, 72% 50%, 73% 100%, 0 100%, 0 0); /* Safari prefix */
 
 		@media (min-width: 600px) {
 			width: 710px;
@@ -1218,6 +1238,16 @@ svg.deco-border-svg {
 		to {
 			transform: translateY(0);
 		}
+	}
+	@keyframes clipPathAnimation {
+    0% {
+			clip-path: polygon(25% 28%, 22% 32%, 72% 50%, 73% 100%, 0 100%, 0 0);
+			-webkit-clip-path: polygon(25% 28%, 22% 32%, 72% 50%, 73% 100%, 0 100%, 0 0);
+    }
+    100% {
+			clip-path: polygon(30% 20%, 45% 35%, 80% 50%, 70% 100%, 0 100%, 0 0);
+			-webkit-clip-path: polygon(30% 20%, 45% 35%, 80% 50%, 70% 100%, 0 100%, 0 0);
+    }
 	}
 }
 
