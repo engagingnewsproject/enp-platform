@@ -372,7 +372,7 @@
 							</div>
 						{% endif %}
             
-						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});background-position:center;background-size:cover;width:100%;height:100vh;{% endif %}"></div>
+						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});{% endif %}"></div>
 						{% if main.overlay %}
             	<div class="parallax-overlay" {% if main.overlay_color %}style="background-color: {{ main.overlay_color }}"{% endif %}></div>
 						{% endif %}
@@ -552,7 +552,7 @@
 			
 			{# OUTCOMES #}
 			{% elseif main.acf_fc_layout == 'outcomes' %}
-				<section class="ann__outcomes" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %}>
+				<section class="ann__outcomes wrapper--pad-xlg" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %}>
 					<div class="ann__outcomes_container ann__width-page">
 						{% if header_text_top or main.header_text_bottom or main.circle_image %}
 							<div class="ann__outcomes_container-top">

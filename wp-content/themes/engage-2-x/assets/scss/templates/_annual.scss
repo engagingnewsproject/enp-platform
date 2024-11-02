@@ -293,18 +293,23 @@ hr {
 		}
 		&_parallax {
       perspective: 1px;
-      height: 100vh;
+			height: auto;
+      min-height: 100vh;
       overflow: hidden;
 
       .ann__sct_parallax__group {
         position: relative;
         transform-style: preserve-3d;
-        height: 100vh;
+				height: a;
+        min-height: 100%;
         z-index: 5;
         display: flex;
 				flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: start;
+				@include media($phablet) {
+					justify-content: center;
+				}
       }
 
       .ann__sct_parallax__container {
@@ -314,10 +319,17 @@ hr {
         justify-content: center;
         transform: translateZ(0);
         z-index: 4;
-        width: 50%;
-
         animation: slideInFadeIn 1.5s forwards;
 				transform: translate3d(0, 40px, 0);
+				padding: 4em 2em;
+				width: 100vw;
+				@include media($tablet) {
+					padding: 0 2em;
+					width: 40vw;
+				}
+				@include media($laptop) {
+					width: 50vw;
+				}
       }
 
       .ann__sct_parallax__container > div {
@@ -349,6 +361,13 @@ hr {
         right: 0;
         transform: translateZ(-1px) scale(2);
         z-index: 1;
+				background-position:center;
+				background-size:cover;
+				width:100%;
+				height:114vh;
+				@include media($phablet) {
+					height:100vh;
+				}
       }
 			.parallax-overlay {
 				z-index: 2;
@@ -1358,7 +1377,10 @@ svg.deco-border-svg {
 	min-height: 100vh;	
 
 	&_container {
-		padding: 5rem 0;
+		padding: 5em 2em;
+		@include media($phablet) {
+			padding: 2em 0;
+		}
 
 		&-top {
 			display: flex;
@@ -1443,10 +1465,8 @@ svg.deco-border-svg {
 	position: relative;
 	overflow: hidden;
 	min-height: 100vh;
-	padding: 5rem 0;
 
 	&_container {
-		// padding: 5rem;
 
 		&-top {
 			display: flex;
@@ -1478,12 +1498,13 @@ svg.deco-border-svg {
 			align-items: center;
 			height: 100%;
 			width: auto;
-			margin-top: 10rem;
+			margin-top: 5em;
 			flex: 1;
-
 			transform: translateY(30px);	
 			animation: slideInFadeIn 1.5s forwards;
-
+			@include media($tablet) {
+				margin-top: 10em;
+			}
 			h3 {
 				font-size: calc(100% + 8px);
 				color: #3c4952;
@@ -1498,7 +1519,6 @@ svg.deco-border-svg {
 		z-index: 2;
 		transform: scale3d(1, 0, 1);
 		animation: scaleUp 1.5s forwards;
-
 		overflow: hidden;
 
 		&-top {
@@ -1520,11 +1540,12 @@ svg.deco-border-svg {
 	}
 
 	&_item {
-		display: flex;
-		align-items: center;
-		gap: 3rem;
 		margin-bottom: 1rem;
-
+		@include media($tablet) {
+			display: flex;
+			align-items: center;
+			gap: 3rem;
+		}
 		&-left {
 			width: 250px;
 			height: auto;
@@ -1554,13 +1575,25 @@ svg.deco-border-svg {
 	padding-top: 5em;
 	.columns {
 		display: flex;
+		flex-direction: column;
+		padding: 0 2em;
 		gap: 3em;
+		@include media($phablet) {
+			flex-direction: row;
+			padding: 0 4em;
+		}
+		@include media($laptop) {
+			padding: 0;
+		}
 	}
 	.column-2 {
 		flex-basis: 50%;
 	}
 	.column-3 {
 		flex-basis: 33.333%;
+	}
+	.column-quote {
+		padding: 0 2em;
 	}
 	figure:has(.cirlce-img-text) {
 		position: relative;
