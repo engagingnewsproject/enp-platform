@@ -53,6 +53,21 @@
   opacity: 0;
 }
 
+.parallax_bar_scale {
+  animation: parallaxBarScale 1.5s 0.85s forwards;
+}
+
+.slide_in_fade_in {
+  transform: translateX(120%);
+  animation: slideInFadeIn 1s forwards;
+  animation-delay: 1.5s;
+}
+
+.scale_up {
+  transform: scale3d(1, 0, 1);
+  animation: scaleUp 1.5s forwards;
+}
+
 .fade_in_and_up {
   animation: fadeIn 1s ease forwards, slideIn 1s ease forwards;
   &.delay_1 {

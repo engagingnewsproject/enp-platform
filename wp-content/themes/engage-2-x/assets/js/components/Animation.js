@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
     threshold: 0 // Trigger when 95% of the element is visible
   }
 
-  const observer = new IntersectionObserver((entries) => {
+  const fadeInAndUp = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         // Add the 'fade_in_and_up' class to all animating elements
@@ -17,17 +17,58 @@ document.addEventListener("DOMContentLoaded", function() {
   }, observerOptions);
 
   // Select all elements with either 'fade-in-up-1' or 'fade-in-up-2' class
-  const elementsToAnimate = document.querySelectorAll('.fade-in-up-1, .fade-in-up-2');
-  elementsToAnimate.forEach(element => {
-    observer.observe(element);  // Observe each element
+  const elementsToFadeInAndUp = document.querySelectorAll('.fade-in-up-1, .fade-in-up-2');
+  elementsToFadeInAndUp.forEach(element => {
+    fadeInAndUp.observe(element);  // Observe each element
+  });
+  
+  // Other animations:
+  
+  const parallaxBarScale = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('parallax_bar_scale');
+      }
+    });
+  }, observerOptions);
+
+  const elementsToParallaxBarScale = document.querySelectorAll('.item-parallax-bar-scale');
+  elementsToParallaxBarScale.forEach(element => {
+    parallaxBarScale.observe(element);
+  });
+  
+  const slideInFadeIn = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('slide_in_fade_in');
+      }
+    });
+  }, observerOptions);
+
+  const elementsToSlideInFadeIn = document.querySelectorAll('.item-slide-in-fade-in');
+  elementsToSlideInFadeIn.forEach(element => {
+    slideInFadeIn.observe(element);
   });
 
+  const scaleUp = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('scale_up');
+      }
+    });
+  }, observerOptions);
+
+  const elementsToScaleUp = document.querySelectorAll('.item-scale-up');
+  elementsToScaleUp.forEach(element => {
+    scaleUp.observe(element);
+  });
+  
   // Select all grid items and apply staggered animations
   const gridItems = document.querySelectorAll('.item-animate');
   gridItems.forEach((item, index) => {
     // Add staggered delay class based on DOM index (index + 1)
     item.classList.add(`delay_${(index % 4) + 1}`); // Cycles through delay_1 to delay_4
-    observer.observe(item);  // Observe each grid item
+    fadeInAndUp.observe(item);  // Observe each grid item
   });
 });
 

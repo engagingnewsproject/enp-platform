@@ -12,37 +12,21 @@ blockquote, .founders {
 	font-style: condensed;
 	font-weight: bold;
 }
-.ann__landing_circle_logo {
-	.ann__landing_circle_cme {
-		fill: #AE542D;
-		font-size: 31px;
-		letter-spacing: .548px;
-		        text-anchor: start; // This will align the text to the start of the x position
-
-	}
-	.ann__landing_circle_2023 {
-		fill: #3C4952;
-		font-size: 201px;
-		letter-spacing: .31px;
-		        text-anchor: start; // This will align the text to the start of the x position
-
-	}
-	text {
-		font-family: $font-family-founders-grotesk-bold;
-	}
-}
 // typography END
-h2 {
-	@include media($laptop) {
-		font-size: 180%;
-	}
-}
 p {
 	line-height: 1.5;
 }
+// Elements
 hr {
 	background-color: $annual-red;
 	height: 4px;
+}
+blockquote {
+	border: none;
+	border-left: 4px solid #BF5701;
+	margin: 0 0 1.6rem 0;
+	padding: 2rem 0 1rem 2rem;
+	line-height: 1.5;
 }
 
 // Widths
@@ -58,19 +42,59 @@ hr {
 		margin: 0 auto;
 	}
 }
-// Titles START
-// Titles START
-// Titles START
-// Title
-// .ann__landing_circle_cme {
-// 	font-size: 2.6em;
-// 	letter-spacing: .548;
-// }
-// .ann__landing_circle_2023 {
-// 	font-size: 8em;
-// 	letter-spacing: .31;
-// }
-.ann__title {
+// Headers
+.ann__feat-header {
+	background-color: $teal-light;
+	z-index: 1;
+	overflow: hidden;
+	position: relative;
+	height: 100vh;
+	display: grid;
+	align-content: center;
+	justify-content: center;
+	@include media($laptop) {
+		align-content: stretch;
+	}
+	&::before,
+	&::after {
+		content: "";
+		position: absolute;
+		background-repeat: no-repeat;
+		background-size: 100%;
+		width: 100%;
+		height: 100%;
+		z-index: 2;
+		@include media($laptop) {
+			background-size: 55%;
+		}
+	}
+	&::before {
+		background-image: url("/wp-content/themes/engage-2-x/assets/img/header-top-right-graphic.svg");
+		background-position: 100% 0;
+	}
+	// // header bottom left svg
+	&::after {
+		background-image: url("/wp-content/themes/engage-2-x/assets/img/dots-cut-header.svg");
+		background-position: 0 100%;
+	}
+}
+.ann__feat-header-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	@include media($laptop) {
+		justify-content: center;
+	}
+}
+.ann__feat-header-img {
+	animation: slideIn 0.6666666667s ease-out;
+	z-index: 999;
+	position: relative;
+	@include media($laptop) {
+		max-height: 80vh;
+	}
+}
+.ann__header {
 	text-transform: uppercase;
 	color: $teal-light;
 	padding: 1rem 0;
@@ -108,130 +132,119 @@ hr {
 		padding: 0;
 	}
 }
-// Subtitle
+// Titles
 .ann__subtitle {
 	text-transform: uppercase;
 	font-size: $annual-subtitle-size;
 }
-
-// Title wrapper
-.ann__title-container {
+.ann__header-container {
+	display: flex;
 	z-index: 4;
 	width: 100%;
 	max-width: 960px;
 	margin: 0 auto;
+	&.header-deco {
+		@include media($phablet) {
+			position: absolute;
+			background-color: $annual-red;
+			width: 30vw;
+			height: 24rem;
+			z-index: 4;
+		}
+		@include media($laptop) {
+			padding: 4em;
+		}
+		&::after {
+			@include media($phablet) {
+				content: "";
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				background-color: white;
+				z-index: -1;
+			}
+		}
+		.ann__header-wrap {
+			max-height: max-content;
+		}
+	}
+	&.header-left {
+    justify-content: flex-start;
+		&.header-deco {
+			top: -3px;
+			left: 0; /* Move it to the left side */
+			@include media($phablet) {
+				clip-path: ellipse(100% 100% at 0% -33%);
+				-webkit-clip-path: ellipse(100% 100% at 0% -33%);
+				&::after {
+					clip-path: ellipse(100% 100% at -12% -25%);
+					-webkit-clip-path: ellipse(100% 100% at -12% -25%);
+				}
+			}
+		}
+	}
+	&.header-center {
+    justify-content: center;
+	}
+	&.header-right {
+    justify-content: flex-end;
+		&.header-deco {
+			top: -3px;
+			right: 0;
+			@include media($phablet) {
+				clip-path: ellipse(100% 100% at 100% -33%);
+				-webkit-clip-path: ellipse(100% 100% at 100% -33%);
+				&::after {
+					clip-path: ellipse(100% 100% at 112% -25%);
+					-webkit-clip-path: ellipse(100% 100% at 112% -25%);
+				}
+			}
+		}
+	}
+	&.header-align-left {
+    text-align: left;
+	}
+	&.header-align-center {
+    text-align: center;
+	}
+	&.header-align-right {
+    text-align: right;
+	}
 	// Title with border
-	&.title-border {
+	&.header-border,
+	&.header-deco {
 		padding: 3rem;
 		@include media($laptop) {
 			padding: 4rem;
 		}
-		.ann__title-wrap {
+		.ann__header-wrap {
 			display: flex;
 			flex-direction: column;
 			padding: 0 1rem;
 		}
-		.ann__title,
-		.ann__subtitle {
+		.ann__header,
+		.ann__subheader {
 			padding: 0;
 			margin: 0;
 			line-height: normal;
 		}
 	}
 	// border left
-	&.title-border-l {
-		.ann__title-wrap {
-			align-items: start;
+	&.header-border-left {
+		.ann__header-wrap {
 			border-left: 4px solid #000;
-			border-color: #d9ad76;
 		}
 	}
 	// border right
-	&.title-border-r {
-		.ann__title-wrap {
-			align-items: end;
-			text-align: right;
+	&.header-border-right {
+		.ann__header-wrap {
 			border-right: 4px solid #000;
 		}
 	}
-	&.title-deco {
-		position: absolute;
-		top: -3px;
-		right: 0;
-		background-color: $annual-red;
-		width: 30vw;
-		height: 45vh;
-		clip-path: ellipse(100% 100% at 100% -33%);
-		-webkit-clip-path: ellipse(100% 100% at 100% -33%);
-		z-index: 4;
-		&::after {
-			content: '';
-			position: absolute;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: 0;
-			background-color: white; /* Change this to create a shadow or overlay */
-			clip-path: ellipse(100% 100% at 112% -25%);
-			-webkit-clip-path: ellipse(100% 100% at 112% -25%);
-			z-index: -1; /* Position it behind the content of ann__title-wrap */
-		}
-	}
 }
-
-// Titles END
-.ann__header {
-	background-color: $teal-light;
-	z-index: 1;
-	overflow: hidden;
-	position: relative;
-	height: 100vh;
-	display: grid;
-	align-content: center;
-	justify-content: center;
-	@include media($laptop) {
-		align-content: stretch;
-	}
-	&::before,
-	&::after {
-		content: "";
-		position: absolute;
-		background-repeat: no-repeat;
-		background-size: 100%;
-		width: 100%;
-		height: 100%;
-		z-index: 2;
-		@include media($laptop) {
-			background-size: 55%;
-		}
-	}
-	&::before {
-		background-image: url("/wp-content/themes/engage-2-x/assets/img/header-top-right-graphic.svg");
-		background-position: 100% 0;
-	}
-	// // header bottom left svg
-	&::after {
-		background-image: url("/wp-content/themes/engage-2-x/assets/img/dots-cut-header.svg");
-		background-position: 0 100%;
-	}
-}
-.ann__header-wrapper {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	@include media($laptop) {
-		justify-content: center;
-	}
-}
-.ann__header-img {
-	animation: slideIn 0.6666666667s ease-out;
-	z-index: 999;
-	position: relative;
-	@include media($laptop) {
-		max-height: 80vh;
-	}
-}
-// download report button
+// Buttons
 .btn--annual-report {
 	animation: slideIn 0.6666666667s ease-out;
 	z-index: 1000;
@@ -251,7 +264,7 @@ hr {
 		background-color: darken(#2e4249, 10%);
 	}
 }
-
+// Sections/Layouts
 // https://css-tricks.com/bem-101/#sass-and-bem
 .ann {
 	@at-root #{&}__sct {
@@ -321,10 +334,9 @@ hr {
         z-index: 4;
         animation: slideInFadeIn 1.5s forwards;
 				transform: translate3d(0, 40px, 0);
-				padding: 4em 2em;
+				padding: 0 2em;
 				width: 100vw;
 				@include media($tablet) {
-					padding: 0 2em;
 					width: 40vw;
 				}
 				@include media($laptop) {
@@ -350,7 +362,7 @@ hr {
         margin: 0;
 
 				transform: scale3d(0, 0, 0);
-        animation: parallaxBarScale 1.5s 0.85s forwards;
+        
       }
 
       .ann__sct_parallax__layer--back {
@@ -508,6 +520,26 @@ hr {
 	}
 }
 
+.ann__landing_circle_logo {
+	.ann__landing_circle_cme {
+		fill: #AE542D;
+		font-size: 31px;
+		letter-spacing: .548px;
+		        text-anchor: start; // This will align the text to the start of the x position
+
+	}
+	.ann__landing_circle_2023 {
+		fill: #3C4952;
+		font-size: 201px;
+		letter-spacing: .31px;
+		        text-anchor: start; // This will align the text to the start of the x position
+
+	}
+	text {
+		font-family: $font-family-founders-grotesk-bold;
+	}
+}
+
 .ann__sct_quote {
 	background-image: url("/wp-content/themes/engage-2-x/assets/img/grey-dots-2.svg");
 	background-repeat: no-repeat;
@@ -517,7 +549,6 @@ hr {
 			background-size: 50%;
 	}
 }
-
 .ann__sct_faculty {
 	position: relative;
 }
@@ -555,7 +586,6 @@ hr {
 		}
 	}
 }
-
 
 // // grid
 .ann__grid {
@@ -695,8 +725,7 @@ svg.deco-border-svg {
 		}
 	}
 }
-
-// // tiles
+// hover cards
 .ann__tile {
 	position: relative;
 	display: grid;
@@ -720,6 +749,43 @@ svg.deco-border-svg {
 	}
 	&:not(:first-of-type) {
 		z-index: 9;
+	}
+	.ann__hover_more {
+		top: 100%;
+		left: 0;
+		z-index: 2;
+		opacity: 0;
+		height: 100%;
+		position: absolute;
+		text-decoration: none;
+		transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1);
+		background: #000000b8 repeat left top;
+		padding: 1.5em 1em;
+		color: $white;
+		&::-webkit-scrollbar {
+			display: none;
+		}
+		@include media($tablet) {
+			padding: 20px 3em 30px 3em;
+		}
+		.ann__hover_links {
+			display: grid;
+			grid-template-rows: repeat(1fr);
+			row-gap: 10px;
+			.ann__hover_link {
+				font-weight: 800;
+				text-decoration: none;
+			}
+		}
+		.ann__hover_text {
+			margin-bottom: 0;
+		}
+	}
+	&:hover .ann__hover_more,
+	&:focus .ann__hover_more {
+		top: 0;
+		opacity: 1;
+		overflow-y: overlay;
 	}
 	.ann__img-wrap {
 		display: grid;
@@ -748,50 +814,8 @@ svg.deco-border-svg {
 		color: $white;
 	}
 }
-// hover cards
-.ann__hover_more {
-	top: 100%;
-	left: 0;
-	z-index: 2;
-	opacity: 0;
-	height: 100%;
-	position: absolute;
-	text-decoration: none;
-	transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1);
-	background: #000000b8 repeat left top;
-	padding: 1.5em 1em;
-	color: $white;
-	&::-webkit-scrollbar {
-		display: none;
-	}
-	@include media($tablet) {
-		padding: 20px 3em 30px 3em;
-	}
-	.ann__hover_links {
-		display: grid;
-		grid-template-rows: repeat(1fr);
-		row-gap: 10px;
-		.ann__hover_link {
-			font-weight: 800;
-			text-decoration: none;
-		}
-	}
-	.ann__hover_text {
-		margin-bottom: 0;
-	}
-}
-
-.ann__tile {
-	&:hover .ann__hover_more,
-	&:focus .ann__hover_more {
-		top: 0;
-		opacity: 1;
-		overflow-y: overlay;
-	}
-}
-// // END hover cards
 // // outreach
-.ann__sct_full_content {
+.ann__sct_outreach {
 	grid-template-rows: auto auto auto 1fr;
 	grid-template-columns: 3em 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 	padding-top: 3rem;
@@ -831,9 +855,7 @@ svg.deco-border-svg {
 		}
 	}
 }
-// // END outreachann__sct_pad_img {
-
-// // social 01
+// social
 .ann__sct_pad_img_title {
 	grid-template-rows: auto 1fr;
 	padding: 2rem 2.4rem;
@@ -845,8 +867,7 @@ svg.deco-border-svg {
 		}
 	}
 }
-// // END social 01
-// // contact info
+// Footer
 .ann__sct_footer {
 	position: relative;
 	overflow: hidden;
@@ -882,47 +903,44 @@ svg.deco-border-svg {
 		gap: 5px;
 		text-decoration: none;
 	}
-}
-.background_image-wrap {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100%;
-	z-index: 1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: -1;
-}
-.background_image {
-	position: relative;
-	width: 100%;
-	@include media($phablet) {
-    width: 86%;
-    position: relative;
-    left: -22px;
+	.background_image-wrap {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100%;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: -1;
 	}
-	@include media($laptop) {
-    width: 55%;
+	.background_image {
+		position: relative;
+		width: 100%;
+		@include media($phablet) {
+			width: 86%;
+			position: relative;
+			left: -22px;
+		}
+		@include media($laptop) {
+			width: 55%;
+		}
+		@include media($desktop) {
+			width: 45%;
+		}
 	}
-	@include media($desktop) {
-    width: 45%;
+	.bottom_left_deco_graphic {
+		position: absolute;
+		bottom: -5px;
+		left: 0;
+		width: 25vw;
+		height: auto;
+	}
+	.ann__gift_btn {
+		display: flex;
 	}
 }
-.bottom_left_deco_graphic {
-	position: absolute;
-	bottom: -5px;
-	left: 0;
-	width: 25vw;
-	height: auto;
-}
-.ann__gift_btn {
-	display: flex;
-}
-// // END contact info
-// END blocks
-
 // research section, 2023
 .ann__sct_research {
 	&_grid {
@@ -1269,7 +1287,7 @@ svg.deco-border-svg {
     }
 	}
 }
-
+// Content table
 .ann__content-table {
 	display: flex;
 	flex-direction: column;
@@ -1368,7 +1386,7 @@ svg.deco-border-svg {
 		width: auto;
 	}
 }
-
+// Research initiatives
 .ann__research-initiatives {
 	display: flex;
 	flex-direction: column;
@@ -1392,9 +1410,9 @@ svg.deco-border-svg {
 				flex-direction: row;
 				align-items: center;
 				margin-top: 5rem;
-
-				opacity: 0;
-				animation: fadeIn 1.75s forwards;
+				@include media($laptop) {
+					margin-top: 10rem;
+				}
 
 				&_text {
 					position: absolute;
@@ -1428,27 +1446,24 @@ svg.deco-border-svg {
 		width: 100%;
 		text-transform: uppercase;
 		z-index: 2;
-		transform: scale3d(1, 0, 1);
-		animation: scaleUp 1.5s forwards;
-
 		overflow: hidden;
 
 		&-top {
 			font-size: 48px;
 			font-weight: 600;
 			margin-left: 10px;
-			transform: translateX(120%);
-			animation: slideInFadeIn 1s forwards;
-			animation-delay: 1.5s;
+			// transform: translateX(120%);
+			// animation: slideInFadeIn 1s forwards;
+			// animation-delay: 1.5s;
 			z-index: 1;
 		}
 	
 		&-bottom {
 			font-size: 80px;
 
-			transform: translateX(120%);
-			animation: slideInFadeIn 1s forwards;
-			animation-delay: 1.5s;
+			// transform: translateX(120%);
+			// animation: slideInFadeIn 1s forwards;
+			// animation-delay: 1.5s;
 		}
 	}
 
@@ -1458,7 +1473,7 @@ svg.deco-border-svg {
 		width: 300px;
 	}
 }
-
+// Outcomes
 .ann__outcomes {
 	display: flex;
 	flex-direction: column;
@@ -1558,20 +1573,8 @@ svg.deco-border-svg {
 		}
 	}
 }
-
-// END elements
-
-// modifiers
-.ann__list_title {
-	h4 {
-		margin-bottom: 0;
-	}
-	p {
-		margin-bottom: 1em;
-	}
-}
-// END modifiers
-.ann__pg3 {
+// 
+.ann__wysiwyg {
 	padding-top: 5em;
 	.columns {
 		display: flex;
@@ -1612,15 +1615,16 @@ svg.deco-border-svg {
 		}
 	}
 }
-
-
-blockquote {
-	border: none;
-	border-left: 4px solid #BF5701;
-	margin: 0 0 1.6rem 0;
-	padding: 2rem 0 1rem 2rem;
-	line-height: 1.5;
+// modifiers
+.ann__list_title {
+	h4 {
+		margin-bottom: 0;
+	}
+	p {
+		margin-bottom: 1em;
+	}
 }
+// END modifiers
 
 @keyframes fadeInUp {
     from {
@@ -1631,108 +1635,6 @@ blockquote {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-.grid_1col_2row {
-	display: grid;
-	grid-template-columns: 1fr;
-	grid-template-rows: auto auto;
-	max-width: 50rem;
-	margin: 0 auto;
-	
-	.ann__content {
-		column-count: 2; /* Splits the text into two columns */
-	}
-}
-
-// .ann__pg3_img_div {
-//     position: relative;
-//     width: 100%;
-//     padding-top: 100%; /* Creates a square aspect ratio */
-//     overflow: hidden;
-// 	padding-bottom: 2rem;
-// }
-
-.ann__pg3_circle_container {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    animation: fadeInBackground 2s ease forwards;
-		z-index: 9;
-}
-
-.ann__pg3_circle_container > .ann__pg3_circle_svg {
-    position: absolute;
-    top: 0;
-    left: 4.4rem;
-    width: 75%;
-    height: 100%;
-    transform: scale(1.5);
-		z-index: 9;
-}
-
-// .ann__pg3_img {
-//     position: absolute;
-//     top: 50%;
-//     left: 54%;
-//     transform: translate(-50%, -50%);
-//     max-width: 76%;
-//     max-height: 75%;
-//     object-fit: contain;
-//     z-index: 1;
-// }
-
-.ann__pg3_circle {
-    fill: none;
-    transform-origin: center;
-}
-
-.ann__pg3_half_circle_blue {
-    stroke: #3c4952;
-    stroke-width: 10;
-}
-
-.ann__pg3_half_circle_orange {
-	position: absolute;
-    stroke: #be5701;
-    stroke-width: 7;
-    transform: rotate(50deg);
-	z-index: 2;
-}
-
-.ann__pg3_half_circle_yellow {
-	position: absolute;
-    stroke: #d9ad76;
-    stroke-width: 5;
-    transform: rotate(40deg);
-	z-index: 2;
-}
-
-.ann__pg3_half_circle_dashed {
-    fill: none;
-    stroke: #3c4952;
-    stroke-width: 0.5;
-    stroke-dasharray: 2, 2;
-    transform: rotate(35deg);
-}
-
-.ann__pg3_rotate_counter_90 {
-    animation: rotateCounter90 1s forwards ease 0s;
-}
-
-.ann__pg3_rotate_counter_95 {
-    animation: rotateCounter95 1s forwards ease 0.25s;
-}
-
-.ann__pg3_rotate_85 {
-    animation: rotate85 1s forwards ease 0.5s;
-}
-
-.ann__pg3_rotate_81 {
-    animation: rotate81 1s forwards ease 0.75s;
 }
 
 @keyframes fadeInBackground {
