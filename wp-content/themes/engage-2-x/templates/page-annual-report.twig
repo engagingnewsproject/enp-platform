@@ -316,7 +316,7 @@
 					}
 					</style>
 				{% endif %}
-				<footer class="ann__sct ann__sct_footer wrapper--pad-huge">
+				<footer class="ann__sct ann__sct_footer wrapper--pad-huge" {% if main.background_color %}style="background-color:{{main.background_color}};"{% endif %}>
 					{% if main.contact_info %}
 						<div class="ann__contact_info">
 							{{ main.contact_info }}
@@ -409,7 +409,7 @@
         </section>
 			{# LANDING #}
 			{% elseif main.acf_fc_layout == 'landing' %}
-				<section class="ann__landing ann__landing_background" style="{% if main.landing_background_image %}background-image:url({{ get_image(main.landing_background_image).src }});{% endif %}">
+				<section class="ann__landing ann__landing_background" style="{% if main.landing_background_color %}background-color:{{main.landing_background_color}};{% endif %}{% if main.landing_background_image %}background-image:url({{ get_image(main.landing_background_image).src }});{% endif %}">
 					<div class="ann__landing_circle_container">
 						<svg class="ann__landing_circle_svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
 							<path class="ann__landing_circle ann__landing_half_circle_dashed ann__landing_rotate_81" d="M 10,100 A 50,50 0 0,1 190,100" />
@@ -444,9 +444,6 @@
 						{% endif %}
 					</div>
 				</section>
-				
-				
-				
 			{# WYSIWYG #}
 			{% elseif main.acf_fc_layout == 'wysiwyg' %}
 				{% if main.header_group.show_title %}

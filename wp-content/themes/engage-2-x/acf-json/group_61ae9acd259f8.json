@@ -2402,6 +2402,25 @@
                             "preview_size": "medium"
                         },
                         {
+                            "key": "field_673e61613bfb4",
+                            "label": "Background color",
+                            "name": "background_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "enable_opacity": 1,
+                            "return_format": "string",
+                            "allow_in_bindings": 0
+                        },
+                        {
                             "key": "field_6725108a3a3b0",
                             "label": "Bottom left deco graphic",
                             "name": "bottom_left_deco_graphic",
@@ -2827,6 +2846,49 @@
                             "append": ""
                         },
                         {
+                            "key": "field_66e9f8eb22ef6",
+                            "label": "Logo image",
+                            "name": "landing_logo_image",
+                            "aria-label": "",
+                            "type": "image",
+                            "instructions": "Logo for CME",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "id",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "preview_size": "medium"
+                        },
+                        {
+                            "key": "field_673e5dfbf9762",
+                            "label": "Settings",
+                            "name": "",
+                            "aria-label": "",
+                            "type": "tab",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placement": "top",
+                            "endpoint": 0,
+                            "selected": 0
+                        },
+                        {
                             "key": "field_66e893773d019",
                             "label": "Background image",
                             "name": "landing_background_image",
@@ -2852,12 +2914,12 @@
                             "preview_size": "medium"
                         },
                         {
-                            "key": "field_66e9f8eb22ef6",
-                            "label": "Logo image",
-                            "name": "landing_logo_image",
+                            "key": "field_673e5e1bf9763",
+                            "label": "Background color",
+                            "name": "landing_background_color",
                             "aria-label": "",
-                            "type": "image",
-                            "instructions": "Logo for CME",
+                            "type": "color_picker",
+                            "instructions": "",
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
@@ -2865,16 +2927,10 @@
                                 "class": "",
                                 "id": ""
                             },
-                            "return_format": "id",
-                            "library": "all",
-                            "min_width": "",
-                            "min_height": "",
-                            "min_size": "",
-                            "max_width": "",
-                            "max_height": "",
-                            "max_size": "",
-                            "mime_types": "",
-                            "preview_size": "medium"
+                            "default_value": "",
+                            "enable_opacity": 1,
+                            "return_format": "string",
+                            "allow_in_bindings": 0
                         }
                     ],
                     "min": "",
@@ -4123,5 +4179,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1730743707
+    "modified": 1732141435
 }

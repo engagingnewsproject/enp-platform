@@ -632,7 +632,7 @@ blockquote {
 			align-self: baseline;
 			font-size: 1rem;
 			&.number-null {
-				margin-top: 1em;
+				margin-top: 2em;
 			}
 			&.bottom-dots::after {
 				content: "........................";
@@ -898,9 +898,11 @@ svg.deco-border-svg {
 
 	.ann__contact_info {
 		display: grid;
+		z-index: 2;
 	}
 	.ann__social {
 		justify-items: center;
+		z-index: 2;
 		&.ann__social-list {
 			justify-items: baseline;
 			@include media($phablet) {
@@ -935,7 +937,7 @@ svg.deco-border-svg {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		z-index: -1;
+		z-index: 1;
 		@include media($laptop) {
 			left: 0;
 			width: 100vw;
@@ -962,9 +964,11 @@ svg.deco-border-svg {
 		left: 0;
 		width: 25vw;
 		height: auto;
+		z-index: 1;
 	}
 	.ann__gift_btn {
 		display: flex;
+		z-index: 2;
 	}
 }
 // research section, 2023
@@ -1518,6 +1522,10 @@ svg.deco-border-svg {
 	position: relative;
 	overflow: hidden;
 	min-height: 100vh;
+	padding: 3em 2em;
+	@include media($laptop) {
+		padding: 4em 0;
+	}
 
 	&_container {
 
@@ -1626,7 +1634,7 @@ svg.deco-border-svg {
 }
 // 
 .ann__wysiwyg {
-	margin-top: 2em;
+	padding-top: 2em;
 	@include media($laptop) {
 		margin-top: 2em;
 	}
