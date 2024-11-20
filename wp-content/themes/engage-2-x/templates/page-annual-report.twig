@@ -271,7 +271,7 @@
 						</div>
 					{% endif %}
 					{% if main.outreach_subtext %}
-						<div class="ann__subtitle">{{ main.outreach_subtext }}</div>
+						<div class="ann__subheader">{{ main.outreach_subtext }}</div>
 					{% endif %}
 					{% if main.row_one_intro %}
 						<div class="ann__intro">{{ main.row_one_intro }}</div>
@@ -331,7 +331,7 @@
 								<div class="social item-animate">
 									<a href="{{ social.social_url }}" target="_blank">
 										{{ source(svg) }}
-										{% if main.show_handle %}
+										{% if main.social_show_handle %}
 											{{ social.social_handle }}
 										{% endif %}
 									</a>

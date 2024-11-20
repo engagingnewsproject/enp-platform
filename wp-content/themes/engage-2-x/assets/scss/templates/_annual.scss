@@ -64,6 +64,7 @@ blockquote {
 		width: 100%;
 		height: 100%;
 		z-index: 2;
+		z-index: -1;
 		@include media($laptop) {
 			background-size: 55%;
 		}
@@ -286,12 +287,13 @@ blockquote {
 			grid-template-rows: 1fr auto;
 			grid-row-gap: 40px;
 			background-color: $white;
-			padding-top: 3rem;
+			padding: 3em 2em 0 2em;
 
 			@include media($laptop) {
 				grid-template-columns: 40% auto;
 				grid-template-rows: 1fr;
 				grid-column-gap: 40px;
+				padding: 4em 0;
 			}
 			.flex_row {
 				@include media($laptop) {
@@ -846,14 +848,16 @@ svg.deco-border-svg {
 	p {
 		margin-bottom: 0.5rem;
 	}
-	.ann__title {
-		grid-column: 1 / span 3;
+	.ann__header {
+		grid-column: 1 / -1;
 		h2 {
 			margin-bottom: 0;
 		}
 	}
-	.ann__subtitle {
+	.ann__subheader {
 		grid-column: 1 / -1;
+		text-transform: none;
+		font-size: initial;
 	}
 	.ann__intro {
 		grid-column: 1 / -1;
@@ -898,6 +902,7 @@ svg.deco-border-svg {
 	.ann__social {
 		justify-items: center;
 		&.ann__social-list {
+			justify-items: baseline;
 			@include media($phablet) {
 				display: grid;
 				grid-template-columns: 1fr 1fr;
