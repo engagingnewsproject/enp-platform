@@ -3,8 +3,8 @@
 {% block header %}
 	{# HEADER #}
 	{% if post.meta('header_image_enabled') %}
-		<header class="ann__header">
-			<div class="ann__header-wrapper">
+		<header class="ann__feat-header">
+			<div class="ann__feat-header-wrapper">
 				{% if post.thumbnail %}
 					<img src="{{ post.thumbnail.src | resize(500,300) }}" srcset="{{ post.thumbnail.srcset }}" sizes="{{ post.thumbnail.img_sizes }}" alt="{{ post.thumbnail.alt }}" class="ann__header-img"/>
 				{% endif %}
@@ -26,7 +26,7 @@
 		{% for main in post.meta('main') %}
 			{# DIRECTOR #}
 			{% if main.acf_fc_layout == 'director' %}
-				<section class="ann__sct ann__sct_split wrapper--pad-huge">
+				<section class="ann__sct ann__sct_split ann__width-page">
 					<div class="ann__block flex_row">
 						<div class="ann__card"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
 							{% if main.director_image %}
@@ -35,7 +35,7 @@
 								</div>
 							{% endif %}
 							{% if main.director_title %}
-								<div class="ann__title ann__title_center">
+								<div class="ann__header ann__header_center">
 									<h2 class="m--no"{% if main.title_color %} style="color:{{ main.title_color }};"{% endif %}>{{ main.director_title }}</h2>
 								</div>
 							{% endif %}
@@ -54,12 +54,12 @@
 			{% elseif main.acf_fc_layout == 'research' %}
 				<section class="ann__sct grid wrapper--pad-xlg vert-pad-sm">
 					{% if main.research_title %}
-						<div class="{% if main.research_bolded_title %}ann__title_main ann__title_navy{% else %}ann__title{% endif %}">
+						<div class="{% if main.research_bolded_title %}ann__header_main ann__header_navy{% else %}ann__header{% endif %}">
 							{{ main.research_title }}
 						</div>
 					{% endif %}
 					{% if main.research_bolded_title %}
-						<h2 class="ann__title_bolded ann__title_orange">{{ main.research_bolded_title}}</h2>
+						<h2 class="ann__header_bolded ann__header_orange">{{ main.research_bolded_title}}</h2>
 					{% endif %}
 					{% if main.research_subtext %}
 						<div class="ann__sct_research_subtext"><h3>{{ main.research_subtext}}</h3></div>
@@ -81,25 +81,81 @@
 
 			{# HIGHLIGHTS #}
 			{% elseif main.acf_fc_layout == 'highlights' %}
-				<section class="ann__sct ann__sct_grid ann__sct_grid_pt wrapper--pad-xlg"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
-					<div class="ann__title ann__top_title ann__title_light">
-						<h2>{{ main.highlights_title }}</h2>
+				{# Logic #}
+				{# vars #}
+				{% set background_color = null %}
+				{% set main_title_color = null %}
+				{% set main_subtitle_color = null %}
+				{% set subtitle_color = null %}
+				{% set border_color = null %}
+				{% set deco_border = null %}
+				{% set align_content = '' %}
+				{% set align = main.align %}
+				{% set align_text = main.align_text %}
+				{# background color #}
+				{% if main.background_color %} 
+					{% set background_color = 'style="background-color:' ~ main.background_color ~ ';"' %}
+				{% endif %}
+				{# section title color #}
+				{% if main.highlights_title_color %}
+					{% set main_title_color = 'style="color:' ~ main.highlights_title_color ~ ';"' %}
+				{% endif %}
+				{# section subtitle color #}
+				{% if main.highlights_subtitle_color %}
+					{% set main_subtitle_color = 'style="color:' ~ main.highlights_subtitle_color ~ ';"' %}
+				{% endif %}
+				{# border #}
+				{% if main.highlights_title_border_color %}
+					{% set border_color = 'style="border-left: 7px solid ' ~ main.highlights_title_border_color ~ ';"' %}
+				{% endif %}
+				{# grid item deco border #}
+				{% if main.deco_border %}
+						{% set deco_border = theme.link ~ '/assets/img/annual-staff-border.svg' %}
+				{% endif %}
+				{# grid align #}
+				{% if main.change_alignment %}
+					{% set align_content = 'style="justify-items:' ~ align ~ '; text-align:' ~ align_text ~ '"' %}
+				{% endif %}
+				{# grid columns #}
+				{% set columns = 'grid_columns-' ~ main.grid_columns %}
+				{# grid columns #}
+				{% set gap = 'grid_columns_gap-' ~ main.grid_columns_gap %}
+				{# END logic #}
+				{# markup START #}
+				<section class="ann__sct ann__sct_grid wrapper--pad-xlg" {{background_color}}>
+					<div class="ann__content-table_header" {{border_color}}>
+						{% if main.highlights_subtitle %}
+							<h3 class="ann__content-table_header-top fade-in-up-1" {{main_subtitle_color}}>{{ main.highlights_subtitle }}</h3>
+						{% endif %}
+						{% if main.highlights_title %}
+							<h2 class="ann__content-table_header-bottom fade-in-up-2" {{main_title_color}}>{{ main.highlights_title }}</h2>
+						{% endif %}
 					</div>
-					<div class="ann__grid grid">
+					<div class="ann__grid grid {{columns}} {{gap}}">
 					{% for item in main.highlight %}
-						<div class="ann__grid_item">
+						<div class="ann__grid_item {% if deco_border %}ann__grid_item-relative{% endif %} item-animate" {{align_content}}>
 							{% if item.highlight_icon %}
 								<img src="{{ get_image(item.highlight_icon).src }}" sizes="{{ get_image(item.highlight_icon).img_sizes }}"
 									alt="{{ get_image(item.highlight_icon).alt }}" />
+								{% if deco_border %}
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 153 155" class="deco-border-svg">
+										<g fill="none" fill-rule="evenodd">
+											<path stroke="#30383D" stroke-width="3" d="M75.763 146.488c38.375 0 69.485-31.335 69.485-69.99 0-38.656-31.11-69.991-69.485-69.991-38.374 0-69.485 31.335-69.485 69.991 0 38.655 31.11 69.99 69.485 69.99Z"/>
+											<path fill="#AE542D" d="M19.08 25.828c-27.812 31.666-24.875 80.045 6.562 108.06 9.667 8.616 20.906 14.29 32.64 17.112l.002-3.16c-11.01-2.768-21.544-8.149-30.628-16.245-30.18-26.895-32.999-73.34-6.298-103.737 26.7-30.4 72.807-33.239 102.987-6.345 30.177 26.894 32.998 73.337 6.298 103.737-9.869 11.236-22.39 18.694-35.779 22.29v3.174c14.242-3.662 27.583-11.51 38.056-23.434 27.812-31.665 24.875-80.046-6.56-108.06C94.921-8.797 46.891-5.838 19.08 25.827"/>
+											<path fill="#AE542D" d="M71.05 152.95a7.001 7.001 0 1 0 9.9-9.902 7.001 7.001 0 0 0-9.9 9.902"/>
+											<path fill="#30383D" d="M75.992 151 79 147.848l-.808-.848-2.249 2.355-2.182-2.287-.761.798z"/>
+										</g>
+									</svg>
+								{% endif %}
 							{% endif %}
 							{% if item.highlight_number %}
-								<h2 class="ann__grid_num">{{ item.highlight_number }}</h2>
+								<h2 class="ann__grid_num" {% if main.number_color %}style="color:{{ main.number_color }}"{% endif %}>{{ item.highlight_number }}</h2>
 							{% endif %}
 							{% if item.highlight_title %}
-								<h3 class="ann__grid_title">{{ item.highlight_title }}</h3>
+								<h3 class="ann__grid_title {% if main.title_underline_dots %}bottom-dots{% endif %} {% if item.highlight_number == null %}number-null{% endif %}" {% if main.title_color %}style="color:{{ main.title_color }}"{% endif %}>{{ item.highlight_title }}</h3>
 							{% endif %}
 							{% if item.highlight_text %}
-								<p class="ann__grid_text">{{ item.highlight_text }}</p>
+								<p class="ann__grid_text" {% if main.text_color %}style="color:{{ main.text_color }}"{% endif %}>{{ item.highlight_text }}</p>
 							{% endif %}
 						</div>
 					{% endfor %}
@@ -110,7 +166,7 @@
 			{% elseif main.acf_fc_layout == 'newsworthy' %}
 				<section class="ann__sct ann__sct_grid wrapper--pad-xlg container--xl">
 					{% if main.newsworthy_title %}
-						<div class="ann__title">
+						<div class="ann__header">
 							<h2>{{ main.newsworthy_title }}</h2>
 						</div>
 					{% endif %}
@@ -144,12 +200,12 @@
 			{% elseif main.acf_fc_layout == 'faculty' %}
 				<section class="ann__sct ann__sct_whole ann__sct_grid_pt wrapper--pad-xlg ann__sct_faculty">
 					{% if main.faculty_title %}
-						<div class="ann__title ann__title_main">
+						<div class="ann__header ann__header_main">
 							<h2>{{ main.faculty_title }}</h2>
 						</div>
 					{% endif %}
 					{% if main.faculty_bolded_title %}
-						<div class="ann__title_bolded ann__title_orange">{{main.faculty_bolded_title}} </div>
+						<div class="ann__header_bolded ann__header_orange">{{main.faculty_bolded_title}} </div>
 					{% endif %}
 					<ul class="grid ann__list">
 						{% for member in main.members %}
@@ -181,7 +237,7 @@
 			{% elseif main.acf_fc_layout == 'full_image' %}
 				<section class="ann__sct ann__sct_pad_img {% if main.width == 'ann__sct_full' %}ann__sct_full {% elseif main.width == 'wrapper--pad-xlg' %} wrapper--pad-xlg {% else %} wrapper--pad-huge {% endif %}"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
 					{% if main.title %}
-						<div class="ann__title">
+						<div class="ann__header">
 							<h2>{{ main.title }}</h2>
 						</div>
 					{% endif %}
@@ -208,14 +264,14 @@
 
 			{# OUTREACH #}
 			{% elseif main.acf_fc_layout == 'outreach' %}
-				<section class="ann__sct ann__sct_full_content grid wrapper--pad-xlg vert-pad-sm">
+				<section class="ann__sct ann__sct_outreach grid wrapper--pad-xlg vert-pad-sm">
 					{% if main.outreach_title %}
-						<div class="ann__title">
+						<div class="ann__header">
 							<h2>{{ main.outreach_title }}</h2>
 						</div>
 					{% endif %}
 					{% if main.outreach_subtext %}
-						<div class="ann__subtitle">{{ main.outreach_subtext }}</div>
+						<div class="ann__subheader">{{ main.outreach_subtext }}</div>
 					{% endif %}
 					{% if main.row_one_intro %}
 						<div class="ann__intro">{{ main.row_one_intro }}</div>
@@ -251,71 +307,109 @@
 
 			{# FOOTER #}
 			{% elseif main.acf_fc_layout == 'footer' %}
-				<footer class="ann__sct ann__sct_full_content_slim wrapper--pad-huge">
+				{% if main.social_icon_color %}
+					{% set icon_color = main.social_icon_color %}
+					<style>
+					.social svg path,
+					.social svg rect {
+						fill: {{ icon_color }};
+					}
+					</style>
+				{% endif %}
+				<footer class="ann__sct ann__sct_footer wrapper--pad-huge" {% if main.background_color %}style="background-color:{{main.background_color}};"{% endif %}>
 					{% if main.contact_info %}
 						<div class="ann__contact_info">
 							{{ main.contact_info }}
 						</div>
 					{% endif %}
-					<div class="ann__social grid">
-					{% for social in main.socials %}
-						{% if social.social_name %}
-							{% set name = social.social_name %}
-							{% set path, name, ending = 'assets/img/icon-', name, '.svg' %}
-							{% set svg = [path, name, ending]|join %}
-							<div class="social">
-								<a href="{{ social.social_url }}" target="_blank">
-									{{ source(svg) }}
-									{{ social.social_handle }}
-								</a>
-							</div>
-						{% endif %}
-					{% endfor %}
+					<div class="ann__social {% if main.social_icon_layout %} ann__social-{{ main.social_icon_layout }}{% endif %}">
+						{% for social in main.socials %}
+							{% if social.social_name %}
+								{% set name = social.social_name %}
+								{% set path, name, ending = 'assets/img/icon-', name, '.svg' %}
+								{% set svg = [path, name, ending]|join %}
+								<div class="social item-animate">
+									<a href="{{ social.social_url }}" target="_blank">
+										{{ source(svg) }}
+										{% if main.social_show_handle %}
+											{{ social.social_handle }}
+										{% endif %}
+									</a>
+								</div>
+							{% endif %}
+						{% endfor %}
 					</div>
 					{% if main.gift_button_text %}
 						<div class="ann__gift_btn">
-							<a href="{{ main.gift_button_url }}" class="btn--ghost">
+						{% if condition %}{% endif %}
+							<a href="{{ main.gift_button_url }}" class="btn--ghost fade-in-up-1" {% if main.button_color %}style="color:{{main.button_color}};border-color:{{main.button_color}};"{% endif %}>
 								{{ main.gift_button_text }}
 							</a>
 						</div>
+					{% endif %}
+					{# background center image #}
+					{% if main.background_image %}
+						<div class="background_image-wrap">
+							<img class="background_image fade-in-up-1" src="{{ get_image(main.background_image_src).src }}" srcset="{{ get_image(main.background_image_src).srcset }}" sizes="{{ get_image(main.background_image_src).img_sizes }}" alt="{{ get_image(main.background_image_src).alt }}" />
+						</div>
+					{% endif %}
+					{# background bottom left image #}
+					{% if main.bottom_left_deco_graphic %}
+						<img class="bottom_left_deco_graphic fade-in-up-1" src="{{ get_image(main.bottom_left_deco_graphic).src }}" srcset="{{ get_image(main.bottom_left_deco_graphic).srcset }}" sizes="{{ get_image(main.bottom_left_deco_graphic).img_sizes }}" alt="{{ get_image(main.bottom_left_deco_graphic).alt }}" />
 					{% endif %}
 				</footer>
 			{# PARALLAX #}
       {% elseif main.acf_fc_layout == 'parallax' %}
         <section class="ann__sct ann__sct_parallax">
           <div class="ann__sct_parallax__group">
-            <div class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});background-position:center;background-size:cover;width:100%;height:100vh;{% endif %}"></div>
-            <div class="ann__sct_parallax__container">
+						{% if main.header_group.show_title %}
+							{% include "partial/section-header.twig" %}
+							{# <div class="ann__header-container header-{{ main.header_position }} header-align-{{ main.header_align }} {% if main.header_border != 'none' %}header-border header-border-{{ main.header_border }}{% endif %} {% if main.header_position != 'center' and main.header_deco == 'show' %}header-deco{% endif %}">
+								<div class="ann__header-wrap" {% if main.header_border != 'none' and main.header_border_color %}style="border-color:{{ main.header_border_color }};"{% endif %}>
+									<h3 class="ann__subheader fade-in-up-2" {% if main.subheader_color %} style="color:{{ main.subheader_color }};" {% endif %}>{{ main.subheader }}</h3>
+									<h2 class="ann__header fade-in-up-1" {% if main.header_color %} style="color:{{ main.header_color }};" {% endif %}>{{ main.header }}</h2>
+								</div>
+							</div> #}
+						{% endif %}
+            
+						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});{% endif %}"></div>
+						{% if main.overlay %}
+            	<div class="parallax-overlay" {% if main.overlay_color %}style="background-color: {{ main.overlay_color }}"{% endif %}></div>
+						{% endif %}
+						<div class="ann__sct_parallax__container">
               {% if main.parallax_text %}
                 {% if main.parallax_bar %}
-                    <hr class="ann__sct_parallax-bar" style="background-color:{{ main.parallax_bar }}">
+                    <hr class="ann__sct_parallax-bar item-parallax-bar-scale" style="background-color:{{ main.parallax_bar }}">
                 {% endif %}
-                <h1 class="container--xl" style="color:white;">{{ main.parallax_text }}</h1>
+                <div class="ann__wysiwyg-wrap container--xl item-animate">{{ main.parallax_text }}</div>
                 {% if main.parallax_bar %}
-                  <hr class="ann__sct_parallax-bar" style="background-color:{{ main.parallax_bar }}"></hr>
+                  <hr class="ann__sct_parallax-bar item-parallax-bar-scale" style="background-color:{{ main.parallax_bar }}"></hr>
                 {% endif %}
               {% endif %}
             </div>
           </div>
           <script>
-              const parallax = document.querySelector('.ann__sct_parallax__layer--back');
+						// Encapsulate each parallax instance by targeting its unique ID
+						(function() {
+								const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
 
-              function calculateDistanceFromTop() {
-                  const rect = parallax.getBoundingClientRect();
-                  return rect.top + window.scrollY;
-              }
+								function calculateDistanceFromTop() {
+										const rect = parallaxLayer.getBoundingClientRect()
+										return rect.top + window.scrollY
+								}
 
-              document.addEventListener('scroll', function () {
-                const scrollPosition = window.pageYOffset;
-                const distanceFromTop = calculateDistanceFromTop();
+								document.addEventListener('scroll', function () {
+									const scrollPosition = window.pageYOffset
+									const distanceFromTop = calculateDistanceFromTop()
 
-                parallax.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)';
-              });
+									parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
+								})
+						})()
           </script>
         </section>
 			{# LANDING #}
 			{% elseif main.acf_fc_layout == 'landing' %}
-				<section class="ann__landing ann__landing_background" style="{% if main.landing_background_image %}background-image:url({{ get_image(main.landing_background_image).src }});{% endif %}">
+				<section class="ann__landing ann__landing_background" style="{% if main.landing_background_color %}background-color:{{main.landing_background_color}};{% endif %}{% if main.landing_background_image %}background-image:url({{ get_image(main.landing_background_image).src }});{% endif %}">
 					<div class="ann__landing_circle_container">
 						<svg class="ann__landing_circle_svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
 							<path class="ann__landing_circle ann__landing_half_circle_dashed ann__landing_rotate_81" d="M 10,100 A 50,50 0 0,1 190,100" />
@@ -323,20 +417,16 @@
 							<path class="ann__landing_circle ann__landing_half_circle_orange ann__landing_rotate_counter_95" d="M 28,100 A 60,60 0 0,1 172,100" />
 							<path class="ann__landing_circle ann__landing_half_circle_yellow ann__landing_rotate_85" d="M 40,100 A 50,50 0 0,1 160,100" />
 						</svg>
-						<svg class="ann__landing_circle_logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 200">
-							<g fill="none" fill-rule="evenodd" font-style="condensed" font-weight="bold">
-								<text class="ann__landing_circle_cme ann__landing_fade_in ann__landing_fade_in_delay_1" fill="#AE542D" font-size="24" letter-spacing="0">
-									<tspan x="0" y="48">CENTER FOR MEDIA ENGAGEMENT</tspan>
-								</text>
-								<text class="ann__landing_circle_2023 ann__landing_fade_in ann__landing_fade_in_delay_2" fill="#3C4952" font-size="160" letter-spacing=".31">
-									<tspan x="0" y="198">
-										{% if main.landing_header_year %}
-											{{ main.landing_header_year }}
-										{% endif %}
-									</tspan>
-								</text>
+						<svg xmlns="http://www.w3.org/2000/svg" class="ann__landing_circle_logo" viewBox="0 0 330 200">
+							<g fill="none" fill-rule="evenodd">
+									<text class="ann__landing_circle_cme ann__landing_fade_in ann__landing_fade_in_delay_1" dominant-baseline="central";>
+											<tspan x="0" y="20" dominant-baseline="central">CENTER FOR MEDIA ENGAGEMENT</tspan>
+									</text>
+									<text class="ann__landing_circle_2023 ann__landing_fade_in ann__landing_fade_in_delay_2" dominant-baseline="hanging";>
+											<tspan x="0" y="60" dominant-baseline="hanging">2023</tspan>
+									</text>
 							</g>
-						</svg>
+					</svg>
 					</div>
 
 					<div>
@@ -354,62 +444,146 @@
 						{% endif %}
 					</div>
 				</section>
-			{# Page 3 #}
-			{% elseif main.acf_fc_layout == 'page_3' %}
-				<section
-					class="ann__pg3">
-					{# Left column - 1 column, 3 rows #}
-					<div class="grid grid_1col_3row">
-						<div class="grid__item">
-							{% if main.director_title %}
-								<h2 class="ann__title" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.director_title }}</h2>
+			{# WYSIWYG #}
+			{% elseif main.acf_fc_layout == 'wysiwyg' %}
+				{% if main.header_group.show_title %}
+					{% include "partial/section-header.twig" %}
+				{% endif %}
+			 {% set columns = main.grid_columns %}
+				<section class="ann__wysiwyg" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %}>
+					<div class="ann__width-page">
+						{% if main.show_title %}
+							{% include 'tiles-annual-report.twig' %}
+							{# <h2 class="ann__header" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.title }}</h2> #}
+						{% endif %}
+						<div {% if main.grid_columns > 1 %}class="columns"{% endif %}>
+							{% if main.column_1 %}
+								<div class="{% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+									{{main.column_1}}
+								</div>
+							{% endif %}
+							{% if main.column_2 %}
+								<div class="{% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+									{{main.column_2}}
+								</div>
 							{% endif %}
 						</div>
-						{% if main.paragraphs %}
-							{% set paragraphs = main.paragraphs|split('\n') %}
-							{% set half = (paragraphs|length / 2)|round(0, 'ceil') %}
-
-							{% for paragraph in paragraphs[:half] %}
-								<div class="grid__item">
-									<div class="ann__content">
-										{{ paragraph|nl2br|raw }}
-									</div>
-								</div>
-							{% endfor %}
+						
+						{% if main.quote %}
+							<div class="column-quote h1 item-animate">
+								{{main.quote}}
+							</div>
 						{% endif %}
-
+						
+						<div class="columns">
+							{% if main.column_3 %}
+								<div class="{% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+									{{main.column_3}}
+								</div>
+							{% endif %}
+							{% if main.column_4 %}
+								<div class="{% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+									{{main.column_4}}
+								</div>
+							{% endif %}
+						</div>
 					</div>
-
-					{# Right column - 1 column, 2 rows #}
-					<div class="grid grid_1col_2row">
-						<div class="grid__item">
-							{% if main.director_image %}
-								<div class="ann__pg3_img_div">
-									<div class="ann__pg3_circle_container">
-										<svg class="ann__pg3_circle_svg" preserveaspectratio="xMidYMid meet" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-											<path class="ann__pg3_circle ann__pg3_half_circle_dashed ann__pg3_rotate_81" d="M 10,100 A 90,90 0 0,1 190,100"/>
-											<path class="ann__pg3_circle ann__pg3_half_circle_blue ann__pg3_rotate_counter_90" d="M 20,100 A 80,80 0 0,1 180,100"/>
-											<path class="ann__pg3_circle ann__pg3_half_circle_orange ann__pg3_rotate_counter_95" d="M 30,100 A 70,70 0 0,1 170,100"/>
-											<path class="ann__pg3_circle ann__pg3_half_circle_yellow ann__pg3_rotate_85" d="M 40,100 A 60,60 0 0,1 160,100"/>
-										</svg>
+				</section> 
+			{# Content table #}
+			{% elseif main.acf_fc_layout == 'content_table'%}
+				<section class="ann__content-table">
+					<div class="ann__content-table_container">
+						<div class="ann__content-table_container-top">
+							<h1 class="ann__content-table_header">
+								<span class="ann__content-table_header-top">Report</span>
+								<span class="ann__content-table_header-bottom">Content</span>
+							</h1>
+							<div class="ann__content-table_report-pages">
+							{% for page in main.content_table_pages %}
+								<div class="ann__content-table_report-page">
+									{% if page.page_number %}
+										<h2 class="ann__content-table_page-number">{{ page.page_number }}</h2>
+									{% endif %}
+									{% if page.page_title %}
+										<h3 class="ann__content-table_page-title">{{ page.page_title }}</h3>
+									{% endif %}
+										<div class="ann__content-table_dots">....................</div>
+								</div>
+							{% endfor %}
+							</div>
+						</div>
+						<div class="ann__content-table_container-bottom">
+							<div class="ann__content-table_img-wrapper">
+								{% if main.content_table_image %}
+									<img src="{{ get_image(main.content_table_image).src }}" alt="{{ get_image(main.content_table_image).alt }}" class="ann__content-table_img">
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</section>
+			{# Research Initiatives #}
+			{% elseif main.acf_fc_layout == 'research_initiatives' %}
+				<section class="ann__research-initiatives" {% if main.colors.background_color %}style="background-color: {{ main.colors.background_color }}"{% endif %}>
+					<div class="ann__research-initiatives_container ann__width-page">
+						{% if header_text_top or main.header_text_bottom or main.circle_image %}
+							<div class="ann__research-initiatives_container-top">
+								<div class="ann__research-initiatives_container-top-left item-animate">
+									{% if main.circle_image %}
+										<img src="{{ get_image(main.circle_image).src }}" alt="{{ get_image(main.circle_image).alt }}" class="ann__research-initiatives_img">
+										<p class="ann__research-initiatives_container-top-left_text" style="color:{{ main.colors.secondary_color }}">{{ main.circle_text_content }}</p>
+									{% endif %}
+								</div>
+								{% if main.header_text_top or main.header_text_bottom %}
+									<div class="ann__research-initiatives_header" style="{% if main.header_bar %}padding-right:1rem;border-right:7px;border-style:solid;border-color:{{ main.colors.primary_color }};height:100%{% endif %}">
+										<h3 class="ann__research-initiatives_header-top item-slide-in-fade-in" style="color:{{ main.colors.secondary_color }}">{{ main.header_text_top }}</h3>
+										<h2 class="ann__research-initiatives_header-bottom item-slide-in-fade-in" style="color:{{ main.colors.primary_color }}">{{main.header_text_bottom}}</h2>
 									</div>
-									<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__pg3_img"/>
+								{% endif %}
+							</div>
+						{% endif %}
+						<div class="ann__research-initiatives_container-bottom">
+						{% if main.body_content %}
+							<div class="ann__research-initiatives_container-bottom_text item-animate">
+								{{ main.body_content}}
+							</div>
+						{% endif %}
+						</div>
+					</div>
+				</section>		
+			
+			{# OUTCOMES #}
+			{% elseif main.acf_fc_layout == 'outcomes' %}
+				<section class="ann__outcomes wrapper--pad-xlg" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %}>
+					<div class="ann__outcomes_container ann__width-page">
+						{% if header_text_top or main.header_text_bottom or main.circle_image %}
+							<div class="ann__outcomes_container-top">
+								{% if main.header_text_top or main.header_text_bottom %}
+									<div class="ann__outcomes_header" style="align-items:{% if main.header_alignment %}end{% else %}start{% endif %};{% if main.header_bar %}padding-{% if main.header_alignment %}right{% else %}left{% endif %}:1rem;border-{% if main.header_alignment %}right{% else %}left{% endif %}:7px;border-style:solid;border-color:{{ main.primary_color }};height:100%{% endif %}">
+										<h3 class="ann__outcomes_header-top" style="color:{{ main.secondary_color }};">{{ main.header_text_top }}</h3>
+										<h2 class="ann__outcomes_header-bottom" style="color:{{ main.primary_color }};">{{main.header_text_bottom}}</h2>
+									</div>
+								{% endif %}
+							</div>
+						{% endif %}
+						<div class="ann__outcomes_container-bottom">
+					{% for item in main.outcome_items %}
+						<div class="ann__outcomes_item ann__outcomes_item-{% if item.item_direction %}row-reverse{% else %}row{% endif %}">
+							{% if item.outcome_image %}
+								<div class="ann__outcomes_item-left">
+									<img src="{{ get_image(item.outcome_image).src }}" alt="{{ get_image(item.outcome_image).alt }}" />
+								</div>
+							{% endif %}
+							{% if item.outcome_content %}
+								<div class="ann__outcomes_item-right">
+									{{ item.outcome_content }}
 								</div>
 							{% endif %}
 						</div>
-						{% if main.paragraphs %}
-							{% for paragraph in paragraphs[half:] %}
-								<div class="grid__item">
-									<div class="ann__content">
-										{{ paragraph|nl2br|raw }}
-									</div>
-								</div>
-							{% endfor %}
-						{% endif %}
+					{% endfor %}
+						</div>
 					</div>
 				</section>
 			{% endif %}
-
 		{% endfor %}
 
 	</section>

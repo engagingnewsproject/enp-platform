@@ -11,7 +11,6 @@
 
 @keyframes slideInFadeIn {
   0% {
-    transform: translate3d(0, 40px, 0);
     opacity: 0.0;
   }
   100% {
@@ -22,10 +21,78 @@
 
 @keyframes parallaxBarScale {
   0% {
-    transform: scaleX(0);
+    transform: scale3d(0, 0, 0);
   }
 
   100% {
-    transform: scaleX(1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+      transform: translateY(24px);
+  }
+  to {
+      transform: translateY(0);
+  }
+}
+.fade-in-up-1,
+.fade-in-up-2,
+.ann__grid_item,
+.item-animate {
+  opacity: 0;
+}
+
+.parallax_bar_scale {
+  animation: parallaxBarScale 1.5s 0.85s forwards;
+}
+
+.slide_in_fade_in {
+  transform: translateX(120%);
+  animation: slideInFadeIn 1s forwards;
+  animation-delay: 1.5s;
+}
+
+.scale_up {
+  transform: scale3d(1, 0, 1);
+  animation: scaleUp 1.5s forwards;
+}
+
+.fade_in_and_up {
+  animation: fadeIn 1s ease forwards, slideIn 1s ease forwards;
+  &.delay_1 {
+    animation-delay: 0.5s;
+  }
+  &.delay_2 {
+    animation-delay: 0.6s;
+  }
+  &.delay_3 {
+    animation-delay: 0.7s;
+  }
+  &.delay_4 {
+    animation-delay: 0.8s;
+  }
+}
+
+
+@keyframes scaleUp {
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes fadeIn {
+  100% {
+    opacity: 1;
   }
 }

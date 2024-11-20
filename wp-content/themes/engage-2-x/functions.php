@@ -118,6 +118,22 @@ if (is_plugin_active('advanced-custom-fields-pro/acf.php')) {
         $context['options'] = get_fields('option');
         return $context;
     }
+    // Set custom load and save paths for ACF JSON
+    add_filter('acf/settings/save_json', function() {
+        return get_stylesheet_directory() . '/acf-json';
+    });
+    
+    add_filter('acf/settings/load_json', function($paths) {
+        // Clear the default ACF JSON folder
+        unset($paths[0]);
+        // Add your custom path
+        $paths[] = get_stylesheet_directory() . '/acf-json';
+        return $paths;
+    });
+        
+    add_filter('acf/settings/show_admin', '__return_true');
+    add_filter('acf/settings/json', '__return_true');
+
 }
 
 if (! is_admin() && is_plugin_active('the-events-calendar/the-events-calendar.php')) { // Function will only be executed on the front end of the site and not in WordPress admin.

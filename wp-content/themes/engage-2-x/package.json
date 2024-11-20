@@ -37,11 +37,11 @@
 		"postcss": "^8.4.45",
 		"postcss-import": "^16.1.0",
 		"prettier": "^3.1.1",
-		"prettier-plugin-twig-melody": "^0.4.6",
 		"resolve-url-loader": "^5.0.0",
 		"sass": "^1.78.0",
 		"sass-loader": "^16.0.1",
 		"webpack": "^5.88.2",
 		"webpack-cli": "^5.1.4"
-	}
+	},
+	"packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

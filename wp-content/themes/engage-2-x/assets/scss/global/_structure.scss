@@ -21,8 +21,8 @@
 }
 
 .wrapper--pad-xlg {
-	padding-left: $spacer;
-	padding-right: $spacer;
+	padding-left: 2em;
+	padding-right: 2em;
 
 	@include media($tablet) {
 		padding-left: $spacer-lg;
