@@ -191,9 +191,10 @@ blockquote {
 	&.header-right {
     justify-content: flex-end;
 		&.header-deco {
-			top: -3px;
-			right: 0;
+
 			@include media($phablet) {
+				top: -3px;
+				right: 0;
 				clip-path: ellipse(100% 100% at 100% -33%);
 				-webkit-clip-path: ellipse(100% 100% at 100% -33%);
 				&::after {
@@ -215,32 +216,42 @@ blockquote {
 	// Title with border
 	&.header-border,
 	&.header-deco {
-		padding: 3rem;
+		padding: 2em;
 		@include media($laptop) {
-			padding: 4rem;
+			padding: 3em;
 		}
 		.ann__header-wrap {
 			display: flex;
 			flex-direction: column;
-			padding: 0 1rem;
+			padding: 0 1em;
+			@include media($laptop) {
+				padding: 0 1em;
+			}
 		}
 		.ann__header,
 		.ann__subheader {
 			padding: 0;
 			margin: 0;
 			line-height: normal;
+			text-transform: uppercase;
+		}
+		.ann__header {
+			font-size: 3rem;
+		}
+		.ann__subheader {
+			font-size: 2rem;
 		}
 	}
 	// border left
 	&.header-border-left {
 		.ann__header-wrap {
-			border-left: 4px solid #000;
+			border-left: 7px solid #000;
 		}
 	}
 	// border right
 	&.header-border-right {
 		.ann__header-wrap {
-			border-right: 4px solid #000;
+			border-right: 7px solid #000;
 		}
 	}
 }
@@ -313,7 +324,6 @@ blockquote {
       .ann__sct_parallax__group {
         position: relative;
         transform-style: preserve-3d;
-				height: a;
         min-height: 100%;
         z-index: 5;
         display: flex;
@@ -345,10 +355,13 @@ blockquote {
       }
 
       .ann__sct_parallax__container > div {
-        margin: 2.5rem auto;
+        margin: 1em auto;
         display: flex;
         flex-direction: column;
         gap: 1rem;
+				@include media($laptop) {
+					margin: 2em auto;
+				}
       }
       
       .ann__sct_parallax__container > h1 > p {
@@ -615,6 +628,7 @@ blockquote {
 			text-transform: uppercase;
 			margin-bottom: 0;
 			align-self: baseline;
+			font-size: 1rem;
 			&.number-null {
 				margin-top: 1em;
 			}
@@ -637,7 +651,10 @@ blockquote {
 		grid-column-gap: 3em;
 	}
 	&.grid_columns_gap-large {
-		grid-column-gap: 5em;
+		grid-column-gap: 2em;
+		@include media($laptop) {
+			grid-column-gap: 5em;
+		}
 	}
 	&.grid_columns_gap-xlarge {
 		grid-column-gap: 7em;
@@ -906,14 +923,18 @@ svg.deco-border-svg {
 	.background_image-wrap {
 		position: absolute;
 		top: 0;
-		left: 0;
-		width: 100vw;
+    left: -30vw;
+    width: 150vw;
 		height: 100%;
 		z-index: 1;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		z-index: -1;
+		@include media($laptop) {
+			left: 0;
+			width: 100vw;
+		}
 	}
 	.background_image {
 		position: relative;
@@ -1007,7 +1028,7 @@ svg.deco-border-svg {
 
 	&_header_container {
 		padding-left: 1rem;
-		border-left: 3px solid #3c4952;
+		border-left: 7px solid #3c4952;
 	}	
 
 	&_header {
@@ -1329,16 +1350,21 @@ svg.deco-border-svg {
 
 
 		&-top {
-			font-size: 30px;
+			font-size: 1.5rem;
 			font-weight: 600;
 			margin-bottom: 5px;
 			color: $annual-blue;
-
+			@include media($laptop) {
+				font-size: 2rem;
+			}
 		}
 	
 		&-bottom {
-			font-size: 60px;
+			font-size: 2rem;
 			color: $annual-blue;
+			@include media($laptop) {
+				font-size: 3rem;
+			}
 		}
 	}
 
@@ -1402,25 +1428,32 @@ svg.deco-border-svg {
 
 		&-top {
 			display: flex;
-			flex-direction: row;
+			flex-direction: column-reverse;
 			justify-content: space-between;
-
+			@include media($laptop) {
+				flex-direction: row;
+			}
 			&-left {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
-				margin-top: 5rem;
+				margin-top: 2rem;
 				@include media($laptop) {
 					margin-top: 10rem;
 				}
 
 				&_text {
-					position: absolute;
-					transform: translate(15%, calc(55%));
-					width: 500px;
-					font-size: 25px;
+					font-size: 1.25rem;
 					font-weight: bold;
 					line-height: 1.25;
+					flex: 1 0 70%;
+					transform: translate(-30%, 10%);
+					@include media($laptop) {
+						font-size: 25px;
+						position: absolute;
+						transform: translate(15%, calc(55%));
+						width: 500px;
+					}
 				}
 			}
 		}
@@ -1449,28 +1482,28 @@ svg.deco-border-svg {
 		overflow: hidden;
 
 		&-top {
-			font-size: 48px;
+			font-size: 2rem;
 			font-weight: 600;
 			margin-left: 10px;
-			// transform: translateX(120%);
-			// animation: slideInFadeIn 1s forwards;
-			// animation-delay: 1.5s;
+			margin-bottom: 0;
 			z-index: 1;
 		}
 	
 		&-bottom {
-			font-size: 80px;
-
-			// transform: translateX(120%);
-			// animation: slideInFadeIn 1s forwards;
-			// animation-delay: 1.5s;
+			font-size: 3rem;
+			margin-bottom: 0;
+			// @include media($laptop) {
+			// 	font-size: 80px;
+			// }
 		}
 	}
 
 	&_img {
 		position: relative;
 		height: 100%;
-		width: 300px;
+		@include media($laptop) {
+			width: 300px;
+		}
 	}
 }
 // Outcomes
@@ -1517,8 +1550,9 @@ svg.deco-border-svg {
 			flex: 1;
 			transform: translateY(30px);	
 			animation: slideInFadeIn 1.5s forwards;
+			row-gap: 3em;
 			@include media($tablet) {
-				margin-top: 10em;
+				margin-top: 5em;
 			}
 			h3 {
 				font-size: calc(100% + 8px);
@@ -1537,17 +1571,17 @@ svg.deco-border-svg {
 		overflow: hidden;
 
 		&-top {
-			font-size: 48px;
+			font-size: 2rem;
 			font-weight: 600;
-			margin-left: 10px;
 			animation: slideInFadeIn 1s forwards;
 			animation-delay: 1.5s;
 			z-index: 1;
+			margin-bottom: 0;
 		}
 	
 		&-bottom {
 			font-size: $annual-title-size;
-
+			margin-bottom: 0;
 			transform: translateX(120%);
 			animation: slideInFadeIn 1s forwards;
 			animation-delay: 1.5s;
@@ -1556,10 +1590,22 @@ svg.deco-border-svg {
 
 	&_item {
 		margin-bottom: 1rem;
-		@include media($tablet) {
-			display: flex;
-			align-items: center;
-			gap: 3rem;
+		display: flex;
+		align-items: center;
+		row-gap: 1em;
+		&-row {
+			flex-direction: column;
+			@include media($tablet) {
+				flex-direction: row;
+				column-gap: 2em;
+			}
+		}
+		&-row-reverse {
+			flex-direction: column;
+			@include media($tablet) {
+				flex-direction: row-reverse;
+				column-gap: 2em;
+			}
 		}
 		&-left {
 			width: 250px;
@@ -1575,18 +1621,22 @@ svg.deco-border-svg {
 }
 // 
 .ann__wysiwyg {
-	padding-top: 5em;
+	margin-top: 2em;
+	@include media($laptop) {
+		margin-top: 2em;
+	}
 	.columns {
 		display: flex;
 		flex-direction: column;
 		padding: 0 2em;
-		gap: 3em;
+		gap: 1em;
 		@include media($phablet) {
 			flex-direction: row;
 			padding: 0 4em;
 		}
 		@include media($laptop) {
 			padding: 0;
+			gap: 3em;
 		}
 	}
 	.column-2 {

@@ -363,7 +363,7 @@
         <section class="ann__sct ann__sct_parallax">
           <div class="ann__sct_parallax__group">
 						{% if main.header_group.show_title %}
-						{% include "partial/section-header.twig" %}
+							{% include "partial/section-header.twig" %}
 							{# <div class="ann__header-container header-{{ main.header_position }} header-align-{{ main.header_align }} {% if main.header_border != 'none' %}header-border header-border-{{ main.header_border }}{% endif %} {% if main.header_position != 'center' and main.header_deco == 'show' %}header-deco{% endif %}">
 								<div class="ann__header-wrap" {% if main.header_border != 'none' and main.header_border_color %}style="border-color:{{ main.header_border_color }};"{% endif %}>
 									<h3 class="ann__subheader fade-in-up-2" {% if main.subheader_color %} style="color:{{ main.subheader_color }};" {% endif %}>{{ main.subheader }}</h3>
@@ -449,6 +449,9 @@
 				
 			{# WYSIWYG #}
 			{% elseif main.acf_fc_layout == 'wysiwyg' %}
+				{% if main.header_group.show_title %}
+					{% include "partial/section-header.twig" %}
+				{% endif %}
 			 {% set columns = main.grid_columns %}
 				<section class="ann__wysiwyg" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %}>
 					<div class="ann__width-page">
@@ -559,15 +562,15 @@
 							<div class="ann__outcomes_container-top">
 								{% if main.header_text_top or main.header_text_bottom %}
 									<div class="ann__outcomes_header" style="align-items:{% if main.header_alignment %}end{% else %}start{% endif %};{% if main.header_bar %}padding-{% if main.header_alignment %}right{% else %}left{% endif %}:1rem;border-{% if main.header_alignment %}right{% else %}left{% endif %}:7px;border-style:solid;border-color:{{ main.primary_color }};height:100%{% endif %}">
-										<h3 class="ann__outcomes_header-top" style="color:{{ main.secondary_color }}; transform: translateX({% if main.header_alignment %}{% else %}-{% endif %}130%);">{{ main.header_text_top }}</h3>
-										<h2 class="ann__outcomes_header-bottom" style="color:{{ main.primary_color }}; transform: translateX({% if main.header_alignment %} {% else %}-{% endif %}130%);">{{main.header_text_bottom}}</h2>
+										<h3 class="ann__outcomes_header-top" style="color:{{ main.secondary_color }};">{{ main.header_text_top }}</h3>
+										<h2 class="ann__outcomes_header-bottom" style="color:{{ main.primary_color }};">{{main.header_text_bottom}}</h2>
 									</div>
 								{% endif %}
 							</div>
 						{% endif %}
 						<div class="ann__outcomes_container-bottom">
 					{% for item in main.outcome_items %}
-						<div class="ann__outcomes_item" style="flex-direction:{% if item.item_direction %}row-reverse{% else %}row{% endif %};">
+						<div class="ann__outcomes_item ann__outcomes_item-{% if item.item_direction %}row-reverse{% else %}row{% endif %}">
 							{% if item.outcome_image %}
 								<div class="ann__outcomes_item-left">
 									<img src="{{ get_image(item.outcome_image).src }}" alt="{{ get_image(item.outcome_image).alt }}" />
