@@ -82,47 +82,51 @@
 			{# HIGHLIGHTS #}
 			{% elseif main.acf_fc_layout == 'highlights' %}
 				{# Logic #}
-				{# vars #}
-				{% set background_color = null %}
-				{% set main_title_color = null %}
-				{% set main_subtitle_color = null %}
-				{% set subtitle_color = null %}
-				{% set border_color = null %}
-				{% set deco_border = null %}
-				{% set align_content = '' %}
-				{% set align = main.align %}
-				{% set align_text = main.align_text %}
-				{# background color #}
-				{% if main.background_color %} 
-					{% set background_color = 'style="background-color:' ~ main.background_color ~ ';"' %}
-				{% endif %}
-				{# section title color #}
-				{% if main.highlights_title_color %}
-					{% set main_title_color = 'style="color:' ~ main.highlights_title_color ~ ';"' %}
-				{% endif %}
-				{# section subtitle color #}
-				{% if main.highlights_subtitle_color %}
-					{% set main_subtitle_color = 'style="color:' ~ main.highlights_subtitle_color ~ ';"' %}
-				{% endif %}
-				{# border #}
-				{% if main.highlights_title_border_color %}
-					{% set border_color = 'style="border-left: 7px solid ' ~ main.highlights_title_border_color ~ ';"' %}
-				{% endif %}
-				{# grid item deco border #}
-				{% if main.deco_border %}
-						{% set deco_border = theme.link ~ '/assets/img/annual-staff-border.svg' %}
-				{% endif %}
-				{# grid align #}
-				{% if main.change_alignment %}
-					{% set align_content = 'style="justify-items:' ~ align ~ '; text-align:' ~ align_text ~ '"' %}
-				{% endif %}
-				{# grid columns #}
-				{% set columns = 'grid_columns-' ~ main.grid_columns %}
-				{# grid columns #}
-				{% set gap = 'grid_columns_gap-' ~ main.grid_columns_gap %}
+					{# vars #}
+					{% set background_color = null %}
+					{% set main_title_color = null %}
+					{% set main_subtitle_color = null %}
+					{% set subtitle_color = null %}
+					{% set border_color = null %}
+					{% set deco_border = null %}
+					{% set align_content = '' %}
+					{% set align = main.align %}
+					{% set align_text = main.align_text %}
+					{# background color #}
+					{% if main.background_color %} 
+						{% set background_color = 'style="background-color:' ~ main.background_color ~ ';"' %}
+					{% endif %}
+					{# section title color #}
+					{% if main.highlights_title_color %}
+						{% set main_title_color = 'style="color:' ~ main.highlights_title_color ~ ';"' %}
+					{% endif %}
+					{# section subtitle color #}
+					{% if main.highlights_subtitle_color %}
+						{% set main_subtitle_color = 'style="color:' ~ main.highlights_subtitle_color ~ ';"' %}
+					{% endif %}
+					{# border #}
+					{% if main.highlights_title_border_color %}
+						{% set border_color = 'style="border-left: 7px solid ' ~ main.highlights_title_border_color ~ ';"' %}
+					{% endif %}
+					{# grid item deco border #}
+					{% if main.deco_border %}
+							{% set deco_border = theme.link ~ '/assets/img/annual-staff-border.svg' %}
+					{% endif %}
+					{# grid align #}
+					{% if main.change_alignment %}
+						{% set align_content = 'style="justify-items:' ~ align ~ '; text-align:' ~ align_text ~ '"' %}
+					{% endif %}
+					{# grid columns #}
+					{% set columns = 'grid_columns-' ~ main.grid_columns %}
+					{# grid columns #}
+					{% set gap = 'grid_columns_gap-' ~ main.grid_columns_gap %}
+					{# section id #}
+					{% if main.highlights_title %}
+						{% set id = main.highlights_title | trim | replace({' ': '-'}) | lower %}
+					{% endif %}
 				{# END logic #}
 				{# markup START #}
-				<section class="ann__sct ann__sct_grid wrapper--pad-xlg" {{background_color}}>
+				<section class="ann__sct ann__sct_grid wrapper--pad-xlg" {{background_color}} {% if main.highlights_title %}id="{{ id }}"{% endif %}>
 					<div class="ann__content-table_header" {{border_color}}>
 						{% if main.highlights_subtitle %}
 							<h3 class="ann__content-table_header-top fade-in-up-1" {{main_subtitle_color}}>{{ main.highlights_subtitle }}</h3>
@@ -264,7 +268,10 @@
 
 			{# OUTREACH #}
 			{% elseif main.acf_fc_layout == 'outreach' %}
-				<section class="ann__sct ann__sct_outreach grid wrapper--pad-xlg vert-pad-sm">
+				{% if main.outreach_title %}
+					{% set id = main.outreach_title | trim | replace({' ': '-'}) | lower %}
+				{% endif %}
+				<section class="ann__sct ann__sct_outreach grid wrapper--pad-xlg vert-pad-sm" {% if main.outreach_title %}id="{{ id }}"{% endif %}>
 					{% if main.outreach_title %}
 						<div class="ann__header">
 							<h2>{{ main.outreach_title }}</h2>
@@ -316,7 +323,7 @@
 					}
 					</style>
 				{% endif %}
-				<footer class="ann__sct ann__sct_footer wrapper--pad-huge" {% if main.background_color %}style="background-color:{{main.background_color}};"{% endif %}>
+				<footer class="ann__sct ann__sct_footer wrapper--pad-huge" {% if main.background_color %}style="background-color:{{main.background_color}};"{% endif %} id="footer">
 					{% if main.contact_info %}
 						<div class="ann__contact_info">
 							{{ main.contact_info }}
@@ -360,16 +367,13 @@
 				</footer>
 			{# PARALLAX #}
       {% elseif main.acf_fc_layout == 'parallax' %}
-        <section class="ann__sct ann__sct_parallax">
+				{% if main.header_group.header %}
+					{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
+				{% endif %}
+        <section class="ann__sct ann__sct_parallax" {% if main.header_group.header %}id="{{ id }}"{% endif %}>
           <div class="ann__sct_parallax__group">
 						{% if main.header_group.show_title %}
 							{% include "partial/section-header.twig" %}
-							{# <div class="ann__header-container header-{{ main.header_position }} header-align-{{ main.header_align }} {% if main.header_border != 'none' %}header-border header-border-{{ main.header_border }}{% endif %} {% if main.header_position != 'center' and main.header_deco == 'show' %}header-deco{% endif %}">
-								<div class="ann__header-wrap" {% if main.header_border != 'none' and main.header_border_color %}style="border-color:{{ main.header_border_color }};"{% endif %}>
-									<h3 class="ann__subheader fade-in-up-2" {% if main.subheader_color %} style="color:{{ main.subheader_color }};" {% endif %}>{{ main.subheader }}</h3>
-									<h2 class="ann__header fade-in-up-1" {% if main.header_color %} style="color:{{ main.header_color }};" {% endif %}>{{ main.header }}</h2>
-								</div>
-							</div> #}
 						{% endif %}
             
 						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});{% endif %}"></div>
@@ -446,11 +450,15 @@
 				</section>
 			{# WYSIWYG #}
 			{% elseif main.acf_fc_layout == 'wysiwyg' %}
-				{% if main.header_group.show_title %}
-					{% include "partial/section-header.twig" %}
+				{% set columns = main.grid_columns %}
+				{# section id #}
+				{% if main.header_group.header %}
+					{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
 				{% endif %}
-			 {% set columns = main.grid_columns %}
-				<section class="ann__wysiwyg" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %}>
+				<section class="ann__wysiwyg" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %} {% if main.header_group.header %}id="{{ id }}"{% endif %}>
+					{% if main.header_group.show_title %}
+						{% include "partial/section-header.twig" %}
+					{% endif %}
 					<div class="ann__width-page">
 						{% if main.show_title %}
 							{% include 'tiles-annual-report.twig' %}
@@ -523,7 +531,11 @@
 				</section>
 			{# Research Initiatives #}
 			{% elseif main.acf_fc_layout == 'research_initiatives' %}
-				<section class="ann__research-initiatives" {% if main.colors.background_color %}style="background-color: {{ main.colors.background_color }}"{% endif %}>
+				{# section id #}
+				{% if main.header_text_bottom %}
+					{% set id = main.header_text_bottom | trim | replace({' ': '-'}) | lower %}
+				{% endif %}
+				<section class="ann__research-initiatives" {% if main.colors.background_color %}style="background-color: {{ main.colors.background_color }}"{% endif %} {% if main.header_text_bottom %}id="{{ id }}"{% endif %}>
 					<div class="ann__research-initiatives_container ann__width-page">
 						{% if header_text_top or main.header_text_bottom or main.circle_image %}
 							<div class="ann__research-initiatives_container-top">
