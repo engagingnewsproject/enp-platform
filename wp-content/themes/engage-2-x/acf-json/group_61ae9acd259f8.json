@@ -610,8 +610,35 @@
                             "selected": 0
                         },
                         {
+                            "key": "field_67228ecf38d87",
+                            "label": "Grid columns",
+                            "name": "grid_columns",
+                            "aria-label": "",
+                            "type": "radio",
+                            "instructions": "The columns stack on mobile.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "100",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "1": "1 column",
+                                "2": "2 columns",
+                                "3": "3 columns"
+                            },
+                            "default_value": 1,
+                            "return_format": "value",
+                            "allow_null": 0,
+                            "other_choice": 0,
+                            "allow_in_bindings": 0,
+                            "layout": "horizontal",
+                            "save_other_choice": 0
+                        },
+                        {
                             "key": "field_6722b5b26afee",
-                            "label": "Column 1",
+                            "label": "Column",
                             "name": "column_1",
                             "aria-label": "",
                             "type": "wysiwyg",
@@ -619,7 +646,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "50",
+                                "width": "33.333",
                                 "class": "",
                                 "id": ""
                             },
@@ -632,7 +659,7 @@
                         },
                         {
                             "key": "field_6722b6176aff3",
-                            "label": "Column 2",
+                            "label": "Column",
                             "name": "column_2",
                             "aria-label": "",
                             "type": "wysiwyg",
@@ -648,11 +675,45 @@
                                 ]
                             ],
                             "wrapper": {
-                                "width": "50",
+                                "width": "33.333",
                                 "class": "",
                                 "id": ""
                             },
                             "default_value": "The past year has made us more steadfast in our mission to understand and improve the information ecosystem for the benefit of democracy. As you’ll see in this report, we have worked to improve newsroom practices, help scientists with communication training, challenge students to think about ethical questions from multiple vantage points, and educate policymakers and the public about the effects of social media as well as the spread of propaganda and misinformation via encrypted messaging apps.",
+                            "allow_in_bindings": 0,
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 0
+                        },
+                        {
+                            "key": "field_6747b8a34cfc6",
+                            "label": "Column",
+                            "name": "column_3",
+                            "aria-label": "",
+                            "type": "wysiwyg",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_67228ecf38d87",
+                                        "operator": "!=",
+                                        "value": "1"
+                                    },
+                                    {
+                                        "field": "field_67228ecf38d87",
+                                        "operator": "!=",
+                                        "value": "2"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "33.333",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
                             "allow_in_bindings": 0,
                             "tabs": "all",
                             "toolbar": "full",
@@ -682,15 +743,15 @@
                         },
                         {
                             "key": "field_6722b63a44a9d",
-                            "label": "Column 3",
-                            "name": "column_3",
+                            "label": "Column",
+                            "name": "column_4",
                             "aria-label": "",
                             "type": "wysiwyg",
                             "instructions": "",
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "50",
+                                "width": "33.333",
                                 "class": "",
                                 "id": ""
                             },
@@ -703,8 +764,8 @@
                         },
                         {
                             "key": "field_6722b63f44a9e",
-                            "label": "Column 4",
-                            "name": "column_4",
+                            "label": "Column",
+                            "name": "column_5",
                             "aria-label": "",
                             "type": "wysiwyg",
                             "instructions": "",
@@ -719,11 +780,45 @@
                                 ]
                             ],
                             "wrapper": {
-                                "width": "50",
+                                "width": "33.333",
                                 "class": "",
                                 "id": ""
                             },
                             "default_value": "As we reflect on the year that has passed and prepare for the road ahead, let me take a moment to thank you. From reading this annual report, to collaborating with us, to funding our work, to providing feedback, we at the Center for Media Engagement appreciate your engagement. We could not do this without you.\r\n\r\nWith deep appreciation,",
+                            "allow_in_bindings": 0,
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 0
+                        },
+                        {
+                            "key": "field_6747b8b94cfc7",
+                            "label": "Column",
+                            "name": "column_6",
+                            "aria-label": "",
+                            "type": "wysiwyg",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_67228ecf38d87",
+                                        "operator": "!=",
+                                        "value": "1"
+                                    },
+                                    {
+                                        "field": "field_67228ecf38d87",
+                                        "operator": "!=",
+                                        "value": "2"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "33.333",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
                             "allow_in_bindings": 0,
                             "tabs": "all",
                             "toolbar": "full",
@@ -749,50 +844,95 @@
                             "selected": 0
                         },
                         {
-                            "key": "field_67228ecf38d87",
-                            "label": "Grid columns (WYSIWYG)",
-                            "name": "grid_columns",
+                            "key": "field_6747dca6d5350",
+                            "label": "Background",
+                            "name": "background",
                             "aria-label": "",
-                            "type": "radio",
+                            "type": "group",
                             "instructions": "",
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "33.333",
+                                "width": "",
                                 "class": "",
                                 "id": ""
                             },
-                            "choices": {
-                                "1": "1 column",
-                                "2": "2 columns",
-                                "3": "3 columns"
-                            },
-                            "default_value": 1,
-                            "return_format": "value",
-                            "allow_null": 0,
-                            "other_choice": 0,
-                            "allow_in_bindings": 0,
-                            "layout": "vertical",
-                            "save_other_choice": 0
-                        },
-                        {
-                            "key": "field_670597c9dc173",
-                            "label": "Background color",
-                            "name": "background_color",
-                            "aria-label": "",
-                            "type": "color_picker",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "33.333",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "#f8971f",
-                            "enable_opacity": 0,
-                            "return_format": "string",
-                            "allow_in_bindings": 1
+                            "layout": "block",
+                            "sub_fields": [
+                                {
+                                    "key": "field_6747dca6d5351",
+                                    "label": "Background color",
+                                    "name": "background_color",
+                                    "aria-label": "",
+                                    "type": "color_picker",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "#f8971f",
+                                    "enable_opacity": 0,
+                                    "return_format": "string",
+                                    "allow_in_bindings": 1
+                                },
+                                {
+                                    "key": "field_6747dca6d5352",
+                                    "label": "Background image",
+                                    "name": "background_image",
+                                    "aria-label": "",
+                                    "type": "image",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "return_format": "array",
+                                    "library": "all",
+                                    "min_width": "",
+                                    "min_height": "",
+                                    "min_size": "",
+                                    "max_width": "",
+                                    "max_height": "",
+                                    "max_size": "",
+                                    "mime_types": "",
+                                    "allow_in_bindings": 0,
+                                    "preview_size": "medium"
+                                },
+                                {
+                                    "key": "field_6747dca6d5353",
+                                    "label": "Background image parallax",
+                                    "name": "background_image_parallax",
+                                    "aria-label": "",
+                                    "type": "true_false",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_6747dca6d5352",
+                                                "operator": "!=empty"
+                                            }
+                                        ]
+                                    ],
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "message": "",
+                                    "default_value": 1,
+                                    "allow_in_bindings": 0,
+                                    "ui_on_text": "",
+                                    "ui_off_text": "",
+                                    "ui": 1
+                                }
+                            ]
                         }
                     ],
                     "min": "",
@@ -1017,23 +1157,95 @@
                             "selected": 0
                         },
                         {
-                            "key": "field_61afc089d48ff",
-                            "label": "Background color",
-                            "name": "background_color",
+                            "key": "field_6747d49e1e4e3",
+                            "label": "Background",
+                            "name": "background",
                             "aria-label": "",
-                            "type": "color_picker",
+                            "type": "group",
                             "instructions": "",
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "33.333",
+                                "width": "",
                                 "class": "",
                                 "id": ""
                             },
-                            "default_value": "",
-                            "enable_opacity": 1,
-                            "return_format": "string",
-                            "allow_in_bindings": 1
+                            "layout": "block",
+                            "sub_fields": [
+                                {
+                                    "key": "field_6747d49e1e4e4",
+                                    "label": "Background color",
+                                    "name": "background_color",
+                                    "aria-label": "",
+                                    "type": "color_picker",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "#f8971f",
+                                    "enable_opacity": 0,
+                                    "return_format": "string",
+                                    "allow_in_bindings": 1
+                                },
+                                {
+                                    "key": "field_6747d49e1e4e5",
+                                    "label": "Background image",
+                                    "name": "background_image",
+                                    "aria-label": "",
+                                    "type": "image",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "return_format": "array",
+                                    "library": "all",
+                                    "min_width": "",
+                                    "min_height": "",
+                                    "min_size": "",
+                                    "max_width": "",
+                                    "max_height": "",
+                                    "max_size": "",
+                                    "mime_types": "",
+                                    "allow_in_bindings": 0,
+                                    "preview_size": "medium"
+                                },
+                                {
+                                    "key": "field_6747d49e1e4e6",
+                                    "label": "Background image parallax",
+                                    "name": "background_image_parallax",
+                                    "aria-label": "",
+                                    "type": "true_false",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_6747d49e1e4e5",
+                                                "operator": "!=empty"
+                                            }
+                                        ]
+                                    ],
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "message": "",
+                                    "default_value": 1,
+                                    "allow_in_bindings": 0,
+                                    "ui_on_text": "",
+                                    "ui_off_text": "",
+                                    "ui": 1
+                                }
+                            ]
                         },
                         {
                             "key": "field_67180978084c9",
@@ -2889,11 +3101,11 @@
                             "selected": 0
                         },
                         {
-                            "key": "field_66e893773d019",
-                            "label": "Background image",
-                            "name": "landing_background_image",
+                            "key": "field_6747d7cd805af",
+                            "label": "Background",
+                            "name": "background",
                             "aria-label": "",
-                            "type": "image",
+                            "type": "group",
                             "instructions": "",
                             "required": 0,
                             "conditional_logic": 0,
@@ -2902,35 +3114,82 @@
                                 "class": "",
                                 "id": ""
                             },
-                            "return_format": "id",
-                            "library": "all",
-                            "min_width": "",
-                            "min_height": "",
-                            "min_size": "",
-                            "max_width": "",
-                            "max_height": "",
-                            "max_size": "",
-                            "mime_types": "",
-                            "preview_size": "medium"
-                        },
-                        {
-                            "key": "field_673e5e1bf9763",
-                            "label": "Background color",
-                            "name": "landing_background_color",
-                            "aria-label": "",
-                            "type": "color_picker",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "enable_opacity": 1,
-                            "return_format": "string",
-                            "allow_in_bindings": 0
+                            "layout": "block",
+                            "sub_fields": [
+                                {
+                                    "key": "field_6747d7cd805b0",
+                                    "label": "Background color",
+                                    "name": "background_color",
+                                    "aria-label": "",
+                                    "type": "color_picker",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "#f8971f",
+                                    "enable_opacity": 0,
+                                    "return_format": "string",
+                                    "allow_in_bindings": 1
+                                },
+                                {
+                                    "key": "field_6747d7cd805b1",
+                                    "label": "Background image",
+                                    "name": "background_image",
+                                    "aria-label": "",
+                                    "type": "image",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "return_format": "array",
+                                    "library": "all",
+                                    "min_width": "",
+                                    "min_height": "",
+                                    "min_size": "",
+                                    "max_width": "",
+                                    "max_height": "",
+                                    "max_size": "",
+                                    "mime_types": "",
+                                    "allow_in_bindings": 0,
+                                    "preview_size": "medium"
+                                },
+                                {
+                                    "key": "field_6747d7cd805b2",
+                                    "label": "Background image parallax",
+                                    "name": "background_image_parallax",
+                                    "aria-label": "",
+                                    "type": "true_false",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_6747d7cd805b1",
+                                                "operator": "!=empty"
+                                            }
+                                        ]
+                                    ],
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "message": "",
+                                    "default_value": 1,
+                                    "allow_in_bindings": 0,
+                                    "ui_on_text": "",
+                                    "ui_off_text": "",
+                                    "ui": 1
+                                }
+                            ]
                         }
                     ],
                     "min": "",
@@ -3855,6 +4114,97 @@
                                     "allow_in_bindings": 0
                                 }
                             ]
+                        },
+                        {
+                            "key": "field_6747cfd50e460",
+                            "label": "Background",
+                            "name": "background",
+                            "aria-label": "",
+                            "type": "group",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "layout": "block",
+                            "sub_fields": [
+                                {
+                                    "key": "field_6747cfe80e464",
+                                    "label": "Background color",
+                                    "name": "background_color",
+                                    "aria-label": "",
+                                    "type": "color_picker",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "#f8971f",
+                                    "enable_opacity": 0,
+                                    "return_format": "string",
+                                    "allow_in_bindings": 1
+                                },
+                                {
+                                    "key": "field_6747d0100e465",
+                                    "label": "Background image",
+                                    "name": "background_image",
+                                    "aria-label": "",
+                                    "type": "image",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "return_format": "array",
+                                    "library": "all",
+                                    "min_width": "",
+                                    "min_height": "",
+                                    "min_size": "",
+                                    "max_width": "",
+                                    "max_height": "",
+                                    "max_size": "",
+                                    "mime_types": "",
+                                    "allow_in_bindings": 0,
+                                    "preview_size": "medium"
+                                },
+                                {
+                                    "key": "field_6747d02b0e466",
+                                    "label": "Background image parallax",
+                                    "name": "background_image_parallax",
+                                    "aria-label": "",
+                                    "type": "true_false",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_6747d0100e465",
+                                                "operator": "!=empty"
+                                            }
+                                        ]
+                                    ],
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "message": "",
+                                    "default_value": 1,
+                                    "allow_in_bindings": 0,
+                                    "ui_on_text": "",
+                                    "ui_off_text": "",
+                                    "ui": 1
+                                }
+                            ]
                         }
                     ],
                     "min": "",
@@ -4039,6 +4389,97 @@
                             "selected": 0
                         },
                         {
+                            "key": "field_6747d716162ed",
+                            "label": "Background",
+                            "name": "background",
+                            "aria-label": "",
+                            "type": "group",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "layout": "block",
+                            "sub_fields": [
+                                {
+                                    "key": "field_6747d716162ee",
+                                    "label": "Background color",
+                                    "name": "background_color",
+                                    "aria-label": "",
+                                    "type": "color_picker",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "#f8971f",
+                                    "enable_opacity": 0,
+                                    "return_format": "string",
+                                    "allow_in_bindings": 1
+                                },
+                                {
+                                    "key": "field_6747d716162ef",
+                                    "label": "Background image",
+                                    "name": "background_image",
+                                    "aria-label": "",
+                                    "type": "image",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "return_format": "array",
+                                    "library": "all",
+                                    "min_width": "",
+                                    "min_height": "",
+                                    "min_size": "",
+                                    "max_width": "",
+                                    "max_height": "",
+                                    "max_size": "",
+                                    "mime_types": "",
+                                    "allow_in_bindings": 0,
+                                    "preview_size": "medium"
+                                },
+                                {
+                                    "key": "field_6747d716162f0",
+                                    "label": "Background image parallax",
+                                    "name": "background_image_parallax",
+                                    "aria-label": "",
+                                    "type": "true_false",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_6747d716162ef",
+                                                "operator": "!=empty"
+                                            }
+                                        ]
+                                    ],
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "message": "",
+                                    "default_value": 1,
+                                    "allow_in_bindings": 0,
+                                    "ui_on_text": "",
+                                    "ui_off_text": "",
+                                    "ui": 1
+                                }
+                            ]
+                        },
+                        {
                             "key": "field_6721597d7c6c4",
                             "label": "Header Bar",
                             "name": "header_bar",
@@ -4117,25 +4558,6 @@
                             "enable_opacity": 0,
                             "return_format": "string",
                             "allow_in_bindings": 0
-                        },
-                        {
-                            "key": "field_672361642d718",
-                            "label": "Background color",
-                            "name": "background_color",
-                            "aria-label": "",
-                            "type": "color_picker",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "enable_opacity": 0,
-                            "return_format": "string",
-                            "allow_in_bindings": 0
                         }
                     ],
                     "min": "",
@@ -4179,5 +4601,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1732141435
+    "modified": 1732762934
 }
