@@ -128,12 +128,12 @@ class NF_Fields_ListImage extends NF_Abstracts_List
                 } else {
                     $field['settings']['image_options'][$index]['image'] = Ninja_forms::$url . 'assets/img/no-image-available-icon-6.jpg';
                     $field['settings']['image_options'][$index]['img_title'] = '';
-                    $field['settings']['image_options'][$index]['alt_text'] = '';
+                    $field['settings']['image_options'][$index]['alt_text'] = 'Image Not Available';
                 }
             } else {
                 $field['settings']['image_options'][$index]['image'] = Ninja_forms::$url . 'assets/img/no-image-available-icon-6.jpg';
                 $field['settings']['image_options'][$index]['img_title'] = '';
-                $field['settings']['image_options'][$index]['alt_text'] = '';
+                $field['settings']['image_options'][$index]['alt_text'] = 'Image Not Available';
             }
         }
 

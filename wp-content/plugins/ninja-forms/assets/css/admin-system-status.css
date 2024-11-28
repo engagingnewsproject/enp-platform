@@ -55,6 +55,10 @@
     border-bottom-width: 1px;
 }
 
+.nf-status-table > tbody > tr > td {
+    vertical-align: top;
+}
+
 .jBox-content {
     font-size: 28px;
     padding: 40px !important;

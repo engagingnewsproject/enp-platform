@@ -1,5 +1,6 @@
 <script id="tmpl-nf-field-listimage" type="text/template">
-    <ul aria-describedby="nf-error-{{{ data.id }}} nf-description-{{{ data.id }}}" style="display:grid;grid-row-gap: 5px;grid-column-gap: 5px;">
+    <ul aria-describedby="<# if( data.desc_text ) { #>nf-description-{{{ data.id }}} <# } #>nf-error-{{{ data.id }}}"
+        style="display:grid;grid-row-gap: 5px;grid-column-gap: 5px;">
         {{{ data.renderOptions() }}}
     </ul>
 </script>
@@ -7,14 +8,20 @@
 <script id='tmpl-nf-field-listimage-option' type='text/template'>
     <# if ( ! data.visible ) { return '' } #>
     <li style="{{{data.styles}}} vertical-align:top;">
-        <input type="{{{data.image_type}}}" id="nf-field-{{{ data.fieldID }}}-{{{ data.index }}}" name="nf-field-{{{ data.fieldID }}}" class="{{{ data.classes }}} nf-element {{{ ( data.isSelected ) ? ' nf-checked' : '' }}}" value="{{{ _.escape( data.value ) }}}" {{{ ( data.isSelected ) ? 'checked="checked"' : '' }}}
-            aria-labelledby="nf-label-field-{{{ data.fieldID }}}-{{{ data.index }}}"
+        <input type="{{{data.image_type}}}" id="nf-field-{{{ data.fieldID }}}-{{{ data.index }}}" name="nf-field-{{{ data.fieldID }}}" class="{{{ data.classes }}} nf-element {{{ ( data.isSelected ) ? ' nf-checked' : '' }}} nf-sr-only" value="{{{ _.escape( data.value ) }}}" tabindex="0" aria-invalid="false" {{{ ( data.isSelected ) ? 'checked="checked"' : '' }}}
+            <# if ( data.label ) { #>
+                aria-label="{{{ _.escape( data.label ) }}}"
+            <# } else if ( data.alt_text ) { #>
+                aria-label="{{{ _.escape( data.alt_text ) }}}"
+            <# } else { #>
+                aria-label="{{{ _.escape( data.img_title ) }}}"
+            <# } #>
             <# if( data.required ) { #>
 			required aria-required="true"
 			<# } #>
         >
         <label for="nf-field-{{{ data.fieldID }}}-{{{ data.index }}}"
-               id="nf-label-field-{{{ data.fieldID }}}-{{{ data.index }}}"
+               id="nf-label-field-{{{ data.fieldID }}}-{{{ data.index }}}" aria-hidden="true"
                class="{{{ ( data.isSelected ) ? 'nf-checked-label' : '' }}}">{{{ ( data.maybeFilterHTML() === 'true' ) ? _.escape( data.label ) : data.label }}}
 
                <img src="{{{data.image}}}" alt="{{{data.alt_text}}}" title="{{{data.img_title}}}" style="max-width: 100%;height: auto;"/>

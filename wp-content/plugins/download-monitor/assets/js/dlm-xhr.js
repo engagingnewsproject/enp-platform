@@ -19,13 +19,21 @@ class DLM_XHR_Download {
 
 	// Function to attach events for the download buttons
 	attachButtonEvent() {
-
-		jQuery('html, body').on('click', '.dlm-no-access-modal-overlay, .dlm-no-access-modal-close', function (e) {
-
+		// Stop propagation on child elements
+		jQuery('html,body').on( 'click', '.dlm-no-access-modal-window > div', function (e){
+			e.stopPropagation();
+		} );
+		// Close modal on these clicks
+		jQuery('html, body').on('click', '.dlm-no-access-modal-overlay, .dlm-no-access-modal-close, .dlm-no-access-modal-window', function (e) {
+			e.stopPropagation();
 			jQuery('#dlm-no-access-modal').remove();
-
 		});
-
+		// Close modal on ESC key press
+		jQuery(document).on('keydown', function (e) {
+			if (e.key === 'Escape') {
+				jQuery('#dlm-no-access-modal').remove();
+			}
+		});
 
 		jQuery('html, body').on('click', 'a', function (e) {
 
@@ -513,6 +521,9 @@ class DLM_XHR_Download {
 		};
 
 		jQuery(document).trigger('dlm-xhr-modal-data', [data, headers]);
+		document.dispatchEvent(
+			new CustomEvent('dlm-xhr-modal-data', {detail: {data:data, headers:headers}})
+		);
 
 		jQuery.post(dlmXHR.ajaxUrl, data, function (response) {
 

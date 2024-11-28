@@ -966,7 +966,7 @@ Label Three
     </div>
     <div class="calc-left">
         <div>
-            <input type="text" class="setting" value="{{{ data.name }}}" data-id="name">
+            <input type="text" class="setting" value="{{{ _.escape( data.name ) }}}" data-id="name">
             <span class="nf-option-error"></span>
         </div>
         <div><?php esc_html_e( 'Decimals', 'ninja-forms' ); ?></div>

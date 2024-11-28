@@ -52,7 +52,7 @@ class NF_Dispatcher
 
         $data = array_merge($environment->toArray(),$usage->toArray());
         
-        $this->send( '3.8.8', $data );
+        $this->send( '3.8.18', $data );
     }
     
     /**
@@ -100,19 +100,25 @@ class NF_Dispatcher
 
         $factory = new ConstructNfSiteEntity();
         $siteEntity = $factory->handle();
+        $be_data = get_option( 'nf_be_data', [] );
 
         /*
          * Send our data using wp_remote_post.
          */
-         $response = wp_remote_post(
+        $response = wp_remote_post(
             $this->api_url,
             array(
                 'body' => array(
                     'slug'          => $slug,
                     'data'          => wp_json_encode( $data ),
                     'site_data'     => wp_json_encode( $siteEntity->jsonSerialize()),
+                    'be_data'       => wp_json_encode( $be_data )
                 ),
             )
         );
+
+        if ( !is_wp_error( $response ) ) {
+            delete_option( 'nf_be_data' );
+        }
     }
 }

@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=WordPress&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.8.17
+Version: 3.8.20
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -43,14 +43,14 @@ final class Ninja_Forms
      * @since 3.0
      */
 
-    const VERSION = '3.8.17';
+    const VERSION = '3.8.20';
 
     /**
      * @since 3.4.0
      */
     const DB_VERSION = '1.4';
 
-    const WP_MIN_VERSION = '5.0';
+    const WP_MIN_VERSION = '6.4';
 
     /**
      * @var Ninja_Forms
@@ -307,12 +307,12 @@ final class Ninja_Forms
             *   API Routes
             */
             self::$instance->routes[ 'submissions' ] = new NF_Routes_Submissions();
+            self::$instance->routes[ 'telemetry' ] = new NF_Routes_Telemetry();
 
             /*
                 * Async Requests
                 */
             require_once Ninja_Forms::$dir . 'includes/Libraries/BackgroundProcessing/classes/wp-async-request.php';
-            self::$instance->requests[ 'delete-field' ] = new NF_AJAX_Requests_DeleteField();
 
             /*
                 * Background Processes

@@ -47,6 +47,49 @@
     </tbody>
     <thead>
         <tr>
+            <th colspan="2"><?php esc_html_e( 'PHP Extensions', 'ninja-forms' ); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach( $php_extensions as $key => $value ): ?>
+            <tr>
+                <td><?php echo esc_html( $key ) . ':'; ?></td>
+                <td><?php echo esc_html( $value ); ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+    <thead>
+        <tr>
+            <th colspan="2"><?php esc_html_e( 'Ninja Forms Settings', 'ninja-forms' ); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach( $NF_environment as $key => $value ): ?>
+            <tr>
+                <td><?php echo esc_html( $key ) . ':'; ?></td>
+                <td><?php echo esc_html( $value ); ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+    <thead>
+        <tr>
+            <th colspan="2"><?php esc_html_e( 'Themes', 'ninja-forms' ); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><?php esc_html_e( 'Active theme','ninja-forms' ); ?>:</td>
+            <td><?php echo $current_theme . ' v' . $current_theme_version; ?></td>
+        </tr>
+    </tbody>
+    <tbody>
+        <tr>
+            <td><?php esc_html_e( 'All installed themes','ninja-forms' ); ?>:</td>
+            <td><?php echo $all_installed_themes; ?></td>
+        </tr>
+    </tbody>
+    <thead>
+        <tr>
             <th colspan="2"><?php esc_html_e( 'Plugins', 'ninja-forms' ); ?></th>
         </tr>
     </thead>
@@ -54,6 +97,24 @@
         <tr>
             <td><?php esc_html_e( 'Activated Plugins','ninja-forms' ); ?>:</td>
             <td><?php echo $site_wide_plugins; ?></td>
+        </tr>
+    </tbody>
+    <tbody>
+        <tr>
+            <td><?php esc_html_e( 'Inactive Plugins','ninja-forms' ); ?>:</td>
+            <td><?php echo $site_wide_inactive_plugins; ?></td>
+        </tr>
+    </tbody>
+    <thead>
+        <tr>
+            <th colspan="2"><?php esc_html_e( 'Error logs', 'ninja-forms' ); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><?php esc_html_e( 'PHP errors','ninja-forms' ); ?>:</td>
+            <td><?php echo nl2br(implode("\n", $errorLog)); ?>
+            </td>
         </tr>
     </tbody>
 </table>

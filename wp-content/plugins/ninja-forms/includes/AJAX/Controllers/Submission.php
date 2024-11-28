@@ -371,6 +371,15 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
         |--------------------------------------------------------------------------
         */
 
+        /**
+         * We shouldn't have anything in here before processing.
+         * So, clear out the trash.
+         */
+        if( isset( $this->_data['extra']['calculations'] ) ) {
+            unset( $this->_data['extra']['calculations']);
+            unset( $this->_form_data['extra']['calculations']);
+        }
+
         if( isset( $this->_form_cache[ 'settings' ][ 'calculations' ] ) ) {
 
             /**
