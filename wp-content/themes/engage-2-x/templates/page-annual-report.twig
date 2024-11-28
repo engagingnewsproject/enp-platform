@@ -79,7 +79,7 @@
 					</div>
 				</section>
 
-			{# HIGHLIGHTS #}
+			{# HIGHLIGHTS/Image Grid #}
 			{% elseif main.acf_fc_layout == 'highlights' %}
 				{# Logic #}
 					{# vars #}
@@ -93,8 +93,8 @@
 					{% set align = main.align %}
 					{% set align_text = main.align_text %}
 					{# background color #}
-					{% if main.background_color %} 
-						{% set background_color = 'style="background-color:' ~ main.background_color ~ ';"' %}
+					{% if main.background.background_color %} 
+						{% set background_color = 'style="background-color:' ~ main.background.background_color ~ ';"' %}
 					{% endif %}
 					{# section title color #}
 					{% if main.highlights_title_color %}
@@ -126,7 +126,7 @@
 					{% endif %}
 				{# END logic #}
 				{# markup START #}
-				<section class="ann__sct ann__sct_grid wrapper--pad-xlg" {{background_color}} {% if main.highlights_title %}id="{{ id }}"{% endif %}>
+				<section class="ann__sct ann__sct_grid wrapper--pad-xlg {% if main.background.background_image_parallax %}ann__sct_parallax{% endif %}" {{background_color}} {% if main.highlights_title %}id="{{ id }}"{% endif %}>
 					<div class="ann__content-table_header" {{border_color}}>
 						{% if main.highlights_subtitle %}
 							<h3 class="ann__content-table_header-top fade-in-up-1" {{main_subtitle_color}}>{{ main.highlights_subtitle }}</h3>
@@ -164,6 +164,29 @@
 						</div>
 					{% endfor %}
 					</div>
+					{% if main.background.background_image %}
+						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background.background_image).src }});"></div>
+						{% if main.background.background_image_parallax %}
+							<script>
+								// Encapsulate each parallax instance by targeting its unique ID
+								(function() {
+										const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
+
+										function calculateDistanceFromTop() {
+												const rect = parallaxLayer.getBoundingClientRect()
+												return rect.top + window.scrollY
+										}
+
+										document.addEventListener('scroll', function () {
+											const scrollPosition = window.pageYOffset
+											const distanceFromTop = calculateDistanceFromTop()
+
+											parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
+										})
+								})()
+							</script>
+						{% endif %}
+					{% endif %}
 				</section>
 
 			{# NEWSWORTHY #}
@@ -370,7 +393,7 @@
 				{% if main.header_group.header %}
 					{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
 				{% endif %}
-        <section class="ann__sct ann__sct_parallax" {% if main.header_group.header %}id="{{ id }}"{% endif %}>
+        <section class="ann__sct ann__sct_parallax parallax-sct" {% if main.header_group.header %}id="{{ id }}"{% endif %}>
           <div class="ann__sct_parallax__group">
 						{% if main.header_group.show_title %}
 							{% include "partial/section-header.twig" %}
@@ -413,7 +436,7 @@
         </section>
 			{# LANDING #}
 			{% elseif main.acf_fc_layout == 'landing' %}
-				<section class="ann__landing ann__landing_background" style="{% if main.landing_background_color %}background-color:{{main.landing_background_color}};{% endif %}{% if main.landing_background_image %}background-image:url({{ get_image(main.landing_background_image).src }});{% endif %}">
+				<section class="ann__landing ann__landing_background ann__sct_parallax" style="{% if main.background.background_color %}background-color:{{main.background.background_color}};{% endif %}">
 					<div class="ann__landing_circle_container">
 						<svg class="ann__landing_circle_svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
 							<path class="ann__landing_circle ann__landing_half_circle_dashed ann__landing_rotate_81" d="M 10,100 A 50,50 0 0,1 190,100" />
@@ -433,7 +456,7 @@
 					</svg>
 					</div>
 
-					<div>
+					<div class="ann__landing_header_wrap">
 						{% if main.landing_header_top is defined and main.landing_header_top and main.landing_header_bottom is defined and main.landing_header_bottom %}
 						<div class="ann__landing_header_container ann__landing_fade_in_and_up_delay_1">
 							<h1 class="ann__landing_header">
@@ -447,6 +470,29 @@
 							<img  src="{{ get_image(main.landing_logo_image).src }}" srcset="{{ get_image(main.landing_logo_image).srcset }}" sizes="{{ get_image(main.landing_logo_image).img_sizes }}" alt="{{ get_image(main.landing_logo_image).alt }}" class="ann__landing_logo ann__landing_fade_in_and_up_delay_3" />
 						{% endif %}
 					</div>
+					{% if main.background.background_image %}
+						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background.background_image).src }});"></div>
+						{% if main.background.background_image_parallax %}
+							<script>
+								// Encapsulate each parallax instance by targeting its unique ID
+								(function() {
+										const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
+
+										function calculateDistanceFromTop() {
+												const rect = parallaxLayer.getBoundingClientRect()
+												return rect.top + window.scrollY
+										}
+
+										document.addEventListener('scroll', function () {
+											const scrollPosition = window.pageYOffset
+											const distanceFromTop = calculateDistanceFromTop()
+
+											parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
+										})
+								})()
+							</script>
+						{% endif %}
+					{% endif %}
 				</section>
 			{# WYSIWYG #}
 			{% elseif main.acf_fc_layout == 'wysiwyg' %}
@@ -455,7 +501,7 @@
 				{% if main.header_group.header %}
 					{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
 				{% endif %}
-				<section class="ann__wysiwyg" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %} {% if main.header_group.header %}id="{{ id }}"{% endif %}>
+				<section class="ann__wysiwyg ann__sct_parallax {% if main.background.background_image %}ann__wysiwyg_bk-img{% endif %}" {% if main.background.background_color %}style="background-color: {{ main.background.background_color }}"{% endif %} {% if main.header_group.header %}id="{{ id }}"{% endif %}>
 					{% if main.header_group.show_title %}
 						{% include "partial/section-header.twig" %}
 					{% endif %}
@@ -466,13 +512,18 @@
 						{% endif %}
 						<div {% if main.grid_columns > 1 %}class="columns"{% endif %}>
 							{% if main.column_1 %}
-								<div class="{% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+								<div class="column {% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
 									{{main.column_1}}
 								</div>
 							{% endif %}
-							{% if main.column_2 %}
-								<div class="{% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+							{% if main.grid_columns > 1 and main.column_2 %}
+								<div class="column {% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
 									{{main.column_2}}
+								</div>
+							{% endif %}
+							{% if main.grid_columns > 2 and main.column_3 %}
+								<div class="column {% if main.grid_columns > 2 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+									{{main.column_3}}
 								</div>
 							{% endif %}
 						</div>
@@ -484,18 +535,46 @@
 						{% endif %}
 						
 						<div class="columns">
-							{% if main.column_3 %}
-								<div class="{% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
-									{{main.column_3}}
+							{% if main.column_4 %}
+								<div class="column {% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+									{{main.column_4}}
 								</div>
 							{% endif %}
-							{% if main.column_4 %}
-								<div class="{% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
-									{{main.column_4}}
+							{% if main.grid_columns > 1 and main.column_5 %}
+								<div class="column {% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+									{{main.column_5}}
+								</div>
+							{% endif %}
+							{% if main.grid_columns > 2 and main.column_6 %}
+								<div class="column {% if main.grid_columns > 2 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+									{{main.column_6}}
 								</div>
 							{% endif %}
 						</div>
 					</div>
+					{% if main.background.background_image %}
+						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background.background_image).src }});"></div>
+						{% if main.background.background_image_parallax %}
+							<script>
+								// Encapsulate each parallax instance by targeting its unique ID
+								(function() {
+										const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
+
+										function calculateDistanceFromTop() {
+												const rect = parallaxLayer.getBoundingClientRect()
+												return rect.top + window.scrollY
+										}
+
+										document.addEventListener('scroll', function () {
+											const scrollPosition = window.pageYOffset
+											const distanceFromTop = calculateDistanceFromTop()
+
+											parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
+										})
+								})()
+							</script>
+						{% endif %}
+					{% endif %}
 				</section> 
 			{# Content table #}
 			{% elseif main.acf_fc_layout == 'content_table'%}
@@ -535,7 +614,7 @@
 				{% if main.header_text_bottom %}
 					{% set id = main.header_text_bottom | trim | replace({' ': '-'}) | lower %}
 				{% endif %}
-				<section class="ann__research-initiatives" {% if main.colors.background_color %}style="background-color: {{ main.colors.background_color }}"{% endif %} {% if main.header_text_bottom %}id="{{ id }}"{% endif %}>
+				<section class="ann__research-initiatives ann__sct_parallax" {% if main.background.background_color %}style="background-color: {{ main.background.background_color }}"{% endif %} {% if main.header_text_bottom %}id="{{ id }}"{% endif %}>
 					<div class="ann__research-initiatives_container ann__width-page">
 						{% if header_text_top or main.header_text_bottom or main.circle_image %}
 							<div class="ann__research-initiatives_container-top">
@@ -561,11 +640,34 @@
 						{% endif %}
 						</div>
 					</div>
+					{% if main.background.background_image %}
+						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background.background_image).src }});"></div>
+						{% if main.background.background_image_parallax %}
+							<script>
+								// Encapsulate each parallax instance by targeting its unique ID
+								(function() {
+										const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
+
+										function calculateDistanceFromTop() {
+												const rect = parallaxLayer.getBoundingClientRect()
+												return rect.top + window.scrollY
+										}
+
+										document.addEventListener('scroll', function () {
+											const scrollPosition = window.pageYOffset
+											const distanceFromTop = calculateDistanceFromTop()
+
+											parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
+										})
+								})()
+							</script>
+						{% endif %}
+					{% endif %}
 				</section>		
 			
 			{# OUTCOMES #}
 			{% elseif main.acf_fc_layout == 'outcomes' %}
-				<section class="ann__outcomes wrapper--pad-xlg" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %}>
+				<section class="ann__outcomes wrapper--pad-xlg ann__sct_parallax" {% if main.background.background_color %}style="background-color: {{ main.background.background_color }}"{% endif %}>
 					<div class="ann__outcomes_container ann__width-page">
 						{% if header_text_top or main.header_text_bottom or main.circle_image %}
 							<div class="ann__outcomes_container-top">
@@ -594,6 +696,29 @@
 					{% endfor %}
 						</div>
 					</div>
+					{% if main.background.background_image %}
+						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background.background_image).src }});"></div>
+						{% if main.background.background_image_parallax %}
+							<script>
+								// Encapsulate each parallax instance by targeting its unique ID
+								(function() {
+										const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
+
+										function calculateDistanceFromTop() {
+												const rect = parallaxLayer.getBoundingClientRect()
+												return rect.top + window.scrollY
+										}
+
+										document.addEventListener('scroll', function () {
+											const scrollPosition = window.pageYOffset
+											const distanceFromTop = calculateDistanceFromTop()
+
+											parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
+										})
+								})()
+							</script>
+						{% endif %}
+					{% endif %}
 				</section>
 			{% endif %}
 		{% endfor %}

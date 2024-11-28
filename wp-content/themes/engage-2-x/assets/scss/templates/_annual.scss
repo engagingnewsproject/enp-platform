@@ -148,9 +148,13 @@ blockquote {
 		@include media($phablet) {
 			position: absolute;
 			background-color: $annual-red;
-			width: 30vw;
-			height: 24rem;
+			width: 50vw;
+			height: 20em;
 			z-index: 4;
+		}
+		@include media($tablet) {
+			width: 30vw;
+			height: 24em;
 		}
 		@include media($laptop) {
 			padding: 4em;
@@ -320,8 +324,11 @@ blockquote {
 		&_parallax {
       perspective: 1px;
 			height: auto;
-      min-height: 100vh;
       overflow: hidden;
+			
+			&.parallax-sct {
+				min-height: 100vh;
+			}
 
       .ann__sct_parallax__group {
         position: relative;
@@ -346,10 +353,11 @@ blockquote {
         z-index: 4;
         animation: slideInFadeIn 1.5s forwards;
 				transform: translate3d(0, 40px, 0);
-				padding: 0 2em;
+				padding: 4em 2em;
 				width: 100vw;
 				@include media($tablet) {
 					width: 40vw;
+					padding: 0 0;
 				}
 				@include media($laptop) {
 					width: 50vw;
@@ -386,14 +394,13 @@ blockquote {
         left: 0;
         bottom: 0;
         right: 0;
-        transform: translateZ(-1px) scale(2);
         z-index: 1;
 				background-position:center;
 				background-size:cover;
 				width:100%;
 				height:114vh;
 				@include media($phablet) {
-					height:100vh;
+					height:auto;
 				}
       }
 			.parallax-overlay {
@@ -517,8 +524,10 @@ blockquote {
 		}
 		&.wrapper--pad-xlg,
 		&.wrapper--pad-huge {
-			padding-top: 6em;
-			padding-bottom: 6em;
+			padding: 4em 2em;
+			@include media($phablet) {
+				padding: 4em;
+			}
 		}
 		&.vert-pad-sm {
 			padding-top: 4em;
@@ -653,8 +662,8 @@ blockquote {
 		grid-column-gap: 3em;
 	}
 	&.grid_columns_gap-large {
-		grid-column-gap: 2em;
-		@include media($laptop) {
+		grid-column-gap: 3em;
+		@include media($phablet) {
 			grid-column-gap: 5em;
 		}
 	}
@@ -1083,6 +1092,7 @@ svg.deco-border-svg {
 		opacity: 0; /* Initially hidden */
 		animation: fadeInBackground 2s ease forwards; /* Apply fade-in effect */
 		transform-origin: top right;
+		z-index: 2;
 
 		@media (min-width: 350px) {
 			scale: 1.2;
@@ -1095,6 +1105,10 @@ svg.deco-border-svg {
 		@include media($desktop) {
 			scale: 1.3;
 		}
+	}
+	
+	&_header_wrap {
+		z-index: 2;
 	}
 
 	&_circle_container > &_circle_svg {
@@ -1427,12 +1441,16 @@ svg.deco-border-svg {
 	flex-direction: column;
 	position: relative;
 	overflow: hidden;
-	min-height: 100vh;	
 
 	&_container {
 		padding: 5em 2em;
+		z-index: 2;
 		@include media($phablet) {
-			padding: 2em 0;
+			padding: 4em;
+		}
+		@include media($laptop) {
+			padding: 5em 2em;
+			min-height: 100vh;	
 		}
 
 		&-top {
@@ -1608,14 +1626,14 @@ svg.deco-border-svg {
 		row-gap: 1em;
 		&-row {
 			flex-direction: column;
-			@include media($tablet) {
+			@include media($phablet) {
 				flex-direction: row;
 				column-gap: 2em;
 			}
 		}
 		&-row-reverse {
 			flex-direction: column;
-			@include media($tablet) {
+			@include media($phablet) {
 				flex-direction: row-reverse;
 				column-gap: 2em;
 			}
@@ -1634,23 +1652,27 @@ svg.deco-border-svg {
 }
 // 
 .ann__wysiwyg {
-	padding-top: 2em;
+	padding: 4em 2em;
+	@include media($phablet) {
+		padding: 4em;
+	}
 	@include media($laptop) {
-		margin-top: 2em;
+		padding: 4em 0;
 	}
 	.columns {
 		display: flex;
 		flex-direction: column;
-		padding: 0 2em;
 		gap: 1em;
 		@include media($phablet) {
 			flex-direction: row;
-			padding: 0 4em;
 		}
 		@include media($laptop) {
 			padding: 0;
 			gap: 3em;
 		}
+	}
+	.column {
+		z-index: 2;
 	}
 	.column-2 {
 		flex-basis: 50%;
@@ -1676,6 +1698,20 @@ svg.deco-border-svg {
 			word-break: normal;
 			font-weight: bold;
 		}
+	}
+	// background image
+	&_bk-img {
+		background-repeat: no-repeat;
+		background-position: center;
+		background-attachment: fixed; /* Creates the parallax effect */
+		background-size: cover;
+	}
+	.wysiwyg-bk-img {
+		position: absolute;
+		top: 0;
+		width: auto;
+		height: 100%;
+		min-width: 100vw;
 	}
 }
 // modifiers
