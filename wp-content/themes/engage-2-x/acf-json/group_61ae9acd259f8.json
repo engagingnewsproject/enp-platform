@@ -2994,6 +2994,29 @@
                             "selected": 0
                         },
                         {
+                            "key": "field_66fd677c7aad0",
+                            "label": "Header year",
+                            "name": "landing_header_year",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "Year for annual report",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": 2023,
+                            "min": "",
+                            "max": "",
+                            "allow_in_bindings": 1,
+                            "placeholder": "",
+                            "step": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
                             "key": "field_66e44a961307a",
                             "label": "Title",
                             "name": "landing_header_bottom",
@@ -3003,7 +3026,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "",
+                                "width": "50",
                                 "class": "",
                                 "id": ""
                             },
@@ -3024,7 +3047,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "",
+                                "width": "50",
                                 "class": "",
                                 "id": ""
                             },
@@ -3036,26 +3059,43 @@
                             "append": ""
                         },
                         {
-                            "key": "field_66fd677c7aad0",
-                            "label": "Header year",
-                            "name": "landing_header_year",
+                            "key": "field_674f54e8c6b83",
+                            "label": "Button text",
+                            "name": "button_text",
                             "aria-label": "",
-                            "type": "number",
-                            "instructions": "Year for annual report",
+                            "type": "text",
+                            "instructions": "",
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "",
+                                "width": "50",
                                 "class": "",
                                 "id": ""
                             },
-                            "default_value": 2023,
-                            "min": "",
-                            "max": "",
+                            "default_value": "Download Report",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
                             "placeholder": "",
-                            "step": "",
                             "prepend": "",
                             "append": ""
+                        },
+                        {
+                            "key": "field_674f55a9c6b84",
+                            "label": "Button URL",
+                            "name": "button_url",
+                            "aria-label": "",
+                            "type": "url",
+                            "instructions": "If you would like the button to download a PDF find the PDF in the media library, click the \"Copy URL to clipboard\" button and paste it here.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "\/",
+                            "allow_in_bindings": 0,
+                            "placeholder": ""
                         },
                         {
                             "key": "field_66e9f8eb22ef6",
@@ -3067,7 +3107,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "",
+                                "width": "50",
                                 "class": "",
                                 "id": ""
                             },
@@ -3080,7 +3120,29 @@
                             "max_height": "",
                             "max_size": "",
                             "mime_types": "",
+                            "allow_in_bindings": 1,
                             "preview_size": "medium"
+                        },
+                        {
+                            "key": "field_674f5bae0e5e6",
+                            "label": "Button external",
+                            "name": "button_external",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "Open the button URL in a new tab?",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "allow_in_bindings": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": "",
+                            "ui": 1
                         },
                         {
                             "key": "field_673e5dfbf9762",
@@ -3190,6 +3252,25 @@
                                     "ui": 1
                                 }
                             ]
+                        },
+                        {
+                            "key": "field_674f59616a064",
+                            "label": "Button color",
+                            "name": "button_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "enable_opacity": 0,
+                            "return_format": "array",
+                            "allow_in_bindings": 0
                         }
                     ],
                     "min": "",
@@ -4601,5 +4682,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1732762934
+    "modified": 1733256178
 }

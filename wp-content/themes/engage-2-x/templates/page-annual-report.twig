@@ -135,7 +135,7 @@
 							<h2 class="ann__content-table_header-bottom fade-in-up-2" {{main_title_color}}>{{ main.highlights_title }}</h2>
 						{% endif %}
 					</div>
-					<div class="ann__grid grid {{columns}} {{gap}}">
+					<div class="ann__grid grid ann__image-grid {{columns}} {{gap}}">
 					{% for item in main.highlight %}
 						<div class="ann__grid_item {% if deco_border %}ann__grid_item-relative{% endif %} item-animate" {{align_content}}>
 							{% if item.highlight_icon %}
@@ -453,21 +453,39 @@
 											<tspan x="0" y="60" dominant-baseline="hanging">{% if main.landing_header_year %}{{main.landing_header_year}}{% endif %}</tspan>
 									</text>
 							</g>
-					</svg>
+						</svg>
 					</div>
 
 					<div class="ann__landing_header_wrap">
-						{% if main.landing_header_top is defined and main.landing_header_top and main.landing_header_bottom is defined and main.landing_header_bottom %}
-						<div class="ann__landing_header_container ann__landing_fade_in_and_up_delay_1">
-							<h1 class="ann__landing_header">
-								<span class="ann__landing_header_top ann__landing_fade_in_and_up_delay_1">{{ main.landing_header_top }}</span>
-								<span class="ann__landing_header_bottom ann__landing_fade_in_and_up_delay_2">{{ main.landing_header_bottom }}</span>
-							</h1>
-						</div>
-						{% endif %}
+						<div class="header-container">
+							{% if main.landing_header_top is defined and main.landing_header_top and main.landing_header_bottom is defined and main.landing_header_bottom %}
+								<div class="ann__landing_header_container ann__landing_fade_in_and_up_delay_1">
+									<h1 class="ann__landing_header">
+										<span class="ann__landing_header_top ann__landing_fade_in_and_up_delay_1">{{ main.landing_header_top }}</span>
+										<span class="ann__landing_header_bottom ann__landing_fade_in_and_up_delay_2">{{ main.landing_header_bottom }}</span>
+									</h1>
+								</div>
+							{% endif %}
 
-						{% if main.landing_logo_image %}
-							<img  src="{{ get_image(main.landing_logo_image).src }}" srcset="{{ get_image(main.landing_logo_image).srcset }}" sizes="{{ get_image(main.landing_logo_image).img_sizes }}" alt="{{ get_image(main.landing_logo_image).alt }}" class="ann__landing_logo ann__landing_fade_in_and_up_delay_3" />
+							{% if main.landing_logo_image %}
+								<img  src="{{ get_image(main.landing_logo_image).src }}" srcset="{{ get_image(main.landing_logo_image).srcset }}" sizes="{{ get_image(main.landing_logo_image).img_sizes }}" alt="{{ get_image(main.landing_logo_image).alt }}" class="ann__landing_logo ann__landing_fade_in_and_up_delay_3" />
+							{% endif %}
+						</div>
+
+						{% if main.button_text %}
+						{% set red = main.button_color.red ~ ', ' %}
+						{% set green = main.button_color.green ~ ', ' %}
+						{% set blue = main.button_color.blue %}
+						{% set alpha = main.button_color.alpha %}
+						{% set btn_color = red ~ green ~ blue %}
+							<div class="button-container">
+								<a class="btn btn--ghost btn--ghost-square" style="border-color: rgba({{ btn_color }}, {{ alpha }}); color: rgba({{ btn_color }}, {{ alpha }});" href="{{ main.button_url }}" {% if main.button_external %}target="_blank"{% endif %}>{{ main.button_text }}</a>
+							</div>
+							<style>
+								.btn--ghost-square:hover {
+									background-color: rgba({{ btn_color}}, 0.1);
+								}
+							</style>
 						{% endif %}
 					</div>
 					{% if main.background.background_image %}

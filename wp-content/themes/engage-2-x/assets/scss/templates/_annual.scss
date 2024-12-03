@@ -675,6 +675,10 @@ blockquote {
 	}
 }
 
+.ann__image-grid {
+	z-index: 2;
+}
+
 // Grid svg decorative border
 svg.deco-border-svg {
 	width: 100%;
@@ -1109,6 +1113,12 @@ svg.deco-border-svg {
 	
 	&_header_wrap {
 		z-index: 2;
+		display: flex;
+		justify-content: space-between;
+		.button-container {
+			align-content: end;
+			padding: 1em 0;
+		}
 	}
 
 	&_circle_container > &_circle_svg {
@@ -1363,7 +1373,7 @@ svg.deco-border-svg {
 
 	&_header {
 		padding-left: 1rem;
-		
+		z-index: 2;
 		display: grid;
 		grid-template-columns: 1fr;
 		grid-template-rows: auto auto;

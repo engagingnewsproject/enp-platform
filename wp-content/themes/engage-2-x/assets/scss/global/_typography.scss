@@ -304,7 +304,7 @@ input[type="submit"],
 
 .btn--ghost,
 input.btn--ghost {
-	background: transparent !important;
+	background: transparent;
 	color: $orange;
 	border: 2px solid $orange;
 	fill: $orange;
@@ -318,7 +318,7 @@ input.btn--ghost {
 	&:focus {
 		color: darken($orange, 8%);
 		border-color: darken($orange, 8%);
-		background: transparent !important;
+		background: transparent;
 		fill: darken($orange, 6.5%);
 	}
 
@@ -368,4 +368,11 @@ input.btn--sm {
 .btn__icon {
 	margin-right: $spacer-sm;
 	font-size: 1.15rem;
+}
+
+.btn--ghost-square {
+	border-radius: 4px;
+	&:hover {
+		background-color: #000;
+	}
 }
