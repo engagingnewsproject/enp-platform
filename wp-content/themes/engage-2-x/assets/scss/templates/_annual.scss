@@ -1114,7 +1114,11 @@ svg.deco-border-svg {
 	&_header_wrap {
 		z-index: 2;
 		display: flex;
+		flex-direction: column;
 		justify-content: space-between;
+		@include media($tablet) {
+			flex-direction: row;
+		}
 		.button-container {
 			align-content: end;
 			padding: 1em 0;
