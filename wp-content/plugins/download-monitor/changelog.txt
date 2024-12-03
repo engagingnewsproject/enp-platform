@@ -1,3 +1,41 @@
+= 5.0.14 - 29.10.2024 =
+Fixed: Session performance problems
+Added: No Access modal for the Members lock functionality
+
+= 5.0.13 - 22.10.2024 =
+Fixed: Bulk editing download paths was deleting the paths ( [#1574](https://github.com/WPChill/download-monitor/issues/1574) )
+Fixed: Enabling paths from Download edit not working in some conditions ( [#1576](https://github.com/WPChill/download-monitor/issues/1576) )
+Fixed: Paths conflicts ( [#1566](https://github.com/WPChill/download-monitor/issues/1566) )
+Fixed: Quick edit for terms & conditions ( [#1565](https://github.com/WPChill/download-monitor/issues/1565) )
+Changed: Upsells ( [#1567](https://github.com/WPChill/download-monitor/issues/1567) )
+Fixed: Security issue for Key Generation ( thanks to @truonghuuphuc )
+Added: Extra notices for access permissions
+
+= 5.0.12 - 25.09.2024 =
+Fixed: Error on simple site approved download path deletion
+
+= 5.0.11 - 25.09.2024 =
+Fixed: Critical error when no paths ( [#1558](https://github.com/WPChill/download-monitor/issues/1558) )
+Fixed: REST API Version creation order ( [#1557](https://github.com/WPChill/download-monitor/issues/1557) )
+Fixed: Allow network admin to quick add paths from Download edit screen ( [#1559](https://github.com/WPChill/download-monitor/issues/1559) )
+
+= 5.0.10 - 24.09.2024 =
+Fixed: Check user capability when enabling Shop ( thanks to @truonghuuphuc for reporting ) ( [#1551](https://github.com/WPChill/download-monitor/issues/1551) )
+Fixed: Double slash for home url ( [#1533](https://github.com/WPChill/download-monitor/issues/1533) )
+Changed: Downloadable file URLs format on save ( [#1536](https://github.com/WPChill/download-monitor/issues/1536) )
+Fixed: PHP Error ( [#1534](https://github.com/WPChill/download-monitor/issues/1534) )
+Changed: Downloads Paths for multisite, now on each site ( only network admin can add them ) ( [#1538](https://github.com/WPChill/download-monitor/issues/1538) )
+Fixed: Database error when installing tables on multisite ( [#1540](https://github.com/WPChill/download-monitor/issues/1540) )
+Added: Terms & Conditions quick edit action in admin list ( [#1510](https://github.com/WPChill/download-monitor/issues/1510) )
+Fixed: New untitled Download fatal error ( [#1541](https://github.com/WPChill/download-monitor/issues/1541) )
+Fixed: Plugin conflict with Event Espresso ( [#1548](https://github.com/WPChill/download-monitor/issues/1548) )
+Fixed: Main site in multisite incorrect route ( [#1549](https://github.com/WPChill/download-monitor/issues/1549) )
+Fixed: Printing emoji in Insert in Editor action ( [#1504](https://github.com/WPChill/download-monitor/issues/1504) )
+Fixed: Creating API Keys on Firefox & Firefox like browsers ( [#1553](https://github.com/WPChill/download-monitor/issues/1553) )
+
+= 5.0.9 - 29.08.2024 =
+Fixed: Security update when exporting single Download CPT
+
 = 5.0.8 - 28.08.2024 =
 Fixed: Logging bug in some conditions ( [#1527](https://github.com/WPChill/download-monitor/issues/1527) )
 Fixed: Legacy importer null content bug ( [#1528](https://github.com/WPChill/download-monitor/issues/1528) )

@@ -35,7 +35,7 @@ class NF_Fields_Terms extends NF_Fields_ListCheckbox
         // OR we're editing a single post...
         if ( ( ! empty( $_GET[ 'page' ] ) && 'ninja-forms' == $_GET[ 'page' ] ) ||
            ( ! empty( $_GET[ 'post_type' ] ) && 'nf_sub' == $_GET[ 'post_type' ] ) ||
-           isset( $_GET[ 'post' ] ) ) {
+           isset( $_GET[ 'post' ] ) && 'nf_sub' === get_post_type( $_GET[ 'post' ] ) ) {
             // Initiate the termslist.
             add_action( 'admin_init', array( $this, 'init_settings' ) );
         }

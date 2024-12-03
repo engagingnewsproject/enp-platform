@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Footnotes Made Easy
-Plugin URI: https://github.com/wpcorner/footnotes-made-easy/
+Plugin URI: https://github.com/divibanks/footnotes-made-easy/
 Description: Allows post authors to easily add and manage footnotes in posts.
-Version: 3.0.4
+Version: 3.0.5
 Author: Patrick Lumumba
-Author URI: https://wpcorner.co/author/patrick-l/
+Author URI: https://lumumbas.blog
 Text Domain: footnotes-made-easy
 */
 
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Enqueue plugin styles
  */
 function fme_enqueue_styles() {
-    wp_enqueue_style( 'gbad-styles', plugin_dir_url( __FILE__ ) . 'css/gbad.css', array(), filemtime( plugin_dir_path( __FILE__ ) . 'css/gbad.css' ) );
+    wp_enqueue_style( 'dbad-styles', plugin_dir_url( __FILE__ ) . 'css/dbad.css', array(), filemtime( plugin_dir_path( __FILE__ ) . 'css/dbad.css' ) );
 }
 add_action( 'admin_enqueue_scripts', 'fme_enqueue_styles' );
 
@@ -42,7 +42,6 @@ class swas_wp_footnotes {
 
 	private $current_options;
 	private $default_options;
-	private $styles;
 
 	const OPTIONS_VERSION = "5"; // Incremented when the options array changes
 
