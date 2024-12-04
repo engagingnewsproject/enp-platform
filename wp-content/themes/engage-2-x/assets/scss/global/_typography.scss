@@ -268,6 +268,7 @@ input[type="submit"],
 	letter-spacing: 0.4px;
 	border-radius: 40px;
 	cursor: pointer; /* Improves usability and consistency of cursor style between image-type 'input' and others */
+	appearance: none;
 	-webkit-appearance: none; /* Corrects inability to style clickable 'input' types in iOS */
 	transition: all 0.2s;
 
