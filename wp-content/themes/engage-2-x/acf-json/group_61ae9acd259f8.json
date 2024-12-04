@@ -354,7 +354,7 @@
                                 },
                                 {
                                     "key": "field_67290b06636ac",
-                                    "label": "Show title (wysiwyg)",
+                                    "label": "Show title",
                                     "name": "show_title",
                                     "aria-label": "",
                                     "type": "true_false",
@@ -381,7 +381,15 @@
                                     "type": "text",
                                     "instructions": "",
                                     "required": 0,
-                                    "conditional_logic": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_67290b06636ac",
+                                                "operator": "==",
+                                                "value": "1"
+                                            }
+                                        ]
+                                    ],
                                     "wrapper": {
                                         "width": "",
                                         "class": "",
@@ -402,7 +410,15 @@
                                     "type": "text",
                                     "instructions": "",
                                     "required": 0,
-                                    "conditional_logic": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_67290b06636ac",
+                                                "operator": "==",
+                                                "value": "1"
+                                            }
+                                        ]
+                                    ],
                                     "wrapper": {
                                         "width": "",
                                         "class": "",
@@ -423,7 +439,15 @@
                                     "type": "tab",
                                     "instructions": "",
                                     "required": 0,
-                                    "conditional_logic": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_67290b06636ac",
+                                                "operator": "==",
+                                                "value": "1"
+                                            }
+                                        ]
+                                    ],
                                     "wrapper": {
                                         "width": "",
                                         "class": "",
@@ -963,48 +987,6 @@
                             "selected": 0
                         },
                         {
-                            "key": "field_61ae9c49e24a6",
-                            "label": "Title",
-                            "name": "highlights_title",
-                            "aria-label": "",
-                            "type": "text",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "Highlights title ex",
-                            "maxlength": "",
-                            "allow_in_bindings": 1,
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
-                        },
-                        {
-                            "key": "field_67180c6ec4203",
-                            "label": "Subtitle",
-                            "name": "highlights_subtitle",
-                            "aria-label": "",
-                            "type": "text",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "maxlength": "",
-                            "allow_in_bindings": 1,
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
-                        },
-                        {
                             "key": "field_674f9344ed18c",
                             "label": "Header",
                             "name": "header_group",
@@ -1125,7 +1107,15 @@
                                     "type": "tab",
                                     "instructions": "",
                                     "required": 0,
-                                    "conditional_logic": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_674f9344ed18e",
+                                                "operator": "==",
+                                                "value": "1"
+                                            }
+                                        ]
+                                    ],
                                     "wrapper": {
                                         "width": "",
                                         "class": "",
@@ -3353,7 +3343,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "50",
+                                "width": "33.333",
                                 "class": "",
                                 "id": ""
                             },
@@ -3376,7 +3366,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "50",
+                                "width": "33.333",
                                 "class": "",
                                 "id": ""
                             },
@@ -3397,7 +3387,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "50",
+                                "width": "33.333",
                                 "class": "",
                                 "id": ""
                             },
@@ -3409,6 +3399,32 @@
                             "append": ""
                         },
                         {
+                            "key": "field_66e9f8eb22ef6",
+                            "label": "Logo image",
+                            "name": "landing_logo_image",
+                            "aria-label": "",
+                            "type": "image",
+                            "instructions": "Logo for CME",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "id",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "allow_in_bindings": 1,
+                            "preview_size": "medium"
+                        },
+                        {
                             "key": "field_674f54e8c6b83",
                             "label": "Button text",
                             "name": "button_text",
@@ -3418,7 +3434,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "50",
+                                "width": "33.333",
                                 "class": "",
                                 "id": ""
                             },
@@ -3439,39 +3455,13 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "50",
+                                "width": "33.333",
                                 "class": "",
                                 "id": ""
                             },
                             "default_value": "\/",
                             "allow_in_bindings": 0,
                             "placeholder": ""
-                        },
-                        {
-                            "key": "field_66e9f8eb22ef6",
-                            "label": "Logo image",
-                            "name": "landing_logo_image",
-                            "aria-label": "",
-                            "type": "image",
-                            "instructions": "Logo for CME",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "50",
-                                "class": "",
-                                "id": ""
-                            },
-                            "return_format": "id",
-                            "library": "all",
-                            "min_width": "",
-                            "min_height": "",
-                            "min_size": "",
-                            "max_width": "",
-                            "max_height": "",
-                            "max_size": "",
-                            "mime_types": "",
-                            "allow_in_bindings": 1,
-                            "preview_size": "medium"
                         },
                         {
                             "key": "field_674f5bae0e5e6",
@@ -3483,7 +3473,7 @@
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
-                                "width": "50",
+                                "width": "33.333",
                                 "class": "",
                                 "id": ""
                             },
@@ -3771,7 +3761,15 @@
                                     "type": "tab",
                                     "instructions": "",
                                     "required": 0,
-                                    "conditional_logic": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_67237ae838edd",
+                                                "operator": "==",
+                                                "value": "1"
+                                            }
+                                        ]
+                                    ],
                                     "wrapper": {
                                         "width": "",
                                         "class": "",
@@ -4786,7 +4784,15 @@
                                     "type": "tab",
                                     "instructions": "",
                                     "required": 0,
-                                    "conditional_logic": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_674f8bfbb1958",
+                                                "operator": "==",
+                                                "value": "1"
+                                            }
+                                        ]
+                                    ],
                                     "wrapper": {
                                         "width": "",
                                         "class": "",
@@ -5340,5 +5346,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1733268347
+    "modified": 1733278548
 }
