@@ -6,6 +6,8 @@ $annual-orange: #CC6B00;
 $annual-black: #1A1919;
 $annual-title-size: 3rem;
 $annual-subtitle-size: 1.5rem;
+$annual-desktop-page-width: 60em;
+$annual-desktop-max-width: 90em;
 // typography
 blockquote, .founders {
 	font-family: $font-family-founders-grotesk-bold;
@@ -32,16 +34,19 @@ blockquote {
 // Widths
 .ann__width-page {
 	@include media($laptop) {
-		max-width: 55rem;
+		max-width: $annual-desktop-page-width;
 		margin: 0 auto;
 	}
 }
-.ann__width-full > * {
+
+.ann__width-full {
+	z-index: 2;
 	@include media($laptop) {
-		max-width: 80rem;
+		max-width: $annual-desktop-max-width;
 		margin: 0 auto;
 	}
 }
+
 // Headers
 .ann__feat-header {
 	background-color: $teal-light;
@@ -142,22 +147,65 @@ blockquote {
 	display: flex;
 	z-index: 4;
 	width: 100%;
-	max-width: 960px;
-	margin: 0 auto;
+	// Title with border
+	&.header-border,
 	&.header-deco {
 		@include media($phablet) {
+			padding: 0 0 3em 0;
+		}
+		@include media($laptop) {
+			padding: 0 0 3em 0;
+		}
+		.ann__header-wrap {
+			display: flex;
+			flex-direction: column;
+			padding: 0 1em;
+			overflow: hidden;
+			@include media($laptop) {
+				padding: 0 1em;
+			}
+		}
+		.ann__header,
+		.ann__subheader {
+			padding: 0;
+			margin: 0;
+			line-height: normal;
+			text-transform: uppercase;
+		}
+		.ann__header {
+			font-size: 2.5rem;
+			@include media($phablet) {
+				font-size: 3rem;
+			}
+		}
+		.ann__subheader {
+			font-size: 1.5rem;
+			@include media($phablet) {
+				font-size: 2rem;
+			}
+		}
+	}
+	&.header-deco {
+		padding: 0 2em;
+		@include media($phablet) {
 			position: absolute;
-			background-color: $annual-red;
 			width: 50vw;
 			height: 20em;
 			z-index: 4;
+			background-color: $annual-red;
+			width: 26em;
+			padding: 2em;
 		}
 		@include media($tablet) {
-			width: 30vw;
+			width: 40em;
 			height: 24em;
 		}
 		@include media($laptop) {
-			padding: 4em;
+			width: 25em;
+			padding: 3em;
+		}
+		@include media($desktop) {
+			width: 26em;
 		}
 		&::after {
 			@include media($phablet) {
@@ -218,35 +266,6 @@ blockquote {
 	&.header-align-right {
     text-align: right;
 	}
-	// Title with border
-	&.header-border,
-	&.header-deco {
-		padding: 2em;
-		@include media($laptop) {
-			padding: 3em;
-		}
-		.ann__header-wrap {
-			display: flex;
-			flex-direction: column;
-			padding: 0 1em;
-			@include media($laptop) {
-				padding: 0 1em;
-			}
-		}
-		.ann__header,
-		.ann__subheader {
-			padding: 0;
-			margin: 0;
-			line-height: normal;
-			text-transform: uppercase;
-		}
-		.ann__header {
-			font-size: 3rem;
-		}
-		.ann__subheader {
-			font-size: 2rem;
-		}
-	}
 	// border left
 	&.header-border-left {
 		.ann__header-wrap {
@@ -286,6 +305,7 @@ blockquote {
 	@at-root #{&}__sct {
 		margin-top: unset;
 		display: grid;
+		row-gap: 2em;
 		&_split {
 			grid-template-columns: 1fr;
 			grid-template-rows: 1fr auto;
@@ -338,12 +358,10 @@ blockquote {
         display: flex;
 				flex-direction: column;
         align-items: center;
-        justify-content: start;
-				@include media($phablet) {
-					justify-content: center;
-				}
+        justify-content: center;
+				padding: 2em 0;
       }
-
+			
       .ann__sct_parallax__container {
         display: flex;
         align-items: center;
@@ -353,13 +371,20 @@ blockquote {
         z-index: 4;
         animation: slideInFadeIn 1.5s forwards;
 				transform: translate3d(0, 40px, 0);
-				padding: 4em 2em;
+				padding: 0 2em;
 				width: 100vw;
+				@include media($phablet) {
+					width: 40em;
+					padding: 0 2em;
+				}
 				@include media($tablet) {
 					width: 40vw;
 					padding: 0 0;
 				}
 				@include media($laptop) {
+					width: 70vw;
+				}
+				@include media($desktop) {
 					width: 50vw;
 				}
       }
@@ -383,9 +408,7 @@ blockquote {
         height: 6px;
         border: none;
         margin: 0;
-
 				transform: scale3d(0, 0, 0);
-        
       }
 
       .ann__sct_parallax__layer--back {
@@ -400,7 +423,7 @@ blockquote {
 				width:100%;
 				height:114vh;
 				@include media($phablet) {
-					height:auto;
+					height: 110vh;
 				}
       }
 			.parallax-overlay {
@@ -525,8 +548,11 @@ blockquote {
 		&.wrapper--pad-xlg,
 		&.wrapper--pad-huge {
 			padding: 4em 2em;
-			@include media($phablet) {
-				padding: 4em;
+			// @include media($phablet) {
+			// 	padding: 8em 4em;
+			// }
+			@include media($tablet) {
+				padding: 8em 4em;
 			}
 		}
 		&.vert-pad-sm {
@@ -967,9 +993,6 @@ svg.deco-border-svg {
 		@include media($laptop) {
 			width: 55%;
 		}
-		@include media($desktop) {
-			width: 45%;
-		}
 	}
 	.bottom_left_deco_graphic {
 		position: absolute;
@@ -1114,7 +1137,11 @@ svg.deco-border-svg {
 	&_header_wrap {
 		z-index: 2;
 		display: flex;
+		flex-direction: column;
 		justify-content: space-between;
+		@include media($phablet) {
+			flex-direction: row;
+		}
 		.button-container {
 			align-content: end;
 			padding: 1em 0;
@@ -1377,10 +1404,8 @@ svg.deco-border-svg {
 		display: grid;
 		grid-template-columns: 1fr;
 		grid-template-rows: auto auto;
-
 		text-transform: uppercase;
 		line-height: 1;
-
 
 		&-top {
 			font-size: 1.5rem;
@@ -1452,13 +1477,16 @@ svg.deco-border-svg {
 	position: relative;
 	overflow: hidden;
 
+	.ann__header-container {
+		height: 100%;
+	}
 	&_container {
 		padding: 5em 2em;
 		z-index: 2;
 		@include media($phablet) {
 			padding: 4em;
 		}
-		@include media($laptop) {
+		@include media($desktop) {
 			padding: 5em 2em;
 			min-height: 100vh;	
 		}
@@ -1509,31 +1537,6 @@ svg.deco-border-svg {
 			}
 		}
 	}
-	&_header {
-		display: flex;
-		flex-direction: column;
-		align-items: end;
-		width: 100%;
-		text-transform: uppercase;
-		z-index: 2;
-		overflow: hidden;
-
-		&-top {
-			font-size: 2rem;
-			font-weight: 600;
-			margin-left: 10px;
-			margin-bottom: 0;
-			z-index: 1;
-		}
-	
-		&-bottom {
-			font-size: 3rem;
-			margin-bottom: 0;
-			// @include media($laptop) {
-			// 	font-size: 80px;
-			// }
-		}
-	}
 
 	&_img {
 		position: relative;
@@ -1554,81 +1557,6 @@ svg.deco-border-svg {
 	@include media($laptop) {
 		padding: 4em 0;
 	}
-
-	&_container {
-
-		&-top {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
-
-			&-left {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				margin-top: 5rem;
-
-				opacity: 0;
-				animation: fadeIn 1.75s forwards;
-
-				&_text {
-					position: absolute;
-					transform: translate(15%, calc(65% + 10px));
-					width: 500px;
-					font-size: 25px;
-					font-weight: bold;
-				}
-			}
-		}
-
-		&-bottom {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			height: 100%;
-			width: auto;
-			margin-top: 5em;
-			flex: 1;
-			transform: translateY(30px);	
-			animation: slideInFadeIn 1.5s forwards;
-			row-gap: 3em;
-			@include media($tablet) {
-				margin-top: 5em;
-			}
-			h3 {
-				font-size: calc(100% + 8px);
-				color: #3c4952;
-			}
-		}
-	}
-	&_header {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		text-transform: uppercase;
-		z-index: 2;
-		transform: scale3d(1, 0, 1);
-		animation: scaleUp 1.5s forwards;
-		overflow: hidden;
-
-		&-top {
-			font-size: 2rem;
-			font-weight: 600;
-			animation: slideInFadeIn 1s forwards;
-			animation-delay: 1.5s;
-			z-index: 1;
-			margin-bottom: 0;
-		}
-	
-		&-bottom {
-			font-size: $annual-title-size;
-			margin-bottom: 0;
-			transform: translateX(120%);
-			animation: slideInFadeIn 1s forwards;
-			animation-delay: 1.5s;
-		}
-	}
-
 	&_item {
 		margin-bottom: 1rem;
 		display: flex;
@@ -1658,6 +1586,10 @@ svg.deco-border-svg {
 			flex-direction: column;
 			flex: 1;
 		}
+	}
+		.ann__outcomes_container {
+		display: grid;
+		row-gap: 2em;
 	}
 }
 // 
@@ -1691,7 +1623,10 @@ svg.deco-border-svg {
 		flex-basis: 33.333%;
 	}
 	.column-quote {
-		padding: 0 2em;
+		padding: 0 1em;
+		@include media($phablet) {
+			padding: 0 2em;
+		}
 	}
 	figure:has(.cirlce-img-text) {
 		position: relative;

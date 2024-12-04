@@ -292,3 +292,19 @@ function add_custom_link_to_login_page() {
 }
 add_action('login_footer', 'add_custom_link_to_login_page');
 
+
+// This filter allows you to customize the title displayed 
+// for each layout in the Flexible Content field based on field values or any other logic
+add_filter('acf/fields/flexible_content/layout_title', function ($title, $field, $layout, $i) {
+    if ($layout['name'] === 'wysiwyg' || $layout['name'] === 'highlights' || $layout['name'] === 'research_initiatives' || $layout['name'] === 'parallax') { // Check if the layout is the "wysiwyg" layout
+        // Access the "header" subfield inside the "header_group"
+        $header_group = get_sub_field('header_group'); // Get the group field
+        if ($header_group && isset($header_group['header']) && $header_group['header'] != '') { // Ensure the subfield exists
+            $header_title = $header_group['header'];
+            $title .= ' - ' . esc_html($header_title); // Append the header title
+        }
+    }
+    return $title;
+}, 10, 4);
+
+

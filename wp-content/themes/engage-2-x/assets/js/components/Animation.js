@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
     parallaxBarScale.observe(element);
   });
   
+  // Slide in fade in FORWARDS
   const slideInFadeIn = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -48,6 +49,20 @@ document.addEventListener("DOMContentLoaded", function() {
   const elementsToSlideInFadeIn = document.querySelectorAll('.item-slide-in-fade-in');
   elementsToSlideInFadeIn.forEach(element => {
     slideInFadeIn.observe(element);
+  });
+
+  // Slide in fade in REVERSE
+  const slideInFadeInRev = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('slide_in_fade_in_rev');
+      }
+    });
+  }, observerOptions);
+
+  const elementsToSlideInFadeInRev = document.querySelectorAll('.item-slide-in-fade-in-rev');
+  elementsToSlideInFadeInRev.forEach(element => {
+    slideInFadeInRev.observe(element);
   });
 
   const scaleUp = new IntersectionObserver((entries) => {

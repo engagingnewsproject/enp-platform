@@ -84,10 +84,6 @@
 				{# Logic #}
 					{# vars #}
 					{% set background_color = null %}
-					{% set main_title_color = null %}
-					{% set main_subtitle_color = null %}
-					{% set subtitle_color = null %}
-					{% set border_color = null %}
 					{% set deco_border = null %}
 					{% set align_content = '' %}
 					{% set align = main.align %}
@@ -95,18 +91,6 @@
 					{# background color #}
 					{% if main.background.background_color %} 
 						{% set background_color = 'style="background-color:' ~ main.background.background_color ~ ';"' %}
-					{% endif %}
-					{# section title color #}
-					{% if main.highlights_title_color %}
-						{% set main_title_color = 'style="color:' ~ main.highlights_title_color ~ ';"' %}
-					{% endif %}
-					{# section subtitle color #}
-					{% if main.highlights_subtitle_color %}
-						{% set main_subtitle_color = 'style="color:' ~ main.highlights_subtitle_color ~ ';"' %}
-					{% endif %}
-					{# border #}
-					{% if main.highlights_title_border_color %}
-						{% set border_color = 'style="border-left: 7px solid ' ~ main.highlights_title_border_color ~ ';"' %}
 					{% endif %}
 					{# grid item deco border #}
 					{% if main.deco_border %}
@@ -121,48 +105,45 @@
 					{# grid columns #}
 					{% set gap = 'grid_columns_gap-' ~ main.grid_columns_gap %}
 					{# section id #}
-					{% if main.highlights_title %}
-						{% set id = main.highlights_title | trim | replace({' ': '-'}) | lower %}
+					{% if main.header_group.header %}
+						{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
 					{% endif %}
 				{# END logic #}
 				{# markup START #}
-				<section class="ann__sct ann__sct_grid wrapper--pad-xlg {% if main.background.background_image_parallax %}ann__sct_parallax{% endif %}" {{background_color}} {% if main.highlights_title %}id="{{ id }}"{% endif %}>
-					<div class="ann__content-table_header" {{border_color}}>
-						{% if main.highlights_subtitle %}
-							<h3 class="ann__content-table_header-top fade-in-up-1" {{main_subtitle_color}}>{{ main.highlights_subtitle }}</h3>
+				<section class="ann__sct ann__sct_grid wrapper--pad-xlg {% if main.background.background_image_parallax %}ann__sct_parallax{% endif %}" {{background_color}} {% if id %}id="{{ id }}"{% endif %}>
+					<div class="ann__width-full ann__sct">
+						{% if main.header_group.show_title %}
+							{% include "partial/section-header.twig" %}
 						{% endif %}
-						{% if main.highlights_title %}
-							<h2 class="ann__content-table_header-bottom fade-in-up-2" {{main_title_color}}>{{ main.highlights_title }}</h2>
-						{% endif %}
-					</div>
-					<div class="ann__grid grid ann__image-grid {{columns}} {{gap}}">
-					{% for item in main.highlight %}
-						<div class="ann__grid_item {% if deco_border %}ann__grid_item-relative{% endif %} item-animate" {{align_content}}>
-							{% if item.highlight_icon %}
-								<img src="{{ get_image(item.highlight_icon).src }}" sizes="{{ get_image(item.highlight_icon).img_sizes }}"
-									alt="{{ get_image(item.highlight_icon).alt }}" />
-								{% if deco_border %}
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 153 155" class="deco-border-svg">
-										<g fill="none" fill-rule="evenodd">
-											<path stroke="#30383D" stroke-width="3" d="M75.763 146.488c38.375 0 69.485-31.335 69.485-69.99 0-38.656-31.11-69.991-69.485-69.991-38.374 0-69.485 31.335-69.485 69.991 0 38.655 31.11 69.99 69.485 69.99Z"/>
-											<path fill="#AE542D" d="M19.08 25.828c-27.812 31.666-24.875 80.045 6.562 108.06 9.667 8.616 20.906 14.29 32.64 17.112l.002-3.16c-11.01-2.768-21.544-8.149-30.628-16.245-30.18-26.895-32.999-73.34-6.298-103.737 26.7-30.4 72.807-33.239 102.987-6.345 30.177 26.894 32.998 73.337 6.298 103.737-9.869 11.236-22.39 18.694-35.779 22.29v3.174c14.242-3.662 27.583-11.51 38.056-23.434 27.812-31.665 24.875-80.046-6.56-108.06C94.921-8.797 46.891-5.838 19.08 25.827"/>
-											<path fill="#AE542D" d="M71.05 152.95a7.001 7.001 0 1 0 9.9-9.902 7.001 7.001 0 0 0-9.9 9.902"/>
-											<path fill="#30383D" d="M75.992 151 79 147.848l-.808-.848-2.249 2.355-2.182-2.287-.761.798z"/>
-										</g>
-									</svg>
-								{% endif %}
-							{% endif %}
-							{% if item.highlight_number %}
-								<h2 class="ann__grid_num" {% if main.number_color %}style="color:{{ main.number_color }}"{% endif %}>{{ item.highlight_number }}</h2>
-							{% endif %}
-							{% if item.highlight_title %}
-								<h3 class="ann__grid_title {% if main.title_underline_dots %}bottom-dots{% endif %} {% if item.highlight_number == null %}number-null{% endif %}" {% if main.title_color %}style="color:{{ main.title_color }}"{% endif %}>{{ item.highlight_title }}</h3>
-							{% endif %}
-							{% if item.highlight_text %}
-								<p class="ann__grid_text" {% if main.text_color %}style="color:{{ main.text_color }}"{% endif %}>{{ item.highlight_text }}</p>
-							{% endif %}
+						<div class="ann__grid grid ann__image-grid {{columns}} {{gap}}">
+							{% for item in main.highlight %}
+								<div class="ann__grid_item {% if deco_border %}ann__grid_item-relative{% endif %} item-animate" {{align_content}}>
+									{% if item.highlight_icon %}
+										<img src="{{ get_image(item.highlight_icon).src }}" sizes="{{ get_image(item.highlight_icon).img_sizes }}"
+											alt="{{ get_image(item.highlight_icon).alt }}" />
+										{% if deco_border %}
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 153 155" class="deco-border-svg">
+												<g fill="none" fill-rule="evenodd">
+													<path stroke="#30383D" stroke-width="3" d="M75.763 146.488c38.375 0 69.485-31.335 69.485-69.99 0-38.656-31.11-69.991-69.485-69.991-38.374 0-69.485 31.335-69.485 69.991 0 38.655 31.11 69.99 69.485 69.99Z"/>
+													<path fill="#AE542D" d="M19.08 25.828c-27.812 31.666-24.875 80.045 6.562 108.06 9.667 8.616 20.906 14.29 32.64 17.112l.002-3.16c-11.01-2.768-21.544-8.149-30.628-16.245-30.18-26.895-32.999-73.34-6.298-103.737 26.7-30.4 72.807-33.239 102.987-6.345 30.177 26.894 32.998 73.337 6.298 103.737-9.869 11.236-22.39 18.694-35.779 22.29v3.174c14.242-3.662 27.583-11.51 38.056-23.434 27.812-31.665 24.875-80.046-6.56-108.06C94.921-8.797 46.891-5.838 19.08 25.827"/>
+													<path fill="#AE542D" d="M71.05 152.95a7.001 7.001 0 1 0 9.9-9.902 7.001 7.001 0 0 0-9.9 9.902"/>
+													<path fill="#30383D" d="M75.992 151 79 147.848l-.808-.848-2.249 2.355-2.182-2.287-.761.798z"/>
+												</g>
+											</svg>
+										{% endif %}
+									{% endif %}
+									{% if item.highlight_number %}
+										<h2 class="ann__grid_num" {% if main.number_color %}style="color:{{ main.number_color }}"{% endif %}>{{ item.highlight_number }}</h2>
+									{% endif %}
+									{% if item.highlight_title %}
+										<h3 class="ann__grid_title {% if main.title_underline_dots %}bottom-dots{% endif %} {% if item.highlight_number == null %}number-null{% endif %}" {% if main.title_color %}style="color:{{ main.title_color }}"{% endif %}>{{ item.highlight_title }}</h3>
+									{% endif %}
+									{% if item.highlight_text %}
+										<p class="ann__grid_text" {% if main.text_color %}style="color:{{ main.text_color }}"{% endif %}>{{ item.highlight_text }}</p>
+									{% endif %}
+								</div>
+							{% endfor %}
 						</div>
-					{% endfor %}
 					</div>
 					{% if main.background.background_image %}
 						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background.background_image).src }});"></div>
@@ -396,12 +377,7 @@
         <section class="ann__sct ann__sct_parallax parallax-sct" {% if main.header_group.header %}id="{{ id }}"{% endif %}>
           <div class="ann__sct_parallax__group">
 						{% if main.header_group.show_title %}
-							{% include "partial/section-header.twig" %}
-						{% endif %}
-            
-						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});{% endif %}"></div>
-						{% if main.overlay %}
-            	<div class="parallax-overlay" {% if main.overlay_color %}style="background-color: {{ main.overlay_color }}"{% endif %}></div>
+							{% include "partial/section-header.twig" with {'width': 'full'} %}
 						{% endif %}
 						<div class="ann__sct_parallax__container">
               {% if main.parallax_text %}
@@ -414,6 +390,10 @@
                 {% endif %}
               {% endif %}
             </div>
+						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});{% endif %}"></div>
+						{% if main.overlay %}
+            	<div class="parallax-overlay" {% if main.overlay_color %}style="background-color: {{ main.overlay_color }}"{% endif %}></div>
+						{% endif %}
           </div>
           <script>
 						// Encapsulate each parallax instance by targeting its unique ID
@@ -519,14 +499,13 @@
 				{% if main.header_group.header %}
 					{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
 				{% endif %}
-				<section class="ann__wysiwyg ann__sct_parallax {% if main.background.background_image %}ann__wysiwyg_bk-img{% endif %}" {% if main.background.background_color %}style="background-color: {{ main.background.background_color }}"{% endif %} {% if main.header_group.header %}id="{{ id }}"{% endif %}>
+				<section class="ann__wysiwyg ann__sct wrapper--pad-xlg ann__sct_parallax {% if main.background.background_image %}ann__wysiwyg_bk-img{% endif %}" {% if main.background.background_color %}style="background-color: {{ main.background.background_color }}"{% endif %} {% if main.header_group.header %}id="{{ id }}"{% endif %}>
 					{% if main.header_group.show_title %}
-						{% include "partial/section-header.twig" %}
+						{% include "partial/section-header.twig" with {'width': 'page'} %}
 					{% endif %}
 					<div class="ann__width-page">
 						{% if main.show_title %}
 							{% include 'tiles-annual-report.twig' %}
-							{# <h2 class="ann__header" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.title }}</h2> #}
 						{% endif %}
 						<div {% if main.grid_columns > 1 %}class="columns"{% endif %}>
 							{% if main.column_1 %}
@@ -569,6 +548,12 @@
 								</div>
 							{% endif %}
 						</div>
+						
+						{% if main.add_more_content %}
+							<div class="column item-animate">
+								{{main.more_content}}
+							</div>
+						{% endif %}
 					</div>
 					{% if main.background.background_image %}
 						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background.background_image).src }});"></div>
@@ -629,24 +614,21 @@
 			{# Research Initiatives #}
 			{% elseif main.acf_fc_layout == 'research_initiatives' %}
 				{# section id #}
-				{% if main.header_text_bottom %}
-					{% set id = main.header_text_bottom | trim | replace({' ': '-'}) | lower %}
+				{% if main.header_group.header %}
+					{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
 				{% endif %}
-				<section class="ann__research-initiatives ann__sct_parallax" {% if main.background.background_color %}style="background-color: {{ main.background.background_color }}"{% endif %} {% if main.header_text_bottom %}id="{{ id }}"{% endif %}>
+				<section class="ann__research-initiatives ann__sct_parallax" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %} {% if id %}id="{{ id }}"{% endif %}>
 					<div class="ann__research-initiatives_container ann__width-page">
-						{% if header_text_top or main.header_text_bottom or main.circle_image %}
+						{% if main.circle_image or main.header_group.show_title %}
 							<div class="ann__research-initiatives_container-top">
 								<div class="ann__research-initiatives_container-top-left item-animate">
 									{% if main.circle_image %}
 										<img src="{{ get_image(main.circle_image).src }}" alt="{{ get_image(main.circle_image).alt }}" class="ann__research-initiatives_img">
-										<p class="ann__research-initiatives_container-top-left_text" style="color:{{ main.colors.secondary_color }}">{{ main.circle_text_content }}</p>
+										<p class="ann__research-initiatives_container-top-left_text" style="color:{{ main.circle_text_color }}">{{ main.circle_text_content }}</p>
 									{% endif %}
 								</div>
-								{% if main.header_text_top or main.header_text_bottom %}
-									<div class="ann__research-initiatives_header" style="{% if main.header_bar %}padding-right:1rem;border-right:7px;border-style:solid;border-color:{{ main.colors.primary_color }};height:100%{% endif %}">
-										<h3 class="ann__research-initiatives_header-top item-slide-in-fade-in" style="color:{{ main.colors.secondary_color }}">{{ main.header_text_top }}</h3>
-										<h2 class="ann__research-initiatives_header-bottom item-slide-in-fade-in" style="color:{{ main.colors.primary_color }}">{{main.header_text_bottom}}</h2>
-									</div>
+								{% if main.header_group.show_title %}
+									{% include "partial/section-header.twig" with {'width': 'page'} %}
 								{% endif %}
 							</div>
 						{% endif %}
@@ -658,9 +640,9 @@
 						{% endif %}
 						</div>
 					</div>
-					{% if main.background.background_image %}
-						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background.background_image).src }});"></div>
-						{% if main.background.background_image_parallax %}
+					{% if main.background_image %}
+						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background_image).src }});"></div>
+						{% if main.background_image_parallax %}
 							<script>
 								// Encapsulate each parallax instance by targeting its unique ID
 								(function() {
@@ -685,21 +667,14 @@
 			
 			{# OUTCOMES #}
 			{% elseif main.acf_fc_layout == 'outcomes' %}
-				<section class="ann__outcomes wrapper--pad-xlg ann__sct_parallax" {% if main.background.background_color %}style="background-color: {{ main.background.background_color }}"{% endif %}>
+				<section class="ann__outcomes ann__sct wrapper--pad-xlg ann__sct_parallax" {% if main.background.background_color %}style="background-color: {{ main.background.background_color }}"{% endif %}>
 					<div class="ann__outcomes_container ann__width-page">
-						{% if header_text_top or main.header_text_bottom or main.circle_image %}
-							<div class="ann__outcomes_container-top">
-								{% if main.header_text_top or main.header_text_bottom %}
-									<div class="ann__outcomes_header" style="align-items:{% if main.header_alignment %}end{% else %}start{% endif %};{% if main.header_bar %}padding-{% if main.header_alignment %}right{% else %}left{% endif %}:1rem;border-{% if main.header_alignment %}right{% else %}left{% endif %}:7px;border-style:solid;border-color:{{ main.primary_color }};height:100%{% endif %}">
-										<h3 class="ann__outcomes_header-top" style="color:{{ main.secondary_color }};">{{ main.header_text_top }}</h3>
-										<h2 class="ann__outcomes_header-bottom" style="color:{{ main.primary_color }};">{{main.header_text_bottom}}</h2>
-									</div>
-								{% endif %}
-							</div>
+						{% if main.header_group.show_title %}
+							{% include "partial/section-header.twig" with {'width': 'page'} %}
 						{% endif %}
 						<div class="ann__outcomes_container-bottom">
 					{% for item in main.outcome_items %}
-						<div class="ann__outcomes_item ann__outcomes_item-{% if item.item_direction %}row-reverse{% else %}row{% endif %}">
+						<div class="ann__outcomes_item ann__outcomes_item-{% if item.item_direction %}row-reverse{% else %}row{% endif %} item-animate">
 							{% if item.outcome_image %}
 								<div class="ann__outcomes_item-left">
 									<img src="{{ get_image(item.outcome_image).src }}" alt="{{ get_image(item.outcome_image).alt }}" />
