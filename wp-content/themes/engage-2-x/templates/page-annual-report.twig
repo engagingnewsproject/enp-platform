@@ -614,24 +614,21 @@
 			{# Research Initiatives #}
 			{% elseif main.acf_fc_layout == 'research_initiatives' %}
 				{# section id #}
-				{% if main.header_text_bottom %}
-					{% set id = main.header_text_bottom | trim | replace({' ': '-'}) | lower %}
+				{% if main.header_group.header %}
+					{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
 				{% endif %}
-				<section class="ann__research-initiatives ann__sct_parallax" {% if main.background.background_color %}style="background-color: {{ main.background.background_color }}"{% endif %} {% if main.header_text_bottom %}id="{{ id }}"{% endif %}>
+				<section class="ann__research-initiatives ann__sct_parallax" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %} {% if id %}id="{{ id }}"{% endif %}>
 					<div class="ann__research-initiatives_container ann__width-page">
-						{% if header_text_top or main.header_text_bottom or main.circle_image %}
+						{% if main.circle_image or main.header_group.show_title %}
 							<div class="ann__research-initiatives_container-top">
 								<div class="ann__research-initiatives_container-top-left item-animate">
 									{% if main.circle_image %}
 										<img src="{{ get_image(main.circle_image).src }}" alt="{{ get_image(main.circle_image).alt }}" class="ann__research-initiatives_img">
-										<p class="ann__research-initiatives_container-top-left_text" style="color:{{ main.colors.secondary_color }}">{{ main.circle_text_content }}</p>
+										<p class="ann__research-initiatives_container-top-left_text" style="color:{{ main.circle_text_color }}">{{ main.circle_text_content }}</p>
 									{% endif %}
 								</div>
-								{% if main.header_text_top or main.header_text_bottom %}
-									<div class="ann__research-initiatives_header item-scale-up" style="{% if main.header_bar %}padding-right:1rem;border-right:7px;border-style:solid;border-color:{{ main.colors.primary_color }};height:100%{% endif %}">
-										<h3 class="ann__research-initiatives_header-top item-slide-in-fade-in-rev" style="color:{{ main.colors.secondary_color }}">{{ main.header_text_top }}</h3>
-										<h2 class="ann__research-initiatives_header-bottom item-slide-in-fade-in-rev" style="color:{{ main.colors.primary_color }}">{{main.header_text_bottom}}</h2>
-									</div>
+								{% if main.header_group.show_title %}
+									{% include "partial/section-header.twig" with {'width': 'page'} %}
 								{% endif %}
 							</div>
 						{% endif %}
@@ -643,9 +640,9 @@
 						{% endif %}
 						</div>
 					</div>
-					{% if main.background.background_image %}
-						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background.background_image).src }});"></div>
-						{% if main.background.background_image_parallax %}
+					{% if main.background_image %}
+						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background_image).src }});"></div>
+						{% if main.background_image_parallax %}
 							<script>
 								// Encapsulate each parallax instance by targeting its unique ID
 								(function() {

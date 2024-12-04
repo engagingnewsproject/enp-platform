@@ -1,10 +1,14 @@
+{% set animate_direction = '' %}
+{% if main.header_group.header_border == 'right' %}
+	{% set animate_direction = '-rev' %}
+{% endif %}
 <div class="ann__header-container {% if width %}ann__width-{{ width }}{% endif %} header-{{ main.header_group.header_position }} header-align-{{ main.header_group.header_align }} {% if main.header_group.header_border != 'none' %}header-border header-border-{{ main.header_group.header_border }}{% endif %} {% if main.header_group.header_position != 'center' and main.header_group.header_deco == 'show' %}header-deco{% endif %}">
 	<div class="ann__header-wrap item-scale-up" {% if main.header_group.header_border != 'none' and main.header_group.header_border_color %}style="border-color:{{ main.header_group.header_border_color }};"{% endif %}>
 		{% if main.header_group.subheader %}
-			<h3 class="ann__subheader item-slide-in-fade-in" {% if main.header_group.subheader_color %} style="color:{{ main.header_group.subheader_color }};" {% endif %}>{{ main.header_group.subheader }}</h3>
+			<h3 class="ann__subheader item-slide-in-fade-in{{ animate_direction }}" {% if main.header_group.subheader_color %} style="color:{{ main.header_group.subheader_color }};" {% endif %}>{{ main.header_group.subheader }}</h3>
 		{% endif %}
 		{% if main.header_group.header %}
-			<h2 class="ann__header item-slide-in-fade-in" {% if main.header_group.header_color %} style="color:{{ main.header_group.header_color }};" {% endif %}>{{ main.header_group.header }}</h2>
+			<h2 class="ann__header item-slide-in-fade-in{{ animate_direction }}" {% if main.header_group.header_color %} style="color:{{ main.header_group.header_color }};" {% endif %}>{{ main.header_group.header }}</h2>
 		{% endif %}
 	</div>
 </div>

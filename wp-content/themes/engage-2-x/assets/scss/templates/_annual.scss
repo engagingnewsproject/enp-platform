@@ -1477,6 +1477,9 @@ svg.deco-border-svg {
 	position: relative;
 	overflow: hidden;
 
+	.ann__header-container {
+		height: 100%;
+	}
 	&_container {
 		padding: 5em 2em;
 		z-index: 2;
@@ -1532,31 +1535,6 @@ svg.deco-border-svg {
 				font-size: calc(100% + 8px);
 				color: $orange;
 			}
-		}
-	}
-	&_header {
-		display: flex;
-		flex-direction: column;
-		align-items: end;
-		width: 100%;
-		text-transform: uppercase;
-		z-index: 2;
-		overflow: hidden;
-
-		&-top {
-			font-size: 2rem;
-			font-weight: 600;
-			margin-left: 10px;
-			margin-bottom: 0;
-			z-index: 1;
-		}
-	
-		&-bottom {
-			font-size: 3rem;
-			margin-bottom: 0;
-			// @include media($laptop) {
-			// 	font-size: 80px;
-			// }
 		}
 	}
 
