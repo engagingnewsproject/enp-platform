@@ -84,10 +84,6 @@
 				{# Logic #}
 					{# vars #}
 					{% set background_color = null %}
-					{% set main_title_color = null %}
-					{% set main_subtitle_color = null %}
-					{% set subtitle_color = null %}
-					{% set border_color = null %}
 					{% set deco_border = null %}
 					{% set align_content = '' %}
 					{% set align = main.align %}
@@ -95,18 +91,6 @@
 					{# background color #}
 					{% if main.background.background_color %} 
 						{% set background_color = 'style="background-color:' ~ main.background.background_color ~ ';"' %}
-					{% endif %}
-					{# section title color #}
-					{% if main.highlights_title_color %}
-						{% set main_title_color = 'style="color:' ~ main.highlights_title_color ~ ';"' %}
-					{% endif %}
-					{# section subtitle color #}
-					{% if main.highlights_subtitle_color %}
-						{% set main_subtitle_color = 'style="color:' ~ main.highlights_subtitle_color ~ ';"' %}
-					{% endif %}
-					{# border #}
-					{% if main.highlights_title_border_color %}
-						{% set border_color = 'style="border-left: 7px solid ' ~ main.highlights_title_border_color ~ ';"' %}
 					{% endif %}
 					{# grid item deco border #}
 					{% if main.deco_border %}
@@ -121,21 +105,13 @@
 					{# grid columns #}
 					{% set gap = 'grid_columns_gap-' ~ main.grid_columns_gap %}
 					{# section id #}
-					{% if main.highlights_title %}
-						{% set id = main.highlights_title | trim | replace({' ': '-'}) | lower %}
+					{% if main.header_group.header %}
+						{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
 					{% endif %}
 				{# END logic #}
 				{# markup START #}
-				<section class="ann__sct ann__sct_grid wrapper--pad-xlg {% if main.background.background_image_parallax %}ann__sct_parallax{% endif %}" {{background_color}} {% if main.highlights_title %}id="{{ id }}"{% endif %}>
+				<section class="ann__sct ann__sct_grid wrapper--pad-xlg {% if main.background.background_image_parallax %}ann__sct_parallax{% endif %}" {{background_color}} {% if id %}id="{{ id }}"{% endif %}>
 					<div class="ann__width-full ann__sct">
-						{# <div class="ann__content-table_header" {{border_color}}>
-							{% if main.highlights_subtitle %}
-								<h3 class="ann__content-table_header-top fade-in-up-1" {{main_subtitle_color}}>{{ main.highlights_subtitle }}</h3>
-							{% endif %}
-							{% if main.highlights_title %}
-								<h2 class="ann__content-table_header-bottom fade-in-up-2" {{main_title_color}}>{{ main.highlights_title }}</h2>
-							{% endif %}
-						</div> #}
 						{% if main.header_group.show_title %}
 							{% include "partial/section-header.twig" %}
 						{% endif %}
@@ -530,7 +506,6 @@
 					<div class="ann__width-page">
 						{% if main.show_title %}
 							{% include 'tiles-annual-report.twig' %}
-							{# <h2 class="ann__header" {% if main.title_color %} style="color:{{ main.title_color }};" {% endif %}>{{ main.title }}</h2> #}
 						{% endif %}
 						<div {% if main.grid_columns > 1 %}class="columns"{% endif %}>
 							{% if main.column_1 %}
@@ -573,6 +548,12 @@
 								</div>
 							{% endif %}
 						</div>
+						
+						{% if main.add_more_content %}
+							<div class="column item-animate">
+								{{main.more_content}}
+							</div>
+						{% endif %}
 					</div>
 					{% if main.background.background_image %}
 						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background.background_image).src }});"></div>

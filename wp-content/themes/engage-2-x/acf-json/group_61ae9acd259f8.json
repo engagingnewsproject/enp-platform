@@ -745,6 +745,27 @@
                             "delay": 0
                         },
                         {
+                            "key": "field_674fc37fd6628",
+                            "label": "Add quote",
+                            "name": "add_quote",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "100",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "allow_in_bindings": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": "",
+                            "ui": 1
+                        },
+                        {
                             "key": "field_6722b66b44a9f",
                             "label": "Quote",
                             "name": "quote",
@@ -752,7 +773,15 @@
                             "type": "wysiwyg",
                             "instructions": "",
                             "required": 0,
-                            "conditional_logic": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_674fc37fd6628",
+                                        "operator": "==",
+                                        "value": "1"
+                                    }
+                                ]
+                            ],
                             "wrapper": {
                                 "width": "100",
                                 "class": "",
@@ -850,6 +879,56 @@
                             "delay": 0
                         },
                         {
+                            "key": "field_674fc3c5d6629",
+                            "label": "Add more content",
+                            "name": "add_more_content",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "100",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "allow_in_bindings": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": "",
+                            "ui": 1
+                        },
+                        {
+                            "key": "field_674fc405d662a",
+                            "label": "More content",
+                            "name": "more_content",
+                            "aria-label": "",
+                            "type": "wysiwyg",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_674fc3c5d6629",
+                                        "operator": "==",
+                                        "value": "1"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "100",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "allow_in_bindings": 0,
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 0
+                        },
+                        {
                             "key": "field_6723744e2b21b",
                             "label": "Settings",
                             "name": "",
@@ -897,7 +976,7 @@
                                         "class": "",
                                         "id": ""
                                     },
-                                    "default_value": "#f8971f",
+                                    "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "string",
                                     "allow_in_bindings": 1
@@ -1479,24 +1558,6 @@
                             "selected": 0
                         },
                         {
-                            "key": "field_6723776dccfa7",
-                            "label": "Section style",
-                            "name": "",
-                            "aria-label": "",
-                            "type": "tab",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "placement": "top",
-                            "endpoint": 1,
-                            "selected": 0
-                        },
-                        {
                             "key": "field_6747d49e1e4e3",
                             "label": "Background",
                             "name": "background",
@@ -1588,110 +1649,6 @@
                             ]
                         },
                         {
-                            "key": "field_67180978084c9",
-                            "label": "Section title color",
-                            "name": "highlights_title_color",
-                            "aria-label": "",
-                            "type": "color_picker",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "33.333",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "#ffffff",
-                            "enable_opacity": 0,
-                            "return_format": "string",
-                            "allow_in_bindings": 0
-                        },
-                        {
-                            "key": "field_67180c9ec4204",
-                            "label": "Section subtitle color",
-                            "name": "highlights_subtitle_color",
-                            "aria-label": "",
-                            "type": "color_picker",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "33.333",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "enable_opacity": 0,
-                            "return_format": "string",
-                            "allow_in_bindings": 0
-                        },
-                        {
-                            "key": "field_6718138e06964",
-                            "label": "",
-                            "name": "highlights_title_left_border",
-                            "aria-label": "",
-                            "type": "true_false",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "33.333",
-                                "class": "",
-                                "id": ""
-                            },
-                            "message": "Left border",
-                            "default_value": 0,
-                            "allow_in_bindings": 0,
-                            "ui_on_text": "",
-                            "ui_off_text": "",
-                            "ui": 1
-                        },
-                        {
-                            "key": "field_671812f7df4a1",
-                            "label": "Border color",
-                            "name": "highlights_title_border_color",
-                            "aria-label": "",
-                            "type": "color_picker",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": [
-                                [
-                                    {
-                                        "field": "field_6718138e06964",
-                                        "operator": "==",
-                                        "value": "1"
-                                    }
-                                ]
-                            ],
-                            "wrapper": {
-                                "width": "33.333",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "",
-                            "enable_opacity": 0,
-                            "return_format": "string",
-                            "allow_in_bindings": 0
-                        },
-                        {
-                            "key": "field_671819997f5e5",
-                            "label": "Grid style",
-                            "name": "",
-                            "aria-label": "",
-                            "type": "tab",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "100",
-                                "class": "",
-                                "id": ""
-                            },
-                            "placement": "top",
-                            "endpoint": 0,
-                            "selected": 0
-                        },
-                        {
                             "key": "field_671834e769f99",
                             "label": "Grid columns",
                             "name": "grid_columns",
@@ -1748,7 +1705,7 @@
                         },
                         {
                             "key": "field_6717e2428bd3f",
-                            "label": "Number color",
+                            "label": "Grid item number color",
                             "name": "number_color",
                             "aria-label": "",
                             "type": "color_picker",
@@ -1767,7 +1724,7 @@
                         },
                         {
                             "key": "field_67185ebd4141c",
-                            "label": "Title color",
+                            "label": "Grid item title color",
                             "name": "title_color",
                             "aria-label": "",
                             "type": "color_picker",
@@ -1786,7 +1743,7 @@
                         },
                         {
                             "key": "field_671808323d08a",
-                            "label": "Text color",
+                            "label": "Grid item text color",
                             "name": "text_color",
                             "aria-label": "",
                             "type": "color_picker",
@@ -1805,7 +1762,7 @@
                         },
                         {
                             "key": "field_6718ead773189",
-                            "label": "Title underline dots",
+                            "label": "Grid item title underline dots",
                             "name": "title_underline_dots",
                             "aria-label": "",
                             "type": "true_false",
@@ -5346,5 +5303,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1733278548
+    "modified": 1733280922
 }

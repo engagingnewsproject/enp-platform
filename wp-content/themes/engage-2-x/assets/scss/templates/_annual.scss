@@ -46,13 +46,7 @@ blockquote {
 		margin: 0 auto;
 	}
 }
-.ann__wrap {
-	z-index: 2;
-	@include media($laptop) {
-		max-width: $annual-desktop-max-width;
-		margin: 0 auto;
-	}
-}
+
 // Headers
 .ann__feat-header {
 	background-color: $teal-light;
