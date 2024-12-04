@@ -115,7 +115,7 @@ If it is not [a hotfix](#hotfix-branches), the flow for a normal deployment is:
 4. If all checks out well, push stable to production for the launch:
 
     ```
-    $ git push production stable               // push stable to production
+    $ git push prod stable               // push stable to production
     ```
 
 5. Login to WP Engine and clear all caches
