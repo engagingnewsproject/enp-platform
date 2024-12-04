@@ -4313,7 +4313,7 @@
                                 },
                                 {
                                     "key": "field_674fcc5c79cff",
-                                    "label": "Show title (research init)",
+                                    "label": "Show title",
                                     "name": "show_title",
                                     "aria-label": "",
                                     "type": "true_false",
@@ -4340,7 +4340,15 @@
                                     "type": "text",
                                     "instructions": "",
                                     "required": 0,
-                                    "conditional_logic": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_674fcc5c79cff",
+                                                "operator": "==",
+                                                "value": "1"
+                                            }
+                                        ]
+                                    ],
                                     "wrapper": {
                                         "width": "",
                                         "class": "",
@@ -4361,7 +4369,15 @@
                                     "type": "text",
                                     "instructions": "",
                                     "required": 0,
-                                    "conditional_logic": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_674fcc5c79cff",
+                                                "operator": "==",
+                                                "value": "1"
+                                            }
+                                        ]
+                                    ],
                                     "wrapper": {
                                         "width": "",
                                         "class": "",
@@ -4382,7 +4398,15 @@
                                     "type": "tab",
                                     "instructions": "",
                                     "required": 0,
-                                    "conditional_logic": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_674fcc5c79cff",
+                                                "operator": "==",
+                                                "value": "1"
+                                            }
+                                        ]
+                                    ],
                                     "wrapper": {
                                         "width": "",
                                         "class": "",
@@ -4513,7 +4537,15 @@
                                     "type": "color_picker",
                                     "instructions": "",
                                     "required": 0,
-                                    "conditional_logic": 0,
+                                    "conditional_logic": [
+                                        [
+                                            {
+                                                "field": "field_674fcc5d79d07",
+                                                "operator": "!=",
+                                                "value": "none"
+                                            }
+                                        ]
+                                    ],
                                     "wrapper": {
                                         "width": "",
                                         "class": "",
@@ -5432,5 +5464,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1733284992
+    "modified": 1733318507
 }
