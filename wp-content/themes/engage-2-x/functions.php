@@ -299,7 +299,7 @@ add_filter('acf/fields/flexible_content/layout_title', function ($title, $field,
     if ($layout['name'] === 'wysiwyg' || $layout['name'] === 'highlights' || $layout['name'] === 'research_initiatives' || $layout['name'] === 'parallax') { // Check if the layout is the "wysiwyg" layout
         // Access the "header" subfield inside the "header_group"
         $header_group = get_sub_field('header_group'); // Get the group field
-        if ($header_group && isset($header_group['header'])) { // Ensure the subfield exists
+        if ($header_group && isset($header_group['header']) && $header_group['header'] != '') { // Ensure the subfield exists
             $header_title = $header_group['header'];
             $title .= ' - ' . esc_html($header_title); // Append the header title
         }
