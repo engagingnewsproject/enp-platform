@@ -117,7 +117,10 @@
 						{% endif %}
 						<div class="ann__grid grid ann__image-grid {{columns}} {{gap}}">
 							{% for item in main.highlight %}
-								<div class="ann__grid_item {% if deco_border %}ann__grid_item-relative{% endif %} item-animate" {{align_content}}>
+								<div class="ann__grid_item {% if item.link %}item-linked{% endif %} {% if deco_border %}ann__grid_item-relative{% endif %} item-animate" {{align_content}}>
+									{% if item.link %}
+									<a href="{{ item.link }}" class="tile__link"></a>
+									{% endif %}
 									{% if item.highlight_icon %}
 										<img src="{{ get_image(item.highlight_icon).src }}" sizes="{{ get_image(item.highlight_icon).img_sizes }}"
 											alt="{{ get_image(item.highlight_icon).alt }}" />

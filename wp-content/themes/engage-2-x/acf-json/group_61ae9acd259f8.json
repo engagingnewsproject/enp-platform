@@ -1536,6 +1536,38 @@
                                     "placeholder": "",
                                     "new_lines": "",
                                     "parent_repeater": "field_61ae9c68e24a7"
+                                },
+                                {
+                                    "key": "field_67534331b5578",
+                                    "label": "Link",
+                                    "name": "link",
+                                    "aria-label": "",
+                                    "type": "page_link",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "post_type": [
+                                        "post",
+                                        "page",
+                                        "research",
+                                        "team",
+                                        "announcement",
+                                        "blogs"
+                                    ],
+                                    "post_status": [
+                                        "publish"
+                                    ],
+                                    "taxonomy": "",
+                                    "allow_archives": 0,
+                                    "multiple": 0,
+                                    "allow_null": 1,
+                                    "allow_in_bindings": 0,
+                                    "parent_repeater": "field_61ae9c68e24a7"
                                 }
                             ]
                         },
@@ -5384,5 +5416,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1733322372
+    "modified": 1733512918
 }
