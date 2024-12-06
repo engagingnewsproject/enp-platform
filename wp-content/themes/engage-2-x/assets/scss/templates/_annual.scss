@@ -651,6 +651,20 @@ blockquote {
 		gap: 0;
 		align-items: center;
 		align-self: flex-start;
+		&.item-linked {
+			&:hover img {
+				transform: scale(1.07);
+				transition: transform 0.3s ease-in-out;
+			}
+			&:hover svg {
+				transform: scale(1.15) !important;
+				transition: transform 0.3s ease-in-out;
+			}
+			img,
+			.deco-border-svg {
+				transition: transform 0.3s ease-in-out; 
+			}
+		}
 		img {
 			min-height: 78px;
 		}
@@ -707,13 +721,13 @@ blockquote {
 
 // Grid svg decorative border
 svg.deco-border-svg {
-	width: 100%;
+	width: 102%;
 	height: auto;
 	position: absolute;
 	top: 0;
 	left: 0;
 	zoom: 2;
-	transform: scale(1.09);
+	transform: scale(1.08); 
 }
 
 .grid_columns {
@@ -991,7 +1005,7 @@ svg.deco-border-svg {
 			left: -22px;
 		}
 		@include media($laptop) {
-			width: 55%;
+			width: 48%;
 		}
 	}
 	.bottom_left_deco_graphic {

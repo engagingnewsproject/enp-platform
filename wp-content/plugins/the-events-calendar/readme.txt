@@ -3,9 +3,9 @@
 Contributors: theeventscalendar, stellarwp, borkweb, bordoni, brianjessee, aguseo, camwynsp, jentheo, leahkoerper, lucatume, neillmcshea, vicskf, zbtirrell
 Tags: events, calendar, event, schedule, organizer
 Donate link: https://evnt.is/29
-Stable tag: 6.8.2.1
-Requires at least: 6.3
-Tested up to: 6.7.1
+Stable tag: 6.8.3
+Requires at least: 6.5
+Tested up to: 6.7
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -232,10 +232,17 @@ Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
 
+= [6.8.3] 2024-12-05 =
+
+* Feature - In-App Notifications system. [TEC-5165]
+* Tweak - Added actions: `tec_ian_icon`
+* Language - 0 new strings added, 118 updated, 0 fuzzied, and 1 obsoleted.
+
 = [6.8.2.1] 2024-11-21 =
 
 * Tweak - Introduced filter `tec_events_rest_api_password_protected_fields` which can be used to control which event fields should be hidden in the REST API for password protected events. [SVUL-8]
 * Security - Hide content fields from the archive REST endpoint for password protected events. [SVUL-8]
+* Fix - Prevent notices on `_load_textdomain_just_in_time` due to Aggregator and Export links code.
 
 = [6.8.2] 2024-11-19 =
 

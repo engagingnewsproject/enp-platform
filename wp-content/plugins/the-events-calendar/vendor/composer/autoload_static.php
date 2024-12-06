@@ -213,6 +213,8 @@ class ComposerStaticInit9341b32032f5c2c14ff1f117a6964efc
         'TEC\\Events\\Integrations\\Plugins\\WordPress_SEO\\Provider' => __DIR__ . '/../..' . '/src/Events/Integrations/Plugins/WordPress_SEO/Provider.php',
         'TEC\\Events\\Integrations\\Provider' => __DIR__ . '/../..' . '/src/Events/Integrations/Provider.php',
         'TEC\\Events\\Legacy\\Views\\V1\\Provider' => __DIR__ . '/../..' . '/src/Events/Legacy/Views/V1/Provider.php',
+        'TEC\\Events\\Notifications\\Notifications' => __DIR__ . '/../..' . '/src/Events/Notifications/Notifications.php',
+        'TEC\\Events\\Notifications\\Provider' => __DIR__ . '/../..' . '/src/Events/Notifications/Provider.php',
         'TEC\\Events\\SEO\\Controller' => __DIR__ . '/../..' . '/src/Events/SEO/Controller.php',
         'TEC\\Events\\Site_Health\\Info_Section' => __DIR__ . '/../..' . '/src/Events/Site_Health/Info_Section.php',
         'TEC\\Events\\Site_Health\\Provider' => __DIR__ . '/../..' . '/src/Events/Site_Health/Provider.php',
