@@ -1174,17 +1174,24 @@ svg.deco-border-svg {
 		// clip-path: polygon(25% 28%, 22% 32%, 72% 50%, 73% 100%, 0 100%, 0 0);
     // -webkit-clip-path: polygon(25% 28%, 22% 32%, 72% 50%, 73% 100%, 0 100%, 0 0); /* Safari prefix */
 
-		@media (min-width: 600px) {
+		@include media($phablet) {
 			width: 710px;
 			max-width: unset;
 			transform: translate(228px, -238px);
 		}
 
-		@media (min-width: 800px) {
-			width: 740px;
+		@include media($tablet) {
+			width: auto;
 			height: auto;
+			max-height: calc(50vh + 225px);
 			max-width: unset;
 			transform: translate(225px, -225px);
+		}
+		@media only screen 
+		and (min-device-width: 768px) 
+		and (max-device-width: 1024px) 
+		and (orientation: portrait) {
+			max-height: calc(50vh + 225px);
 		}
 	}
 
@@ -1192,23 +1199,47 @@ svg.deco-border-svg {
 	/* circle animations */
 	&_circle_container > &_circle_logo {
 		position: absolute;
-		top: 43px;
-		right: 11px;
+		top: 0;
+		right: 0;
 		max-width: 172px;
 		width: 100%;
 		height: auto;
+		transform: translate(-10%, 30%);
 
-		@media (min-width: 600px) {
-			top: 75px;
-			right: 20px;
+
+		@include media($phablet) {
+			// top: 75px;
+			// right: 20px;
 			max-width: 260px;
 		}
 
-		@media (min-width: 800px) {
-			top: 85px;
-			right: 25px;
+		@include media($tablet) {
+			// top: 85px;
+			// right: 25px;
 			max-width: 290px;
 		}
+		
+		@include media($laptop) {
+			// top: 4em;
+			// right: 2em;
+			max-width: calc(70vh - 225px);
+		}
+		
+		@include media($laptop) {
+			// top: calc(100vh - 90%);
+			// right: calc(100vw - 95%);
+			width: 90vw;
+			max-width: calc(11vw + 75px);
+		}
+		
+		@media only screen 
+		and (min-device-width: 768px) 
+		and (max-device-width: 1024px) 
+		and (orientation: portrait) {
+			max-width: 290px;
+			transform: translate(0%, 20%);
+		}
+		
 	}
 
 	&_circle {
