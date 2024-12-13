@@ -1201,43 +1201,22 @@ svg.deco-border-svg {
 		position: absolute;
 		top: 0;
 		right: 0;
-		max-width: 172px;
-		width: 100%;
+		width: auto;
 		height: auto;
-		transform: translate(-10%, 30%);
-
-
-		@include media($phablet) {
-			// top: 75px;
-			// right: 20px;
-			max-width: 260px;
-		}
-
-		@include media($tablet) {
-			// top: 85px;
-			// right: 25px;
-			max-width: 290px;
-		}
+		transform: translate(-5vw, 5vh);
+		max-height: calc(25vh - 14%);
 		
 		@include media($laptop) {
-			// top: 4em;
-			// right: 2em;
-			max-width: calc(70vh - 225px);
-		}
-		
-		@include media($laptop) {
-			// top: calc(100vh - 90%);
-			// right: calc(100vw - 95%);
-			width: 90vw;
-			max-width: calc(11vw + 75px);
+			max-height: calc(60vh - 44%);
+			transform: translate(-1vw, 5vh);
 		}
 		
 		@media only screen 
 		and (min-device-width: 768px) 
 		and (max-device-width: 1024px) 
 		and (orientation: portrait) {
-			max-width: 290px;
-			transform: translate(0%, 20%);
+			max-height: calc(25vh - 85px);
+			transform: translate(-2vw, 7vh);
 		}
 		
 	}
