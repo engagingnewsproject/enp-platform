@@ -14,6 +14,7 @@ mix
   .js("assets/js/app.js", "dist/js")
   .js("assets/js/homepage.js", "dist/js")
   .sass("assets/scss/app.scss", "dist/css")
+  .sass("assets/scss/editor-style.scss", "dist/css") // Editor styles
   .sourceMaps() // Add this line to enable source maps for SCSS
   .browserSync({
     proxy: proxyUrl,

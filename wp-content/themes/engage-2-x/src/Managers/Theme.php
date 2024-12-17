@@ -46,6 +46,8 @@ class Theme {
 			add_action( 'wp_head', [$this, 'enqueueScripts'] );
 			// for removing styles
 			add_action( 'wp_print_styles', [$this, 'dequeueStyles'], 100 );
+		} else {
+			add_action( 'admin_init', [$this, 'enqueueStylesEditor'] );
 		}
 		
 	}
@@ -146,6 +148,12 @@ class Theme {
 			wp_register_style('google_fonts', '//fonts.googleapis.com/css?family=Libre+Franklin:400,700|Anton:400', array(), null, 'all');
 			wp_enqueue_style('google_fonts');
 			wp_enqueue_style('engage_css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
+		}
+	}
+	
+	public function enqueueStylesEditor() {
+		if (is_admin()) {
+			add_editor_style('/dist/css/editor-style.css');
 		}
 	}
 	

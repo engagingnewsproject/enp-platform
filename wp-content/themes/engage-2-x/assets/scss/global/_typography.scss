@@ -377,3 +377,16 @@ input.btn--sm {
 		background-color: #000;
 	}
 }
+
+// Custom Styles for the Classic Editor Dropdown
+.p-1 {
+	font-size: 16px;
+}
+
+.p-2 {
+	font-size: $font-size-base + 2px;
+}
+
+.p-3 {
+	font-size: $font-size-base + 4px;
+}
