@@ -4,7 +4,7 @@ abstract class NF_Abstracts_Metabox
 {
     protected $_id = ''; // Dynamically set in constructor using the class name.
 
-    protected $_title = ''; // Should be set (and translated) in the constructor.
+    protected $_title = ''; // Should be set (and translated) at action hook init-10
 
     protected $_callback = 'render_metabox';
 
@@ -22,11 +22,23 @@ abstract class NF_Abstracts_Metabox
     {
         $this->_id = strtolower( get_class( $this ) );
 
-        $this->_title = esc_html__( 'Metabox', 'ninja-forms' );
+        add_action('init', [$this, 'abstractInit'], 5);
 
         add_action( 'save_post', array( $this, '_save_post' ) );
 
         add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+    }
+
+    /**
+     * Initialize properties at WP `init-5` action hook
+     *
+     * Set translatable properties - _title
+     * 
+     * @return void
+     */
+    public function abstractInit(): void
+    {
+        $this->_title = esc_html__( 'Metabox', 'ninja-forms' );
     }
 
     public function add_meta_boxes()

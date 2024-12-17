@@ -1,98 +1,89 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit;
+<?php
+
+use NinjaForms\Includes\Abstracts\SotAction;
+use NinjaForms\Includes\Traits\SotGetActionProperties;
+use NinjaForms\Includes\Interfaces\SotAction as InterfacesSotAction;
+
+if (! defined('ABSPATH')) exit;
 
 /**
  * Class NF_Action_SuccessMessage
  */
-final class NF_Actions_SuccessMessage extends NF_Abstracts_Action
+final class NF_Actions_SuccessMessage extends SotAction implements InterfacesSotAction
 {
-    /**
-    * @var string
-    */
-    protected $_name  = 'successmessage';
+    use SotGetActionProperties;
 
     /**
-    * @var array
-    */
+     * @var array
+     */
     protected $_tags = array();
 
     /**
-     * @var string
+     * Constructor
      */
-    protected $_documentation_url = 'https://ninjaforms.com/docs/success-message/';
-
-    /**
-    * @var string
-    */
-    protected $_timing = 'late';
-
-    /**
-    * @var int
-    */
-    protected $_priority = 10;
-
-    /**
-     * @var string
-     */
-    protected $_group = 'core';
-
-    /**
-    * Constructor
-    */
     public function __construct()
     {
         parent::__construct();
 
-        $this->_nicename = esc_html__( 'Success Message', 'ninja-forms' );
+        $this->_name  = 'successmessage';
+        $this->_timing = 'late';
+        $this->_priority = 10;
+        $this->_documentation_url = 'https://ninjaforms.com/docs/success-message/';
+        $this->_group = 'core';
 
-        $settings = Ninja_Forms::config( 'ActionSuccessMessageSettings' );
+        add_action('init', [$this, 'initHook']);
 
-        $this->_settings = array_merge( $this->_settings, $settings );
+        add_action('nf_before_import_form', array($this, 'import_form_action_success_message'), 11);
+    }
 
-        add_action( 'nf_before_import_form', array( $this, 'import_form_action_success_message' ), 11 );
+    public function initHook()
+    {
+        $this->_nicename = esc_html__('Success Message', 'ninja-forms');
+
+        $settings = Ninja_Forms::config('ActionSuccessMessageSettings');
+
+        $this->_settings = array_merge($this->_settings, $settings);
     }
 
     /*
     * PUBLIC METHODS
     */
 
-    public function save( $action_settings )
+
+    /** @inheritDoc */
+    public function process(array $action_settings, int $form_id, array $data): array
     {
+        if (isset($action_settings['success_msg'])) {
 
-    }
-
-    public function process( $action_settings, $form_id, $data )
-    {
-        if( isset( $action_settings[ 'success_msg' ] ) ) {
-
-            if( ! isset( $data[ 'actions' ] ) || ! isset( $data[ 'actions' ][ 'success_message' ] ) ) {
-                $data[ 'actions' ][ 'success_message' ] = '';
+            if (! isset($data['actions']) || ! isset($data['actions']['success_message'])) {
+                $data['actions']['success_message'] = '';
             }
 
             ob_start();
-            do_shortcode( $action_settings['success_msg'] );
+            do_shortcode($action_settings['success_msg']);
             $ob = ob_get_clean();
 
-            if( $ob ) {
-                $data[ 'debug' ][ 'console' ][] = sprintf( esc_html__( 'Shortcodes should return and not echo, see: %s', 'ninja-forms' ), 'https://codex.wordpress.org/Shortcode_API#Output' );
+            if ($ob) {
+                $data['debug']['console'][] = sprintf(esc_html__('Shortcodes should return and not echo, see: %s', 'ninja-forms'), 'https://codex.wordpress.org/Shortcode_API#Output');
                 $data['actions']['success_message'] .= $action_settings['success_msg'];
             } else {
-                $message = do_shortcode( $action_settings['success_msg'] );
-                $data['actions']['success_message'] .= wpautop( $message );
+                $message = do_shortcode($action_settings['success_msg']);
+                $data['actions']['success_message'] .= wpautop($message);
             }
         }
 
         return $data;
     }
 
-    public function import_form_action_success_message( $import )
+    public function import_form_action_success_message($import)
     {
-        if( ! isset( $import[ 'actions' ] ) ) return $import;
+        if (! isset($import['actions'])) return $import;
 
-        foreach( $import[ 'actions' ] as &$action ){
+        foreach ($import['actions'] as &$action) {
 
-            if( 'success_message' == $action[ 'type' ] ){
+            if ('success_message' == $action['type']) {
 
-                $action[ 'type' ] = 'successmessage';
+                $action['type'] = 'successmessage';
             }
         }
 

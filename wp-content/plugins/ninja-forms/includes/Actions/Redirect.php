@@ -1,66 +1,57 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit;
+<?php
+
+use NinjaForms\Includes\Abstracts\SotAction;
+use NinjaForms\Includes\Traits\SotGetActionProperties;
+use NinjaForms\Includes\Interfaces\SotAction as InterfacesSotAction;
+
+if (! defined('ABSPATH')) exit;
 
 /**
  * Class NF_Action_Redirect
  */
-final class NF_Actions_Redirect extends NF_Abstracts_Action
+final class NF_Actions_Redirect extends SotAction implements InterfacesSotAction
 {
-    /**
-    * @var string
-    */
-    protected $_name  = 'redirect';
+    use SotGetActionProperties;
 
     /**
-    * @var array
-    */
+     * @var array
+     */
     protected $_tags = array();
 
     /**
-     * @var string
+     * Constructor
      */
-    protected $_documentation_url = 'https://ninjaforms.com/docs/redirect-action/';
-
-    /**
-    * @var string
-    */
-    protected $_timing = 'late';
-
-    /**
-    * @var int
-    */
-    protected $_priority = 20;
-
-    /**
-     * @var string
-     */
-    protected $_group = 'core';
-
-    /**
-    * Constructor
-    */
     public function __construct()
     {
         parent::__construct();
 
-        $this->_nicename = esc_html__( 'Redirect', 'ninja-forms' );
+        $this->_name  = 'redirect';
+        $this->_timing = 'late';
+        $this->_priority = 20;
+        $this->_documentation_url = 'https://ninjaforms.com/docs/redirect-action/';
+        $this->_group = 'core';
 
-        $settings = Ninja_Forms::config( 'ActionRedirectSettings' );
-
-        $this->_settings = array_merge( $this->_settings, $settings );
+        add_action('init', [$this, 'initHook']);
     }
 
+    public function initHook()
+    {
+
+        $this->_nicename = esc_html__('Redirect', 'ninja-forms');
+
+        $settings = Ninja_Forms::config('ActionRedirectSettings');
+
+        $this->_settings = array_merge($this->_settings, $settings);
+    }
     /*
     * PUBLIC METHODS
     */
 
-    public function save( $action_settings )
-    {
 
-    }
-
-    public function process( $action_settings, $form_id, $data )
+    /** @inheritDoc */
+    public function process(array $action_settings, int $form_id, array $data): array
     {
-        $data[ 'actions' ][ 'redirect' ] = $action_settings[ 'redirect_url' ];
+        $data['actions']['redirect'] = $action_settings['redirect_url'];
 
         return $data;
     }

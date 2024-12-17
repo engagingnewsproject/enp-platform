@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=WordPress&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.8.20
+Version: 3.8.23
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -43,7 +43,7 @@ final class Ninja_Forms
      * @since 3.0
      */
 
-    const VERSION = '3.8.20';
+    const VERSION = '3.8.23';
 
     /**
      * @since 3.4.0
@@ -361,10 +361,6 @@ final class Ninja_Forms
 
             require_once Ninja_Forms::$dir . 'blocks/ninja-forms-blocks.php';
 
-            /*
-                * Submission Metabox
-                */
-            new NF_Admin_Metaboxes_Calculations();
 
             /*
                 * User data requests ( GDPR actions )
@@ -381,15 +377,6 @@ final class Ninja_Forms
                 */
             self::$instance->_dispatcher = new NF_Dispatcher();
 
-            /*
-                * Merge Tags
-                */
-            self::$instance->merge_tags[ 'wp' ] = new NF_MergeTags_WP();
-            self::$instance->merge_tags[ 'fields' ] = new NF_MergeTags_Fields();
-            self::$instance->merge_tags[ 'calcs' ] = new NF_MergeTags_Calcs();
-            self::$instance->merge_tags[ 'form' ] = new NF_MergeTags_Form();
-            self::$instance->merge_tags[ 'other' ] = new NF_MergeTags_Other();
-            self::$instance->merge_tags[ 'deprecated' ] = new NF_MergeTags_Deprecated();
 
             /*
                 * Add Form Modal
@@ -428,7 +415,6 @@ final class Ninja_Forms
                 */
             register_activation_hook( __FILE__, array( self::$instance, 'activation' ) );
 
-            self::$instance->metaboxes[ 'append-form' ] = new NF_Admin_Metaboxes_AppendAForm();
 
 
             /*
@@ -461,6 +447,7 @@ final class Ninja_Forms
 
         add_action( 'ninja_forms_available_actions', array( self::$instance, 'scrub_available_actions' ) );
 
+        add_action( 'init', array( self::$instance, 'instantiateTranslatableObjects' ), 5 );
         add_action( 'init', array( self::$instance, 'init' ), 5 );
         add_action( 'admin_init', array( self::$instance, 'admin_init' ), 5 );
 
@@ -491,6 +478,38 @@ final class Ninja_Forms
         flush_rewrite_rules();
     }
 
+    public function instantiateTranslatableObjects(): void
+    {        
+        new NF_Admin_Metaboxes_Calculations();
+
+        /*
+            * Merge Tags
+            */
+        self::$instance->merge_tags['wp'] = new NF_MergeTags_WP();
+        self::$instance->merge_tags['fields'] = new NF_MergeTags_Fields();
+        self::$instance->merge_tags['calcs'] = new NF_MergeTags_Calcs();
+        self::$instance->merge_tags['form'] = new NF_MergeTags_Form();
+        self::$instance->merge_tags['other'] = new NF_MergeTags_Other();
+        self::$instance->merge_tags['deprecated'] = new NF_MergeTags_Deprecated();
+
+        self::$instance->metaboxes['append-form'] = new NF_Admin_Metaboxes_AppendAForm();
+
+
+        /*
+            * Field Class Registration
+            */
+        self::$instance->fields = apply_filters('ninja_forms_register_fields', self::load_classes('Fields'));
+
+        if (! apply_filters('ninja_forms_enable_credit_card_fields', false)) {
+            unset(self::$instance->fields['creditcard']);
+            unset(self::$instance->fields['creditcardcvc']);
+            unset(self::$instance->fields['creditcardexpiration']);
+            unset(self::$instance->fields['creditcardfullname']);
+            unset(self::$instance->fields['creditcardnumber']);
+            unset(self::$instance->fields['creditcardzip']);
+        }
+    }
+    
     public function register_rewrite_rules()
     {
         add_rewrite_tag('%nf_public_link%', '([a-zA-Z0-9]+)');
@@ -742,19 +761,7 @@ final class Ninja_Forms
         unload_textdomain('ninja-forms');
         load_plugin_textdomain( 'ninja-forms', false, basename( dirname( __FILE__ ) ) . '/lang' );
 
-        /*
-            * Field Class Registration
-            */
-        self::$instance->fields = apply_filters( 'ninja_forms_register_fields', self::load_classes( 'Fields' ) );
 
-        if( ! apply_filters( 'ninja_forms_enable_credit_card_fields', false ) ){
-            unset( self::$instance->fields[ 'creditcard' ] );
-            unset( self::$instance->fields[ 'creditcardcvc' ] );
-            unset( self::$instance->fields[ 'creditcardexpiration' ] );
-            unset( self::$instance->fields[ 'creditcardfullname' ] );
-            unset( self::$instance->fields[ 'creditcardnumber' ] );
-            unset( self::$instance->fields[ 'creditcardzip' ] );
-        }
 
         /*
             * Form Action Registration
