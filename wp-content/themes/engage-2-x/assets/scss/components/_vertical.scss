@@ -97,8 +97,8 @@
 	 .tile__label {
 	    color: map-get($verticalColors, $name);
 	  }
-	  .tile__bar {
-	    background: map-get($verticalColors, $name);
-	  }
+	  // .tile__bar {
+	  //   background: map-get($verticalColors, $name);
+	  // }
 	}
 }
