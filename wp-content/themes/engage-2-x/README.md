@@ -15,9 +15,9 @@ Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/s
   
 2. Activate the `engage-2-x` theme from WP Admin / Appearance.
 
-3. Now you can run `npm run watch` to start up your local dev server with browsersync for automatic refresh.
+3. Now you can run `yarn watch` to start up your local dev server with browsersync for automatic refresh.
 
-4. When your tasks are complete and you are ready to push your changes to the remote repo run `npm run production` on the /engage-2-x directory to compile all CSS & JS.
+4. When your tasks are complete and you are ready to push your changes to the remote repo run `yarn prod` on the /engage-2-x directory to compile all CSS & JS.
 
 
 More help on [Timber Installation Instructions](https://timber.github.io/docs/v2/installation/installation/#install-timber-into-an-existing-project).
@@ -128,7 +128,7 @@ If it is not [a hotfix](#hotfix-branches), the flow for a normal deployment is:
 
 1. #### YOU MUST NOTIFY KAT BEFORE YOU PUSH ANY UPDATES TO THE LIVE SITE
 
-2. First run `npm run production` to compile files for production.
+2. First run `yarn prod` to compile files for production.
 
 3. Push to the dev site (https://cmedev.wpengine.com/)
     
@@ -153,7 +153,7 @@ git tag -a 2.2.8 -m "message here" && git push origin stable --tags && git push 
 7. Push to the live site
 
 ```
-git push production stable
+git push prod stable
 ```
 
 ## Updated setup instructions
