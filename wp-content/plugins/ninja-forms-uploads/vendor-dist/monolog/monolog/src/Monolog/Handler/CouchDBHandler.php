@@ -1,5 +1,6 @@
 <?php
 
+declare (strict_types=1);
 /*
  * This file is part of the Monolog package.
  *
@@ -10,6 +11,7 @@
  */
 namespace NF_FU_VENDOR\Monolog\Handler;
 
+use NF_FU_VENDOR\Monolog\Formatter\FormatterInterface;
 use NF_FU_VENDOR\Monolog\Formatter\JsonFormatter;
 use NF_FU_VENDOR\Monolog\Logger;
 /**
@@ -19,31 +21,35 @@ use NF_FU_VENDOR\Monolog\Logger;
  */
 class CouchDBHandler extends AbstractProcessingHandler
 {
+    /** @var mixed[] */
     private $options;
-    public function __construct(array $options = array(), $level = Logger::DEBUG, $bubble = \true)
+    /**
+     * @param mixed[] $options
+     */
+    public function __construct(array $options = [], $level = Logger::DEBUG, bool $bubble = \true)
     {
-        $this->options = \array_merge(array('host' => 'localhost', 'port' => 5984, 'dbname' => 'logger', 'username' => null, 'password' => null), $options);
+        $this->options = \array_merge(['host' => 'localhost', 'port' => 5984, 'dbname' => 'logger', 'username' => null, 'password' => null], $options);
         parent::__construct($level, $bubble);
     }
     /**
      * {@inheritDoc}
      */
-    protected function write(array $record)
+    protected function write(array $record) : void
     {
         $basicAuth = null;
         if ($this->options['username']) {
             $basicAuth = \sprintf('%s:%s@', $this->options['username'], $this->options['password']);
         }
         $url = 'http://' . $basicAuth . $this->options['host'] . ':' . $this->options['port'] . '/' . $this->options['dbname'];
-        $context = \stream_context_create(array('http' => array('method' => 'POST', 'content' => $record['formatted'], 'ignore_errors' => \true, 'max_redirects' => 0, 'header' => 'Content-type: application/json')));
-        if (\false === @\file_get_contents($url, null, $context)) {
+        $context = \stream_context_create(['http' => ['method' => 'POST', 'content' => $record['formatted'], 'ignore_errors' => \true, 'max_redirects' => 0, 'header' => 'Content-type: application/json']]);
+        if (\false === @\file_get_contents($url, \false, $context)) {
             throw new \RuntimeException(\sprintf('Could not connect to %s', $url));
         }
     }
     /**
      * {@inheritDoc}
      */
-    protected function getDefaultFormatter()
+    protected function getDefaultFormatter() : FormatterInterface
     {
         return new JsonFormatter(JsonFormatter::BATCH_MODE_JSON, \false);
     }

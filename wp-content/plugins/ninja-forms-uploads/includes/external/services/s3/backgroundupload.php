@@ -1,6 +1,6 @@
 <?php
 
-use Aws\S3\S3Client;
+use NF_FU_LIB\Aws\S3\S3Client;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

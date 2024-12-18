@@ -1,7 +1,7 @@
 <?php
 
-use NF_FU_VENDOR\Aws\Credentials\Credentials;
-use NF_FU_VENDOR\Aws\S3\S3Client;
+use NF_FU_LIB\Aws\Credentials\Credentials;
+use NF_FU_LIB\Aws\S3\S3Client;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

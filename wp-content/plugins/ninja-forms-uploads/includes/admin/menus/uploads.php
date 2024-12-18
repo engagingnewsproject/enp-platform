@@ -114,7 +114,7 @@ final class NF_FU_Admin_Menus_Uploads extends NF_Abstracts_Submenu {
 		$table = false;
 		if ( 'browse' === $active_tab ) {
 			wp_enqueue_script( 'jquery-ui-datepicker' );
-			wp_enqueue_style( 'jquery-ui-datepicker', Ninja_Forms::$url . 'deprecated/assets/css/jquery-ui-fresh.min.css' );
+			wp_enqueue_style( 'jquery-ui-datepicker', Ninja_Forms::$url . 'lib/Legacy/jquery-ui-fresh.min.css' );
 			$table = new NF_FU_Admin_UploadsTable();
 			$table->prepare_items();
 		}
