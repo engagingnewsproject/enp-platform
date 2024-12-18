@@ -122,12 +122,6 @@ final class NF_FU_File_Uploads {
 		// Import Form Upgrade Routine for 3.0
 		new NF_FU_Admin_Upgrade();
 
-		if ( ! self::$instance->is_ninja_forms_three() ) {
-			self::$instance->load_deprecated();
-
-			return;
-		}
-
 		// This is THREE!
 		add_filter( 'ninja_forms_register_fields', array( $this, 'register_field' ) );
 		add_filter( 'ninja_forms_field_template_file_paths', array( $this, 'register_template_path' ) );
@@ -212,26 +206,6 @@ final class NF_FU_File_Uploads {
 	public function install() {
 		$migrations = new NF_FU_Database_Migrations();
 		$migrations->migrate();
-	}
-
-	/**
-	 * Check the site is running Ninja Forms THREE
-	 *
-	 * @return bool
-	 */
-	protected function is_ninja_forms_three() {
-		if ( get_option( 'ninja_forms_load_deprecated', false ) ) {
-			return false;
-		}
-
-		return version_compare( get_option( 'ninja_forms_version', '0' ), '3', '>='  );
-	}
-
-	/**
-	 * Load the plugin for deprecated Ninja Form installs
-	 */
-	protected function load_deprecated() {
-		require_once dirname( $this->plugin_file_path ) . '/deprecated/deprecated-file-uploads.php';
 	}
 
 	public function initializeLogger(): void
@@ -461,53 +435,18 @@ final class NF_FU_File_Uploads {
 			return $value;
 		}
 
-		$three = $this->is_ninja_forms_three();
-
 		$clean_value = array();
 
 		$first = reset( $value );
 		if ( is_array( $first ) && isset( $first['user_file_name'] ) ) {
-			// Pre 3.0 submission format
-			if ( $three ) {
-				foreach ( $value as $item ) {
-					$clean_value[ $item['upload_id'] ] = $item['file_url'];
-				}
-			} else {
-				$clean_value = $value;
+			foreach ( $value as $item ) {
+				$clean_value[ $item['upload_id'] ] = $item['file_url'];
 			}
 		} else {
-			// New 3.0 submission format
-			if ( $three ) {
-				$clean_value = $value;
-			} else {
-				global $wpdb;
-				foreach ( $value as $item ) {
-					$upload = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . NINJA_FORMS_UPLOADS_TABLE_NAME . ' WHERE id = %d', $item['upload_id'] ) );
-					if ( ! empty( $upload ) ) {
-						$clean_value[ $item['upload_id'] ] = unserialize( $upload->data );
-					}
-				}
-			}
+			$clean_value = $value;
 		}
 
 		return $clean_value;
-	}
-
-	/**
-	 * Ensure the deprecated activation code is run on Ninja Forms 2.9.x rollback
-	 */
-	public function handle_rollback() {
-		global $wpdb;
-		if ( ! defined( 'NINJA_FORMS_UPLOADS_TABLE_NAME' ) ) {
-			define( 'NINJA_FORMS_UPLOADS_TABLE_NAME', $wpdb->prefix . "ninja_forms_uploads" );
-		}
-		if ( ! defined( 'NINJA_FORMS_UPLOADS_VERSION' ) ) {
-			define( "NINJA_FORMS_UPLOADS_VERSION", $this->plugin_version );
-		}
-
-		require_once dirname( $this->plugin_file_path ) . '/deprecated/includes/activation.php';
-
-		ninja_forms_uploads_activation();
 	}
 
 	/**
@@ -524,5 +463,23 @@ final class NF_FU_File_Uploads {
 		);
 
 		return $nonce;
+	}
+
+	/**
+	 * Set default list of allowed File Types
+	 *
+	 * @return string of file extensions allowed
+	 */
+	public static function getDefaultTypesAllowed() {
+		$wp_file_types = wp_get_ext_types();
+		unset($wp_file_types["interactive"], $wp_file_types["archive"], $wp_file_types["code"]);
+		$default_types_allowed = "doc,ppt,pptx,pps,ppsx,";
+		foreach(array_values($wp_file_types) as $values){
+			$default_types_allowed .= implode(",", $values).',';
+		};
+
+		$default_types_allowed = rtrim($default_types_allowed,',');
+		
+		return $default_types_allowed;
 	}
 }

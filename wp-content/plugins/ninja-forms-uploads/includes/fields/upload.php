@@ -105,7 +105,7 @@ class NF_FU_Fields_Upload extends NF_Abstracts_Field {
 				return $data;
 			}
 
-			if ( ! NF_FU_AJAX_Controllers_Uploads::is_allowed_type( $original_filename ) ) {
+			if ( ! NF_FU_AJAX_Controllers_Uploads::is_allowed_type( $original_filename, self::get_types_allowed($field['settings']['upload_types']) ) ) {
 				$data['errors']['fields'][ $field['id'] ] = __( 'File extension not allowed', 'ninja-forms-uploads' );
 
 				return $data;
@@ -171,7 +171,7 @@ class NF_FU_Fields_Upload extends NF_Abstracts_Field {
 				return $data;
 			}
 
-			if ( ! NF_FU_AJAX_Controllers_Uploads::is_allowed_type( $file_name ) ) {
+			if ( ! NF_FU_AJAX_Controllers_Uploads::is_allowed_type( $file_name, self::get_types_allowed($field['settings']['upload_types']) ) ) {
 				$data['errors']['fields'][ $field['id'] ] = __( 'File extension not allowed', 'ninja-forms-uploads' );
 
 				return $data;
@@ -218,7 +218,7 @@ class NF_FU_Fields_Upload extends NF_Abstracts_Field {
 
 		foreach ( $data['fields'] as $key => $data_field ) {
 			if ( $data_field['id'] != $field['id'] ) {
-				if($field['repeaterField']){
+				if(isset($field['repeaterField']) && $field['repeaterField']){
 					list($parent_key) = explode('.', $field['id']);
 					if(isset($data['fields'][(int)$parent_key]['value'][$field['id']])){
 						$data['fields'][ $parent_key ]['value'][$field['id']]['value'] = $submission_data;
@@ -239,6 +239,29 @@ class NF_FU_Fields_Upload extends NF_Abstracts_Field {
 		}
 
 		return $data;
+	}
+
+
+	/**
+	 * Return file types defined
+	 * 
+	 * @param string $upload_types_allowed list of user defined file types in settings.
+	 * 
+	 * @return array of types defined by user or fallback to default list
+	 */
+	protected static function get_types_allowed($upload_types_allowed){
+		if ( empty( $upload_types_allowed ) ) {
+			$upload_types_allowed = NF_FU_File_Uploads::getDefaultTypesAllowed();
+		}
+		$string_list = explode(",", $upload_types_allowed);
+		$upload_types_allowed = [];
+		foreach($string_list as $type) {
+			$upload_types_allowed[$type] = $type;
+		}
+
+		$upload_types_allowed = NF_FU_AJAX_Controllers_Uploads::set_equivalents_list($upload_types_allowed);
+		
+		return $upload_types_allowed;
 	}
 
 	/**
@@ -331,9 +354,7 @@ class NF_FU_Fields_Upload extends NF_Abstracts_Field {
 		if ( ! empty( $settings['upload_types'] ) ) {
 			$types = array_map( 'trim', explode( ',', $settings['upload_types'] ) );
 
-			if ( in_array( 'jpg', $types ) && ! in_array( 'jpeg', $types ) ) {
-				$types[] = 'jpeg';
-			}
+			$types = NF_FU_AJAX_Controllers_Uploads::set_equivalents_list($types);
 
 			array_walk( $types, function ( &$value ) {
 				$value = '.' . ltrim( $value, '.' );

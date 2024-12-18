@@ -1,38 +1,24 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) || ! class_exists( 'NF_Abstracts_Action' ) ) {
+use NinjaForms\Includes\Abstracts\SotAction;
+use NinjaForms\Includes\Traits\SotGetActionProperties;
+use NinjaForms\Includes\Interfaces\SotAction as InterfacesSotAction;
+
+if (! defined('ABSPATH') ) {
 	exit;
 }
 
 /**
  * Class NF_Actions_Recaptcha
  */
-final class NF_Actions_Recaptcha extends NF_Abstracts_Action {
-
-	/**
-	 * @var string
-	 */
-	protected $_name = 'recaptcha';
+final class NF_Actions_Recaptcha extends SotAction implements InterfacesSotAction
+{
+	use SotGetActionProperties;
 
 	/**
 	 * @var array
 	 */
-	protected $_tags = array( 'spam', 'filtering', 'recaptcha' );
-
-	/**
-	 * @var string
-	 */
-	protected $_timing = 'normal';
-
-	/**
-	 * @var int
-	 */
-	protected $_priority = '10';
-
-    /**
-     * @var string
-     */
-    protected $_group = 'core';
+	protected $_tags = array('spam', 'filtering', 'recaptcha');
 
 	/**
 	 * @var string
@@ -57,30 +43,42 @@ final class NF_Actions_Recaptcha extends NF_Abstracts_Action {
 	/**
 	 * @var array
 	 */
-	protected $_settings_exclude = array( 'conditions' );
+	protected $_settings_exclude = array('conditions');
 
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		parent::__construct();
 
-		$this->_nicename = esc_html__( 'reCAPTCHA v3', 'ninja-forms' );
-		$settings        = Ninja_Forms::config( 'ActionRecaptchaV3Settings' );
-		$this->_settings = array_merge( $this->_settings, $settings );
+		$this->_name = 'recaptcha';
+		$this->_timing = 'normal';
+		$this->_priority = '10';
+		$this->_group = 'core';
 
-		$this->site_key    = Ninja_Forms()->get_setting( 'recaptcha_site_key_3' );
-		$this->site_secret = Ninja_Forms()->get_setting( 'recaptcha_secret_key_3' );
+		add_action('init', [$this, 'initHook']);
 
-		add_filter( 'ninja_forms_action_type_settings', array( $this, 'maybe_remove_action' ) );
+		add_filter('ninja_forms_action_type_settings', array($this, 'maybe_remove_action'));
 
-		add_action( 'nf_get_form_id', array( $this, 'set_form_id' ), 15, 1 );
+		add_action('nf_get_form_id', array($this, 'set_form_id'), 15, 1);
 
-		add_filter( 'ninja_forms_display_fields', array( $this, 'maybe_inject_field'), 10, 2 );
-		add_filter( 'ninja_forms_form_fields', array( $this, 'maybe_remove_v2_field') );
-		add_filter( 'ninja_forms_field_show_in_builder', array( $this, 'maybe_remove_v2_field_from_builder'), 10, 2 );
-		add_action( 'ninja_forms_output_templates', array( $this, 'maybe_output_field_template') );
-		add_filter( 'nf_display_enqueue_scripts', array( $this, 'enqueue_script' ) );
+		add_filter('ninja_forms_display_fields', array($this, 'maybe_inject_field'), 10, 2);
+		add_filter('ninja_forms_form_fields', array($this, 'maybe_remove_v2_field'));
+		add_filter('ninja_forms_field_show_in_builder', array($this, 'maybe_remove_v2_field_from_builder'), 10, 2);
+		add_action('ninja_forms_output_templates', array($this, 'maybe_output_field_template'));
+		add_filter('nf_display_enqueue_scripts', array($this, 'enqueue_script'));
+	}
+
+	public function initHook()
+	{
+
+		$this->_nicename = esc_html__('reCAPTCHA v3', 'ninja-forms');
+		$settings        = Ninja_Forms::config('ActionRecaptchaV3Settings');
+		$this->_settings = array_merge($this->_settings, $settings);
+
+		$this->site_key    = Ninja_Forms()->get_setting('recaptcha_site_key_3');
+		$this->site_secret = Ninja_Forms()->get_setting('recaptcha_secret_key_3');
 	}
 
 	/**
@@ -90,17 +88,18 @@ final class NF_Actions_Recaptcha extends NF_Abstracts_Action {
 	 * @param string $form_id The ID of the current form.
 	 * @return void
 	 */
-	public function set_form_id( $form_id )
+	public function set_form_id($form_id)
 	{
 		$this->form_id = $form_id;
 	}
 
-	public function get_form_id() {
-		if ( $this->form_id ) {
+	public function get_form_id()
+	{
+		if ($this->form_id) {
 			return $this->form_id;
 		}
 
-		$this->form_id = filter_input( INPUT_GET, 'form_id', FILTER_VALIDATE_INT );
+		$this->form_id = filter_input(INPUT_GET, 'form_id', FILTER_VALIDATE_INT);
 
 		return $this->form_id;
 	}
@@ -112,9 +111,10 @@ final class NF_Actions_Recaptcha extends NF_Abstracts_Action {
 	 *
 	 * @return array
 	 */
-	public function maybe_remove_action( $action_type_settings ) {
-		if ( ! $this->is_recaptcha_configured() ) {
-			unset( $action_type_settings[ $this->_name ] );
+	public function maybe_remove_action($action_type_settings)
+	{
+		if (! $this->is_recaptcha_configured()) {
+			unset($action_type_settings[$this->_name]);
 		}
 
 		return $action_type_settings;
@@ -123,24 +123,25 @@ final class NF_Actions_Recaptcha extends NF_Abstracts_Action {
 	/**
 	 * @return bool
 	 */
-	protected function is_action_enabled_for_form() {
+	protected function is_action_enabled_for_form()
+	{
 		$form_id = $this->get_form_id();
 
-		if ( isset( $this->forms_with_action[ $form_id ] ) ) {
-			return $this->forms_with_action[ $form_id ];
+		if (isset($this->forms_with_action[$form_id])) {
+			return $this->forms_with_action[$form_id];
 		}
 
-		$actions = Ninja_Forms()->form( $form_id )->get_actions();
+		$actions = Ninja_Forms()->form($form_id)->get_actions();
 
 		$enabled = false;
-		foreach ( $actions as $action ) {
-			if ( $this->_name == $action->get_settings('type') && 1 == $action->get_setting( 'active' ) ) {
+		foreach ($actions as $action) {
+			if ($this->_name == $action->get_settings('type') && 1 == $action->get_setting('active')) {
 				$enabled = true;
 				break;
 			}
 		}
 
-		$this->forms_with_action[ $form_id ] = $enabled;
+		$this->forms_with_action[$form_id] = $enabled;
 
 		return $enabled;
 	}
@@ -150,8 +151,9 @@ final class NF_Actions_Recaptcha extends NF_Abstracts_Action {
 	 *
 	 * @return bool
 	 */
-	protected function is_recaptcha_configured() {
-		if ( empty( $this->site_key ) || empty( $this->site_secret) ) {
+	protected function is_recaptcha_configured()
+	{
+		if (empty($this->site_key) || empty($this->site_secret)) {
 			return false;
 		}
 
@@ -163,30 +165,33 @@ final class NF_Actions_Recaptcha extends NF_Abstracts_Action {
 	 *
 	 * @return bool
 	 */
-	protected function is_action_configured() {
-		if ( ! $this->is_recaptcha_configured() ) {
+	protected function is_action_configured()
+	{
+		if (! $this->is_recaptcha_configured()) {
 			return false;
 		}
 
-		if ( ! $this->is_action_enabled_for_form() ) {
+		if (! $this->is_action_enabled_for_form()) {
 			return false;
 		}
 
 		return true;
 	}
 
-	public function maybe_output_field_template() {
-		if ( ! $this->is_action_configured() ) {
+	public function maybe_output_field_template()
+	{
+		if (! $this->is_action_configured()) {
 			return;
 		}
 
 		$file_path = Ninja_Forms::$dir . 'includes/Templates/';
 
-		echo file_get_contents( $file_path . "fields-recaptcha-v3.html" );
+		echo file_get_contents($file_path . "fields-recaptcha-v3.html");
 	}
 
-	protected function get_field_id_hash( $form_id ) {
-		return substr( base_convert( md5( $form_id ), 16, 10 ), - 5 );
+	protected function get_field_id_hash($form_id)
+	{
+		return substr(base_convert(md5($form_id), 16, 10), -5);
 	}
 
 	/**
@@ -196,15 +201,16 @@ final class NF_Actions_Recaptcha extends NF_Abstracts_Action {
 	 *
 	 * @return array
 	 */
-	public function maybe_remove_v2_field( $fields ) {
-		if ( ! $this->is_action_configured() ) {
+	public function maybe_remove_v2_field($fields)
+	{
+		if (! $this->is_action_configured()) {
 			return $fields;
 		}
 
-		foreach ( $fields as $key => $field ) {
-			if ( 'recaptcha' === $field->get_setting('type') ) {
+		foreach ($fields as $key => $field) {
+			if ('recaptcha' === $field->get_setting('type')) {
 				// Remove v2 reCAPTCHA fields if still configured
-				unset( $fields[ $key ] );
+				unset($fields[$key]);
 			}
 		}
 
@@ -219,19 +225,20 @@ final class NF_Actions_Recaptcha extends NF_Abstracts_Action {
 	 *
 	 * @return bool
 	 */
-	public function maybe_remove_v2_field_from_builder( $show, $field ) {
-		if ( ! $this->is_action_configured() ) {
+	public function maybe_remove_v2_field_from_builder($show, $field)
+	{
+		if (! $this->is_action_configured()) {
 			return $show;
 		}
 
-		if ( 'recaptcha' !== $field->get_type() ) {
+		if ('recaptcha' !== $field->get_type()) {
 			return $show;
 		}
 
-		$saved_fields = Ninja_Forms()->form( $this->get_form_id() )->get_fields( array( 'saved' => 1 ), true );
+		$saved_fields = Ninja_Forms()->form($this->get_form_id())->get_fields(array('saved' => 1), true);
 
-		foreach ( $saved_fields as $key => $field ) {
-			if ( 'recaptcha' === $field->get_setting( 'type' ) ) {
+		foreach ($saved_fields as $key => $field) {
+			if ('recaptcha' === $field->get_setting('type')) {
 				// recaptcha v2 field exists on form, don't hide it as it will break the JS
 				return $show;
 			}
@@ -247,18 +254,19 @@ final class NF_Actions_Recaptcha extends NF_Abstracts_Action {
 	 *
 	 * @return array
 	 */
-	public function maybe_inject_field( $fields, $form_id ) {
-		if ( ! $this->is_action_configured() ) {
+	public function maybe_inject_field($fields, $form_id)
+	{
+		if (! $this->is_action_configured()) {
 			return $fields;
 		}
 
-		$field_id = $this->get_field_id_hash( $form_id );
+		$field_id = $this->get_field_id_hash($form_id);
 
 		$field = array(
 			'objectType'        => 'Field',
 			'objectDomain'      => 'fields',
 			'editActive'        => false,
-			'order'             => number_format( count( $fields ) + 1, 1 ),
+			'order'             => number_format(count($fields) + 1, 1),
 			'type'              => 'recaptcha_v3',
 			'label'             => 'Hidden',
 			'key'               => 'recaptcha_v3',
@@ -286,15 +294,16 @@ final class NF_Actions_Recaptcha extends NF_Abstracts_Action {
 		return $fields;
 	}
 
-	public function enqueue_script() {
-		if ( ! $this->is_action_configured() ) {
+	public function enqueue_script()
+	{
+		if (! $this->is_action_configured()) {
 			return;
 		}
 
-		$recaptcha_lang = Ninja_Forms()->get_setting( 'recaptcha_lang', 'en' );
+		$recaptcha_lang = Ninja_Forms()->get_setting('recaptcha_lang', 'en');
 
-		if ( $this->maybe_enqueue_recaptcha_js() ) {
-			wp_enqueue_script( 'nf-google-recaptcha', 'https://www.google.com/recaptcha/api.js?hl=' . $recaptcha_lang . '&render=' . $this->site_key, array( 'jquery' ), '3.0', true );
+		if ($this->maybe_enqueue_recaptcha_js()) {
+			wp_enqueue_script('nf-google-recaptcha', 'https://www.google.com/recaptcha/api.js?hl=' . $recaptcha_lang . '&render=' . $this->site_key, array('jquery'), '3.0', true);
 		}
 	}
 
@@ -303,16 +312,17 @@ final class NF_Actions_Recaptcha extends NF_Abstracts_Action {
 	 * 
 	 * @return bool
 	 */
-	protected function maybe_enqueue_recaptcha_js() {
-		if ( false !== apply_filters( 'ninja_forms_pre_enqueue_recaptcha_v3_js', false ) ) {
+	protected function maybe_enqueue_recaptcha_js()
+	{
+		if (false !== apply_filters('ninja_forms_pre_enqueue_recaptcha_v3_js', false)) {
 			// Allow other plugins to tell Ninja Forms not to load the Google JS script, if they are doing that
 			return false;
 		}
 
 		$scripts = wp_scripts();
 
-		foreach( $scripts->registered as $script ) {
-			if ( false !== strpos( $script->src, 'google.com/recaptcha/api.js' ) ) {
+		foreach ($scripts->registered as $script) {
+			if (false !== strpos($script->src, 'google.com/recaptcha/api.js')) {
 				return false;
 			}
 		}
@@ -320,35 +330,37 @@ final class NF_Actions_Recaptcha extends NF_Abstracts_Action {
 		return true;
 	}
 
-	protected function get_form_data() {
-		if ( empty( $_POST['formData'] ) ) {
+	protected function get_form_data()
+	{
+		if (empty($_POST['formData'])) {
 			return false;
 		}
 
-		$form_data = json_decode( $_POST['formData'], true );
+		$form_data = json_decode($_POST['formData'], true);
 
 		// php5.2 fallback
-		if ( ! $form_data ) {
-			$form_data = json_decode( stripslashes( $_POST['formData'] ), true );
+		if (! $form_data) {
+			$form_data = json_decode(stripslashes($_POST['formData']), true);
 		}
 
 		return $form_data ? $form_data : false;
 	}
 
-	protected function get_recaptcha_response() {
+	protected function get_recaptcha_response()
+	{
 		$form_data = $this->get_form_data();
 
-		if ( ! $form_data || ! isset( $form_data['id'] ) ) {
+		if (! $form_data || ! isset($form_data['id'])) {
 			return false;
 		}
 
-		$field_id = $this->get_field_id_hash( $form_data['id'] );
+		$field_id = $this->get_field_id_hash($form_data['id']);
 
-		if ( ! isset( $form_data['fields'] ) || ! isset( $form_data['fields'][ $field_id ] ) ) {
+		if (! isset($form_data['fields']) || ! isset($form_data['fields'][$field_id])) {
 			return false;
 		}
 
-		return $form_data['fields'][ $field_id ]['value'];
+		return $form_data['fields'][$field_id]['value'];
 	}
 
 	/**
@@ -360,57 +372,59 @@ final class NF_Actions_Recaptcha extends NF_Abstracts_Action {
 	 *
 	 * @return array
 	 */
-	public function process( $action_settings, $form_id, $data ) {
-		if ( ! $this->is_recaptcha_configured() ) {
+	public function process(array $action_settings, int $form_id, array $data): array
+	{
+		if (! $this->is_recaptcha_configured()) {
 			return $data;
 		}
 
 		$recaptcha_response = $this->get_recaptcha_response();
 
-		if ( ! $recaptcha_response) {
-			$data['errors']['form']['recaptcha'] = esc_html__( 'Recaptcha validation failed. Please try again later', 'ninja-forms' );
+		if (! $recaptcha_response) {
+			$data['errors']['form']['recaptcha'] = esc_html__('Recaptcha validation failed. Please try again later', 'ninja-forms');
 
 			return $data;
 		}
 
-		if ( $this->is_submission_human( $recaptcha_response, $action_settings['score'] ) ) {
+		if ($this->is_submission_human($recaptcha_response, $action_settings['score'])) {
 			return $data;
 		}
 
-		$data['errors']['form']['recaptcha'] = esc_html__( 'Recaptcha validation failed. Please try again later', 'ninja-forms' );
+		$data['errors']['form']['recaptcha'] = esc_html__('Recaptcha validation failed. Please try again later', 'ninja-forms');
 
 		return $data;
 	}
 
-	protected function is_submission_human( $token, $score_threshold ) {
+	protected function is_submission_human($token, $score_threshold)
+	{
 		$endpoint = 'https://www.google.com/recaptcha/api/siteverify';
 
 		$request = array(
 			'body' => array(
 				'secret'   => $this->site_secret,
-				'response' => esc_html( $token ),
+				'response' => esc_html($token),
 			),
 		);
 
-		$response = wp_remote_post( esc_url_raw( $endpoint ), $request );
+		$response = wp_remote_post(esc_url_raw($endpoint), $request);
 
-		if ( 200 != wp_remote_retrieve_response_code( $response ) ) {
-			if ( WP_DEBUG ) {
-				error_log( print_r( $response, true ) );
+		if (200 != wp_remote_retrieve_response_code($response)) {
+			if (WP_DEBUG) {
+				error_log(print_r($response, true));
 			}
 
 			return false;
 		}
 
-		$response_body = wp_remote_retrieve_body( $response );
-		$response_body = json_decode( $response_body, true );
+		$response_body = wp_remote_retrieve_body($response);
+		$response_body = json_decode($response_body, true);
 
-		$score = isset( $response_body['score'] ) ? $response_body['score'] : 0;
+		$score = isset($response_body['score']) ? $response_body['score'] : 0;
 
-		$threshold = apply_filters( 'ninja_forms_action_recaptcha_score_threshold', $score_threshold );
+		$threshold = apply_filters('ninja_forms_action_recaptcha_score_threshold', $score_threshold);
 		$is_human  = $threshold < $score;
 
-		$is_human = apply_filters( 'ninja_forms_action_recaptcha__verify_response', $is_human, $response_body );
+		$is_human = apply_filters('ninja_forms_action_recaptcha__verify_response', $is_human, $response_body);
 
 		return $is_human;
 	}

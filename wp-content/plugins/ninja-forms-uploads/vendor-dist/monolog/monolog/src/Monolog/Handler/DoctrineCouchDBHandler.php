@@ -1,5 +1,6 @@
 <?php
 
+declare (strict_types=1);
 /*
  * This file is part of the Monolog package.
  *
@@ -12,6 +13,7 @@ namespace NF_FU_VENDOR\Monolog\Handler;
 
 use NF_FU_VENDOR\Monolog\Logger;
 use NF_FU_VENDOR\Monolog\Formatter\NormalizerFormatter;
+use NF_FU_VENDOR\Monolog\Formatter\FormatterInterface;
 use NF_FU_VENDOR\Doctrine\CouchDB\CouchDBClient;
 /**
  * CouchDB handler for Doctrine CouchDB ODM
@@ -20,8 +22,9 @@ use NF_FU_VENDOR\Doctrine\CouchDB\CouchDBClient;
  */
 class DoctrineCouchDBHandler extends AbstractProcessingHandler
 {
+    /** @var CouchDBClient */
     private $client;
-    public function __construct(CouchDBClient $client, $level = Logger::DEBUG, $bubble = \true)
+    public function __construct(CouchDBClient $client, $level = Logger::DEBUG, bool $bubble = \true)
     {
         $this->client = $client;
         parent::__construct($level, $bubble);
@@ -29,11 +32,11 @@ class DoctrineCouchDBHandler extends AbstractProcessingHandler
     /**
      * {@inheritDoc}
      */
-    protected function write(array $record)
+    protected function write(array $record) : void
     {
         $this->client->postDocument($record['formatted']);
     }
-    protected function getDefaultFormatter()
+    protected function getDefaultFormatter() : FormatterInterface
     {
         return new NormalizerFormatter();
     }

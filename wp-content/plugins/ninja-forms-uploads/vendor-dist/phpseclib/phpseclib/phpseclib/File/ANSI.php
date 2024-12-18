@@ -183,8 +183,7 @@ class ANSI
     /**
      * Set the number of lines that should be logged past the terminal height
      *
-     * @param int $x
-     * @param int $y
+     * @param int $history
      * @access public
      */
     function setHistory($history)
@@ -250,7 +249,7 @@ class ANSI
                     case "\x1b[K":
                         // Clear screen from cursor right
                         $this->screen[$this->y] = \substr($this->screen[$this->y], 0, $this->x);
-                        \array_splice($this->attrs[$this->y], $this->x + 1, $this->max_x - $this->x, \array_fill($this->x, $this->max_x - $this->x - 1, $this->base_attr_cell));
+                        \array_splice($this->attrs[$this->y], $this->x + 1, $this->max_x - $this->x, \array_fill($this->x, $this->max_x - ($this->x - 1), $this->base_attr_cell));
                         break;
                     case "\x1b[2K":
                         // Clear entire line
@@ -305,23 +304,24 @@ class ANSI
                                 $mods = \explode(';', $match[1]);
                                 foreach ($mods as $mod) {
                                     switch ($mod) {
-                                        case 0:
+                                        case '':
+                                        case '0':
                                             // Turn off character attributes
                                             $attr_cell = clone $this->base_attr_cell;
                                             break;
-                                        case 1:
+                                        case '1':
                                             // Turn bold mode on
                                             $attr_cell->bold = \true;
                                             break;
-                                        case 4:
+                                        case '4':
                                             // Turn underline mode on
                                             $attr_cell->underline = \true;
                                             break;
-                                        case 5:
+                                        case '5':
                                             // Turn blinking mode on
                                             $attr_cell->blink = \true;
                                             break;
-                                        case 7:
+                                        case '7':
                                             // Turn reverse video on
                                             $attr_cell->reverse = !$attr_cell->reverse;
                                             $temp = $attr_cell->background;
@@ -336,52 +336,52 @@ class ANSI
                                             $back =& $attr_cell->{$attr_cell->reverse ? 'foreground' : 'background'};
                                             switch ($mod) {
                                                 // @codingStandardsIgnoreStart
-                                                case 30:
+                                                case '30':
                                                     $front = 'black';
                                                     break;
-                                                case 31:
+                                                case '31':
                                                     $front = 'red';
                                                     break;
-                                                case 32:
+                                                case '32':
                                                     $front = 'green';
                                                     break;
-                                                case 33:
+                                                case '33':
                                                     $front = 'yellow';
                                                     break;
-                                                case 34:
+                                                case '34':
                                                     $front = 'blue';
                                                     break;
-                                                case 35:
+                                                case '35':
                                                     $front = 'magenta';
                                                     break;
-                                                case 36:
+                                                case '36':
                                                     $front = 'cyan';
                                                     break;
-                                                case 37:
+                                                case '37':
                                                     $front = 'white';
                                                     break;
-                                                case 40:
+                                                case '40':
                                                     $back = 'black';
                                                     break;
-                                                case 41:
+                                                case '41':
                                                     $back = 'red';
                                                     break;
-                                                case 42:
+                                                case '42':
                                                     $back = 'green';
                                                     break;
-                                                case 43:
+                                                case '43':
                                                     $back = 'yellow';
                                                     break;
-                                                case 44:
+                                                case '44':
                                                     $back = 'blue';
                                                     break;
-                                                case 45:
+                                                case '45':
                                                     $back = 'magenta';
                                                     break;
-                                                case 46:
+                                                case '46':
                                                     $back = 'cyan';
                                                     break;
-                                                case 47:
+                                                case '47':
                                                     $back = 'white';
                                                     break;
                                                 // @codingStandardsIgnoreEnd

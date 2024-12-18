@@ -2,9 +2,9 @@
 Contributors: kstover, jameslaws
 Donate link: http://ninjaforms.com
 Tags: form, forms
-Requires at least: 5.0
-Tested up to: 6.2.0
-Stable tag: 3.3.16
+Requires at least: 6.5
+Tested up to: 6.7
+Stable tag: 3.3.21
 
 License: GPLv2 or later
 
@@ -26,6 +26,30 @@ This section describes how to install the plugin and get it working.
 For help and video tutorials, please visit our website: [NinjaForms.com](http://ninjaforms.com)
 
 == Changelog ==
+= 3.3.21 (10 December 2024)
+*Bug Fixes:*
+- Update Google scope for more specific authorization
+
+= 3.3.20 (15 July 2024)
+*Bug Fixes:*
+- Automatically allow equivalent file extensions
+- Allow file extensions with extra whitespace in list
+- Correct errant library class names
+
+= 3.3.19 (24 June 2024)
+*Bug Fixes:*
+- Ensure WP allowed files list is honored
+
+= 3.3.18 (31 May 2024)
+*Other:*
+- Migrate Google and AWS libraries internally
+
+= 3.3.17 (01 May 2024)
+*Bug Fixes:*
+- prevent upload of file types not allowed by WordPress unless explicitly specified
+
+*Other:*
+- Remove deprecated folder for sunset versions of Ninja Forms
 
 = 3.3.16 (06 June 2023)
 *Bug Fixes:*

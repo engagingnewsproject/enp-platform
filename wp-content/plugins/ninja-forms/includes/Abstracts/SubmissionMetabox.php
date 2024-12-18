@@ -18,7 +18,7 @@ abstract class NF_Abstracts_SubmissionMetabox extends NF_Abstracts_Metabox
 
         if( ! isset( $_GET[ 'post' ] ) ) return;
 
-        $this->_title = esc_html__( 'Submission Metabox', 'ninja-forms' );
+        add_action('init', [$this, 'abstractSubmissionInit'], 8);
 
         $post_id = absint( $_GET[ 'post' ] );
 
@@ -26,5 +26,17 @@ abstract class NF_Abstracts_SubmissionMetabox extends NF_Abstracts_Metabox
         
         add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
         add_action( 'save_post', array( $this, '_save_post' ) );
+    }
+
+    /**
+     * Initialize properties at WP `init-8` action hook
+     *
+     * Set translatable properties - _title
+     * 
+     * @return void
+     */
+    public function abstractSubmissionInit(): void
+    {
+        $this->_title = esc_html__('Submission Metabox', 'ninja-forms');
     }
 }

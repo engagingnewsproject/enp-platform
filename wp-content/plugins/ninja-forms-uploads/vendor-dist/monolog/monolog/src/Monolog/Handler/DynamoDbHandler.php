@@ -1,5 +1,6 @@
 <?php
 
+declare (strict_types=1);
 /*
  * This file is part of the Monolog package.
  *
@@ -12,6 +13,7 @@ namespace NF_FU_VENDOR\Monolog\Handler;
 
 use NF_FU_VENDOR\Aws\Sdk;
 use NF_FU_VENDOR\Aws\DynamoDb\DynamoDbClient;
+use NF_FU_VENDOR\Monolog\Formatter\FormatterInterface;
 use NF_FU_VENDOR\Aws\DynamoDb\Marshaler;
 use NF_FU_VENDOR\Monolog\Formatter\ScalarFormatter;
 use NF_FU_VENDOR\Monolog\Logger;
@@ -23,7 +25,7 @@ use NF_FU_VENDOR\Monolog\Logger;
  */
 class DynamoDbHandler extends AbstractProcessingHandler
 {
-    const DATE_FORMAT = 'Y-m-d\\TH:i:s.uO';
+    public const DATE_FORMAT = 'Y-m-d\\TH:i:s.uO';
     /**
      * @var DynamoDbClient
      */
@@ -40,14 +42,9 @@ class DynamoDbHandler extends AbstractProcessingHandler
      * @var Marshaler
      */
     protected $marshaler;
-    /**
-     * @param DynamoDbClient $client
-     * @param string         $table
-     * @param int            $level
-     * @param bool           $bubble
-     */
-    public function __construct(DynamoDbClient $client, $table, $level = Logger::DEBUG, $bubble = \true)
+    public function __construct(DynamoDbClient $client, string $table, $level = Logger::DEBUG, bool $bubble = \true)
     {
+        /** @phpstan-ignore-next-line */
         if (\defined('NF_FU_VENDOR\\Aws\\Sdk::VERSION') && \version_compare(Sdk::VERSION, '3.0', '>=')) {
             $this->version = 3;
             $this->marshaler = new Marshaler();
@@ -59,32 +56,33 @@ class DynamoDbHandler extends AbstractProcessingHandler
         parent::__construct($level, $bubble);
     }
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function write(array $record)
+    protected function write(array $record) : void
     {
         $filtered = $this->filterEmptyFields($record['formatted']);
         if ($this->version === 3) {
             $formatted = $this->marshaler->marshalItem($filtered);
         } else {
+            /** @phpstan-ignore-next-line */
             $formatted = $this->client->formatAttributes($filtered);
         }
-        $this->client->putItem(array('TableName' => $this->table, 'Item' => $formatted));
+        $this->client->putItem(['TableName' => $this->table, 'Item' => $formatted]);
     }
     /**
-     * @param  array $record
-     * @return array
+     * @param  mixed[] $record
+     * @return mixed[]
      */
-    protected function filterEmptyFields(array $record)
+    protected function filterEmptyFields(array $record) : array
     {
         return \array_filter($record, function ($value) {
             return !empty($value) || \false === $value || 0 === $value;
         });
     }
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function getDefaultFormatter()
+    protected function getDefaultFormatter() : FormatterInterface
     {
         return new ScalarFormatter(self::DATE_FORMAT);
     }
