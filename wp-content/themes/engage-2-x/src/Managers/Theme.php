@@ -52,6 +52,8 @@ class Theme {
 				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar/brandbar-logo.webp" as="image" type="image/webp">';
 				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar/brandbar-logo-2.webp" as="image" type="image/webp">';
 				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/logo/center-for-media-engagement.webp" as="image" type="image/webp">';
+				// Preload dots.svg background image
+				echo '<link rel="preload" fetchpriority="high" href="' . get_template_directory_uri() . '/assets/img/dots.webp" as="image" type="image/webp" />';
 			});
 		} else {
 			add_action( 'admin_init', [$this, 'enqueueStylesEditor'] );
@@ -179,14 +181,15 @@ class Theme {
 			wp_register_style('google_fonts', '//fonts.googleapis.com/css2?family=Anton&family=Libre+Franklin:wght@400;700&display=swap', array(), null, 'all');
 			wp_enqueue_style('google_fonts');
 			// Front page Flickity
-			if (is_front_page()) {
-				wp_enqueue_style(
-					'flickity-css',
-					'https://unpkg.com/flickity@3.0.0/dist/flickity.min.css',
-					[],
-					'3.0.0'
-				);
-			}
+			// !! Moved to the templates/html-header.twig file as inline for performance
+			// if (is_front_page()) {
+			// 	wp_enqueue_style(
+			// 		'flickity-css',
+			// 		'https://unpkg.com/flickity@3.0.0/dist/flickity.min.css',
+			// 		[],
+			// 		'3.0.0'
+			// 	);
+			// }
 			wp_enqueue_style('engage_css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
 		}
 	}
