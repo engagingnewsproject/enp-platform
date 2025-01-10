@@ -5,8 +5,36 @@
 	<a href="https://moody.utexas.edu" class="brandbar__link">
 		<span class="sr-text">University of Texas at Austin</span>
 		<span class="brandbar__logo">
-			<img src="{{theme.link}}/assets/img/brandbar-logo.svg" alt="University of Texas at Austin"/>
-			<img src="{{theme.link}}/assets/img/brandbar-logo-2.svg" alt="Moody College of Communication"/>
+			{# <img 
+				src="{{theme.link}}/assets/img/brandbar-logo.svg" 
+				alt="University of Texas at Austin" 
+				width="112" 
+				height="25" 
+				decoding="async" 
+			/>
+			<img 
+				src="{{theme.link}}/assets/img/brandbar-logo-2.svg" 
+				alt="Moody College of Communication" 
+				width="112" 
+				height="25" 
+				decoding="async" 
+			/> #}
+<picture>
+                <source srcset="{{ theme.link }}/assets/img/brandbar/brandbar-logo.webp" type="image/webp">
+                <img src="{{ theme.link }}/assets/img/brandbar/brandbar-logo.png" 
+                     alt="University of Texas at Austin" 
+                     width="112" 
+                     height="27" 
+                     decoding="async">
+            </picture>
+            <picture>
+                <source srcset="{{ theme.link }}/assets/img/brandbar/brandbar-logo-2.webp" type="image/webp">
+                <img src="{{ theme.link }}/assets/img/brandbar/brandbar-logo-2.png" 
+                     alt="Moody College of Communication" 
+                     width="85" 
+                     height="27" 
+                     decoding="async">
+            </picture>
 		</span>
 	</a>
 </div>

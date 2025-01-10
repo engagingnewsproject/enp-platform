@@ -46,6 +46,11 @@ class Theme {
 			add_action( 'wp_head', [$this, 'enqueueScripts'] );
 			// for removing styles
 			add_action( 'wp_print_styles', [$this, 'dequeueStyles'], 100 );
+			// TODO Preload critical main navigation images
+			add_action('wp_head', function () {
+				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar-logo.webp" as="image" type="image/webp">';
+				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar-logo-2.webp" as="image" type="image/webp">';
+			});
 		} else {
 			add_action( 'admin_init', [$this, 'enqueueStylesEditor'] );
 		}
