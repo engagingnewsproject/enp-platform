@@ -101,6 +101,9 @@
 
   @include media($laptop) {
     transform: translateY(-5px);
+    padding: 0;
+    width: 35px;
+    height: 35px;
   }
 
   &.previous {
@@ -178,15 +181,18 @@
   }
 }
 
-/* position dots up a bit */
 .flickity-page-dots {
-  bottom: -22px;
+  bottom: 0;
+}
 
-  .dot {
-    height: 4px;
-    width: 40px;
-    margin: 0;
-    border-radius: 0;
+/* position dots up a bit */
+.flickity-page-dot {
+  height: 4px;
+  width: 40px;
+  margin: 0;
+  border-radius: 0;
+  &.is-selected {
+    opacity: 1;
   }
 }
 

@@ -44,6 +44,7 @@ class Theme {
 		if(!is_admin()) {
 			add_action( 'wp_enqueue_scripts', [$this, 'enqueueStyles'] );
 			add_action( 'wp_head', [$this, 'enqueueScripts'] );
+			add_action('wp_head', [$this, 'preloadFirstSliderImage']);
 			// for removing styles
 			add_action( 'wp_print_styles', [$this, 'dequeueStyles'], 100 );
 			// TODO Preload critical main navigation images
@@ -143,11 +144,28 @@ class Theme {
 		]);
 	}
 	
-	// public function enqueueStyles() {
-	// 	wp_enqueue_style('google/LibreFont', 'https://fonts.googleapis.com/css?family=Libre+Franklin:400,700', false, null);
-	// 	wp_enqueue_style('google/AntonFont', 'https://fonts.googleapis.com/css?family=Anton:400', false, null);
-	// 	wp_enqueue_style('engage/css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
-	// }
+	public function preloadFirstSliderImage() {
+		if (is_front_page()) {
+			$slider_posts = get_field('slider_posts', get_option('page_on_front')); 
+			if (!empty($slider_posts) && is_array($slider_posts)) {
+				// Get the first post ID
+				$first_post_id = $slider_posts[0]; // First post ID
+
+				// Get the featured image URL for the first post
+				$thumbnail_url = get_the_post_thumbnail_url($first_post_id, 'carousel-image'); // Replace 'carousel-image' with your image size
+
+				if ($thumbnail_url) {
+						// Add the preload link
+						echo '<link rel="preload" as="image" href="' . esc_url($thumbnail_url) . '" />';
+				} else {
+						error_log('No featured image found for post ID: ' . $first_post_id);
+				}
+			} else {
+					error_log('No posts found in the ACF relationship field.');
+			}
+		}
+	}
+
 
 	public function enqueueStyles() {
 		if (!is_admin()) {
@@ -160,6 +178,15 @@ class Theme {
 			// wp_register_style('google_fonts', '//fonts.googleapis.com/css?family=Libre+Franklin:400,700|Anton:400', array(), null, 'all');
 			wp_register_style('google_fonts', '//fonts.googleapis.com/css2?family=Anton&family=Libre+Franklin:wght@400;700&display=swap', array(), null, 'all');
 			wp_enqueue_style('google_fonts');
+			// Front page Flickity
+			if (is_front_page()) {
+				wp_enqueue_style(
+					'flickity-css',
+					'https://unpkg.com/flickity@3.0.0/dist/flickity.min.css',
+					[],
+					'3.0.0'
+				);
+			}
 			wp_enqueue_style('engage_css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
 		}
 	}
@@ -196,7 +223,6 @@ class Theme {
 		wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
 		
 		if(is_front_page()) {
-			wp_enqueue_script('flickity/js', get_stylesheet_directory_uri(). '/dist/js/flickity.js', ['jquery']);
 			wp_enqueue_script('homepage/js', get_stylesheet_directory_uri().'/dist/js/homepage.js', ['jquery'], false, false);
 		}
 		
