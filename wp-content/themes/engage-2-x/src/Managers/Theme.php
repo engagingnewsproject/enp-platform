@@ -218,6 +218,11 @@ class Theme {
 	
 	
 	public function enqueueScripts() {
+		$footer_defer = array( 
+			'in_footer' => true,
+			'strategy'  => 'defer',
+		);
+		
 		if (is_single() && comments_open() && get_option('thread_comments')) {
 			wp_enqueue_script('comment-reply');
 		}
@@ -233,8 +238,14 @@ class Theme {
 			wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
 			wp_enqueue_script('Chart/js', get_stylesheet_directory_uri().'/dist/js/Chart.bundle.min.js', ['jquery'], false, false);
 		}
-		
-		wp_enqueue_script('engage/js', get_stylesheet_directory_uri().'/dist/js/app.js', [], false, true);
+
+		wp_enqueue_script(
+			'engage/js', 
+			get_stylesheet_directory_uri().'/dist/js/app.js', 
+			[], 
+			false, 
+			$footer_defer
+		);
 	}
 	
 	public function addToContext( $context ) {
