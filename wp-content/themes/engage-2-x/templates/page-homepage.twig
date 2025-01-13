@@ -14,7 +14,8 @@ ACF group name: Homepage Detail
 		<div class="container container--xl wrapper--pad research-container">
 			<h3 class="home-section__title">More Research</h3>
 			{% include 'tiles.twig' with {
-				posts : home.moreRecent
+				posts : home.moreRecent,
+				page: 'homepage'
 			} %}
 		</div>
 	</section>
