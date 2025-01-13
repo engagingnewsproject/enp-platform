@@ -15,7 +15,10 @@
 				{{post.content}}
 				{% if post.research_posts %}  
 					<h1 class="section-margin">{{post.meta('tiles_title')}}</h1>
-					{% include 'tiles.twig' with { posts : get_posts(post.research_posts) } %}
+					{% include 'tiles.twig' with { 
+						posts : get_posts(post.research_posts),
+						loadEagerTiles: 0
+					} %}
 				{% endif %}
 			</div>
 		</div>

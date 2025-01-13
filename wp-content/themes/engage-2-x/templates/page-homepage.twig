@@ -15,7 +15,7 @@ ACF group name: Homepage Detail
 			<h3 class="home-section__title">More Research</h3>
 			{% include 'tiles.twig' with {
 				posts : home.moreRecent,
-				page: 'homepage'
+				loadEagerTiles: 4
 			} %}
 		</div>
 	</section>

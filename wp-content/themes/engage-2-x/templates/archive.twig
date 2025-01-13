@@ -38,13 +38,13 @@
 					{% include 'tiles.twig' with { 
 						intro: archive.postType, 
 						posts: archive.posts,
-						page: 'archive'
+						loadEagerTiles: 6
 					} %}
 				{% else %}
 					{% include 'tiles.twig' with { 
 						intro: archive.intro, 
 						posts: archive.posts,
-						page: 'archive'
+						loadEagerTiles: 6
 					} %}
 					{# {% include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } %} #}
 					{# {% include 'partial/pagination.twig' with {pagination: posts.pagination} %} #}

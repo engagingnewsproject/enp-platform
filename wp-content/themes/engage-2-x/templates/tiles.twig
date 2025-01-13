@@ -6,7 +6,7 @@
 		{% include "partial/tile.twig" with { 
 			'tile': post,
 			'index': loop.index,
-			page: page
+			loadEagerTiles
 		} %}
 	{% endfor %}
 </section>
