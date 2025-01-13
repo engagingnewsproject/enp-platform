@@ -1,10 +1,6 @@
-
-
-/* We can get rid of the above styles if bootstrap is added later */
-
 .quiz-creator-research.tree::after{
 	content: '';
-	background-color: #f8f8f8;
+	background-color: $gray-lighter;
 	position: absolute;
 	top: 0;
 	left: 0;
