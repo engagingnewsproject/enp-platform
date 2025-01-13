@@ -57,6 +57,9 @@ class Theme {
 			});
 		} else {
 			add_action( 'admin_init', [$this, 'enqueueStylesEditor'] );
+			add_filter('manage_pages_columns', [$this, 'addTemplateColumn']);
+			add_action('manage_pages_custom_column', [$this, 'displayTemplateColumn'], 10, 2);
+			add_filter('manage_edit-page_sortable_columns', [$this, 'sortableTemplateColumn']);
 		}
 		
 	}
@@ -168,7 +171,6 @@ class Theme {
 		}
 	}
 
-
 	public function enqueueStyles() {
 		if (!is_admin()) {
         // Add preload for Google Fonts
@@ -215,7 +217,6 @@ class Theme {
 			wp_deregister_style('classic-theme-styles');
 		}
 	}
-	
 	
 	public function enqueueScripts() {
 		$footer_defer = array( 
@@ -290,6 +291,37 @@ class Theme {
 		}
 		
 		return $classes;
+	}
+
+	// Add the 'Template' column to the Pages list
+	public function addTemplateColumn($columns) {
+		$columns['template'] = __('Template');
+		return $columns;
+	}
+
+	// Display the page template name in the 'Template' column
+	public function displayTemplateColumn($column, $post_id) {
+		if ($column === 'template') {
+			$template = get_page_template_slug($post_id); // Get the page template slug
+			if (!$template) {
+					echo __('Default Template'); // If no template is set
+			} else {
+				// Fetch all available templates
+				$templates = wp_get_theme()->get_page_templates();
+
+				// Match the file name to the human-readable name
+				$template_name = $templates[$template] ?? $template;
+
+				// Display the human-readable name or fallback to the file name
+				echo esc_html($template_name);
+			}
+		}
+	}
+
+	// Make the 'Template' column sortable
+	public function sortableTemplateColumn($columns) {
+		$columns['template'] = 'template';
+		return $columns;
 	}
 	
 	public function cleanup() {
