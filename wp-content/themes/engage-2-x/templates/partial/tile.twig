@@ -43,14 +43,11 @@
 			<p class="tile__date">{{ tile.date }}</p>
 		{% endif %}
 
-		<div class="tile__excerpt">
-		{% if tile.excerpt.length(30).read_more('') is defined %}
-				{{tile.excerpt.length(30).read_more('') ~ "..."}}
-		{% else %}
-				{{ tile.excerpt|striptags|truncate(30)}}
+		{% if tile.excerpt %}
+			<div class="tile__excerpt">
+				{{ tile.excerpt }}
+			</div>
 		{% endif %}
-
-		</div>
 
 	</div>
 	<a class="tile__link" href="{{ tile.link }}">
