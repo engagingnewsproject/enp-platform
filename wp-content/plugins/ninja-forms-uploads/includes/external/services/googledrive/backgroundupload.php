@@ -1,7 +1,8 @@
 <?php
 
-use NF_FU_VENDOR\Google_Http_MediaFileUpload;
-use NF_FU_VENDOR\Google_Service_Exception;
+
+use NF_FU_LIB\Google\Client\Http\MediaFileUpload;
+use NF_FU_LIB\Google\Client\Exception;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -35,7 +36,7 @@ class NF_FU_External_Services_Googledrive_Backgroundupload extends NF_FU_Externa
 
 		$mimeType = wp_check_filetype( $this->upload_file )['type'];
 
-		$media = new Google_Http_MediaFileUpload( $client, $request, $mimeType, null, true, $this->max_chunk_size );
+		$media = new MediaFileUpload( $client, $request, $mimeType, null, true, $this->max_chunk_size );
 
 		if ( ! isset( $data['drive_file_size'] ) ) {
 			$data['drive_file_size'] = NF_FU_Helper::get_file_size( $this->upload_file );
@@ -46,7 +47,7 @@ class NF_FU_External_Services_Googledrive_Backgroundupload extends NF_FU_Externa
 		if ( isset( $data['drive_media_resume_uri'] ) ) {
 			try {
 				$media->resume( $data['drive_media_resume_uri'] );
-			} catch ( Google_Service_Exception $exception ) {
+			} catch ( Exception $exception ) {
 				unset( $data['drive_media_resume_uri']  );
 				unset( $data['drive_file_pointer']  );
 

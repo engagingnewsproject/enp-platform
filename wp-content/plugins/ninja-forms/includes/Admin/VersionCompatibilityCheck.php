@@ -41,7 +41,7 @@ class VersionCompatibilityCheck
    */
   public function activate(): void
   {
-    add_action('ninja_forms_loaded', array($this, 'ensureVersionCompatibility'), 0);
+    add_action('init', array($this, 'ensureVersionCompatibility'), 0);
   }
 
   /**

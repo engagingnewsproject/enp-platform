@@ -19,39 +19,47 @@ class Login {
 		add_filter('login_headerurl', [$this, 'loginLogoURL']);
 		add_action( 'login_enqueue_scripts', [$this, 'enqueueScript']);
 
-		// Additional commented-out actions for redirects
-		/* 
-			add_action('login_redirect', [$this, 'redirect_to_quiz_dashboard'], 10, 1);
-			add_action('registration_redirect', [$this, 'redirect_to_quiz_dashboard'], 10, 1);
-			add_action('template_redirect', [$this, 'redirect_to_quiz_dashboard_from_marketing']);
-		*/
+		// Redirects
+		add_action('login_redirect', [$this, 'redirect_to_quiz_dashboard'], 10, 1);
+		add_action('registration_redirect', [$this, 'redirect_to_quiz_dashboard'], 10, 1);
+		add_action('template_redirect', [$this, 'redirect_to_quiz_dashboard_from_marketing']);
 
 		// Add a filter to replace specific menu item URLs with dynamic links
 		add_filter( 'wp_setup_nav_menu_item', [$this, 'enp_setup_nav_menu_item' ]);
 	}
-
-
-	// Method to redirect to quiz dashboard on login (currently commented out)
-	/*
-		public function redirect_to_quiz_dashboard($redirect_to) {
-
-			if(ENP_QUIZ_DASHBOARD_URL) {
-				$redirect_to = ENP_QUIZ_DASHBOARD_URL.'user';
-			}
-			return $redirect_to;
+	
+	// redirect to quiz creator dashboard on login
+	public function redirect_to_quiz_dashboard($redirect_to) {
+		// Include the file containing the is_plugin_active function
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}	
+		
+		if(is_plugin_active( 'enp-quiz/enp_quiz.php' ) && defined( 'ENP_QUIZ_DASHBOARD_URL' )) {
+			$redirect_to = ENP_QUIZ_DASHBOARD_URL.'user';
 		}
-	*/
+		return $redirect_to;
+	}
 
-	// Method to redirect to quiz dashboard from marketing page (currently commented out)
-	/*
+	// redirect to quiz dashboard if logged in and trying to get to the quiz creator
 		public function redirect_to_quiz_dashboard_from_marketing() {
-			if(is_user_logged_in() === true && is_page('quiz-creator') && ENP_QUIZ_DASHBOARD_URL) {
-				$redirect_to = ENP_QUIZ_DASHBOARD_URL.'user';
-				wp_redirect($redirect_to);
-				exit;
+			
+			// Include the file containing the is_plugin_active function
+			if ( ! function_exists( 'is_plugin_active' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			}	
+			
+			$plugin_active = is_plugin_active( 'enp-quiz/enp_quiz.php' );
+			$logged_in = is_user_logged_in();
+			$on_quiz_creator = is_page( 'quiz-creator' );
+			$dashboard_defined = defined( 'ENP_QUIZ_DASHBOARD_URL' );
+
+			if ( $plugin_active && $logged_in && $on_quiz_creator && $dashboard_defined ) {
+					$redirect_to = ENP_QUIZ_DASHBOARD_URL . 'user';
+					wp_redirect( $redirect_to );
+					exit;
 			}
 		}
-	*/
 
 
 	/** 

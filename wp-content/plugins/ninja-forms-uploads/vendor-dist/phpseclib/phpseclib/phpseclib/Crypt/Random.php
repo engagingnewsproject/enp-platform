@@ -95,7 +95,10 @@ class Random
             }
             if ($fp !== \true && $fp !== \false) {
                 // surprisingly faster than !is_bool() or is_resource()
-                return \fread($fp, $length);
+                $temp = \fread($fp, $length);
+                if (\strlen($temp) == $length) {
+                    return $temp;
+                }
             }
             // method 3. pretty much does the same thing as method 2 per the following url:
             // https://github.com/php/php-src/blob/7014a0eb6d1611151a286c0ff4f2238f92c120d6/ext/mcrypt/mcrypt.c#L1391
@@ -138,7 +141,7 @@ class Random
             \ini_set('session.use_cookies', 0);
             \session_cache_limiter('');
             \session_start();
-            $v = $seed = $_SESSION['seed'] = \pack('H*', \sha1((isset($_SERVER) ? phpseclib_safe_serialize($_SERVER) : '') . (isset($_POST) ? phpseclib_safe_serialize($_POST) : '') . (isset($_GET) ? phpseclib_safe_serialize($_GET) : '') . (isset($_COOKIE) ? phpseclib_safe_serialize($_COOKIE) : '') . phpseclib_safe_serialize($GLOBALS) . phpseclib_safe_serialize($_SESSION) . phpseclib_safe_serialize($_OLD_SESSION)));
+            $v = $seed = $_SESSION['seed'] = \pack('H*', \sha1((isset($_SERVER) ? phpseclib_safe_serialize($_SERVER) : '') . (isset($_POST) ? phpseclib_safe_serialize($_POST) : '') . (isset($_GET) ? phpseclib_safe_serialize($_GET) : '') . (isset($_COOKIE) ? phpseclib_safe_serialize($_COOKIE) : '') . (\version_compare(\PHP_VERSION, '8.1.0', '>=') ? \serialize($GLOBALS) : phpseclib_safe_serialize($GLOBALS)) . phpseclib_safe_serialize($_SESSION) . phpseclib_safe_serialize($_OLD_SESSION)));
             if (!isset($_SESSION['count'])) {
                 $_SESSION['count'] = 0;
             }

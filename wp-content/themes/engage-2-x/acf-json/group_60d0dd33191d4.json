@@ -248,6 +248,7 @@
             "max": 0,
             "layout": "table",
             "button_label": "Add custom post",
+            "rows_per_page": 20,
             "sub_fields": [
                 {
                     "key": "field_6216b31ad1aa4",
@@ -396,8 +397,7 @@
                     "ui_off_text": "",
                     "parent_repeater": "field_6216b2efd1aa3"
                 }
-            ],
-            "rows_per_page": 20
+            ]
         },
         {
             "key": "field_6216bbdd1864f",
@@ -665,5 +665,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1724343154
+    "modified": 1737065744
 }

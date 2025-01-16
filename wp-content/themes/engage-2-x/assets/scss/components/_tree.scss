@@ -1,10 +1,6 @@
-
-
-/* We can get rid of the above styles if bootstrap is added later */
-
 .quiz-creator-research.tree::after{
 	content: '';
-	background-color: #f8f8f8;
+	background-color: $gray-lighter;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -14,26 +10,24 @@
 	transform: skewY(-8deg);
 }
 
-
-
 #embed-code{
 	min-height: 80px;
 	margin-bottom: 20px;
 }
 
 .subhead, .step-header{
-	color: #005f86;
+	color: $orange;
 }
 
 .tree-link{
-	color: #bf5700;
+	color: $orange;
 	text-decoration: none;
 
 	&:hover{
 		text-decoration: underline;
-		color: #bf5700;
+		color: $orange;
 	}
 }
 .col-sm-6 > h3{
-	color: #5e6873
+	color: $gray-dark;
 }

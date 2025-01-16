@@ -36,43 +36,80 @@ abstract class WP_Background_Process extends WP_Async_Request
     /**
      * Cron_hook_identifier
      *
-     * @var mixed
+     * @var string
      * @access protected
      */
     protected $cron_hook_identifier;
     /**
      * Cron_interval_identifier
      *
-     * @var mixed
+     * @var string
      * @access protected
      */
     protected $cron_interval_identifier;
     /**
-     * Initiate new background process
+     * Restrict object instantiation when using unserialize.
+     *
+     * @var bool|array
      */
-    public function __construct()
+    protected $allowed_batch_data_classes = \true;
+    /**
+     * The status set when process is cancelling.
+     *
+     * @var int
+     */
+    const STATUS_CANCELLED = 1;
+    /**
+     * The status set when process is paused or pausing.
+     *
+     * @var int;
+     */
+    const STATUS_PAUSED = 2;
+    /**
+     * Initiate new background process.
+     *
+     * @param bool|array $allowed_batch_data_classes Optional. Array of class names that can be unserialized. Default true (any class).
+     */
+    public function __construct($allowed_batch_data_classes = \true)
     {
         parent::__construct();
+        if (empty($allowed_batch_data_classes) && \false !== $allowed_batch_data_classes) {
+            $allowed_batch_data_classes = \true;
+        }
+        if (!\is_bool($allowed_batch_data_classes) && !\is_array($allowed_batch_data_classes)) {
+            $allowed_batch_data_classes = \true;
+        }
+        // If allowed_batch_data_classes property set in subclass,
+        // only apply override if not allowing any class.
+        if (\true === $this->allowed_batch_data_classes || \true !== $allowed_batch_data_classes) {
+            $this->allowed_batch_data_classes = $allowed_batch_data_classes;
+        }
         $this->cron_hook_identifier = $this->identifier . '_cron';
         $this->cron_interval_identifier = $this->identifier . '_cron_interval';
         add_action($this->cron_hook_identifier, array($this, 'handle_cron_healthcheck'));
         add_filter('cron_schedules', array($this, 'schedule_cron_healthcheck'));
     }
     /**
-     * Dispatch
+     * Schedule the cron healthcheck and dispatch an async request to start processing the queue.
      *
      * @access public
-     * @return void
+     * @return array|WP_Error|false HTTP Response array, WP_Error on failure, or false if not attempted.
      */
     public function dispatch()
     {
+        if ($this->is_processing()) {
+            // Process already running.
+            return \false;
+        }
         // Schedule the cron healthcheck.
         $this->schedule_event();
         // Perform remote post.
         return parent::dispatch();
     }
     /**
-     * Push to queue
+     * Push to the queue.
+     *
+     * Note, save must be called in order to persist queued items to a batch for processing.
      *
      * @param mixed $data Data.
      *
@@ -84,7 +121,7 @@ abstract class WP_Background_Process extends WP_Async_Request
         return $this;
     }
     /**
-     * Save queue
+     * Save the queued items for future processing.
      *
      * @return $this
      */
@@ -94,10 +131,12 @@ abstract class WP_Background_Process extends WP_Async_Request
         if (!empty($this->data)) {
             update_site_option($key, $this->data);
         }
+        // Clean out data so that new data isn't prepended with closed session's data.
+        $this->data = array();
         return $this;
     }
     /**
-     * Update queue
+     * Update a batch's queued items.
      *
      * @param string $key  Key.
      * @param array  $data Data.
@@ -112,7 +151,7 @@ abstract class WP_Background_Process extends WP_Async_Request
         return $this;
     }
     /**
-     * Delete queue
+     * Delete a batch of queued items.
      *
      * @param string $key Key.
      *
@@ -124,68 +163,190 @@ abstract class WP_Background_Process extends WP_Async_Request
         return $this;
     }
     /**
-     * Generate key
+     * Delete entire job queue.
+     */
+    public function delete_all()
+    {
+        $batches = $this->get_batches();
+        foreach ($batches as $batch) {
+            $this->delete($batch->key);
+        }
+        delete_site_option($this->get_status_key());
+        $this->cancelled();
+    }
+    /**
+     * Cancel job on next batch.
+     */
+    public function cancel()
+    {
+        update_site_option($this->get_status_key(), self::STATUS_CANCELLED);
+        // Just in case the job was paused at the time.
+        $this->dispatch();
+    }
+    /**
+     * Has the process been cancelled?
+     *
+     * @return bool
+     */
+    public function is_cancelled()
+    {
+        $status = get_site_option($this->get_status_key(), 0);
+        return absint($status) === self::STATUS_CANCELLED;
+    }
+    /**
+     * Called when background process has been cancelled.
+     */
+    protected function cancelled()
+    {
+        do_action($this->identifier . '_cancelled');
+    }
+    /**
+     * Pause job on next batch.
+     */
+    public function pause()
+    {
+        update_site_option($this->get_status_key(), self::STATUS_PAUSED);
+    }
+    /**
+     * Is the job paused?
+     *
+     * @return bool
+     */
+    public function is_paused()
+    {
+        $status = get_site_option($this->get_status_key(), 0);
+        return absint($status) === self::STATUS_PAUSED;
+    }
+    /**
+     * Called when background process has been paused.
+     */
+    protected function paused()
+    {
+        do_action($this->identifier . '_paused');
+    }
+    /**
+     * Resume job.
+     */
+    public function resume()
+    {
+        delete_site_option($this->get_status_key());
+        $this->schedule_event();
+        $this->dispatch();
+        $this->resumed();
+    }
+    /**
+     * Called when background process has been resumed.
+     */
+    protected function resumed()
+    {
+        do_action($this->identifier . '_resumed');
+    }
+    /**
+     * Is queued?
+     *
+     * @return bool
+     */
+    public function is_queued()
+    {
+        return !$this->is_queue_empty();
+    }
+    /**
+     * Is the tool currently active, e.g. starting, working, paused or cleaning up?
+     *
+     * @return bool
+     */
+    public function is_active()
+    {
+        return $this->is_queued() || $this->is_processing() || $this->is_paused() || $this->is_cancelled();
+    }
+    /**
+     * Generate key for a batch.
      *
      * Generates a unique key based on microtime. Queue items are
      * given a unique key so that they can be merged upon save.
      *
-     * @param int $length Length.
+     * @param int    $length Optional max length to trim key to, defaults to 64 characters.
+     * @param string $key    Optional string to append to identifier before hash, defaults to "batch".
      *
      * @return string
      */
-    protected function generate_key($length = 64)
+    protected function generate_key($length = 64, $key = 'batch')
     {
-        $unique = \md5(\microtime() . \rand());
-        $prepend = $this->identifier . '_batch_';
+        $unique = \md5(\microtime() . wp_rand());
+        $prepend = $this->identifier . '_' . $key . '_';
         return \substr($prepend . $unique, 0, $length);
     }
     /**
-     * Maybe process queue
+     * Get the status key.
+     *
+     * @return string
+     */
+    protected function get_status_key()
+    {
+        return $this->identifier . '_status';
+    }
+    /**
+     * Maybe process a batch of queued items.
      *
      * Checks whether data exists within the queue and that
      * the process is not already running.
      */
     public function maybe_handle()
     {
-        // Don't lock up other requests while processing
+        // Don't lock up other requests while processing.
         \session_write_close();
-        if ($this->is_process_running()) {
+        if ($this->is_processing()) {
             // Background process already running.
-            wp_die();
+            return $this->maybe_wp_die();
+        }
+        if ($this->is_cancelled()) {
+            $this->clear_scheduled_event();
+            $this->delete_all();
+            return $this->maybe_wp_die();
+        }
+        if ($this->is_paused()) {
+            $this->clear_scheduled_event();
+            $this->paused();
+            return $this->maybe_wp_die();
         }
         if ($this->is_queue_empty()) {
             // No data to process.
-            wp_die();
+            return $this->maybe_wp_die();
         }
         check_ajax_referer($this->identifier, 'nonce');
         $this->handle();
-        wp_die();
+        return $this->maybe_wp_die();
     }
     /**
-     * Is queue empty
+     * Is queue empty?
      *
      * @return bool
      */
     protected function is_queue_empty()
     {
-        global $wpdb;
-        $table = $wpdb->options;
-        $column = 'option_name';
-        if (is_multisite()) {
-            $table = $wpdb->sitemeta;
-            $column = 'meta_key';
-        }
-        $key = $wpdb->esc_like($this->identifier . '_batch_') . '%';
-        $count = $wpdb->get_var($wpdb->prepare("\n\t\t\tSELECT COUNT(*)\n\t\t\tFROM {$table}\n\t\t\tWHERE {$column} LIKE %s\n\t\t", $key));
-        return $count > 0 ? \false : \true;
+        return empty($this->get_batch());
     }
     /**
-     * Is process running
+     * Is process running?
      *
      * Check whether the current process is already running
      * in a background process.
+     *
+     * @return bool
+     *
+     * @deprecated 1.1.0 Superseded.
+     * @see        is_processing()
      */
     protected function is_process_running()
+    {
+        return $this->is_processing();
+    }
+    /**
+     * Is the background process currently running?
+     *
+     * @return bool
+     */
+    public function is_processing()
     {
         if (get_site_transient($this->identifier . '_process_lock')) {
             // Process already running.
@@ -194,7 +355,7 @@ abstract class WP_Background_Process extends WP_Async_Request
         return \false;
     }
     /**
-     * Lock process
+     * Lock process.
      *
      * Lock the process so that multiple instances can't run simultaneously.
      * Override if applicable, but the duration should be greater than that
@@ -210,7 +371,7 @@ abstract class WP_Background_Process extends WP_Async_Request
         set_site_transient($this->identifier . '_process_lock', \microtime(), $lock_duration);
     }
     /**
-     * Unlock process
+     * Unlock process.
      *
      * Unlock the process so that other instances can spawn.
      *
@@ -222,13 +383,29 @@ abstract class WP_Background_Process extends WP_Async_Request
         return $this;
     }
     /**
-     * Get batch
+     * Get batch.
      *
-     * @return stdClass Return the first batch from the queue
+     * @return stdClass Return the first batch of queued items.
      */
     protected function get_batch()
     {
+        return \array_reduce($this->get_batches(1), static function ($carry, $batch) {
+            return $batch;
+        }, array());
+    }
+    /**
+     * Get batches.
+     *
+     * @param int $limit Number of batches to return, defaults to all.
+     *
+     * @return array of stdClass
+     */
+    public function get_batches($limit = 0)
+    {
         global $wpdb;
+        if (empty($limit) || !\is_int($limit)) {
+            $limit = 0;
+        }
         $table = $wpdb->options;
         $column = 'option_name';
         $key_column = 'option_id';
@@ -240,14 +417,33 @@ abstract class WP_Background_Process extends WP_Async_Request
             $value_column = 'meta_value';
         }
         $key = $wpdb->esc_like($this->identifier . '_batch_') . '%';
-        $query = $wpdb->get_row($wpdb->prepare("\n\t\t\tSELECT *\n\t\t\tFROM {$table}\n\t\t\tWHERE {$column} LIKE %s\n\t\t\tORDER BY {$key_column} ASC\n\t\t\tLIMIT 1\n\t\t", $key));
-        $batch = new \stdClass();
-        $batch->key = $query->{$column};
-        $batch->data = maybe_unserialize($query->{$value_column});
-        return $batch;
+        $sql = '
+			SELECT *
+			FROM ' . $table . '
+			WHERE ' . $column . ' LIKE %s
+			ORDER BY ' . $key_column . ' ASC
+			';
+        $args = array($key);
+        if (!empty($limit)) {
+            $sql .= ' LIMIT %d';
+            $args[] = $limit;
+        }
+        $items = $wpdb->get_results($wpdb->prepare($sql, $args));
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        $batches = array();
+        if (!empty($items)) {
+            $allowed_classes = $this->allowed_batch_data_classes;
+            $batches = \array_map(static function ($item) use($column, $value_column, $allowed_classes) {
+                $batch = new \stdClass();
+                $batch->key = $item->{$column};
+                $batch->data = static::maybe_unserialize($item->{$value_column}, $allowed_classes);
+                return $batch;
+            }, $items);
+        }
+        return $batches;
     }
     /**
-     * Handle
+     * Handle a dispatched request.
      *
      * Pass each queue item to the task handler, while remaining
      * within server memory and time limit constraints.
@@ -255,6 +451,12 @@ abstract class WP_Background_Process extends WP_Async_Request
     protected function handle()
     {
         $this->lock_process();
+        /**
+         * Number of seconds to sleep between batches. Defaults to 0 seconds, minimum 0.
+         *
+         * @param int $seconds
+         */
+        $throttle_seconds = \max(0, apply_filters($this->identifier . '_seconds_between_batches', apply_filters($this->prefix . '_seconds_between_batches', 0)));
         do {
             $batch = $this->get_batch();
             foreach ($batch->data as $key => $value) {
@@ -264,18 +466,22 @@ abstract class WP_Background_Process extends WP_Async_Request
                 } else {
                     unset($batch->data[$key]);
                 }
-                if ($this->time_exceeded() || $this->memory_exceeded()) {
-                    // Batch limits reached.
+                // Keep the batch up to date while processing it.
+                if (!empty($batch->data)) {
+                    $this->update($batch->key, $batch->data);
+                }
+                // Let the server breathe a little.
+                \sleep($throttle_seconds);
+                // Batch limits reached, or pause or cancel request.
+                if ($this->time_exceeded() || $this->memory_exceeded() || $this->is_paused() || $this->is_cancelled()) {
                     break;
                 }
             }
-            // Update or delete current batch.
-            if (!empty($batch->data)) {
-                $this->update($batch->key, $batch->data);
-            } else {
+            // Delete current batch if fully processed.
+            if (empty($batch->data)) {
                 $this->delete($batch->key);
             }
-        } while (!$this->time_exceeded() && !$this->memory_exceeded() && !$this->is_queue_empty());
+        } while (!$this->time_exceeded() && !$this->memory_exceeded() && !$this->is_queue_empty() && !$this->is_paused() && !$this->is_cancelled());
         $this->unlock_process();
         // Start next batch or complete process.
         if (!$this->is_queue_empty()) {
@@ -283,10 +489,10 @@ abstract class WP_Background_Process extends WP_Async_Request
         } else {
             $this->complete();
         }
-        wp_die();
+        return $this->maybe_wp_die();
     }
     /**
-     * Memory exceeded
+     * Memory exceeded?
      *
      * Ensures the batch process never exceeds 90%
      * of the maximum WordPress memory.
@@ -305,7 +511,7 @@ abstract class WP_Background_Process extends WP_Async_Request
         return apply_filters($this->identifier . '_memory_exceeded', $return);
     }
     /**
-     * Get memory limit
+     * Get memory limit in bytes.
      *
      * @return int
      */
@@ -324,7 +530,7 @@ abstract class WP_Background_Process extends WP_Async_Request
         return wp_convert_hr_to_bytes($memory_limit);
     }
     /**
-     * Time exceeded.
+     * Time limit exceeded?
      *
      * Ensures the batch never exceeds a sensible time limit.
      * A timeout limit of 30s is common on shared hosting.
@@ -342,18 +548,43 @@ abstract class WP_Background_Process extends WP_Async_Request
         return apply_filters($this->identifier . '_time_exceeded', $return);
     }
     /**
-     * Complete.
+     * Complete processing.
      *
      * Override if applicable, but ensure that the below actions are
      * performed, or, call parent::complete().
      */
     protected function complete()
     {
-        // Unschedule the cron healthcheck.
+        delete_site_option($this->get_status_key());
+        // Remove the cron healthcheck job from the cron schedule.
         $this->clear_scheduled_event();
+        $this->completed();
     }
     /**
-     * Schedule cron healthcheck
+     * Called when background process has completed.
+     */
+    protected function completed()
+    {
+        do_action($this->identifier . '_completed');
+    }
+    /**
+     * Get the cron healthcheck interval in minutes.
+     *
+     * Default is 5 minutes, minimum is 1 minute.
+     *
+     * @return int
+     */
+    public function get_cron_interval()
+    {
+        $interval = 5;
+        if (\property_exists($this, 'cron_interval')) {
+            $interval = $this->cron_interval;
+        }
+        $interval = apply_filters($this->cron_interval_identifier, $interval);
+        return \is_int($interval) && 0 < $interval ? $interval : 5;
+    }
+    /**
+     * Schedule the cron healthcheck job.
      *
      * @access public
      *
@@ -363,23 +594,25 @@ abstract class WP_Background_Process extends WP_Async_Request
      */
     public function schedule_cron_healthcheck($schedules)
     {
-        $interval = apply_filters($this->identifier . '_cron_interval', 5);
-        if (\property_exists($this, 'cron_interval')) {
-            $interval = apply_filters($this->identifier . '_cron_interval', $this->cron_interval);
+        $interval = $this->get_cron_interval();
+        if (1 === $interval) {
+            $display = __('Every Minute');
+        } else {
+            $display = \sprintf(__('Every %d Minutes'), $interval);
         }
-        // Adds every 5 minutes to the existing schedules.
-        $schedules[$this->identifier . '_cron_interval'] = array('interval' => \MINUTE_IN_SECONDS * $interval, 'display' => \sprintf(__('Every %d Minutes'), $interval));
+        // Adds an "Every NNN Minute(s)" schedule to the existing cron schedules.
+        $schedules[$this->cron_interval_identifier] = array('interval' => \MINUTE_IN_SECONDS * $interval, 'display' => $display);
         return $schedules;
     }
     /**
-     * Handle cron healthcheck
+     * Handle cron healthcheck event.
      *
      * Restart the background process if not already running
      * and data exists in the queue.
      */
     public function handle_cron_healthcheck()
     {
-        if ($this->is_process_running()) {
+        if ($this->is_processing()) {
             // Background process already running.
             exit;
         }
@@ -388,20 +621,19 @@ abstract class WP_Background_Process extends WP_Async_Request
             $this->clear_scheduled_event();
             exit;
         }
-        $this->handle();
-        exit;
+        $this->dispatch();
     }
     /**
-     * Schedule event
+     * Schedule the cron healthcheck event.
      */
     protected function schedule_event()
     {
         if (!wp_next_scheduled($this->cron_hook_identifier)) {
-            wp_schedule_event(\time(), $this->cron_interval_identifier, $this->cron_hook_identifier);
+            wp_schedule_event(\time() + $this->get_cron_interval() * \MINUTE_IN_SECONDS, $this->cron_interval_identifier, $this->cron_hook_identifier);
         }
     }
     /**
-     * Clear scheduled event
+     * Clear scheduled cron healthcheck event.
      */
     protected function clear_scheduled_event()
     {
@@ -411,21 +643,19 @@ abstract class WP_Background_Process extends WP_Async_Request
         }
     }
     /**
-     * Cancel Process
+     * Cancel the background process.
      *
-     * Stop processing queue items, clear cronjob and delete batch.
+     * Stop processing queue items, clear cron job and delete batch.
      *
+     * @deprecated 1.1.0 Superseded.
+     * @see        cancel()
      */
     public function cancel_process()
     {
-        if (!$this->is_queue_empty()) {
-            $batch = $this->get_batch();
-            $this->delete($batch->key);
-            wp_clear_scheduled_hook($this->cron_hook_identifier);
-        }
+        $this->cancel();
     }
     /**
-     * Task
+     * Perform task with queued item.
      *
      * Override this method to perform any actions required on each
      * queue item. Return the modified item for further processing
@@ -437,4 +667,24 @@ abstract class WP_Background_Process extends WP_Async_Request
      * @return mixed
      */
     protected abstract function task($item);
+    /**
+     * Maybe unserialize data, but not if an object.
+     *
+     * @param mixed      $data            Data to be unserialized.
+     * @param bool|array $allowed_classes Array of class names that can be unserialized.
+     *
+     * @return mixed
+     */
+    protected static function maybe_unserialize($data, $allowed_classes)
+    {
+        if (is_serialized($data)) {
+            $options = array();
+            if (\is_bool($allowed_classes) || \is_array($allowed_classes)) {
+                $options['allowed_classes'] = $allowed_classes;
+            }
+            return @\unserialize($data, $options);
+            // @phpcs:ignore
+        }
+        return $data;
+    }
 }

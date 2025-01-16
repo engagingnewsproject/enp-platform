@@ -353,7 +353,7 @@ class NF_FU_AJAX_Controllers_Uploads extends NF_Abstracts_Controller {
 	 * @return bool
 	 */
 	protected function validate_file_type( $file ) {
-		if ( ! self::is_allowed_type( $file ) ) {
+		if ( ! self::is_allowed_type( $file, self::get_allowed_file_types("array") ) ) {
 			$this->_errors[] = __( 'File extension not allowed', 'ninja-forms-uploads' );
 
 			return false;
@@ -382,16 +382,14 @@ class NF_FU_AJAX_Controllers_Uploads extends NF_Abstracts_Controller {
 	protected function validate_extension_whitelist( $extension ) {
 		$upload_types = $this->get_field()->get_setting( 'upload_types' );
 		if ( empty( $upload_types ) ) {
-			// We aren't restricting file types, bail
-			return true;
+			// Reset default restriction ## Breaking change Since 3.3.17 !!!
+			$upload_types= NF_FU_File_Uploads::getDefaultTypesAllowed();
 		}
 
 		$types = str_replace( '.', '', strtolower( $upload_types ) );
 		$types = array_map( 'trim', explode( ',', $types ) );
 
-		if ( in_array( 'jpg', $types ) && ! in_array( 'jpeg', $types ) ) {
-			$types[] = 'jpeg';
-		}
+		$types = self::set_equivalents_list($types);
 
 		// Check file extension against whitelist of file extensions
 		if ( is_array( $types ) && false === $this->whitelisted( $types, $extension ) ) {
@@ -474,8 +472,53 @@ class NF_FU_AJAX_Controllers_Uploads extends NF_Abstracts_Controller {
 	}
 
 	public static function get_extension_blacklist() {
-		return apply_filters( 'ninja_forms_uploads_extension_blacklist', NF_File_Uploads()->config( 'extension-blacklist' ) );
+		//Deprecated filter hook kept for compatibility
+		$extension_disallowed = apply_filters( 'ninja_forms_uploads_extension_blacklist', NF_File_Uploads()->config( 'extension-blacklist' ) );
+		//New filter hook
+		$extension_disallowed = apply_filters( 'ninja_forms_uploads_extension_disallowed', $extension_disallowed );
+
+		return $extension_disallowed;
 	}
+
+	public static function set_equivalents_list($types) {
+
+		//Automatically allow equvalents when possible
+		foreach($types as $type){
+
+			$type = ltrim($type, '.');
+
+			switch($type)
+			{
+				case 'jpg':
+					if(! in_array( 'jpeg', $types )) $types['jpeg'] = 'jpeg';
+					break;
+				case 'jpeg':
+					if(! in_array( 'jpg', $types )) $types['jpg'] = 'jpg';
+					break;
+				case 'tif':
+					if(! in_array( 'tiff', $types )) $types['tiff'] = 'tiff';
+					break;
+				case 'tiff':
+					if(! in_array( 'tif', $types )) $types['tif'] = 'tif';
+					break;
+				case 'txt':
+					if(! in_array( 'ascii', $types )) $types['ascii'] = 'ascii';
+					break;
+				case 'ascii':
+					if(! in_array( 'txt', $types )) $types['txt'] = 'txt';
+					break;
+				case 'html':
+					if(! in_array( 'htm', $types )) $types['htm'] = 'htm';
+					break;
+				case 'htm':
+					if(! in_array( 'html', $types )) $types['html'] = 'html';
+					break;
+			}
+		}
+
+		return $types;
+	}
+
 
 	/**
 	 * Check a file extension against a disallowed list of types
@@ -497,22 +540,78 @@ class NF_FU_AJAX_Controllers_Uploads extends NF_Abstracts_Controller {
 	}
 
 	/**
-	 * Check the file type is allowed to be uploaded by WordPress
+	 * Return list of file types allowed, if not set in the option by the user, set default list
+	 *
+	 * @return string|array
+	 */
+	public function get_allowed_file_types($want = "string") {
+		$upload_types_allowed = $this->get_field()->get_setting( 'upload_types' );
+		if ( empty( $upload_types_allowed ) ) {
+			// Reset default restriction ## Breaking change Since 3.3.17 !!!
+			$upload_types_allowed = NF_FU_File_Uploads::getDefaultTypesAllowed();
+		}
+		if($want = "array"){
+			$string_list = explode(",", $upload_types_allowed);
+			$upload_types_allowed = [];
+			foreach($string_list as $type) {
+				$upload_types_allowed[$type] = $type;
+			}
+			$upload_types_allowed = self::set_equivalents_list($upload_types_allowed);
+		}
+		return $upload_types_allowed;
+	}
+
+	/**
+	 * Allow filtering on top of the default files allowed and or option set by user
 	 *
 	 * @param string $filename
 	 *
 	 * @return bool
 	 */
-	public static function is_allowed_type( $filename ) {
-		$mime_types_whitelist       = apply_filters( 'ninja_forms_upload_mime_types_whitelist', get_allowed_mime_types() );
-		$check_mime_types_whitelist = apply_filters( 'ninja_forms_upload_check_mime_types_whitelist', true );
+	public static function is_allowed_type( $filename, $allowed_list = false ) {
+		if(!$allowed_list){
+			$allowed_list = NF_FU_File_Uploads::getDefaultTypesAllowed();
+		}
+		//Deprecated filter hooks kept for compatibility, new ones will take precedence
+		$types_list  	= apply_filters( 'ninja_forms_upload_mime_types_whitelist', $allowed_list );
+		$check_mime_types = apply_filters( 'ninja_forms_upload_check_mime_types_whitelist', true );
+		//Filters that will override previous ones when used or work equally if used alone
+		$types_list     	= apply_filters( 'ninja_forms_upload_mime_types_allowed', $types_list );
+		$check_mime_types = apply_filters( 'ninja_forms_upload_check_mime_types_allowed', $check_mime_types);
 
-		$file_info = wp_check_filetype( $filename, $mime_types_whitelist );
-		if ( $check_mime_types_whitelist && empty( $file_info['ext'] ) ) {
+		if ( $check_mime_types && !self::check_filetype( $filename, $types_list ) ) {
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Check that the file extension is listed in allowed files
+	 *
+	 * @param string $filename
+	 * 
+	 * @param array $types_list
+	 *
+	 * @return bool
+	 */
+	public static function check_filetype($filename, $types_list) {
+		//Remove dot from ext when found
+		foreach($types_list as $key => $value){
+			//Remove possible white spaces
+			$types_list[ltrim($key)] = ltrim($value);
+			//Remove possible dots
+			$types_list[ltrim($key, ' .')] = ltrim($value, ' .');
+			$types_list[ltrim($key, '.')] = ltrim($value, '.');
+		}
+		$keys = array_keys($types_list);
+		$values = array_values($types_list);
+		//Extract ext from filename or suppose filename is already an ext if pathinfo returned empty
+		$ext = !empty(pathinfo($filename, PATHINFO_EXTENSION)) ? pathinfo($filename, PATHINFO_EXTENSION) : $filename;
+		//Check that the ext is listed in the keys for old mime format support or in values for new string format
+		$condition = in_array( $ext, $keys ) || in_array( $ext, $values);
+		
+		return $condition;
 	}
 
 	/**
@@ -524,16 +623,15 @@ class NF_FU_AJAX_Controllers_Uploads extends NF_Abstracts_Controller {
 	 * @return bool
 	 */
 	protected function whitelisted( $types, $file_type) {
-		// Check for whitelisted file types
-		foreach ( $types as $extension ) {
-			if ( strtolower( $extension ) === strtolower( $file_type ) ) {
-				return true;
-			}
+		
+		if( ! self::is_allowed_type($file_type, $types) ) {
+		
+			$this->_errors[] = sprintf( __( 'File extension of %s not allowed', 'ninja-forms-uploads' ), $file_type );
+
+			return false;
 		}
 
-		$this->_errors[] = sprintf( __( 'File extension of %s not allowed', 'ninja-forms-uploads' ), $file_type );
-
-		return false;
+		return true;
 	}
 
 	/**

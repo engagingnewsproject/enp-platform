@@ -372,20 +372,15 @@ blockquote {
         animation: slideInFadeIn 1.5s forwards;
 				transform: translate3d(0, 40px, 0);
 				padding: 0 2em;
-				width: 100vw;
 				@include media($phablet) {
-					width: 40em;
+					max-width: 678px;
 					padding: 0 2em;
 				}
 				@include media($tablet) {
-					width: 40vw;
 					padding: 0 0;
 				}
 				@include media($laptop) {
-					width: 70vw;
-				}
-				@include media($desktop) {
-					width: 50vw;
+					max-width: 735px;
 				}
       }
 
@@ -1174,17 +1169,24 @@ svg.deco-border-svg {
 		// clip-path: polygon(25% 28%, 22% 32%, 72% 50%, 73% 100%, 0 100%, 0 0);
     // -webkit-clip-path: polygon(25% 28%, 22% 32%, 72% 50%, 73% 100%, 0 100%, 0 0); /* Safari prefix */
 
-		@media (min-width: 600px) {
+		@include media($phablet) {
 			width: 710px;
 			max-width: unset;
 			transform: translate(228px, -238px);
 		}
 
-		@media (min-width: 800px) {
-			width: 740px;
+		@include media($tablet) {
+			width: auto;
 			height: auto;
+			max-height: calc(50vh + 225px);
 			max-width: unset;
 			transform: translate(225px, -225px);
+		}
+		@media only screen 
+		and (min-device-width: 768px) 
+		and (max-device-width: 1024px) 
+		and (orientation: portrait) {
+			max-height: calc(50vh + 225px);
 		}
 	}
 
@@ -1192,23 +1194,26 @@ svg.deco-border-svg {
 	/* circle animations */
 	&_circle_container > &_circle_logo {
 		position: absolute;
-		top: 43px;
-		right: 11px;
-		max-width: 172px;
-		width: 100%;
+		top: 0;
+		right: 0;
+		width: auto;
 		height: auto;
-
-		@media (min-width: 600px) {
-			top: 75px;
-			right: 20px;
-			max-width: 260px;
+		transform: translate(-5vw, 5vh);
+		max-height: calc(25vh - 14%);
+		
+		@include media($laptop) {
+			max-height: calc(60vh - 44%);
+			transform: translate(-1vw, 5vh);
 		}
-
-		@media (min-width: 800px) {
-			top: 85px;
-			right: 25px;
-			max-width: 290px;
+		
+		@media only screen 
+		and (min-device-width: 768px) 
+		and (max-device-width: 1024px) 
+		and (orientation: portrait) {
+			max-height: calc(25vh - 85px);
+			transform: translate(-2vw, 7vh);
 		}
+		
 	}
 
 	&_circle {

@@ -1,12 +1,30 @@
 {# sets default feature image #}
 {% set defaultimg = theme.link ~ '/assets/img/default-logo.png' %}
 
+{# 
+	Dynamically set `loading="eager"` prop
+	on images above the fold
+	@props
+		- index: loop number
+		- loadEagerTiles: # of tile images to set 'eager' 
+		loading: default `lazy`, `eager` image is loaded right away
+#}
+{% set loading = 'lazy' %}
+{% if loadEagerTiles != 0 %}
+	{% if index <= loadEagerTiles %}
+		{% set loading = 'eager' %}
+	{% endif %}
+{% endif %}
+
 <div class="tile{{' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.vertical.slug ? tile.vertical.slug : tile.terms('verticals')[0].slug }}">
-{# <pre>
-	{{ dump(tile.meta()) }}
-</pre> #}
+
 	<div class="tile__img-wrap">
-			<img class="tile__img" src="{{ tile.thumbnail.src('featured-post') | default(defaultimg) }}" alt="{{ tile.thumbnail.alt }}"/>
+			<img 
+				class="tile__img" 
+				src="{{ tile.thumbnail.src('featured-post') | default(defaultimg) }}" 
+				alt="{{ tile.thumbnail.alt }}"
+				loading="{{ loading }}"
+			/>
 	</div> 
  
 
@@ -25,14 +43,11 @@
 			<p class="tile__date">{{ tile.date }}</p>
 		{% endif %}
 
-		<div class="tile__excerpt">
-		{% if tile.excerpt.length(30).read_more('') is defined %}
-				{{tile.excerpt.length(30).read_more('') ~ "..."}}
-		{% else %}
-				{{ tile.excerpt|striptags|truncate(30)}}
+		{% if tile.excerpt %}
+			<div class="tile__excerpt">
+				{{ tile.excerpt }}
+			</div>
 		{% endif %}
-
-		</div>
 
 	</div>
 	<a class="tile__link" href="{{ tile.link }}">

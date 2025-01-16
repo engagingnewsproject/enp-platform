@@ -13,12 +13,6 @@
 @import "global/structure";
 @import "global/archive";
 
-// Plugins
-@import "plugins/ninja";
-@import "plugins/events";
-@import "plugins/flickity-default";
-@import "plugins/flickity-custom";
-
 // Layout
 @import "layout/grid";
 @import "layout/collapsable";
@@ -60,3 +54,8 @@
 @import "components/past-mei-interns";
 @import "components/modal";
 @import "components/sidebar";
+
+// Plugins
+@import "plugins/ninja";
+@import "plugins/events";
+// @import "plugins/flickity-custom";

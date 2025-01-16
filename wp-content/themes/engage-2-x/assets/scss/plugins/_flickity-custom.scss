@@ -1,10 +1,13 @@
 /*! Flickity v3.0.0
  * LINK: https://flickity.metafizzy.co
  * Flickity custom styling
+ These styles have been moved to the templates/html-header.twig file for performance reasons
+ Make your changes in this file, run `yarn prod`, open dist/css/app.css and scroll to the bottom to 
+ copy the minified code & paste into templates/html-header.twig
 ---------------------------------------------- */
 
 .carousel-cell {
-  width: 100%; /* full width */
+  width: 100%;
   display: flex;
   flex-direction: column;
   list-style: none;
@@ -67,7 +70,6 @@
     float: left;
   }
 
-  // @supports queries
   @supports (display: flex) {
     @include media($laptop) {
       flex: 0 0 48%;
@@ -101,6 +103,9 @@
 
   @include media($laptop) {
     transform: translateY(-5px);
+    padding: 0;
+    width: 35px;
+    height: 35px;
   }
 
   &.previous {
@@ -113,7 +118,7 @@
   }
 }
 // END arrows top right corner
-/* fade in image when loaded */
+// fade in image when loaded
 .carousel-cell-image {
   transition: opacity 0.4s;
   opacity: 0;
@@ -123,8 +128,7 @@
 .carousel-cell-image.flickity-lazyerror {
   opacity: 1;
 }
-/*! END Flickity v2.3.0 custom styling
----------------------------------------------- */
+// END Flickity v2.3.0 custom styling
 
 .flickity-slider {
   height: unset;
@@ -157,7 +161,7 @@
     height: 100% !important;
   }
 
-  /* Flexbox-Container-Settings */
+  // Flexbox-Container-Settings
   .carousel-cell {
     width: 100%;
     padding: 40px;
@@ -178,15 +182,18 @@
   }
 }
 
-/* position dots up a bit */
 .flickity-page-dots {
-  bottom: -22px;
+  bottom: 0;
+}
 
-  .dot {
-    height: 4px;
-    width: 40px;
-    margin: 0;
-    border-radius: 0;
+// position dots up a bit
+.flickity-page-dot {
+  height: 4px;
+  width: 40px;
+  margin: 0;
+  border-radius: 0;
+  &.is-selected {
+    opacity: 1;
   }
 }
 

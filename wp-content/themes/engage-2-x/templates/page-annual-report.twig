@@ -507,9 +507,6 @@
 						{% include "partial/section-header.twig" with {'width': 'page'} %}
 					{% endif %}
 					<div class="ann__width-page">
-						{% if main.show_title %}
-							{% include 'tiles-annual-report.twig' %}
-						{% endif %}
 						<div {% if main.grid_columns > 1 %}class="columns"{% endif %}>
 							{% if main.column_1 %}
 								<div class="column {% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
@@ -527,8 +524,7 @@
 								</div>
 							{% endif %}
 						</div>
-						
-						{% if main.quote %}
+						{% if main.add_quote %}
 							<div class="column-quote h1 item-animate">
 								{{main.quote}}
 							</div>

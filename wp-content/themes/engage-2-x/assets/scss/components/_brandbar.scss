@@ -3,23 +3,34 @@
   height: 34px;
   background: $blue-dark;
   z-index: 9;
+  display: flex;
+  justify-content: end;
+  align-items: center;
 }
-.brandbar__link {
-  float: right;
-  margin-top: 5px;
-  line-height: 1;
-}
+// .brandbar__link {
+//   float: right;
+//   margin-top: 5px;
+//   line-height: 1;
+// }
 
 .brandbar__logo {
   display: flex;
-  justify-content: center;
+  gap: 0.5rem;
 
-  img {
-    width: 112px;
-    height: 25px;
+  picture {
+    height: 20px; /* Match the height of the logos */
+    width: auto;
 
-    &:first-child {
-      margin-right: -26px;
+    img {
+      width: auto; /* Ensure the image fills the <picture> container */
+      height: 100%; /* Maintain aspect ratio */
+    }
+
+    &:last-child {
+      margin-right: 12px;
+      @include media($tablet) {
+        margin-right: 26px;
+      }
     }
   }
 }

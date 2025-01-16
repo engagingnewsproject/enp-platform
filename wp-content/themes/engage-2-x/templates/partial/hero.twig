@@ -1,7 +1,10 @@
 <div class="carousel carousel-main">
 	{% for post in get_posts(post.slider_posts) %}
 		{% if post %}
-			{% include "partial/hero-content.twig" with { 'tile': post } %}
+			{% include "partial/hero-content.twig" with { 
+				'tile': post,
+				'is_first': loop.first
+			} %}
 		{% endif %}
 	{% endfor %}
 </div>

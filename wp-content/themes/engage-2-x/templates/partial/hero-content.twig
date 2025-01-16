@@ -2,7 +2,12 @@
 
 	<div class="hero__1 tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }}">
 		<a href="{{ tile.link }}" class="aspect-ratio-box-inside"></a> {# Absolute positioned link over image #}
-		<img src="{{ post.thumbnail.src('carousel-image') }}">
+		<img 
+			{% if is_first %}loading="eager"{% endif %}
+			data-flickity-lazyload="{{ post.thumbnail.src('carousel-image') }}" 
+			alt="{{ post.thumbnail.alt }}" 
+			class="carousel-cell-image" 
+		/>
 	</div>
 	<div class="hero__2">
 		<a href="{{ tile.link }}">

@@ -4,7 +4,7 @@
 {% if post.meta('show_header') == false %}
 	{% set show_header = ' sr-text' %} 
 {% endif %}
-
+{# TODO: lazy loading image (like templates/page-connective-democracy.twig) #}
 {% block content %}
 	<article class="article--default container container--xl post-type--{{post.post_type}}" id="post--{{post.ID}}">
 		<header class="article__header{{ show_header }}">
@@ -15,7 +15,10 @@
 				{{post.content}}
 				{% if post.research_posts %}  
 					<h1 class="section-margin">{{post.meta('tiles_title')}}</h1>
-					{% include 'tiles.twig' with { posts : get_posts(post.research_posts) } %}
+					{% include 'tiles.twig' with { 
+						posts : get_posts(post.research_posts),
+						loadEagerTiles: 0
+					} %}
 				{% endif %}
 			</div>
 		</div>

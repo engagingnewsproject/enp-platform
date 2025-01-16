@@ -1,10 +1,10 @@
 <?php
 
-use NF_FU_VENDOR\Google_Client;
-use NF_FU_VENDOR\Google_Service_Drive;
-use NF_FU_VENDOR\Google_Service_Drive_DriveFile;
-use NF_FU_VENDOR\Google_Service_Oauth2;
-use NF_FU_VENDOR\Google_Service_Exception;
+use NF_FU_LIB\Google\Client\Client;
+use NF_FU_LIB\Google\Service\Drive;
+use NF_FU_LIB\Google\Service\Drive\DriveFile;
+use NF_FU_LIB\Google\Service\Oauth2;
+use NF_FU_LIB\Google\Client\Exception;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -23,7 +23,8 @@ class NF_FU_External_Services_Googledrive_Service extends NF_FU_External_Abstrac
 	protected $drive;
 
 	protected $access_token;
-
+	protected $account_info_cache;
+	
 	/**
 	 * @var int Maximum file size in bytes to send to service in a single request
 	 */
@@ -46,12 +47,12 @@ class NF_FU_External_Services_Googledrive_Service extends NF_FU_External_Abstrac
 	}
 
 	protected function retrieve_account_info( $access_token ) {
-		$service = new Google_Service_Oauth2( $this->get_client( $access_token ) );
+		$service = new Oauth2( $this->get_client( $access_token ) );
 		try {
 			$response = $service->tokeninfo( array( 'access_token' => $access_token ) );
 
 			return $response;
-		} catch ( Google_Service_Exception $e ) {
+		} catch ( Exception $e ) {
 			$error = json_decode( $e->getMessage() );
 			if ( isset( $error->error_description ) && 'Invalid Value' === $error->error_description ) {
 				if ( ! $this->refresh_access_token() ) {
@@ -127,7 +128,7 @@ class NF_FU_External_Services_Googledrive_Service extends NF_FU_External_Abstrac
 	 */
 	public function get_authorize_url( $args = array() ) {
 		$args = array(
-			'scope'  => array( 'https://www.googleapis.com/auth/drive' ),
+			'scope'  => array( 'https://www.googleapis.com/auth/drive.file' ),
 			'prompt' => 'consent',
 		);
 
@@ -137,13 +138,13 @@ class NF_FU_External_Services_Googledrive_Service extends NF_FU_External_Abstrac
 	/**
 	 * Get Google Drive API client instance
 	 *
-	 * @return Google_Client
+	 * @return Client
 	 */
 	public function get_client() {
 		if ( is_null( $this->client ) ) {
 			$token = $this->get_access_token();
 
-			$client = new Google_Client();
+			$client = new Client();
 			$client->setAccessToken( $token );
 			$this->client = $client;
 		}
@@ -152,16 +153,22 @@ class NF_FU_External_Services_Googledrive_Service extends NF_FU_External_Abstrac
 	}
 
 	/**
-	 * @param null|Google_Client $client
+	 * @param null|Client $client
 	 *
-	 * @return Google_Service_Drive
+	 * @return Drive
 	 */
 	public function drive( $client = null ) {
 		if ( is_null( $this->drive ) ) {
 			if ( is_null( $client ) ) {
 				$client = $this->get_client();
 			}
-			$this->drive = new Google_Service_Drive( $client );
+
+			// @todo Determine why autoloader isn't working on this
+			if(!class_exists('NF_FU_LIB\Google\Service\Drive')){
+				include_once dirname(__DIR__,4).'/lib/Google/Service/Drive.php';
+			}
+
+			$this->drive = new Drive( $client );
 		}
 
 		return $this->drive;
@@ -182,7 +189,7 @@ class NF_FU_External_Services_Googledrive_Service extends NF_FU_External_Abstrac
 	 * @param string $filename
 	 * @param string $path
 	 *
-	 * @return Google_Service_Drive_DriveFile
+	 * @return Google\Service\Drive\DriveFile
 	 */
 	public function create_drive_file( $filename, $path ) {
 		$args = array(
@@ -196,7 +203,7 @@ class NF_FU_External_Services_Googledrive_Service extends NF_FU_External_Abstrac
 			$args['parents'] = array( $folder_id );
 		}
 
-		return new Google_Service_Drive_DriveFile( $args );
+		return new DriveFile( $args );
 	}
 
 	/**
@@ -317,7 +324,7 @@ class NF_FU_External_Services_Googledrive_Service extends NF_FU_External_Abstrac
 				if ( $parent_id ) {
 					$args['parents'] = array( $parent_id );
 				}
-				$dir     = new Google_Service_Drive_DriveFile( $args );
+				$dir     = new DriveFile( $args );
 				$file    = $this->drive()->files->create( $dir );
 				$file_id = $file->id;
 

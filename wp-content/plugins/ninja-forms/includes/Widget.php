@@ -11,7 +11,7 @@ class NF_Widget extends WP_Widget {
         parent::__construct(
             'ninja_forms_widget', // Base ID
             'Ninja Forms Widget', // Name
-            array( 'description' => esc_html__( 'Ninja Forms Widget', 'ninja-forms' ), ) // Args
+            array( 'description' => 'Ninja Forms Widget' ) // Args
         );
     }
 

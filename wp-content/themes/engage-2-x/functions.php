@@ -226,26 +226,6 @@ add_filter('timber/twig/functions', function ($functions) {
 });
 */
 
-// check timber version
-// if (version_compare(Timber::$version, '2.0.0', '>=')) {
-//     var_dump( 'Timber 2.x is installed.' );
-// }
-
-// list out all wp_enqueue_style handles on the front end
-
-// function list_enqueued_styles() {
-// 		global $wp_styles;
-
-// 		// Get the list of enqueued styles
-// 		$enqueued_styles = $wp_styles->queue;
-
-// 		// Output the list of enqueued styles
-// 		echo '<pre>';
-// 		print_r($enqueued_styles);
-// 		echo '</pre>';
-// }
-
-// add_action('wp_head', 'list_enqueued_styles');
 // Redirect users to a specific URL after login
 function custom_login_redirect($redirect_to, $request, $user)
 {
@@ -307,4 +287,110 @@ add_filter('acf/fields/flexible_content/layout_title', function ($title, $field,
     return $title;
 }, 10, 4);
 
+// Add Custom Styles to the Classic Editor Dropdown
+function custom_tinymce_style_formats($init_array) {
+    $style_formats = [
+        [
+            'title' => 'Paragraph 1',
+            'block' => 'p',
+            'classes' => 'p-1',
+            'wrapper' => false,
+        ],
+        [
+            'title' => 'Paragraph 2',
+            'block' => 'p',
+            'classes' => 'p-2',
+            'wrapper' => false,
+        ],
+        [
+            'title' => 'Paragraph 3',
+            'block' => 'p',
+            'classes' => 'p-3',
+            'wrapper' => false,
+        ],
+    ];
 
+    $init_array['style_formats'] = json_encode($style_formats);
+    return $init_array;
+}
+add_filter('tiny_mce_before_init', 'custom_tinymce_style_formats');
+
+// Enable the Styles Dropdown in the Classic Editor
+function add_custom_editor_buttons($buttons) {
+    array_unshift($buttons, 'styleselect');
+    return $buttons;
+}
+add_filter('mce_buttons', 'add_custom_editor_buttons');
+
+// Defer or async scripts from plugins
+add_filter('script_loader_tag', function ($tag, $handle, $src) {
+    // List of script handles to defer
+    $defer_scripts = [
+        'file_uploads_nfpluginsettings',
+        'nf-front-end-deps',
+        'nf-front-end',
+    ];
+
+    // List of script handles to async
+    $async_scripts = [
+        'plugin-script-handle-3',
+    ];
+
+    if (in_array($handle, $defer_scripts)) {
+        return str_replace('<script ', '<script defer ', $tag);
+    }
+
+    if (in_array($handle, $async_scripts)) {
+        return str_replace('<script ', '<script async ', $tag);
+    }
+
+    return $tag;
+}, 10, 3);
+
+// Defer stylesheets from plugins
+add_filter('style_loader_tag', function ($tag, $handle, $href) {
+    // List of stylesheet handles to defer
+    $defer_styles = [
+        'nf-display',
+        'wp-block-library',
+    ];
+
+    if (in_array($handle, $defer_styles)) {
+        return str_replace(
+            '<link ',
+            '<link media="print" onload="this.media=\'all\'" ',
+            $tag
+        );
+    }
+    return $tag;
+}, 10, 3);
+
+
+/* DEV SNIPPETS */
+
+// List handles of scripts enqueued by plugins
+/*
+    add_action('wp_footer', function () {
+        global $wp_scripts;
+        foreach ($wp_scripts->queue as $handle) {
+            echo '<p>Script handle: ' . $handle . '</p>';
+        }
+    });
+*/
+
+// List handles of stylesheets enqueued by plugins
+/*
+    add_action('wp_footer', function () {
+        global $wp_styles;
+        foreach ($wp_styles->queue as $handle) {
+            echo '<p>Stylesheet handle: ' . $handle . '</p>';
+        }
+    });
+*/
+
+// Check timber version
+/*
+    if (version_compare(Timber::$version, '2.0.0', '>=')) {
+        var_dump( 'Timber 2.x is installed.' );
+    }
+*/

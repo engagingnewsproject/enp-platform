@@ -1,6 +1,13 @@
-require('./components/Flickity');
+import Flickity from 'flickity'
 
-// https://flickity.metafizzy.co/#initialize-with-vanilla-javascript
+// Initialize Flickity
+const carousel = new Flickity('.carousel-main', {
+  // Flickity options
+  wrapAround: true,
+  contain: true,
+	lazyLoad: true
+})
+
 let maxChars = 42;
 
 // Get all elements with the class "tile__title"
