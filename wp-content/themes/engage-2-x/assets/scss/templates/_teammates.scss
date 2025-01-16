@@ -165,3 +165,18 @@
 .break-word {
 	overflow-wrap: break-word;
 }
+
+.mate__bottom-dots {
+	position: relative;
+}
+
+.mate__bottom-dots::after {
+    bottom: -20px;
+    color: #30383d;
+    content: "........................";
+    font-weight: 400;
+    left: 50%;
+    letter-spacing: 3px;
+    position: absolute;
+    transform: translateX(-50%);
+}

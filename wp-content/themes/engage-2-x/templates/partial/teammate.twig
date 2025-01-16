@@ -20,15 +20,31 @@
 <div class="mate {{ mate.thumbnail ? ' mate--has-img'}}" id="{{ mate.slug }}">
 	{# Display team member's image if available, otherwise use default image #}
 	{% if not is_alumni %}
-		{% set img_src = mate.thumbnail and mate.thumbnail.src('thumbnail') | length > 0 ? mate.thumbnail.src('thumbnail') : defaultimg %}
-        <div style="border: 2px solid #333f48; border-radius: 50%; display: inline-block; overflow: hidden; width: 150px; height: 150px;" class="mate__img-wrap">
-            {% set img_tag = '<img class="mate__img" style="border-radius: 50%; display: block; width: 150px; height: 150px;" src="' ~ img_src ~ '" alt="' ~ (mate.thumbnail ? mate.thumbnail.alt : 'Default Image') ~ '"/>' %}
+		{% set img_src = mate.thumbnail and mate.thumbnail.src('thumbnail') | length > 0 ? mate.thumbnail.src : defaultimg %}
+        <div style="border: 2px solid #333f48; border-radius: 50%; width: 265.5px; height: 265.5px; position: relative;" class="mate__img-wrap">
+            {% set img_tag = '<img class="mate__img" style="display: block; width: 100%; height: 100%; object-fit: cover" src="' ~ img_src ~ '" alt="' ~ (mate.thumbnail ? mate.thumbnail.alt : 'Default Image') ~ '"/>' %}
             {% if mate.getDisplayLink %}
                 <a class="mate__name" href="{{ mate.link }}">
                     {{ img_tag | raw }}
+					<svg style="width: 102%; height: auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 153 155" class="deco-border-svg">
+						<g fill="none" fill-rule="evenodd">
+							<path stroke="#30383D" stroke-width="3" d="M75.763 146.488c38.375 0 69.485-31.335 69.485-69.99 0-38.656-31.11-69.991-69.485-69.991-38.374 0-69.485 31.335-69.485 69.991 0 38.655 31.11 69.99 69.485 69.99Z"></path>
+							<path fill="#AE542D" d="M19.08 25.828c-27.812 31.666-24.875 80.045 6.562 108.06 9.667 8.616 20.906 14.29 32.64 17.112l.002-3.16c-11.01-2.768-21.544-8.149-30.628-16.245-30.18-26.895-32.999-73.34-6.298-103.737 26.7-30.4 72.807-33.239 102.987-6.345 30.177 26.894 32.998 73.337 6.298 103.737-9.869 11.236-22.39 18.694-35.779 22.29v3.174c14.242-3.662 27.583-11.51 38.056-23.434 27.812-31.665 24.875-80.046-6.56-108.06C94.921-8.797 46.891-5.838 19.08 25.827"></path>
+							<path fill="#AE542D" d="M71.05 152.95a7.001 7.001 0 1 0 9.9-9.902 7.001 7.001 0 0 0-9.9 9.902"></path>
+							<path fill="#30383D" d="M75.992 151 79 147.848l-.808-.848-2.249 2.355-2.182-2.287-.761.798z"></path>
+						</g>
+					</svg>
                 </a>
             {% else %}
                 {{ img_tag | raw }}
+				<svg style="width: 102%; height: auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 153 155" class="deco-border-svg">
+					<g fill="none" fill-rule="evenodd">
+						<path stroke="#30383D" stroke-width="3" d="M75.763 146.488c38.375 0 69.485-31.335 69.485-69.99 0-38.656-31.11-69.991-69.485-69.991-38.374 0-69.485 31.335-69.485 69.991 0 38.655 31.11 69.99 69.485 69.99Z"></path>
+						<path fill="#AE542D" d="M19.08 25.828c-27.812 31.666-24.875 80.045 6.562 108.06 9.667 8.616 20.906 14.29 32.64 17.112l.002-3.16c-11.01-2.768-21.544-8.149-30.628-16.245-30.18-26.895-32.999-73.34-6.298-103.737 26.7-30.4 72.807-33.239 102.987-6.345 30.177 26.894 32.998 73.337 6.298 103.737-9.869 11.236-22.39 18.694-35.779 22.29v3.174c14.242-3.662 27.583-11.51 38.056-23.434 27.812-31.665 24.875-80.046-6.56-108.06C94.921-8.797 46.891-5.838 19.08 25.827"></path>
+						<path fill="#AE542D" d="M71.05 152.95a7.001 7.001 0 1 0 9.9-9.902 7.001 7.001 0 0 0-9.9 9.902"></path>
+						<path fill="#30383D" d="M75.992 151 79 147.848l-.808-.848-2.249 2.355-2.182-2.287-.761.798z"></path>
+					</g>
+				</svg>
             {% endif %}
         </div>
     {% endif %}
@@ -36,7 +52,7 @@
 		class="mate__content">
 		{# Display team member's name as a heading. Link to bio or external page if applicable. #}
 		<h3
-			class="mate__name mate__orange mate__name--{{ format }}" style="{{ is_alumni ? 'text-align: left;' : '' }}">
+			class="mate__name mate__orange mate__name--{{ format }} mate__bottom-dots" style="{{ is_alumni ? 'text-align: left;' : '' }} margin-top: 2rem;">
 			{# If format is 'excerpt' or 'full' and not in 'propaganda' vertical, show name as a link #}
 			{% if (format == "excerpt" or "full") and vertical_value != "propaganda" and (mate.getDisplayLink) %}
 				{% if mate.getExternalLink != "" %}
@@ -57,24 +73,25 @@
 			
 		</h3>
 		{# Display team member's designation if the format is 'excerpt' #}
-		{% if format == "excerpt" %}
-			{% if mate.getDesignation or mate.vertical %}
-				<p class="mate__labels size" style="{{ is_alumni ? 'text-align: left;' : '' }}">
-					{{ mate.designation }}
+		{#
+			{% if format == "excerpt" %}
+				{% if mate.getDesignation or mate.vertical %}
+					<p class="mate__labels size" style="{{ is_alumni ? 'text-align: left;' : '' }}">
+						{{ mate.designation }}
+					</p>
+				{% endif %}
+			{% elseif format == "full" and mate.getDisplayLink %}
+				{% set content = mate.content | striptags | split(' ') | slice(0, 45) | join(' ') ~ ' ... ' %}
+				<p class="mate__bio">
+					{{ content }}
+					<a href="{{ mate.link }}">
+						<strong>
+							[Read More]
+						</strong>
+					</a>
 				</p>
 			{% endif %}
-			{# Display the first 45 words of the bio with a 'Read More' link if the format is 'full' #}
-		{% elseif format == "full" and mate.getDisplayLink %}
-			{% set content = mate.content | striptags | split(' ') | slice(0, 45) | join(' ') ~ ' ... ' %}
-			<p class="mate__bio">
-				{{ content }}
-				<a href="{{ mate.link }}">
-					<strong>
-						[Read More]
-					</strong>
-				</a>
-			</p>
-		{% endif %}
+		#}
 		
 	</div>
 </div>
