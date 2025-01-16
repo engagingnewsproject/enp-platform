@@ -3,10 +3,11 @@ body {
   -webkit-font-smoothing: antialiased; // Improving Font Rendering With CSS (LINK: https://betterprogramming.pub/improving-font-rendering-with-css-3383fc358cbc)
   -moz-osx-font-smoothing: grayscale;
   	.main-body-wrapper {
-		background: url("/wp-content/themes/engage-2-x/assets/img/dots.svg");
+		background: url("/wp-content/themes/engage-2-x/assets/img/dots.webp");
 		background-position: 150% -5%;
 		background-repeat: no-repeat;
 		background-size: 1024px;
+		background-attachment: fixed;
 	}
 	&.vertical--journalism.archive,
 	&.vertical--media-ethics.archive,
@@ -17,6 +18,7 @@ body {
 			background-position: 120% -1%;
 			background-size: 1024px;
 			background-repeat: no-repeat;
+			background-attachment: fixed;
 		}
 	}
 }

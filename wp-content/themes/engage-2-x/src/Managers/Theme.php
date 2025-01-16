@@ -44,10 +44,22 @@ class Theme {
 		if(!is_admin()) {
 			add_action( 'wp_enqueue_scripts', [$this, 'enqueueStyles'] );
 			add_action( 'wp_head', [$this, 'enqueueScripts'] );
+			add_action('wp_head', [$this, 'preloadFirstSliderImage']);
 			// for removing styles
 			add_action( 'wp_print_styles', [$this, 'dequeueStyles'], 100 );
+			// TODO Preload critical main navigation images
+			add_action('wp_head', function () {
+				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar/brandbar-logo.webp" as="image" type="image/webp">';
+				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar/brandbar-logo-2.webp" as="image" type="image/webp">';
+				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/logo/center-for-media-engagement.webp" as="image" type="image/webp">';
+				// Preload dots.svg background image
+				echo '<link rel="preload" fetchpriority="high" href="' . get_template_directory_uri() . '/assets/img/dots.webp" as="image" type="image/webp" />';
+			});
 		} else {
 			add_action( 'admin_init', [$this, 'enqueueStylesEditor'] );
+			add_filter('manage_pages_columns', [$this, 'addTemplateColumn']);
+			add_action('manage_pages_custom_column', [$this, 'displayTemplateColumn'], 10, 2);
+			add_filter('manage_edit-page_sortable_columns', [$this, 'sortableTemplateColumn']);
 		}
 		
 	}
@@ -137,16 +149,49 @@ class Theme {
 		]);
 	}
 	
-	// public function enqueueStyles() {
-	// 	wp_enqueue_style('google/LibreFont', 'https://fonts.googleapis.com/css?family=Libre+Franklin:400,700', false, null);
-	// 	wp_enqueue_style('google/AntonFont', 'https://fonts.googleapis.com/css?family=Anton:400', false, null);
-	// 	wp_enqueue_style('engage/css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
-	// }
+	public function preloadFirstSliderImage() {
+		if (is_front_page()) {
+			$slider_posts = get_field('slider_posts', get_option('page_on_front')); 
+			if (!empty($slider_posts) && is_array($slider_posts)) {
+				// Get the first post ID
+				$first_post_id = $slider_posts[0]; // First post ID
+
+				// Get the featured image URL for the first post
+				$thumbnail_url = get_the_post_thumbnail_url($first_post_id, 'carousel-image'); // Replace 'carousel-image' with your image size
+
+				if ($thumbnail_url) {
+						// Add the preload link
+						echo '<link rel="preload" as="image" href="' . esc_url($thumbnail_url) . '" />';
+				} else {
+						error_log('No featured image found for post ID: ' . $first_post_id);
+				}
+			} else {
+					error_log('No posts found in the ACF relationship field.');
+			}
+		}
+	}
 
 	public function enqueueStyles() {
 		if (!is_admin()) {
-			wp_register_style('google_fonts', '//fonts.googleapis.com/css?family=Libre+Franklin:400,700|Anton:400', array(), null, 'all');
+        // Add preload for Google Fonts
+        add_action('wp_head', function() {
+					echo '<link rel="preload" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&display=swap" as="style" crossorigin="anonymous" onload="this.onload=null;this.rel=\'stylesheet\'">';
+					// Fallback for users with JavaScript disabled.
+					echo '<noscript><link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&display=swap" rel="stylesheet"></noscript>';
+			});
+			// wp_register_style('google_fonts', '//fonts.googleapis.com/css?family=Libre+Franklin:400,700|Anton:400', array(), null, 'all');
+			wp_register_style('google_fonts', '//fonts.googleapis.com/css2?family=Anton&family=Libre+Franklin:wght@400;700&display=swap', array(), null, 'all');
 			wp_enqueue_style('google_fonts');
+			// Front page Flickity
+			// !! Moved to the templates/html-header.twig file as inline for performance
+			// if (is_front_page()) {
+			// 	wp_enqueue_style(
+			// 		'flickity-css',
+			// 		'https://unpkg.com/flickity@3.0.0/dist/flickity.min.css',
+			// 		[],
+			// 		'3.0.0'
+			// 	);
+			// }
 			wp_enqueue_style('engage_css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
 		}
 	}
@@ -173,8 +218,12 @@ class Theme {
 		}
 	}
 	
-	
 	public function enqueueScripts() {
+		$footer_defer = array( 
+			'in_footer' => true,
+			'strategy'  => 'defer',
+		);
+		
 		if (is_single() && comments_open() && get_option('thread_comments')) {
 			wp_enqueue_script('comment-reply');
 		}
@@ -183,7 +232,6 @@ class Theme {
 		wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
 		
 		if(is_front_page()) {
-			wp_enqueue_script('flickity/js', get_stylesheet_directory_uri(). '/dist/js/flickity.js', ['jquery']);
 			wp_enqueue_script('homepage/js', get_stylesheet_directory_uri().'/dist/js/homepage.js', ['jquery'], false, false);
 		}
 		
@@ -191,8 +239,14 @@ class Theme {
 			wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
 			wp_enqueue_script('Chart/js', get_stylesheet_directory_uri().'/dist/js/Chart.bundle.min.js', ['jquery'], false, false);
 		}
-		
-		wp_enqueue_script('engage/js', get_stylesheet_directory_uri().'/dist/js/app.js', [], false, true);
+
+		wp_enqueue_script(
+			'engage/js', 
+			get_stylesheet_directory_uri().'/dist/js/app.js', 
+			[], 
+			false, 
+			$footer_defer
+		);
 	}
 	
 	public function addToContext( $context ) {
@@ -237,6 +291,37 @@ class Theme {
 		}
 		
 		return $classes;
+	}
+
+	// Add the 'Template' column to the Pages list
+	public function addTemplateColumn($columns) {
+		$columns['template'] = __('Template');
+		return $columns;
+	}
+
+	// Display the page template name in the 'Template' column
+	public function displayTemplateColumn($column, $post_id) {
+		if ($column === 'template') {
+			$template = get_page_template_slug($post_id); // Get the page template slug
+			if (!$template) {
+					echo __('Default Template'); // If no template is set
+			} else {
+				// Fetch all available templates
+				$templates = wp_get_theme()->get_page_templates();
+
+				// Match the file name to the human-readable name
+				$template_name = $templates[$template] ?? $template;
+
+				// Display the human-readable name or fallback to the file name
+				echo esc_html($template_name);
+			}
+		}
+	}
+
+	// Make the 'Template' column sortable
+	public function sortableTemplateColumn($columns) {
+		$columns['template'] = 'template';
+		return $columns;
 	}
 	
 	public function cleanup() {

@@ -32,7 +32,10 @@
 }
 
 .header__logo {
-	max-width: 200px;
+	max-width: 260px;
+	@include media($phablet) {
+		max-width: 300px;
+	}
 	@include media($tablet) {
 		max-width: 320px;
 	}

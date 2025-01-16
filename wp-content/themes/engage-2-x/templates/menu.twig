@@ -15,7 +15,24 @@
 						<span class="sr-text">
 							{{ site.name }}
 						</span>
-						<img src="{{ theme.link }}/assets/img/cme-logo.png" alt="{{ site.name }} Logo" />
+						<picture>
+							<!-- WebP versions for browsers that support WebP -->
+							<source srcset="{{ theme.link }}/assets/img/logo/center-for-media-engagement.webp 1x, 
+															{{ theme.link }}/assets/img/logo/center-for-media-engagement@2x.webp 2x, 
+															{{ theme.link }}/assets/img/logo/center-for-media-engagement@3x.webp 3x" type="image/webp">
+
+							<!-- PNG fallback for browsers that do not support WebP -->
+							<source srcset="{{ theme.link }}/assets/img/logo/center-for-media-engagement.png 1x, 
+															{{ theme.link }}/assets/img/logo/center-for-media-engagement@2x.png 2x, 
+															{{ theme.link }}/assets/img/logo/center-for-media-engagement@3x.png 3x" type="image/png">
+
+							<!-- Default image for browsers that don't support `picture` -->
+							<img src="{{ theme.link }}/assets/img/logo/center-for-media-engagement.png" 
+									alt="Center for Media Engagement Logo" 
+									width="320" 
+									height="56" 
+									decoding="async" />
+						</picture>
 					</a>
 				</h1>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">

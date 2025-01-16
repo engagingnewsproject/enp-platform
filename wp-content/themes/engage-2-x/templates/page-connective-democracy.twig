@@ -109,7 +109,10 @@
 
 				{# research tiles #}
 				{% if post.meta('show_research_tiles') == true %}
-					{% include 'tiles.twig' with { posts : research }%}
+					{% include 'tiles.twig' with { 
+						posts : research,
+						loadEagerTiles: 0
+					}%}
 				{% endif %}
 
 				{# content 3 #}
