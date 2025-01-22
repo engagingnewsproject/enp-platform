@@ -186,3 +186,84 @@ or to sort
 ## GitHub History
 
 [Oldest commits page](https://github.com/engagingnewsproject/enp-platform/commits/master?after=78bbeb19687639d0cdde4f988e90ac68699e118b+2484&branch=master&qualified_name=refs%2Fheads%2Fmaster)
+
+## Git Merge Conflicts Safely
+
+Merging branches with conflicts can be challenging, especially when you want to avoid introducing broken code or overwriting important changes. Here's a structured approach to handle these scenarios safely and effectively:
+
+---
+
+### 1. Plan the Merge Strategy
+- **Merge Master into the Feature Branch First**: This allows the developer to resolve conflicts in the context of their work without risking the integrity of the `master` branch.
+- After the conflicts are resolved and tested in the feature branch, the updated feature branch can be safely merged into `master`.
+
+---
+
+### 2. Steps to Merge Safely
+
+#### **Step 1: Update the Local Master**
+```bash
+git checkout master
+git pull origin master
+```
+
+#### **Step 2: Switch to the Feature Branch**
+```bash
+git checkout feature-branch
+```
+
+#### **Step 3: Merge Master into the Feature Branch**
+```bash
+git merge master
+```
+- Git will notify you of any conflicts.
+- Carefully resolve the conflicts:
+  - Open each conflicted file.
+  - Git marks conflicts with `<<<<<<<`, `=======`, and `>>>>>>>` to show changes from both branches.
+  - Manually edit the file to combine changes, ensuring both the new features and the existing code in `master` work together.
+
+#### **Step 4: Test the Feature Branch**
+- Run tests or manually verify the code in the feature branch to ensure it works as expected.
+- Address any issues that arise during the merge process.
+
+#### **Step 5: Push the Updated Feature Branch**
+```bash
+git add .
+git commit
+git push origin feature-branch
+```
+
+---
+
+### Final Merge into Master
+
+#### **Step 6: Merge the Feature Branch into Master**
+- Ensure you are on the `master` branch:
+  ```bash
+  git checkout master
+  ```
+- Merge the feature branch:
+  ```bash
+  git merge feature-branch
+  ```
+- Since conflicts were resolved earlier, this merge should proceed without any issues.
+
+#### **Step 7: Test Master**
+- Run the dev server `yarn watch` to ensure everything on `master` works as expected.
+- Run `yarn prod` to compile files for production.
+
+#### **Step 8: Push the Updated Master**
+```bash
+git push origin master
+```
+
+---
+
+### **4. Tips to Avoid Issues**
+- **Communicate with Developers**: Collaborators should know when `master` has been updated to avoid conflicts piling up.
+- **Use Feature Flags**: This allows incomplete or risky code to be merged without affecting production functionality.
+- **Frequent Pulls**: Developers should regularly pull updates from `master` into their feature branches to minimize conflicts.
+
+---
+
+By merging `master` into the feature branch first, you reduce the risk of introducing broken code into `master`. This approach allows the conflicts to be resolved in a controlled environment (the feature branch) while preserving both new features and the integrity of the codebase.
