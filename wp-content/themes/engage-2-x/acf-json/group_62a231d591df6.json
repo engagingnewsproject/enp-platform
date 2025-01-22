@@ -3,11 +3,11 @@
     "title": "Quiz Landing Page",
     "fields": [
         {
-            "key": "field_62a231e0c2931",
-            "label": "Quiz Details",
-            "name": "quiz_details",
+            "key": "field_6791259794d15",
+            "label": "Details",
+            "name": "details",
             "aria-label": "",
-            "type": "repeater",
+            "type": "group",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -16,54 +16,98 @@
                 "class": "",
                 "id": ""
             },
-            "collapsed": "",
-            "min": 0,
-            "max": 0,
             "layout": "block",
-            "button_label": "Add block",
-            "rows_per_page": 20,
             "sub_fields": [
                 {
-                    "key": "field_62a2324ec2933",
-                    "label": "Subtitle",
-                    "name": "subtitle",
+                    "key": "field_62a231e0c2931",
+                    "label": "Detail columns",
+                    "name": "detail_columns",
                     "aria-label": "",
-                    "type": "text",
+                    "type": "flexible_content",
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "",
-                        "class": "",
+                        "width": "85",
+                        "class": "flex",
                         "id": ""
                     },
-                    "default_value": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "maxlength": "",
-                    "parent_repeater": "field_62a231e0c2931"
+                    "layouts": {
+                        "layout_679127006a320": {
+                            "key": "layout_679127006a320",
+                            "name": "column",
+                            "label": "Column",
+                            "display": "row",
+                            "sub_fields": [
+                                {
+                                    "key": "field_62a2324ec2933",
+                                    "label": "Subtitle",
+                                    "name": "subtitle",
+                                    "aria-label": "",
+                                    "type": "text",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "allow_in_bindings": 1,
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": ""
+                                },
+                                {
+                                    "key": "field_67912a19882b3",
+                                    "label": "Description",
+                                    "name": "description",
+                                    "aria-label": "",
+                                    "type": "textarea",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "allow_in_bindings": 0,
+                                    "rows": "",
+                                    "placeholder": "",
+                                    "new_lines": ""
+                                }
+                            ],
+                            "min": "",
+                            "max": ""
+                        }
+                    },
+                    "min": "",
+                    "max": "",
+                    "button_label": "Add Column"
                 },
                 {
-                    "key": "field_62a2326cc2934",
-                    "label": "Quiz Details",
-                    "name": "quiz_details",
+                    "key": "field_6791253894d14",
+                    "label": "Details title color",
+                    "name": "details_title_color",
                     "aria-label": "",
-                    "type": "text",
+                    "type": "color_picker",
                     "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "",
+                        "width": "15",
                         "class": "",
                         "id": ""
                     },
                     "default_value": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "maxlength": "",
-                    "parent_repeater": "field_62a231e0c2931"
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "allow_in_bindings": 0
                 }
             ]
         },
@@ -267,5 +311,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1737065745
+    "modified": 1737567460
 }

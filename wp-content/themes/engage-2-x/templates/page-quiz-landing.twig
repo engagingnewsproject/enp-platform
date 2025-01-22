@@ -15,12 +15,25 @@
 				<div class="callout">
 					<div class="container container--xl wrapper--pad">
 						<div class="tile-stats">
+						{% set group = post.meta('details') %}
+						<pre>
+							{{ dump(group) }}
+						</pre>
+							{% if post.meta('details') %}
+							{% for item in post.meta('detail_columns') %}
+
+							{% endfor %}
+							{{ post.meta('details_title_color') }}
+						{% endif %}
+						
 							{% for detail in post.meta('quiz_details') %}
 								<div class="tile">
 									<h4 class="step-header">{{detail.subtitle}}</h4>
 									<p>{{detail.quiz_details}}</p>
 								</div>
 							{% endfor %}
+							
+							
 						</div>
 					</div>
 				</div>
