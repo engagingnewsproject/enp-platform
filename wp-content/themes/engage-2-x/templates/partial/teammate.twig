@@ -17,7 +17,7 @@
 {% set is_alumni = category == 'alumni' %}
 
 
-<div style="display: flex; flex-direction: column; align-items: {{ is_alumni ? 'start' : 'center' }};" class="mate {{ mate.thumbnail ? ' mate--has-img'}}" id="{{ mate.slug }}">
+<div style="display: flex; flex-direction: column; align-items: {{ is_alumni ? 'start' : 'center' }};" class="mate item-animate {{ mate.thumbnail ? ' mate--has-img'}}" id="{{ mate.slug }}">
 	{# Display team member's image if available, otherwise use default image #}
 	{% if not is_alumni %}
 		{% set img_src = mate.thumbnail and mate.thumbnail.src('thumbnail') | length > 0 ? mate.thumbnail.src : defaultimg %}
