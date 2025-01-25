@@ -18,7 +18,7 @@ class Theme {
 		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 		// Add default posts and comments RSS feed links to head.
 		add_theme_support( 'automatic-feed-links' );
-		
+		add_action('acf/init', [$this, 'addOptionsPage']);
 		/*
 		* Let WordPress manage the document title.
 		* By adding theme support, we declare that this theme does not use a
@@ -149,6 +149,24 @@ class Theme {
 		]);
 	}
 	
+	/**
+	 * Add ACF Options Page
+	 */
+	public function addOptionsPage() {
+		acf_add_options_page(array(
+				'page_title' => 'Site Options',
+				'menu_slug'  => 'site-options',
+				'position'   => '',
+				'redirect'   => false,
+				'menu_icon'  => array(
+						'type'  => 'dashicons',
+						'value' => 'dashicons-admin-generic',
+				),
+				'autoload'   => true,
+				'icon_url'   => 'dashicons-admin-generic',
+		));
+	}
+	
 	public function preloadFirstSliderImage() {
 		if (is_front_page()) {
 			$slider_posts = get_field('slider_posts', get_option('page_on_front')); 
@@ -264,6 +282,8 @@ class Theme {
 		$context['rightFooterWidgets'] = \Timber::get_widgets('right-footer');
 		$context['newsletter'] = \Timber::get_widgets('newsletter');
 		$context['meiSidebar'] = \Timber::get_widgets('mei-sidebar');
+		// Add ACF options to context
+		$context['options'] = get_fields('option');
 		return $context;
 	}
 	

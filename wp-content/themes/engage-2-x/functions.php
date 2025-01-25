@@ -100,10 +100,6 @@ add_action('after_setup_theme', function () {
     new Theme($managers);
 });
 
-if(function_exists('acf_add_options_page')) {
-    acf_add_options_page();
-}
-
 // is_plugin_active() is defined in /wp-admin/includes/plugin.php,
 // so this is only available from within the admin pages,
 // and any references to this function must be hooked to admin_init or a later action.
