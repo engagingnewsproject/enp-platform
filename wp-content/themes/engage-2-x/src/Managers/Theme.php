@@ -217,6 +217,14 @@ class Theme {
 	public function enqueueStylesEditor() {
 		if (is_admin()) {
 			add_editor_style('/dist/css/editor-style.css');
+			
+			// Style for admin pages
+			wp_enqueue_style(
+				'engage-admin-style',
+				get_stylesheet_directory_uri() . '/dist/css/admin.css',
+				[],
+				filemtime(get_stylesheet_directory() . '/dist/css/admin.css')
+			);
 		}
 	}
 	
