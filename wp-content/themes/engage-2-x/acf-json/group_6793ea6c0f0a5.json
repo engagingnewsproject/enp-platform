@@ -1,6 +1,6 @@
 {
     "key": "group_6793ea6c0f0a5",
-    "title": "Frontend Team Settings",
+    "title": "Team Frontend Settings",
     "fields": [
         {
             "key": "field_6793ff7bfc4c6",
@@ -55,7 +55,7 @@
         ]
     ],
     "menu_order": 0,
-    "position": "acf_after_title",
+    "position": "normal",
     "style": "default",
     "label_placement": "top",
     "instruction_placement": "label",
@@ -63,5 +63,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1737755246
+    "modified": 1737768613
 }
