@@ -21,6 +21,7 @@
             "max": 0,
             "layout": "table",
             "button_label": "Add Row",
+            "rows_per_page": 20,
             "sub_fields": [
                 {
                     "key": "field_61e8737a5aa10",
@@ -90,8 +91,7 @@
                     "mime_types": "",
                     "parent_repeater": "field_61e873495aa0f"
                 }
-            ],
-            "rows_per_page": 20
+            ]
         }
     ],
     "location": [
@@ -112,5 +112,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1724343214
+    "modified": 1737065745
 }

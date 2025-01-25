@@ -21,6 +21,7 @@
             "max": 0,
             "layout": "block",
             "button_label": "Add Publication",
+            "rows_per_page": 20,
             "sub_fields": [
                 {
                     "key": "field_5f0ce72380a77",
@@ -169,8 +170,7 @@
                     "maxlength": "",
                     "parent_repeater": "field_5f0ce54251d01"
                 }
-            ],
-            "rows_per_page": 20
+            ]
         }
     ],
     "location": [
@@ -191,5 +191,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1724343190
+    "modified": 1737065745
 }

@@ -13,9 +13,17 @@
 		{% set tileClass = tile.vertical.slug %}
 	{% endif %}
 	{# END logic #}
-
-	<div class="tile tile--vertical--{{ tileClass }} tile--intro--vertical--{{ tileClass }} tile--intro">
-		<h2 class="tile__title tile__title--intro">{{ tileTitle }}</h2>
-		<div class="tile__excerpt tile__excerpt--intro">{{ tile.excerpt }}</div>
-	</div>
+	{# 
+	{{ dump(tile) }}
+	Use above pre element to dump the current query
+	see Timber docs: https://timber.github.io/docs/v2/guides/debugging/#using-twigs-native-functions
+	 #}
+	{% if tile.post_type == 'page' %} {# Only show the title if we are on a page #}
+		<div class="tile tile--vertical--{{ tileClass }} tile--intro--vertical--{{ tileClass }} tile--intro">
+			<h2 class="tile__title tile__title--intro">{{ tileTitle }}</h2>
+			{% if post.post_excerpt %} {# check if the post has an excerpt first, otherwise WordPress will use part of the content #}
+				<div class="tile__excerpt tile__excerpt--intro">{{ tile.excerpt }}</div>
+			{% endif %}
+		</div>
+	{% endif %}
 {% endif %}

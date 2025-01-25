@@ -1,13 +1,31 @@
 {% extends "base.twig" %}
 
 {% block content %}
-
 <div class="container_team">
-	{% for category in categories %}
-		{% if category != 'alumni' %}
-			<h2 class="category_title">{{ category_titles[category] }}</h2>
-		{% endif %}
-		{% include 'partial/teammates_new.twig' with { mates: filtered_posts[category], format: "excerpt", category: category } %}
-	{% endfor %}
+    {% for category in categories %}
+        {% if category != 'alumni' %}
+            {% if category_titles[category] == "Student Researchers" %}
+                <div class="mate__header-container header-left header-align-left header-border header-border-left">
+                    <div class="mate__header-wrap" style="border-color:#bf5700;">
+                        <h3 class="mate__subheader" style="color:#333f48;">Team Interns &</h3>
+                        <h2 class="mate__header" style="color:#bf5700;">Research Assistants</h2>
+                    </div>
+                </div>
+            {% else %}
+                {% set title_parts = category_titles[category] | split(' ') %}
+                <div class="mate__header-container header-left header-align-left header-border header-border-left">
+                    <div class="mate__header-wrap" style="border-color:#bf5700;">
+                        {% if title_parts|length > 1 %}
+                            <h3 class="mate__subheader" style="color:#333f48;">{{ title_parts[0] }}</h3>
+                            <h2 class="mate__header" style="color:#bf5700;">{{ title_parts[1] }}</h2>
+                        {% else %}
+                            <h2 class="mate__header" style="color:#bf5700;">{{ title_parts[0] }}</h2>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+        {% include 'partial/teammates_new.twig' with { mates: filtered_posts[category], format: "excerpt", category: category } %}
+    {% endfor %}
 </div>
 {% endblock %}
