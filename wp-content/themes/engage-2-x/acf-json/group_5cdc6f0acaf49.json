@@ -103,26 +103,6 @@
             },
             "default_value": "",
             "placeholder": ""
-        },
-        {
-            "key": "field_66f6d641ef359",
-            "label": "Member Display Link",
-            "name": "member_display_link",
-            "aria-label": "",
-            "type": "true_false",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "message": "Link bio page for team member",
-            "default_value": 0,
-            "ui": 0,
-            "ui_on_text": "",
-            "ui_off_text": ""
         }
     ],
     "location": [
@@ -154,5 +134,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1737065745
+    "modified": 1738017989
 }
