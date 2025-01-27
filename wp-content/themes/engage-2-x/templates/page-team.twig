@@ -1,16 +1,20 @@
 {% extends "base.twig" %}
 {# Parent PHP file: archive-team.php #}
 {% block content %}
+
+
+
 <div class="container_team">
     {% for category in categories %}
         {% if category != 'alumni' %}
             {% set title_data = processed_titles[category] %}
+            {{ dump(processed_titles[category]) }}
             <div class="mate__header-container header-left header-align-left header-border header-border-left">
                 <div class="mate__header-wrap" style="border-color:#bf5700;">
                     {% if title_data.supertitle %}
-                        <h3 class="mate__subheader" style="color:#333f48;">{{ title_data.supertitle }}</h3>
+                        <h3 class="mate__subheader" style="color:{{title_data.supertitle_color}}">{{ title_data.supertitle }}</h3>
                     {% endif %}
-                    <h2 class="mate__header" style="color:#bf5700;">{{ title_data.title }}</h2>
+                    <h2 class="mate__header" style="color:{{title_data.title_color}};">{{ title_data.title }}</h2>
                 </div>
             </div>
         {% endif %}
