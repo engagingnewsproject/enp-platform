@@ -106,14 +106,8 @@ add_action('after_setup_theme', function () {
 // If you want to use this function from within a template, you will need to manually require plugin.php
 include_once(ABSPATH .'wp-admin/includes/plugin.php');
 
-// use ACF options info site wide, https://timber.github.io/docs/guides/acf-cookbook/#use-options-info-site-wide
+// ACF settings
 if (is_plugin_active('advanced-custom-fields-pro/acf.php')) {
-    add_filter('timber/context', 'engage_timber_context');
-    function engage_timber_context($context)
-    {
-        $context['options'] = get_fields('option');
-        return $context;
-    }
     // Set custom load and save paths for ACF JSON
     add_filter('acf/settings/save_json', function() {
         return get_stylesheet_directory() . '/acf-json';
