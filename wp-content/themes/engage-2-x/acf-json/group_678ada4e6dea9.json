@@ -8,7 +8,7 @@
             "name": "filter_title_color",
             "aria-label": "",
             "type": "color_picker",
-            "instructions": "",
+            "instructions": "Research archive page filter menu text color.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -40,5 +40,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1737766988
+    "modified": 1738108051
 }
