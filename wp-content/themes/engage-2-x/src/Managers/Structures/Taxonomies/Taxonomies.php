@@ -65,7 +65,7 @@ class Taxonomies {
 
 				// Post types to which the 'Verticals' taxonomy will be registered
 				$postTypes = [
-						'post', 'page', 'research', 'funders', 'team', 'announcement', 'blogs', 'tribe_events', 'board'
+						'post', 'page', 'research', 'funders', 'announcement', 'blogs', 'tribe_events', 'board'
 				];
 
 				// Register the 'Verticals' taxonomy for the specified post types with the provided arguments
