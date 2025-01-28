@@ -1,9 +1,9 @@
 {
-    "key": "group_678ada4e6dea9",
-    "title": "Site Options",
+    "key": "group_67994fb691c82",
+    "title": "Site Settings",
     "fields": [
         {
-            "key": "field_678ada4ecfce0",
+            "key": "field_67994fb6bf26b",
             "label": "Filter Title Color",
             "name": "filter_title_color",
             "aria-label": "",
@@ -40,5 +40,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1737766988
+    "modified": 1738100842
 }

@@ -11,7 +11,7 @@
 		&.vertical-base {
 			.filter__link:hover {
 				color: map-get($verticalColors, $name);
-				border-color: map-get($verticalColors, $name);
+				// border-color: map-get($verticalColors, $name);
 			}
 
 			.filter__link--current {
