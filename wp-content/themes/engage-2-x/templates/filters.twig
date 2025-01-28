@@ -21,7 +21,7 @@
 			{# Loop through each term in the filters array to create individual filter items #}
 			{% for term in filters.terms %}
 				{# Skip the term with the title 'Former CME' as it's not meant to be included in the filters #}
-				{% if term.title != 'Former CME' %}
+				{% if term.title != 'Former CME' and term.title != 'Team' %}
 
 					{# Special case: If the filter menu is for 'media-ethics' and the term is 'research', change the term title to 'Case Studies' #}
 					{% if filters.slug == 'media-ethics-menu' and term.slug == 'research' %}
