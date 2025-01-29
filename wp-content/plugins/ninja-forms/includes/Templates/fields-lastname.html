@@ -8,7 +8,7 @@
         {{{ data.maybeDisableAutocomplete() }}}
         {{{ data.renderPlaceholder() }}}
         aria-invalid="false"
-        aria-describedby="nf-error-{{{ data.id }}} nf-description-{{{ data.id }}}"
+        aria-describedby="<# if( data.desc_text ) { #>nf-description-{{{ data.id }}} <# } #>nf-error-{{{ data.id }}}"
         aria-labelledby="nf-label-field-{{{ data.id }}}"
         {{{ data.maybeRequired() }}}
     >

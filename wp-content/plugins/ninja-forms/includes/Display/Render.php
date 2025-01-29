@@ -708,9 +708,9 @@ class NF_Display_Render
     public static function localize_iframe( $form_id )
     {
         //Render root div
-        echo "<div id='nf_form_iframe_" . $form_id . "'></div>";
+        echo "<div id='nf_form_iframe_" . (int)$form_id . "'></div>";
         //Enqueue WP element
-       self::enqueue_iframe_scripts( $form_id );
+       static::enqueue_iframe_scripts( $form_id );
 
     }
 

@@ -1,5 +1,5 @@
 <script id="tmpl-nf-field-listradio" type="text/template">
-    <ul aria-describedby="nf-error-{{{ data.id }}} nf-description-{{{ data.id }}}">
+    <ul aria-describedby="<# if( data.desc_text ) { #>nf-description-{{{ data.id }}} <# } #>nf-error-{{{ data.id }}}">
         {{{ data.renderOptions() }}}
     </ul>
 </script>
