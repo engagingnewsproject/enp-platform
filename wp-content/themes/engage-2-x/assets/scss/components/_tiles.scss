@@ -85,7 +85,7 @@
 }
 .tile--intro {
 	padding: $spacer 0 $spacer $spacer-lg;
-	border-left: 3px solid $teal;
+	border-left: 3px solid $orange;
 	margin-bottom: $spacer;
 	&:hover {
 		transform: none;
@@ -94,7 +94,7 @@
 	}
 }
 .tile__title--intro {
-	color: $teal-light;
+	color: $orange;
 }
 
 .tile__excerpt--intro {
@@ -276,7 +276,6 @@
 	text-align: center;
 
 	.tile h4 {
-		background: $navy;
 		color: $white;
 	}
 	@include media($phablet) {

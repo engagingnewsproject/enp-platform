@@ -75,9 +75,9 @@ body.enp-quiz {
 
 .quiz-creator-benefits {
 	margin: $spacer-lg 0;
-	background: $gray-lighter;
 	&.steps {
 		padding: $spacer-lg;
+		background-color: #f8f8f8;
 		.row-spacing-md {
 			text-align: center;
 		}

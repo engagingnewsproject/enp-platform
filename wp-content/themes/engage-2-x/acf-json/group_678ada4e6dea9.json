@@ -1,0 +1,44 @@
+{
+    "key": "group_678ada4e6dea9",
+    "title": "Site Options",
+    "fields": [
+        {
+            "key": "field_678ada4ecfce0",
+            "label": "Filter Title Color",
+            "name": "filter_title_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Research archive sidebar text color.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#bf5700",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "allow_in_bindings": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "site-options"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1738108557
+}

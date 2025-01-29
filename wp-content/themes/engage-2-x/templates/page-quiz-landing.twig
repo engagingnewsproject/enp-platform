@@ -1,5 +1,10 @@
 {% extends "base.twig" %}
 
+{# ACF variables #}
+{% set featCardTitleBackground = post.meta('feature_card_title_background_color')  %}
+{% set featCardBackground = post.meta('feature_card_background_color')  %}
+{% set featSectionBackground = post.meta('features_section_background')  %}
+
 {# Hide title / ACF / Page settings #}
 {% if post.meta('show_header') == false %}
 	{% set show_header = ' sr-text' %} 
@@ -10,17 +15,21 @@
 		<header class="article__header{{ show_header }}">
 			<h1 class="article__title title-landing-font">{{post.title}}</h1>
 		</header>
-		<section class="quiz-creator-benefits">
+		<section class="quiz-creator-benefits" style="background-color: {{featSectionBackground}};">
 			<div class="container container--lg wrapper--pad">
 				<div class="callout">
 					<div class="container container--xl wrapper--pad">
 						<div class="tile-stats">
-							{% for detail in post.meta('quiz_details') %}
-								<div class="tile">
-									<h4 class="step-header">{{detail.subtitle}}</h4>
-									<p>{{detail.quiz_details}}</p>
-								</div>
-							{% endfor %}
+
+							{% if post.meta('features') %}
+								{% for col in post.meta('features') %}
+									<div class="tile" style="background-color: {{featCardBackground}};">
+										<h4 class="step-header" style="background-color: {{featCardTitleBackground}};">{{col.feature_subtitle}}</h4>
+										<p>{{col.feature_description}}</p>
+									</div>
+								{% endfor %}
+							{% endif %}
+							
 						</div>
 					</div>
 				</div>
