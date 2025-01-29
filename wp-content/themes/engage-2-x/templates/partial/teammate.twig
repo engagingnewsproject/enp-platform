@@ -52,7 +52,7 @@
 		class="mate__content">
 		{# Display team member's name as a heading. Link to bio or external page if applicable. #}
 		<h3
-			class="mate__name mate__orange mate__name--{{ format }} {{ not is_alumni ? 'mate__bottom-dots' : '' }}" style="{{ is_alumni ? 'text-align: left;' : 'margin-top: 2rem;' }}">
+			class="mate__name mate__orange mate__name--{{ format }} {{ not is_alumni and not mate.getDesignation and not mate.designation ? 'mate__bottom-dots' : '' }}" style="{{ is_alumni ? 'text-align: left;' : 'margin-top: 2rem;' }}">
 			{# If format is 'excerpt' or 'full' and not in 'propaganda' vertical, show name as a link #}
 			{% if (format == "excerpt" or "full") and vertical_value != "propaganda" and (mate.getDisplayLink) %}
 				{% if mate.getExternalLink != "" %}
@@ -73,10 +73,10 @@
 			
 		</h3>
 		{# Display team member's designation if the format is 'excerpt' #}
-		{#
+		
 			{% if format == "excerpt" %}
 				{% if mate.getDesignation or mate.vertical %}
-					<p class="mate__labels size" style="{{ is_alumni ? 'text-align: left;' : '' }}">
+					<p class="mate__labels size {{ not is_alumni ? 'mate__bottom-dots' : '' }}" style="{{ is_alumni ? 'text-align: left;' : '' }}">
 						{{ mate.designation }}
 					</p>
 				{% endif %}
@@ -91,7 +91,7 @@
 					</a>
 				</p>
 			{% endif %}
-		#}
+		
 		
 	</div>
 </div>
