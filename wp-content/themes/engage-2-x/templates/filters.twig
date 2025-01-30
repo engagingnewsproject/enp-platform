@@ -14,7 +14,7 @@
 
 <div class="filters__wrapper">
 	<div class="filter__container filter--{{ filters.slug }}">
-		<h2 class="filter__title filter__title--{{ filters.slug }}" {% if options.filter_title_color %}style="color:{{options.filter_title_color}};"{% endif %}>{{ filters.title }}</h2>
+		<h2 class="filter__title filter__title--{{ filters.slug }}" {% if options.filter_settings.filter_title_color %}style="color:{{options.filter_settings.filter_title_color}};"{% endif %}>{{ filters.title }}</h2>
 		<ul
 			class="filters filters--{{ filters.slug }}">
 
