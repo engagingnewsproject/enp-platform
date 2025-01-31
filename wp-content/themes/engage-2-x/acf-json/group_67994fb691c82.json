@@ -3,11 +3,11 @@
     "title": "Site Settings",
     "fields": [
         {
-            "key": "field_67994fb6bf26b",
-            "label": "Filter Title Color",
-            "name": "filter_title_color",
+            "key": "field_679a594fbdf1a",
+            "label": "Filter Settings",
+            "name": "filter_settings",
             "aria-label": "",
-            "type": "color_picker",
+            "type": "group",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -16,10 +16,66 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "#bf5700",
-            "enable_opacity": 0,
-            "return_format": "string",
-            "allow_in_bindings": 0
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_679a6479f28c8",
+                    "label": "Filter Title Color",
+                    "name": "filter_title_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#bf5700",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "allow_in_bindings": 0
+                },
+                {
+                    "key": "field_679a6a8576b5e",
+                    "label": "Filter Item Color",
+                    "name": "filter_item_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#6f6f6f",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "allow_in_bindings": 0
+                },
+                {
+                    "key": "field_679a58e2b88bf",
+                    "label": "Filter Item Color (Hover)",
+                    "name": "filter_item_color_hover",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#bf5700",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "allow_in_bindings": 0
+                }
+            ]
         }
     ],
     "location": [
@@ -40,5 +96,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1738100842
+    "modified": 1738173507
 }

@@ -10,7 +10,7 @@
 		// /vertical/{{vertical}} page
 		&.vertical-base {
 			.filter__link:hover {
-				color: map-get($verticalColors, $name);
+				// color: map-get($verticalColors, $name);
 				// border-color: map-get($verticalColors, $name);
 			}
 

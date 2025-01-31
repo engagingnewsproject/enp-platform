@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="post__wrapper wrapper--pad">
-		<div class="article__wrapper container container--lg">
+		<div class="container article__wrapper container--lg">
 				{% set hasVideo = post.getVideoEmbedLink and post.post_type != 'team' and post.post_type != 'board' %}
 				{% set hasFeaturedImage = post.thumbnail.src and post.post_type != 'team' and post.post_type != 'board' %}
 				{% set hideFeaturedImage = post.hide_feature_image %}
@@ -13,6 +13,14 @@
 								{% for name, link in post.getMenuLinks|slice(0, post.getTitleSublinkNum) %}
 									<li class="filter__item">
 										<a class="filter__link sidebar-menu__link" href="{{link}}">{{name}}</a>
+										{% if options.filter_settings %}
+												<style>
+													.filter__link:hover {
+														border-color: {{ options.filter_settings.filter_item_color }};
+														color: {{ options.filter_settings.filter_item_color }};
+													}
+												</style>
+										{% endif %}
 									</li>
 								{% endfor %}
 							</ul>
