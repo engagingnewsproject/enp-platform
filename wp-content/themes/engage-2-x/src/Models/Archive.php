@@ -35,32 +35,30 @@ class Archive extends PostQuery
         $this->setCategory();
         $this->setPostType();
 
-        // Make sure we have a valid page number
-        // WordPress uses 'paged' query var for pagination
-        // If not set or false, we're on the first page
-        if (!isset($paged) || !$paged) {
-            $paged = 1;
-        }
+		// Handle pagination
+		// WordPress uses different query vars for different page types
+		// First check 'paged' (used in archives), then 'page' (used in static pages)
+		$paged = get_query_var('paged') ? get_query_var('paged') : 1;
+		if (!$paged) {
+			$paged = get_query_var('page') ? get_query_var('page') : 1;
+		}
 
-        // Call the parent constructor with the provided query
-        parent::__construct($query);
-        $this->setQueriedObject(); // Set the queried object
-        
-        // Use Timber's get_posts() method with pagination parameters
-        // This is the recommended way to handle pagination in Timber
-        $this->posts = Timber::get_posts([
-            'post_type' => $query->query_vars['post_type'],  // Maintain the original post type from WP query
-            'posts_per_page' => get_option('posts_per_page'), // Use WordPress's default posts per page setting
-            'paged' => $paged, // Current page number for pagination
-        ]);
-        
-        // Get the pagination object from Timber posts
-        // This creates a Timber\Pagination object with:
-        // - current page
-        // - total pages
-        // - next/previous links
-        // - page numbers array
-        $this->pagination = $this->posts->pagination();
+		// Initialize parent PostQuery with the current query
+		parent::__construct($query);
+		$this->setQueriedObject();
+
+		// Get posts for the current page using Timber
+		// This creates a new query that respects pagination
+		$this->posts = Timber::get_posts([
+			'post_type' => $query->query_vars['post_type'],          // Keep the same post type
+			'posts_per_page' => get_option('posts_per_page'),        // Use WordPress posts per page setting
+			'paged' => $paged,                                       // Current page number
+			'tax_query' => isset($query->tax_query->queries) ?       // Preserve any taxonomy filtering
+				$query->tax_query->queries : [],
+		]);
+
+		// Set up pagination using Timber's pagination system
+		$this->pagination = $this->posts->pagination();
         
         // Check if the queried object is a WP_Term (taxonomy term)
         if (get_class($this->queriedObject) === 'WP_Term') {

@@ -1,29 +1,47 @@
-{% if pagination.pages is not empty %}
+{% if pagination %}
 	<div class="pagination-container">
+		{# Main pagination list #}
 		<ul class="pagination horiz-list">
+			{# First page link - disabled if we're on the first page #}
 			<li class="horiz-list__item pagination__item pagination__item--first{{ pagination.pages|first and pagination.pages|first.current == true ? ' pagination__item--disabled'}}">
 				<a class="pagination__link" href="{{ pagination.pages|first.link }}">First</a>
 			</li>
 
-			<li class="horiz-list__item pagination__item pagination__item--prev{{ not pagination.prev ? ' pagination__item--disabled'}}">
-				<a class="pagination__link" href="{{ pagination.prev.link }}"> Previous</a>
-			</li>
+			{# Previous page link - only shows if there's a previous page #}
+			{% if pagination.prev %}
+				<li class="horiz-list__item pagination__item{{ pagination.prev.link|length ? '' : ' pagination__item--disabled' }}">
+					<a href="{{ pagination.prev.link }}" class="pagination__link">Previous</a>
+				</li>
+			{% endif %}
 
+			{# Page numbers - loops through all available pages #}
 			{% for page in pagination.pages %}
-				<li class="horiz-list__item pagination__item{{ not page.link and not page.current ? ' pagination__item--disabled'}}{{ page.current ? ' pagination__item--current'}}">
-					<a href="{{ page.link ? page.link : '#'}}" class="pagination__link {{ page.current ? ' pagination__link--current'}}">{{ page.title }}</a>
+				{# 
+					Class logic for each page number:
+					- If it's current page: add pagination__item--current
+					- If there's no link: add pagination__item--disabled
+					- Otherwise: no additional classes
+				#}
+				<li class="horiz-list__item pagination__item{% if page.current %} pagination__item--current{% elseif not page.link %} pagination__item--disabled{% endif %}">
+					{% if page.link %}
+						<a href="{{ page.link }}" class="pagination__link">{{ page.title }}</a>
+					{% else %}
+						<span class="pagination__link {{ page.current ? ' pagination__link--current'}}">{{ page.title }}</span>
+					{% endif %}
 				</li>
 			{% endfor %}
 
-			<li class="horiz-list__item pagination__item pagination__item--next {{ not pagination.next ? ' pagination__item--disabled'}}">
-				<a class="pagination__link" href="{{ pagination.next.link  }}">
-					Next
-				</a>
-			</li>
-		   
-			<li class="horiz-list__item pagination__item--last{{ pagination.pages|last and pagination.pages|last.current == true ? ' pagination__item--disabled'}}">
-				<a class="pagination__link" href="{{ pagination.pages|last.link }}">Last</a>
-			</li>
+			{# Next page link - only shows if there's a next page #}
+			{% if pagination.next %}
+				<li class="horiz-list__item pagination__item pagination__item--next{{ pagination.next.link|length ? '' : ' pagination__item--disabled' }}">
+					<a href="{{ pagination.next.link }}" class="pagination__link">Next</a>
+				</li>
+
+				{# Last page link - disabled if we're on the last page #}
+				<li class="horiz-list__item pagination__item--last{{ pagination.pages|last and pagination.pages|last.current == true ? ' pagination__item--disabled'}}">
+					<a class="pagination__link" href="{{ pagination.pages|last.link }}">Last</a>
+				</li>
+			{% endif %}
 		</ul>
 	</div>
 {% endif %}
