@@ -15,8 +15,7 @@ class Permalinks
             'team_category'             => 'category',
             'announcement-category'     => 'category',
             'blogs-category'            => 'category',
-            'tribe_events_cat'          => 'category',
-            'verticals'                 => 'vertical'
+            'tribe_events_cat'          => 'category'
             // add new taxonomies with
             //'taxonomy-slug'          => 'category' or whatever you want the base name of the url to be
         ];
@@ -46,13 +45,6 @@ class Permalinks
         return false;
     }
 
-    public function getQueriedVertical()
-    {
-        $vertical = get_query_var('verticals', false);
-
-        return ($vertical ? get_term_by('slug', $vertical, 'verticals') : false);
-    }
-
     public function getQueriedPostType()
     {
         $postType = get_query_var('post_type', false);
@@ -80,52 +72,26 @@ class Permalinks
         $defaults = [
             'terms'     => [],
             'postType'  => false,
-            'base' => 'postType' // do we STAART with the vertical term or post type?
+            'base'     => 'postType'  // Changed default since vertical is no longer an option
         ];
 
         $options = array_merge($defaults, $options);
-
         $terms = $options['terms'];
         $postType = ($options['postType'] ? $options['postType'] : get_query_var('post_type', false));
-
-        // map tribe_events to event
         $postType = ($postType === 'tribe_events' ? 'events' : $postType);
-        $base = $options['base'];
-        $vertical = false;
-
-        // set our vertical, if any
-        foreach ($terms as $term) {
-            if(!is_object($term)) {
-                continue;
-            }
-            if($term->taxonomy === 'verticals') {
-                $vertical = $term;
-            }
-        }
-
 
         $link = get_site_url();
-
-        // what's our base?
-        // start with the vertical
-        $link .= ($base === 'vertical' ? '/vertical/'.$vertical->slug : '');
-
-        // add in the post type
+        
+        // Add in the post type
         $link .= ($postType ? '/' .$postType : '');
 
-        // add in any terms
+        // Add in any terms
         foreach($terms as $term) {
             if (!is_object($term)) {
                 continue;
             }
-            if($base === 'vertical' && $term->taxonomy === 'verticals') {
-                // skip it
-                continue;
-            }
-            // WARNING: Attempt to read property "taxonomy" on bool	TODO
             if(array_key_exists($term->taxonomy, $this->taxRewriteMap)) {
                 $taxonomy = $this->taxRewriteMap[$term->taxonomy];
-                // add it to the link
                 $link .= '/'.$taxonomy.'/'.$term->slug;
             }
         }

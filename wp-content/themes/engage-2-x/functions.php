@@ -27,7 +27,7 @@ use Engage\Models\ResearchArticle;
 use Engage\Models\TeamArchive;
 use Engage\Models\Teammate;
 use Engage\Models\Press;
-use Engage\Models\VerticalLanding;
+use Engage\Models\LandingPage;
 
 /**
 * Term class map
@@ -59,7 +59,7 @@ add_filter('timber/post/classmap', function ($classmap) {
             if ($template === 'page-press.php') {
                 return Press::class;
             } elseif ($template === 'page-landing.php') {
-                return VerticalLanding::class;
+                return LandingPage::class;
             }
         },
     ];
@@ -91,7 +91,7 @@ add_action('after_setup_theme', function () {
         new Permalinks(),
         new Queries(),
         new PostTypes(['Research', 'Blogs', 'Announcement', 'Team', 'Funders', 'Board']),
-        new Taxonomies(['Verticals']),
+        new Taxonomies([]),
         new TinyMCE()
     ];
     

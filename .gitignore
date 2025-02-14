@@ -120,3 +120,27 @@ phpunit.xml
 *.wmv
 *.avi
 
+wp-content/plugins/query-monitor-twig-profile/composer.json
+wp-content/plugins/query-monitor-twig-profile/LICENSE
+wp-content/plugins/query-monitor-twig-profile/phpcs.xml.dist
+wp-content/plugins/query-monitor-twig-profile/phpstan.neon.dist
+wp-content/plugins/query-monitor-twig-profile/query-monitor-twig-profile.php
+wp-content/plugins/query-monitor-twig-profile/readme.txt
+wp-content/plugins/query-monitor-twig-profile/assets/save.js
+wp-content/plugins/query-monitor-twig-profile/assets/twig-profile/babel.config.js
+wp-content/plugins/query-monitor-twig-profile/assets/twig-profile/package-lock.json
+wp-content/plugins/query-monitor-twig-profile/assets/twig-profile/package.json
+wp-content/plugins/query-monitor-twig-profile/assets/twig-profile/README.md
+wp-content/plugins/query-monitor-twig-profile/assets/twig-profile/dist/demo.html
+wp-content/plugins/query-monitor-twig-profile/assets/twig-profile/dist/twig-profile.js
+wp-content/plugins/query-monitor-twig-profile/assets/twig-profile/dist/twig-profile.js.map
+wp-content/plugins/query-monitor-twig-profile/assets/twig-profile/dist/twig-profile.min.js
+wp-content/plugins/query-monitor-twig-profile/assets/twig-profile/dist/twig-profile.min.js.map
+wp-content/plugins/query-monitor-twig-profile/assets/twig-profile/src/App.vue
+wp-content/plugins/query-monitor-twig-profile/assets/twig-profile/src/main.js
+wp-content/plugins/query-monitor-twig-profile/assets/twig-profile/src/components/Profile.vue
+wp-content/plugins/query-monitor-twig-profile/src/class-collector.php
+wp-content/plugins/query-monitor-twig-profile/src/class-dumper.php
+wp-content/plugins/query-monitor-twig-profile/src/class-environment-profile.php
+wp-content/plugins/query-monitor-twig-profile/src/class-jsondumper.php
+wp-content/plugins/query-monitor-twig-profile/src/class-output.php

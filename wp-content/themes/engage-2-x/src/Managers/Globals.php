@@ -5,7 +5,7 @@
 namespace Engage\Managers;
 
 use Timber;
-use Engage\Models\VerticalsFilterMenu;
+use Engage\Models\CategoryFilterMenu;
 use Engage\Models\FilterMenu;
 
 class Globals {
@@ -32,54 +32,32 @@ class Globals {
 	 * @return void
 	 */
 	public function clearFilterMenuActions() {
-		// Add actions to clear various filter menus when certain taxonomy events occur.
+		// Research menu actions
 		add_action('edit_research-categories', [$this, 'clearResearchMenu'], 10, 2);
 		add_action('create_research-categories', [$this, 'clearResearchMenu'], 10, 2);
 		add_action('delete_research-categories', [$this, 'clearResearchMenu'], 10, 2);
 		
-		// Similar actions for announcement, blogs, team, event, and vertical menus.
-		add_action('edit_verticals', [$this, 'clearResearchMenu'], 10, 2);
-		add_action('create_verticals', [$this, 'clearResearchMenu'], 10, 2);
-		add_action('delete_verticals', [$this, 'clearResearchMenu'], 10, 2);
-		
-		// clear announcement filter menu
+		// Announcement menu actions
 		add_action('edit_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
 		add_action('create_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
 		add_action('delete_announcement-category', [$this, 'clearAnnouncementMenu'], 10, 2);
-		add_action('edit_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
-		add_action('create_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
-		add_action('delete_verticals', [$this, 'clearAnnouncementMenu'], 10, 2);
 		
-		// clear blogs filter menu
+		// Blog menu actions
 		add_action('edit_blogs-category', [$this, 'clearBlogMenu'], 10, 2);
 		add_action('create_blogs-category', [$this, 'clearBlogMenu'], 10, 2);
 		add_action('delete_blogs-category', [$this, 'clearBlogMenu'], 10, 2);
-		add_action('edit_verticals', [$this, 'clearBlogMenu'], 10, 2);
-		add_action('create_verticals', [$this, 'clearBlogMenu'], 10, 2);
-		add_action('delete_verticals', [$this, 'clearBlogMenu'], 10, 2);
 		
-		// clear team category menu
+		// Team menu actions
 		add_action('edit_team_category', [$this, 'clearTeamMenu'], 10, 2);
 		add_action('create_team_category', [$this, 'clearTeamMenu'], 10, 2);
 		add_action('delete_team_category', [$this, 'clearTeamMenu'], 10, 2);
-		add_action('edit_verticals', [$this, 'clearTeamMenu'], 10, 2);
-		add_action('create_verticals', [$this, 'clearTeamMenu'], 10, 2);
-		add_action('delete_verticals', [$this, 'clearTeamMenu'], 10, 2);
 		
-		// clear event menu
+		// Event menu actions
 		add_action('edit_tribe_events_cat', [$this, 'clearEventMenu'], 10, 2);
 		add_action('create_tribe_events_cat', [$this, 'clearEventMenu'], 10, 2);
 		add_action('delete_tribe_events_cat', [$this, 'clearEventMenu'], 10, 2);
-		add_action('edit_verticals', [$this, 'clearEventMenu'], 10, 2);
-		add_action('create_verticals', [$this, 'clearEventMenu'], 10, 2);
-		add_action('delete_verticals', [$this, 'clearEventMenu'], 10, 2);
 		
-		// clear vertical landing page menu
-		add_action('edit_verticals', [$this, 'clearVerticalMenu'], 10, 2);
-		add_action('create_verticals', [$this, 'clearVerticalMenu'], 10, 2);
-		add_action('delete_verticals', [$this, 'clearVerticalMenu'], 10, 2);
-		
-		// On edit or publish of a post, clear everything.
+		// On edit or publish of a post, clear everything
 		add_action('save_post', [$this, 'clearMenus']);
 	}
 	
@@ -87,8 +65,8 @@ class Globals {
 	 * Clears all relevant menus based on the post type.
 	 *
 	 * This method is triggered on saving a post and checks the post type to determine
-	 * which menus need to be cleared. If the post belongs to a vertical, the corresponding
-	 * vertical menu is also cleared.
+	 * which menus need to be cleared. The corresponding menu for the post type
+	 * will be cleared from the cache.
 	 *
 	 * @param int $postID The ID of the post being saved.
 	 * @return void
@@ -100,30 +78,23 @@ class Globals {
 		
 		$postType = get_post_type($postID);
 		
-		// Depending on the post type, clear the corresponding menu.
-		if($postType === 'research') {
-			$this->clearResearchMenu(0, 0);
-		}
-		else if($postType === 'team') {
-			$this->clearTeamMenu(0, 0);
-		}
-		else if($postType === 'announcement') {
-			$this->clearAnnouncementMenu(0, 0);
-		}
-		else if($postType === 'blogs') {
-			$this->clearBlogMenu(0, 0);
-		}
-		else if($postType === 'tribe_events') {
-			$this->clearEventMenu(0, 0);
-		}
-		
-		// Always clear the vertical menus.
-		// Find out which, if any, verticals it has and clear the corresponding menu.
-		$verticals = wp_get_post_terms( $postID, 'verticals' );
-		if($verticals) {
-			foreach($verticals as $vertical) {
-				$this->clearVerticalMenu($vertical->term_id, 'verticals');
-			}
+		// Clear the corresponding menu based on post type
+		switch ($postType) {
+			case 'research':
+				$this->clearResearchMenu(0, 0);
+				break;
+			case 'team':
+				$this->clearTeamMenu(0, 0);
+				break;
+			case 'announcement':
+				$this->clearAnnouncementMenu(0, 0);
+				break;
+			case 'blogs':
+				$this->clearBlogMenu(0, 0);
+				break;
+			case 'tribe_events':
+				$this->clearEventMenu(0, 0);
+				break;
 		}
 	}
 	
@@ -159,12 +130,12 @@ class Globals {
 			'title'				=> 'Announcements',
 			'slug'				=> 'announcement-menu',
 			'posts' 			=> $posts,
-			'taxonomies'		=> [ 'vertical', 'announcement-category' ],
+			'taxonomies'		=> [ 'announcement-category' ],
 			'postTypes'			=> [ 'announcement' ],
 		];
 		
 		// we don't have the announcement menu, so build it
-		$filters = new VerticalsFilterMenu($options);
+		$filters = new CategoryFilterMenu($options);
 		$menu = $filters->build();
 		
 		set_transient('announcement-filter-menu', $menu );
@@ -204,12 +175,12 @@ class Globals {
 			'title'				=> 'Blogs',
 			'slug'				=> 'blogs-menu',
 			'posts' 			=> $posts,
-			'taxonomies'		=> [ 'vertical', 'blogs-category' ],
+			'taxonomies'		=> [ 'blogs-category' ],
 			'postTypes'			=> [ 'blogs' ],
 		];
 		
 		// we don't have the blogs menu, so build it
-		$filters = new VerticalsFilterMenu($options);
+		$filters = new CategoryFilterMenu($options);
 		$menu = $filters->build();
 		
 		set_transient('blogs-filter-menu', $menu );
@@ -249,7 +220,7 @@ class Globals {
 			'title'				=> 'Events',
 			'slug'				=> 'event-menu',
 			'posts' 			=> $posts,
-			'taxonomies'		=> [ 'vertical', 'tribe_events_cat' ],
+			'taxonomies'		=> [ 'tribe_events_cat' ],
 			'postTypes'			=> [ 'tribe_events' ],
 			'manualLinks' 		=> [
 				'events-by-date' => [
@@ -273,7 +244,7 @@ class Globals {
 		];
 	
 		// we don't have the event menu, so build it
-		$filters = new VerticalsFilterMenu($options);
+		$filters = new CategoryFilterMenu($options);
 		$menu = $filters->build();
 		
 		set_transient('event-filter-menu', $menu );
@@ -310,15 +281,15 @@ class Globals {
 		]);
 		
 		$options = [
-			'title'				=> 'Research',
-			'slug'				=> 'research-menu',
-			'posts' 			=> $posts,
-			'taxonomies'	=> [ 'vertical', 'research-categories' ],
-			'postTypes'		=> [ 'research' ],
+			'title'      => 'Research',
+			'slug'       => 'research-menu',
+			'posts'      => $posts,
+			'taxonomies' => ['research-categories'],  // Remove verticals
+			'postTypes'  => ['research'],
 		];
 		
-		// we don't have the research menu, so build it
-		$filters = new VerticalsFilterMenu($options);
+		// Use regular FilterMenu instead of CategoryFilterMenu
+		$filters = new FilterMenu($options);
 		$menu = $filters->build();
 		
 		set_transient('research-filter-menu', $menu );
@@ -359,24 +330,18 @@ class Globals {
 			'title'				=> 'Team',
 			'slug'				=> 'team-menu',
 			'posts' 			=> $posts,
-			'taxonomies'		=> [ 'vertical', 'team_category' ],
+			'taxonomies'		=> [ 'team_category' ],
 			'postTypes'			=> [ 'team' ],
 			'linkBase'			=> 'team',
 		];
 		
 		// we don't have the team menu, so build it
-		$filters = new VerticalsFilterMenu($options);
+		$filters = new CategoryFilterMenu($options);
 		$menu = $filters->build();
 		
 		if(!empty($menu['terms'])) {
 			foreach($menu['terms'] as $key => $term) {
-				// unset the terms array of the terms if it's a vertical
-				if($term['taxonomy'] === 'verticals') {
-					unset($menu['terms'][$key]['terms']);
-				}
-				else {
-					// moves team categories out to the main['terms'] array that way they are
-					// more or less treated like verticals on the display.
+				if(isset($term['terms'])) {
 					$temp = $term;
 					unset($menu['terms'][$key]);
 					$menu['terms'] = array_merge($menu['terms'], $temp['terms']);
@@ -384,7 +349,7 @@ class Globals {
 			}
 		}
 		
-		// set_transient('team-filter-menu', $menu );
+		set_transient('team-filter-menu', $menu );
 		
 		return $menu;
 	}
@@ -421,77 +386,16 @@ class Globals {
 			'title'				=> 'Board',
 			'slug'				=> 'board-menu',
 			'posts' 			=> $posts,
-			'taxonomies'		=> [ 'vertical', 'team_category' ],
+			'taxonomies'		=> [ 'team_category' ],
 			'postTypes'			=> [ 'board' ],
 		];
 		
 		// we don't have the team menu, so build it
-		$filters = new VerticalsFilterMenu($options);
+		$filters = new CategoryFilterMenu($options);
 		$menu = $filters->build();
 		
 		set_transient('board-filter-menu', $menu );
 		
 		return $menu;
 	}
-
-
-	/**
-	 * Clears the cache for the vertical menu.
-	 *
-	 * @param int $termID The term ID associated with the vertical.
-	 * @param int $tt_id The term taxonomy ID associated with the vertical.
-	 * @return void
-	 */
-	public function clearVerticalMenu($termID, $tt_id) {
-		$term = get_term($termID);
-		// delete the cache for this item
-		delete_transient('vertical-filter-menu--'.$term->slug);
-	}
-
-	/**
-	 * Retrieves the cached vertical menu or builds it if not cached.
-	 *
-	 * @param string $vertical The slug of the vertical.
-	 * @return array The vertical menu.
-	 */
-	public function getVerticalMenu($vertical) {
-		$menu = get_transient('vertical-filter-menu--'.$vertical);
-		if(!empty($menu)) {
-			return $menu;
-		}
-		
-		$vertical = get_term_by('slug', $vertical, 'verticals');
-		
-		// The filter menu will be built in this order
-		$postTypes = [ 'research',  'blogs', 'announcement', 'tribe_events', 'post',  'team' ];
-		
-		$posts = Timber::get_posts([
-		'post_type'      => $postTypes,
-		'tax_query'		=> [
-			[
-				'taxonomy' => 'verticals',
-				'field'	=> 'slug',
-				'terms'	=> $vertical->slug
-				]
-			],
-			'posts_per_page' => -1
-		]);
-		
-		$options = [
-			'title'				=> $vertical->name,
-			'slug'				=> $vertical->slug.'-menu',
-			'posts' 			=> $posts,
-			'taxonomies'		=> ['research-categories', 'blogs-category', 'announcement-category', 'tribe_events_cat', 'category', 'team_category'],
-			'postTypes'			=> $postTypes
-		];
-
-		// we don't have the vertical menu, so build it
-		$filters = new FilterMenu($options);
-		$menu = $filters->build();
-		
-		set_transient('vertical-filter-menu--'.$vertical->slug, $menu );
-		
-		return $menu;
-	}
-	
 }

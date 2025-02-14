@@ -296,28 +296,7 @@ class Theme {
 	}
 	
 	public function bodyClass($classes) {
-		$vertical = get_query_var('verticals');
-		if($vertical) {
-			$vertical = get_term_by('slug', $vertical, 'verticals');
-		} elseif(is_singular()) {
-			$verticals = get_the_terms(get_the_ID(), 'verticals');
-			if($verticals) {
-				$vertical = $verticals[0];
-			}
-		} elseif(is_tax('verticals')) {
-			$vertical = get_queried_object();
-		}
-		
-		if($vertical) {
-			$classes[] = 'vertical--'.$vertical->slug;
-		}
-		
-		
-		// if we're on a vertical base page (/vertical/{{verticalTerm}})
-		if(get_query_var('vertical_base')) {
-			$classes[] = 'vertical-base';
-		}
-		
+		// Remove vertical-specific class logic
 		return $classes;
 	}
 

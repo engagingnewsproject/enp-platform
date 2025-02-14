@@ -7,7 +7,7 @@ namespace Engage\Models;
  * Represents a team member and extends the Article class.
  * Provides methods to retrieve custom meta fields and taxonomy terms
  * specific to team members such as designation, email, phone, external link,
- * vertical, and various taxonomy terms related to the team.
+ * and various taxonomy terms related to the team.
  *
  * @package Engage\Models
  */
@@ -22,7 +22,6 @@ class Teammate extends Article
      * @var string|bool $phone The phone number of the team member.
      * @var string|bool $external_link The external link associated with the team member.
      * @var string|bool $link_option The option to use the external link.
-     * @var array|bool $vertical The vertical associated with the team member.
      * @var array|bool $termCat The team category associated with the team member.
      * @var array|bool $termDesign The team designation term associated with the team member.
      * @var array|bool $termSemester The team semester term associated with the team member.
@@ -34,7 +33,6 @@ class Teammate extends Article
     public $phone = false;
     public $external_link = false;
     public $link_option = false;
-    public $vertical = false;
     public $termCat = false;
     public $termDesign = false;
     public $termSemester = false;
@@ -135,21 +133,6 @@ class Teammate extends Article
             $this->member_link_option = get_post_meta($this->ID, 'member_display_link', true);
         }
         return $this->member_link_option;
-    }
-
-    /**
-     * Gets the vertical associated with the team member.
-     *
-     * Retrieves the 'vertical' taxonomy terms associated with the post.
-     *
-     * @return array|bool The vertical terms, or false if not set.
-     */
-    public function getVertical()
-    {
-        if($this->vertical === false) {
-            $this->vertical = get_the_terms($this->ID, 'vertical');
-        }
-        return $this->vertical;
     }
 
     /**

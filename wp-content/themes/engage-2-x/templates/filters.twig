@@ -24,14 +24,14 @@
 				{% if term.title != 'Former CME' and term.title != 'Team' %}
 
 					{# Special case: If the filter menu is for 'media-ethics' and the term is 'research', change the term title to 'Case Studies' #}
-					{% if filters.slug == 'media-ethics-menu' and term.slug == 'research' %}
-						{% set term = term|merge({'title': "Case Studies"}) %}
+					{# {% if filters.slug == 'media-ethics-menu' and term.slug == 'research' %}
+						{% set term = term|merge({'title': "Case Studies"}) %} #}
 
 					{# Modify: If the term is 'blogs', replace it with the first sub-term title under it #}
-					{% elseif term.slug == 'blogs' %}
+					{# {% elseif term.slug == 'blogs' %}
 						{% set nextTerm = term.terms | first %}
 						{% set term = term|merge({'title': nextTerm.title}) %}
-					{% endif %}
+					{% endif %} #}
 
 					{# Include the filter-item.twig partial to render the individual filter item #}
 					{% include 'partial/filter-item.twig' %}

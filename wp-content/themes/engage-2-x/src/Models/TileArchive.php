@@ -7,13 +7,12 @@ use Engage\Models\Event;
 
 class TileArchive extends Archive
 {
-	public $filters = []; // when you want things organized by vertical
+	public $filters = []; // Filter settings for organizing content
 	
-	public function __construct( $options, $query = false )
+	public function __construct($options, $query = false)
 	{
-		
 		$defaults = [
-			'filters'    => []
+			'filters' => []
 		];
 		
 		$options = array_merge($defaults, $options);
@@ -36,44 +35,31 @@ class TileArchive extends Archive
 	}
 	
 	// set the current filter based on the archive
-	// this is way too confusing, but seems to work fine... :/
 	public function setCurrentFilter() {
-		// search for the current slug.
-		// If we're displaying all verticals, we'll be looking for the vertical slug as the current match.
-		// if it's by postType, then we're looking for the current displayed postType
-		
-		// Needed to add ability to add team category info to array and filter css.
-		// Might consider re-doing some of the filter stuff to acount for things like these.
-
-		if ($this->filters['structure'] === 'vertical' || $this->filters['structure'] === 'postTypes') {
-			if (isset($this->vertical->slug)) {
-				$currentSlug = $this->vertical->slug;
-			} elseif (isset($this->category->slug)) {
-				$currentSlug = $this->category->slug;
-			}
-		} else {
+		// search for the current slug in post type or category
+		if ($this->filters['structure'] === 'postTypes') {
 			$currentSlug = $this->postType->name;
+		} elseif (isset($this->category->slug)) {
+			$currentSlug = $this->category->slug;
 		}
 		
 		if($this->filters['terms']) {
 			foreach($this->filters['terms'] as $parentTerm) {
-								if($currentSlug === $parentTerm['slug']) {
+				if($currentSlug === $parentTerm['slug']) {
 					// found the parent match!
 					$this->filters['terms'][$parentTerm['slug']]['currentParent'] = true;
 					
-					// now see if this is just the current parent or actually the current one
-					if($this->category->taxonomy === 'verticals') {
-						$this->filters['terms'][$parentTerm['slug']]['current'] = true;
-					} else {
-						if(!empty($parentTerm['terms'])) {
-							// let's find the child
-							foreach($parentTerm['terms'] as $childTerm) {
-								if($childTerm['slug'] === $this->category->slug) {
-									$this->filters['terms'][$parentTerm['slug']]['terms'][$this->category->slug]['current'] = true;
-									break;
-								}
+					// Check if this is a category-based filter
+					if(!empty($parentTerm['terms'])) {
+						// let's find the child
+						foreach($parentTerm['terms'] as $childTerm) {
+							if($childTerm['slug'] === $this->category->slug) {
+								$this->filters['terms'][$parentTerm['slug']]['terms'][$this->category->slug]['current'] = true;
+								break;
 							}
 						}
+					} else {
+						$this->filters['terms'][$parentTerm['slug']]['current'] = true;
 					}
 					break;
 				}

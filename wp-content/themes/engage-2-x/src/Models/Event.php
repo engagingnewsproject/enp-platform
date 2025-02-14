@@ -1,82 +1,59 @@
 <?php
 namespace Engage\Models;
 
-class Event extends Article {
+use Timber\Post;
+
+class Event extends Article
+{
+	public $startDate;      // Event start date
+	public $endDate;        // Event end date
+	public $location;       // Event location
+	public $cost;          // Event cost
+	public $website;       // Event website
+	public $organizer;     // Event organizer
+	public $venue;         // Event venue
+	public $isPast;        // Whether event is past
 	
-	public $startDate = false;
-	public $startTime = false;
-	public $endDate = false;
-	public $endTime = false;
-	public $location = false;
-	public $venue = [];
-	
-	public function init($postID = null)
+	public function __construct($pid = null)
 	{
-		parent::__construct($postID);
-	}
-	
-	public function getStartDate() {
-		if($this->startDate === false) {
-			$this->startDate = tribe_get_start_date($this->ID, false, "F j, Y");
-		}
-		return $this->startDate;
-	}
-	
-	public function getStartTime() {
-		if($this->startTime === false) {
-			$this->startTime = tribe_get_start_date($this->ID, false, 'g:ia' );
-		}
-		return $this->startTime;
-	}
-	
-	public function getEndDate() {
-		if($this->endDate === false) {
-			$this->endDate = tribe_get_end_date($this->ID, false, "F j, Y");
-		}
-		return $this->endDate;
-	}
-	
-	public function getEndTime() {
-		if($this->endTime === false) {
-			$this->endTime = tribe_get_end_date($this->ID, false, 'g:ia' );
-		}
-		return $this->endTime;
-	}
-	
-	
-	public function getVenue() {
-		if(empty($this->venue)) {
-			$venueName = tribe_get_venue($this->ID, false);
-			$venueAddress = tribe_get_address($this->ID, false);
-			if(!empty($venueName) && !empty($venueAddress)) {
-				$this->venue = [];
-				
-				if(!empty($venueName)) {
-					$this->venue['name'] = $venueName;
-				}
-				
-				if(!empty($venueAddress)) {
-					$this->venue['address'] = tribe_get_address($this->ID, false) .'<br/>'. tribe_get_city($this->ID, false) .', '.tribe_get_state($this->ID, false) . ' '.tribe_get_zip($this->ID, false);
-				}
-			}
-		}
+		parent::__construct($pid);
 		
-		return $this->venue;
+		$this->startDate = tribe_get_start_date($this->ID, false, 'Y-m-d H:i:s');
+		$this->endDate = tribe_get_end_date($this->ID, false, 'Y-m-d H:i:s');
+		$this->location = tribe_get_full_address($this->ID);
+		$this->cost = tribe_get_cost($this->ID);
+		$this->website = tribe_get_event_website_url($this->ID);
+		$this->organizer = tribe_get_organizer($this->ID);
+		$this->venue = tribe_get_venue($this->ID);
+		$this->isPast = tribe_is_past_event($this->ID);
 	}
 	
-	public function getFormattedDate() {
-		$date = '<div class="event__start-date">'.$this->getStartDate().'</div>';
-		
-		if($this->getStartDate() == $this->getEndDate()) {
-			$date .= '<span class="event__start-time">'.$this->getStartTime.'</span> - <span class="event__end-time">'.$this->getEndTime.'</span>';
-		}
-		else {
-			$date .= '<div class="event__start-time">'.$this->getStartTime.'</div>
-			<div class="event__to">&mdash;</div>
-			<div class="event__end-date">'.$this->getEndDate.'</div> 
-			<div class="event__end-time">'.$this->getEndTime.'</div>';
-		}
-		return $date;
+	protected function getRelatedEvents()
+	{
+		$related_args = [
+			'post_type' => 'tribe_events',
+			'posts_per_page' => 3,
+			'post__not_in' => [$this->ID],
+			'orderby' => 'rand',
+			'tax_query' => [
+				[
+					'taxonomy' => 'tribe_events_cat',
+					'field' => 'term_id',
+					'terms' => wp_list_pluck($this->categories, 'term_id')
+				]
+			]
+		];
+
+		return \Timber::get_posts($related_args, __CLASS__);
 	}
 	
+	public function getEventTime()
+	{
+		return tribe_get_start_date($this->ID, false, 'g:i a');
+	}
+	
+	public function getEventDate()
+	{
+		return tribe_get_start_date($this->ID, false, 'F j, Y');
+	}
 }

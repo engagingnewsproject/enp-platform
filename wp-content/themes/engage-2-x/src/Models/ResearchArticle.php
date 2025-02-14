@@ -11,24 +11,27 @@ class ResearchArticle extends Post {
 	public $video = false;
     public $researchers = false;
     public $id;
+    public $authors;        // Research authors
+    public $citation;       // Citation information
+    public $download;       // Download link
+    public $featured;       // Featured status
+    public $methodology;    // Research methodology
+    public $publication;    // Publication details
+    public $relatedPosts;   // Related research posts
     
-	public function init($pid = null)
+	public function __construct($pid = null)
     {
         parent::__construct($pid);
+        
+        $this->authors = get_field('authors', $this->ID);
+        $this->citation = get_field('citation', $this->ID);
+        $this->download = get_field('download', $this->ID);
+        $this->featured = get_field('featured_research', $this->ID);
+        $this->methodology = get_field('methodology', $this->ID);
+        $this->publication = get_field('publication', $this->ID);
+        $this->relatedPosts = $this->getRelatedPosts();
     }
     
-    public function getVertical() {
-        if( isset(get_the_terms($this->ID, 'verticals')[0]->term_id)){
-            $verticals = $this->terms([
-                'taxonomy' => 'verticals',
-            ]);
-            if (is_array($verticals) && !empty($verticals)) {
-                $this->vertical = $verticals[0];
-            }
-        }
-        return $this->vertical;
-    }
-   
     public function getReport() {
     	if($this->report === false) {
     		$this->report = get_field('report_here');
@@ -63,5 +66,31 @@ class ResearchArticle extends Post {
             ]);
         }
         return $this->researchers;
+    }
+
+    protected function getRelatedPosts()
+    {
+        // Get related posts based on categories and tags, not verticals
+        $related_args = [
+            'post_type' => 'research',
+            'posts_per_page' => 3,
+            'post__not_in' => [$this->ID],
+            'orderby' => 'rand',
+            'tax_query' => [
+                'relation' => 'OR',
+                [
+                    'taxonomy' => 'research-categories',
+                    'field' => 'term_id',
+                    'terms' => wp_list_pluck($this->categories, 'term_id')
+                ],
+                [
+                    'taxonomy' => 'research-tags',
+                    'field' => 'term_id',
+                    'terms' => wp_list_pluck($this->tags, 'term_id')
+                ]
+            ]
+        ];
+
+        return \Timber::get_posts($related_args, __CLASS__);
     }
 }

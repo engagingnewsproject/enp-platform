@@ -16,7 +16,6 @@ class Archive extends PostQuery
     public $pagination;       // Holds the pagination for the archive
     public $slug;             // Holds the slug of the queried object
     public $intro = [];       // Holds the intro information for the archive
-    public $vertical = false; // Holds the vertical of the queried object
     public $category = false; // Holds the category of the queried object
     public $postType;         // Holds the post type of the queried object
     public $queriedObject;    // Holds the queried object
@@ -31,48 +30,35 @@ class Archive extends PostQuery
     public function init($query)
     {
         // Set various properties using helper functions
-        $this->setVertical();
         $this->setCategory();
         $this->setPostType();
 
-		// Handle pagination
-		// WordPress uses different query vars for different page types
-		// First check 'paged' (used in archives), then 'page' (used in static pages)
-		$paged = get_query_var('paged') ? get_query_var('paged') : 1;
-		if (!$paged) {
-			$paged = get_query_var('page') ? get_query_var('page') : 1;
-		}
-
-		// Initialize parent PostQuery with the current query
-		parent::__construct($query);
-		$this->setQueriedObject();
-
-		// Get posts for the current page using Timber
-		// This creates a new query that respects pagination
-		$this->posts = Timber::get_posts([
-			'post_type' => $query->query_vars['post_type'],          // Keep the same post type
-			'posts_per_page' => get_option('posts_per_page'),        // Use WordPress posts per page setting
-			'paged' => $paged,                                       // Current page number
-			'tax_query' => isset($query->tax_query->queries) ?       // Preserve any taxonomy filtering
-				$query->tax_query->queries : [],
-		]);
-
-		// Set up pagination using Timber's pagination system
-		$this->pagination = $this->posts->pagination();
-        
-        // Check if the queried object is a WP_Term (taxonomy term)
-        if (get_class($this->queriedObject) === 'WP_Term') {
-            $this->taxonomy = $this->queriedObject->taxonomy; // Set taxonomy
-        } elseif (get_class($this->queriedObject) === 'WP_Post_Type') {
-            // If the queried object is a post type, set taxonomy to empty or handle accordingly
-            $this->taxonomy = ''; // Or handle in a different way if needed
-        } else {
-            $this->taxonomy = ''; // Set to empty or handle accordingly for other cases
+        // Handle pagination
+        $paged = get_query_var('paged') ? get_query_var('paged') : 1;
+        if (!$paged) {
+            $paged = get_query_var('page') ? get_query_var('page') : 1;
         }
+
+        parent::__construct($query);
+        $this->setQueriedObject();
+
+        $this->posts = Timber::get_posts([
+            'post_type' => $query->query_vars['post_type'],
+            'posts_per_page' => get_option('posts_per_page'),
+            'paged' => $paged,
+            'tax_query' => isset($query->tax_query->queries) ?
+                $query->tax_query->queries : [],
+        ]);
+
+        $this->pagination = $this->posts->pagination();
         
-        // $this->taxonomy = $this->queriedObject->taxonomy; // Set taxonomy
-        $this->slug = isset($this->queriedObject->slug) ? $this->queriedObject->slug : ''; // Set slug
-        $this->setIntro(); // Set intro information
+        if (get_class($this->queriedObject) === 'WP_Term') {
+            $this->taxonomy = $this->queriedObject->taxonomy;
+        } else {
+            $this->taxonomy = '';
+        }
+
+        $this->setIntro();
     }
 
     /**
@@ -82,28 +68,14 @@ class Archive extends PostQuery
      */
     public function setQueriedObject()
     {
-
         $Permalinks = new Permalinks();
         // because of our taxonomy rewrites, we're messing with the queried object quite a bit. As a result, we need to use this model to find the right one.
         if ($Permalinks->getQueriedCategory()) {
             $this->queriedObject = $Permalinks->getQueriedCategory();
-        } elseif ($this->vertical) {
-            $this->queriedObject = $this->vertical;
         } else {
             $this->queriedObject = get_queried_object();
         }
         return;
-    }
-
-    /**
-     * Function to set the vertical property.
-     *
-     * @return void
-     */
-    public function setVertical()
-    {
-        $Permalinks = new Permalinks();
-        $this->vertical = $Permalinks->getQueriedVertical();
     }
 
     /**
@@ -135,7 +107,6 @@ class Archive extends PostQuery
      */
     public function getTitle()
     {
-        // Determine the archive page title based on different conditions
         $title = 'Archive';
         if (is_day()) {
             $title = 'Archive: ' . get_the_date('D M Y');
@@ -155,10 +126,6 @@ class Archive extends PostQuery
             }
         } elseif (get_class($this->queriedObject) === 'WP_Post_Type') {
             $title = $this->queriedObject->label;
-            if ($this->vertical) {
-                // since it's generic, let's add the vertical in front of the name
-                $title = $this->vertical->name . ' ' . $title;
-            }
         } elseif (get_search_query()) {
             $title = 'Search: ' . get_search_query();
         }
@@ -172,17 +139,10 @@ class Archive extends PostQuery
      */
     public function setIntro()
     {
-        // initially set off queried object
         $this->intro = [
-            'vertical'	=> $this->vertical,
             'title'   => $this->getTitle(),
             'excerpt' => wpautop($this->queriedObject->description)
         ];
-
-        // if we're on a category that isn't a vertical, then bail. These intro are set by the category name and description
-        if (get_class($this->queriedObject) === 'WP_Term' && $this->queriedObject->taxonomy !== 'verticals') {
-            return;
-        }
 
         // check if we have one from the settings
         $intros = get_field('archive_landing_pages', 'option');
@@ -190,8 +150,7 @@ class Archive extends PostQuery
             return;
         }
         foreach ($intros as $intro) {
-            if ($intro['landing_slug']['value'] === $this->postType->name && $this->vertical == $intro['landing_vertical']) {
-
+            if ($intro['landing_slug']['value'] === $this->postType->name) {
                 $this->intro['title'] = $intro['landing_page_title'];
                 $this->intro['excerpt'] = wpautop($intro['landing_page_content']);
                 break;

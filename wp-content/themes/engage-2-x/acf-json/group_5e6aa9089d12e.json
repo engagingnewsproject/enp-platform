@@ -1,6 +1,6 @@
 {
     "key": "group_5e6aa9089d12e",
-    "title": "Vertical Landing Pages",
+    "title": "Landing Pages",
     "fields": [
         {
             "key": "field_6410eaf7cf8d0",
@@ -73,8 +73,8 @@
         },
         {
             "key": "field_5e6aa98debea0",
-            "label": "Vertical Menu Links",
-            "name": "vertical_menu_links",
+            "label": "Page Menu Links",
+            "name": "page_menu_links",
             "aria-label": "",
             "type": "flexible_content",
             "instructions": "Add a new row and format as follows \"Name: Link\"\r\nEx. \r\nResearch: https:\/\/localhost:3000\/vertical\/journalism\/research\/",
@@ -117,9 +117,9 @@
                     "max": ""
                 }
             },
-            "button_label": "Add Row",
             "min": "",
-            "max": ""
+            "max": "",
+            "button_label": "Add Row"
         }
     ],
     "location": [
@@ -145,5 +145,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1738099742
+    "modified": 1739492218
 }

@@ -131,39 +131,37 @@ class Queries {
 				]);
 			}
 			
+			/**
+			 * Get recent posts with optional filtering
+			 */
 			public function getRecentPosts($options = []) {
-				
 				$defaults = [
-					'postType' 		=> 'any',
-					'postsPerPage' 	=> 10,
-					'vertical' 		=> false,
-					'class' 		=> 'Engage\Models\Article',
-					'extraQuery' 	=> [],
-					'post__not_in' => []
+					'postType'      => 'any',
+					'postsPerPage'  => 10,
+					'class'         => 'Engage\Models\Article',
+					'extraQuery'    => [],
+					'post__not_in'  => []
 				];
+				
 				$options = array_merge($defaults, $options);
 				$query = array_merge([
-					'post_type'     => $options['postType'],
-					'posts_per_page'  => $options['postsPerPage'],
-					'post__not_in' => $options['post__not_in']
+					'post_type'      => $options['postType'],
+					'posts_per_page' => $options['postsPerPage'],
+					'post__not_in'   => $options['post__not_in']
 				], $options['extraQuery']);
 				
-				if($options['vertical'] !== false) {
-					// var_dump( 'vertical false' );
-					$query = array_merge($query, $this->getVerticalTaxQuery($options['vertical']));
-				}
-				// var_dump( $query );
-				$posts = Timber::get_posts($query);
-				return $posts;
+				return Timber::get_posts($query);
 			}
 			
+			/**
+			 * Get upcoming events
+			 */
 			public function getUpcomingEvents($options = []) {
 				$defaults = [
-					'postType'		=> 'tribe_events',
-					'postsPerPage' 	=> 10,
-					'vertical' 		=> false,
-					'class' 		=> 'Engage\Models\Event',
-					'extraQuery' 	=> []
+					'postType'      => 'tribe_events',
+					'postsPerPage'  => 10,
+					'class'         => 'Engage\Models\Event',
+					'extraQuery'    => []
 				];
 				$options = array_merge($defaults, $options);
 				
