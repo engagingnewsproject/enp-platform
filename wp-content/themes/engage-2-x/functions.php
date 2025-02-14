@@ -106,6 +106,9 @@ add_action('after_setup_theme', function () {
 // If you want to use this function from within a template, you will need to manually require plugin.php
 include_once(ABSPATH .'wp-admin/includes/plugin.php');
 
+// Include the menu export/import feature
+require_once get_template_directory() . '/inc/menu-export-import.php';
+
 // ACF settings
 if (is_plugin_active('advanced-custom-fields-pro/acf.php')) {
     // Set custom load and save paths for ACF JSON
