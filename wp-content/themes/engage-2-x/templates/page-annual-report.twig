@@ -6,7 +6,14 @@
 		<header class="ann__feat-header">
 			<div class="ann__feat-header-wrapper">
 				{% if post.thumbnail %}
-					<img src="{{ post.thumbnail.src | resize(500,300) }}" srcset="{{ post.thumbnail.srcset }}" sizes="{{ post.thumbnail.img_sizes }}" alt="{{ post.thumbnail.alt }}" class="ann__header-img"/>
+					<img 
+						src="{{ post.thumbnail.src('2048x2048') }}" {# 'carousel-image' because the image is used for full width in the header #}
+						srcset="{{ post.thumbnail.srcset }}" 
+						sizes="{{ post.thumbnail.img_sizes }}" 
+						alt="{{ post.thumbnail.alt }}" 
+						class="ann__header-img" 
+						loading="eager" {# 'eager' because this is an above-the-fold hero image, we don’t want lazy loading #}
+					/>
 				{% endif %}
 				{% if post.meta('download_report_button_url') %}
 					<a href="{{ post.meta('download_report_button_url') }}" class="btn btn--annual-report" download>
@@ -31,7 +38,14 @@
 						<div class="ann__card"{% if main.background_color %} style="background-color:{{ main.background_color }};"{% endif %}>
 							{% if main.director_image %}
 								<div class="ann__img-wrap">
-									<img src="{{ get_image(main.director_image).src }}" srcset="{{ get_image(main.director_image).srcset }}" sizes="{{ get_image(main.director_image).img_sizes }}" alt="{{ get_image(main.director_image).alt }}" class="ann__img-director"/>
+									<img 
+										src="{{ get_image(main.director_image).src('medium') }}" 
+										srcset="{{ get_image(main.director_image).srcset }}" 
+										sizes="{{ get_image(main.director_image).img_sizes }}" 
+										alt="{{ get_image(main.director_image).alt }}" 
+										class="ann__img-director"
+										loading="lazy"
+									/>
 								</div>
 							{% endif %}
 							{% if main.director_title %}
@@ -122,8 +136,12 @@
 									<a href="{{ item.link }}" class="tile__link"></a>
 									{% endif %}
 									{% if item.highlight_icon %}
-										<img src="{{ get_image(item.highlight_icon).src }}" sizes="{{ get_image(item.highlight_icon).img_sizes }}"
-											alt="{{ get_image(item.highlight_icon).alt }}" />
+										<img 
+											src="{{ get_image(item.highlight_icon).src('medium') }}" 
+											srcset="{{ get_image(item.highlight_icon).srcset }}"
+											sizes="{{ get_image(item.highlight_icon).img_sizes }}"
+											alt="{{ get_image(item.highlight_icon).alt }}"
+											loading="lazy" />
 										{% if deco_border %}
 											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 153 155" class="deco-border-svg">
 												<g fill="none" fill-rule="evenodd">
@@ -186,7 +204,9 @@
 							<div class="tile tile--has-img tile--research-cat--reader-engagement tile--vertical--bridging-divides">
 								{% if tile.image %}
 									<div class="tile__img-wrap">
-										<img src="{{ get_image(tile.image).src }}"
+										<img 
+											src="{{ get_image(tile.image).src('grid-large') }}"
+											srcset="{{ get_image(tile.image).srcset }}"
 											sizes="{{ get_image(tile.image).img_sizes }}"
 											alt="{{ get_image(tile.image).alt }}" />
 									</div>
@@ -223,9 +243,12 @@
 							<li class="ann__list_item grid">
 								{% if member.member_image %}
 									<div class="ann__list_img grid">
-										<img src="{{ get_image(member.member_image).src | resize(300) }}"
-											sizes="{{ get_image(member.member_image).img_sizes }}"
-											alt="{{ get_image(member.member_image).alt }}" />
+										<img 
+										src="{{ get_image(member.member_image).src('featured-image') }}"
+										srcset="{{ get_image(member.member_image).srcset }}"
+										sizes="{{ get_image(member.member_image).img_sizes }}"
+										alt="{{ get_image(member.member_image).alt }}"
+										loading="lazy" />
 									</div>
 								{% endif %}
 								<div class="ann__list_title">
@@ -253,9 +276,12 @@
 						</div>
 					{% endif %}
 					{% if main.image %}
-						<img src="{{ get_image(main.image).src }}"
+						<img 
+							src="{{ get_image(main.image).src('2048x2048') }}" {# full width image #}
+							srcset="{{ get_image(main.image).srcset }}"
 							sizes="{{ get_image(main.image).img_sizes }}"
-							alt="{{ get_image(main.image).alt }}" />
+							alt="{{ get_image(main.image).alt }}" 
+							loading="lazy" />
 					{% endif %}
 				</section>
 
