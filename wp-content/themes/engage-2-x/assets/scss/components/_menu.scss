@@ -118,6 +118,7 @@
 	margin-bottom: 0;
 	@include media($tablet) {
 		white-space: nowrap;
+		padding: 0;
 	}
 	@include media("max", $desktop) { // for mobile
 		padding: 5px 0 5px 10px;
@@ -131,7 +132,7 @@
 .menu__sublist {
 	.menu__item {
 		&:hover {
-			a {
+			& > a {
 				color: lighten($orange-light, 15%);
 			}
 		}
@@ -156,7 +157,7 @@
 	box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.175);
 	padding-right: 15px;
 	@include media($tablet) {
-		left: 150px;
+		left: -200px;
 		width: auto;
 		min-width: 200px;
 	}
@@ -189,11 +190,19 @@
 	margin-left: 0;
 	display: block;
 	z-index: 9;
+	@include media($tablet) {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
 }
 
 .menu__sublist.nested {
 	margin: 0;
 	top: -5px;
+}
+
+.menu-item-has-children {
+	position: relative;
 }
 
 .sidebar-menu {
