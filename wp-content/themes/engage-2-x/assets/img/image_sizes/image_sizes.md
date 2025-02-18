@@ -1,4 +1,135 @@
-mediaengagement.org/post-sitemap.xml
+## Image sizes for each img tag in each twig file
+
+menu.twig
+    320x56
+
+page-annual-report.twig
+    page.thumbnail
+        500x300
+    main.director_image
+        None
+    item.highlight_icon
+        None
+    tile.image
+        None
+    member.member_image
+        None
+    main.image
+        None
+    background_image
+        None
+    bottom_left_deco_graphic
+        None
+    main.landing_logo_image
+        None
+    main.content_table_image
+        None
+    main.circle_image
+        None
+    item.outcome_image
+        None
+
+page-connective-democracy.twig
+    header.header_image
+        None
+    tile__img-wrap
+        None
+
+page-homepage.twig
+    quizImages.image
+        None
+    quizImages.image_two
+        None
+    imgBlock.image_one
+        None
+    imgBlock.image_two
+        None
+    
+page-landing.twig
+    featured-img__img
+        thumbnail
+
+page-public-interest-standard.twig
+    post.gif1
+        None
+    post.gif2
+        None
+    post.gif3
+        None
+    post.gif4
+        None
+    post.gif5
+        None
+    
+page-publications.twig
+    title__img
+        None
+
+page-tips-sheet.twig
+    post.thumbnail.src
+        None
+    item.tip_poster
+        None
+    
+page-tools.twig
+    item.image
+        None
+
+page-video-grid.twig
+    post.meta('cme_logo')
+        None
+    post.meta('stop_logo')
+        None
+    post.meta('pdf_image')
+        medium
+    item.vid_poster
+        None
+
+single.twig
+    post.thumbnail.src('featured-image')
+        thumbnail
+
+tease-post.twig
+    post.thumbnail.src
+        thumbnail
+
+tease.twig
+    .tease__img
+        thumbnail
+
+tiles-annual-report.twig
+    .ann__img-wrap
+        None
+
+article-meta.twip
+    .mate__img
+        thumbnail
+
+brandbar.twig
+    .brandbar_logo
+        assets
+
+funder.twig
+    .funder__img
+        medium
+
+hero-content.twig
+    .carousel-cell-image
+        thumbnail
+
+teammate-tease.twig
+    .mate__img-wrap
+        thumbnail
+
+teammate.twig
+    .mate__img
+        None
+
+tile.twig
+    .tile__img
+        None
+
+## mediaengagement.org/post-sitemap.xml
 
 mediaengagement.org/2017/09/stroud-leads-talk-with-pulitizer-winner/
     600x660
