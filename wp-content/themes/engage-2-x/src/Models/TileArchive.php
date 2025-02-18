@@ -7,16 +7,31 @@ use Engage\Models\Event;
 
 class TileArchive extends Archive
 {
-	public $filters = []; // Filter settings for organizing content
+	/** @var array Filter settings for organizing content */
+	public $filters = [];
 	
+	/** @var WP_Query WordPress query object */
+	protected $query;
+	
+	/**
+	 * Initialize the archive with filters and posts
+	 * 
+	 * @param array $options Configuration options including filter structure
+	 * @param WP_Query|false $query Optional WordPress query object
+	 */
 	public function __construct($options, $query = false)
 	{
+		// Set default filter structure to prevent undefined index errors
 		$defaults = [
-			'filters' => []
+			'filters' => [
+				'structure' => 'default', // Default structure if none provided
+				'terms' => []            // Terms for filter menu
+			]
 		];
 		
 		$options = array_merge($defaults, $options);
 		$this->filters = $options['filters'];
+		$this->query = $query;
 		
 		parent::init($query);
 		
@@ -34,31 +49,54 @@ class TileArchive extends Archive
 		}
 	}
 	
-	// set the current filter based on the archive
+	/**
+	 * Set the current filter based on the archive type
+	 * Handles multiple archive types:
+	 * - Post type archives
+	 * - Category archives
+	 * - Research category archives (with primary/subcategory structure)
+	 */
 	public function setCurrentFilter() {
-		// search for the current slug in post type or category
-		if ($this->filters['structure'] === 'postTypes') {
+		// Initialize currentSlug to prevent undefined variable
+		$currentSlug = '';
+		
+		// Determine the current slug based on archive type
+		// First check if structure key exists and matches postTypes
+		if (isset($this->filters['structure']) && $this->filters['structure'] === 'postTypes') {
+			// For post type archives (e.g., /research/)
 			$currentSlug = $this->postType->name;
-		} elseif (isset($this->category->slug)) {
+		} elseif (is_object($this->category) && isset($this->category->slug)) {
+			// For regular category archives
 			$currentSlug = $this->category->slug;
+		} elseif (isset($this->query) && isset($this->query->query['research-categories'])) {
+			// For research category archives (e.g., /media-ethics/research/category/case-studies/)
+			// Get the primary category (former vertical) from the URL
+			$currentSlug = explode(',', $this->query->query['research-categories'])[0];
 		}
 		
+		// Process the filter terms if they exist
 		if($this->filters['terms']) {
 			foreach($this->filters['terms'] as $parentTerm) {
 				if($currentSlug === $parentTerm['slug']) {
-					// found the parent match!
+					// Mark the parent term as current when matched
 					$this->filters['terms'][$parentTerm['slug']]['currentParent'] = true;
 					
-					// Check if this is a category-based filter
+					// Check for child terms (subcategories)
 					if(!empty($parentTerm['terms'])) {
-						// let's find the child
+						// Find matching child term
 						foreach($parentTerm['terms'] as $childTerm) {
-							if($childTerm['slug'] === $this->category->slug) {
-								$this->filters['terms'][$parentTerm['slug']]['terms'][$this->category->slug]['current'] = true;
+							if(
+								// Check both regular category and research subcategory
+								(is_object($this->category) && isset($this->category->slug) && $childTerm['slug'] === $this->category->slug) ||
+								(isset($this->query) && isset($this->query->query['subcategory']) && $childTerm['slug'] === $this->query->query['subcategory'])
+							) {
+								// Mark the child term as current when matched
+								$this->filters['terms'][$parentTerm['slug']]['terms'][$childTerm['slug']]['current'] = true;
 								break;
 							}
 						}
 					} else {
+						// If no child terms, mark the parent as current
 						$this->filters['terms'][$parentTerm['slug']]['current'] = true;
 					}
 					break;

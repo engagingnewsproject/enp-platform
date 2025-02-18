@@ -68,29 +68,31 @@ class ResearchArticle extends Post {
         return $this->researchers;
     }
 
-    protected function getRelatedPosts()
-    {
-        // Get related posts based on categories and tags, not verticals
-        $related_args = [
+    /**
+     * Get related posts based on shared categories
+     * 
+     * @return array Array of related ResearchArticle posts
+     */
+    public function getRelatedPosts() {
+        $categories = $this->terms('research-categories');
+        $category_ids = array_map(function($cat) {
+            return $cat->id;
+        }, $categories);
+
+        $args = array(
             'post_type' => 'research',
             'posts_per_page' => 3,
-            'post__not_in' => [$this->ID],
-            'orderby' => 'rand',
-            'tax_query' => [
-                'relation' => 'OR',
-                [
+            'post__not_in' => array($this->ID),
+            'tax_query' => array(
+                array(
                     'taxonomy' => 'research-categories',
-                    'field' => 'term_id',
-                    'terms' => wp_list_pluck($this->categories, 'term_id')
-                ],
-                [
-                    'taxonomy' => 'research-tags',
-                    'field' => 'term_id',
-                    'terms' => wp_list_pluck($this->tags, 'term_id')
-                ]
-            ]
-        ];
+                    'field' => 'id',
+                    'terms' => $category_ids
+                )
+            )
+        );
 
-        return \Timber::get_posts($related_args, __CLASS__);
+        // Use Timber 2.0 approach for getting posts
+        return Timber::get_posts($args);
     }
 }

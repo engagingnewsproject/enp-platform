@@ -92,22 +92,60 @@ class Permalinks {
 	
 	public function getCategoryBaseRewrites() {
 		$rules = [];
-		// Base category view
-		$rules['([^/]+)/?$'] = 'index.php?category_name=$matches[1]&category_base=1';
 		
-		// Category with post type
-		$rules['([^/]+)/research/?$'] = 'index.php?category_name=$matches[1]&post_type=research&category_base=1';
-		$rules['([^/]+)/team/?$'] = 'index.php?category_name=$matches[1]&post_type=team&category_base=1&orderby=menu_order&order=ASC';
-		$rules['([^/]+)/blogs/?$'] = 'index.php?category_name=$matches[1]&post_type=blogs&category_base=1';
-		$rules['([^/]+)/announcement/?$'] = 'index.php?category_name=$matches[1]&post_type=announcement&category_base=1';
-		$rules['([^/]+)/events/?$'] = 'index.php?category_name=$matches[1]&post_type=tribe_events&category_base=1';
+		// Define our primary categories (former verticals)
+		// These categories MUST appear first in the URL
+		$primary_categories = [
+			'bridging-divides',
+			'journalism',
+			'media-ethics',
+			'social-platforms',
+			'propaganda',
+			'science-communication'
+		];
 		
-		// Category with post type and subcategory
-		$rules['([^/]+)/research/category/([^/]+)/?$'] = 'index.php?category_name=$matches[1]&post_type=research&research-categories=$matches[2]&category_base=1';
-		$rules['([^/]+)/team/category/([^/]+)/?$'] = 'index.php?category_name=$matches[1]&post_type=team&team_category=$matches[2]&category_base=1&orderby=menu_order&order=ASC';
-		$rules['([^/]+)/blogs/category/([^/]+)/?$'] = 'index.php?category_name=$matches[1]&post_type=blogs&blogs-category=$matches[2]&category_base=1';
-		$rules['([^/]+)/announcement/category/([^/]+)/?$'] = 'index.php?category_name=$matches[1]&post_type=announcement&announcement-category=$matches[2]&category_base=1';
-		$rules['([^/]+)/events/category/([^/]+)/?$'] = 'index.php?category_name=$matches[1]&post_type=tribe_events&tribe_events_cat=$matches[2]&category_base=1';
+		// Create the pattern for primary categories only
+		$primary_pattern = '(' . implode('|', $primary_categories) . ')';
+		
+		// Primary category + research + subcategory URL structure
+		// Example: /media-ethics/research/category/case-studies/
+		$rules[$primary_pattern . '/research/category/([^/]+)/?$'] = 
+			'index.php?post_type=research&research-categories=$matches[1]&subcategory=$matches[2]';
+		
+		// Ensure our rules take precedence in the rewrite rules array
+		add_filter('rewrite_rules_array', function($rules) {
+			$new_rules = $this->getCategoryBaseRewrites();
+			return $new_rules + $rules;
+		}, 1);
+		
+		// Modify the main query to handle our custom URL structure
+		add_filter('pre_get_posts', function($query) {
+			if (!is_admin() && $query->is_main_query() && 
+				$query->get('post_type') === 'research' && 
+				$query->get('research-categories')) {
+				
+				$primary_cat = $query->get('research-categories');
+				$sub_cat = $query->get('subcategory');
+				
+				if ($primary_cat && $sub_cat) {
+					// Set up a tax query that requires posts to be in BOTH categories
+					$query->set('tax_query', array(
+						'relation' => 'AND',
+						array(
+							'taxonomy' => 'research-categories',
+							'field'    => 'slug',
+							'terms'    => $primary_cat
+						),
+						array(
+							'taxonomy' => 'research-categories',
+							'field'    => 'slug',
+							'terms'    => $sub_cat
+						)
+					));
+				}
+			}
+			return $query;
+		});
 		
 		return $rules;
 	}
