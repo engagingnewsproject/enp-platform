@@ -21,7 +21,8 @@
 	<div class="tile__img-wrap">
 			<img 
 				class="tile__img" 
-				src="{{ tile.thumbnail.src('featured-post') | default(defaultimg) }}" 
+				src="{{ tile.thumbnail.src('medium') }}"
+				srcset="{{ tile.thumbnail.srcset }}"
 				alt="{{ tile.thumbnail.alt }}"
 				loading="{{ loading }}"
 			/>
