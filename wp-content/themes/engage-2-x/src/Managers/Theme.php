@@ -30,10 +30,11 @@ class Theme {
 		add_filter('body_class', [$this, 'bodyClass']);
 		
 		// images
-		// add_image_size('featured-post', 510, 310, true); // use 'medium' instead
-		add_image_size('featured-image', 600, 0, false);
-		add_image_size('carousel-image', 1280, 720, true);
+		add_image_size('featured-image', 600, 0, false); // Featured image
+		add_image_size('carousel-image', 1280, 720, true); // Homepage slider image
 		add_image_size('grid-large', 404, 240, true); // Tile grid image
+		// Others not used
+		// add_image_size('featured-post', 510, 310, true); // use 'medium' instead
 		// add_image_size('small', 100, 0, false); // not used
 		
 		add_filter('intermediate_image_sizes_advanced', [$this, 'disable_large_wp_image_sizes']);
