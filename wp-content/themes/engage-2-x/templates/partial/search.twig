@@ -2,4 +2,29 @@
 	<label class="screen-reader-text" for="s">Search for:</label>
 	<input class="searchform__input" type="search" placeholder="Search" value="{{ function('get_search_query') }}" aria-label="Search" name="s" id="s"/>
 	<button class="btn--ghost btn--sm" type="submit" id="searchsubmit">Search</button>
+	{% if options.navigation_settings.button_color %}
+		<style>
+.btn--ghost,
+input.btn--ghost {
+    color: {{ options.navigation_settings.button_color }};
+    fill: {{ options.navigation_settings.button_color }};
+    border: 2px solid {{ options.navigation_settings.button_color }};
+}
+
+.btn--ghost:hover,
+.btn--ghost:focus {
+    border-color: {{ options.navigation_settings.button_color_dark }};
+    color: {{ options.navigation_settings.button_color_dark }};
+    fill: {{ options.navigation_settings.button_color_dark }};
+}
+
+.btn--ghost:active {
+    border-color: {{ options.navigation_settings.button_color_dark }};
+    color: {{ options.navigation_settings.button_color_dark }};
+    fill: {{ options.navigation_settings.button_color_dark }};
+}
+
+
+		</style>
+	{% endif %}
 </form>
