@@ -23,4 +23,4 @@ $context['research'] = Timber::get_posts([
 	'orderby' => 'date', 
 	'order' => 'DESC'],
 );
-Timber::render(['page-connective-democracy.twig'], $context, ENGAGE_PAGE_CACHE_TIME); 
+Timber::render(['page/connective-democracy.twig'], $context, ENGAGE_PAGE_CACHE_TIME); 

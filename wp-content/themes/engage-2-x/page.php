@@ -22,7 +22,16 @@
 	*/
 	use Engage\Models\Homepage;
 	$context = Timber::context();
-	
+	if (is_front_page()) {
+		try {
+			$context['home'] = new Homepage();
+			$templates = ['page/homepage.twig', 'page.twig'];
+		} catch (\Exception $e) {
+			$templates = ['page.twig'];
+		}
+	} else {
+		$templates = ['page/' . $post->post_name . '.twig', 'page.twig'];
+	}
 	if(is_post_type_archive('tribe_events')) {
 		include 'archive.php';
 	}
@@ -34,9 +43,6 @@
 		}
 		$timber_post     = Timber::get_post();
 		$context['post'] = $timber_post;
-		Timber::render([
-			'page-' . $timber_post->post_name . '.twig',
-			'page.twig',
-		], $context, ENGAGE_PAGE_CACHE_TIME );
+		Timber::render($templates, $context);
 	}
 	

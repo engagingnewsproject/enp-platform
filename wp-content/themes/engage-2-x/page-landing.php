@@ -9,4 +9,4 @@ $context = Timber::context();
 $post    = $context['post'];
 
 // $context['newsletter'] = Timber::get_widgets('newsletter');
-Timber::render( [ 'page-landing.twig', 'page.twig' ], $context, ENGAGE_PAGE_CACHE_TIME );
+Timber::render( [ 'page/landing.twig', 'page.twig' ], $context, ENGAGE_PAGE_CACHE_TIME );

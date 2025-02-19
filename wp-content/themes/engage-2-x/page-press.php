@@ -20,4 +20,4 @@ function console_log($output, $with_script_tags = true)
 console_log($context);
 console_log($post);
 
-Timber::render([ 'page-press.twig' ], $context, ENGAGE_PAGE_CACHE_TIME);
+Timber::render([ 'page/press.twig' ], $context, ENGAGE_PAGE_CACHE_TIME);

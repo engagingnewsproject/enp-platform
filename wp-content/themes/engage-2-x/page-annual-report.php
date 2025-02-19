@@ -12,4 +12,4 @@ $context['the_post_template'] = 'annual-report'; // Set the template name in the
 // - see base.twig where 'the_post_template' is used to conditionally change the <main>
 // element's wrapper_padding class and brand_bar visibility
 
-Timber::render([ 'page-annual-report.twig' ], $context, ENGAGE_PAGE_CACHE_TIME);
+Timber::render([ 'page/annual-report.twig' ], $context, ENGAGE_PAGE_CACHE_TIME);
