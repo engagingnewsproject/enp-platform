@@ -90,7 +90,7 @@ add_action('after_setup_theme', function () {
         new Login(),
         new Permalinks(),
         new Queries(),
-        new PostTypes(['Research', 'Blogs', 'Announcement', 'Team', 'Funders', 'Board']),
+        new PostTypes(['Research', 'Blogs', 'Announcement', 'Team', 'Funders', 'Board', 'Publications']),
         new Taxonomies(['Verticals']),
         new TinyMCE()
     ];
