@@ -1,0 +1,1295 @@
+﻿meta_key,meta_value
+_edit_last,3632
+_wp_page_template,page-publications.php
+my_wysiwyg_field,here it is!
+_my_wysiwyg_field,field_5f087abf50a26
+text,Test text 1
+_text,field_5f0cca31fb2ed
+title,test title
+_title,field_5f0885c5d8d83
+pubtest,"a:1:{i:0;s:5:""title"";}"
+_pubtest,field_5f0885b5d8d82
+classic-editor-remember,classic-editor
+pub_text,""
+_pub_text,field_5f0cdc667ca82
+text06,""
+_text06,field_5f0ce301019cf
+repeater_001,""
+_repeater_001,field_5f0ce54251d01
+publication_0_title,Fact-Checking in the Age of AI: Reducing Biases with Non-Human Information Sources
+_publication_0_title,field_5f0ce54a51d02
+publication,88
+_publication,field_5f0ce54251d01
+publication_0_url,https://www.sciencedirect.com/science/article/abs/pii/S0160791X24003087
+_publication_0_url,field_5f0ce695df44d
+publication_0_picture,23428
+_publication_0_picture,field_5f0ce72380a77
+publication_1_title,The challenge of identifying behavioral goals for communication in the context of basic science
+_publication_1_title,field_5f0ce54a51d02
+publication_1_url,https://jcom.sissa.it/article/pubid/JCOM_2307_2024_Y02/
+_publication_1_url,field_5f0ce695df44d
+publication_1_picture,22043
+_publication_1_picture,field_5f0ce72380a77
+publication_0_publication_picture,13517
+_publication_0_publication_picture,field_5f0ce72380a77
+publication_0_publication_title,"No regrets when it comes to health: Anticipated regret, informational subjective norms, information insufficiency and intent to seek information from multiple sources."
+_publication_0_publication_title,field_5f0ce54a51d02
+publication_0_publication_url,https://www.tandfonline.com/doi/abs/10.1080/10410236.2019.1626535?journalCode=hhth20
+_publication_0_publication_url,field_5f0ce695df44d
+publication_0_publication,""
+_publication_0_publication,field_5f0cf487216de
+publication_1_publication_picture,""
+_publication_1_publication_picture,field_5f0ce72380a77
+publication_1_publication_title,""
+_publication_1_publication_title,field_5f0ce54a51d02
+publication_1_publication_url,""
+_publication_1_publication_url,field_5f0ce695df44d
+publication_1_publication,""
+_publication_1_publication,field_5f0cf487216de
+publications_publication_0_title,title
+_publications_publication_0_title,field_5f0ce54a51d02
+publications_publication_0_url,url
+_publications_publication_0_url,field_5f0ce695df44d
+publications_publication_0_picture,13517
+_publications_publication_0_picture,field_5f0ce72380a77
+publications_publication,2
+_publications_publication,field_5f0ce54251d01
+publications,""
+_publications,field_5f0cf487216de
+publications_publication_1_title,""
+_publications_publication_1_title,field_5f0ce54a51d02
+publications_publication_1_url,""
+_publications_publication_1_url,field_5f0ce695df44d
+publications_publication_1_picture,""
+_publications_publication_1_picture,field_5f0ce72380a77
+publication_0_entry_authors,"Moon, W. & Kahlor, L. A."
+_publication_0_entry_authors,field_5f0d0285f91c4
+publication_0_subtitle,Technology in Society
+_publication_0_subtitle,field_5f0d02d1f91c5
+publication_1_entry_authors,"Besley, J. C., Yeo, S. K., Newman, T. P., & Dudo, A."
+_publication_1_entry_authors,field_5f0d0285f91c4
+publication_1_subtitle,Journal of Science Communication
+_publication_1_subtitle,field_5f0d02d1f91c5
+publication_2_picture,22660
+_publication_2_picture,field_5f0ce72380a77
+publication_2_title,Science Communication Spaces as “Pockets of Belonging”: Inviting in a Plurality of Science Identities for Scientists-in-Training
+_publication_2_title,field_5f0ce54a51d02
+publication_2_url,https://journals-sagepub-com.ezproxy.lib.utexas.edu/doi/10.1177/10755470241268587
+_publication_2_url,field_5f0ce695df44d
+publication_2_entry_authors,"Bennett, N., Dudo, A., & Besley, J."
+_publication_2_entry_authors,field_5f0d0285f91c4
+publication_2_subtitle,Science Communication
+_publication_2_subtitle,field_5f0d02d1f91c5
+publication_3_picture,22341
+_publication_3_picture,field_5f0ce72380a77
+publication_3_title,The State of Science Reporting in Today’s Digital Media Landscape: A Survey of Journalists and Scientists Who Use SciLine’s Service
+_publication_3_title,field_5f0ce54a51d02
+publication_3_url,http://localhost:10120/research/journalist-scientist-sciline-survey/
+_publication_3_url,field_5f0ce695df44d
+publication_3_entry_authors,"Dudo, A., Anderson, J., & Bushee, A."
+_publication_3_entry_authors,field_5f0d0285f91c4
+publication_3_subtitle,Center for Media Engagement
+_publication_3_subtitle,field_5f0d02d1f91c5
+publication_4_picture,21917
+_publication_4_picture,field_5f0ce72380a77
+publication_4_title,Artificial Intelligence in Influencer Marketing: A Mixed-Method Comparison of Human and Virtual Influencers on Instagram
+_publication_4_title,field_5f0ce54a51d02
+publication_4_url,https://www.tandfonline.com/doi/full/10.1080/15252019.2024.2313721
+_publication_4_url,field_5f0ce695df44d
+publication_4_entry_authors,"Looi, J., & Kahlor, L. A."
+_publication_4_entry_authors,field_5f0d0285f91c4
+publication_4_subtitle,"Journal of Interactive Advertising, 1–20"
+_publication_4_subtitle,field_5f0d02d1f91c5
+publication_5_picture,21839
+_publication_5_picture,field_5f0ce72380a77
+publication_5_title,The Landscape of Art-Science Collaboration Programs
+_publication_5_title,field_5f0ce54a51d02
+publication_5_url,http://localhost:10120/research/landscape-of-art-science-collaboration-programs/
+_publication_5_url,field_5f0ce695df44d
+publication_5_entry_authors,"Bennett, N. & Dudo, A. "
+_publication_5_entry_authors,field_5f0d0285f91c4
+publication_5_subtitle,Center for Media Engagement
+_publication_5_subtitle,field_5f0d02d1f91c5
+_edit_lock,1732130681:3632
+publication_6_picture,12058
+_publication_6_picture,field_5f0ce72380a77
+publication_6_title,Climate Change Articles
+_publication_6_title,field_5f0ce54a51d02
+publication_6_url,http://localhost:10120/climate-change-articles/
+_publication_6_url,field_5f0ce695df44d
+publication_6_entry_authors,""
+_publication_6_entry_authors,field_5f0d0285f91c4
+publication_6_subtitle,""
+_publication_6_subtitle,field_5f0d02d1f91c5
+publication_7_picture,22043
+_publication_7_picture,field_5f0ce72380a77
+publication_7_title,Race-evasive ideology in U.S.-based science communication fellowship director discourse
+_publication_7_title,field_5f0ce54a51d02
+publication_7_url,https://jcom.sissa.it/article/pubid/JCOM_2301_2024_A06/
+_publication_7_url,field_5f0ce695df44d
+publication_7_entry_authors,"Bennett, N., Dudo, A., Besley, J. & Irizarry, Y. "
+_publication_7_entry_authors,field_5f0d0285f91c4
+publication_7_subtitle,"JCOM 23(01), A06"
+_publication_7_subtitle,field_5f0d02d1f91c5
+publication_8_picture,21465
+_publication_8_picture,field_5f0ce72380a77
+publication_8_title,The effect of monitoring complexity on stakeholder acceptance of CO2 geological storage projects in the US gulf coast region
+_publication_8_title,field_5f0ce54a51d02
+publication_8_url,https://www.frontiersin.org/articles/10.3389/fmars.2023.1154543/full?utm_source=F-NTF&utm_medium=EMLX&utm_campaign=PRD_FEOPS_20170000_ARTICLE
+_publication_8_url,field_5f0ce695df44d
+publication_8_entry_authors,"Atkinson, L., Dankel, D. J., & Romanak, K. D."
+_publication_8_entry_authors,field_5f0d0285f91c4
+publication_8_subtitle,Frontiers in Marine Science
+_publication_8_subtitle,field_5f0d02d1f91c5
+publication_9_picture,21075
+_publication_9_picture,field_5f0ce72380a77
+publication_9_title,"The Planned Risk Information Seeking Model Applied to Vaccine Information Avoidance and the Role of Affect, Emotion and Perceived Benefits"
+_publication_9_title,field_5f0ce54a51d02
+publication_9_url,https://www.tandfonline.com/doi/abs/10.1080/10410236.2023.2268912
+_publication_9_url,field_5f0ce695df44d
+publication_9_entry_authors,"Link, E. & Kahlor, L. A."
+_publication_9_entry_authors,field_5f0d0285f91c4
+publication_9_subtitle,Health Communication
+_publication_9_subtitle,field_5f0d02d1f91c5
+publication_10_picture,20487
+_publication_10_picture,field_5f0ce72380a77
+publication_10_title,COVID-19 Vaccine Hesitancy in Cameroon: The Role of Medical Mistrust and Social Media Use
+_publication_10_title,field_5f0ce54a51d02
+publication_10_url,https://www.tandfonline.com/doi/abs/10.1080/10810730.2023.2250287
+_publication_10_url,field_5f0ce695df44d
+publication_10_entry_authors,"Nah, S., Williamson, L. D., Kahlor, L. A., Atkinson, L., Ntang-Beb, J., & Upshaw, S. J."
+_publication_10_entry_authors,field_5f0d0285f91c4
+publication_10_subtitle,Journal of Health Communication
+_publication_10_subtitle,field_5f0d02d1f91c5
+publication_11_picture,20425
+_publication_11_picture,field_5f0ce72380a77
+publication_11_title,The Roles of Social Media Use and Medical Mistrust in Black Americans’ COVID-19 Vaccine Hesitancy: The RISP Model Perspective
+_publication_11_title,field_5f0ce54a51d02
+publication_11_url,https://www.tandfonline.com/doi/abs/10.1080/10410236.2023.2244169
+_publication_11_url,field_5f0ce695df44d
+publication_11_entry_authors,"Nah, S., Williamson, L.D., Kahlor, L. A., Atkinson, L., Upshaw, S. J., & Ntang-Beb, J."
+_publication_11_entry_authors,field_5f0d0285f91c4
+publication_11_subtitle,Health Communication
+_publication_11_subtitle,field_5f0d02d1f91c5
+publication_12_picture,20197
+_publication_12_picture,field_5f0ce72380a77
+publication_12_title,The State of Science Reporting in Today’s Digital Media Landscape: Interviews With Scientists Who Use Sciline’s Service
+_publication_12_title,field_5f0ce54a51d02
+publication_12_url,http://localhost:10120/research/state-of-science-reporting-interviews-with-scientists/
+_publication_12_url,field_5f0ce695df44d
+publication_12_entry_authors,"Anderson, J., Dudo, A., & Terrell, R. "
+_publication_12_entry_authors,field_5f0d0285f91c4
+publication_12_subtitle,Center for Media Engagement
+_publication_12_subtitle,field_5f0d02d1f91c5
+publication_13_picture,20133
+_publication_13_picture,field_5f0ce72380a77
+publication_13_title,A Google Trends Analysis of Interest in Nonbinary Identities
+_publication_13_title,field_5f0ce54a51d02
+publication_13_url,https://www.liebertpub.com/doi/full/10.1089/cyber.2022.0304
+_publication_13_url,field_5f0ce695df44d
+publication_13_entry_authors,"Holland, M. R. & Kahlor, L. A."
+_publication_13_entry_authors,field_5f0d0285f91c4
+publication_13_subtitle,"Cyberpsychology, Behavior, and Social Networking"
+_publication_13_subtitle,field_5f0d02d1f91c5
+publication_14_picture,20132
+_publication_14_picture,field_5f0ce72380a77
+publication_14_title,Interactive Health Messages Work Better for Those Who Feel Less in Control: The Role of External Health Locus of Control and Risk Perception
+_publication_14_title,field_5f0ce54a51d02
+publication_14_url,https://www.tandfonline.com/doi/full/10.1080/10810730.2023.2204308
+_publication_14_url,field_5f0ce695df44d
+publication_14_entry_authors,"Nah, S., Oh, J., & Atkinson, L."
+_publication_14_entry_authors,field_5f0d0285f91c4
+publication_14_subtitle,Journal of Health Communication
+_publication_14_subtitle,field_5f0d02d1f91c5
+publication_15_picture,19562
+_publication_15_picture,field_5f0ce72380a77
+publication_15_title,A View From the Trenches: Interviews With Journalists About Reporting Science News
+_publication_15_title,field_5f0ce54a51d02
+publication_15_url,https://journals.sagepub.com/doi/full/10.1177/10755470221149156?journalCode=scxb
+_publication_15_url,field_5f0ce695df44d
+publication_15_entry_authors,J. Anderson & A. Dudo
+_publication_15_entry_authors,field_5f0d0285f91c4
+publication_15_subtitle,Science Communication
+_publication_15_subtitle,field_5f0d02d1f91c5
+publication_16_picture,19517
+_publication_16_picture,field_5f0ce72380a77
+publication_16_title,The form and function of U.S.-based science communication fellowship programs: interviews with program directors
+_publication_16_title,field_5f0ce54a51d02
+publication_16_url,https://www.tandfonline.com/doi/full/10.1080/21548455.2022.2155495
+_publication_16_url,field_5f0ce695df44d
+publication_16_entry_authors,A. Dudo & J. C. Besley
+_publication_16_entry_authors,field_5f0d0285f91c4
+publication_16_subtitle,International Journal of Science Education
+_publication_16_subtitle,field_5f0d02d1f91c5
+publication_17_picture,19381
+_publication_17_picture,field_5f0ce72380a77
+publication_17_title,STEM Graduate Students’ Perspectives on Science Communication and their Sense of Belonging in these Space
+_publication_17_title,field_5f0ce54a51d02
+publication_17_url,http://localhost:10120/research/stem-graduate-students-perspectives-on-science-communication/
+_publication_17_url,field_5f0ce695df44d
+publication_17_entry_authors," Bennett, N., Dudo, A., & Besley, J. "
+_publication_17_entry_authors,field_5f0d0285f91c4
+publication_17_subtitle,Center for Media Engagement
+_publication_17_subtitle,field_5f0d02d1f91c5
+publication_18_picture,16309
+_publication_18_picture,field_5f0ce72380a77
+publication_18_title,"When Experts Offer Conflicting Information: A Study of Perceived Ambiguity, Information Insufficiency, Trustworthiness and Risk Information Behaviors"
+_publication_18_title,field_5f0ce54a51d02
+publication_18_url,https://www.tandfonline.com/doi/full/10.1080/10410236.2022.2146033
+_publication_18_url,field_5f0ce695df44d
+publication_18_entry_authors,"Ahn, J. & Kahlor, L. A."
+_publication_18_entry_authors,field_5f0d0285f91c4
+publication_18_subtitle,Health Communication
+_publication_18_subtitle,field_5f0d02d1f91c5
+publication_19_picture,19176
+_publication_19_picture,field_5f0ce72380a77
+publication_19_title,Housing-based Inequities in Microbial Exposure and Respiratory Infection Risk
+_publication_19_title,field_5f0ce54a51d02
+publication_19_url,https://www.nae.edu/19579/19582/21020/281056/281136/Housingbased-Inequities-in-Microbial-Exposure-and-Respiratory-Infection-Risk
+_publication_19_url,field_5f0ce695df44d
+publication_19_entry_authors,"Gold, D. R., Bryant-Stephens, T., Matsui, E. C., & Kahlor, L. A."
+_publication_19_entry_authors,field_5f0d0285f91c4
+publication_19_subtitle,The Bridge
+_publication_19_subtitle,field_5f0d02d1f91c5
+publication_20_picture,18889
+_publication_20_picture,field_5f0ce72380a77
+publication_20_title,Strategic Science Communication: A Guide to Setting the Right Objectives for More Effective Public Engagement
+_publication_20_title,field_5f0ce54a51d02
+publication_20_url,https://www.press.jhu.edu/books/title/12411/strategic-science-communication
+_publication_20_url,field_5f0ce695df44d
+publication_20_entry_authors,"Besley, J. C., & Dudo, A."
+_publication_20_entry_authors,field_5f0d0285f91c4
+publication_20_subtitle,Johns Hopkins University Press
+_publication_20_subtitle,field_5f0d02d1f91c5
+publication_21_picture,18877
+_publication_21_picture,field_5f0ce72380a77
+publication_21_title,Strategic communication as planned behavior for science and risk communication: A theory-based approach to studying communicator choice
+_publication_21_title,field_5f0ce54a51d02
+publication_21_url,https://onlinelibrary.wiley.com/doi/full/10.1111/risa.14029
+_publication_21_url,field_5f0ce695df44d
+publication_21_entry_authors,"Besley, J. C., & Dudo, A."
+_publication_21_entry_authors,field_5f0d0285f91c4
+publication_21_subtitle,Risk Analysis
+_publication_21_subtitle,field_5f0d02d1f91c5
+publication_22_picture,18745
+_publication_22_picture,field_5f0ce72380a77
+publication_22_title,"Psychological distance, risk perception, and affect: Texas residents’ support for carbon capture and storage"
+_publication_22_title,field_5f0ce54a51d02
+publication_22_url,https://www.tandfonline.com/doi/abs/10.1080/13669877.2022.2116084
+_publication_22_url,field_5f0ce695df44d
+publication_22_entry_authors,"Shah, P., Yang, J. Z., Kahlor, L."
+_publication_22_entry_authors,field_5f0d0285f91c4
+publication_22_subtitle,Journal of Risk Research
+_publication_22_subtitle,field_5f0d02d1f91c5
+publication_23_picture,18469
+_publication_23_picture,field_5f0ce72380a77
+publication_23_title,Framing climate change mitigation technology: The impact of risk versus benefit messaging on support for carbon capture and storage
+_publication_23_title,field_5f0ce54a51d02
+publication_23_url,https://www.sciencedirect.com/science/article/abs/pii/S1750583622001554
+_publication_23_url,field_5f0ce695df44d
+publication_23_entry_authors,"Shah, P., Wang W., Yang, J. Z., Kahlor, L., Anderson J."
+_publication_23_entry_authors,field_5f0d0285f91c4
+publication_23_subtitle,International Journal of Greenhouse Gas Control
+_publication_23_subtitle,field_5f0d02d1f91c5
+publication_24_picture,15008
+_publication_24_picture,field_5f0ce72380a77
+publication_24_title,Science communication fellowship programs as gatekeepers
+_publication_24_title,field_5f0ce54a51d02
+publication_24_url,https://doi.org/10.1177%2F09636625221115958
+_publication_24_url,field_5f0ce695df44d
+publication_24_entry_authors,"Bennett, N., Dudo, A., Besley, J. C."
+_publication_24_entry_authors,field_5f0d0285f91c4
+publication_24_subtitle,Public Understanding of Science 
+_publication_24_subtitle,field_5f0d02d1f91c5
+publication_25_picture,18209
+_publication_25_picture,field_5f0ce72380a77
+publication_25_title,The State of Science Reporting in Today’s Digital Media Landscape: Interviews with Journalists Who Use SciLine’s Service
+_publication_25_title,field_5f0ce54a51d02
+publication_25_url,http://localhost:10120/research/the-state-of-science-reporting-in-todays-digital-media-landscape/
+_publication_25_url,field_5f0ce695df44d
+publication_25_entry_authors,"Anderson, J., Dudo, A., & Terrell, G. "
+_publication_25_entry_authors,field_5f0d0285f91c4
+publication_25_subtitle,Center for Media Engagement
+_publication_25_subtitle,field_5f0d02d1f91c5
+publication_0_date,20241118
+_publication_0_date,field_5f188be4abceb
+publication_1_date,20241021
+_publication_1_date,field_5f188be4abceb
+publication_2_date,20240829
+_publication_2_date,field_5f188be4abceb
+publication_3_date,20240613
+_publication_3_date,field_5f188be4abceb
+publication_4_date,20240403
+_publication_4_date,field_5f188be4abceb
+publication_5_date,20240321
+_publication_5_date,field_5f188be4abceb
+publication_6_date,20240722
+_publication_6_date,field_5f188be4abceb
+publication_7_date,20240318
+_publication_7_date,field_5f188be4abceb
+publication_8_date,20240116
+_publication_8_date,field_5f188be4abceb
+publication_9_date,20231023
+_publication_9_date,field_5f188be4abceb
+publication_10_date,20230825
+_publication_10_date,field_5f188be4abceb
+publication_11_date,20230808
+_publication_11_date,field_5f188be4abceb
+publication_12_date,20230601
+_publication_12_date,field_5f188be4abceb
+publication_13_date,20230504
+_publication_13_date,field_5f188be4abceb
+publication_14_date,20230424
+_publication_14_date,field_5f188be4abceb
+publication_15_date,20230116
+_publication_15_date,field_5f188be4abceb
+publication_16_date,20221226
+_publication_16_date,field_5f188be4abceb
+publication_17_date,20221117
+_publication_17_date,field_5f188be4abceb
+publication_18_date,20221120
+_publication_18_date,field_5f188be4abceb
+publication_19_date,20220915
+_publication_19_date,field_5f188be4abceb
+publication_20_date,20220927
+_publication_20_date,field_5f188be4abceb
+publication_21_date,20220918
+_publication_21_date,field_5f188be4abceb
+publication_22_date,20220902
+_publication_22_date,field_5f188be4abceb
+publication_23_date,20220919
+_publication_23_date,field_5f188be4abceb
+publication_24_date,20220810
+_publication_24_date,field_5f188be4abceb
+publication_25_date,20220719
+_publication_25_date,field_5f188be4abceb
+publication_26_picture,18180
+_publication_26_picture,field_5f0ce72380a77
+publication_26_title,"Avoiding Covid-19 risk information in the United States: The role of attitudes, norms, affect, social dominance orientations, and perceived trustworthiness of scientists "
+_publication_26_title,field_5f0ce54a51d02
+publication_26_date,20220705
+_publication_26_date,field_5f188be4abceb
+publication_26_url,https://onlinelibrary.wiley.com/doi/full/10.1111/risa.13991
+_publication_26_url,field_5f0ce695df44d
+publication_26_entry_authors,"Wang W., Atkinson L., Kahlor L. A., Jamar P., Sally Lim H."
+_publication_26_entry_authors,field_5f0d0285f91c4
+publication_26_subtitle,Risk Analysis 
+_publication_26_subtitle,field_5f0d02d1f91c5
+publication_27_picture,17983
+_publication_27_picture,field_5f0ce72380a77
+publication_27_title,"Understanding high-achieving publicly engaged scientists' commitment to engage: push, pull, and drag forces"
+_publication_27_title,field_5f0ce54a51d02
+publication_27_date,20220525
+_publication_27_date,field_5f188be4abceb
+publication_27_url,https://jcom.sissa.it/archive/21/03/JCOM_2103_2022_A05
+_publication_27_url,field_5f0ce695df44d
+publication_27_entry_authors,"AbiGhannam, N. & Dudo, A."
+_publication_27_entry_authors,field_5f0d0285f91c4
+publication_27_subtitle,JCOM 21
+_publication_27_subtitle,field_5f0d02d1f91c5
+publication_0_year_date,"0"
+_publication_0_year_date,field_5f347241c8017
+publication_1_year_date,"0"
+_publication_1_year_date,field_5f347241c8017
+publication_2_year_date,"0"
+_publication_2_year_date,field_5f347241c8017
+publication_3_year_date,1
+_publication_3_year_date,field_5f347241c8017
+publication_4_year_date,1
+_publication_4_year_date,field_5f347241c8017
+publication_5_year_date,1
+_publication_5_year_date,field_5f347241c8017
+publication_6_year_date,1
+_publication_6_year_date,field_5f347241c8017
+publication_7_year_date,1
+_publication_7_year_date,field_5f347241c8017
+publication_8_year_date,1
+_publication_8_year_date,field_5f347241c8017
+publication_9_year_date,1
+_publication_9_year_date,field_5f347241c8017
+publication_10_year_date,1
+_publication_10_year_date,field_5f347241c8017
+publication_11_year_date,1
+_publication_11_year_date,field_5f347241c8017
+publication_12_year_date,1
+_publication_12_year_date,field_5f347241c8017
+publication_13_year_date,1
+_publication_13_year_date,field_5f347241c8017
+publication_14_year_date,1
+_publication_14_year_date,field_5f347241c8017
+publication_15_year_date,1
+_publication_15_year_date,field_5f347241c8017
+publication_16_year_date,1
+_publication_16_year_date,field_5f347241c8017
+publication_17_year_date,1
+_publication_17_year_date,field_5f347241c8017
+publication_18_year_date,1
+_publication_18_year_date,field_5f347241c8017
+publication_19_year_date,1
+_publication_19_year_date,field_5f347241c8017
+publication_20_year_date,1
+_publication_20_year_date,field_5f347241c8017
+publication_21_year_date,1
+_publication_21_year_date,field_5f347241c8017
+publication_22_year_date,1
+_publication_22_year_date,field_5f347241c8017
+publication_23_year_date,1
+_publication_23_year_date,field_5f347241c8017
+publication_24_year_date,1
+_publication_24_year_date,field_5f347241c8017
+publication_25_year_date,1
+_publication_25_year_date,field_5f347241c8017
+publication_26_year_date,1
+_publication_26_year_date,field_5f347241c8017
+publication_27_year_date,1
+_publication_27_year_date,field_5f347241c8017
+publication_28_picture,18898
+_publication_28_picture,field_5f0ce72380a77
+publication_28_title,Exploring low-income African American and Latinx caregiver perspectives on asthma control in their children and reactions to messaging materials
+_publication_28_title,field_5f0ce54a51d02
+publication_28_date,20220603
+_publication_28_date,field_5f188be4abceb
+publication_28_year_date,1
+_publication_28_year_date,field_5f347241c8017
+publication_28_url,https://www.tandfonline.com/doi/full/10.1080/02770903.2021.1903918?scroll=top&needAccess=true
+_publication_28_url,field_5f0ce695df44d
+publication_28_entry_authors,"Zheang, M., Rodriguez, E., Alvarado, C., Correa, R., Kahlor, L. A., & Matsui, E. C."
+_publication_28_entry_authors,field_5f0d0285f91c4
+publication_28_subtitle,Journal of Asthma
+_publication_28_subtitle,field_5f0d02d1f91c5
+publication_29_picture,17894
+_publication_29_picture,field_5f0ce72380a77
+publication_29_title,US American Scholars Are Finding Paths to Engagement through their Research Institutes and Centers
+_publication_29_title,field_5f0ce54a51d02
+publication_29_date,20220506
+_publication_29_date,field_5f188be4abceb
+publication_29_year_date,1
+_publication_29_year_date,field_5f347241c8017
+publication_29_url,https://www.taylorfrancis.com/chapters/edit/10.4324/9781003027133-13/us-american-scholars-finding-paths-engagement-research-institutes-centers-john-besley-anthony-dudo
+_publication_29_url,field_5f0ce695df44d
+publication_29_entry_authors,"Besley, J. C. & Dudo, A."
+_publication_29_entry_authors,field_5f0d0285f91c4
+publication_29_subtitle,Public Communication of Research Universities
+_publication_29_subtitle,field_5f0d02d1f91c5
+publication_30_picture,17894
+_publication_30_picture,field_5f0ce72380a77
+publication_30_title,Perceived Successfulness of Public Engagement at Research Institutes
+_publication_30_title,field_5f0ce54a51d02
+publication_30_date,20220506
+_publication_30_date,field_5f188be4abceb
+publication_30_year_date,1
+_publication_30_year_date,field_5f347241c8017
+publication_30_url,https://www.taylorfrancis.com/chapters/edit/10.4324/9781003027133-7/perceived-successfulness-public-engagement-research-institutes-john-besley-anthony-dudo
+_publication_30_url,field_5f0ce695df44d
+publication_30_entry_authors,"Besley, J. C. & Dudo, A."
+_publication_30_entry_authors,field_5f0d0285f91c4
+publication_30_subtitle,Public Communication of Research Universities
+_publication_30_subtitle,field_5f0d02d1f91c5
+publication_31_picture,17722
+_publication_31_picture,field_5f0ce72380a77
+publication_31_title,Nanoscientists’ perceptions of serving as ethical leaders within their organization: Implications from ethical leadership for responsible innovation
+_publication_31_title,field_5f0ce54a51d02
+publication_31_date,20220301
+_publication_31_date,field_5f188be4abceb
+publication_31_year_date,1
+_publication_31_year_date,field_5f347241c8017
+publication_31_url,"https://www.tandfonline.com/doi/full/10.1080/23299460.2022.2043630"
+_publication_31_url,field_5f0ce695df44d
+publication_31_entry_authors,"Moon, W. & Kahlor, L. A."
+_publication_31_entry_authors,field_5f0d0285f91c4
+publication_31_subtitle,Journal of Responsible Innovation
+_publication_31_subtitle,field_5f0d02d1f91c5
+publication_32_picture,14889
+_publication_32_picture,field_5f0ce72380a77
+publication_32_title,Effect of Context on Scientists’ Normative Beliefs
+_publication_32_title,field_5f0ce54a51d02
+publication_32_date,20220201
+_publication_32_date,field_5f188be4abceb
+publication_32_year_date,"0"
+_publication_32_year_date,field_5f347241c8017
+publication_32_url,https://journals.sagepub.com/doi/abs/10.1177/10755470211048186
+_publication_32_url,field_5f0ce695df44d
+publication_32_entry_authors,"Tiffany, L.A., Hautea, S., Besley, J.C., Newman, T.P., & Dudo, A."
+_publication_32_entry_authors,field_5f0d0285f91c4
+publication_32_subtitle,"Science Communication, 44(1), 86–107"
+_publication_32_subtitle,field_5f0d02d1f91c5
+publication_33_picture,17664
+_publication_33_picture,field_5f0ce72380a77
+publication_33_title,"Risk perception, affect, and information avoidance during the 2016 U.S. Presidential election"
+_publication_33_title,field_5f0ce54a51d02
+publication_33_date,20220210
+_publication_33_date,field_5f188be4abceb
+publication_33_year_date,1
+_publication_33_year_date,field_5f347241c8017
+publication_33_url,https://www.tandfonline.com/doi/abs/10.1080/13669877.2022.2038247
+_publication_33_url,field_5f0ce695df44d
+publication_33_entry_authors,"Moon, W., Kahlor, L. A., Yang, J. Z., Lim, H. S."
+_publication_33_entry_authors,field_5f0d0285f91c4
+publication_33_subtitle,Journal of Risk Research
+_publication_33_subtitle,field_5f0d02d1f91c5
+publication_34_picture,17475
+_publication_34_picture,field_5f0ce72380a77
+publication_34_title,"Comparing the Literature of Science, Risk, and Environmental Communication"
+_publication_34_title,field_5f0ce54a51d02
+publication_34_date,20211216
+_publication_34_date,field_5f188be4abceb
+publication_34_year_date,1
+_publication_34_year_date,field_5f347241c8017
+publication_34_url,https://www.taylorfrancis.com/chapters/edit/10.4324/9780367275204-8/comparing-literature-science-risk-environmental-communication-nichole-bennett-won-ki-moon-john-besley-anthony-dudo
+_publication_34_url,field_5f0ce695df44d
+publication_34_entry_authors,"Bennett, N., Moon, W., Besley, J., and Dudo, A."
+_publication_34_entry_authors,field_5f0d0285f91c4
+publication_34_subtitle,The Handbook of International Trends in Environmental Communication
+_publication_34_subtitle,field_5f0d02d1f91c5
+publication_35_picture,17173
+_publication_35_picture,field_5f0ce72380a77
+publication_35_title,The Impact of Emotion and Government Trust on Individuals’ Risk Information Seeking and Avoidance during the COVID-19 Pandemic: A Cross-country Comparison
+_publication_35_title,field_5f0ce54a51d02
+publication_35_date,20211114
+_publication_35_date,field_5f188be4abceb
+publication_35_year_date,1
+_publication_35_year_date,field_5f347241c8017
+publication_35_url,https://www.tandfonline.com/doi/abs/10.1080/10810730.2021.1999348
+_publication_35_url,field_5f0ce695df44d
+publication_35_entry_authors,"Ahn, J., Kim, H.K., Kahlor, L.A., Atkinson, L., & Noh, G."
+_publication_35_entry_authors,field_5f0d0285f91c4
+publication_35_subtitle,Journal of Health Communication
+_publication_35_subtitle,field_5f0d02d1f91c5
+publication_36_picture,17006
+_publication_36_picture,field_5f0ce72380a77
+publication_36_title,"Examining the perceived value of a prestigious science engagement award: views of applicants, finalists, and awardees"
+_publication_36_title,field_5f0ce54a51d02
+publication_36_date,20210916
+_publication_36_date,field_5f188be4abceb
+publication_36_year_date,1
+_publication_36_year_date,field_5f347241c8017
+publication_36_url,https://www.tandfonline.com/eprint/RJJIDW2MUQ2T5YVTIQPN/full?target=10.1080/21548455.2021.1969605
+_publication_36_url,field_5f0ce695df44d
+publication_36_entry_authors,"AbiGhannam, N. & Dudo, A. "
+_publication_36_entry_authors,field_5f0d0285f91c4
+publication_36_subtitle,"International Journal of Science Education, Part B"
+_publication_36_subtitle,field_5f0d02d1f91c5
+publication_37_picture,16857
+_publication_37_picture,field_5f0ce72380a77
+publication_37_title,Landscape of the UK Science Engagement Training Community
+_publication_37_title,field_5f0ce54a51d02
+publication_37_date,20210907
+_publication_37_date,field_5f188be4abceb
+publication_37_year_date,1
+_publication_37_year_date,field_5f347241c8017
+publication_37_url,http://localhost:10120/research/landscape-of-the-uk-science-engagement-training-community/
+_publication_37_url,field_5f0ce695df44d
+publication_37_entry_authors,"Heslop, C., Dudo, A., & Besley, J."
+_publication_37_entry_authors,field_5f0d0285f91c4
+publication_37_subtitle,Center for Media Engagement
+_publication_37_subtitle,field_5f0d02d1f91c5
+publication_38_picture,16858
+_publication_38_picture,field_5f0ce72380a77
+publication_38_title,Promoting support for community water fluoridation: Testing message effects and the role of normative beliefs
+_publication_38_title,field_5f0ce54a51d02
+publication_38_date,20210904
+_publication_38_date,field_5f188be4abceb
+publication_38_year_date,1
+_publication_38_year_date,field_5f347241c8017
+publication_38_url,https://www.sciencedirect.com/science/article/abs/pii/S0002817721003457#!
+_publication_38_url,field_5f0ce695df44d
+publication_38_entry_authors,"Kemp, D., Mackert, M., Bouchacourt, L., Lazard, A.J., Wolfe, J.O., Stewart, B., Kahlor, L., George, C., Wagner, J.H., & Wilcox, G."
+_publication_38_entry_authors,field_5f0d0285f91c4
+publication_38_subtitle,The Journal of the American Dental Association
+_publication_38_subtitle,field_5f0d02d1f91c5
+publication_39_picture,16859
+_publication_39_picture,field_5f0ce72380a77
+publication_39_title,“Doing Good” versus “Being Good”: The interplay between pride appeals and regulatory-focused messages in green advertising
+_publication_39_title,field_5f0ce54a51d02
+publication_39_date,20210822
+_publication_39_date,field_5f188be4abceb
+publication_39_year_date,1
+_publication_39_year_date,field_5f347241c8017
+publication_39_url,https://onlinelibrary.wiley.com/doi/10.1111/jasp.12826
+_publication_39_url,field_5f0ce695df44d
+publication_39_entry_authors,"Hong, J.M., Lim, R.E., & Atkinson, L."
+_publication_39_entry_authors,field_5f0d0285f91c4
+publication_39_subtitle,Journal of Applied Social Psychology
+_publication_39_subtitle,field_5f0d02d1f91c5
+publication_40_picture,16833
+_publication_40_picture,field_5f0ce72380a77
+publication_40_title,Communicating Science Across Political Divides
+_publication_40_title,field_5f0ce54a51d02
+publication_40_date,20210805
+_publication_40_date,field_5f188be4abceb
+publication_40_year_date,1
+_publication_40_year_date,field_5f347241c8017
+publication_40_url,http://localhost:10120/research/communicating-science-across-political-divides/
+_publication_40_url,field_5f0ce695df44d
+publication_40_entry_authors,"Heslop, C., Dudo, A., & Copple, J."
+_publication_40_entry_authors,field_5f0d0285f91c4
+publication_40_subtitle,Center for Media Engagement
+_publication_40_subtitle,field_5f0d02d1f91c5
+_last_editor_used_jetpack,classic-editor
+publication_41_picture,16318
+_publication_41_picture,field_5f0ce72380a77
+publication_41_title,Building Connective Democracy: Interdisciplinary Solutions to the Problem of Polarisation
+_publication_41_title,field_5f0ce54a51d02
+publication_41_date,20210401
+_publication_41_date,field_5f188be4abceb
+publication_41_year_date,1
+_publication_41_year_date,field_5f347241c8017
+publication_41_url,https://www.taylorfrancis.com/books/edit/10.4324/9781003004431/routledge-companion-media-disinformation-populism-howard-tumber-silvio-waisbord?refId=c08ab441-648a-4a5b-bb9b-eb434efe8793
+_publication_41_url,field_5f0ce695df44d
+publication_41_entry_authors,"Staal Bruun Overgaard, C., Dudo, A., Lease, M., Masullo, G.M., Stroud, N.J., Stroud, S.R., & Woolley, S.C."
+_publication_41_entry_authors,field_5f0d0285f91c4
+publication_41_subtitle,The Routledge Companion to Media Disinformation and Populism
+_publication_41_subtitle,field_5f0d02d1f91c5
+publication_42_picture,14889
+_publication_42_picture,field_5f0ce72380a77
+publication_42_title,American Scientists’ Willingness to Use Different Communication Tactics
+_publication_42_title,field_5f0ce54a51d02
+publication_42_date,20210430
+_publication_42_date,field_5f188be4abceb
+publication_42_year_date,1
+_publication_42_year_date,field_5f347241c8017
+publication_42_url,https://journals.sagepub.com/doi/abs/10.1177/10755470211011159
+_publication_42_url,field_5f0ce695df44d
+publication_42_entry_authors,"Besley, J.C., Newman, T.P., Dud,o A., & Tiffany, L.A."
+_publication_42_entry_authors,field_5f0d0285f91c4
+publication_42_subtitle,Science Communication
+_publication_42_subtitle,field_5f0d02d1f91c5
+rank_math_internal_links_processed,1
+rank_math_analytic_object_id,129
+rank_math_seo_score,77
+publication_43_picture,16309
+_publication_43_picture,field_5f0ce72380a77
+publication_43_title,"U.S. Political Partisanship and COVID-19: Risk Information Seeking and Prevention Behaviors, Health Communication"
+_publication_43_title,field_5f0ce54a51d02
+publication_43_date,20210429
+_publication_43_date,field_5f188be4abceb
+publication_43_year_date,1
+_publication_43_year_date,field_5f347241c8017
+publication_43_url,https://www.tandfonline.com/doi/full/10.1080/10410236.2021.1912948
+_publication_43_url,field_5f0ce695df44d
+publication_43_entry_authors,"Moon, W.K., Atkinson, L., Kahlor, L.A., Yun, C., & Son H."
+_publication_43_entry_authors,field_5f0d0285f91c4
+publication_43_subtitle,Health Communication
+_publication_43_subtitle,field_5f0d02d1f91c5
+publication_44_picture,18897
+_publication_44_picture,field_5f0ce72380a77
+publication_44_title,Social media conversations about community water fluoridation: formative research to guide health communication
+_publication_44_title,field_5f0ce54a51d02
+publication_44_date,20210427
+_publication_44_date,field_5f188be4abceb
+publication_44_year_date,1
+_publication_44_year_date,field_5f347241c8017
+publication_44_url,https://onlinelibrary.wiley.com/doi/10.1111/jphd.12404
+_publication_44_url,field_5f0ce695df44d
+publication_44_entry_authors,"Mackert, M., Bouchacourt, L., Lazard, A., Wilcox, G. B., Kemp, D., Kahlor, L. A., George, C., Stewart, B., & Wolfe, J."
+_publication_44_entry_authors,field_5f0d0285f91c4
+publication_44_subtitle,Journal of Public Health Dentistry
+_publication_44_subtitle,field_5f0d02d1f91c5
+publication_45_picture,15789
+_publication_45_picture,field_5f0ce72380a77
+publication_45_title,The Moderating Role of Emotion: The Combinatory Effects of Positive Emotion and News Framing Techniques on Climate Change Attitudes
+_publication_45_title,field_5f0ce54a51d02
+publication_45_date,20210115
+_publication_45_date,field_5f188be4abceb
+publication_45_year_date,1
+_publication_45_year_date,field_5f347241c8017
+publication_45_url,https://journals.sagepub.com/doi/full/10.1177/1077699020988105
+_publication_45_url,field_5f0ce695df44d
+publication_45_entry_authors,"Jin, E. & Atkinson, L."
+_publication_45_entry_authors,field_5f0d0285f91c4
+publication_45_subtitle,Journalism & Mass Communication Quarterly
+_publication_45_subtitle,field_5f0d02d1f91c5
+rank_math_focus_keyword,"science,communication,media"
+publication_46_picture,14889
+_publication_46_picture,field_5f0ce72380a77
+publication_46_title,"Person, Place, or Thing: Individual, Community, and Risk Information Seeking"
+_publication_46_title,field_5f0ce54a51d02
+publication_46_date,20210122
+_publication_46_date,field_5f188be4abceb
+publication_46_year_date,1
+_publication_46_year_date,field_5f347241c8017
+publication_46_url,https://journals.sagepub.com/doi/abs/10.1177/1075547020986805
+_publication_46_url,field_5f0ce695df44d
+publication_46_entry_authors,"Wang, W., Kahlor, L.A., Moon, W-K., & Olson, H.C."
+_publication_46_entry_authors,field_5f0d0285f91c4
+publication_46_subtitle,Science Communication
+_publication_46_subtitle,field_5f0d02d1f91c5
+publication_47_picture,14877
+_publication_47_picture,field_5f0ce72380a77
+publication_47_title,Online bandwagon effects: Quantitative versus qualitative cues in online comments sections
+_publication_47_title,field_5f0ce54a51d02
+publication_47_date,20201017
+_publication_47_date,field_5f188be4abceb
+publication_47_year_date,1
+_publication_47_year_date,field_5f347241c8017
+publication_47_url,https://doi.org/10.1177/1461444820965187
+_publication_47_url,field_5f0ce695df44d
+publication_47_entry_authors,"Lee, S., Atkinson, L., & Sung, Y. H."
+_publication_47_entry_authors,field_5f0d0285f91c4
+publication_47_subtitle,New Media & Society
+_publication_47_subtitle,field_5f0d02d1f91c5
+publication_48_picture,14889
+_publication_48_picture,field_5f0ce72380a77
+publication_48_title,Science Communication Training in North America: Preparing Whom to Do What With What Effect?
+_publication_48_title,field_5f0ce54a51d02
+publication_48_date,20200923
+_publication_48_date,field_5f188be4abceb
+publication_48_year_date,1
+_publication_48_year_date,field_5f347241c8017
+publication_48_url,https://journals.sagepub.com/doi/abs/10.1177/1075547020960138
+_publication_48_url,field_5f0ce695df44d
+publication_48_entry_authors,"Dudo, A., Besley, J.C., & Yuan, S."
+_publication_48_entry_authors,field_5f0d0285f91c4
+publication_48_subtitle,Science Communication
+_publication_48_subtitle,field_5f0d02d1f91c5
+publication_49_picture,14804
+_publication_49_picture,field_5f0ce72380a77
+publication_49_title,"Effects of COVID-19 Misinformation on Information Seeking, Avoidance, and Processing: A Multicountry Comparative Study"
+_publication_49_title,field_5f0ce54a51d02
+publication_49_date,20200913
+_publication_49_date,field_5f188be4abceb
+publication_49_year_date,1
+_publication_49_year_date,field_5f347241c8017
+publication_49_url,http://journals.sagepub.com/doi/10.1177/1075547020959670
+_publication_49_url,field_5f0ce695df44d
+publication_49_entry_authors,"Kim, H.K., Ahn, J., Atkinson, L., & Kahlor, L.A."
+_publication_49_entry_authors,field_5f0d0285f91c4
+publication_49_subtitle,Science Communication
+_publication_49_subtitle,field_5f0d02d1f91c5
+publication_50_picture,15008
+_publication_50_picture,field_5f0ce72380a77
+publication_50_title,Exploring scholars’ public engagement goals in Canada and the United States
+_publication_50_title,field_5f0ce54a51d02
+publication_50_date,20200902
+_publication_50_date,field_5f188be4abceb
+publication_50_year_date,1
+_publication_50_year_date,field_5f347241c8017
+publication_50_url,https://journals.sagepub.com/doi/10.1177/0963662520950671
+_publication_50_url,field_5f0ce695df44d
+publication_50_entry_authors,"Besley, J.C., Newman, T.P., Dudo, A., & Tiffany, L.A."
+_publication_50_entry_authors,field_5f0d0285f91c4
+publication_50_subtitle,Public Understanding of Science
+_publication_50_subtitle,field_5f0d02d1f91c5
+publication_51_picture,14889
+_publication_51_picture,field_5f0ce72380a77
+publication_51_title,Contribution of Training to Scientists’ Public Engagement Intentions: A Test of Indirect Relationships Using Parallel Multiple Mediation
+_publication_51_title,field_5f0ce54a51d02
+publication_51_date,20200728
+_publication_51_date,field_5f188be4abceb
+publication_51_year_date,1
+_publication_51_year_date,field_5f347241c8017
+publication_51_url,https://journals.sagepub.com/doi/10.1177/1075547020943594
+_publication_51_url,field_5f0ce695df44d
+publication_51_entry_authors,"Copple, J., Bennett, N., Dudo, A., et al."
+_publication_51_entry_authors,field_5f0d0285f91c4
+publication_51_subtitle,Science Communication
+_publication_51_subtitle,field_5f0d02d1f91c5
+publication_52_picture,14888
+_publication_52_picture,field_5f0ce72380a77
+publication_52_title,Public communication by research institutes compared across countries and sciences: Building capacity for engagement or competing for visibility? Title
+_publication_52_title,field_5f0ce54a51d02
+publication_52_date,20200708
+_publication_52_date,field_5f188be4abceb
+publication_52_year_date,1
+_publication_52_year_date,field_5f347241c8017
+publication_52_url,https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0235191
+_publication_52_url,field_5f0ce695df44d
+publication_52_entry_authors," Entradas, M., Bauer, M.W., O'Muircheartaigh, C., Marcinkowski, F., Okamura, A., Pellegrini, G., et al."
+_publication_52_entry_authors,field_5f0d0285f91c4
+publication_52_subtitle,PLoS ONE 15(7): e0235191
+_publication_52_subtitle,field_5f0d02d1f91c5
+publication_53_picture,15092
+_publication_53_picture,field_5f0ce72380a77
+publication_53_title,Strengthening Science Engagement Fellowships through New Connections and Inclusion
+_publication_53_title,field_5f0ce54a51d02
+publication_53_date,20200623
+_publication_53_date,field_5f188be4abceb
+publication_53_year_date,1
+_publication_53_year_date,field_5f347241c8017
+publication_53_url,http://localhost:10120/research/strengthening-science-engagement-fellowships-through-new-connections-and-inclusion
+_publication_53_url,field_5f0ce695df44d
+publication_53_entry_authors,"Dudo, A., Besley, J., Bennett, N."
+_publication_53_entry_authors,field_5f0d0285f91c4
+publication_53_subtitle,Rita Allen Foundation
+_publication_53_subtitle,field_5f0d02d1f91c5
+rank_math_primary_verticals,"0"
+publication_54_picture,14981
+_publication_54_picture,field_5f0ce72380a77
+publication_54_title,Outbreak! Socio-cognitive motivators of risk information sharing during the 2018 South Korean MERS-CoV epidemic
+_publication_54_title,field_5f0ce54a51d02
+publication_54_date,20200601
+_publication_54_date,field_5f188be4abceb
+publication_54_year_date,1
+_publication_54_year_date,field_5f347241c8017
+publication_54_url,https://www.tandfonline.com/doi/full/10.1080/13669877.2020.1800065
+_publication_54_url,field_5f0ce695df44d
+publication_54_entry_authors,"Ahn, J., Kahlor, L., & Noh, G. "
+_publication_54_entry_authors,field_5f0d0285f91c4
+publication_54_subtitle,Journal of Risk Research
+_publication_54_subtitle,field_5f0d02d1f91c5
+publication_55_picture,14956
+_publication_55_picture,field_5f0ce72380a77
+publication_55_title,The Differential Effects of Knowledge on Perceptions of Genetically Modified Food Safety
+_publication_55_title,field_5f0ce54a51d02
+publication_55_date,20200301
+_publication_55_date,field_5f188be4abceb
+publication_55_year_date,1
+_publication_55_year_date,field_5f347241c8017
+publication_55_url,https://academic.oup.com/ijpor/article-abstract/32/1/111/5532179
+_publication_55_url,field_5f0ce695df44d
+publication_55_entry_authors,"Hasell, A., & Stroud, N.J."
+_publication_55_entry_authors,field_5f0d0285f91c4
+publication_55_subtitle,"International Journal of Public Opinion Research, 32(1), 111-131"
+_publication_55_subtitle,field_5f0d02d1f91c5
+publication_56_picture,14982
+_publication_56_picture,field_5f0ce72380a77
+publication_56_title,Race/Ethnic Variations in Predictors of Health Consciousness within the Cancer Prevention Context
+_publication_56_title,field_5f0ce54a51d02
+publication_56_date,20200210
+_publication_56_date,field_5f188be4abceb
+publication_56_year_date,1
+_publication_56_year_date,field_5f347241c8017
+publication_56_url,https://journals.sagepub.com/doi/10.1177/0890117120904000
+_publication_56_url,field_5f0ce695df44d
+publication_56_entry_authors,"Nevarez, L., Hovick, S., Enard, K., Lloyd, S., & Kahlor, L. "
+_publication_56_entry_authors,field_5f0d0285f91c4
+publication_56_subtitle,American Journal of Health Promotion
+_publication_56_subtitle,field_5f0d02d1f91c5
+publication_57_picture,14783
+_publication_57_picture,field_5f0ce72380a77
+publication_57_title,Designing and implementing an educational social media campaign to increase HPV vaccine awareness among men on a large college campus
+_publication_57_title,field_5f0ce54a51d02
+publication_57_date,20200224
+_publication_57_date,field_5f188be4abceb
+publication_57_year_date,1
+_publication_57_year_date,field_5f347241c8017
+publication_57_url,https://www.tandfonline.com/doi/abs/10.1080/19325037.2020.1722297?journalCode=ujhe20
+_publication_57_url,field_5f0ce695df44d
+publication_57_entry_authors,"Hughes, C. T., Kirtz, S., Ramondetta, L., Lu, Q., Cho, D., Katzin, C. & Kahlor, L."
+_publication_57_entry_authors,field_5f0d0285f91c4
+publication_57_subtitle,"American Journal of Health Education, 1-11"
+_publication_57_subtitle,field_5f0d02d1f91c5
+publication_58_picture,14803
+_publication_58_picture,field_5f0ce72380a77
+publication_58_title,"Understanding Public Support for Carbon Capture and Storage: The Roles of Social Capital, Stakeholder Perceptions, and Perceived Risk/Benefit of Technology"
+_publication_58_title,field_5f0ce54a51d02
+publication_58_date,20200224
+_publication_58_date,field_5f188be4abceb
+publication_58_year_date,1
+_publication_58_year_date,field_5f347241c8017
+publication_58_url,https://www.sciencedirect.com/science/article/abs/pii/S0301421520300707?via%253Dihub
+_publication_58_url,field_5f0ce695df44d
+publication_58_entry_authors,"Moon, W., Kahlor, L. & Olson, H"
+_publication_58_entry_authors,field_5f0d0285f91c4
+publication_58_subtitle,"Energy Policy, 139, 111312"
+_publication_58_subtitle,field_5f0d02d1f91c5
+publication_59_picture,14791
+_publication_59_picture,field_5f0ce72380a77
+publication_59_title,Race/Ethnic Variations in Predictors of Health Consciousness within the Cancer Prevention Context
+_publication_59_title,field_5f0ce54a51d02
+publication_59_date,20200210
+_publication_59_date,field_5f188be4abceb
+publication_59_year_date,1
+_publication_59_year_date,field_5f347241c8017
+publication_59_url,https://journals.sagepub.com/doi/10.1177/0890117120904000
+_publication_59_url,field_5f0ce695df44d
+publication_59_entry_authors,"Nevarez, L., Hovick, S., Enard, K., Lloyd, S., & Kahlor, L."
+_publication_59_entry_authors,field_5f0d0285f91c4
+publication_59_subtitle,"American Journal of Health Promotion, 0890117120904000"
+_publication_59_subtitle,field_5f0d02d1f91c5
+publication_60_picture,14789
+_publication_60_picture,field_5f0ce72380a77
+publication_60_title,Avoiding trouble: Exploring environmental risk information avoidance intentions
+_publication_60_title,field_5f0ce54a51d02
+publication_60_date,20200201
+_publication_60_date,field_5f188be4abceb
+publication_60_year_date,1
+_publication_60_year_date,field_5f347241c8017
+publication_60_url,https://journals.sagepub.com/doi/10.1177/0013916518799149
+_publication_60_url,field_5f0ce695df44d
+publication_60_entry_authors,"Kahlor, L., Olson, H., Markman, A., & Wang, W."
+_publication_60_entry_authors,field_5f0d0285f91c4
+publication_60_subtitle,"Environment and Behavior, 52, 187-218"
+_publication_60_subtitle,field_5f0d02d1f91c5
+publication_61_picture,14781
+_publication_61_picture,field_5f0ce72380a77
+publication_61_title,Environmental Risk (and Benefit) Information Seeking Intentions: The Case of Carbon Capture and Storage in Southeast Texas
+_publication_61_title,field_5f0ce54a51d02
+publication_61_date,20191227
+_publication_61_date,field_5f188be4abceb
+publication_61_year_date,1
+_publication_61_year_date,field_5f347241c8017
+publication_61_url,https://www.tandfonline.com/doi/abs/10.1080/17524032.2019.1699136?journalCode=renc20
+_publication_61_url,field_5f0ce695df44d
+publication_61_entry_authors,"Kahlor, L., Yang, J., Li, X., Wang, W., Olson, H. & Atkinson, L."
+_publication_61_entry_authors,field_5f0d0285f91c4
+publication_61_subtitle,"Environmental Communication, 1-18"
+_publication_61_subtitle,field_5f0d02d1f91c5
+publication_62_picture,14888
+_publication_62_picture,field_5f0ce72380a77
+publication_62_title,Strategic science communication as planned behavior: Understanding scientists’ willingness to choose specific tactics
+_publication_62_title,field_5f0ce54a51d02
+publication_62_date,20191022
+_publication_62_date,field_5f188be4abceb
+publication_62_year_date,1
+_publication_62_year_date,field_5f347241c8017
+publication_62_url,https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0224039
+_publication_62_url,field_5f0ce695df44d
+publication_62_entry_authors,"Besley, J. C., O’Hara, K., & Dudo, A."
+_publication_62_entry_authors,field_5f0d0285f91c4
+publication_62_subtitle,"PloS one, 14(10)"
+_publication_62_subtitle,field_5f0d02d1f91c5
+publication_63_picture,14942
+_publication_63_picture,field_5f0ce72380a77
+publication_63_title,Public perceptions of who counts as a scientist for controversial science
+_publication_63_title,field_5f0ce54a51d02
+publication_63_date,20191002
+_publication_63_date,field_5f188be4abceb
+publication_63_year_date,1
+_publication_63_year_date,field_5f347241c8017
+publication_63_url,https://journals.sagepub.com/doi/10.1177/0963662519856768
+_publication_63_url,field_5f0ce695df44d
+publication_63_entry_authors,"Suldovsky, B., Landrum, A., & Stroud, N. J."
+_publication_63_entry_authors,field_5f0d0285f91c4
+publication_63_subtitle,"Public Understanding of Science, 28(7), 797–811"
+_publication_63_subtitle,field_5f0d02d1f91c5
+publication_64_picture,14802
+_publication_64_picture,field_5f0ce72380a77
+publication_64_title,"Fearful Conservatives, Angry Liberals: Information Processing Related to the 2016 Presidential Election and Climate Change"
+_publication_64_title,field_5f0ce54a51d02
+publication_64_date,20190901
+_publication_64_date,field_5f188be4abceb
+publication_64_year_date,1
+_publication_64_year_date,field_5f347241c8017
+publication_64_url,https://journals.sagepub.com/doi/10.1177/1077699018811089
+_publication_64_url,field_5f0ce695df44d
+publication_64_entry_authors,"Yang, J. Z., Chu, H., & Kahlor, L."
+_publication_64_entry_authors,field_5f0d0285f91c4
+publication_64_subtitle,"Journalism & Mass Communication Quarterly, 96, 742-766"
+_publication_64_subtitle,field_5f0d02d1f91c5
+publication_65_picture,15094
+_publication_65_picture,field_5f0ce72380a77
+publication_65_title,Research Shows How to Advance Public Understanding of Science
+_publication_65_title,field_5f0ce54a51d02
+publication_65_date,20190801
+_publication_65_date,field_5f188be4abceb
+publication_65_year_date,1
+_publication_65_year_date,field_5f347241c8017
+publication_65_url,http://localhost:10120/research/research-shows-how-to-advance-public-understanding-of-science
+_publication_65_url,field_5f0ce695df44d
+publication_65_entry_authors,"Dudo, A. & Besley, J."
+_publication_65_entry_authors,field_5f0d0285f91c4
+publication_65_subtitle,Rita Allen Foundation
+_publication_65_subtitle,field_5f0d02d1f91c5
+publication_66_picture,14811
+_publication_66_picture,field_5f0ce72380a77
+publication_66_title,"Scientists, trainers, and the strategic communication of science"
+_publication_66_title,field_5f0ce54a51d02
+publication_66_date,20190723
+_publication_66_date,field_5f188be4abceb
+publication_66_year_date,1
+_publication_66_year_date,field_5f347241c8017
+publication_66_url,https://www.taylorfrancis.com/books/e/9781351069366/chapters/10.4324/9781351069366-2
+_publication_66_url,field_5f0ce695df44d
+publication_66_entry_authors,"Bennett, N., Dudo, A., Yuan, S., & Besley, J. C."
+_publication_66_entry_authors,field_5f0d0285f91c4
+publication_66_subtitle,"In T. Newman (Ed.), Theory and best practices in science communication training (pp. 9-31). Routledge"
+_publication_66_subtitle,field_5f0d02d1f91c5
+publication_67_picture,14797
+_publication_67_picture,field_5f0ce72380a77
+publication_67_title,Effects of message objectivity and focus on green CSR communication: The strategy development for a hotel’s green CSR message
+_publication_67_title,field_5f0ce54a51d02
+publication_67_date,20190711
+_publication_67_date,field_5f188be4abceb
+publication_67_year_date,1
+_publication_67_year_date,field_5f347241c8017
+publication_67_url,"https://www.tandfonline.com/doi/full/10.1080/13527266.2019.1640270"
+_publication_67_url,field_5f0ce695df44d
+publication_67_entry_authors,"Kang, E. Y., & Atkinson, L."
+_publication_67_entry_authors,field_5f0d0285f91c4
+publication_67_subtitle,"Journal of Marketing Communications, 1-21"
+_publication_67_subtitle,field_5f0d02d1f91c5
+publication_68_picture,15095
+_publication_68_picture,field_5f0ce72380a77
+publication_68_title,Survey examines scientists’ attitudes toward public engagement
+_publication_68_title,field_5f0ce54a51d02
+publication_68_date,20190601
+_publication_68_date,field_5f188be4abceb
+publication_68_year_date,1
+_publication_68_year_date,field_5f347241c8017
+publication_68_url,http://localhost:10120/research/survey-examines-scientists-attitudes-toward-public-engagement/
+_publication_68_url,field_5f0ce695df44d
+publication_68_entry_authors,"Newman, T., Volpe, C., Lindenfeld, L., Besley, J., Dudo, A., & Leavey, N."
+_publication_68_entry_authors,field_5f0d0285f91c4
+publication_68_subtitle,Alan Alda Center for Communicating Science at Stony Brook University
+_publication_68_subtitle,field_5f0d02d1f91c5
+show_header,"0"
+_show_header,field_63780e8f36cd4
+show_newsletter,"0"
+_show_newsletter,field_63780935b5d8b
+publication_69_picture,14790
+_publication_69_picture,field_5f0ce72380a77
+publication_69_title,"No regrets when it comes to health: Anticipated regret, informational subjective norms, information insufficiency and intent to seek information from multiple sources"
+_publication_69_title,field_5f0ce54a51d02
+publication_69_date,20190610
+_publication_69_date,field_5f188be4abceb
+publication_69_year_date,1
+_publication_69_year_date,field_5f347241c8017
+publication_69_url,https://www.tandfonline.com/doi/abs/10.1080/10410236.2019.1626535?journalCode=hhth20
+_publication_69_url,field_5f0ce695df44d
+publication_69_entry_authors,"Ahn, J. & Kahlor, L"
+_publication_69_entry_authors,field_5f0d0285f91c4
+publication_69_subtitle,"Health Communication, 1-8"
+_publication_69_subtitle,field_5f0d02d1f91c5
+publication_70_picture,14796
+_publication_70_picture,field_5f0ce72380a77
+publication_70_title,Public Perceptions and Information Seeking Intentions Related to Seismicity in Five Texas Communities
+_publication_70_title,field_5f0ce54a51d02
+publication_70_date,20190416
+_publication_70_date,field_5f188be4abceb
+publication_70_year_date,1
+_publication_70_year_date,field_5f347241c8017
+publication_70_url,https://www.sciencedirect.com/science/article/abs/pii/S221242091830726X?via%3Dihub
+_publication_70_url,field_5f0ce695df44d
+publication_70_entry_authors,"Kahlor, L., Wang, W., Olson, H., Li, X. & Markman, A."
+_publication_70_entry_authors,field_5f0d0285f91c4
+publication_70_subtitle,"International Journal of Disaster Risk Reduction, 37, 101147"
+_publication_70_subtitle,field_5f0d02d1f91c5
+publication_71_picture,14795
+_publication_71_picture,field_5f0ce72380a77
+publication_71_title,The ethics of nanotechnology: Pilot testing an evidence-based training module
+_publication_71_title,field_5f0ce54a51d02
+publication_71_date,20190308
+_publication_71_date,field_5f188be4abceb
+publication_71_year_date,1
+_publication_71_year_date,field_5f347241c8017
+publication_71_url,https://link.springer.com/article/10.1007%2Fs11569-019-00336-5
+_publication_71_url,field_5f0ce695df44d
+publication_71_entry_authors,"Kahlor, L., Li, X., & Jones, J."
+_publication_71_entry_authors,field_5f0d0285f91c4
+publication_71_subtitle,"Nano Ethics, 13, 37-52"
+_publication_71_subtitle,field_5f0d02d1f91c5
+publication_72_picture,14936
+_publication_72_picture,field_5f0ce72380a77
+publication_72_title,"Never easy to say “sorry”: Exploring the interplay of crisis involvement, brand image, and message appeal in developing effective corporate apologies"
+_publication_72_title,field_5f0ce54a51d02
+publication_72_date,20190301
+_publication_72_date,field_5f188be4abceb
+publication_72_year_date,1
+_publication_72_year_date,field_5f347241c8017
+publication_72_url,https://www.sciencedirect.com/science/article/abs/pii/S0363811118304867?via%3Dihub
+_publication_72_url,field_5f0ce695df44d
+publication_72_entry_authors,"Lee, S. Y., & Atkinson, L. "
+_publication_72_entry_authors,field_5f0d0285f91c4
+publication_72_subtitle,Public Relations Review
+_publication_72_subtitle,field_5f0d02d1f91c5
+publication_73_picture,14801
+_publication_73_picture,field_5f0ce72380a77
+publication_73_title,Scientific societies’ support for public engagement: an interview study
+_publication_73_title,field_5f0ce54a51d02
+publication_73_date,20190209
+_publication_73_date,field_5f188be4abceb
+publication_73_year_date,1
+_publication_73_year_date,field_5f347241c8017
+publication_73_url,"https://www.tandfonline.com/doi/full/10.1080/21548455.2019.1576240"
+_publication_73_url,field_5f0ce695df44d
+publication_73_entry_authors,"Yuan, S., Dudo, A., & Besley, J. C."
+_publication_73_entry_authors,field_5f0d0285f91c4
+publication_73_subtitle,"International Journal of Science Education, Part B, 9(2), 140-153"
+_publication_73_subtitle,field_5f0d02d1f91c5
+publication_74_picture,14794
+_publication_74_picture,field_5f0ce72380a77
+publication_74_title,Planned Risk Information Avoidance: A Proposed Theoretical Model
+_publication_74_title,field_5f0ce54a51d02
+publication_74_date,20190131
+_publication_74_date,field_5f188be4abceb
+publication_74_year_date,1
+_publication_74_year_date,field_5f347241c8017
+publication_74_url,https://academic.oup.com/ct/article-abstract/29/3/360/5304816?redirectedFrom=fulltext
+_publication_74_url,field_5f0ce695df44d
+publication_74_entry_authors,"Deline, M. & Kahlor, L."
+_publication_74_entry_authors,field_5f0d0285f91c4
+publication_74_subtitle,"Communication Theory, 29, 360-382"
+_publication_74_subtitle,field_5f0d02d1f91c5
+publication_75_picture,14792
+_publication_75_picture,field_5f0ce72380a77
+publication_75_title,Portrayal and Impacts of Climate Change in Advertising and Consumer Campaigns
+_publication_75_title,field_5f0ce54a51d02
+publication_75_date,20190101
+_publication_75_date,field_5f188be4abceb
+publication_75_year_date,1
+_publication_75_year_date,field_5f347241c8017
+publication_75_url,https://oxfordre.com/climatescience/view/10.1093/acrefore/9780190228620.001.0001/acrefore-9780190228620-e-376
+_publication_75_url,field_5f0ce695df44d
+publication_75_entry_authors,"Atkinson, L."
+_publication_75_entry_authors,field_5f0d0285f91c4
+publication_75_subtitle,"In M. C. Nisbet (Ed.), The Oxford Encyclopedia of Climate Change Communication. Oxford University Press"
+_publication_75_subtitle,field_5f0d02d1f91c5
+publication_76_picture,14800
+_publication_76_picture,field_5f0ce72380a77
+publication_76_title,A comparison between scientists’ and communication scholars’ views about scientists’ public engagement activities
+_publication_76_title,field_5f0ce54a51d02
+publication_76_date,20190101
+_publication_76_date,field_5f188be4abceb
+publication_76_year_date,1
+_publication_76_year_date,field_5f347241c8017
+publication_76_url,https://journals.sagepub.com/doi/10.1177/0963662518797002
+_publication_76_url,field_5f0ce695df44d
+publication_76_entry_authors,"Yuan, S., Besley, J. C., & Dudo, A."
+_publication_76_entry_authors,field_5f0d0285f91c4
+publication_76_subtitle,Public Understanding of Science. 28(1): 101-118
+_publication_76_subtitle,field_5f0d02d1f91c5
+publication_77_picture,14799
+_publication_77_picture,field_5f0ce72380a77
+publication_77_title,"Never easy to say “sorry”: Exploring the interplay of crisis involvement, brand image, and message appeal in developing effective corporate apologies"
+_publication_77_title,field_5f0ce54a51d02
+publication_77_date,20181228
+_publication_77_date,field_5f188be4abceb
+publication_77_year_date,"0"
+_publication_77_year_date,field_5f347241c8017
+publication_77_url,https://www.sciencedirect.com/science/article/abs/pii/S0363811118304867?via%3Dihub
+_publication_77_url,field_5f0ce695df44d
+publication_77_entry_authors,"Lee, S. Y., & Atkinson, L."
+_publication_77_entry_authors,field_5f0d0285f91c4
+publication_77_subtitle,"Public Relations Review, 45(1), 178-188"
+_publication_77_subtitle,field_5f0d02d1f91c5
+publication_78_picture,14804
+_publication_78_picture,field_5f0ce72380a77
+publication_78_title,Understanding scientists’ willingness to engage
+_publication_78_title,field_5f0ce54a51d02
+publication_78_date,20181001
+_publication_78_date,field_5f188be4abceb
+publication_78_year_date,1
+_publication_78_year_date,field_5f347241c8017
+publication_78_url,https://journals.sagepub.com/doi/10.1177/1075547018786561
+_publication_78_url,field_5f0ce695df44d
+publication_78_entry_authors,"Besley, J. C., Dudo, A., Yuan, S., & Lawrence, F."
+_publication_78_entry_authors,field_5f0d0285f91c4
+publication_78_subtitle,"Science Communication, 40(5), 559-590"
+_publication_78_subtitle,field_5f0d02d1f91c5
+publication_79_picture,14940
+_publication_79_picture,field_5f0ce72380a77
+publication_79_title,"Enduring Extremes? Polar Vortex, Drought, and Climate Change Beliefs"
+_publication_79_title,field_5f0ce54a51d02
+publication_79_date,20180901
+_publication_79_date,field_5f188be4abceb
+publication_79_year_date,1
+_publication_79_year_date,field_5f347241c8017
+publication_79_url,https://www.tandfonline.com/doi/full/10.1080/17524032.2018.1520735
+_publication_79_url,field_5f0ce695df44d
+publication_79_entry_authors,"Lyons, B. A., Hasell, A., Stroud, N.J."
+_publication_79_entry_authors,field_5f0d0285f91c4
+publication_79_subtitle,"Environmental Communication, 12(7), 876-894"
+_publication_79_subtitle,field_5f0d02d1f91c5
+publication_80_picture,14806
+_publication_80_picture,field_5f0ce72380a77
+publication_80_title,Risky Politics: Applying the Planned Risk Information Seeking Model to the 2016 U.S. Presidential Election
+_publication_80_title,field_5f0ce54a51d02
+publication_80_date,20180824
+_publication_80_date,field_5f188be4abceb
+publication_80_year_date,1
+_publication_80_year_date,field_5f347241c8017
+publication_80_url,"https://www.tandfonline.com/doi/full/10.1080/15205436.2018.1498900"
+_publication_80_url,field_5f0ce695df44d
+publication_80_entry_authors,"Kahlor, L., Yang, J., & Liang, M-C."
+_publication_80_entry_authors,field_5f0d0285f91c4
+publication_80_subtitle,"Mass Communication and Society, 21, 697-719"
+_publication_80_subtitle,field_5f0d02d1f91c5
+publication_81_picture,14808
+_publication_81_picture,field_5f0ce72380a77
+publication_81_title,Intensifying the burden: The implications of individual responsibility messages in black female-targeted HIV/AIDS public service announcements
+_publication_81_title,field_5f0ce54a51d02
+publication_81_date,20180824
+_publication_81_date,field_5f188be4abceb
+publication_81_year_date,1
+_publication_81_year_date,field_5f347241c8017
+publication_81_url,https://www.tandfonline.com/doi/abs/10.1080/14681811.2018.1448772?journalCode=csed20
+_publication_81_url,field_5f0ce695df44d
+publication_81_entry_authors,"Morris, A. & Kahlor, L."
+_publication_81_entry_authors,field_5f0d0285f91c4
+publication_81_subtitle,"Sex Education, 18 (5), 571-586"
+_publication_81_subtitle,field_5f0d02d1f91c5
+publication_82_picture,14810
+_publication_82_picture,field_5f0ce72380a77
+publication_82_title,Scientists’ views about communication objectives
+_publication_82_title,field_5f0ce54a51d02
+publication_82_date,20180801
+_publication_82_date,field_5f188be4abceb
+publication_82_year_date,1
+_publication_82_year_date,field_5f347241c8017
+publication_82_url,https://journals.sagepub.com/doi/10.1177/0963662517728478
+_publication_82_url,field_5f0ce695df44d
+publication_82_entry_authors,"Besley, J. C., Dudo, A., & Yuan, S."
+_publication_82_entry_authors,field_5f0d0285f91c4
+publication_82_subtitle,"Public Understanding of Science, 27(6), 708-730"
+_publication_82_subtitle,field_5f0d02d1f91c5
+publication_83_picture,14805
+_publication_83_picture,field_5f0ce72380a77
+publication_83_title,Microbiologists’ public engagement views and behaviors
+_publication_83_title,field_5f0ce54a51d02
+publication_83_date,20180330
+_publication_83_date,field_5f188be4abceb
+publication_83_year_date,1
+_publication_83_year_date,field_5f347241c8017
+publication_83_url,https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5969410/
+_publication_83_url,field_5f0ce695df44d
+publication_83_entry_authors,"Dudo, A., Besley, J., Kahlor, L. A., Koh, H., Copple, J., & Yuan, S."
+_publication_83_entry_authors,field_5f0d0285f91c4
+publication_83_subtitle,"Journal of microbiology & biology education, 19(1)"
+_publication_83_subtitle,field_5f0d02d1f91c5
+publication_84_picture,14807
+_publication_84_picture,field_5f0ce72380a77
+publication_84_title,Visual assertions: Effects of photo manipulation and dual processing for food advertisements
+_publication_84_title,field_5f0ce54a51d02
+publication_84_date,20180329
+_publication_84_date,field_5f188be4abceb
+publication_84_year_date,1
+_publication_84_year_date,field_5f347241c8017
+publication_84_url,https://www.tandfonline.com/doi/abs/10.1080/15551393.2017.1417047
+_publication_84_url,field_5f0ce695df44d
+publication_84_entry_authors,"Lazard, A. J., Mackert, M. S., Bock, M. A., Love, B., Dudo, A., & Atkinson, L."
+_publication_84_entry_authors,field_5f0d0285f91c4
+publication_84_subtitle,"Visual Communication Quarterly, 25(1), 16-30"
+_publication_84_subtitle,field_5f0d02d1f91c5
+publication_85_picture,14809
+_publication_85_picture,field_5f0ce72380a77
+publication_85_title,Entertainment Film and TV Portrayals of Climate Change and Their Societal Impacts
+_publication_85_title,field_5f0ce54a51d02
+publication_85_date,20170901
+_publication_85_date,field_5f188be4abceb
+publication_85_year_date,1
+_publication_85_year_date,field_5f347241c8017
+publication_85_url,https://oxfordre.com/climatescience/view/10.1093/acrefore/9780190228620.001.0001/acrefore-9780190228620-e-374
+_publication_85_url,field_5f0ce695df44d
+publication_85_entry_authors,"Dudo, A., Copple, J., & Atkinson, L."
+_publication_85_entry_authors,field_5f0d0285f91c4
+publication_85_subtitle,In Oxford Research Encyclopedia of Climate Science
+_publication_85_subtitle,field_5f0d02d1f91c5
+publication_86_picture,14801
+_publication_86_picture,field_5f0ce72380a77
+publication_86_title,Two-way communication between scientists and the public: A view from science communication trainers in North America
+_publication_86_title,field_5f0ce54a51d02
+publication_86_date,20170726
+_publication_86_date,field_5f188be4abceb
+publication_86_year_date,1
+_publication_86_year_date,field_5f347241c8017
+publication_86_url,https://www.tandfonline.com/doi/full/10.1080/21548455.2017.1350789
+_publication_86_url,field_5f0ce695df44d
+publication_86_entry_authors,"Yuan, S., Oshita, T., AbiGhannam, N., Dudo, A., Besley, J. C., & Koh, H. E."
+_publication_86_entry_authors,field_5f0d0285f91c4
+publication_86_subtitle,"International Journal of Science Education, Part B, 7(4), 341-355"
+_publication_86_subtitle,field_5f0d02d1f91c5
+publication_87_picture,14809
+_publication_87_picture,field_5f0ce72380a77
+publication_87_title,Scientists’ views about public engagement and science communication in the context of climate change
+_publication_87_title,field_5f0ce54a51d02
+publication_87_date,20170401
+_publication_87_date,field_5f188be4abceb
+publication_87_year_date,1
+_publication_87_year_date,field_5f347241c8017
+publication_87_url,https://oxfordre.com/climatescience/view/10.1093/acrefore/9780190228620.001.0001/acrefore-9780190228620-e-380
+_publication_87_url,field_5f0ce695df44d
+publication_87_entry_authors,"Besley, J. C., & Dudo, A."
+_publication_87_entry_authors,field_5f0d0285f91c4
+publication_87_subtitle,In Oxford Research Encyclopedia of Climate Science
+_publication_87_subtitle,field_5f0d02d1f91c5
