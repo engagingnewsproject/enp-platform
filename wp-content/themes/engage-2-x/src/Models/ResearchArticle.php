@@ -26,7 +26,6 @@ class ResearchArticle extends Post {
         $this->authors = get_field('authors', $this->ID);
         $this->citation = get_field('citation', $this->ID);
         $this->download = get_field('download', $this->ID);
-        $this->featured = get_field('featured_research', $this->ID);
         $this->methodology = get_field('methodology', $this->ID);
         $this->publication = get_field('publication', $this->ID);
         $this->relatedPosts = $this->getRelatedPosts();

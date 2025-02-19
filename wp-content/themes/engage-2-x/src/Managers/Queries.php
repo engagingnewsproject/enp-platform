@@ -65,107 +65,118 @@ class Queries {
 	}
 	
 	/**
-	* Get a featured post from a specific post and vertical
-	* @param $vertical STRING
-	* @param $postType = 'research' or 'blogs'. They both use the same info so we're reusing this function
+	* Get featured research from a specific research category
+	* Example: Get a featured research post from "Media Ethics" category
+	* @param $category STRING Research category slug (e.g., 'media-ethics')
+	* @param $postType = 'research' or 'blogs'
+	* @return Post|false Returns first featured post or false if none found
 	*/
-	public function getFeaturedResearchByVertical($vertical, $postType = 'research') {
-		$class = 'Engage\Models\ResearchArticle';
-		$posts = $this->getPostByVertical($postType, $vertical, $this->getFeaturedResearchMetaQuery(), $class);
+	public function getFeaturedResearchByCategory($category, $postType = 'research') {
+		// First try to get posts that are marked as featured
+		$posts = $this->getPostByCategory($postType, $category, $this->getFeaturedResearchMetaQuery());
 		
 		if(empty($posts)) {
-			// run the query again, but without the featured research
-			$posts =$this->getPostByVertical($postType, $vertical, [], $class);
+			// If no featured posts, get any post from this category
+			$posts = $this->getPostByCategory($postType, $category);
 		}
-		// if it's not empty, return the first post
-		return ( empty($posts) ? $posts[0] : false);
+		return (!empty($posts) ? $posts[0] : false);
 	}
 	
 	/**
-	* Uses getFeaturedResearchByVertical()
-	*
+	* Get featured blog from a specific research category
+	* Example: Get a featured blog post from "Media Ethics" category
+	* @param $category STRING Research category slug
+	* @return Post|false Returns first featured blog post or false if none found
 	*/
-	public function getFeaturedBlogByVertical($vertical) {
-		return $this->getFeaturedResearcByVertical($vertical, 'blogs');
+	public function getFeaturedBlogByCategory($category) {
+		// Reuse getFeaturedResearchByCategory but for blog posts
+		return $this->getFeaturedResearchByCategory($category, 'blogs');
 	}
 	
-	
-	public function getPostByVertical($postType, $vertical, $extraQuery = [], $class = 'Engage\Models\Article') {
+	/**
+	* Get posts by research category
+	* Example: Get all posts from "Media Ethics" category
+	* @param $postType STRING Post type ('research' or 'blogs')
+	* @param $category STRING Research category slug
+	* @param $extraQuery array Additional WP_Query parameters
+	* @return array Array of posts
+	*/
+	public function getPostByCategory($postType, $category, $extraQuery = []) {
+		// Build query with post type and category
 		$query = array_merge([
-			'post_type'     => $postType,
-			'posts_per_page'  => 1
-		], $this->getVerticalTaxQuery($vertical));
+			'post_type'      => $postType,
+			'posts_per_page' => 1
+		], $this->getResearchCategoryQuery($category));
 		
+		// Add any extra query parameters
 		$query = array_merge($query, $extraQuery);
 		
-		
-		return Timber::get_posts($query, $class);
+		return Timber::get_posts($query);
 	}
 	
-	public function getFeaturedResearchMetaQuery() {
-		return ['meta_query' => [
+	/**
+	* Build taxonomy query for research categories
+	* Example: Create WP_Query tax_query for "Media Ethics" category
+	* @param $category STRING Research category slug
+	* @return array WP_Query tax_query parameters
+	*/
+	public function getResearchCategoryQuery($category) {
+		return ['tax_query' => [
 			[
-				'key'     => 'featured_research',
-				'value'   => 'a:1:{i:0;s:8:"Showpost";}', // <--- ugh. That's how it's stored in the DB though.
-				'compare' => '=',
-				]
-				]
-			];
-		}
+				'taxonomy' => 'research-categories',
+				'field'    => 'slug',
+				'terms'    => $category
+			]
+		]];
+	}
+	
+	/**
+	* Get all research categories
+	* Example: Get list of all categories like "Media Ethics", "Case Studies", etc.
+	* @return array Array of term objects
+	*/
+	public function getResearchCategories() {
+		return \Timber::get_terms([
+			'taxonomy' => 'research-categories',
+			'hide_empty' => true,
+		]);
+	}
+	
+	/**
+	 * Get recent posts with optional filtering
+	 */
+	public function getRecentPosts($options = []) {
+		$defaults = [
+			'postType'      => 'any',
+			'postsPerPage'  => 10,
+			'class'         => 'Engage\Models\Article',
+			'extraQuery'    => [],
+			'post__not_in'  => []
+		];
 		
-		public function getVerticalTaxQuery($vertical) {
-			return ['tax_query'     => [
-				[
-					'taxonomy' => 'verticals',
-					'field'    => 'slug',
-					'terms'    => $vertical
-					]
-					]
-				];
-			}
-			
-			public function getVerticals() {
-				return \Timber::get_terms([
-					'taxonomy' => 'verticals',
-					'hide_empty' => true,
-				]);
-			}
-			
-			/**
-			 * Get recent posts with optional filtering
-			 */
-			public function getRecentPosts($options = []) {
-				$defaults = [
-					'postType'      => 'any',
-					'postsPerPage'  => 10,
-					'class'         => 'Engage\Models\Article',
-					'extraQuery'    => [],
-					'post__not_in'  => []
-				];
-				
-				$options = array_merge($defaults, $options);
-				$query = array_merge([
-					'post_type'      => $options['postType'],
-					'posts_per_page' => $options['postsPerPage'],
-					'post__not_in'   => $options['post__not_in']
-				], $options['extraQuery']);
-				
-				return Timber::get_posts($query);
-			}
-			
-			/**
-			 * Get upcoming events
-			 */
-			public function getUpcomingEvents($options = []) {
-				$defaults = [
-					'postType'      => 'tribe_events',
-					'postsPerPage'  => 10,
-					'class'         => 'Engage\Models\Event',
-					'extraQuery'    => []
-				];
-				$options = array_merge($defaults, $options);
-				
-				return $this->getRecentPosts($options);
-			}
-		}
+		$options = array_merge($defaults, $options);
+		$query = array_merge([
+			'post_type'      => $options['postType'],
+			'posts_per_page' => $options['postsPerPage'],
+			'post__not_in'   => $options['post__not_in']
+		], $options['extraQuery']);
 		
+		return Timber::get_posts($query);
+	}
+	
+	/**
+	 * Get upcoming events
+	 */
+	public function getUpcomingEvents($options = []) {
+		$defaults = [
+			'postType'      => 'tribe_events',
+			'postsPerPage'  => 10,
+			'class'         => 'Engage\Models\Event',
+			'extraQuery'    => []
+		];
+		$options = array_merge($defaults, $options);
+		
+		return $this->getRecentPosts($options);
+	}
+}
+	

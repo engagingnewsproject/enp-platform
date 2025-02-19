@@ -1,121 +1,101 @@
 <?php
+
 namespace Engage\Models;
 
-use Engage\Managers\Queries as Queries;
 use Timber;
 
-class Homepage {
-	public $funders;
-	public $Query;
-	public $recent;
+/**
+ * Homepage Model
+ * 
+ * Handles content organization for the front page, including:
+ * - Featured slider posts (managed via ACF relationship field 'slider_posts')
+ * - "More Research" grid (8 most recent research posts, excluding slider posts)
+ * - Funders display for footer
+ * 
+ * @package Engage\Models
+ */
+class Homepage
+{
+	/** @var array Recent research posts for "More Research" grid section */
 	public $moreRecent;
-	public $allQueriedPosts;
-	
-	public function __construct() {
-		$this->Query = new Queries();
+
+	/** @var array Funders for footer display */
+	public $funders;
+
+	/**
+	 * Initialize homepage content
+	 * Sets up funders and recent research posts
+	 */
+	public function __construct()
+	{
 		$this->setFunders();
-		$this->getRecent();
+		$this->setMoreRecent();
 	}
-	
-	public function setFunders() {
-		$this->funders = Timber::get_posts([
+
+	/**
+	 * Get recent research posts for the "More Research" grid
+	 * 
+	 * Process:
+	 * 1. Gets slider posts from front page ACF field
+	 * 2. Extracts their IDs to exclude from query
+	 * 3. Queries 8 most recent research posts, excluding slider posts
+	 * 
+	 * @uses ACF get_field() to get slider posts
+	 * @uses Timber::get_posts() for querying research posts
+	 */
+	public function setMoreRecent()
+	{
+		$exclude_ids = $this->getSliderPostIds();
+
+		$this->moreRecent = \Timber::get_posts([
+			'post_type' => 'research',
+			'posts_per_page' => 8,
+			'post__not_in' => $exclude_ids,
+			'orderby' => 'date',
+			'order' => 'DESC',
+			'post_status' => 'publish'
+		]);
+	}
+
+	/**
+	 * Get IDs of posts selected in the slider
+	 * 
+	 * @return array Array of post IDs to exclude
+	 */
+	private function getSliderPostIds()
+	{
+		$front_page_id = get_option('page_on_front');
+		$slider_posts = get_field('slider_posts', $front_page_id);
+
+		$exclude_ids = [];
+		if (!empty($slider_posts)) {
+			foreach ($slider_posts as $post) {
+				if (is_object($post)) {
+					$exclude_ids[] = $post->ID;
+				} elseif (is_array($post)) {
+					$exclude_ids[] = $post['ID'];
+				} else {
+					$exclude_ids[] = $post;
+				}
+			}
+		}
+
+		return $exclude_ids;
+	}
+
+	/**
+	 * Get funders for footer display
+	 * Orders funders by menu_order field
+	 * 
+	 * @uses Timber::get_posts() for querying funder posts
+	 */
+	public function setFunders()
+	{
+		$this->funders = \Timber::get_posts([
 			'post_type' => 'funders',
 			'posts_per_page' => -1,
 			'orderby' => 'menu_order',
 			'order' => 'ASC'
 		]);
 	}
-	
-	// Function to get the most recent posts across all categories
-	public function getRecent() {
-		$this->recent = []; // Set to an empty array to allow array_merge
-		$this->moreRecent = [];
-		$this->allQueriedPosts = []; // Keeps track of all previously queried posts to avoid duplicates
-		
-		// Get featured research posts
-		$results = $this->getRecentFeaturedResearch();
-		$this->recent = array_merge($results, $this->recent);
-		$this->allQueriedPosts = array_merge($results, $this->allQueriedPosts);
-		
-		// Get more recent research posts
-		$results = $this->getMoreRecentResearch($this->recent);
-		$this->moreRecent = array_merge($results, $this->moreRecent);
-		$this->allQueriedPosts = array_merge($results, $this->allQueriedPosts);
-		
-		$this->sortByDate(false);
-		$this->sortSliderByTopFeatured();
-	}
-	
-	// Get the most recent featured research
-	public function getRecentFeaturedResearch() {
-		$featuredPosts = $this->queryPosts(true, 1);
-		$recentFeaturedPosts = array();
-		
-		// Only show one featured research post
-		foreach ($featuredPosts as $featurePost) {
-			array_push($recentFeaturedPosts, $featurePost);
-			break;
-		}
-		return $recentFeaturedPosts;
-	}
-	
-	// Get the more research posts
-	public function getMoreRecentResearch($featuredSliderPosts) {
-		// How many more_research_posts should be displayed on the home page
-		$num_posts = 3;
-		
-		$allRecentResearch = $this->queryPosts(false, $num_posts);
-		return $allRecentResearch->to_array();
-	}
-	
-	// Query the posts with the given arguments
-	public function queryPosts($is_featured, $numberOfPosts) {
-		$args = [
-			'post_type' => 'research',
-			'posts_per_page' => $numberOfPosts,
-			'post__not_in' => array_map(function ($post) {
-				return $post->id;
-			}, $this->allQueriedPosts)
-		];
-		
-		if ($is_featured) {
-			$args['meta_query'] = [
-				'relation' => 'OR',
-				[
-					'key' => 'featured_research',
-					'value' => serialize(array('Show')),
-					'compare' => 'LIKE'
-				],
-				[
-					'key' => 'featured_research',
-					'value' => serialize(array('Showpost')),
-					'compare' => 'LIKE'
-				]
-			];
-		}
-		
-		return $this->Query->getRecentPosts($args);
-	}
-	
-	// Sort by the date
-	public function sortByDate($is_slider) {
-		if ($is_slider) {
-			usort($this->recent, function ($a, $b) {
-				return strtotime($b->post_date) - strtotime($a->post_date);
-			});
-		} else {
-			usort($this->moreRecent, function ($a, $b) {
-				return strtotime($b->post_date) - strtotime($a->post_date);
-			});
-		}
-	}
-	
-	public function sortSliderByTopFeatured() {
-		usort($this->recent, function ($a, $b) {
-			$topFeatureA = is_array($a->top_featured_research) ? implode('', $a->top_featured_research) : $a->top_featured_research;
-			$topFeatureB = is_array($b->top_featured_research) ? implode('', $b->top_featured_research) : $b->top_featured_research;
-			return strcmp($topFeatureB, $topFeatureA);
-		});
-	}
 }
-	
