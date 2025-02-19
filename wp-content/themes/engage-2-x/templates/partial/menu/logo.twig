@@ -1,0 +1,25 @@
+<h1 class="header__logo navbar-brand" role="banner">
+	<a class="header__logo__link" href="{{ site.link }}" rel="home">
+		<span class="sr-text">
+			{{ site.name }}
+		</span>
+		<picture>
+			<!-- WebP versions for browsers that support WebP -->
+			<source srcset="{{ theme.link }}/assets/img/logo/center-for-media-engagement.webp 1x, 
+											{{ theme.link }}/assets/img/logo/center-for-media-engagement@2x.webp 2x, 
+											{{ theme.link }}/assets/img/logo/center-for-media-engagement@3x.webp 3x" type="image/webp">
+
+			<!-- PNG fallback for browsers that do not support WebP -->
+			<source srcset="{{ theme.link }}/assets/img/logo/center-for-media-engagement.png 1x, 
+											{{ theme.link }}/assets/img/logo/center-for-media-engagement@2x.png 2x, 
+											{{ theme.link }}/assets/img/logo/center-for-media-engagement@3x.png 3x" type="image/png">
+
+			<!-- Default image for browsers that don't support `picture` -->
+			<img src="{{ theme.link }}/assets/img/logo/center-for-media-engagement.png" 
+					alt="Center for Media Engagement Logo" 
+					width="320" 
+					height="56" 
+					decoding="async" />
+		</picture>
+	</a>
+</h1>

@@ -1,0 +1,20 @@
+{# Handles rendering of nested menu items recursively #}
+{% for child in items %}
+    <li class="menu__item menu__sublist-item {{ child.classes | join(' ') }} {{ child.children ? " has-nested-menu" }}">
+        <a tabindex="0" 
+           class="menu__link menu__sublist-link" 
+           target="{{ child.target }}" 
+           {% if child.link %} href="{{ child.link }}" {% endif %}>
+            {{ child.title }}
+        </a>
+        {% if child.children %}
+            <ul class="menu__sublist {{ collapsable ? " collapsable" }} nested">
+                {# Recursively include the same template for deeper nesting #}
+                {% include "partial/menu/nested-items.twig" with { 
+                    'items': child.children,
+                    'collapsable': collapsable
+                } %}
+            </ul>
+        {% endif %}
+    </li>
+{% endfor %} 
