@@ -1,7 +1,15 @@
 <?php
-/*
-* Collection of Queries that modify the main query or utilities for other queries
-*/
+/**
+ * Collection of Queries that modify the main query or utilities for other queries
+ * 
+ * This class manages:
+ * - Post query modifications for archives and taxonomies
+ * - Event queries for The Events Calendar
+ * - Research and blog post queries
+ * - Pagination and post count settings
+ * 
+ * @package Engage\Managers
+ */
 namespace Engage\Managers;
 use Timber;
 
@@ -11,6 +19,10 @@ class Queries {
 		
 	}
 	
+	/**
+	 * Initialize query modifications
+	 * Sets up filters and actions for query handling
+	 */
 	public function run() {
 		add_action( 'pre_get_posts', [$this, 'unlimitedPosts'] );
 		add_action( 'pre_get_posts', [$this, 'pastEventsQuery'] );
@@ -20,7 +32,12 @@ class Queries {
 		add_filter( 'tribe_pre_get_view', [$this, 'removeEmptyTribeEvent']);
 	}
 	
-	// there aren't enough of each section to bother with pagination. Figure that out if/when we get there
+	/**
+	 * Remove pagination for taxonomy and post type archives
+	 * Excludes blog post archives which retain pagination
+	 * 
+	 * @param WP_Query $query The main WordPress query
+	 */
 	public function unlimitedPosts($query) {
 		
 		// if it's the main query, NOT a post/blog archive, and is a taxonomy or post type archive, then dump everything
@@ -30,6 +47,12 @@ class Queries {
 		}
 	}
 	
+	/**
+	 * Modify event queries for past and all events
+	 * Handles The Events Calendar queries for different views
+	 * 
+	 * @param WP_Query $query The main WordPress query
+	 */
 	public function pastEventsQuery($query) {
 		// if it's the main query, NOT a post/blog archive, and is a taxonomy or post type archive, then dump everything
 		if ( $query->is_main_query() && $query->get('post_type') === 'tribe_events' && (is_tax() || is_post_type_archive())) {
@@ -53,8 +76,11 @@ class Queries {
 	}
 	
 	/**
-	* Tribe uses a virtual page in the loop to return some extra info while the query is happening. In Timber, this doesn't get removed. Use this to remove it.
-	*/
+	 * Remove empty event placeholder from Tribe Events query
+	 * Fixes issue with Timber where virtual page isn't removed
+	 * 
+	 * @return void
+	 */
 	public function removeEmptyTribeEvent() {
 		
 		foreach(tribe_get_global_query_object()->posts as $key => $val) {
@@ -65,42 +91,18 @@ class Queries {
 	}
 	
 	/**
-	* Get featured research from a specific research category
-	* Example: Get a featured research post from "Media Ethics" category
-	* @param $category STRING Research category slug (e.g., 'media-ethics')
-	* @param $postType = 'research' or 'blogs'
-	* @return Post|false Returns first featured post or false if none found
-	*/
-	public function getFeaturedResearchByCategory($category, $postType = 'research') {
-		// First try to get posts that are marked as featured
-		$posts = $this->getPostByCategory($postType, $category, $this->getFeaturedResearchMetaQuery());
-		
-		if(empty($posts)) {
-			// If no featured posts, get any post from this category
-			$posts = $this->getPostByCategory($postType, $category);
-		}
-		return (!empty($posts) ? $posts[0] : false);
-	}
-	
-	/**
-	* Get featured blog from a specific research category
-	* Example: Get a featured blog post from "Media Ethics" category
-	* @param $category STRING Research category slug
-	* @return Post|false Returns first featured blog post or false if none found
-	*/
-	public function getFeaturedBlogByCategory($category) {
-		// Reuse getFeaturedResearchByCategory but for blog posts
-		return $this->getFeaturedResearchByCategory($category, 'blogs');
-	}
-	
-	/**
-	* Get posts by research category
-	* Example: Get all posts from "Media Ethics" category
-	* @param $postType STRING Post type ('research' or 'blogs')
-	* @param $category STRING Research category slug
-	* @param $extraQuery array Additional WP_Query parameters
-	* @return array Array of posts
-	*/
+	 * Get posts by research category
+	 * 
+	 * Example:
+	 * ```php
+	 * $posts = $queries->getPostByCategory('research', 'media-ethics');
+	 * ```
+	 * 
+	 * @param string $postType Post type ('research' or 'blogs')
+	 * @param string $category Research category slug
+	 * @param array $extraQuery Additional WP_Query parameters
+	 * @return array Array of Timber\Post objects
+	 */
 	public function getPostByCategory($postType, $category, $extraQuery = []) {
 		// Build query with post type and category
 		$query = array_merge([
@@ -115,11 +117,11 @@ class Queries {
 	}
 	
 	/**
-	* Build taxonomy query for research categories
-	* Example: Create WP_Query tax_query for "Media Ethics" category
-	* @param $category STRING Research category slug
-	* @return array WP_Query tax_query parameters
-	*/
+	 * Build taxonomy query for research categories
+	 * 
+	 * @param string $category Research category slug
+	 * @return array WP_Query tax_query parameters
+	 */
 	public function getResearchCategoryQuery($category) {
 		return ['tax_query' => [
 			[
@@ -131,10 +133,10 @@ class Queries {
 	}
 	
 	/**
-	* Get all research categories
-	* Example: Get list of all categories like "Media Ethics", "Case Studies", etc.
-	* @return array Array of term objects
-	*/
+	 * Get all research categories
+	 * 
+	 * @return array Array of Timber\Term objects
+	 */
 	public function getResearchCategories() {
 		return \Timber::get_terms([
 			'taxonomy' => 'research-categories',
@@ -144,6 +146,19 @@ class Queries {
 	
 	/**
 	 * Get recent posts with optional filtering
+	 * 
+	 * Example:
+	 * ```php
+	 * $options = [
+	 *     'postType' => 'research',
+	 *     'postsPerPage' => 8,
+	 *     'post__not_in' => [1, 2, 3]
+	 * ];
+	 * $posts = $queries->getRecentPosts($options);
+	 * ```
+	 * 
+	 * @param array $options Query options
+	 * @return array Array of Timber\Post objects
 	 */
 	public function getRecentPosts($options = []) {
 		$defaults = [
@@ -166,6 +181,9 @@ class Queries {
 	
 	/**
 	 * Get upcoming events
+	 * 
+	 * @param array $options Query options
+	 * @return array Array of Timber\Post objects
 	 */
 	public function getUpcomingEvents($options = []) {
 		$defaults = [
