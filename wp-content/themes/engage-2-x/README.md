@@ -32,15 +32,15 @@ Then,
 
 In **functions.php**, we call `new StarterSite();`. The `StarterSite` class sits in the **src** folder. You can update this class to add functionality to your theme. This approach is just one example for how you could do it.
 
-The **src** folder would be the right place to put your classes that [extend Timber’s functionality](https://timber.github.io/docs/v2/guides/extending-timber/).
+The **src** folder would be the right place to put your classes that [extend Timber's functionality](https://timber.github.io/docs/v2/guides/extending-timber/).
 
-Small tip: You can make use of Composer’s [autoloading functionality](https://getcomposer.org/doc/04-schema.md#psr-4) to automatically load your PHP classes when they are requested instead of requiring one by one in **functions.php**.
+Small tip: You can make use of Composer's [autoloading functionality](https://getcomposer.org/doc/04-schema.md#psr-4) to automatically load your PHP classes when they are requested instead of requiring one by one in **functions.php**.
 
 ## What else is there?
 
 - `static/` is where you can keep your static front-end scripts, styles, or images. In other words, your Sass files, JS files, fonts, and SVGs would live here.
-- `views/` contains all of your Twig templates. These pretty much correspond 1 to 1 with the PHP files that respond to the WordPress template hierarchy. At the end of each PHP template, you’ll notice a `Timber::render()` function whose first parameter is the Twig file where that data (or `$context`) will be used. Just an FYI.
-- `tests/` ... basically don’t worry about (or remove) this unless you know what it is and want to.
+- `views/` contains all of your Twig templates. These pretty much correspond 1 to 1 with the PHP files that respond to the WordPress template hierarchy. At the end of each PHP template, you'll notice a `Timber::render()` function whose first parameter is the Twig file where that data (or `$context`) will be used. Just an FYI.
+- `tests/` ... basically don't worry about (or remove) this unless you know what it is and want to.
 
 ## Other Resources
 
@@ -51,22 +51,47 @@ Small tip: You can make use of Composer’s [autoloading functionality](https://
 * [Timber Video Tutorials](http://timber.github.io/timber/#video-tutorials) and [an incomplete set of screencasts](https://www.youtube.com/playlist?list=PLuIlodXmVQ6pkqWyR6mtQ5gQZ6BrnuFx-) for building a Timber theme from scratch.
 
 ## ADDING A NEW POST TYPE OR TAXONOMY
-1. Add the post type and taxonomy as one file under /Managers/Structures/PostTypes
-2. Add the rewrites for the new post type following the format under /Managers/Permalinks
-3. Add the rewrites for the vertical under /Managers/Permalinks/addVerticalRewrites()
-4. Add the taxonomy slug to the $taxRewriteMap in /Models/Permalinks
-5. Register the Post Type to the Vertical Taxonomy under /Managers/Taxonomies/Taxonomies
-6. Update Permalinks
-7. Register a new filter menu for the item in Globals.php following the format for the other post types
-8. Edit /archive.php to specify what filter menu should apply for your new archive, however you need it set-up
-9. Go to Options -> Custom Fields -> Archive Landing Pages -> Landing Pages -> Landing Page Type and add the post type slug as an option for this field
-10. Test it out!
 
+1. Add the post type under `/src/Managers/Structures/PostTypes/`
+   ```php
+   // Example post type registration
+   register_post_type('research', [
+       'labels' => [...],
+       'public' => true,
+       'has_archive' => true,
+       'supports' => ['title', 'editor', 'thumbnail'],
+       'show_in_rest' => true,
+   ]);
+   ```
 
-## Notes on Post Type Archive Queries
-Basically the whole site archive structure is powered by queries set in `src/Managers/Permalinks.php`. We've overridden the default queries so we can set our own queries with the verticals added in. There may be a better way to do this, but this way at least gets us a very specific way of modifying the query based on a pretty URL.
+2. Add any associated taxonomies under `/src/Managers/Taxonomies/`
+   ```php
+   // Example taxonomy registration
+   register_taxonomy('research-categories', ['research'], [
+       'labels' => [...],
+       'public' => true,
+       'hierarchical' => true,
+       'show_in_rest' => true,
+   ]);
+   ```
 
-To adjust a query, you'll need to add/modify the query in `src/Managers/Permalinks.php` and then re-save the permalinks in Settings->Permalinks.
+3. Update permalinks in WordPress admin (Settings -> Permalinks)
+
+4. If needed, add custom fields via ACF (Advanced Custom Fields)
+
+5. Create corresponding template files:
+   - `single-{post-type}.php` for single posts
+   - `archive-{post-type}.php` for archives
+   - Add Twig templates under `/templates/`
+
+6. Test the new post type:
+   - Create test posts
+   - Check single and archive views
+   - Verify permalinks work correctly
+   - Test any custom fields
+
+## Notes on Post Type Archives
+Post type archives use standard WordPress queries. To modify queries for specific post types, use the `pre_get_posts` filter in `src/Managers/Queries.php`.
 
 # Deployment Summary
 
@@ -267,3 +292,68 @@ git push origin master
 ---
 
 By merging `master` into the feature branch first, you reduce the risk of introducing broken code into `master`. This approach allows the conflicts to be resolved in a controlled environment (the feature branch) while preserving both new features and the integrity of the codebase.
+
+## Troubleshooting New Post Types
+
+### Common Issues
+
+1. **Posts 404 After Adding**
+   - Go to Settings -> Permalinks and click "Save Changes"
+   - Check that post type registration has `has_archive => true`
+   - Verify `rewrite` rules in post type registration
+
+2. **Templates Not Loading**
+   - Check file naming: `single-{post-type}.php` and `archive-{post-type}.php`
+   - Verify Timber context in template files
+   - Debug template hierarchy with `add_filter('template_include')`
+   ```php
+   add_filter('template_include', function($template) {
+       error_log('Template file used: ' . $template);
+       return $template;
+   });
+   ```
+
+3. **Custom Fields Not Showing**
+   - Verify ACF field group location rules
+   - Check field names match in template files
+   - Export/import ACF field groups if missing
+
+4. **Query Issues**
+   - Enable WP_DEBUG in wp-config.php
+   - Use Query Monitor plugin to inspect queries
+   - Check `pre_get_posts` modifications:
+   ```php
+   add_action('pre_get_posts', function($query) {
+       if (!is_admin() && $query->is_main_query()) {
+           error_log('Query vars: ' . print_r($query->query_vars, true));
+       }
+   });
+   ```
+
+5. **Archive Page Issues**
+   - Check archive.php Timber context
+   - Verify taxonomy registration
+   - Debug archive query parameters:
+   ```php
+   add_action('pre_get_posts', function($query) {
+       if ($query->is_archive() && $query->is_main_query()) {
+           error_log('Archive query: ' . print_r($query->query_vars, true));
+       }
+   });
+   ```
+
+### Testing Checklist
+- [ ] Single post template loads correctly
+- [ ] Archive page shows all posts
+- [ ] Permalinks work for both single and archive
+- [ ] Custom fields save and display
+- [ ] Taxonomies appear in admin
+- [ ] REST API endpoints work if needed
+- [ ] Search includes new post type
+- [ ] Pagination works on archive pages
+
+### Performance Considerations
+- Use `'posts_per_page' => -1` carefully
+- Consider adding caching for complex queries
+- Use `pre_get_posts` instead of secondary queries
+- Monitor Query Monitor for N+1 query issues
