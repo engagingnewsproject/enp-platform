@@ -112,7 +112,7 @@ class FilterMenu
 			'postTypes'  => [],
 			'posts' => [],
 			'manualLinks' => [],
-			'linkBase'  => 'postType'
+			'linkBase'  => 'vertical'
 		];
 
 		$options = array_merge($defaults, $options);
@@ -158,6 +158,8 @@ class FilterMenu
 	 */
 	public function buildBaseFilter()
 	{
+		error_log('=== FilterMenu buildBaseFilter() CALLED ===');
+
 		$base = [
 			'title' => $this->title,
 			'slug'  => $this->slug,
@@ -165,28 +167,33 @@ class FilterMenu
 			'link'  => false,
 			'terms' => []
 		];
-		// get current vertical, if any
-		$vertical = $this->Permalinks->getQueriedVertical();
+		error_log('Base structure: ' . print_r($base, true));
+
 		// add all the taxonomies in the order that they were created
 		foreach ($this->postTypes as $postType) {
 			$postType = get_post_type_object($postType);
-			// check if this taxonomy already exists in the filters
+			error_log('Processing post type: ' . $postType->name);
+
 			if (!isset($base['terms'][$postType->name])) {
+				$termLink = $this->Permalinks->getTermLink([
+					'terms' => [],
+					'postType' =>  $postType->name,
+					'base'  => $this->linkBase
+				]);
+				error_log('Generated term link: ' . $termLink);
 
 				$base['terms'][$postType->name] = [
 					'title' => $postType->labels->name,
 					'slug'  => $postType->name,
-					'link'  => $this->Permalinks->getTermLink([
-						'terms' => [
-							$vertical
-						],
-						'postType' =>  $postType->name,
-						'base'  => $this->linkBase
-					]),
+					'link'  => $termLink,
 					'terms' => []
 				];
+				error_log('Added term structure: ' . print_r($base['terms'][$postType->name], true));
 			}
 		}
+
+		error_log('=== Final base structure ===');
+		error_log(print_r($base, true));
 		return $base;
 	}
 
@@ -219,13 +226,9 @@ class FilterMenu
 	 */
 	public function buildFilter($filters, $postID, $taxonomy)
 	{
-
 		$terms = get_the_terms($postID, $taxonomy);
-		// get current vertical, if any
-		$vertical = $this->Permalinks->getQueriedVertical();
 		// get post type of the taxonomy
 		$postType = $this->Permalinks->getPostTypeByTaxonomy($taxonomy);
-
 
 		if (empty($terms)) {
 			return $filters;
@@ -234,7 +237,7 @@ class FilterMenu
 		// set the terms
 		foreach ($terms as $term) {
 			if (!isset($filters['terms'][$postType]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
-				$filters['terms'][$postType]['terms'][$term->slug] = $this->buildFilterTerm($term, $vertical, $postType);
+				$filters['terms'][$postType]['terms'][$term->slug] = $this->buildFilterTerm($term, $postType);
 			}
 		}
 
@@ -245,28 +248,21 @@ class FilterMenu
 	 * Build a filter term array for a specific term.
 	 *
 	 * @param object $term The term object to build the filter for.
-	 * @param mixed $vertical The vertical taxonomy term.
-	 * @param mixed $postType The post type associated with the term.
+	 * @param string $postType The post type associated with the term.
 	 * @return array The filter term array.
 	 */
-	public function buildFilterTerm($term, $vertical = false, $postType = false)
+	public function buildFilterTerm($term, $postType = false)
 	{
-
-		return  [
+		return [
 			'ID'    => $term->term_id,
 			'slug'  => $term->slug,
 			'title' => $term->name,
 			'description' => $term->description,
-			'link'  => $this->Permalinks->getTermLink(
-				[
-					'terms' => [
-						$vertical,
-						$term
-					],
-					'postType' => $postType,
-					'base'  => $this->linkBase
-				]
-			),
+			'link'  => $this->Permalinks->getTermLink([
+				'terms' => [$term],
+				'postType' => $postType,
+				'base'  => $this->linkBase
+			]),
 			'count' => $term->count,
 			'taxonomy' => $term->taxonomy
 		];

@@ -1,18 +1,21 @@
 <?php
+
 /**
-* Set data needed for tile layout page
-*/
+ * Set data needed for tile layout page
+ */
+
 namespace Engage\Models;
+
 use Engage\Models\Event;
 
 class TileArchive extends Archive
 {
 	/** @var array Filter settings for organizing content */
 	public $filters = [];
-	
+
 	/** @var WP_Query WordPress query object */
 	protected $query;
-	
+
 	/**
 	 * Initialize the archive with filters and posts
 	 * 
@@ -28,27 +31,27 @@ class TileArchive extends Archive
 				'terms' => []            // Terms for filter menu
 			]
 		];
-		
+
 		$options = array_merge($defaults, $options);
 		$this->filters = $options['filters'];
 		$this->query = $query;
-		
+
 		parent::init($query);
-		
+
 		// loop through the posts and if it's an event, set it as the event model instead
-		foreach($this->posts as $key => $val) {
-			if($val->post_type === 'tribe_events') {
+		foreach ($this->posts as $key => $val) {
+			if ($val->post_type === 'tribe_events') {
 				// $this->posts[$key] = new Event($val->ID); // TODO: get events done.
 			}
 		}
-		
+
 		// This is usually already set from a global. If it's empty, then there's no sidebar
-		if(!empty($this->filters)) {
+		if (!empty($this->filters)) {
 			// get the current filter menu item
 			$this->setCurrentFilter();
 		}
 	}
-	
+
 	/**
 	 * Set the current filter based on the archive type
 	 * Handles multiple archive types:
@@ -56,10 +59,11 @@ class TileArchive extends Archive
 	 * - Category archives
 	 * - Research category archives (with primary/subcategory structure)
 	 */
-	public function setCurrentFilter() {
+	public function setCurrentFilter()
+	{
 		// Initialize currentSlug to prevent undefined variable
 		$currentSlug = '';
-		
+
 		// Determine the current slug based on archive type
 		// First check if structure key exists and matches postTypes
 		if (isset($this->filters['structure']) && $this->filters['structure'] === 'postTypes') {
@@ -68,28 +72,28 @@ class TileArchive extends Archive
 		} elseif (is_object($this->category) && isset($this->category->slug)) {
 			// For regular category archives
 			$currentSlug = $this->category->slug;
-		} elseif (isset($this->query) && isset($this->query->query['research-categories'])) {
+		} elseif (isset($this->query) && isset($this->query->query['research-cats'])) {
 			// For research category archives (e.g., /media-ethics/research/category/case-studies/)
 			// Get the primary category (former vertical) from the URL
-			$currentSlug = explode(',', $this->query->query['research-categories'])[0];
+			$currentSlug = explode(',', $this->query->query['research-cats'])[0];
 		}
-		
+
 		// Process the filter terms if they exist
-		if(isset($this->filters['terms']) && is_array($this->filters['terms'])) {
-			foreach($this->filters['terms'] as $parentTerm) {
-				if(isset($parentTerm['slug']) && $currentSlug === $parentTerm['slug']) {
+		if ($this->filters['terms']) {
+			foreach ($this->filters['terms'] as $parentTerm) {
+				if ($currentSlug === $parentTerm['slug']) {
 					// Mark the parent term as current when matched
 					$this->filters['terms'][$parentTerm['slug']]['currentParent'] = true;
-					
+
 					// Check for child terms (subcategories)
-					if(!empty($parentTerm['terms'])) {
+					if (!empty($parentTerm['terms'])) {
 						// Find matching child term
-						foreach($parentTerm['terms'] as $childTerm) {
-							if(isset($childTerm['slug']) && (
+						foreach ($parentTerm['terms'] as $childTerm) {
+							if (
 								// Check both regular category and research subcategory
 								(is_object($this->category) && isset($this->category->slug) && $childTerm['slug'] === $this->category->slug) ||
 								(isset($this->query) && isset($this->query->query['subcategory']) && $childTerm['slug'] === $this->query->query['subcategory'])
-							)) {
+							) {
 								// Mark the child term as current when matched
 								$this->filters['terms'][$parentTerm['slug']]['terms'][$childTerm['slug']]['current'] = true;
 								break;
@@ -103,5 +107,26 @@ class TileArchive extends Archive
 				}
 			}
 		}
+	}
+
+	public function setFilters()
+	{
+
+		if ($this->postType->name === 'research') {
+			// Create a new FilterMenu instance for research
+			$filterMenu = new FilterMenu([
+				'title' => 'Research Categories',
+				'slug' => 'research-filter',
+				'posts' => $this->posts,
+				'taxonomies' => ['research-categories'], // Use taxonomy name, not rewrite slug
+				'postTypes' => ['research'],
+				'linkBase' => 'research'
+			]);
+
+
+			// Build and set the filters
+			$this->filters = $filterMenu->build();
+		}
+		// ... existing code for other post types ...
 	}
 }
