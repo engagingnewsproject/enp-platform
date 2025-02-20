@@ -359,6 +359,16 @@ add_filter('style_loader_tag', function ($tag, $handle, $href) {
 }, 10, 3);
 
 
+function engage_theme_activation() {
+    // First register the rules
+    $permalinks = new \Engage\Managers\Permalinks();
+    $permalinks->addRewrites($GLOBALS['wp_rewrite']);
+    
+    // Then flush them
+    flush_rewrite_rules();
+}
+add_action('after_switch_theme', 'engage_theme_activation');
+
 /* DEV SNIPPETS */
 
 // List handles of scripts enqueued by plugins
