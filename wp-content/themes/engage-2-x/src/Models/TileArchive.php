@@ -75,9 +75,9 @@ class TileArchive extends Archive
 		}
 		
 		// Process the filter terms if they exist
-		if($this->filters['terms']) {
+		if(isset($this->filters['terms']) && is_array($this->filters['terms'])) {
 			foreach($this->filters['terms'] as $parentTerm) {
-				if($currentSlug === $parentTerm['slug']) {
+				if(isset($parentTerm['slug']) && $currentSlug === $parentTerm['slug']) {
 					// Mark the parent term as current when matched
 					$this->filters['terms'][$parentTerm['slug']]['currentParent'] = true;
 					
@@ -85,11 +85,11 @@ class TileArchive extends Archive
 					if(!empty($parentTerm['terms'])) {
 						// Find matching child term
 						foreach($parentTerm['terms'] as $childTerm) {
-							if(
+							if(isset($childTerm['slug']) && (
 								// Check both regular category and research subcategory
 								(is_object($this->category) && isset($this->category->slug) && $childTerm['slug'] === $this->category->slug) ||
 								(isset($this->query) && isset($this->query->query['subcategory']) && $childTerm['slug'] === $this->query->query['subcategory'])
-							) {
+							)) {
 								// Mark the child term as current when matched
 								$this->filters['terms'][$parentTerm['slug']]['terms'][$childTerm['slug']]['current'] = true;
 								break;
