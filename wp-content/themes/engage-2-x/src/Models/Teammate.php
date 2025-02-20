@@ -194,4 +194,11 @@ class Teammate extends Article
         }
         return $this->displayLink;
     }
+
+    /**
+     * Get the featured image URL for the team member
+     */
+    public function getThumbnail() {
+        return get_the_post_thumbnail_url($this->ID, 'full');
+    }
 }
