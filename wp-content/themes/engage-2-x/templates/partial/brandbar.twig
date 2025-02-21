@@ -2,25 +2,28 @@
 	This is the topbar with the "TEXAS Moody" link
 #}
 <div class="brandbar">
-	<a href="https://moody.utexas.edu" class="brandbar__link">
-		<span class="sr-text">University of Texas at Austin</span>
-		<span class="brandbar__logo">
-			<picture>
-				<source srcset="{{options.navigation_settings.brandbar_logo_ut.url}}" type="image/webp">
-				<img src="{{options.navigation_settings.brandbar_logo_ut.url}}" 
-					alt="University of Texas at Austin" 
-					width="112" 
-					height="27" 
-					decoding="async">
-			</picture>
-			<picture>
-				<source srcset="{{options.navigation_settings.brandbar_logo_moody.url}}" type="image/webp">
-				<img src="{{options.navigation_settings.brandbar_logo_moody.url}}"
-					alt="Moody College of Communication" 
-					width="85" 
-					height="27" 
-					decoding="async">
-			</picture>}
-		</span>
-	</a>
+
+	{% if options.navigation_settings.brand_bar %}
+		<a href="{{options.navigation_settings.brand_bar.brandbar_redirect}}" class="brandbar__link">
+			<span class="sr-text">University of Texas at Austin</span>
+			<span class="brandbar__logo">
+				<picture>
+					<source srcset="{{options.navigation_settings.brand_bar.brandbar_logo_ut.url}}" type="image/webp">
+					<img src="{{options.navigation_settings.brand_bar.brandbar_logo_ut.url}}" 
+						alt="University of Texas at Austin" 
+						width="112" 
+						height="27" 
+						decoding="async">
+				</picture>
+				<picture>
+					<source srcset="{{options.navigation_settings.brand_bar.brandbar_logo_moody.url}}" type="image/webp">
+					<img src="{{options.navigation_settings.brand_bar.brandbar_logo_moody.url}}"
+						alt="Moody College of Communication" 
+						width="85" 
+						height="27" 
+						decoding="async">
+				</picture>
+			</span>
+		</a>
+	{% endif %}
 </div>
