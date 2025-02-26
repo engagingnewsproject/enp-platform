@@ -107,4 +107,4 @@ if ((
 
         $context['categories'] = ['principal-investigators', 'staff', 'student-researchers', 'research-collaborators', 'board', 'alumni'];
 }
-Timber::render(['page-team.twig'], $context);
+Timber::render(['archive-team.twig'], $context);
