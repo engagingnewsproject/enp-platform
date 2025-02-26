@@ -12,6 +12,7 @@ namespace Engage\Models;
  *
  * @package Engage\Models
  */
+use Engage\Models\Teammate;
 
 class TeamArchive extends TileArchive
 {
@@ -55,7 +56,7 @@ class TeamArchive extends TileArchive
         $nameA = explode(' ', $titleA);
         $nameB = explode(' ', $titleB);
 
-        return strcmp(end($nameA), end($nameB));  // Compare last names
+		return strcmp(end($nameA), end($nameB));  // Compare last names
     }
 
     // Dont need desigOrderCompare, regroupByACFField, regroupByDesignation or getPosts
@@ -69,14 +70,20 @@ class TeamArchive extends TileArchive
      */
     public function regroupByCategory()
     {
-        $postsArray = iterator_to_array($this->posts);
+        // Get all posts first, bypassing pagination
+        $query = new \WP_Query([
+            'post_type' => 'team',
+            'posts_per_page' => -1
+        ]);
+        $postsArray = $query->posts;
+        
         $groups = [];
         // Splits the queried posts by category, using the slugs as keys
         foreach($postsArray as $post) {
             $design_slug = '';
-            if(!empty($post->getTermCat()) && isset($post->getTermCat()[0])) { // Ensure getTermCat() returns a valid value
-                $design_slug = $post->getTermCat()[0]->slug;
-                // var_dump( $design_slug );
+            $terms = wp_get_object_terms($post->ID, 'team_category');
+            if (!empty($terms) && !is_wp_error($terms)) {
+                $design_slug = $terms[0]->slug;
             }
 
             // Adds team members to group based on their category
