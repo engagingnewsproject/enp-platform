@@ -2,21 +2,20 @@
 	teammates.twig
 	
 	This template is responsible for rendering the list of team members
-	(referred to as "mates") on the teams page. Depending on the current vertical
+	(referred to as "mates") on the teams page. Depending on the current category
 	(a taxonomy term representing the context or department), it displays different
 	groups of team members such as current members, past interns, or alumni.
 #}
 
-{% set vertical = archive.vertical.slug %}
 <!-- teammates_new.twig -->
 <section
 	style="margin-bottom: 8rem; grid-column-gap: 40px;"
 	class="grid grid--auto grid--gap-40">
 	{# Loop through each team member and render their information.
-						The first vertical value is fetched if it's not set, but PIs (Principal Investigators)
-						who have 'Center Leadership' as their first vertical are prevented from appearing first
-						to avoid hiding the past Media Ethics Interns section.
-					#}
+		The first category value is fetched if it's not set, but PIs (Principal Investigators)
+		who have 'Center Leadership' as their first category are prevented from appearing first
+		to avoid hiding the past Media Ethics Interns section.
+	#}
 	{% if category == "alumni" %}
 		<section class="past-interns-spacing">
 			<div class="past-interns-title past-interns-title__2022-2023" data-toggle-arrow="&#9658;" aria-expanded="false">
@@ -35,131 +34,3 @@
 	{% endif %}
 		
 </section>
-
-{% if vertical == "media-ethics" %}
-	{# Display past interns for 2022-2023 academic year. #}
-	<section class="past-interns-spacing">
-		<div class="past-interns-title past-interns-title__2022-2023" data-toggle-arrow="&#9658;" aria-expanded="false">
-			Research Scholars 2022-2023
-		</div>
-		<section class="mates grid grid--gap-20 past-interns-list past-interns-list__2022-2023" aria-hidden="true">
-			{% for mate in mates %}
-				{% set semester_value = (mate.getTermSemester)[0] %}
-				{% if semester_value.name == "2022-2023" %}
-					{% include "partial/teammate.twig" with { 'mate' : mate } %}
-				{% endif %}
-			{% endfor %}
-		</section>
-	</section>
-	<section>
-		<div class="past-interns-title past-interns-title__2021-2022" data-toggle-arrow="&#9658;" aria-expanded="false">
-			Research Scholars 2021-2022
-		</div>
-		<section class="mates grid grid--gap-20 past-interns-list past-interns-list__2021-2022" aria-hidden="true">
-			{% for mate in mates %}
-				{% set semester_value = (mate.getTermSemester)[0] %}
-				{% if semester_value.name == "2021-2022" %}
-					{% include "partial/teammate.twig" with { 'mate' : mate } %}
-				{% endif %}
-			{% endfor %}
-		</section>
-	</section>
-	<section>
-		<div class="past-interns-title past-interns-title__2020-2021" data-toggle-arrow="&#9658;" aria-expanded="false">
-			Research Scholars 2020-2021
-		</div>
-		<section class="mates grid grid--gap-20 past-interns-list past-interns-list__2020-2021" aria-hidden="true">
-			{% for mate in mates %}
-				{% set semester_value = (mate.getTermSemester)[0] %}
-				{% if semester_value.name == "2020-2021" %}
-					{% include "partial/teammate.twig" with { 'mate' : mate } %}
-				{% endif %}
-			{% endfor %}
-		</section>
-	</section>
-	<section>
-		<div class="past-interns-title past-interns-title__2019-2020" data-toggle-arrow="&#9658;" aria-expanded="false">
-			Research Scholars 2019-2020
-		</div>
-		<section class="mates grid grid--gap-20 past-interns-list past-interns-list__2019-2020" aria-hidden="true">
-			{% for mate in mates %}
-				{% set semester_value = (mate.getTermSemester)[0] %}
-				{% if semester_value.name == "2019-2020" %}
-					{% include "partial/teammate.twig" with { 'mate' : mate } %}
-				{% endif %}
-			{% endfor %}
-		</section>
-	</section>
-	<section>
-		<div class="past-interns-title past-interns-title__2018-2019" data-toggle-arrow="&#9658;" aria-expanded="false">
-			Research Scholars 2018-2019
-		</div>
-		<section class="mates grid grid--gap-20 past-interns-list past-interns-list__2018-2019" aria-hidden="true">
-			{% for mate in mates %}
-				{% set semester_value = (mate.getTermSemester)[0] %}
-				{% if semester_value.name == "2018-2019" %}
-					{% include "partial/teammate.twig" with { 'mate' : mate } %}
-				{% endif %}
-			{% endfor %}
-		</section>
-	</section>
-	<section>
-		<div class="past-interns-title past-interns-title__spring-2018" data-toggle-arrow="&#9658;" aria-expanded="false">
-			Research Scholars Spring 2018
-		</div>
-		<section class="mates grid grid--gap-20 past-interns-list past-interns-list__spring-2018" aria-hidden="true">
-			{% for mate in mates %}
-				{% set semester_value = (mate.getTermSemester)[0] %}
-				{% if semester_value.name == "Spring 2018" %}
-					{% include "partial/teammate.twig" with { 'mate' : mate } %}
-				{% endif %}
-			{% endfor %}
-		</section>
-	</section>
-
-{% elseif vertical == "propaganda" or vertical == "journalism" %}
-	{# Repeat similar blocks for other academic years (2021-2022, 2020-2021, etc.). #}
-	{#
-						If the vertical is 'propaganda' or 'journalism', check if there are
-						any alumni members to display. If any alumni are found, display their information.
-					#}
-	{% set semester_alumni = false %}
-
-	{# Loop through team members to determine if any of them are alumni. #}
-		{% for mate in mates %}
-		{% set semester_value = (mate.getTermSemester)[0] %}
-		{# get the term semester  #}
-			{% if semester_value.name == "Alumni" %}
-			{# If alumni are found, display them. #}
-		{% set semester_alumni = true %}
-	{% endif %}
-	{% endfor %}
-
-	{# if we have alumni print out the html #}
-		{% if semester_alumni == true %}
-			<section>
-				<div class="past-interns-title past-interns-title__alumni" data-toggle-arrow="&#9658;" aria-expanded="false"> <span>
-					Alumni
-				</span>
-			</div>
-			<section class="mates grid grid--gap-20 past-interns-list past-interns-list__alumni" aria-hidden="true">
-				{% for mate in mates %}
-					{% set semester_value = (mate.getTermSemester)[0] %}
-					{% set vertical_value = mate.vertical.slug %}
-
-					{#
-																										If the team member is alumni and belongs to the journalism vertical,
-																										only print their name. Otherwise, include their full card info.
-																									#}
-					{% if semester_value.name == "Alumni" and vertical_value == "journalism" %}
-						{{ mate.name }}
-						<br>
-						{# otherwise if the member is alumni include all card info #}
-					{% elseif semester_value.name == "Alumni" %}
-						{% include "partial/teammate.twig" with { 'mate' : mate } %}
-					{% endif %}
-				{% endfor %}
-			</section>
-		</section>
-	{% endif %}
-{% endif %}
