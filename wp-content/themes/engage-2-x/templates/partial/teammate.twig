@@ -12,20 +12,35 @@
   - vertical_value: The current vertical (category) of the team member (e.g., 'propaganda').
 #}
 
+{# Convert WP_Post to Timber\Post #}
+{% set mate = TimberPost(mate) %}
+
 {# sets default feature image #}
 {% set defaultimg = theme.link ~ '/assets/img/default-staff-image.png' %}
 {% set is_alumni = category == 'alumni' %}
+{% set mate_name = mate.title %}
+{% set mate_slug = mate.slug %}
 
+{% set mate_link = '' %}
+{% if mate.getDisplayLink %}
+	{% if mate.getExternalLink %}
+		{% set mate_link = mate.getExternalLink %}
+	{% else %}
+		{% set mate_link = function('get_permalink', mate.ID) %}
+	{% endif %}
+{% endif %}
 
-<div style="display: flex; flex-direction: column; align-items: {{ is_alumni ? 'start' : 'center' }};" class="mate item-animate {{ mate.thumbnail ? ' mate--has-img'}}" id="{{ mate.slug }}">
+<div style="display: flex; flex-direction: column; align-items: {{ is_alumni ? 'start' : 'center' }};" class="mate item-animate {{ mate_image ? ' mate--has-img'}}" id="{{ mate_slug }}">
 	{# Display team member's image if available, otherwise use default image #}
 	{% if not is_alumni %}
-		{% set img_src = mate.thumbnail and mate.thumbnail.src('thumbnail') | length > 0 ? mate.thumbnail.src : defaultimg %}
-        <div style="border: 2px solid #333f48; border-radius: 50%; width: 265.5px; height: 265.5px; position: relative;"  class="mate__img-wrap {{ mate.getDisplayLink ? 'mate__linked' : '' }}">
-            {% set img_tag = '<img class="mate__img" style="display: block; width: 100%; height: 100%; object-fit: cover" src="' ~ img_src ~ '" alt="' ~ (mate.thumbnail ? mate.thumbnail.alt : 'Default Image') ~ '"/>' %}
-            {% if mate.getDisplayLink %}
-                <a class="mate__name" href="{{ mate.link }}">
-                    {{ img_tag | raw }}
+		{% set mate_thumb = function('get_post_thumbnail_id', mate.ID) %}
+		{% set mate_image = mate_thumb ? Image(mate_thumb) : false %}
+		{% set img_src = mate_image ? mate_image.src('medium') : defaultimg %}
+		<div style="border: 2px solid #333f48; border-radius: 50%; width: 265.5px; height: 265.5px; position: relative;"  class="mate__img-wrap {{ mate_link ? 'mate__linked' : '' }}">
+			{% set img_tag = '<img class="mate__img" style="display: block; width: 100%; height: 100%; object-fit: cover" src="' ~ img_src ~ '" alt="' ~ (mate_image ? mate_image.alt : mate_name) ~ '"/>' %}
+			{% if mate_link %}
+				<a class="mate__name" href="{{ mate_link }}">
+					{{ img_tag | raw }}
 					<svg style="width: 102%; height: auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 153 155" class="deco-border-svg">
 						<g fill="none" fill-rule="evenodd">
 							<path stroke="#30383D" stroke-width="3" d="M75.763 146.488c38.375 0 69.485-31.335 69.485-69.99 0-38.656-31.11-69.991-69.485-69.991-38.374 0-69.485 31.335-69.485 69.991 0 38.655 31.11 69.99 69.485 69.99Z"></path>
@@ -34,9 +49,9 @@
 							<path fill="#30383D" d="M75.992 151 79 147.848l-.808-.848-2.249 2.355-2.182-2.287-.761.798z"></path>
 						</g>
 					</svg>
-                </a>
-            {% else %}
-                {{ img_tag | raw }}
+				</a>
+			{% else %}
+				{{ img_tag | raw }}
 				<svg style="width: 102%; height: auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 153 155" class="deco-border-svg">
 					<g fill="none" fill-rule="evenodd">
 						<path stroke="#30383D" stroke-width="3" d="M75.763 146.488c38.375 0 69.485-31.335 69.485-69.99 0-38.656-31.11-69.991-69.485-69.991-38.374 0-69.485 31.335-69.485 69.991 0 38.655 31.11 69.99 69.485 69.99Z"></path>
@@ -45,32 +60,29 @@
 						<path fill="#30383D" d="M75.992 151 79 147.848l-.808-.848-2.249 2.355-2.182-2.287-.761.798z"></path>
 					</g>
 				</svg>
-            {% endif %}
-        </div>
-    {% endif %}
-	<div
-		class="mate__content">
+			{% endif %}
+		</div>
+	{% endif %}
+	
+	
+	<div class="mate__content">
 		{# Display team member's name as a heading. Link to bio or external page if applicable. #}
-		<h3
-			class="mate__name mate__orange mate__name--{{ format }} {{ not is_alumni and not mate.getDesignation and not mate.designation ? 'mate__bottom-dots' : '' }}" style="{{ is_alumni ? 'text-align: left;' : 'margin-top: 2rem;' }}">
+		<h3 class="mate__name mate__orange mate__name--{{ format }} {{ not is_alumni and not mate.getDesignation and not mate.designation ? 'mate__bottom-dots' : '' }}" style="{{ is_alumni ? 'text-align: left;' : 'margin-top: 2rem;' }}">
 			{# If format is 'excerpt' or 'full' and not in 'propaganda' vertical, show name as a link #}
-			{% if (format == "excerpt" or "full") and vertical_value != "propaganda" and (mate.getDisplayLink) %}
-				{% if mate.getExternalLink != "" %}
-					{% if mate.getLinkOption != "" %}
-						{# Link redirects to an external page instead of an internal bio page if 'external_link_checkbox' is set #}
-						<a class="mate__name mate__orange a" href="{{ mate.getExternalLink }}">{{ mate.name }}</a>
+			{% if (format == "excerpt" or "full") %}
+					{% if mate_link %}
+						{# Link redirects to an external page instead of an internal bio page if 'member_display_link' is set #}
+						<a class="mate__name mate__orange a" href="{{ mate_link }}">
+							{{ mate.title }}
+						</a>
 					{% else %}
-						<a class="mate__name mate__orange b" href="{{ mate.link }}">{{ mate.title }}</a>
+						{{ mate.title }}
 					{% endif %}
-				{% else %}
-					<a class="mate__name mate__orange" href="{{ mate.link }}">{{ mate.title }}</a>
-				{% endif %}
 				{# Otherwise, just display the name without a link (e.g., in 'propaganda' vertical) #}
 			{% else %}
 				{{ mate.title}}
 			{% endif %}
 
-			
 		</h3>
 		{# Display team member's designation if the format is 'excerpt' #}
 		
@@ -80,18 +92,17 @@
 						{{ mate.designation }}
 					</p>
 				{% endif %}
-			{% elseif format == "full" and mate.getDisplayLink %}
+			{% elseif format == "full" and mate_link %}
 				{% set content = mate.content | striptags | split(' ') | slice(0, 45) | join(' ') ~ ' ... ' %}
 				<p class="mate__bio">
 					{{ content }}
-					<a href="{{ mate.link }}">
+					<a href="{{ mate_link }}">
 						<strong>
 							[Read More]
 						</strong>
 					</a>
 				</p>
 			{% endif %}
-		
-		
+
 	</div>
 </div>
