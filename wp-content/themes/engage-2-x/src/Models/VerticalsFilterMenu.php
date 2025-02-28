@@ -22,16 +22,16 @@ class VerticalsFilterMenu extends FilterMenu
 	public function setFilters() {
 		$filters = $this->buildBaseFilter();
 		
-		$verticals = get_terms([
-			'taxonomy' => 'verticals',
+		$categories = get_terms([
+			'taxonomy' => 'category',
 			'hide_empty' => true,
 		]);
 		
 		
 		// set top level terms
-		foreach($verticals as $vertical) {
+		foreach($categories as $category) {
 			// add in an empty terms array to each one
-			$filters['terms'][$vertical->slug] = $this->buildTopVerticalFilterTerm($vertical);
+			$filters['terms'][$category->slug] = $this->buildTopVerticalFilterTerm($category);
 			
 		}
 		
@@ -55,16 +55,16 @@ class VerticalsFilterMenu extends FilterMenu
 	public function buildVerticalFilter($filters, $postID) {
 		
 		// get which vertical taxonomy this goes to
-		$vertical_terms = get_the_terms($postID, 'verticals');
+		$category_terms = get_the_terms($postID, 'category');
 		
-		if (!empty($vertical_terms) && is_array($vertical_terms)) {
-			$vertical = $vertical_terms[0];
+		if (!empty($category_terms) && is_array($category_terms)) {
+			$category = $category_terms[0];
 		} else {
-			$vertical = get_the_terms($postID, 'team_category');
+			$category = get_the_terms($postID, 'category');
 		}
 
 		foreach($this->taxonomies as $taxonomy) {
-			if($taxonomy === 'verticals') {
+			if($taxonomy === 'category') {
 				continue;
 			} else if ($taxonomy === 'team_category') {
 				$terms = get_the_terms($postID, $taxonomy);
@@ -90,3 +90,5 @@ class VerticalsFilterMenu extends FilterMenu
 	}
 	
 }
+
+delete_transient('research-filter-menu');

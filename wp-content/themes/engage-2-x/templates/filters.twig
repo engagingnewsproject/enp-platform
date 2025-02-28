@@ -19,7 +19,7 @@
 			class="filters filters--{{ filters.slug }}">
 
 			{# Loop through each term in the filters array to create individual filter items #}
-			{% for term in filters.terms %}
+			{% for key, term in filters.terms %}
 				{# Skip the term with the title 'Former CME' as it's not meant to be included in the filters #}
 				{% if term.title != 'Former CME' and term.title != 'Team' %}
 
