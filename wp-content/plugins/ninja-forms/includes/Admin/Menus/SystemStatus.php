@@ -278,6 +278,61 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
             $sql_version_variable_value = 'unknown';
         }
 
+        /* 
+         * Add-ons Comm Statuses
+         */
+        $addonsWithCommData = [
+            "Capsule CRM" => [
+                'optionKey' => "nfcapsulecrm_comm_data",
+                'pluginSlug' => 'ninja-forms-capsule-crm/ninja-forms-capsule-crm.php'
+            ],
+            "Elavon" => [
+                'optionKey' => "nfelavon_support_data",
+                'pluginSlug' => 'ninja-forms-elavon-payment-gateway/ninja-forms-elavon.php'
+            ],
+            "Insightly CRM" => [
+                'optionKey' => "nfinsightlycrm_comm_data",
+                'pluginSlug' => 'ninja-forms-insightly-crm/ninja-forms-insightly-crm.php'
+            ],
+            "Onepage CRM" => [
+                'optionKey' => "nfonepagecrm_support_data",
+                'pluginSlug' => 'ninja-forms-onepage-crm/ninja-forms-onepage-crm.php'
+            ],
+            "Pipeline Deals CRM" => [
+                'optionKey' => "nfpipelinecrm_support_data",
+                'pluginSlug' => 'ninja-forms-pipeline-deals-crm/ninja-forms-pipeline-crm.php'
+            ],
+            "Salesforce CRM" => [
+                'optionKey' => "nfsalesforcecrm_comm_data",
+                'pluginSlug' => 'ninja-forms-salesforce-crm/ninja-forms-salesforce-crm.php'
+            ],
+            "Zoho CRM" => [
+                'optionKey' => "nfzohocrm_comm_data",
+                'pluginSlug' => 'ninja-forms-zoho-crm/ninja-forms-zoho-crm.php'
+            ]
+        ];
+
+        $addons_comm_status = [];
+
+        foreach ($addonsWithCommData as $addon_name => $addon_data) {
+            $comm_data = get_option($addon_data['optionKey']);
+
+            // Check if the plugin is active
+            if (is_plugin_active($addon_data['pluginSlug'])) {
+                if ($comm_data !== false) {
+                    $addons_comm_status[] = [
+                        'name' => $addon_name,
+                        'data' => $comm_data
+                    ];
+                } else {
+                    $addons_comm_status[] = [
+                        'name' => $addon_name,
+                        'data' => "No communication data found."
+                    ];
+                }
+            }
+        }
+
         //Output array
         $environment = array(
             esc_html__( 'Home URL','ninja-forms' ) => home_url(),
@@ -320,6 +375,6 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
             esc_html__( 'Legacy Submissions','ninja-forms' ) => $legacy_submissions,
         );
 
-        Ninja_Forms::template( 'admin-menu-system-status.html.php', compact( 'environment', 'NF_environment', 'php_extensions', 'site_wide_plugins', 'site_wide_inactive_plugins', 'current_theme', 'current_theme_version', 'all_installed_themes', 'errorLog' ) );
+        Ninja_Forms::template( 'admin-menu-system-status.html.php', compact( 'environment', 'NF_environment', 'php_extensions', 'site_wide_plugins', 'site_wide_inactive_plugins', 'current_theme', 'current_theme_version', 'all_installed_themes', 'errorLog', 'addons_comm_status' ) );
     }
 } // End Class NF_Admin_SystemStatus

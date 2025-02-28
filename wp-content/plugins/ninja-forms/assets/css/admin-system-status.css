@@ -9,14 +9,17 @@
 #debug-report {
     display: none;
 }
+
 #debug-report textarea {
     height: 200px;
     width: 300px;
 }
+
 .debug-report {
     display: inline-block;
     padding: 0;
 }
+
 .debug-report h3:first-child {
     margin-top: 0;
 }
@@ -27,6 +30,7 @@
     margin-right: 20px;
     max-width: 1150px;
 }
+
 .nf-status-table th {
     border-color: #ccc;
     border-style: solid;
@@ -37,26 +41,39 @@
     padding: .5em 0;
     width: 100%;
 }
+
 .nf-status-table thead:first-child th {
     border-radius: 4px 4px 0 0;
 }
+
 .nf-status-table td {
     border-color: #ccc;
     border-style: solid;
     border-width: 1px 1px 0px 1px;
     padding: .5em;
 }
+
 .nf-status-table td:first-child {
     border-left: 1px solid #ccc;
     border-right-width: 0;
     min-width: 200px;
 }
+
 .nf-status-table tbody:last-child td {
     border-bottom-width: 1px;
 }
 
-.nf-status-table > tbody > tr > td {
+.nf-status-table>tbody>tr>td {
     vertical-align: top;
+}
+
+.nf-status-table .scroll {
+    max-height: 250px;
+    max-width: 1000px;
+    overflow-y: auto;
+    display: block;
+    scrollbar-width: auto;
+    -ms-overflow-style: auto;
 }
 
 .jBox-content {

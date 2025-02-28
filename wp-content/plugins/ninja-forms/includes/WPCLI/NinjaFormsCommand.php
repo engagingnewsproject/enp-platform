@@ -84,6 +84,51 @@ class NF_WPCLI_NinjaFormsCommand extends WP_CLI_Command
     }
 
     /**
+     * Delete function
+     * 
+     * @param $type first argument determine the type of data we want to delete
+     * @param $formID second argument determine the ID of the object we want to delete
+     */
+    public function delete( $args, $assoc_args )
+    {
+        $type = $args[0];
+        $formID = $args[1];
+        if(empty($formID) || empty($type)){
+            WP_CLI::error( "Missing type or ID parameter", true );
+        }
+        
+        if($type === "form"){
+            foreach( Ninja_Forms()->form()->get_forms() as $form ){
+                if($form->get_id() === (int) $formID){
+                    WP_CLI::confirm( "Are you sure you want to delete form " . $form->get_setting("title") . " ?", $assoc_args );
+                    Ninja_Forms()->form( $form->get_id() )->delete();
+                    WP_CLI::success( 'Form deleted!' );
+                    WP_CLI::halt(0);
+                }
+            }
+        }
+        WP_CLI::error( "Form ID not found", true );
+    }
+
+    /**
+     * Delete all forms
+     */
+    public function delete_all_forms( $args, $assoc_args )
+    {
+        
+        WP_CLI::confirm( "Are you sure you want to delete all forms?", $assoc_args );
+        foreach( Ninja_Forms()->form()->get_forms() as $form ){
+            Ninja_Forms()->form( $form->get_id() )->delete();
+        }
+        
+        if ( count(Ninja_Forms()->form()->get_forms()) > 0 ) {
+            WP_CLI::error( "Something went wrong" );
+        } else {
+            WP_CLI::success( 'All forms deleted!' );
+        }
+    }
+
+    /**
      * Installs mock form data
      */
     public function mock()

@@ -45,6 +45,9 @@ class ConstructNfSiteEnvironmentEntity
             'hostname'                  => $this->getHostName(),
             'smtp'                      => $this->getPhpSmtp(),
             'smtp_port'                 => $this->getPhpSmtpPort(),
+            'site_timezone'             => $this->getSiteTimezone(),
+            'nf_gatekeeper'             => $this->getNfGatekeeper(),
+            'siteTheme'                 => $this->getSiteTheme(),
             'active_plugins'            => $this->getActivePlugins()
         ];
 
@@ -357,6 +360,58 @@ class ConstructNfSiteEnvironmentEntity
         if (!is_array($return)) {
             $return = $default;
         }
+
+        return $return;
+    }
+
+    /**
+     * Get Site Timezone
+     *
+     * @return string
+     */
+    protected function getSiteTimezone(): string
+    {
+        $default = 'unknown';
+
+        $return = get_option('timezone_string', $default);
+
+        if (!is_string($return)) {
+
+            $return = $default;
+        }
+
+        return $return;
+    }
+
+    /**
+     * Get Site Theme Name
+     *
+     * @return string
+     */
+    protected function getSiteTheme(): string
+    {
+        $default = 'unknown';
+
+        $return = wp_get_theme()->get('Name');
+
+        if (!is_string($return)) {
+
+            $return = $default;
+        }
+
+        return $return;
+    }
+
+    /**
+     * Get NF Gatekeeper
+     *
+     * @return integer
+     */
+    protected function getNfGatekeeper(): int
+    {
+        $default = '100';
+
+        $return = get_option( 'ninja_forms_zuul', $default);
 
         return $return;
     }

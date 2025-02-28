@@ -2,10 +2,9 @@
 Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorhouse, jmcelhaney, wpnzach, ericwindhamsd
 Tags: forms, form builder, contact form, lead form, registration form
 
-
 Requires at least: 6.5
 Tested up to: 6.7
-Stable tag: 3.8.25
+Stable tag: 3.9.0
 
 Requires PHP: 7.4
 
@@ -312,11 +311,23 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.8.25 (27 January 2025) =
-*Bug Fixes:*
-- ensure form id value is numeric in shortcodes; responsibly reported by Peter Thaleikis via Wordfence
+= 3.9.0 (10 February 2025) =
+*Features:*
+- New user onboarding
+- Add delete forms WP-CLI command
+
+*Other:*
+- JS library updates
 
 == Changelog ==
+= 3.9.0 (10 February 2025) =
+*Features:*
+- New user onboarding
+- Add delete forms WP-CLI command
+
+*Other:*
+- JS library updates
+
 = 3.8.25 (27 January 2025) =
 *Bug Fixes:*
 - ensure form id value is numeric in shortcodes; responsibly reported by Peter Thaleikis via Wordfence

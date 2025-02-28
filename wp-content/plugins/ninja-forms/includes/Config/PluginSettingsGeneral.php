@@ -42,4 +42,16 @@ return apply_filters( 'ninja_forms_plugin_settings_general', array(
         'value'   => 'USD'
     ),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Welcome Page
+    |--------------------------------------------------------------------------
+    */
+
+    'show_welcome' => array(
+        'id'    => 'show_welcome',
+        'type'  => 'checkbox',
+        'label' => esc_html__( 'Show Welcome Page', 'ninja-forms' ),
+        'value' => 1
+    ),
 ));

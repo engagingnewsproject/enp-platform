@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=WordPress&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.8.25
+Version: 3.9.0
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -43,7 +43,7 @@ final class Ninja_Forms
      * @since 3.0
      */
 
-    const VERSION = '3.8.25';
+    const VERSION = '3.9.0';
 
     /**
      * @since 3.4.0
@@ -282,6 +282,7 @@ final class Ninja_Forms
             self::$instance->menus[ 'add-ons' ]         = new NF_Admin_Menus_Addons();
             self::$instance->menus[ 'divider']          = new NF_Admin_Menus_Divider();
             self::$instance->menus[ 'mock-data']        = new NF_Admin_Menus_MockData();
+            self::$instance->menus[ 'welcome' ]         = new NF_Admin_Menus_Welcome();
 
             /*
                 * AJAX Controllers
@@ -296,6 +297,7 @@ final class Ninja_Forms
             self::$instance->controllers[ 'deletealldata' ] = new NF_AJAX_Controllers_DeleteAllData();
             self::$instance->controllers[ 'jserror' ]       = new NF_AJAX_Controllers_JSError();
             self::$instance->controllers[ 'dispatchpoints' ] = new NF_AJAX_Controllers_DispatchPoints();
+            self::$instance->controllers[ 'onboarding' ] = new NF_AJAX_Controllers_Onboarding();
 
             /*
                 * REST Controllers
@@ -450,6 +452,12 @@ final class Ninja_Forms
         add_action( 'init', array( self::$instance, 'instantiateTranslatableObjects' ), 5 );
         add_action( 'init', array( self::$instance, 'init' ), 5 );
         add_action( 'admin_init', array( self::$instance, 'admin_init' ), 5 );
+        add_action( 'admin_enqueue_scripts', function() {
+            if(apply_filters('ninja_forms_current_user_is_onboarding', 0)) {
+                wp_register_script( 'nf-heartbeat', self::$url . 'assets/js/admin-heartbeat.js', array('jquery') );
+                wp_enqueue_script('nf-heartbeat');
+            }
+        });
 
         add_action( 'nf_weekly_promotion_update', array( self::$instance, 'nf_run_promotion_manager' ) );
         add_action( 'activated_plugin', array( self::$instance, 'nf_bust_promotion_cache_on_plugin_activation' ), 10, 2 );
@@ -668,6 +676,16 @@ final class Ninja_Forms
         if ( 1 == get_option( 'ninja_forms_needs_updates' ) ) {
             unset(
                 $items[ 'widgets' ],
+                $items[ 'apps' ],
+                $items[ 'memberships' ],
+                $items[ 'services' ],
+                $items[ 'user_access' ]
+            );
+        }
+
+        $onboarding_step = apply_filters( 'nf_onboarding_step_now', 0 );
+        if ( 1 === $onboarding_step || 2 === $onboarding_step ) {
+            unset(
                 $items[ 'apps' ],
                 $items[ 'memberships' ],
                 $items[ 'services' ],
