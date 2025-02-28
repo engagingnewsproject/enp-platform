@@ -6,6 +6,7 @@ namespace Engage\Managers;
 
 use Timber;
 use Engage\Models\VerticalsFilterMenu;
+use Engage\Models\ResearchFilterMenu;
 use Engage\Models\FilterMenu;
 
 class Globals {
@@ -312,13 +313,13 @@ class Globals {
 		$options = [
 			'title'				=> 'Research',
 			'slug'				=> 'research-menu',
-			'posts' 			=> $posts,
-			'taxonomies'	=> [ 'vertical', 'research-categories' ],
+			'posts' 		=> $posts,
+			'taxonomies'	=> [ 'research-categories' ],
 			'postTypes'		=> [ 'research' ],
 		];
 		
 		// we don't have the research menu, so build it
-		$filters = new VerticalsFilterMenu($options);
+		$filters = new ResearchFilterMenu($options);
 		$menu = $filters->build();
 		
 		set_transient('research-filter-menu', $menu );
