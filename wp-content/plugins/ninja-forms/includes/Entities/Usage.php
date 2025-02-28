@@ -13,6 +13,7 @@ class Usage implements JsonSerializable
         'fields' => 'array',
         'field_settings' => 'array',
         'actions' => 'array',
+        'action_settings' => 'array',
         'display_settings' => 'array',
         'restrictions' => 'array',
         'calculations' => 'array',
@@ -26,6 +27,7 @@ class Usage implements JsonSerializable
     public array $fields = [];
     public array $field_settings = [];
     public array $actions = [];
+    public array $action_settings = [];
     public array $display_settings = [];
     public array $restrictions = [];
     public array $calculations = [];
