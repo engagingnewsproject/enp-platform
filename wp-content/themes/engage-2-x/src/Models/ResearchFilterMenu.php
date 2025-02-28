@@ -28,27 +28,34 @@ class ResearchFilterMenu extends FilterMenu
 		]);
 		
 		// Debug
-		error_log('RESEARCH FILTER MENU: Found ' . count($research_categories) . ' research-categories terms');
+		// error_log('RESEARCH FILTER MENU: Found ' . count($research_categories) . ' research-categories terms');
 		
 		if (empty($research_categories) || is_wp_error($research_categories)) {
-			error_log('RESEARCH FILTER MENU: No terms found or error');
 			return $filters;
 		}
 		
-		// Add each research category directly to the filters
+		// Make sure the 'research' post type exists in the filters
+		if (!isset($filters['terms']['research'])) {
+			$filters['terms']['research'] = [
+				'title' => 'Research',
+				'slug' => 'research',
+				'link' => home_url('/research/'),
+				'terms' => []
+			];
+		}
+		
+		// Add each research category to the research post type's terms
 		foreach($research_categories as $term) {
 			// Skip uncategorized
 			if($term->slug === 'uncategorized') {
-				error_log('RESEARCH FILTER MENU: Skipping uncategorized term');
 				continue;
 			}
 			
-			// Add the term directly to the filters
-			$filters['terms'][$term->slug] = $this->buildFilterTerm($term);
-			error_log('RESEARCH FILTER MENU: Added research category: ' . $term->name . ' (' . $term->slug . ')');
+			// Add the term to the research post type's terms
+			$filters['terms']['research']['terms'][$term->slug] = $this->buildFilterTerm($term);
 		}
 		
-		error_log('RESEARCH FILTER MENU: Final filters structure: ' . print_r($filters, true));
+		// error_log('RESEARCH FILTER MENU: Final filters structure: ' . print_r($filters, true));
 		
 		return $filters;
 	}

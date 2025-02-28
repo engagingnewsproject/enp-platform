@@ -16,7 +16,7 @@ class Permalinks
             'announcement-category'     => 'category',
             'blogs-category'            => 'category',
             'tribe_events_cat'          => 'category',
-            'verticals'                 => 'vertical'
+            // 'verticals'                 => 'vertical'
             // add new taxonomies with
             //'taxonomy-slug'          => 'category' or whatever you want the base name of the url to be
         ];
@@ -30,21 +30,21 @@ class Permalinks
 
     }
 
-    public function getQueriedCategory()
-    {
-        foreach($this->taxRewriteMap as $key => $val) {
-            $category = get_query_var($key, false);
-            if($category) {
-                // there's a weird mapping where the query_var doesn't match the slug for the WP default category, so we have to change the name
-                if($key === 'category_name') {
-                    $key = 'category';
-                }
-                return get_term_by('slug', $category, $key);
-            }
-        }
+    // public function getQueriedCategory()
+    // {
+    //     foreach($this->taxRewriteMap as $key => $val) {
+    //         $category = get_query_var($key, false);
+    //         if($category) {
+    //             // there's a weird mapping where the query_var doesn't match the slug for the WP default category, so we have to change the name
+    //             if($key === 'category_name') {
+    //                 $key = 'category';
+    //             }
+    //             return get_term_by('slug', $category, $key);
+    //         }
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 
     public function getQueriedVertical()
     {
@@ -53,6 +53,11 @@ class Permalinks
         return ($vertical ? get_term_by('slug', $vertical, 'verticals') : false);
     }
 
+	public function getQueriedCategory() {
+		$category = get_query_var('category_name', false);
+		return ($category ? get_term_by('slug', $category, 'category') : false);
+	}
+	
     public function getQueriedPostType()
     {
         $postType = get_query_var('post_type', false);
@@ -91,46 +96,94 @@ class Permalinks
         // map tribe_events to event
         $postType = ($postType === 'tribe_events' ? 'events' : $postType);
         $base = $options['base'];
-        $vertical = false;
+        $category = false;
 
-        // set our vertical, if any
+        // set our category, if any
         foreach ($terms as $term) {
             if(!is_object($term)) {
                 continue;
             }
-            if($term->taxonomy === 'verticals') {
-                $vertical = $term;
+            if($term->taxonomy === 'category') {
+                $category = $term;
             }
         }
 
 
         $link = get_site_url();
 
-        // what's our base?
-        // start with the vertical
-        $link .= ($base === 'vertical' ? '/vertical/'.$vertical->slug : '');
-
-        // add in the post type
-        $link .= ($postType ? '/' .$postType : '');
-
-        // add in any terms
+    // What's our base?
+    if ($base === 'postType') {
+        // Start with the post type
+		$link .= ($postType ? '/' . $postType : '');
+		$link .= ($category ? '/' . $category->slug : '');
+        
+        // Add any other taxonomies
         foreach($terms as $term) {
             if (!is_object($term)) {
                 continue;
             }
-            if($base === 'vertical' && $term->taxonomy === 'verticals') {
-                // skip it
+            // Skip the category since we already added it
+            if($term->taxonomy === 'category') {
                 continue;
             }
-            // WARNING: Attempt to read property "taxonomy" on bool	TODO
             if(array_key_exists($term->taxonomy, $this->taxRewriteMap)) {
                 $taxonomy = $this->taxRewriteMap[$term->taxonomy];
-                // add it to the link
+                // Add it to the link
                 $link .= '/'.$taxonomy.'/'.$term->slug;
             }
         }
+    } else {
+        // For backward compatibility with the vertical-based URLs
+        // Start with the vertical/category
+        $link .= ($base === 'vertical' && $category ? '/category/'.$category->slug : '');
+        
+        // Add in the post type
+        $link .= ($postType ? '/' .$postType : '');
+        
+        // Add in any other terms
+        foreach($terms as $term) {
+            if (!is_object($term)) {
+                continue;
+            }
+            if($base === 'vertical' && $term->taxonomy === 'category') {
+                // Skip it
+                continue;
+            }
+            if(array_key_exists($term->taxonomy, $this->taxRewriteMap)) {
+                $taxonomy = $this->taxRewriteMap[$term->taxonomy];
+                // Add it to the link
+                $link .= '/'.$taxonomy.'/'.$term->slug;
+            }
+        }
+    }
 
         return $link;
     }
 
+	// Add rewrite rules for the /research/[category] format
+	public function getCategoryRewrites() {
+		$rules = [];
+		
+		// For post types with categories
+		$post_types = ['blogs', 'announcement', 'team', 'board']; // Remove 'research'
+		
+		foreach ($post_types as $post_type) {
+			// /blogs/[category]
+			$rules[$post_type.'/([^/]+)/?$'] = 'index.php?post_type='.$post_type.'&category_name=$matches[1]';
+			
+			// For subcategories or additional taxonomies
+			if ($post_type === 'blogs') {
+				// /blogs/[category]/category/[blogs-category]
+				$rules[$post_type.'/([^/]+)/category/([^/]+)/?$'] = 'index.php?post_type='.$post_type.'&category_name=$matches[1]&blogs-category=$matches[2]';
+			}
+			// Add similar rules for other post types as needed
+		}
+		
+		// Special handling for research post type
+		$rules['research/([^/]+)/?$'] = 'index.php?post_type=research&research-categories=$matches[1]';
+		$rules['research/([^/]+)/tag/([^/]+)/?$'] = 'index.php?post_type=research&research-categories=$matches[1]&research-tags=$matches[2]';
+		
+		return $rules;
+	}
+	
 }

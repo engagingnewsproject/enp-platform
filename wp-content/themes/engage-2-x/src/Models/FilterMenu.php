@@ -111,7 +111,7 @@ class FilterMenu
             'postTypes'  => [],
             'posts' => [],
             'manualLinks' => [],
-            'linkBase'  => 'vertical'
+            'linkBase'  => 'postType'
         ];
         
         $options = array_merge($defaults, $options);
@@ -165,8 +165,11 @@ class FilterMenu
             'link'  => false,
             'terms' => []
         ];
-        // get current vertical, if any
-        $vertical = $this->Permalinks->getQueriedVertical();
+		// Get current category, if any (fallback to vertical for backward compatibility)
+		$category = $this->Permalinks->getQueriedCategory();
+		$vertical = $this->Permalinks->getQueriedVertical();
+		$term = $category ? $category : $vertical;
+		
         // add all the taxonomies in the order that they were created
         foreach($this->postTypes as $postType) {
             $postType = get_post_type_object($postType);
@@ -178,10 +181,10 @@ class FilterMenu
                     'slug'  => $postType->name,
                     'link'  => $this->Permalinks->getTermLink([
                         'terms' => [
-                            $vertical
+                            $term
                         ],
                         'postType' =>  $postType->name,
-                        'base'  => $this->linkBase
+                        'base'  => $term && $term->taxonomy === 'category' ? 'postType' : $this->linkBase
                     ]),
                     'terms' => []
                 ];
@@ -221,8 +224,12 @@ class FilterMenu
     {
         
         $terms = get_the_terms($postID, $taxonomy);
-        // get current vertical, if any
-        $vertical = $this->Permalinks->getQueriedVertical();
+
+		// Get current category or vertical
+		$category = $this->Permalinks->getQueriedCategory();
+		$vertical = $this->Permalinks->getQueriedVertical();
+		$term = $category ? $category : $vertical;
+		
         // get post type of the taxonomy
         $postType = $this->Permalinks->getPostTypeByTaxonomy($taxonomy);
         
@@ -251,28 +258,47 @@ class FilterMenu
      */
     public function buildFilterTerm($term, $vertical = false, $postType = false)
     {
-        
-        return  [
-            'ID'    => $term->term_id,
-            'slug'  => $term->slug,
-            'title' => $term->name,
-            'description' => $term->description,
-            'link'  => $this->Permalinks->getTermLink(
-                [
-                    'terms' => [
-                        $vertical,
-                        $term
-                    ],
-                    'postType' => $postType,
-                    'base'  => $this->linkBase
-                ]
-            ),
-                'count' => $term->count,
-                'taxonomy' => $term->taxonomy
-            ];
-            
-            
-    }
+		// If the term is a category and we're using the new URL structure
+		if ($term->taxonomy === 'category') {
+			return  [
+				'ID'    => $term->term_id,
+				'slug'  => $term->slug,
+				'title' => $term->name,
+				'description' => $term->description,
+				'link'  => $this->Permalinks->getTermLink(
+					[
+						'terms' => [
+							$term
+						],
+						'postType' => $postType,
+						'base'  => 'postType' // Always use postType as the base for categories
+					]
+				),
+					'count' => $term->count,
+					'taxonomy' => $term->taxonomy
+				];
+		}
+		
+		// For other taxonomies, use the existing logic
+		return [
+			'ID'    => $term->term_id,
+			'slug'  => $term->slug,
+			'title' => $term->name,
+			'description' => $term->description,
+			'link'  => $this->Permalinks->getTermLink(
+				[
+					'terms' => [
+						$vertical,
+						$term
+					],
+					'postType' => $postType,
+					'base'  => $this->linkBase
+				]
+			),
+			'count' => $term->count,
+			'taxonomy' => $term->taxonomy
+		];
+	}
         
     /**
      * Add manually defined links to the filter menu.

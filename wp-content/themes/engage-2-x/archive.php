@@ -70,7 +70,7 @@ if(get_query_var('vertical_base')) {
 //	$archive = new TeamArchive( $wp_query, $options );
 // if research archive page for bridging-divides vertical
 //} else 
-if (is_tax('verticals', 'bridging-divides') && is_post_type_archive(['research'])) {
+if (is_tax('category', 'bridging-divides') && is_post_type_archive(['research'])) {
 	// remove the "Quick Reads" sidebar menu item from the $options var.
 	if (isset($options['filters']['terms']['blogs'])) {
 		unset($options['filters']['terms']['blogs']);
@@ -80,7 +80,7 @@ if (is_tax('verticals', 'bridging-divides') && is_post_type_archive(['research']
 		'tax_query' => [
 			'relation' => 'AND',
 			[
-					'taxonomy' => 'verticals',
+					'taxonomy' => 'research-categories',
 					'field' => 'slug',
 					'terms' => ['bridging-divides'], // filter by bridging-divides vertical
 			],
@@ -100,12 +100,13 @@ if(preg_match('/\/announcement\/([^\/]*\/)?([^\/]*(\/))?/', $_SERVER['REQUEST_UR
   $context['archive']['announcement'] = True;
 }
 
-if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/vertical/media-ethics/') {
-  // get media ethics vertical term
-  $mediaEthicsTerm = get_term_by('slug', 'media-ethics', 'verticals');
+// Check for the category instead of vertical
+if(get_query_var('category_name') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/research/media-ethics/') {
+	// Get media ethics category term
+  $mediaEthicsTerm = get_term_by('slug', 'media-ethics', 'category');
 	
   $researchTiles = [];
-  // Get media ethics research categories
+  // Get research categories
   $researchCategories = $options['filters']['terms']['research']['terms'];
 	foreach($researchCategories as $key => $category) {
 		// Get the category image ID from the ACF image custom field
@@ -117,8 +118,8 @@ if(get_query_var('verticals') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/
 			$researchCategories[$key]["thumbnail"] = Timber::get_image($thumbID);
 			// set the description
 			$researchCategories[$key]["excerpt"] = term_description($category['ID']);
-			// add function to tiles
-			$researchCategories[$key]["vertical"] =  $mediaEthicsTerm;
+			// Change vertical to category
+			$researchCategories[$key]["category"] = $mediaEthicsTerm;
 			// add it to the research tiles
 			$researchTiles[] = $researchCategories[$key];
 		}
