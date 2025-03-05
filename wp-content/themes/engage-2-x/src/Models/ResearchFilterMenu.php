@@ -74,9 +74,6 @@ class ResearchFilterMenu extends FilterMenu
 			'base'  => $this->linkBase
 		]);
 		
-		// Convert /research/category/term/ to /research/term/
-		$link = str_replace('/research/category/', '/research/', $link);
-		
 		return [
 			'ID'    => $term->term_id,
 			'slug'  => $term->slug,

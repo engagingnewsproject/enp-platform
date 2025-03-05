@@ -100,32 +100,78 @@ if(preg_match('/\/announcement\/([^\/]*\/)?([^\/]*(\/))?/', $_SERVER['REQUEST_UR
   $context['archive']['announcement'] = True;
 }
 
-// Check for the category instead of vertical
-if(get_query_var('category_name') == 'media-ethics' && $_SERVER['REQUEST_URI'] == '/research/media-ethics/') {
+// Check for media-ethics subcategory pages
+if(get_query_var('category_name') === 'media-ethics' && get_query_var('research-categories')) {
+    // Debug output
+    error_log('Media Ethics Subcategory Page');
+    error_log('Category Name: ' . get_query_var('category_name'));
+    error_log('Research Category: ' . get_query_var('research-categories'));
+    
+    // Get posts that have both the media-ethics category and the specific research category
+    $args = [
+        'post_type' => 'research',
+        'tax_query' => [
+            'relation' => 'AND',
+            [
+                'taxonomy' => 'research-categories',
+                'field' => 'slug',
+                'terms' => get_query_var('research-categories')
+            ]
+        ],
+        'posts_per_page' => -1
+    ];
+    
+    $query = new WP_Query($args);
+    error_log('Found Posts: ' . $query->post_count);
+    error_log('Query SQL: ' . $query->request);
+    
+    $archive = new TileArchive($options, $query);
+    $context['archive'] = $archive;
+    
+    // Add debug info to context
+    $context['debug'] = [
+        'category_name' => get_query_var('category_name'),
+        'research_category' => get_query_var('research-categories'),
+        'post_count' => $query->post_count,
+        'is_archive' => is_archive(),
+        'is_tax' => is_tax(),
+        'query_vars' => $wp_query->query_vars
+    ];
+}
+// Check for media-ethics category with new URL structure
+else if(get_query_var('research-categories') === 'media-ethics' || (get_query_var('category_name') === 'media-ethics' && strpos($_SERVER['REQUEST_URI'], '/research/category/media-ethics') !== false)) {
 	// Get media ethics category term
-  $mediaEthicsTerm = get_term_by('slug', 'media-ethics', 'category');
+	$mediaEthicsTerm = get_term_by('slug', 'media-ethics', 'category');
 	
-  $researchTiles = [];
-  // Get research categories
-  $researchCategories = $options['filters']['terms']['research']['terms'];
-	foreach($researchCategories as $key => $category) {
+	$researchTiles = [];
+	// Get research categories
+	$researchCategories = get_terms([
+		'taxonomy' => 'research-categories',
+		'hide_empty' => true,
+		'exclude' => get_term_by('slug', 'uncategorized', 'research-categories')->term_id
+	]);
+	
+	foreach($researchCategories as $category) {
 		// Get the category image ID from the ACF image custom field
-		// IMPORTANT: the ACF image field needs to return the image ID
-		$thumbID = get_field('category_featured_image', "research-categories_" . $category['ID']);
+		$thumbID = get_field('category_featured_image', "research-categories_{$category->term_id}");
 
 		if($thumbID) {
-			// set the thumbnail
-			$researchCategories[$key]["thumbnail"] = Timber::get_image($thumbID);
-			// set the description
-			$researchCategories[$key]["excerpt"] = term_description($category['ID']);
-			// Change vertical to category
-			$researchCategories[$key]["category"] = $mediaEthicsTerm;
-			// add it to the research tiles
-			$researchTiles[] = $researchCategories[$key];
+			// Build the category tile
+			$tile = [
+				'ID' => $category->term_id,
+				'title' => $category->name,
+				'slug' => $category->slug,
+				'thumbnail' => Timber::get_image($thumbID),
+				'excerpt' => term_description($category->term_id),
+				'category' => $mediaEthicsTerm,
+				'link' => home_url("/research/category/media-ethics/{$category->slug}/"),
+				'count' => $category->count
+			];
+			$researchTiles[] = $tile;
 		}
 	}
-  // set the posts as the research tiles that have thumbnails
-  $context['archive']['posts'] = $researchTiles;
+	// set the posts as the research tiles that have thumbnails
+	$context['archive']['posts'] = $researchTiles;
 }
 
 Timber::render( ['archive.twig'], $context, ENGAGE_PAGE_CACHE_TIME);
