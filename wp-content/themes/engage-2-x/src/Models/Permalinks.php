@@ -103,7 +103,7 @@ class Permalinks
             if(!is_object($term)) {
                 continue;
             }
-            if($term->taxonomy === 'category') {
+            if($term->taxonomy === 'research-categories') {
                 $category = $term;
             }
         }
@@ -115,7 +115,6 @@ class Permalinks
     if ($base === 'postType') {
         // Start with the post type
 		$link .= ($postType ? '/' . $postType : '');
-		$link .= ($category ? '/' . $category->slug : '');
         
         // Add any other taxonomies
         foreach($terms as $term) {
@@ -124,6 +123,11 @@ class Permalinks
             }
             // Skip the category since we already added it
             if($term->taxonomy === 'category') {
+                continue;
+            }
+            // For research-categories, add it with /category/ prefix
+            if($term->taxonomy === 'research-categories') {
+                $link .= '/category/' . $term->slug;
                 continue;
             }
             if(array_key_exists($term->taxonomy, $this->taxRewriteMap)) {
@@ -180,8 +184,11 @@ class Permalinks
 		}
 		
 		// Special handling for research post type
-		$rules['research/([^/]+)/?$'] = 'index.php?post_type=research&research-categories=$matches[1]';
-		$rules['research/([^/]+)/tag/([^/]+)/?$'] = 'index.php?post_type=research&research-categories=$matches[1]&research-tags=$matches[2]';
+		$rules['research/category/([^/]+)/?$'] = 'index.php?post_type=research&research-categories=$matches[1]';
+		$rules['research/category/([^/]+)/tag/([^/]+)/?$'] = 'index.php?post_type=research&research-categories=$matches[1]&research-tags=$matches[2]';
+		
+		// Add rule for media-ethics subcategories
+		$rules['research/category/media-ethics/([^/]+)/?$'] = 'index.php?post_type=research&category_name=media-ethics&research-categories=$matches[1]';
 		
 		return $rules;
 	}
