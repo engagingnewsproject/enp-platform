@@ -85,8 +85,12 @@ class Research {
 			'show_ui'           => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
-			'has_archive'		=> true,
-			'rewrite'           => array( 'slug' => 'research-cats' ),
+			'has_archive'       => true,
+			'rewrite'           => array(
+				'slug' => 'research',
+				'with_front' => false,
+				'hierarchical' => true
+			),
 		);
 		register_taxonomy( 'research-categories', array( 'research' ), $args );
 	}
