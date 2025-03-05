@@ -5,7 +5,7 @@
 
 namespace Engage\Models;
 
-class Permalinks
+class URLConstructor
 {
 
 	public $taxRewriteMap = [  // Map the slugs of the taxonomies to the corresponding name. Most just get changed straight to category.
@@ -24,22 +24,6 @@ class Permalinks
 
 
 	public function __construct() {}
-
-	// public function getQueriedCategory()
-	// {
-	//     foreach($this->taxRewriteMap as $key => $val) {
-	//         $category = get_query_var($key, false);
-	//         if($category) {
-	//             // there's a weird mapping where the query_var doesn't match the slug for the WP default category, so we have to change the name
-	//             if($key === 'category_name') {
-	//                 $key = 'category';
-	//             }
-	//             return get_term_by('slug', $category, $key);
-	//         }
-	//     }
-
-	//     return false;
-	// }
 
 	public function getQueriedVertical()
 	{
@@ -137,9 +121,9 @@ class Permalinks
 				if ($term->taxonomy === 'category') {
 					continue;
 				}
-				// For research-categories, add it with /category/ prefix
+				// For research-categories, just add the slug directly
 				if ($term->taxonomy === 'research-categories') {
-					$link .= '/category/' . $term->slug;
+					$link .= '/' . $term->slug;
 					continue;
 				}
 				if (array_key_exists($term->taxonomy, $this->taxRewriteMap)) {
@@ -195,13 +179,6 @@ class Permalinks
 			}
 			// Add similar rules for other post types as needed
 		}
-
-		// Special handling for research post type
-		$rules['research/category/([^/]+)/?$'] = 'index.php?post_type=research&research-categories=$matches[1]';
-		$rules['research/category/([^/]+)/tag/([^/]+)/?$'] = 'index.php?post_type=research&research-categories=$matches[1]&research-tags=$matches[2]';
-
-		// Add rule for media-ethics subcategories
-		$rules['research/category/media-ethics/([^/]+)/?$'] = 'index.php?post_type=research&category_name=media-ethics&research-categories=$matches[1]';
 
 		return $rules;
 	}
