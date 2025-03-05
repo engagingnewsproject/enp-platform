@@ -34,12 +34,26 @@ class Research {
 			'labels'              => $labels,
 			'description'         => '',
 			'public'              => true,
+			'publicly_queryable'  => true,
 			'menu_position'       => 5,
 			'menu_icon'		      => 'dashicons-media-document',
 			'supports'            => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
 			'has_archive'         => true,
 			'exclude_from_search' => false,
 			'show_in_rest'        => true,
+			'capability_type'     => 'post',
+			'rewrite'            => array(
+				'slug' => 'research',
+				'with_front' => false,
+				'feeds' => true,
+				'pages' => true,
+				'ep_mask' => EP_PERMALINK
+			),
+			'query_var'          => true,
+			'can_export'         => true,
+			'delete_with_user'   => false,
+			'show_in_nav_menus'  => true,
+			'taxonomies'         => array('research-categories', 'research-tags')
 		);
 		register_post_type( 'research', $args );
 	}
