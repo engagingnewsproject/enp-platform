@@ -65,7 +65,7 @@ class URLConstructor
 		$defaults = [
 			'terms'     => [],
 			'postType'  => false,
-			'base' => 'postType' // do we STAART with the vertical term or post type?
+			'base' => 'postType' // do we START with the vertical term or post type?
 		];
 
 		$options = array_merge($defaults, $options);
@@ -104,7 +104,6 @@ class URLConstructor
 			}
 		}
 
-
 		$link = get_site_url();
 
 		// What's our base?
@@ -121,9 +120,13 @@ class URLConstructor
 				if ($term->taxonomy === 'category') {
 					continue;
 				}
-				// For research-categories, just add the slug directly
+				// For research-categories, add /category/ prefix
 				if ($term->taxonomy === 'research-categories') {
-					$link .= '/' . $term->slug;
+					if ($term->slug === 'media-ethics') {
+						$link .= '/category/media-ethics';
+					} else {
+						$link .= '/category/' . $term->slug;
+					}
 					continue;
 				}
 				if (array_key_exists($term->taxonomy, $this->taxRewriteMap)) {

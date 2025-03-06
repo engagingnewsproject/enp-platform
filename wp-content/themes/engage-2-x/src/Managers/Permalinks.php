@@ -1,15 +1,35 @@
 <?php
-/*
-* Modifications to permalinks
-*/
+
+/**
+ * Permalink Manager for custom URL structures and rewrite rules.
+ *
+ * This class manages custom permalink structures and rewrite rules for various
+ * post types and taxonomies in the WordPress site. It handles:
+ * - Research categories and subcategories
+ * - Team archives and categories
+ * - Announcement archives
+ * - Blog archives
+ * - Event archives
+ * - Vertical-based URLs
+ *
+ * @package Engage\Managers
+ */
 
 namespace Engage\Managers;
 
 class Permalinks
 {
 
+	/**
+	 * Constructor for the Permalinks class.
+	 */
 	public function __construct() {}
 
+	/**
+	 * Initialize the permalink manager by registering necessary WordPress hooks.
+	 *
+	 * @return void
+	 */
 	public function run()
 	{
 		// Add actions to WordPress hooks
@@ -17,6 +37,12 @@ class Permalinks
 		add_filter('generate_rewrite_rules', [$this, 'addRewrites']);
 	}
 
+	/**
+	 * Add custom query variables to WordPress.
+	 *
+	 * @param array $vars Existing query variables.
+	 * @return array Modified query variables.
+	 */
 	public function addQueryVars($vars)
 	{
 		// Add custom query variables
@@ -26,31 +52,53 @@ class Permalinks
 		return $vars;
 	}
 
-	// Functions to generate rewrite rules for different post types
+	/**
+	 * Generate rewrite rules for Research post type and its taxonomies.
+	 *
+	 * Handles URL structures for:
+	 * - Media ethics subcategories (/research/media-ethics/[subcategory])
+	 * - General research categories (/research/[category])
+	 * - Single research posts (/research/post/[slug])
+	 * - Research tags (/research/tag/[tag])
+	 *
+	 * @return array Array of rewrite rules.
+	 */
 	public function getResearchRewrites()
 	{
 		$rules = [];
 
-		// Category archives (most specific first)
-		$rules['research/media-ethics/([^/]+)/?$'] = 'index.php?post_type=research&research-categories[]=media-ethics&research-categories[]=$matches[1]&is_research_archive=1';
-		$rules['research/media-ethics/?$'] = 'index.php?post_type=research&research-categories=media-ethics&is_research_archive=1';
+		// Base research archive
+		$rules['research/?$'] = 'index.php?post_type=research&is_research_archive=1';
+		$rules['research/page/?([0-9]{1,})/?$'] = 'index.php?post_type=research&is_research_archive=1&paged=$matches[1]';
 
-		// General research categories
-		$rules['research/([^/]+)/?$'] = 'index.php?research-categories=$matches[1]&is_research_archive=1';
-		$rules['research/([^/]+)/page/?([0-9]{1,})/?$'] = 'index.php?research-categories=$matches[1]&paged=$matches[2]&is_research_archive=1';
+		// Media ethics subcategory pages (most specific first)
+		$rules['research/category/media-ethics/([^/]+)/?$'] = 'index.php?post_type=research&research-categories=media-ethics,' . '$matches[1]&is_research_archive=1';
+		$rules['research/category/media-ethics/?$'] = 'index.php?post_type=research&research-categories=media-ethics&is_research_archive=1';
 
-		// Single post URLs (less specific)
-		$rules['research/post/([^/]+)/?$'] = 'index.php?post_type=research&name=$matches[1]';
-		$rules['research/post/([^/]+)/page/?([0-9]{1,})/?$'] = 'index.php?post_type=research&name=$matches[1]&paged=$matches[2]';
+		// Research category archives
+		$rules['research/category/([^/]+)/?$'] = 'index.php?research-categories=$matches[1]&is_research_archive=1';
+		$rules['research/category/([^/]+)/page/?([0-9]{1,})/?$'] = 'index.php?research-categories=$matches[1]&paged=$matches[2]&is_research_archive=1';
+
+		// Single post URLs (no /category/ prefix means it's a post)
+		$rules['research/([^/]+)/?$'] = 'index.php?post_type=research&name=$matches[1]';
 
 		// Research tags
 		$rules['research/tag/([^/]+)/?$'] = 'index.php?post_type=research&research-tags=$matches[1]';
-		$rules['research/([^/]+)/tag/([^/]+)/?$'] = 'index.php?post_type=research&research-categories=$matches[1]&research-tags=$matches[2]';
+		$rules['research/category/([^/]+)/tag/([^/]+)/?$'] = 'index.php?post_type=research&research-categories=$matches[1]&research-tags=$matches[2]';
 
 		return $rules;
 	}
 
-
+	/**
+	 * Generate rewrite rules for Team post type and its taxonomies.
+	 *
+	 * Handles URL structures for:
+	 * - Vertical-based team pages (/team/vertical/[vertical])
+	 * - Team categories (/team/category/[category])
+	 * - Combined vertical and category pages (/team/vertical/[vertical]/category/[category])
+	 *
+	 * @return array Array of rewrite rules.
+	 */
 	public function getTeamRewrites()
 	{
 		$rules = [];
@@ -67,6 +115,16 @@ class Permalinks
 		return $rules;
 	}
 
+	/**
+	 * Generate rewrite rules for Announcement post type and its taxonomies.
+	 *
+	 * Handles URL structures for:
+	 * - Vertical-based announcement pages (/announcement/vertical/[vertical])
+	 * - Announcement categories (/announcement/category/[category])
+	 * - Combined vertical and category pages (/announcement/vertical/[vertical]/category/[category])
+	 *
+	 * @return array Array of rewrite rules.
+	 */
 	public function getAnnouncementRewrites()
 	{
 		$rules = [];
@@ -83,6 +141,16 @@ class Permalinks
 		return $rules;
 	}
 
+	/**
+	 * Generate rewrite rules for Blog post type and its taxonomies.
+	 *
+	 * Handles URL structures for:
+	 * - Vertical-based blog pages (/blogs/vertical/[vertical])
+	 * - Blog categories (/blogs/category/[category])
+	 * - Combined vertical and category pages (/blogs/vertical/[vertical]/category/[category])
+	 *
+	 * @return array Array of rewrite rules.
+	 */
 	public function getBlogRewrites()
 	{
 		$rules = [];
@@ -99,6 +167,19 @@ class Permalinks
 		return $rules;
 	}
 
+	/**
+	 * Generate rewrite rules for Event post type and its taxonomies.
+	 *
+	 * Handles URL structures for:
+	 * - All events page (/events)
+	 * - Upcoming events (/events/upcoming)
+	 * - Past events (/events/past)
+	 * - Vertical-based event pages (/events/vertical/[vertical])
+	 * - Event categories (/events/category/[category])
+	 * - Combined vertical and category pages (/events/vertical/[vertical]/category/[category])
+	 *
+	 * @return array Array of rewrite rules.
+	 */
 	public function getEventsRewrites()
 	{
 		$rules = [];
@@ -125,9 +206,15 @@ class Permalinks
 	}
 
 	/**
-	 * Get rewrite rules for post type + category URLs.
+	 * Generate rewrite rules for post type category URLs.
 	 *
-	 * @return array The rewrite rules.
+	 * Creates URL structures for various post types that support categories:
+	 * - Blogs
+	 * - Announcements
+	 * - Team
+	 * - Board
+	 *
+	 * @return array Array of rewrite rules.
 	 */
 	public function getPostTypeCategoryRewrites()
 	{
@@ -151,6 +238,17 @@ class Permalinks
 		return $rules;
 	}
 
+	/**
+	 * Generate rewrite rules for vertical-based URLs.
+	 *
+	 * Creates complex URL structures for content organized by verticals:
+	 * - Basic vertical pages (/vertical/[vertical])
+	 * - Vertical + post type pages (/vertical/[vertical]/[post-type])
+	 * - Vertical + post type + category pages
+	 * - Pagination support for various combinations
+	 *
+	 * @return array Array of rewrite rules.
+	 */
 	public function getVerticalRewrites()
 	{
 
@@ -219,7 +317,16 @@ class Permalinks
 		return $rules;
 	}
 
-	// Function to add rewrite rules to WordPress
+	/**
+	 * Add all rewrite rules to WordPress.
+	 *
+	 * Combines rewrite rules from all post types and adds them to WordPress's
+	 * rewrite rules array. Rules are added in order of specificity to ensure
+	 * proper URL matching.
+	 *
+	 * @param object $wp_rewrite WordPress rewrite object.
+	 * @return void
+	 */
 	public function addRewrites($wp_rewrite)
 	{
 		// Combine all rewrite rules for different post types
