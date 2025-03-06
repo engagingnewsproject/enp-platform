@@ -71,7 +71,7 @@ function get_sidebar_filters($globals)
  */
 function handle_bridging_divides_archive($options, $wp_query)
 {
-	if (!is_tax('category', 'bridging-divides') || !is_post_type_archive(['research'])) {
+	if (!(is_tax(['research-categories', 'blogs-category'], 'bridging-divides') || is_post_type_archive(['research', 'blogs']))) {
 		return null;
 	}
 
@@ -83,12 +83,17 @@ function handle_bridging_divides_archive($options, $wp_query)
 	$args = [
 		'post_type' => ['research', 'blogs'],
 		'tax_query' => [
-			'relation' => 'AND',
+			'relation' => 'OR',
 			[
 				'taxonomy' => 'research-categories',
 				'field' => 'slug',
 				'terms' => ['bridging-divides'],
 			],
+			[
+				'taxonomy' => 'blogs-category',
+				'field' => 'slug',
+				'terms' => ['bridging-divides'],
+			]
 		],
 		'posts_per_page' => -1,
 	];
