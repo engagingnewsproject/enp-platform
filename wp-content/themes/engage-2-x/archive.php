@@ -186,7 +186,7 @@ function handle_media_ethics_category($context, $research_categories)
 				'title' => $category->name,
 				'description' => $category->description,
 				'image' => Timber::get_image($thumbID),
-				'link' => home_url("/research/media-ethics/{$category->slug}/"),
+				'link' => home_url("/research/category/media-ethics/{$category->slug}/"),
 				'count' => $category->count
 			];
 		}
@@ -215,8 +215,15 @@ $research_categories = get_query_var('research-categories');
 $media_ethics_archive = handle_media_ethics_subcategory($options, $research_categories);
 if ($media_ethics_archive) {
 	$context['archive'] = $media_ethics_archive;
+	// Set the title for the subcategory page
+	if (is_string($research_categories) && strpos($research_categories, ',') !== false) {
+		$categories = explode(',', $research_categories);
+		$subcategory = end($categories);
+		$context['title'] = 'Media Ethics: ' . ucwords(str_replace('-', ' ', $subcategory));
+	}
+} else {
+	handle_media_ethics_category($context, $research_categories);
 }
-handle_media_ethics_category($context, $research_categories);
 
 // Render the template
 Timber::render(['archive.twig'], $context, ENGAGE_PAGE_CACHE_TIME);
