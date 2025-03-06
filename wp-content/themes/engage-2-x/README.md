@@ -32,15 +32,15 @@ Then,
 
 In **functions.php**, we call `new StarterSite();`. The `StarterSite` class sits in the **src** folder. You can update this class to add functionality to your theme. This approach is just one example for how you could do it.
 
-The **src** folder would be the right place to put your classes that [extend Timber’s functionality](https://timber.github.io/docs/v2/guides/extending-timber/).
+The **src** folder would be the right place to put your classes that [extend Timber's functionality](https://timber.github.io/docs/v2/guides/extending-timber/).
 
-Small tip: You can make use of Composer’s [autoloading functionality](https://getcomposer.org/doc/04-schema.md#psr-4) to automatically load your PHP classes when they are requested instead of requiring one by one in **functions.php**.
+Small tip: You can make use of Composer's [autoloading functionality](https://getcomposer.org/doc/04-schema.md#psr-4) to automatically load your PHP classes when they are requested instead of requiring one by one in **functions.php**.
 
 ## What else is there?
 
 - `static/` is where you can keep your static front-end scripts, styles, or images. In other words, your Sass files, JS files, fonts, and SVGs would live here.
-- `views/` contains all of your Twig templates. These pretty much correspond 1 to 1 with the PHP files that respond to the WordPress template hierarchy. At the end of each PHP template, you’ll notice a `Timber::render()` function whose first parameter is the Twig file where that data (or `$context`) will be used. Just an FYI.
-- `tests/` ... basically don’t worry about (or remove) this unless you know what it is and want to.
+- `views/` contains all of your Twig templates. These pretty much correspond 1 to 1 with the PHP files that respond to the WordPress template hierarchy. At the end of each PHP template, you'll notice a `Timber::render()` function whose first parameter is the Twig file where that data (or `$context`) will be used. Just an FYI.
+- `tests/` ... basically don't worry about (or remove) this unless you know what it is and want to.
 
 ## Other Resources
 
@@ -54,7 +54,7 @@ Small tip: You can make use of Composer’s [autoloading functionality](https://
 1. Add the post type and taxonomy as one file under /Managers/Structures/PostTypes
 2. Add the rewrites for the new post type following the format under /Managers/Permalinks
 3. Add the rewrites for the vertical under /Managers/Permalinks/addVerticalRewrites()
-4. Add the taxonomy slug to the $taxRewriteMap in /Models/Permalinks
+4. Add the taxonomy slug to the $taxRewriteMap in /Models/URLConstructor
 5. Register the Post Type to the Vertical Taxonomy under /Managers/Taxonomies/Taxonomies
 6. Update Permalinks
 7. Register a new filter menu for the item in Globals.php following the format for the other post types
@@ -64,9 +64,24 @@ Small tip: You can make use of Composer’s [autoloading functionality](https://
 
 
 ## Notes on Post Type Archive Queries
-Basically the whole site archive structure is powered by queries set in `src/Managers/Permalinks.php`. We've overridden the default queries so we can set our own queries with the verticals added in. There may be a better way to do this, but this way at least gets us a very specific way of modifying the query based on a pretty URL.
 
-To adjust a query, you'll need to add/modify the query in `src/Managers/Permalinks.php` and then re-save the permalinks in Settings->Permalinks.
+The site's archive structure is powered by queries set in `src/Managers/Permalinks.php`. We use a standardized URL structure across all post types:
+
+1. Base Archive: `/{post-type}/`
+2. Category Archives: `/{post-type}/category/{category-slug}/`
+3. Single Posts: `/{post-type}/{post-slug}/`
+
+Special cases include:
+- Media Ethics (Research): `/research/category/media-ethics/{subcategory}/`
+- Research Tags: `/research/tag/{tag-slug}/`
+- Vertical-based URLs: `/vertical/{vertical-slug}/{post-type}/`
+
+To adjust a query:
+1. Modify the appropriate section in `src/Managers/Permalinks.php`
+2. Update URL construction in `src/Models/URLConstructor.php` if needed
+3. Re-save permalinks in WordPress Admin → Settings → Permalinks
+
+The standardized URL structure helps distinguish between category archives and single posts while maintaining clean, SEO-friendly URLs.
 
 # Deployment Summary
 
