@@ -61,9 +61,9 @@ class Taxonomies
 		$args = array(
 			'hierarchical'      => true,
 			'labels'            => $labels,
-			'show_ui'           => false, // Hide from admin UI
-			'show_admin_column' => false, // Hide from admin columns
-			'show_in_menu'      => false, // Hide from admin menu
+			'show_ui'           => true, // Hide from admin UI
+			'show_admin_column' => true, // Hide from admin columns
+			'show_in_menu'      => true, // Hide from admin menu
 			'query_var'         => true,
 			'has_archive'       => true,
 			'rewrite'           => ['slug' => 'vertical'],

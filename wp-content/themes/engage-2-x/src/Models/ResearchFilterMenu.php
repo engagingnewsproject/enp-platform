@@ -58,8 +58,6 @@ class ResearchFilterMenu extends FilterMenu
 			$filters['terms']['research']['terms'][$term->slug] = $this->buildFilterTerm($term);
 		}
 
-		// error_log('RESEARCH FILTER MENU: Final filters structure: ' . print_r($filters, true));
-
 		return $filters;
 	}
 
@@ -77,7 +75,7 @@ class ResearchFilterMenu extends FilterMenu
 			'postType' => 'research',
 			'base'  => $this->linkBase
 		]);
-		error_log('RESEARCH FILTER MENU: Term link: ' . $link);
+
 		return [
 			'ID'    => $term->term_id,
 			'slug'  => $term->slug,
@@ -90,6 +88,3 @@ class ResearchFilterMenu extends FilterMenu
 		];
 	}
 }
-
-// Clear the transient to force rebuilding the menu
-delete_transient('research-filter-menu');
