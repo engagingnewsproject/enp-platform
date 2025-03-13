@@ -62,16 +62,11 @@ class TileArchive extends Archive
 		// For research categories, verticals, or post type structures
 		if (
 			$this->filters['structure'] === 'research-categories' ||
-			$this->filters['structure'] === 'vertical' ||
 			$this->filters['structure'] === 'postTypes'
 		) {
 
-			// First check if we're on a vertical page
-			if (isset($this->vertical) && $this->vertical && isset($this->vertical->slug)) {
-				$currentSlug = $this->vertical->slug;
-			}
 			// If not vertical, check if we're on a category page
-			elseif (isset($this->category) && $this->category && isset($this->category->slug)) {
+			if (isset($this->category) && $this->category && isset($this->category->slug)) {
 				$currentSlug = $this->category->slug;
 			}
 		} else {
