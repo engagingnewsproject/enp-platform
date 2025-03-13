@@ -102,9 +102,9 @@ add_action('after_setup_theme', function () {
 });
 
 // Debug logging for queries
-add_action('parse_request', function ($wp) {
-	error_log('Current Query: ' . print_r($wp->query_vars, true));
-});
+// add_action('parse_request', function ($wp) {
+// 	error_log('Current Query: ' . print_r($wp->query_vars, true));
+// });
 
 // is_plugin_active() is defined in /wp-admin/includes/plugin.php,
 // so this is only available from within the admin pages,
