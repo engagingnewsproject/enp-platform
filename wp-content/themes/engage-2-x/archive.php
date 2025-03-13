@@ -86,14 +86,17 @@ function handle_media_ethics_category($options, $research_categories)
 		$thumbID = get_field('category_featured_image', "research-categories_{$category->term_id}");
 
 		if ($thumbID) {
+			$image = Timber::get_image($thumbID);			
 			$researchTiles[] = [
 				'ID' => $category->term_id,
 				'title' => $category->name,
-				'description' => $category->description,
-				'image' => Timber::get_image($thumbID),
+				'excerpt' => $category->description,
+				'thumbnail' => $image,
 				'link' => home_url("/research/category/media-ethics/{$category->slug}/"),
 				'count' => $category->count
 			];
+		} else {
+			error_log("No featured image found for category: {$category->name}");
 		}
 	}
 
@@ -133,7 +136,13 @@ function handle_media_ethics_subcategory($options, $research_categories)
         });
     }
 
-    if (!$is_media_ethics_page) {
+    if (!$is_media_ethics_page || empty($subcategories)) {
+        return null;
+    }
+
+    // Get the current subcategory term
+    $current_subcategory = get_term_by('slug', reset($subcategories), 'research-categories');
+    if (!$current_subcategory) {
         return null;
     }
 
@@ -157,8 +166,17 @@ function handle_media_ethics_subcategory($options, $research_categories)
     ];
 
     $query = new WP_Query($args);
-
-    return new TileArchive($options, $query);
+    $archive = new TileArchive($options, $query);
+    
+    // Set up the intro object with title and subtitle
+    $archive->intro = [
+        'vertical' => false,
+        'title' => 'Media Ethics',
+        'subtitle' => $current_subcategory->name,
+        'excerpt' => $current_subcategory->description
+    ];
+    
+    return $archive;
 }
 
 if ( is_day() ) {

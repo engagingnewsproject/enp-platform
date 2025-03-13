@@ -87,6 +87,7 @@
 	padding: $spacer 0 $spacer $spacer-lg;
 	border-left: 3px solid $orange;
 	margin-bottom: $spacer;
+	grid-column: 1 / -1;
 	&:hover {
 		transform: none;
 		box-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
@@ -95,8 +96,19 @@
 }
 .tile__title--intro {
 	color: $orange;
+	font-size: 28px;
+	display: flex;
+	flex-direction: column;
+	@include media($phablet) {
+		flex-direction: row;
+		align-items: baseline;
+		gap: 10px;
+	}
 }
-
+.tile__title--subtitle {
+	font-size: large;
+	color: $gray-dark;
+}
 .tile__excerpt--intro {
 	font-size: 16px;
 }
@@ -264,6 +276,7 @@
 		grid-template-rows: 1fr max-content max-content max-content max-content;
 	}
 	.tile--intro {
+		grid-column: 1 / -1;
 		@include media($desktop) {
 			grid-column-end: span 12;
 		}
