@@ -1,36 +1,25 @@
 <?php
-
 /**
  * The template for displaying Archive pages.
  *
- * This template handles various types of archives including:
- * - Research categories and subcategories
- * - Team archives
- * - Announcement archives
- * - Blog archives
- * - Event archives
- * 
- * Special handling is implemented for:
- * - Media ethics subcategories
- * - Bridging divides research
- * - Vertical-based archives
+ * Used to display archive-type pages if nothing more specific matches a query.
+ * For example, puts together date-based pages if no date.php file exists.
  *
- * @package  WordPress
- * @subpackage  Timber
- * @since   Timber 0.2
+ * Learn more: https://developer.wordpress.org/themes/basics/template-hierarchy/
  */
 
+use Timber\Timber;
 use Engage\Models\TileArchive;
+global $wp_query;
 
 /**
  * Initialize the context and get global variables
  */
 $context = Timber::context();
-global $wp_query;
-
 $globals = new Engage\Managers\Globals();
 $options = [];
-$teamGroups = [];
+$templates = [ 'templates/archive.twig', 'templates/index.twig' ];
+$title = 'Archive';
 
 /**
  * Set sidebar filter options based on archive type
@@ -65,106 +54,17 @@ function get_sidebar_filters($globals)
 	// Default empty options if no match
 	return [];
 }
-
-/**
- * Handle special case for bridging-divides research archive
- */
-function handle_bridging_divides_archive($options, $wp_query)
-{
-	if (!(is_tax(['research-categories', 'blogs-category'], 'bridging-divides') || is_post_type_archive(['research', 'blogs']))) {
-		return null;
-	}
-
-	// Remove Quick Reads from sidebar
-	if (isset($options['filters']['terms']['blogs'])) {
-		unset($options['filters']['terms']['blogs']);
-	}
-
-	$args = [
-		'post_type' => ['research', 'blogs'],
-		'tax_query' => [
-			'relation' => 'OR',
-			[
-				'taxonomy' => 'research-categories',
-				'field' => 'slug',
-				'terms' => ['bridging-divides'],
-			],
-			[
-				'taxonomy' => 'blogs-category',
-				'field' => 'slug',
-				'terms' => ['bridging-divides'],
-			]
-		],
-		'posts_per_page' => -1,
-	];
-
-	return new TileArchive($options, new WP_Query($args));
-}
-
-/**
- * Handle media ethics subcategory pages
- */
-function handle_media_ethics_subcategory($options, $research_categories)
-{
-	$is_media_ethics_page = false;
-	$subcategories = [];
-
-	// Check if we're on a media-ethics subcategory page
-	if (is_array($research_categories) && in_array('media-ethics', $research_categories)) {
-		$is_media_ethics_page = true;
-		$subcategories = array_filter($research_categories, function ($cat) {
-			return $cat !== 'media-ethics';
-		});
-	} else if (is_string($research_categories) && strpos($research_categories, 'media-ethics,') === 0) {
-		$is_media_ethics_page = true;
-		$categories = explode(',', $research_categories);
-		$subcategories = array_filter($categories, function ($cat) {
-			return $cat !== 'media-ethics';
-		});
-	}
-
-	if (!$is_media_ethics_page) {
-		return null;
-	}
-
-	// Debug output
-	error_log('Media Ethics Subcategory Page');
-	error_log('Research Categories: ' . print_r($research_categories, true));
-
-	// Query posts with both categories
-	$args = [
-		'post_type' => 'research',
-		'tax_query' => [
-			'relation' => 'AND',
-			[
-				'taxonomy' => 'research-categories',
-				'field' => 'slug',
-				'terms' => 'media-ethics'
-			],
-			[
-				'taxonomy' => 'research-categories',
-				'field' => 'slug',
-				'terms' => $subcategories
-			]
-		],
-		'posts_per_page' => -1
-	];
-
-	$query = new WP_Query($args);
-	error_log('Found Posts: ' . $query->post_count);
-	error_log('Query SQL: ' . $query->request);
-
-	return new TileArchive($options, $query);
-}
+// Get sidebar filters
+$options = get_sidebar_filters($globals);
 
 /**
  * Handle media ethics category page
  */
-function handle_media_ethics_category($context, $research_categories)
+function handle_media_ethics_category($options, $research_categories)
 {
 	if (!((is_array($research_categories) && in_array('media-ethics', $research_categories)) ||
 		get_query_var('research-categories') === 'media-ethics')) {
-		return;
+		return null;
 	}
 
 	// Get research categories
@@ -197,38 +97,105 @@ function handle_media_ethics_category($context, $research_categories)
 		}
 	}
 
-	$context['archive']['posts'] = $researchTiles;
+	// Create a WP_Query with no posts since we're using custom tiles
+	$query = new WP_Query([
+		'post_type' => 'research',
+		'posts_per_page' => 0
+	]);
+
+	// Create a TileArchive with the options and tiles
+	$archive = new TileArchive($options, $query);
+	$archive->posts = $researchTiles;
+	return $archive;
 }
 
-// Get sidebar filters
-$options = get_sidebar_filters($globals);
+/**
+ * Handle media ethics subcategory pages
+ */
+function handle_media_ethics_subcategory($options, $research_categories)
+{
+	$is_media_ethics_page = false;
+    $subcategories = [];
+    
+    // Check if we're on a media-ethics subcategory page
+    if (is_string($research_categories)) {
+        $categories = explode(',', $research_categories);
+        if (in_array('media-ethics', $categories)) {
+            $is_media_ethics_page = true;
+            $subcategories = array_filter($categories, function ($cat) {
+                return $cat !== 'media-ethics';
+            });
+        }
+    } else if (is_array($research_categories) && in_array('media-ethics', $research_categories)) {
+        $is_media_ethics_page = true;
+        $subcategories = array_filter($research_categories, function ($cat) {
+            return $cat !== 'media-ethics';
+        });
+    }
 
-// Initialize archive
-$archive = handle_bridging_divides_archive($options, $wp_query);
-if (!$archive) {
+    if (!$is_media_ethics_page) {
+        return null;
+    }
+
+    // Query posts with both categories
+    $args = [
+        'post_type' => 'research',
+        'tax_query' => [
+            'relation' => 'AND',
+            [
+                'taxonomy' => 'research-categories',
+                'field' => 'slug',
+                'terms' => 'media-ethics'
+            ],
+            [
+                'taxonomy' => 'research-categories',
+                'field' => 'slug',
+                'terms' => $subcategories
+            ]
+        ],
+        'posts_per_page' => -1
+    ];
+
+    $query = new WP_Query($args);
+
+    return new TileArchive($options, $query);
+}
+
+if ( is_day() ) {
+	$title = 'Archive: ' . get_the_date( 'D M Y' );
+} elseif ( is_month() ) {
+	$title = 'Archive: ' . get_the_date( 'M Y' );
+} elseif ( is_year() ) {
+	$title = 'Archive: ' . get_the_date( 'Y' );
+} elseif ( is_tag() ) {
+	$title = single_tag_title( '', false );
+} elseif ( is_category() ) {
+	$title = single_cat_title( '', false );
+} elseif (is_tax()) { // taxonomy
+    $research_categories = get_query_var('research-categories');
+    
+    // First check if this is the main media ethics category page
+    if (is_string($research_categories) && $research_categories === 'media-ethics') {
+        $context['archive'] = handle_media_ethics_category($options, $research_categories);
+    } 
+    // Then check if this is a media ethics subcategory page
+    else {
+        $media_ethics_subcategory_archive = handle_media_ethics_subcategory($options, $research_categories);
+        if ($media_ethics_subcategory_archive) {
+            $context['archive'] = $media_ethics_subcategory_archive;
+        }
+        // Finally, if none of the special cases apply, use the default archive
+        else {
+            $archive = new TileArchive($options, $wp_query);
+            $context['archive'] = $archive;
+        }
+    }
+	array_unshift($templates, 'templates/archive-' . get_post_type() . '.twig');
+} elseif ( is_post_type_archive() ) {
 	$archive = new TileArchive($options, $wp_query);
-}
-$context['archive'] = $archive;
-
-// Handle announcement URLs
-if (preg_match('/\/announcement\/([^\/]*\/)?([^\/]*(\/))?/', $_SERVER['REQUEST_URI'])) {
-	$context['archive']['announcement'] = true;
+	$context['archive'] = $archive;
+	array_unshift( $templates, 'templates/archive-' . get_post_type() . '.twig' );
 }
 
-// Handle media ethics pages
-$research_categories = get_query_var('research-categories');
-$media_ethics_archive = handle_media_ethics_subcategory($options, $research_categories);
-if ($media_ethics_archive) {
-	$context['archive'] = $media_ethics_archive;
-	// Set the title for the subcategory page
-	if (is_string($research_categories) && strpos($research_categories, ',') !== false) {
-		$categories = explode(',', $research_categories);
-		$subcategory = end($categories);
-		$context['title'] = 'Media Ethics: ' . ucwords(str_replace('-', ' ', $subcategory));
-	}
-} else {
-	handle_media_ethics_category($context, $research_categories);
-}
-
-// Render the template
-Timber::render(['archive.twig'], $context, ENGAGE_PAGE_CACHE_TIME);
+$context['posts'] = Timber::get_posts();
+Timber::render($templates, $context);
