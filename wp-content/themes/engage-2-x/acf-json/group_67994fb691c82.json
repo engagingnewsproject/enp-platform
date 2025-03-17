@@ -19,6 +19,25 @@
             "layout": "row",
             "sub_fields": [
                 {
+                    "key": "field_67d853b0f7119",
+                    "label": "Background Color",
+                    "name": "background_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#fff",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "allow_in_bindings": 0
+                },
+                {
                     "key": "field_67d1bf1464fc1",
                     "label": "Background Image",
                     "name": "background_image",
@@ -43,25 +62,6 @@
                     "mime_types": "",
                     "allow_in_bindings": 0,
                     "preview_size": "medium"
-                },
-                {
-                    "key": "field_67d853b0f7119",
-                    "label": "Background Color",
-                    "name": "background_color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#fff",
-                    "enable_opacity": 0,
-                    "return_format": "string",
-                    "allow_in_bindings": 0
                 }
             ]
         },
@@ -156,6 +156,25 @@
             },
             "layout": "row",
             "sub_fields": [
+                {
+                    "key": "field_67d85511fdaf7",
+                    "label": "Background Color",
+                    "name": "background_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#fff",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "allow_in_bindings": 0
+                },
                 {
                     "key": "field_67b3acea66ba4",
                     "label": "Link Color",
@@ -322,5 +341,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1742230464
+    "modified": 1742231041
 }

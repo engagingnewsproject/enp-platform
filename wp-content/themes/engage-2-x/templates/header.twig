@@ -1,5 +1,5 @@
 <div class="header__container container">
-<div id="secondary-nav" class="menu__secondary text-right">
+<div id="secondary-nav" class="menu__secondary text-right" {% if options.navigation_settings.background_color %}style="background-color: {{options.navigation_settings.background_color}};"{% endif %}>
 		{% include "menu.twig" with {
 			'menu' : quickLinks
 		} %}
