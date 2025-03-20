@@ -6,9 +6,11 @@
             "key": "field_publication_authors",
             "label": "Authors",
             "name": "publication_authors",
+            "aria-label": "",
             "type": "text",
             "instructions": "Enter the authors of the publication",
             "required": 1,
+            "conditional_logic": false,
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -24,25 +26,50 @@
             "key": "field_publication_date",
             "label": "Publication Date",
             "name": "publication_date",
+            "aria-label": "",
             "type": "date_picker",
             "instructions": "Select the publication date",
             "required": 1,
+            "conditional_logic": false,
             "wrapper": {
                 "width": "",
                 "class": "",
                 "id": ""
             },
-            "display_format": "d/m/Y",
+            "display_format": "d\/m\/Y",
             "return_format": "Y-m-d",
             "first_day": 1
+        },
+        {
+            "key": "field_67dc3106fd931",
+            "label": "Year\/Date",
+            "name": "publication_year_date",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "allow_in_bindings": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
         },
         {
             "key": "field_publication_subtitle",
             "label": "Subtitle",
             "name": "publication_subtitle",
+            "aria-label": "",
             "type": "text",
             "instructions": "Enter the subtitle of the publication",
             "required": 0,
+            "conditional_logic": false,
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -58,9 +85,11 @@
             "key": "field_publication_url",
             "label": "External URL",
             "name": "publication_url",
+            "aria-label": "",
             "type": "url",
             "instructions": "Enter the external URL to the publication",
             "required": 0,
+            "conditional_logic": false,
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -88,5 +117,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1710892800
+    "modified": 1742483925
 }
