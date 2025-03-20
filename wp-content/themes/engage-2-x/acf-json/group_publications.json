@@ -1,0 +1,92 @@
+{
+    "key": "group_publications",
+    "title": "Publication Details",
+    "fields": [
+        {
+            "key": "field_publication_authors",
+            "label": "Authors",
+            "name": "publication_authors",
+            "type": "text",
+            "instructions": "Enter the authors of the publication",
+            "required": 1,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_publication_date",
+            "label": "Publication Date",
+            "name": "publication_date",
+            "type": "date_picker",
+            "instructions": "Select the publication date",
+            "required": 1,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "d/m/Y",
+            "return_format": "Y-m-d",
+            "first_day": 1
+        },
+        {
+            "key": "field_publication_subtitle",
+            "label": "Subtitle",
+            "name": "publication_subtitle",
+            "type": "text",
+            "instructions": "Enter the subtitle of the publication",
+            "required": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        },
+        {
+            "key": "field_publication_url",
+            "label": "External URL",
+            "name": "publication_url",
+            "type": "url",
+            "instructions": "Enter the external URL to the publication",
+            "required": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "publication"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1710892800
+}
