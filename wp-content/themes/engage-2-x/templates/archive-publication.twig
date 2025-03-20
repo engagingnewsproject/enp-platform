@@ -1,0 +1,69 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	{# Debug output #}
+	<div style="background: #eee; padding: 20px; margin: 20px;">
+		<h3>Debug Info:</h3>
+		<pre>
+			Archive variable exists: {{ archive ? 'yes' : 'no' }}
+			Archive posts exists: {{ archive.posts ? 'yes' : 'no' }}
+			Number of posts: {{ archive.posts ? archive.posts|length : '0' }}
+			Title: {{ title }}
+		</pre>
+	</div>
+
+	<section class="archive-publication">
+		<div class="archive-header">
+			<h1 class="archive-title">{{ title }}</h1>
+		</div>
+
+		{% if archive.posts %}
+			<div class="publications-grid">
+				{% for post in archive.posts %}
+					<article class="publication-card">
+						{% if post.thumbnail %}
+							<div class="publication-image">
+								<img src="{{ post.thumbnail.src }}" alt="{{ post.thumbnail.alt }}">
+							</div>
+						{% endif %}
+						<div class="publication-content">
+							<h2 class="publication-title">
+								{% if post.getUrl() %}
+									<a href="{{ post.getUrl() }}" target="_blank" rel="noopener noreferrer">{{ post.title }}</a>
+								{% else %}
+									{{ post.title }}
+								{% endif %}
+							</h2>
+							{% if post.getSubtitle() %}
+								<div class="publication-subtitle">
+									{{ post.getSubtitle() }}
+								</div>
+							{% endif %}
+							<div class="publication-meta">
+								{% if post.getAuthors() %}
+									<div class="publication-authors">
+										{{ post.getAuthors() }}
+									</div>
+								{% endif %}
+								{% if post.getPublicationDate() %}
+									<div class="publication-date">
+										{{ post.getPublicationDate()|date('F j, Y') }}
+									</div>
+								{% endif %}
+							</div>
+							{% if post.excerpt %}
+								<div class="publication-excerpt">
+									{{ post.excerpt }}
+								</div>
+							{% endif %}
+						</div>
+					</article>
+				{% endfor %}
+			</div>
+
+			{% include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3}) } %}
+		{% else %}
+			<p class="no-publications">No publications found.</p>
+		{% endif %}
+	</section>
+{% endblock %} 

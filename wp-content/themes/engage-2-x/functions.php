@@ -29,6 +29,7 @@ use Engage\Models\Teammate;
 use Engage\Models\Press;
 use Engage\Models\VerticalLanding;
 use Engage\Models\URLConstructor;
+use Engage\Models\Publication;
 
 /**
  * Term class map
@@ -54,6 +55,7 @@ add_filter('timber/post/classmap', function ($classmap) {
 		'team' 			=> Teammate::class,
 		'board'			=> BoardMember::class,
 		'event'			=> Event::class,
+		'publication'	=> Publication::class,
 		'page' 			=> function (\WP_Post $post) {
 			// Get the template file for the current post/page
 			$template = get_page_template_slug($post->ID);
@@ -91,7 +93,7 @@ add_action('after_setup_theme', function () {
 		new Login(),
 		new Permalinks(),
 		new Queries(),
-		new PostTypes(['Research', 'Blogs', 'Announcement', 'Team', 'Funders', 'Board']),
+		new PostTypes(['Research', 'Blogs', 'Announcement', 'Team', 'Funders', 'Board', 'Publications']),
 		new Taxonomies(['Verticals']),
 		new TinyMCE()
 	];
