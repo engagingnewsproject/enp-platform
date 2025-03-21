@@ -1,0 +1,71 @@
+{# 
+    Archive template for Press articles
+    
+    This template displays a grid of press articles with their details including:
+    - Title (with optional external link)
+    - Publisher information
+    - Publication date
+    
+    Available variables:
+    - title: The archive title (e.g., "Press Archive", "Press Archive: March 2024")
+    - posts: Array of PressArticle objects
+    - debug: Debug information (if enabled)
+#}
+{% extends "base.twig" %}
+
+{% block content %}
+	{# Main press archive section #}
+	<section class="archive-press">
+		{# Archive header with title #}
+		<div class="archive-header">
+			<h1 class="archive-title">{{ title }}</h1>
+		</div>
+
+		{# Check if we have any press articles to display #}
+		{% if posts %}
+			{# Grid container for press articles #}
+			<div class="press-articles-grid POSTS-PRESS">
+				{# Loop through each press article #}
+				{% for post in posts %}
+					<article class="press-article-card">
+						<div class="press-content">
+							{# Article title with optional external link #}
+							<h2 class="press-title">
+								{% if post.getPressArticleUrl() %}
+									{# If URL exists, create external link with security attributes #}
+									<a href="{{ post.getPressArticleUrl() }}" target="_blank" rel="noopener noreferrer">{{ post.title }}</a>
+								{% else %}
+									{# If no URL, display title as plain text #}
+									{{ post.title }}
+								{% endif %}
+							</h2>
+
+							{# Display publisher information if available #}
+							{% if post.getPressArticlePublisher() %}
+								<div class="press-publisher">
+									{{ post.getPressArticlePublisher() }}
+								</div>
+							{% endif %}
+
+							{# Article metadata section #}
+							<div class="press-meta">
+								{# Display publication date if available, formatted as "Month Day, Year" #}
+								{% if post.getPressArticlePublicationDate() %}
+									<div class="press-publication-date">
+										{{ post.getPressArticlePublicationDate()|date('F j, Y') }}
+									</div>
+								{% endif %}
+							</div>
+						</div>
+					</article>
+				{% endfor %}
+			</div>
+
+			{# Include pagination if there are multiple pages of articles #}
+			{% include 'partial/pagination.twig' with { pagination: posts.pagination({show_all: false, mid_size: 3}) } %}
+		{% else %}
+			{# Display message if no press articles are found #}
+			<p class="no-press-articles">No press articles found.</p>
+		{% endif %}
+	</section>
+{% endblock %} 

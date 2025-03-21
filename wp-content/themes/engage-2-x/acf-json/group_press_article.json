@@ -1,0 +1,83 @@
+{
+    "key": "group_press_article",
+    "title": "Press Article",
+    "fields": [
+        {
+            "key": "field_press_article_publisher",
+            "label": "Publisher",
+            "name": "press_article_publisher",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_press_article_publication_date",
+            "label": "Publication date",
+            "name": "press_article_publication_date",
+            "aria-label": "",
+            "type": "date_picker",
+            "instructions": "Select the publication date",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "display_format": "d\/m\/Y",
+            "return_format": "Y-m-d",
+            "first_day": 1,
+            "allow_in_bindings": 1
+        },
+        {
+            "key": "field_press_article_url",
+            "label": "External URL",
+            "name": "press_article_url",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "Enter the external URL to the publication",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "allow_in_bindings": 1,
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "press"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1742588879
+}
