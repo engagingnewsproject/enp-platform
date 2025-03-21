@@ -24,13 +24,20 @@
 		{# Check if we have any press articles to display #}
 		{% if posts %}
 			{# Grid container for press articles #}
-			<div class="press-articles-grid POSTS-PRESS">
+			<div class="press-articles-grid">
 				{# Loop through each press article #}
 				{% for post in posts %}
 					<article class="press-article-card">
 						<div class="press-content">
+							{# Display publisher information if available #}
+							{% if post.getPressArticlePublisher() %}
+								<div class="press-publisher">
+									{{ post.getPressArticlePublisher() }}
+								</div>
+							{% endif %}
+							
 							{# Article title with optional external link #}
-							<h2 class="press-title">
+							<p class="press-title">
 								{% if post.getPressArticleUrl() %}
 									{# If URL exists, create external link with security attributes #}
 									<a href="{{ post.getPressArticleUrl() }}" target="_blank" rel="noopener noreferrer">{{ post.title }}</a>
@@ -38,21 +45,15 @@
 									{# If no URL, display title as plain text #}
 									{{ post.title }}
 								{% endif %}
-							</h2>
+							</p>
 
-							{# Display publisher information if available #}
-							{% if post.getPressArticlePublisher() %}
-								<div class="press-publisher">
-									{{ post.getPressArticlePublisher() }}
-								</div>
-							{% endif %}
 
 							{# Article metadata section #}
 							<div class="press-meta">
 								{# Display publication date if available, formatted as "Month Day, Year" #}
 								{% if post.getPressArticlePublicationDate() %}
 									<div class="press-publication-date">
-										{{ post.getPressArticlePublicationDate()|date('F j, Y') }}
+										{{ post.getPressArticlePublicationDate()|date('F j, Y', 'UTC') }}
 									</div>
 								{% endif %}
 							</div>
@@ -61,8 +62,6 @@
 				{% endfor %}
 			</div>
 
-			{# Include pagination if there are multiple pages of articles #}
-			{% include 'partial/pagination.twig' with { pagination: posts.pagination({show_all: false, mid_size: 3}) } %}
 		{% else %}
 			{# Display message if no press articles are found #}
 			<p class="no-press-articles">No press articles found.</p>

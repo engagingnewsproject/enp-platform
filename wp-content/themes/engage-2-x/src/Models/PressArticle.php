@@ -1,6 +1,7 @@
 <?php
 namespace Engage\Models;
 
+use Timber;
 use Timber\Post;
 
 /**
@@ -40,13 +41,7 @@ class PressArticle extends Post {
      */
     public function init($pid = null)
     {
-        parent::init($pid);
-        
-        // Debug ACF fields
-        // error_log('Press Article Debug - Post ID: ' . $this->ID);
-        // error_log('Publisher Field: ' . print_r(get_field('press_article_publisher', $this->ID), true));
-        // error_log('Publication Date Field: ' . print_r(get_field('press_article_publication_date', $this->ID), true));
-        // error_log('URL Field: ' . print_r(get_field('press_article_url', $this->ID), true));
+        parent::__construct($pid);
     }
 
     /**
@@ -78,11 +73,10 @@ class PressArticle extends Post {
      */
     public function getPressArticlePublicationDate() {
         if($this->press_article_publication_date === false) {
-            $this->press_article_publication_date = get_field('press_article_publication_date', $this->ID);
-            // If no publication date set, use the post date
-            if (!$this->press_article_publication_date) {
-                $this->press_article_publication_date = get_the_date('Y-m-d', $this->ID);
-            }
+            $date = get_field('press_article_publication_date', $this->ID);
+            // Convert the date to the site's timezone
+            $timestamp = strtotime($date);
+            $this->press_article_publication_date = date('Y-m-d', $timestamp);
         }
         return $this->press_article_publication_date;
     }
