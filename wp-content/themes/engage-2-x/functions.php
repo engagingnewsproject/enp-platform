@@ -30,6 +30,7 @@ use Engage\Models\Press;
 use Engage\Models\VerticalLanding;
 use Engage\Models\URLConstructor;
 use Engage\Models\Publication;
+use Engage\Models\PressArticle;
 
 /**
  * Term class map
@@ -56,6 +57,7 @@ add_filter('timber/post/classmap', function ($classmap) {
 		'board'			=> BoardMember::class,
 		'event'			=> Event::class,
 		'publication'	=> Publication::class,
+		'press'			=> PressArticle::class,
 		'page' 			=> function (\WP_Post $post) {
 			// Get the template file for the current post/page
 			$template = get_page_template_slug($post->ID);
@@ -93,7 +95,7 @@ add_action('after_setup_theme', function () {
 		new Login(),
 		new Permalinks(),
 		new Queries(),
-		new PostTypes(['Research', 'Blogs', 'Announcement', 'Team', 'Funders', 'Board', 'Publications']),
+		new PostTypes(['Research', 'Blogs', 'Announcement', 'Team', 'Funders', 'Board', 'Publications', 'Press']),
 		new Taxonomies(['Verticals']),
 		new TinyMCE()
 	];
