@@ -18,7 +18,7 @@
 * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 class Tiny_Plugin extends Tiny_WP_Base {
-	const VERSION = '3.4.6';
+	const VERSION = '3.5.0';
 	const MEDIA_COLUMN = self::NAME;
 	const DATETIME_FORMAT = 'Y-m-d G:i:s';
 
@@ -181,6 +181,10 @@ class Tiny_Plugin extends Tiny_WP_Base {
 		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
 			$tiny_wpml_compatibility = new Tiny_WPML();
 		}
+
+		if ( Tiny_AS3CF::is_active() ) {
+			$tiny_as3cf = new Tiny_AS3CF( $this->settings );
+		}
 	}
 
 	public function compress_original_retina_image( $attachment_id, $path ) {
@@ -266,8 +270,7 @@ class Tiny_Plugin extends Tiny_WP_Base {
 	public function process_attachment( $metadata, $attachment_id ) {
 		if ( $this->settings->auto_compress_enabled() ) {
 			if (
-				$this->settings->background_compress_enabled() &&
-				! $this->settings->remove_local_files_setting_enabled()
+				$this->settings->background_compress_enabled()
 			) {
 				$this->async_compress_on_upload( $metadata, $attachment_id );
 			} else {
@@ -365,9 +368,9 @@ class Tiny_Plugin extends Tiny_WP_Base {
 	}
 
 	public function compress_on_upload() {
-        if (!wp_verify_nonce($_POST['_ajax_nonce'], 'new_media-' .  $_POST['attachment_id'])) {
-            exit;
-        }
+		if ( ! wp_verify_nonce( $_POST['_ajax_nonce'], 'new_media-' . $_POST['attachment_id'] ) ) {
+			exit;
+		}
 		if ( current_user_can( 'upload_files' ) ) {
 			$attachment_id = intval( $_POST['attachment_id'] );
 			$metadata = $_POST['metadata'];

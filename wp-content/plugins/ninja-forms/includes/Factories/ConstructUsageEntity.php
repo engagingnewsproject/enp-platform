@@ -602,7 +602,12 @@ class ConstructUsageEntity
             }
         }
 
-        $meanSubmissionsPerForm = $totalSubmissions / $countFormsWithSubmissions;
+        $meanSubmissionsPerForm = 0;
+        
+        if($countFormsWithSubmissions > 0){
+
+            $meanSubmissionsPerForm = $totalSubmissions / $countFormsWithSubmissions;
+        }
 
         return [
             'countFormsWithSubmissions' => $countFormsWithSubmissions,

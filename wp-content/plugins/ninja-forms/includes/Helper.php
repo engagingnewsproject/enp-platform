@@ -7,7 +7,7 @@
  *
  * Provides additional helper functionality to WordPress helper functions.
  */
-final class WPN_Helper
+class WPN_Helper
 {
 
     /**
@@ -273,7 +273,7 @@ final class WPN_Helper
                     case "NULL":     $_spFormat = ''; break;
                     case "boolean":  $_spFormat = ($workArray[$i] == true) ? 'true': 'false'; break;
                     // Make sure sprintf has a good datatype to work with
-                    case "integer":  $_spFormat = '%i'; break;
+                    case "integer":  $_spFormat = '%d'; break;
                     case "double":   $_spFormat = '%0.2f'; break;
                     case "string":   $_spFormat = '%s'; $workArray[$i] = str_replace("$enclosure", "$enclosure$enclosure", $workArray[$i]); break;
                     // Unknown or invalid items for a csv - note: the datatype of array is already handled above, assuming the data is nested
@@ -401,11 +401,21 @@ final class WPN_Helper
      * @since 3.4.0
      */
     public static function get_stage() {
-        $ver = Ninja_Forms::$db_version;
+        $ver = static::getNfDbVersion();
         $stack = explode( '.', $ver );
         return intval( array_pop( $stack ) );
     }
         
+    /**
+     * Provide the current Ninja Forms database version.
+     *
+     * @return string
+     */
+    protected static function getNfDbVersion(  ):string {
+        $ver = Ninja_Forms::$db_version;
+        return $ver;
+    }
+
     /**
      * Function to build our form cache from the table.
      * 
@@ -442,7 +452,7 @@ final class WPN_Helper
             }
         }
         
-        WPN_Helper::update_nf_cache( $id, $form_cache );
+        static::update_nf_cache( $id, $form_cache );
 
         return $form_cache;
     }

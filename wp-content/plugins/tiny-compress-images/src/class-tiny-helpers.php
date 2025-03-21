@@ -24,15 +24,15 @@ class Tiny_Helpers {
 	 * truncate_text will truncate a string to a given length.
 	 * When text is longer than the given length, the string will be truncated and
 	 * the last characters will be replaced with an ellipsis.
-	 * 
-	 * We can use mb_strlen & mb_substr as WordPress provides a compat function for 
+	 *
+	 * We can use mb_strlen & mb_substr as WordPress provides a compat function for
 	 * it if mbstring php module is not installed.
 	 *
 	 * @param string $text the text
 	 * @param integer $length the maximum length of the string
 	 * @return string the truncated string
 	 */
-	public static function truncate_text( string $text, int $length ) {
+	public static function truncate_text( $text, $length ) {
 		if ( mb_strlen( $text ) > $length ) {
 			return mb_substr( $text, 0, $length - 3 ) . '...';
 		}

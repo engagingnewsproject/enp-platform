@@ -2,9 +2,9 @@
 Contributors: TinyPNG
 Donate link: https://tinypng.com/
 Tags: compress images, compression, image size, page speed, performance
-Requires at least: 3.4
+Requires at least: 4.0
 Tested up to: 6.7
-Stable tag: 3.4.6
+Stable tag: 3.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ Make your website faster by optimizing your JPEG, PNG, and WebP images. This plu
 * Select which thumbnail sizes of an image may be optimized.
 * Multisite support with a single API key.
 * [WPML](https://wpml.org/documentation/plugins-compatibility/optimize-wordpress-images-multilingual-sites/) compatible.
-* WooCommerce compatible (see below).
+* WooCommerce compatible.
 * WP Retina 2x compatible.
 * See your usage on the settings page and during bulk optimization.
 * Color profiles are automatically translated to standard RGB color.
@@ -50,10 +50,6 @@ You can *bulk optimize* your existing JPEG, PNG, and WebP images all at once by 
 = Multisite support =
 
 The plugin is fully multisite compatible and you can set the API key for all sites by defining the key in your *wp-config.php* file. View the installation instructions for more information.
-
-= WooCommerce compatibility =
-
-This plugin is *fully compatible with WooCommerce*. However, we have discovered that WooCommerce may be trying to regenerate image attachment metadata over and over again on each page visit. If you are using WooCommerce please follow the tips from the [support section](https://wordpress.org/support/topic/woocommerce-conflict-25/). This may make your WooCommerce shop even faster than it was before.
 
 = Contact us =
 
@@ -131,6 +127,12 @@ A: Yes! After installing the plugin, go to *Media > Bulk Optimization*, and clic
 A: You can upgrade to a paid account by adding your *Payment details* on your [account dashboard](https://tinypng.com/dashboard/api). Additional compressions above 500 will then be charged at the end of each month as a one-time fee.
 
 == Changelog ==
+= 3.5.0 =
+* Support files uploaded through the WordPress REST API
+* Removed notification on WooCommerce incompatibility
+* Updated Tinify SDK from 1.5.2 to 1.6.2
+* Improved support for WP Offload
+
 = 3.4.6 =
 * Error resolved where Tiny_Helpers was not available
 
