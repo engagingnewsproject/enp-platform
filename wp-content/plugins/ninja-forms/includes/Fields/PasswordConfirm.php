@@ -62,7 +62,9 @@ class NF_Fields_PasswordConfirm extends NF_Fields_Password
 
         foreach( $data[ 'fields' ] as $field ){
 
-            if( 'password' != $field[ 'type' ] ) continue;
+            $complete_field = Ninja_Forms()->form( $data[ 'id' ] )->get_field( $field['id'] )->get_settings();
+            
+            if( 'password' != $complete_field[ 'type' ] ) continue;
 
             $password_fields[] = $field;
         }

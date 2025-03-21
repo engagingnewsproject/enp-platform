@@ -8,12 +8,12 @@
 
 	<# if ( data.maybeRenderTime() ) { #>
 		<div style="float:left;" class="time-wrap">
-			<select id="hour-select" class="hour extra" aria-label="hour-select" {{{ data.maybeRequired() }}}>
+			<select id="hour-select-{{{ data.id }}}" class="hour extra" aria-label="hour-select" {{{ data.maybeRequired() }}}>
 				{{{ data.renderHourOptions() }}}
 			</select>
 		</div>
 		<div style="float:left;" class="time-wrap">
-			<select id="minute-select" class="minute extra" aria-label="minute-select" {{{ data.maybeRequired() }}}>
+			<select id="minute-select-{{{ data.id }}}" class="minute extra" aria-label="minute-select" {{{ data.maybeRequired() }}}>
 				{{{ data.renderMinuteOptions() }}}
 			</select>
 		</div>

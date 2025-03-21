@@ -148,9 +148,9 @@ jQuery(document).ready(function($) {
         jQuery( '#optin' ).click( function( e ) {
             var sendEmail;
 
-            if ( jQuery( '#optin-send-email' ).attr( 'checked' ) ) {
+            if (  document.getElementById('optin-send-email').checked ) {
                 sendEmail = 1;
-                userEmail = jQuery( '#optin-email-address' ).val();
+                userEmail = document.getElementById('optin-email-address').value;
             } else {
                 sendEmail = 0;
                 userEmail = '';
