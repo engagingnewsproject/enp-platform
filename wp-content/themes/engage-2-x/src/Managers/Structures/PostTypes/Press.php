@@ -128,7 +128,7 @@ class Press
 			'query_var' => true,
 			'has_archive' => true,
 			'rewrite' => array(
-				'slug' => 'press',
+				'slug' => 'press/category',
 				'with_front' => false,
 				'hierarchical' => true
 			),
