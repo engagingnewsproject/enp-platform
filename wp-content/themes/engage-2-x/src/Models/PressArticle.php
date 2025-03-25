@@ -74,11 +74,32 @@ class PressArticle extends Post {
     public function getPressArticlePublicationDate() {
         if($this->press_article_publication_date === false) {
             $date = get_field('press_article_publication_date', $this->ID);
+            // If no date is set, return null
+            if (!$date) {
+                $this->press_article_publication_date = null;
+                return null;
+            }
             // Convert the date to the site's timezone
             $timestamp = strtotime($date);
             $this->press_article_publication_date = date('Y-m-d', $timestamp);
         }
         return $this->press_article_publication_date;
+    }
+	
+    /**
+     * Get the alternative publication date text of the press article
+     * 
+     * Retrieves the alternative publication date text from ACF field 'press_article_publication_date_other_txt'.
+     * This is used when the publication date is not a standard date format (e.g., "2024 Workshop").
+     * Returns null if no alternative date text is set.
+     * 
+     * @return string|null The alternative publication date text or null if not set
+     */
+    public function getPressArticlePublicationDateOtherTxt() {
+        if($this->press_article_publication_date_other_txt === false) {
+            $this->press_article_publication_date_other_txt = get_field('press_article_publication_date_other_txt', $this->ID);
+        }
+        return $this->press_article_publication_date_other_txt;
     }
     
     /**
