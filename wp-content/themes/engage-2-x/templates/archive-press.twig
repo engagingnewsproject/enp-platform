@@ -15,10 +15,38 @@
 
 {% block content %}
 	{# Main press archive section #}
-	<section class="archive-press">
+
+	{% set categories = get_terms({
+			'taxonomy': 'press-categories',
+			'hide_empty': true
+		}) %}
+
+	<section
+		class="archive-press">
 		{# Archive header with title #}
 		<div class="archive-header">
-			<h1 class="archive-title">{{ title }}</h1>
+			<h1 class="archive-title">
+				{% if function('is_tax', 'press-categories') %}
+					<a href="/press">Press</a>
+					-
+					{{ function('single_term_title', '') }}
+				{% else %}
+					{{ title }}
+				{% endif %}
+			</h1>
+		</div>
+
+		{# output the categories #}
+		<div class="press-categories">
+			{% for category in categories %}
+				<a href="{{ category.link }}">{{ category.title }}</a>
+				{% if category.count > 1 %}
+					({{ category.count }})
+				{% endif %}
+				{% if not loop.last %}
+					|
+				{% endif %}
+			{% endfor %}
 		</div>
 
 		{# Check if we have any press articles to display #}
