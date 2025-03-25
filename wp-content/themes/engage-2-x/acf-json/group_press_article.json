@@ -30,8 +30,16 @@
             "aria-label": "",
             "type": "date_picker",
             "instructions": "Select the publication date",
-            "required": 1,
-            "conditional_logic": 0,
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_67e2c13f8e229",
+                        "operator": "!=",
+                        "value": "1"
+                    }
+                ]
+            ],
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -41,6 +49,56 @@
             "return_format": "Y-m-d",
             "first_day": 1,
             "allow_in_bindings": 1
+        },
+        {
+            "key": "field_67e2c13f8e229",
+            "label": "Press article publication date or other",
+            "name": "press_article_publication_date_other",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "allow_in_bindings": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_67e2c247281fb",
+            "label": "Other",
+            "name": "press_article_publication_date_other_txt",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Instead of showing the publication date.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_67e2c13f8e229",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_press_article_url",
@@ -79,5 +137,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1742588879
+    "modified": 1742924030
 }
