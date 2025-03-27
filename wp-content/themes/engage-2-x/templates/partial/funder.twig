@@ -1,5 +1,10 @@
 <div class="funder funder--{{ funder.slug }} {{ funder.featured ? 'funder--featured' }}">
 	{% if funder.thumbnail %}
-	<img class="funder__img" src="{{ funder.thumbnail.src('medium') }}" alt="{{ funder.thumbnail.alt }}"/>
-	{% endif %}
+<img class="funder__img" 
+     src="{{ funder.thumbnail.src('medium') }}" 
+     srcset="{{ funder.thumbnail.srcset }}" 
+     sizes="{{ funder.thumbnail.img_sizes }}" 
+     alt="{{ funder.thumbnail.alt }}" 
+     loading="eager" />
+	 	{% endif %}
 </div>

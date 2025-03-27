@@ -15,16 +15,25 @@
 			<div class="article__wrapper container container--lg">
 				<div class="article__content">
 			{# FEATURED IMAGE #}
-					<img src="{{ post.thumbnail.src | resize(full) }}"/>
-					{{post.content}}
+<img src="{{ post.thumbnail.src('2048x2048') }}"
+     srcset="{{ post.thumbnail.srcset }}"
+     sizes="{{ post.thumbnail.img_sizes }}"
+     alt="{{ post.thumbnail.alt }}"
+     loading="eager" />					
+	 {{post.content}}
 					<section class="tiles grid grid--col-12 grid--gap-20 section-margin">
 						{% for item in post.meta('tips_grid') %}
 							<div class="tile tile--has-img tile--research-cat-- tile--vertical--propaganda">
 								{# IMAGE #}
 								<div class="tile__img-wrap">
 									{% set file = get_attachment(item.pdf_file) %}
-									<img class="title__img" src="{{ get_image(item.tip_poster).src }}" sizes="{{ get_image(item.tip_poster).img_sizes }}" alt="{{ item.title }}"/>
-								</div>
+									<img class="title__img" 
+                                         src="{{ get_image(item.tip_poster).src('thumbnail') }}" 
+                                         srcset="{{ get_image(item.tip_poster).srcset }}" 
+                                         sizes="{{ get_image(item.tip_poster).img_sizes }}" 
+                                         alt="{{ item.title }}" 
+                                         loading="eager" />
+									</div>
 								{# TITLE #}
 								<div class="tile__title-wrap">
 									<div class="tile__label">

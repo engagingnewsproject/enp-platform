@@ -1,6 +1,3 @@
-{# 
-	This is the topbar with the "TEXAS Moody" link
-#}
 <div class="brandbar">
 	<a href="https://moody.utexas.edu" class="brandbar__link">
 		<span class="sr-text">University of Texas at Austin</span>
@@ -11,7 +8,10 @@
 					alt="University of Texas at Austin" 
 					width="112" 
 					height="27" 
-					decoding="async">
+					decoding="async"
+					loading="eager"
+					sizes="112px"
+					srcset="{{ theme.link }}/assets/img/brandbar/brandbar-logo.png 1x, {{ theme.link }}/assets/img/brandbar/brandbar-logo@2x.png 2x">
 			</picture>
 			<picture>
 				<source srcset="{{ theme.link }}/assets/img/brandbar/brandbar-logo-2.webp" type="image/webp">
@@ -19,7 +19,10 @@
 					alt="Moody College of Communication" 
 					width="85" 
 					height="27" 
-					decoding="async">
+					decoding="async"
+					loading="eager"
+					sizes="85px"
+					srcset="{{ theme.link }}/assets/img/brandbar/brandbar-logo-2.png 1x, {{ theme.link }}/assets/img/brandbar/brandbar-logo-2@2x.png 2x">
 			</picture>
 		</span>
 	</a>

@@ -44,7 +44,7 @@
 										sizes="{{ get_image(main.director_image).img_sizes }}" 
 										alt="{{ get_image(main.director_image).alt }}" 
 										class="ann__img-director"
-										loading="lazy"
+										loading="eager"
 									/>
 								</div>
 							{% endif %}
@@ -141,7 +141,7 @@
 											srcset="{{ get_image(item.highlight_icon).srcset }}"
 											sizes="{{ get_image(item.highlight_icon).img_sizes }}"
 											alt="{{ get_image(item.highlight_icon).alt }}"
-											loading="lazy" />
+											loading="eager" />
 										{% if deco_border %}
 											<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 153 155" class="deco-border-svg">
 												<g fill="none" fill-rule="evenodd">
@@ -248,7 +248,7 @@
 										srcset="{{ get_image(member.member_image).srcset }}"
 										sizes="{{ get_image(member.member_image).img_sizes }}"
 										alt="{{ get_image(member.member_image).alt }}"
-										loading="lazy" />
+										loading="eager" />
 									</div>
 								{% endif %}
 								<div class="ann__list_title">
@@ -281,7 +281,7 @@
 							srcset="{{ get_image(main.image).srcset }}"
 							sizes="{{ get_image(main.image).img_sizes }}"
 							alt="{{ get_image(main.image).alt }}" 
-							loading="lazy" />
+							loading="eager" />
 					{% endif %}
 				</section>
 
@@ -390,13 +390,23 @@
 					{# background center image #}
 					{% if main.background_image %}
 						<div class="background_image-wrap">
-							<img class="background_image fade-in-up-1" src="{{ get_image(main.background_image_src).src }}" srcset="{{ get_image(main.background_image_src).srcset }}" sizes="{{ get_image(main.background_image_src).img_sizes }}" alt="{{ get_image(main.background_image_src).alt }}" />
-						</div>
+<img class="background_image fade-in-up-1" 
+     src="{{ get_image(main.background_image_src).src('2048x2048') }}" 
+     srcset="{{ get_image(main.background_image_src).srcset }}" 
+     sizes="{{ get_image(main.background_image_src).img_sizes }}" 
+     alt="{{ get_image(main.background_image_src).alt }}" 
+     loading="eager" />
+	 						</div>
 					{% endif %}
 					{# background bottom left image #}
 					{% if main.bottom_left_deco_graphic %}
-						<img class="bottom_left_deco_graphic fade-in-up-1" src="{{ get_image(main.bottom_left_deco_graphic).src }}" srcset="{{ get_image(main.bottom_left_deco_graphic).srcset }}" sizes="{{ get_image(main.bottom_left_deco_graphic).img_sizes }}" alt="{{ get_image(main.bottom_left_deco_graphic).alt }}" />
-					{% endif %}
+<img class="bottom_left_deco_graphic fade-in-up-1" 
+     src="{{ get_image(main.bottom_left_deco_graphic).src('medium') }}"
+     srcset="{{ get_image(main.bottom_left_deco_graphic).srcset }}"
+     sizes="{{ get_image(main.bottom_left_deco_graphic).img_sizes }}"
+     alt="{{ get_image(main.bottom_left_deco_graphic).alt }}"
+     loading="eager" />
+	 					{% endif %}
 				</footer>
 			{# PARALLAX #}
       {% elseif main.acf_fc_layout == 'parallax' %}
@@ -477,8 +487,13 @@
 							{% endif %}
 
 							{% if main.landing_logo_image %}
-								<img  src="{{ get_image(main.landing_logo_image).src }}" srcset="{{ get_image(main.landing_logo_image).srcset }}" sizes="{{ get_image(main.landing_logo_image).img_sizes }}" alt="{{ get_image(main.landing_logo_image).alt }}" class="ann__landing_logo ann__landing_fade_in_and_up_delay_3" />
-							{% endif %}
+	<img  src="{{ get_image(main.landing_logo_image).src('medium') }}"
+	     srcset="{{ get_image(main.landing_logo_image).srcset }}"
+	     sizes="{{ get_image(main.landing_logo_image).img_sizes }}"
+	     alt="{{ get_image(main.landing_logo_image).alt }}"
+	     class="ann__landing_logo ann__landing_fade_in_and_up_delay_3"
+	     loading="eager" />
+		 							{% endif %}
 						</div>
 
 						{% if main.button_text %}
@@ -630,8 +645,13 @@
 						<div class="ann__content-table_container-bottom">
 							<div class="ann__content-table_img-wrapper">
 								{% if main.content_table_image %}
-									<img src="{{ get_image(main.content_table_image).src }}" alt="{{ get_image(main.content_table_image).alt }}" class="ann__content-table_img">
-								{% endif %}
+<img src="{{ get_image(main.content_table_image).src('medium') }}" 
+	     srcset="{{ get_image(main.content_table_image).srcset }}" 
+	     sizes="{{ get_image(main.content_table_image).img_sizes }}" 
+	     alt="{{ get_image(main.content_table_image).alt }}" 
+	     class="ann__content-table_img"
+	     loading="eager" />
+		 								{% endif %}
 							</div>
 						</div>
 					</div>
@@ -647,8 +667,13 @@
 						{% if main.circle_image or main.header_group.show_title %}
 							<div class="ann__research-initiatives_container-top">
 								<div class="ann__research-initiatives_container-top-left item-animate">
-									{% if main.circle_image %}
-										<img src="{{ get_image(main.circle_image).src }}" alt="{{ get_image(main.circle_image).alt }}" class="ann__research-initiatives_img">
+                                    {% if main.circle_image %}
+                                        <img src="{{ get_image(main.circle_image).src('thumbnail') }}"
+                                             srcset="{{ get_image(main.circle_image).srcset }}"
+                                             sizes="{{ get_image(main.circle_image).img_sizes }}"
+                                             alt="{{ get_image(main.circle_image).alt }}"
+                                             class="ann__research-initiatives_img"
+                                             loading="eager" />
 										<p class="ann__research-initiatives_container-top-left_text" style="color:{{ main.circle_text_color }}">{{ main.circle_text_content }}</p>
 									{% endif %}
 								</div>
@@ -702,8 +727,12 @@
 						<div class="ann__outcomes_item ann__outcomes_item-{% if item.item_direction %}row-reverse{% else %}row{% endif %} item-animate">
 							{% if item.outcome_image %}
 								<div class="ann__outcomes_item-left">
-									<img src="{{ get_image(item.outcome_image).src }}" alt="{{ get_image(item.outcome_image).alt }}" />
-								</div>
+<img src="{{ get_image(item.outcome_image).src('medium') }}"
+             srcset="{{ get_image(item.outcome_image).srcset }}"
+             sizes="{{ get_image(item.outcome_image).img_sizes }}"
+             alt="{{ get_image(item.outcome_image).alt }}"
+             loading="eager" />
+			 								</div>
 							{% endif %}
 							{% if item.outcome_content %}
 								<div class="ann__outcomes_item-right">
