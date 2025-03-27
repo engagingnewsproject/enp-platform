@@ -20,9 +20,11 @@
 
 	<div class="tile__img-wrap">
 			<img 
-				class="tile__img" 
-				src="{{ tile.thumbnail.src('featured-post') | default(defaultimg) }}" 
+				src="{{ tile.thumbnail.src('grid-large') }}"
+				srcset="{{ tile.thumbnail.srcset }}"
+				sizes="{{ tile.thumbnail.img_sizes }}"
 				alt="{{ tile.thumbnail.alt }}"
+				class="tile__img" 
 				loading="{{ loading }}"
 			/>
 	</div> 

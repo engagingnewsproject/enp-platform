@@ -3,8 +3,12 @@
 		<div class="ann__tile">
 			{% if tile.image %}
 				<div class="ann__img-wrap">
-					<img src="{{ get_image(tile.image).src }}" class="ann__tile_img"
-						sizes="{{ get_image(tile.image).img_sizes }}" alt="{{ get_image(tile.image).alt }}" />
+					<img src="{{ get_image(tile.image).src('grid-large') }}"
+		     srcset="{{ get_image(tile.image).srcset }}"
+		     sizes="{{ get_image(tile.image).img_sizes }}"
+		     alt="{{ get_image(tile.image).alt }}"
+		     class="ann__tile_img"
+		     loading="eager" />
 				</div>
 			{% endif %}
 			<span class="sr-text">

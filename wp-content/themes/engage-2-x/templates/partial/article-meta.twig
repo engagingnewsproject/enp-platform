@@ -42,8 +42,12 @@
 				{% endfor %}
 				{% set imagelink = link|slice(0,index)|join("")~"-150x150"~link|slice(index,link|length)|join("") %}
 			{% endif %}
-
-			<img class="mate__img" src="{{imagelink}}" alt="{{ post.thumbnail.alt }}"/>
+			<img class="mate__img"
+						src="{{ post.thumbnail.src('thumbnail') }}"
+						srcset="{{ post.thumbnail.srcset }}"
+						sizes="{{ post.thumbnail.img_sizes }}"
+						alt="{{ post.thumbnail.alt }}"
+						loading="eager" />
 		</div>
 		<br>
 		{% include 'partial/team-link.twig' %}

@@ -33,11 +33,16 @@ class Theme
 		add_filter('body_class', [$this, 'bodyClass']);
 
 		// images
-		add_image_size('featured-post', 510, 310, true);
-		add_image_size('featured-image', 600, 0, false);
-		add_image_size('carousel-image', 1280, 720, true);
-		add_image_size('small', 100, 0, false);
-
+		add_image_size('featured-image', 600, 0, false); // Featured image
+		add_image_size('carousel-image', 1280, 720, true); // Homepage slider image
+		add_image_size('grid-large', 404, 240, true); // Tile grid image
+		// Others not used
+		// add_image_size('featured-post', 510, 310, true); // use 'medium' instead
+		// add_image_size('small', 100, 0, false); // not used
+		
+		add_filter('intermediate_image_sizes_advanced', [$this, 'disable_large_wp_image_sizes']);
+		add_filter('big_image_size_threshold', '__return_false');
+		add_filter('image_size_names_choose', [$this, 'remove_image_size_options']);
 		add_action('widgets_init', [$this, 'widgetsInit']);
 
 		$this->cleanup();
@@ -64,6 +69,34 @@ class Theme
 			add_action('manage_pages_custom_column', [$this, 'displayTemplateColumn'], 10, 2);
 			add_filter('manage_edit-page_sortable_columns', [$this, 'sortableTemplateColumn']);
 		}
+		
+	}
+	/**
+	 * Disables WordPress's redundant image sizes while maintaining high quality options
+	 * 
+	 * @param array $sizes Array of image sizes
+	 * @return array Modified array of image sizes
+	 */
+	public function disable_large_wp_image_sizes($sizes) {
+		// Keep 2048x2048 as source for high-quality displays
+		unset($sizes['1536x1536']); // Remove 1536px as 2048px covers high-res needs
+		unset($sizes['medium_large']); // Remove 768px as it's between medium and large
+		unset($sizes['large']); // Remove 1024px as 2048px will scale down nicely
+		unset($sizes['small']); // Remove small as it's not used
+		return $sizes;
+	}
+	/**
+	 * Removes redundant image sizes from the image size selection dropdown
+	 * while keeping high quality options available
+	 * 
+	 * @param array $sizes Array of image size options
+	 * @return array Modified array of image size options
+	 */
+	public function remove_image_size_options($sizes) {
+		unset($sizes['medium_large']);
+		unset($sizes['large']);
+		unset($sizes['1536x1536']);
+		return $sizes;
 	}
 	/**
 	 * Register sidebars
