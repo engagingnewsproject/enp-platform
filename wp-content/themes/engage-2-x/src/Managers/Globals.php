@@ -79,22 +79,6 @@ class Globals
 		add_action('create_verticals', [$this, 'clearEventMenu'], 10, 2);
 		add_action('delete_verticals', [$this, 'clearEventMenu'], 10, 2);
 
-		// clear publication menu
-		add_action('edit_publication-category', [$this, 'clearPublicationMenu'], 10, 2);
-		add_action('create_publication-category', [$this, 'clearPublicationMenu'], 10, 2);
-		add_action('delete_publication-category', [$this, 'clearPublicationMenu'], 10, 2);
-		add_action('edit_verticals', [$this, 'clearPublicationMenu'], 10, 2);
-		add_action('create_verticals', [$this, 'clearPublicationMenu'], 10, 2);
-		add_action('delete_verticals', [$this, 'clearPublicationMenu'], 10, 2);
-
-		// clear publication tag menu
-		add_action('edit_publication-tag', [$this, 'clearPublicationTagMenu'], 10, 2);
-		add_action('create_publication-tag', [$this, 'clearPublicationTagMenu'], 10, 2);
-		add_action('delete_publication-tag', [$this, 'clearPublicationTagMenu'], 10, 2);
-		add_action('edit_verticals', [$this, 'clearPublicationTagMenu'], 10, 2);
-		add_action('create_verticals', [$this, 'clearPublicationTagMenu'], 10, 2);
-		add_action('delete_verticals', [$this, 'clearPublicationTagMenu'], 10, 2);
-
 		// clear vertical landing page menu
 		add_action('edit_verticals', [$this, 'clearVerticalMenu'], 10, 2);
 		add_action('create_verticals', [$this, 'clearVerticalMenu'], 10, 2);
@@ -133,8 +117,6 @@ class Globals
 			$this->clearBlogMenu(0, 0);
 		} else if ($postType === 'tribe_events') {
 			$this->clearEventMenu(0, 0);
-		} else if ($postType === 'publication') {
-			$this->clearPublicationMenu(0, 0);
 		}
 
 		// Always clear the vertical menus.
