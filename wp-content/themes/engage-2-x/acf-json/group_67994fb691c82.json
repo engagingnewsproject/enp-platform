@@ -3,6 +3,69 @@
     "title": "Site Settings",
     "fields": [
         {
+            "key": "field_67d1c33975abf",
+            "label": "Appearance",
+            "name": "appearance",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "row",
+            "sub_fields": [
+                {
+                    "key": "field_67d1bf1464fc1",
+                    "label": "Background Image",
+                    "name": "background_image",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "allow_in_bindings": 0,
+                    "preview_size": "medium"
+                },
+                {
+                    "key": "field_67d853b0f7119",
+                    "label": "Background Color",
+                    "name": "background_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#fff",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "allow_in_bindings": 0
+                }
+            ]
+        },
+        {
             "key": "field_679a594fbdf1a",
             "label": "Filter Settings",
             "name": "filter_settings",
@@ -94,6 +157,25 @@
             "layout": "row",
             "sub_fields": [
                 {
+                    "key": "field_67d85511fdaf7",
+                    "label": "Background Color",
+                    "name": "background_color",
+                    "aria-label": "",
+                    "type": "color_picker",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "#fff",
+                    "enable_opacity": 0,
+                    "return_format": "string",
+                    "allow_in_bindings": 0
+                },
+                {
                     "key": "field_67b3acea66ba4",
                     "label": "Link Color",
                     "name": "link_color",
@@ -166,6 +248,25 @@
                     },
                     "layout": "table",
                     "sub_fields": [
+                        {
+                            "key": "field_67d86292057ad",
+                            "label": "BrandBar Color",
+                            "name": "brandbar_color",
+                            "aria-label": "",
+                            "type": "color_picker",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "#333f48",
+                            "enable_opacity": 0,
+                            "return_format": "string",
+                            "allow_in_bindings": 0
+                        },
                         {
                             "key": "field_67b4e220f1926",
                             "label": "BrandBar Logo (UT)",
@@ -259,5 +360,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1740784795
+    "modified": 1742230464
 }
