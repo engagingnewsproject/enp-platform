@@ -1,23 +1,56 @@
+{# 
+    Archive template for Publication articles
+    
+    This template displays a grid of publication articles with their details including:
+    - Title (with optional external link)
+    - Publisher information
+    - Publication date
+    
+    Available variables:
+    - title: The archive title (e.g., "Publication")
+    - posts: Array of Publication objects
+		
+		TODO:
+		- Combine with archive-press.twig
+#}
 {% extends "base.twig" %}
 
 {% block content %}
-	{# Debug output #}
-	<div style="background: #eee; padding: 20px; margin: 20px;">
-		<h3>Debug Info:</h3>
-		<pre>
-			Archive variable exists: {{ archive ? 'yes' : 'no' }}
-			Archive posts exists: {{ archive.posts ? 'yes' : 'no' }}
-			Number of posts: {{ archive.posts ? archive.posts|length : '0' }}
-			Title: {{ title }}
-		</pre>
-	</div>
+	{# Main publication archive section #}
 
-	<section class="archive-publication">
+	{% set categories = get_terms({
+			'taxonomy': 'publication-categories',
+			'hide_empty': true
+		}) %}
+
+	<section class="archive-section">
 		<div class="archive-header">
-			<h1 class="archive-title">{{ title }}</h1>
+			<h1 class="archive-title">
+				{% if function('is_tax', 'publication-categories') %}
+					<a href="/publications">Publications</a>
+					-
+					{{ function('single_term_title', '') }}
+				{% else %}
+					{{ title }}
+				{% endif %}
+			</h1>
+			
+			{# output the categories #}
+			<div class="archive-categories">
+				{% for category in categories %}
+					<a href="{{ category.link }}">{{ category.title }}</a>
+					{% if category.count > 1 %}
+						({{ category.count }})
+					{% endif %}
+					{% if not loop.last %}
+						|
+					{% endif %}
+				{% endfor %}
+			</div>
+		
 		</div>
-
-		{% if archive.posts %}
+		
+		{% if posts %}
 			<div class="publications-grid">
 				{% for post in archive.posts %}
 					<article class="publication-card">
@@ -66,4 +99,4 @@
 			<p class="no-publications">No publications found.</p>
 		{% endif %}
 	</section>
-{% endblock %} 
+{% endblock %}

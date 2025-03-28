@@ -7,24 +7,31 @@
     - Publication date
     
     Available variables:
-    - title: The archive title (e.g., "Press Archive", "Press Archive: March 2024")
-    - posts: Array of PressArticle objects
-    - debug: Debug information (if enabled)
+    - title: The archive title (e.g., "Press")
+    - posts: Array of Press objects
+		
+		TODO:
+		- This is only a look at how to write the archive-press.twig file.
+		- Should be only one file for both Press and Publications.
+		- To do this, we need to adjust the logic in archive.php to handle both post types.
+		- Create a component for the archive header.
+		- Create a component for the article card.
 #}
 {% extends "base.twig" %}
 
 {% block content %}
-	{# Main press archive section #}
+	{# Main archive section #}
 
 	{% set categories = get_terms({
 			'taxonomy': 'press-categories',
 			'hide_empty': true
 		}) %}
 
-	<section
-		class="archive-press">
-		{# Archive header with title #}
+	<section class="archive-section">
+		{# Archive header with categories #}
+		{# TODO: Create a component for the archive header #}
 		<div class="archive-header">
+		
 			<h1 class="archive-title">
 				{% if function('is_tax', 'press-categories') %}
 					<a href="/press">Press</a>
@@ -34,36 +41,39 @@
 					{{ title }}
 				{% endif %}
 			</h1>
+			
+			{# output the categories #}
+			<div class="archive-categories">
+				{% for category in categories %}
+					<a href="{{ category.link }}">{{ category.title }}</a>
+					{% if category.count > 1 %}
+						({{ category.count }})
+					{% endif %}
+					{% if not loop.last %}
+						|
+					{% endif %}
+				{% endfor %}
+			</div>
+			
 		</div>
 
-		{# output the categories #}
-		<div class="press-categories">
-			{% for category in categories %}
-				<a href="{{ category.link }}">{{ category.title }}</a>
-				{% if category.count > 1 %}
-					({{ category.count }})
-				{% endif %}
-				{% if not loop.last %}
-					|
-				{% endif %}
-			{% endfor %}
-		</div>
-
-		{# Check if we have any press articles to display #}
+		{# Check if we have any articles to display #}
 		{% if posts %}
-			{# Grid container for press articles #}
+			{# Grid container for articles #}
 			<div class="press-articles-grid">
-				{# Loop through each press article #}
+				{# Loop through each article #}
 				{% for post in posts %}
+				{# TODO: Create a component for the article card #}
 					<article class="press-article-card">
-						<div class="press-content">
+						<div
+							class="press-content">
 							{# Display publisher information if available #}
 							{% if post.getPressArticlePublisher() %}
 								<div class="press-publisher">
 									{{ post.getPressArticlePublisher() }}
 								</div>
 							{% endif %}
-							
+
 							{# Article title with optional external link #}
 							<p class="press-title">
 								{% if post.getPressArticleUrl() %}
@@ -77,7 +87,8 @@
 
 
 							{# Article metadata section #}
-							<div class="press-meta">
+							<div
+								class="press-meta">
 								{# Display publication date if available, formatted as "Month Day, Year" #}
 								{% if post.getPressArticlePublicationDate() %}
 									<div class="press-publication-date">
@@ -95,8 +106,8 @@
 			</div>
 
 		{% else %}
-			{# Display message if no press articles are found #}
+			{# Display message if no articles are found #}
 			<p class="no-press-articles">No press articles found.</p>
 		{% endif %}
 	</section>
-{% endblock %} 
+{% endblock %}
