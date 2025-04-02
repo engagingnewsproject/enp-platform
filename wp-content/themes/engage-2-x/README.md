@@ -103,7 +103,7 @@ The press section uses several templates to handle different views:
   - `posts`: Array of Press objects
   - `archive_filters`: ACF options for category filtering
 
-#### `taxonomy-press-categories.php` & `templates/taxonomy-press-categories.twig`
+#### `taxonomy-press-categories.php`
 - Handles press category pages at `/press/category/{category-slug}`
 - Extends the archive-press template functionality
 - Shows posts filtered by the current category
