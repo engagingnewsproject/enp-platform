@@ -170,6 +170,7 @@ class Publications
 			'labels' => $labels,
 			'show_ui' => true,
 			'show_admin_column' => true,
+			'show_in_menu' => false,
 			'update_count_callback' => '_update_post_term_count',
 			'query_var' => true,
 			'rewrite' => array('slug' => 'publication-tags'),
