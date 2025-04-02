@@ -21,10 +21,15 @@
 
 {% block content %}
 	{# Main archive section #}
-
+	
+	{# Get all categories except the filtered ones #}
+	{% set filtered_categories = archive_filters.press_archive_filter|default([]) %}
+	{% set filtered_ids = filtered_categories|map(term => term.term_id) %}
+		
 	{% set categories = get_terms({
 			'taxonomy': 'press-categories',
-			'hide_empty': true
+			'hide_empty': true,
+			'exclude': filtered_ids
 		}) %}
 
 	<section class="archive-section">
@@ -42,19 +47,6 @@
 				{% endif %}
 			</h1>
 			
-			{# output the categories #}
-			<div class="archive-categories">
-				{% for category in categories %}
-					<a href="{{ category.link }}">{{ category.title }}</a>
-					{% if category.count > 1 %}
-						({{ category.count }})
-					{% endif %}
-					{% if not loop.last %}
-						|
-					{% endif %}
-				{% endfor %}
-			</div>
-			
 		</div>
 
 		{# Check if we have any articles to display #}
@@ -63,7 +55,7 @@
 			<div class="press-articles-grid">
 				{# Loop through each article #}
 				{% for post in posts %}
-				{# TODO: Create a component for the article card #}
+				{# TODO: Create a component for the press article card #}
 					<article class="press-article-card">
 						<div
 							class="press-content">
@@ -89,6 +81,16 @@
 							{# Article metadata section #}
 							<div
 								class="press-meta">
+								{# Display categories if available #}
+								{# TEMPORARY: Display categories for testing to make sure the logic works #}
+								{% if post.terms('press-categories') %}
+									<div class="press-categories">
+										{% for category in post.terms('press-categories') %}
+											<sub>Category: <a href="{{ category.link }}" class="press-category">{{ category.name }}</a></sub>
+										{% endfor %}
+									</div>
+								{% endif %}
+
 								{# Display publication date if available, formatted as "Month Day, Year" #}
 								{% if post.getPressArticlePublicationDate() %}
 									<div class="press-publication-date">

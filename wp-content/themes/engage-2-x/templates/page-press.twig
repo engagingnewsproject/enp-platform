@@ -10,28 +10,41 @@
 		<header class="article__header{{ show_header }}">
 			<h1 class="article__title h1">{{post.title}}</h1>
 		</header>
-		{{ post.generate_table }} {# This line calls the src/Models/Press.php Press class to populate the table #}
+
 		<div class="article__content">
 			{% if post.meta('above') %}
 				{{ post.meta('above') }}
 			{% endif %}
-			<table> 
-				<colgroup>
-					<col class="press-table-side-col">
-					<col class="press-table-mid-col">
-					<col class="press-table-side-col">
-				</colgroup>
-				{% for column in post.columns %}
-					<th class="press-table-top"></th>
-				{% endfor %}
-				{% for row in post.rows %}
-					<tr>
-						<td class="press-table-row"> {{row[0]}} </td>
-						<td class="press-table-row"> {{row[1]}} </td>
-						<td class="press-table-row"> {{row[2]}} </td>
-					</tr>
-				{% endfor %}
-			</table>
+			{# TODO: Create a component for the press article card #}
+			<div class="press-posts">
+				{% if press_posts %}
+					{% for item in press_posts %}
+						<div>
+							{% if item.meta('press_article_publisher') %}
+								{{ item.meta('press_article_publisher') }}
+							{% endif %}
+
+							{% if item.meta('press_article_publication_date') %}
+								{{ item.meta('press_article_publication_date')|date('F j, Y') }}
+							{% endif %}
+
+							{% if item.meta('press_article_url') %}
+								<a href="{{ item.meta('press_article_url') }}" 
+									class="press-link" 
+									target="_blank" 
+									rel="noopener noreferrer">
+										{{ item.title }}
+								</a>
+							{% else %}
+								{{ item.title }}
+							{% endif %}
+						</div>
+					{% endfor %}
+				{% else %}
+					<p>No press posts found.</p>
+				{% endif %}
+			</div>
+
 			{% if post.meta('below') %}
 				{{ post.meta('below') }}
 			{% endif %}
