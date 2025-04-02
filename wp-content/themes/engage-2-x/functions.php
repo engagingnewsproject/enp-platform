@@ -104,7 +104,6 @@ if (strpos(get_home_url(), '.com') === false || !in_array(getenv('WP_APP_ENV'), 
 		false // if logged in, no cache
 	];
 }
-define('ENGAGE_ENV', $engageEnv);
 define('ENGAGE_PAGE_CACHE_TIME', $cacheTime);
 
 // Start the site
