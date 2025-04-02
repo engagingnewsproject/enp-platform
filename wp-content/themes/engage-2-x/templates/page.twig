@@ -13,10 +13,12 @@
 		<div class="article__content">
 			{{post.content}}
 		</div>
-		<div class="newsletter__wrapper">
-		  <div class="newsletter-page widget">
-		      {{ newsletter }}
-		  </div>
-		</div>
+		{% if post.meta('show_newsletter') %} {# ACF / Page settings #}
+			<div class="newsletter__wrapper">
+				<div class="newsletter-page widget">
+						{{ newsletter }}
+				</div>
+			</div>
+		{% endif %}
 	</article>
 {% endblock %}
