@@ -41,7 +41,6 @@ $title = post_type_archive_title('', false);
  * from the archive page
  */
 $archive_filters = get_field('archive_settings', 'options');
-var_dump($archive_filters);
 
 /**
  * Update the context with the title and archive filters
@@ -65,7 +64,6 @@ if (!empty($excluded_categories)) {
         fn($category) => $category->term_id, 
         $excluded_categories
     );
-	var_dump($excluded_category_ids);
 
     /**
      * Build the query arguments
@@ -73,6 +71,7 @@ if (!empty($excluded_categories)) {
      */
     $args = [
         'post_type' => 'press',
+        'posts_per_page' => -1, // Show all posts
         'tax_query' => [
             [
                 'taxonomy' => 'press-categories',
@@ -87,7 +86,11 @@ if (!empty($excluded_categories)) {
     $context['posts'] = Timber::get_posts($args);
 } else {
     // If no categories are excluded, get all press posts
-    $context['posts'] = Timber::get_posts();
+    $args = [
+        'post_type' => 'press',
+        'posts_per_page' => -1 // Show all posts
+    ];
+    $context['posts'] = Timber::get_posts($args);
 }
 
 /**
