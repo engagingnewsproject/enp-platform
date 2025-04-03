@@ -41,6 +41,7 @@ $title = post_type_archive_title('', false);
  * from the archive page
  */
 $archive_filters = get_field('archive_settings', 'options');
+var_dump($archive_filters);
 
 /**
  * Update the context with the title and archive filters
@@ -64,6 +65,7 @@ if (!empty($excluded_categories)) {
         fn($category) => $category->term_id, 
         $excluded_categories
     );
+	var_dump($excluded_category_ids);
 
     /**
      * Build the query arguments
