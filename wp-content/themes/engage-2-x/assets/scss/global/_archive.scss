@@ -197,6 +197,7 @@ body.archive {
 	}
 	.press-content {
 		display: flex;
+		flex-direction: column;
 		gap: 1em;
 		margin-top: 1.6rem;
 	}
@@ -206,5 +207,15 @@ body.archive {
 	}
 	.press-title {
 		flex: 1 1 80%;
+		font-size: 1.5rem;
+		font-weight: 700;
+		// Remove underline from link
+		a {
+			text-decoration: none;
+			color: var(--color-primary);
+			&:hover {
+				text-decoration: underline;
+			}
+		}
 	}
 }
