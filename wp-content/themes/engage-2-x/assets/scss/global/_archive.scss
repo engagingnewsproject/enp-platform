@@ -193,13 +193,26 @@ body.archive {
 	}
 	// Press archive page
 	.press-article-card {
-		border-bottom: 1px solid black;
+		border-bottom: 1px solid rgb(215, 215, 215);
 	}
 	.press-content {
 		display: flex;
 		flex-direction: column;
 		gap: 1em;
 		margin-top: 1.6rem;
+	}
+	.press-meta-header {
+		display: flex;
+		flex-direction: row;
+		gap: 0.6em;
+	}
+	.press-publisher {
+		color: rgb(117, 117, 117);
+		font-weight: bold;
+	}
+	.press-publication-date {
+		color: rgb(85, 85, 85);
+		font-weight: bold;
 	}
 	.press-publisher,
 	.press-meta {
