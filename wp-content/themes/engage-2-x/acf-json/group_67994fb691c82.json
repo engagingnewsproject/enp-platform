@@ -382,6 +382,32 @@
                     "bidirectional": 0,
                     "multiple": 0,
                     "bidirectional_target": []
+                },
+                {
+                    "key": "field_67f6750079f59",
+                    "label": "Research sidebar filter",
+                    "name": "research_sidebar_filter",
+                    "aria-label": "",
+                    "type": "taxonomy",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "taxonomy": "research-categories",
+                    "add_term": 0,
+                    "save_terms": 1,
+                    "load_terms": 1,
+                    "return_format": "id",
+                    "field_type": "checkbox",
+                    "allow_in_bindings": 0,
+                    "bidirectional": 0,
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "bidirectional_target": []
                 }
             ]
         }
@@ -404,5 +430,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1743637335
+    "modified": 1744206073
 }

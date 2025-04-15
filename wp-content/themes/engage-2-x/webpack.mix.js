@@ -29,6 +29,7 @@ mix
       "./../../plugins/enp-quiz/**/*.php",
       "./../../plugins/enp-quiz/**/*.scss",
       "./../../plugins/enp-quiz/**/*.js",
+      "!**/debug.log" // Exclude debug.log
     ],
   });
 
