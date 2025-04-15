@@ -359,6 +359,12 @@
 			grid-template-areas: "tile__img-wrap tile__container";
 		}
 	}
+
+	.tile-archive {
+		padding-top: 0em;
+		padding-left: 0em;
+	}
+	
 	.tile__img-wrap {
 		width: 50%;
 		float: left;
@@ -391,6 +397,11 @@
 			grid-template-rows: repeat(4, min-content);
 		}
 	}
+
+	.tile__container--archive {
+		padding: 1em 0 0 1em;
+	}
+	.tile__title
 	.tile__label,
 	.tile__date {
 		padding: 0;
