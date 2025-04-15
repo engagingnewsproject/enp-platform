@@ -357,6 +357,12 @@
 			grid-column-end: span 6;
 			gap: 0 20px;
 			grid-template-areas: "tile__img-wrap tile__container";
+			@include media($phablet) {
+				grid-column-end: span 12;
+			}
+			@include media($tablet) {
+				grid-column-end: span 6;
+			}
 		}
 	}
 
@@ -399,7 +405,7 @@
 	}
 
 	.tile__container--archive {
-		padding: 1em 0 0 1em;
+		padding: 1em;
 	}
 	.tile__title
 	.tile__label,
