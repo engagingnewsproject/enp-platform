@@ -366,7 +366,7 @@
 	}
 	
 	.tile__img-wrap {
-		width: 50%;
+		width: 25%;
 		float: left;
 		@supports not (display: flex) {
 			padding-right: 1em;
@@ -374,7 +374,7 @@
 		@supports (display: flex) {
 			position: relative;
 			height: auto;
-			flex: 0 0 40%;
+			flex: 0 0 25%;
 		}
 		@supports (display: grid) {
 			grid-area: tile__img-wrap;
@@ -384,11 +384,11 @@
 		max-height: 280px;
 	}
 	.tile__container {
-		width: 50%;
+		width: 75%;
 		float: right;
 		@supports (display: flex) {
 			display: flex;
-			flex: 0 0 55%;
+			flex: 0 0 75%;
 			flex-direction: column;
 		}
 		@supports (display: grid) {
