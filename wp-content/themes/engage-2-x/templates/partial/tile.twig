@@ -19,12 +19,25 @@
 <div class="tile{{' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.vertical.slug ? tile.vertical.slug : tile.terms('verticals')[0].slug }}">
 
 	<div class="tile__img-wrap">
-			<img 
-				class="tile__img" 
-				src="{{ tile.thumbnail.src('featured-post') | default(defaultimg) }}" 
-				alt="{{ tile.thumbnail.alt }}"
-				loading="{{ loading }}"
-			/>
+			{% if tile.thumbnail %}
+				<img 
+					src="{{ tile.thumbnail.src('grid-large') }}"
+					srcset="{{ tile.thumbnail.srcset }}"
+					sizes="{{ tile.thumbnail.img_sizes }}"
+					alt="{{ tile.thumbnail.alt }}"
+					class="tile__img" 
+					loading="{{ loading }}"
+				/>
+			{% else %}
+				<img 
+					src="{{ defaultimg }}"
+					srcset="{{ defaultimg }} 1x, {{ defaultimg }} 2x"
+					sizes="(max-width: 600px) 100vw, 600px"
+					alt="Default image"
+					class="tile__img" 
+					loading="{{ loading }}"
+				/>
+			{% endif %}
 	</div> 
  
 

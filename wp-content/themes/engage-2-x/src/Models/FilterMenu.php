@@ -115,7 +115,7 @@ class FilterMenu
 		$this->taxonomies = $options['taxonomies'];
 		$this->postTypes = $options['postTypes'];
 		$this->taxonomyStructure = $options['taxonomyStructure'];
-		$this->urlConstructor = new urlConstructor();
+		$this->urlConstructor = new URLConstructor();
 		$this->linkBase =  $options['linkBase'];
 		$this->structure = 'postTypes';
 		$this->manualLinks = $options['manualLinks'];

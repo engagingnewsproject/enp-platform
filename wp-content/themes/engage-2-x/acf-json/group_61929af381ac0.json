@@ -17,6 +17,7 @@
                 "id": ""
             },
             "post_type": "",
+            "post_status": "",
             "taxonomy": "",
             "filters": [
                 "search",
@@ -25,10 +26,189 @@
             "return_format": "object",
             "min": "",
             "max": "",
+            "allow_in_bindings": 1,
             "elements": [
                 "featured_image"
             ],
+            "bidirectional": 0,
             "bidirectional_target": []
+        },
+        {
+            "key": "field_67eee35a75ca3",
+            "label": "Custom tiles",
+            "name": "custom_tiles",
+            "aria-label": "",
+            "type": "flexible_content",
+            "instructions": "Mix existing post or page titles with custom tiles.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layouts": {
+                "layout_67eee509a8e08": {
+                    "key": "layout_67eee509a8e08",
+                    "name": "existing_post",
+                    "label": "Existing post",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_67eee53075ca5",
+                            "label": "Post",
+                            "name": "post",
+                            "aria-label": "",
+                            "type": "relationship",
+                            "instructions": "Select only one post or page.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "post_type": "",
+                            "post_status": "",
+                            "taxonomy": "",
+                            "filters": [
+                                "search",
+                                "post_type",
+                                "taxonomy"
+                            ],
+                            "return_format": "object",
+                            "min": 1,
+                            "max": 1,
+                            "allow_in_bindings": 0,
+                            "elements": [
+                                "featured_image"
+                            ],
+                            "bidirectional": 0,
+                            "bidirectional_target": []
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_67eee58175ca6": {
+                    "key": "layout_67eee58175ca6",
+                    "name": "custom_post",
+                    "label": "Custom post",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_67eee5ae75cac",
+                            "label": "Title",
+                            "name": "title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_67eefbf89a748",
+                            "label": "Date",
+                            "name": "date",
+                            "aria-label": "",
+                            "type": "date_picker",
+                            "instructions": "Leave blank to not show on the front end.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "display_format": "F j, Y",
+                            "return_format": "F j, Y",
+                            "first_day": 1,
+                            "allow_in_bindings": 0
+                        },
+                        {
+                            "key": "field_67eee5c875cad",
+                            "label": "Excerpt",
+                            "name": "excerpt",
+                            "aria-label": "",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "rows": "",
+                            "placeholder": "",
+                            "new_lines": ""
+                        },
+                        {
+                            "key": "field_67eee5e775cae",
+                            "label": "Image",
+                            "name": "image",
+                            "aria-label": "",
+                            "type": "image",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "allow_in_bindings": 0,
+                            "preview_size": "medium"
+                        },
+                        {
+                            "key": "field_67eeef115ccea",
+                            "label": "Link",
+                            "name": "link",
+                            "aria-label": "",
+                            "type": "url",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "allow_in_bindings": 1,
+                            "placeholder": ""
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                }
+            },
+            "min": "",
+            "max": "",
+            "button_label": "Add Tile"
         },
         {
             "key": "field_6378058fb752e",
@@ -69,5 +249,5 @@
     "active": true,
     "description": "(template: page-solidarity-journalism.twig)",
     "show_in_rest": 1,
-    "modified": 1740784795
+    "modified": 1743715518
 }

@@ -83,6 +83,43 @@ To adjust a query:
 
 The standardized URL structure helps distinguish between category archives and single posts while maintaining clean, SEO-friendly URLs.
 
+
+## Templates
+
+### Press Templates
+
+The press section uses several templates to handle different views:
+
+#### `archive-press.php` & `templates/archive-press.twig`
+- Handles the main press archive page at `/press`
+- Displays a grid of press articles with:
+  - Title (with optional external link)
+  - Publisher information
+  - Publication date
+  - Categories
+- Supports filtering out specific categories via ACF options
+- Available variables:
+  - `title`: The archive title (e.g., "Press")
+  - `posts`: Array of Press objects
+  - `archive_filters`: ACF options for category filtering
+
+#### `taxonomy-press-categories.php`
+- Handles press category pages at `/press/category/{category-slug}`
+- Extends the archive-press template functionality
+- Shows posts filtered by the current category
+- Maintains category exclusion logic from ACF options
+- Available variables:
+  - `title`: The category name
+  - `posts`: Array of Press objects in the current category
+  - `archive_filters`: ACF options for category filtering
+
+#### `page-press.twig`
+- Template for individual press pages
+- Displays detailed information about a single press article
+- Available variables:
+  - `post`: The current Press object
+  - `categories`: Array of press categories for the article
+
 # Deployment Summary
 
 Before doing any deployment, **make sure the .js and .css files are minified**.

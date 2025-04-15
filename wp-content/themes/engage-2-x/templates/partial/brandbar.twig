@@ -1,6 +1,3 @@
-{# 
-	This is the topbar with the "TEXAS Moody" link
-#}
 {% if options.navigation_settings.brand_bar %}
 	<div class="brandbar" {% if options.navigation_settings.brand_bar.brandbar_color %}style="background-color: {{options.navigation_settings.brand_bar.brandbar_color}};"{% endif %}>
 			<a href="{{options.navigation_settings.brand_bar.brandbar_redirect}}" class="brandbar__link">
@@ -12,7 +9,10 @@
 							alt="University of Texas at Austin" 
 							width="112" 
 							height="27" 
-							decoding="async">
+							decoding="async"
+							loading="eager"
+							sizes="112px"
+							srcset="{{options.navigation_settings.brand_bar.brandbar_logo_ut.url}} 1x, {{options.navigation_settings.brand_bar.brandbar_logo_ut.url}} 2x">
 					</picture>
 					<picture>
 						<source srcset="{{options.navigation_settings.brand_bar.brandbar_logo_moody.url}}" type="image/webp">
@@ -20,7 +20,10 @@
 							alt="Moody College of Communication" 
 							width="85" 
 							height="27" 
-							decoding="async">
+							decoding="async"
+							loading="eager"
+							sizes="85px"
+							srcset="{{options.navigation_settings.brand_bar.brandbar_logo_moody.url}} 1x, {{options.navigation_settings.brand_bar.brandbar_logo_moody.url}} 2x">
 					</picture>
 				</span>
 			</a>

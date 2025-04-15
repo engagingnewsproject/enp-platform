@@ -1,10 +1,10 @@
 <?php
 /**
- * The template for displaying Press Archive pages.
+ * The template for displaying Press Category pages.
  *
- * This template is used to display the main press archive page (/press).
+ * This template is used to display individual press category pages (/press/category/example).
  * It includes functionality to filter out specific press categories based on
- * ACF options settings.
+ * ACF options settings while still showing posts from the current category.
  *
  * @package Engage
  */
@@ -24,16 +24,17 @@ $globals = new Engage\Managers\Globals();
 $options = [];
 
 /**
- * Define the template hierarchy for this archive page
- * WordPress will look for these templates in order, using the first one it finds
+ * Define the template hierarchy for this taxonomy page
+ * WordPress will look for these templates in order, using the first one it finds.
+ * We include archive-press.twig as a fallback to maintain consistent styling.
  */
-$templates = ['templates/archive-press.twig', 'templates/archive.twig', 'templates/index.twig'];
+$templates = ['templates/taxonomy-press-categories.twig', 'templates/archive-press.twig', 'templates/archive.twig', 'templates/index.twig'];
 
 /**
- * Set the page title using WordPress's post type archive title function
- * This will display "Press" or whatever the post type label is set to
+ * Set the page title using WordPress's term title function
+ * This will display the current category name
  */
-$title = post_type_archive_title('', false);
+$title = single_term_title('', false);
 
 /**
  * Get the archive filters from ACF options
@@ -55,7 +56,8 @@ $context = Timber::context([
  * Handle category filtering
  * 
  * If there are categories set to be excluded in the ACF options,
- * we'll modify the query to exclude those categories
+ * we'll modify the query to exclude those categories while still showing
+ * posts from the current category
  */
 $excluded_categories = $context['archive_filters']['press_archive_filter'] ?? [];
 if (!empty($excluded_categories)) {
@@ -65,14 +67,24 @@ if (!empty($excluded_categories)) {
         $excluded_categories
     );
 
+    // Get the current category's term ID
+    $current_term_id = get_queried_object_id();
+
     /**
      * Build the query arguments
-     * We're using tax_query to exclude the specified categories
+     * We're using tax_query with an AND relation to:
+     * 1. Show posts from the current category
+     * 2. Exclude posts from the specified categories
      */
     $args = [
         'post_type' => 'press',
-        'posts_per_page' => -1, // Show all posts
         'tax_query' => [
+            'relation' => 'AND',
+            [
+                'taxonomy' => 'press-categories',
+                'field'    => 'term_id',
+                'terms'    => $current_term_id
+            ],
             [
                 'taxonomy' => 'press-categories',
                 'field'    => 'term_id',
@@ -82,15 +94,11 @@ if (!empty($excluded_categories)) {
         ]
     ];
 
-    // Get posts that don't belong to excluded categories
+    // Get posts that belong to the current category but not to excluded categories
     $context['posts'] = Timber::get_posts($args);
 } else {
-    // If no categories are excluded, get all press posts
-    $args = [
-        'post_type' => 'press',
-        'posts_per_page' => -1 // Show all posts
-    ];
-    $context['posts'] = Timber::get_posts($args);
+    // If no categories are excluded, get all posts for the current category
+    $context['posts'] = Timber::get_posts();
 }
 
 /**
@@ -104,4 +112,4 @@ $context['archive'] = $archive;
  * Render the template with our context
  * Timber will use the first template it finds in the $templates array
  */
-Timber::render($templates, $context);
+Timber::render($templates, $context); 

@@ -43,7 +43,11 @@
 							</div>
 							{% if post.gif1.src %}
 								<div class="container container--lg text-center">
-									<img src="{{ post.gif1.src }}" sizes="{{ post.gif1.img_sizes }}" alt="{{ post.gif1.alt }}"/>
+									<img src="{{ post.gif1.src('2048x2048') }}" 
+										srcset="{{ post.gif1.srcset }}" 
+										sizes="{{ post.gif1.img_sizes }}" 
+										alt="{{ post.gif1.alt }}" 
+										loading="eager"/>
 								</div>
 							{% endif %}
 							{% if post.meta('paragraph1') %}
@@ -60,8 +64,13 @@
 							{% endif %}
 							{% if post.gif2.src %}
 								<div class="container container--lg text-center">
-									<img src="{{ post.gif2.src }}" sizes="{{ post.gif2.img_sizes }}" alt="{{ post.gif2.alt }}"/>
-								</div>
+<div class="container container--lg text-center">
+									<img src="{{ post.gif2.src('2048x2048') }}" 
+										srcset="{{ post.gif2.srcset }}" 
+										sizes="{{ post.gif2.img_sizes }}" 
+										alt="{{ post.gif2.alt }}" 
+										loading="eager"/>
+								</div>								</div>
 							{% endif %}
 							{% if post.meta('paragraph2') %}
 								<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
@@ -77,8 +86,13 @@
 							{% endif %}
 							{% if post.gif3.src %}
 								<div class="container container--lg text-center">
-									<img src="{{ post.gif3.src }}" sizes="{{ post.gif3.img_sizes }}" alt="{{ post.gif3.alt }}"/>
-								</div>
+<div class="container container--lg text-center">
+									<img src="{{ post.gif3.src('2048x2048') }}" 
+										srcset="{{ post.gif3.srcset }}" 
+										sizes="{{ post.gif3.img_sizes }}" 
+										alt="{{ post.gif3.alt }}" 
+										loading="eager"/>
+								</div>								</div>
 							{% endif %}
 							{% if post.meta('paragraph3') %}
 								<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
@@ -94,8 +108,13 @@
 							{% endif %}
 							{% if post.gif4.src %}
 								<div class="container container--lg text-center">
-									<img src="{{ post.gif4.src }}" sizes="{{ post.gif4.img_sizes }}" alt="{{ post.gif4.alt }}"/>
-								</div>
+<div class="container container--lg text-center">
+									<img src="{{ post.gif4.src('2048x2048') }}" 
+										srcset="{{ post.gif4.srcset }}" 
+										sizes="{{ post.gif4.img_sizes }}" 
+										alt="{{ post.gif4.alt }}" 
+										loading="eager"/>
+								</div>								</div>
 							{% endif %}
 							{% if post.meta('paragraph4') %}
 								<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
@@ -111,8 +130,13 @@
 							{% endif %}
 							{% if post.gif5.src %}
 								<div class="container container--lg text-center">
-										<img src="{{ post.gif5.src }}" sizes="{{ post.gif5.img_sizes }}" alt="{{ post.gif5.alt }}"/>
-								</div>
+<div class="container container--lg text-center">
+									<img src="{{ post.gif5.src('2048x2048') }}" 
+										srcset="{{ post.gif5.srcset }}" 
+										sizes="{{ post.gif5.img_sizes }}" 
+										alt="{{ post.gif5.alt }}" 
+										loading="eager"/>
+								</div>								</div>
 							{% endif %}
 							{% if post.meta('paragraph5') %}
 							<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">

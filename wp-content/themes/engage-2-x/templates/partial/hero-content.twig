@@ -5,6 +5,8 @@
 		<img 
 			{% if is_first %}loading="eager"{% endif %}
 			data-flickity-lazyload="{{ post.thumbnail.src('carousel-image') }}" 
+			data-flickity-lazyload-srcset="{{ post.thumbnail.srcset }}"
+			data-flickity-lazyload-sizes="{{ post.thumbnail.img_sizes }}"
 			alt="{{ post.thumbnail.alt }}" 
 			class="carousel-cell-image" 
 		/>

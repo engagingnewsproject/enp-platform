@@ -1,58 +1,97 @@
+{# 
+    Archive template for Publication articles
+    
+    This template displays a grid of publication articles with their details including:
+    - Title (with optional external link)
+    - Publisher information
+    - Publication date
+    
+    Available variables:
+    - title: The archive title (e.g., "Publication")
+    - posts: Array of Publication objects
+		
+		TODO:
+		- Combine with archive-press.twig
+#}
 {% extends "base.twig" %}
 
 {% block content %}
-	{# Debug output #}
-	<div style="background: #eee; padding: 20px; margin: 20px;">
-		<h3>Debug Info:</h3>
-		<pre>
-			Archive variable exists: {{ archive ? 'yes' : 'no' }}
-			Archive posts exists: {{ archive.posts ? 'yes' : 'no' }}
-			Number of posts: {{ archive.posts ? archive.posts|length : '0' }}
-			Title: {{ title }}
-		</pre>
-	</div>
+	{# Main publication archive section #}
 
-	<section class="archive-publication">
+	{% set categories = get_terms({
+			'taxonomy': 'publication-categories',
+			'hide_empty': true
+		}) %}
+
+	<section class="archive-section container container--lg full-width post-type--page">
 		<div class="archive-header">
-			<h1 class="archive-title">{{ title }}</h1>
+			<h1 class="archive-title">
+				{% if function('is_tax', 'publication-categories') %}
+					<a href="/publications">Publications</a>
+					-
+					{{ function('single_term_title', '') }}
+				{% else %}
+					{{ title }}
+				{% endif %}
+			</h1>
+			
+			{# output the categories #}
+			<div class="archive-categories">
+				{% for category in categories %}
+					<a href="{{ category.link }}">{{ category.title }}</a>
+					{% if category.count > 1 %}
+						({{ category.count }})
+					{% endif %}
+					{% if not loop.last %}
+						|
+					{% endif %}
+				{% endfor %}
+			</div>
+		
 		</div>
-
-		{% if archive.posts %}
-			<div class="publications-grid">
+		
+		{% if posts %}
+			<div class="publications tiles grid grid--col-12 grid--gap-20">
 				{% for post in archive.posts %}
-					<article class="publication-card">
+					<article class="tile {% if post.thumbnail %}tile--has-img{% endif %}">
 						{% if post.thumbnail %}
-							<div class="publication-image">
-								<img src="{{ post.thumbnail.src }}" alt="{{ post.thumbnail.alt }}">
+							<div 
+							style="width: 100%; height: 100%; position: relative;"
+							class="tile__img-wrap">
+								<img 
+								style="width: 100%; height: 100%; object-fit: cover; object-position: center;"
+								src="{{ post.thumbnail.src }}" alt="{{ post.thumbnail.alt }}">
 							</div>
 						{% endif %}
-						<div class="publication-content">
-							<h2 class="publication-title">
-								{% if post.getUrl() %}
-									<a href="{{ post.getUrl() }}" target="_blank" rel="noopener noreferrer">{{ post.title }}</a>
-								{% else %}
-									{{ post.title }}
-								{% endif %}
+						<div class="tile_container">
+							<a class="tile__link" href="{{ post.getUrl() }}" target="_blank" rel="noopener noreferrer"></a>
+								
+							<h2 class="tile__title h3">
+								{{ post.title }}
 							</h2>
+
 							{% if post.getSubtitle() %}
-								<div class="publication-subtitle">
+								<div class="tile__label subtitle">
 									{{ post.getSubtitle() }}
 								</div>
 							{% endif %}
-							<div class="publication-meta">
-								{% if post.getAuthors() %}
-									<div class="publication-authors">
-										{{ post.getAuthors() }}
-									</div>
-								{% endif %}
+
+							{% if post.getAuthors() %}
+							<div class="tile__label">
+								{{ post.getAuthors() }}
+							</div>
+							{% endif %}
+
+							{# <div class="publication-meta"> #}
+
 								{% if post.getPublicationDate() %}
-									<div class="publication-date">
+									<div class="tile__label year">
 										{{ post.getPublicationDate()|date('F j, Y') }}
 									</div>
 								{% endif %}
-							</div>
+							{# </div> #}
 							{% if post.excerpt %}
-								<div class="publication-excerpt">
+								<div class="tile__label subtitle">
 									{{ post.excerpt }}
 								</div>
 							{% endif %}
@@ -66,4 +105,4 @@
 			<p class="no-publications">No publications found.</p>
 		{% endif %}
 	</section>
-{% endblock %} 
+{% endblock %}

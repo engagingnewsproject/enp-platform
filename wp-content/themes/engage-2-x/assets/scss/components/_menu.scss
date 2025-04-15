@@ -148,7 +148,6 @@
 
 .menu__sublist .menu__sublist {
 	z-index: 999;
-	max-width: 8.9rem;
 	display: none;
 	position: absolute;
 	top: -20px;
@@ -172,7 +171,9 @@
 .menu__item:hover .menu__sublist:not(.nested) {
 	display: block;
 }
-
+.menu__item.has-nested-menu:hover {
+	position: relative;
+}
 .menu__item.has-nested-menu:focus .menu__sublist,
 .menu__item.has-nested-menu:focus-within .menu__sublist,
 .menu__item.has-nested-menu:hover .menu__sublist,

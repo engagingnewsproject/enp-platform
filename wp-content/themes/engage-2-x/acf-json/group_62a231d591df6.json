@@ -25,6 +25,28 @@
             "rows_per_page": 20,
             "sub_fields": [
                 {
+                    "key": "field_67ed447817b7a",
+                    "label": "Subtitle",
+                    "name": "feature_subtitle",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_6791259794d15"
+                },
+                {
                     "key": "field_67912a19882b3",
                     "label": "Description",
                     "name": "feature_description",
@@ -323,5 +345,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1740784795
+    "modified": 1743602844
 }

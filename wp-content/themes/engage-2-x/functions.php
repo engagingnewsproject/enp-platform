@@ -70,6 +70,26 @@ add_filter('timber/post/classmap', function ($classmap) {
 	return array_merge($classmap, $custom_classmap);
 });
 
+// Define environment constants
+if (strpos(get_home_url(), '.com') === false) {
+    // Local development
+    define('ENV_LOCAL', true);
+    define('ENV_DEVELOPMENT', false);
+    define('ENV_STAGING', false);
+    define('ENV_PRODUCTION', false);
+} else {
+    // Remote environments
+    $env = getenv('WP_APP_ENV');
+    define('ENV_LOCAL', false);
+    define('ENV_DEVELOPMENT', $env === 'development');
+    define('ENV_STAGING', $env === 'staging');
+    define('ENV_PRODUCTION', $env === 'production');
+}
+
+// For backward compatibility
+$engageEnv = ENV_PRODUCTION ? 'PROD' : 'DEV';
+define('ENGAGE_ENV', $engageEnv);
+
 // Cache twig in staging and production.
 if (strpos(get_home_url(), '.com') === false || !in_array(getenv('WP_APP_ENV'), ['production', 'staging'], true)) {
 	// on dev, don't cache it
@@ -84,7 +104,6 @@ if (strpos(get_home_url(), '.com') === false || !in_array(getenv('WP_APP_ENV'), 
 		false // if logged in, no cache
 	];
 }
-define('ENGAGE_ENV', $engageEnv);
 define('ENGAGE_PAGE_CACHE_TIME', $cacheTime);
 
 // Start the site

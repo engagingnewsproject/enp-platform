@@ -1,16 +1,3 @@
-{# 
-  teammate-tease.twig - Template partial for displaying a teaser or preview of a team member.
-
-  This template handles the display of a simplified team member profile, usually used in lists 
-  or related content sections. It includes the member's image, name, and designation. The content 
-  is conditionally displayed based on the context and available data.
-
-  Available variables:
-  - mate: The team member object containing the member's data (e.g., name, image, designation).
-  - post: The current post object, used to determine the context (e.g., research, page).
-  - status: Additional classes or identifiers for styling or state management.
-#}
-
 {% if mate %}
 	<div
 		class="{{ mate.member_image ? ' mate--has-img'}} mate--tease grid grid--col-12{{status}}">
@@ -25,11 +12,21 @@
 		{# Display the team member's image if available and not in "Former CME" category #}
 		{% if mate.thumbnail and mate.terms('team_category') | join(', ') != "Former CME" %}
 			<div class="mate__img-wrap">
-				<img class="mate__img" src="{{ mate.thumbnail.src('thumbnail') }}" alt="{{ mate.thumbnail.alt }}"/>
+				<img class="mate__img"
+				     src="{{ mate.thumbnail.src('thumbnail') }}"
+				     srcset="{{ mate.thumbnail.srcset }}"
+				     sizes="{{ mate.thumbnail.img_sizes }}"
+				     alt="{{ mate.thumbnail.alt }}"
+				     loading="eager" />
 			</div>
 		{% elseif mate.member_image and mate.terms('team_category') | join(', ') != "Former CME" %}
 			<div class="mate__img-wrap">
-				<img class="mate__img member--image" src="{{ image.src }}" alt="{{ image.alt }}"/>
+				<img class="mate__img member--image"
+				     src="{{ image.src('thumbnail') }}"
+				     srcset="{{ image.srcset }}"
+				     sizes="{{ image.img_sizes }}"
+				     alt="{{ image.alt }}"
+				     loading="eager" />
 			</div>
 		{% endif %}
 		{# Display the team member's name, with a fallback to 'researcher.name' or 'mate' #}

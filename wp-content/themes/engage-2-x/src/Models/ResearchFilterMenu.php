@@ -32,32 +32,38 @@ class ResearchFilterMenu extends FilterMenu
 			'taxonomy' => 'research-categories',
 			'hide_empty' => true,
 		]);
-
+	
 		if (empty($research_categories) || is_wp_error($research_categories)) {
 			return $filters;
 		}
-
+	
+		// Get selected term IDs from ACF
+		$archive_settings = get_field('archive_settings', 'option');
+		$selected_term_ids = $archive_settings['research_sidebar_filter'] ?? [];
+	
 		// Make sure the 'research' post type exists in the filters
-		if (!isset($filters['terms']['research'])) {
-			$filters['terms']['research'] = [
-				'title' => 'Research',
-				'slug' => 'research',
-				'link' => home_url('/research/'),
-				'terms' => []
-			];
-		}
-
+		// if (!isset($filters['terms']['research'])) {
+		// 	$filters['terms']['research'] = [
+		// 		'title' => 'Research',
+		// 		'slug' => 'research',
+		// 		'link' => home_url('/research/'),
+		// 		'terms' => []
+		// 	];
+		// }
+	
 		// Add each research category to the research post type's terms
 		foreach ($research_categories as $term) {
+			// error_log("Term: " . print_r($term-, true));
 			// Skip uncategorized
-			if ($term->slug === 'uncategorized') {
+			if ($term->slug === 'uncategorized' || $term->slug === 'research') {
 				continue;
 			}
-
-			// Add the term to the research post type's terms
-			$filters['terms']['research']['terms'][$term->slug] = $this->buildFilterTerm($term);
+	
+			// Only add terms that are in the selected term IDs
+			if (in_array($term->term_id, $selected_term_ids)) {
+				$filters['terms']['research']['terms'][$term->slug] = $this->buildFilterTerm($term);
+			}
 		}
-
 		return $filters;
 	}
 
