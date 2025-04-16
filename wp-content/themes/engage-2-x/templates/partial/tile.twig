@@ -18,7 +18,7 @@
 
 <div class="tile{{' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.vertical.slug ? tile.vertical.slug : tile.terms('verticals')[0].slug }}">
 
-	<div class="tile__img-wrap">
+	<div class="tile__img-wrap" role="button">
 			{% if tile.thumbnail %}
 				<img 
 					src="{{ tile.thumbnail.src('grid-large') }}"
