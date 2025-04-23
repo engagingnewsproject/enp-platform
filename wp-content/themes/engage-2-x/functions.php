@@ -331,24 +331,49 @@ function add_custom_link_to_login_page()
 add_action('login_footer', 'add_custom_link_to_login_page');
 
 /**
- * Excludes posts with the 'uncategorized' category from research archive and research category pages.
+ * Excludes specific categories from the research archive page.
+ * - Excludes 'uncategorized' from both archive and category pages
+ * - Excludes 'media-ethics' only from the main research archive page
  * 
  * @param WP_Query $query The WordPress query object
  */
-function exclude_uncategorized_research_posts($query) {
+function filter_research_archive_posts($query) {
     // Only modify the main query on research archive or category pages
     if (!is_admin() && $query->is_main_query() && 
         (is_post_type_archive('research') || is_tax('research-categories'))) {
+        
+        $tax_query = array();
+        
+        // Always exclude uncategorized
         $uncategorized_term = get_term_by('slug', 'uncategorized', 'research-categories');
         if ($uncategorized_term) {
-            $tax_query = array(
-                array(
+            $tax_query[] = array(
+                'taxonomy' => 'research-categories',
+                'field' => 'term_id',
+                'terms' => $uncategorized_term->term_id,
+                'operator' => 'NOT IN'
+            );
+        }
+        
+        // Only exclude media-ethics on the main research archive page
+        if (is_post_type_archive('research')) {
+            $media_ethics_term = get_term_by('slug', 'media-ethics', 'research-categories');
+            if ($media_ethics_term) {
+                $tax_query[] = array(
                     'taxonomy' => 'research-categories',
                     'field' => 'term_id',
-                    'terms' => $uncategorized_term->term_id,
+                    'terms' => $media_ethics_term->term_id,
                     'operator' => 'NOT IN'
-                )
-            );
+                );
+            }
+        }
+        
+        // If we have tax queries, add them to the query
+        if (!empty($tax_query)) {
+            // If there's more than one condition, add the AND relation
+            if (count($tax_query) > 1) {
+                $tax_query['relation'] = 'AND';
+            }
             
             // Get existing tax_query if it exists
             $existing_tax_query = $query->get('tax_query');
@@ -360,7 +385,7 @@ function exclude_uncategorized_research_posts($query) {
         }
     }
 }
-add_action('pre_get_posts', 'exclude_uncategorized_research_posts');
+add_action('pre_get_posts', 'filter_research_archive_posts');
 
 // This filter allows you to customize the title displayed 
 // for each layout in the Flexible Content field based on field values or any other logic
