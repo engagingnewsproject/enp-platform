@@ -4,7 +4,7 @@ Tags: forms, form builder, contact form, lead form, registration form
 
 Requires at least: 6.5
 Tested up to: 6.7
-Stable tag: 3.9.2
+Stable tag: 3.10.0
 
 Requires PHP: 7.4
 
@@ -311,16 +311,26 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.9.2 (3 March 2025) =
+= 3.10.0 (2 April 2025) =
+*Features*
+- Add a Google Analytics 4 Action.
+
 *Bug Fixes:*
-- List fields can now be used for determining the payment total in payment collection actions.
-- Fixed PHP warnings when using PHP 8.
-- Fixed an issue with the Password confirm field.
-- Ensure that time field IDs are unique.
-- Fixed an issue with the opt-in email.
+- Fix an error related to using calculations in payment gateway actions.
+- Fix an error related to File Uploads merge tags.
+- Required errors should no longer trigger on removed repeater sets.
 
 == Changelog ==
-= 3.9.2 (3 March 2025) =
+= 3.10.0 (2 April 2025) =
+*Features*
+- Add a Google Analytics 4 Action.
+
+*Bug Fixes:*
+- Fix an error related to using calculations in payment gateway actions.
+- Fix an error related to File Uploads merge tags.
+- Required errors should no longer trigger on removed repeater sets.
+
+= 3.9.2 (12 March 2025) =
 *Bug Fixes:*
 - List fields can now be used for determining the payment total in payment collection actions.
 - Fixed PHP warnings when using PHP 8.

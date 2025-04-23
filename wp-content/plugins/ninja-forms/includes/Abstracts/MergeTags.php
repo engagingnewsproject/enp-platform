@@ -65,6 +65,7 @@ abstract class NF_Abstracts_MergeTags
         if( is_array($subject) && isset($subject['objectType']) && 'Action' == $subject['objectType'] ) {
             // Make sure that payment totals use calc values.
             if( isset($subject['payment_total'])
+                && $subject['payment_total_type'] == 'field'
                 && ! is_numeric($subject['payment_total'])
                 && ! strpos($subject['payment_total'], ':calc}') )
             {
@@ -141,7 +142,7 @@ abstract class NF_Abstracts_MergeTags
      * @param array $matches
      * @return string
      */
-    protected function extractCallback(array $mergeTag, array $matches): string
+    protected function extractCallback(array $mergeTag, array $matches)
     {
         $return = '';
 
@@ -184,7 +185,7 @@ abstract class NF_Abstracts_MergeTags
      * @param string $callback
      * @return string
      */
-    protected function getReplacement(string $callback)
+    protected function getReplacement($callback)
     {
         $return = '';
 

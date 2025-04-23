@@ -729,7 +729,7 @@ Label Three
 </script>
 
 <script id="tmpl-nf-edit-setting-toggle" type="text/template">
-
+   
     <span class="nf-setting-label">{{{ data.label }}}{{{ data.renderTooltip() }}}</span>
     <input type="checkbox" data-setting="{{{ data.settingName }}}" id="{{{ data.name }}}" class="nf-toggle setting" {{{ ( 1 == data.value ) ? 'checked' : '' }}} />
     <label for="{{{ data.name }}}">{{{ data.label }}}</label>
@@ -752,8 +752,11 @@ Label Three
 </script>
 
 <script id="tmpl-nf-edit-setting-button-toggle" type="text/template">
-
+    <#
+        if ( 'none' !== data.displayLabel ) {
+    #>
 	<span class="nf-setting-label">{{{ data.label }}}{{{ data.renderTooltip() }}}</span>
+    <# } #>
 	<div class="nf-setting button-toggle">
 		<#
 		_.each( data.options, function( option ) {
@@ -955,7 +958,7 @@ Label Three
 </script>
 
 <script id="tmpl-nf-edit-setting-html" type="text/template">
-    <div class="nf-note">
+    <div class="nf-note {{{ data.className }}}">
         {{{ data.value }}}
     </div>
 </script>
