@@ -41,19 +41,8 @@ class ResearchFilterMenu extends FilterMenu
 		$archive_settings = get_field('archive_settings', 'option');
 		$selected_term_ids = $archive_settings['research_sidebar_filter'] ?? [];
 	
-		// Make sure the 'research' post type exists in the filters
-		// if (!isset($filters['terms']['research'])) {
-		// 	$filters['terms']['research'] = [
-		// 		'title' => 'Research',
-		// 		'slug' => 'research',
-		// 		'link' => home_url('/research/'),
-		// 		'terms' => []
-		// 	];
-		// }
-	
 		// Add each research category to the research post type's terms
 		foreach ($research_categories as $term) {
-			// error_log("Term: " . print_r($term-, true));
 			// Skip uncategorized
 			if ($term->slug === 'uncategorized' || $term->slug === 'research') {
 				continue;
