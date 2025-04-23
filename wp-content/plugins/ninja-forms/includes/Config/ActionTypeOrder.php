@@ -7,4 +7,5 @@ return [
     'save',
     'deletedatarequest',
     'exportdatarequest',
+    'googleanalytics'
 ];

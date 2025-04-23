@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=WordPress&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.9.2
+Version: 3.10.0
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -43,7 +43,7 @@ final class Ninja_Forms
      * @since 3.0
      */
 
-    const VERSION = '3.9.2';
+    const VERSION = '3.10.0';
 
     /**
      * @since 3.4.0
