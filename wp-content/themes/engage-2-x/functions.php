@@ -532,3 +532,9 @@ if (defined('DEBUG_PERMALINKS') && DEBUG_PERMALINKS === true) {
 		error_log('=== END QUERY VARS ===');
 	});
 }
+
+// Add environment variables to Timber context
+add_filter('timber/context', function($context) {
+    $context['ENV_LOCAL'] = ENV_LOCAL;
+    return $context;
+});
