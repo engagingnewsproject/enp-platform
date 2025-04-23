@@ -291,6 +291,37 @@ function add_custom_link_to_login_page()
 }
 add_action('login_footer', 'add_custom_link_to_login_page');
 
+/**
+ * Excludes posts with the 'uncategorized' category from research archive and research category pages.
+ * 
+ * @param WP_Query $query The WordPress query object
+ */
+function exclude_uncategorized_research_posts($query) {
+    // Only modify the main query on research archive or category pages
+    if (!is_admin() && $query->is_main_query() && 
+        (is_post_type_archive('research') || is_tax('research-categories'))) {
+        $uncategorized_term = get_term_by('slug', 'uncategorized', 'research-categories');
+        if ($uncategorized_term) {
+            $tax_query = array(
+                array(
+                    'taxonomy' => 'research-categories',
+                    'field' => 'term_id',
+                    'terms' => $uncategorized_term->term_id,
+                    'operator' => 'NOT IN'
+                )
+            );
+            
+            // Get existing tax_query if it exists
+            $existing_tax_query = $query->get('tax_query');
+            if ($existing_tax_query) {
+                $tax_query = array_merge($existing_tax_query, $tax_query);
+            }
+            
+            $query->set('tax_query', $tax_query);
+        }
+    }
+}
+add_action('pre_get_posts', 'exclude_uncategorized_research_posts');
 
 // This filter allows you to customize the title displayed 
 // for each layout in the Flexible Content field based on field values or any other logic

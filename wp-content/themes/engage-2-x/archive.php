@@ -210,7 +210,7 @@ if ( is_day() ) {
     }
 	array_unshift($templates, 'templates/archive-' . get_post_type() . '.twig');
 } elseif ( is_post_type_archive() ) {
-	// Archive page for a post type (ex. URLS: /publications, /press, /events, etc.)
+	// Archive page for a post type (ex. URLS: /research, /publications, /press, /events, etc.)
 	$title = post_type_archive_title( '', false );
 	$context = Timber::context(
 		[
