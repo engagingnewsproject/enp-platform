@@ -54,7 +54,8 @@
 			<div class="tile__date">{% include 'partial/tile-event-date.twig' %}</div>
 		{% elseif tile.date %}
 			<p class="tile__date">{{ tile.date }}</p>
-			{% if not ENV_PRODUCTION %}
+			{# if not production or homepage #}
+			{% if not ENV_PRODUCTION and not fn('is_front_page') %}
 				<small class="tile__debug">
 					{% for term in tile.terms('research-categories') %}
 						Categories: {{ term.name }}{{ not loop.last ? ', ' }}
