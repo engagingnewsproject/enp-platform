@@ -50,7 +50,7 @@
                     "name": "research_sidebar_filter",
                     "aria-label": "",
                     "type": "taxonomy",
-                    "instructions": "",
+                    "instructions": "Only selected categories will show on the research sidebar.",
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
@@ -430,5 +430,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1745427828
+    "modified": 1745431631
 }
