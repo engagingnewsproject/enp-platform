@@ -71,13 +71,19 @@ add_filter('timber/post/classmap', function ($classmap) {
 });
 
 // Define environment constants
-if (strpos(get_home_url(), '.com') === false) {
+if (strpos(get_home_url(), '.com') === false) { // Local development
     // Local development
     define('ENV_LOCAL', true);
     define('ENV_DEVELOPMENT', false);
     define('ENV_STAGING', false);
     define('ENV_PRODUCTION', false);
-} else {
+} elseif (strpos(get_home_url(), '.com')) { // Dev environment (cmedev.wpengine.com)
+    // Local development
+    define('ENV_LOCAL', false);
+    define('ENV_DEVELOPMENT', true);
+    define('ENV_STAGING', false);
+    define('ENV_PRODUCTION', false);
+}  else {
     // Remote environments
     $env = getenv('WP_APP_ENV');
     define('ENV_LOCAL', false);
@@ -536,5 +542,13 @@ if (defined('DEBUG_PERMALINKS') && DEBUG_PERMALINKS === true) {
 // Add environment variables to Timber context
 add_filter('timber/context', function($context) {
     $context['ENV_LOCAL'] = ENV_LOCAL;
+    $context['ENV_DEVELOPMENT'] = ENV_DEVELOPMENT;
+    $context['ENV_STAGING'] = ENV_STAGING;
+    $context['ENV_PRODUCTION'] = ENV_PRODUCTION;
     return $context;
 });
+
+var_dump('ENV_LOCAL: ', ENV_LOCAL);
+var_dump('ENV_DEVELOPMENT: ', ENV_DEVELOPMENT);
+var_dump('ENV_STAGING: ', ENV_STAGING);
+var_dump('ENV_PRODUCTION: ', ENV_PRODUCTION);
