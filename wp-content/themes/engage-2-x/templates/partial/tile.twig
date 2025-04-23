@@ -54,14 +54,15 @@
 			<div class="tile__date">{% include 'partial/tile-event-date.twig' %}</div>
 		{% elseif tile.date %}
 			<p class="tile__date">{{ tile.date }}</p>
-			{# For dev output the research categories to debug which posts display by category#}
-			{# 
-			<div style="display:flex;grid-row:6;grid-column:2/span 10;gap:5px;">
-				{% for term in tile.terms('research-categories') %}
-					<p class="tile__date">{{ term.name }}</p>
-				{% endfor %}
-			</div> 
-			#}
+			{% if ENV_LOCAL %}
+				<div style="display:flex;flex-direction:column;grid-row:7;grid-column:2/span 10;gap:5px;">
+					<pre style="font-weight:bold;">Categories:</pre>
+					{% for term in tile.terms('research-categories') %}
+						<pre>{{ term.name }}</pre>
+					{% endfor %}
+				</div> 
+			{% endif %}
+		
 		{% endif %}
 
 		{% if tile.excerpt %}
