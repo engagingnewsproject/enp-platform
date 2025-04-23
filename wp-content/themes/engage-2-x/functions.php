@@ -71,46 +71,35 @@ add_filter('timber/post/classmap', function ($classmap) {
 });
 
 // Define environment constants
-if (strpos(get_home_url(), '.com') === false) { // Local development
+$site_url = get_home_url();
+if (strpos($site_url, '.com') === false) {
     // Local development
-    define('ENV_LOCAL', true);
-    define('ENV_DEVELOPMENT', false);
-    define('ENV_STAGING', false);
     define('ENV_PRODUCTION', false);
-} elseif (strpos(get_home_url(), '.com')) { // Dev environment (cmedev.wpengine.com)
-    // Local development
-    define('ENV_LOCAL', false);
-    define('ENV_DEVELOPMENT', true);
-    define('ENV_STAGING', false);
+} elseif (strpos($site_url, 'cmedev.wpengine.com') !== false) {
+    // Development environment
     define('ENV_PRODUCTION', false);
-}  else {
-    // Remote environments
-    $env = getenv('WP_APP_ENV');
-    define('ENV_LOCAL', false);
-    define('ENV_DEVELOPMENT', $env === 'development');
-    define('ENV_STAGING', $env === 'staging');
-    define('ENV_PRODUCTION', $env === 'production');
+} else {
+    // Production environment
+    define('ENV_PRODUCTION', true);
 }
 
 // For backward compatibility
 $engageEnv = ENV_PRODUCTION ? 'PROD' : 'DEV';
 define('ENGAGE_ENV', $engageEnv);
 
-// Cache twig in staging and production.
-if (strpos(get_home_url(), '.com') === false || !in_array(getenv('WP_APP_ENV'), ['production', 'staging'], true)) {
-	// on dev, don't cache it
-	$engageEnv = 'DEV';
-	$cacheTime = false;
-} else {
-	$engageEnv = 'PROD';
-	// we're on a live site since it ends in `.com`
-	// we can set this as an array and have the cache be different for logged in vs logged out
-	$cacheTime = [
-		MINUTE_IN_SECONDS * 5, // logged out, 5 min cache
-		false // if logged in, no cache
-	];
-}
-define('ENGAGE_PAGE_CACHE_TIME', $cacheTime);
+// Add environment variables to Timber context
+add_filter('timber/context', function($context) {
+    $context['ENGAGE_ENV'] = ENGAGE_ENV;
+    $context['ENV_PRODUCTION'] = ENV_PRODUCTION;
+    return $context;
+});
+
+// Cache twig in production only
+$cache_time = ENV_PRODUCTION ? [
+    MINUTE_IN_SECONDS * 5, // logged out, 5 min cache
+    false // if logged in, no cache
+] : false;
+define('ENGAGE_PAGE_CACHE_TIME', $cache_time);
 
 // Start the site
 add_action('after_setup_theme', function () {
@@ -538,17 +527,3 @@ if (defined('DEBUG_PERMALINKS') && DEBUG_PERMALINKS === true) {
 		error_log('=== END QUERY VARS ===');
 	});
 }
-
-// Add environment variables to Timber context
-add_filter('timber/context', function($context) {
-    $context['ENV_LOCAL'] = ENV_LOCAL;
-    $context['ENV_DEVELOPMENT'] = ENV_DEVELOPMENT;
-    $context['ENV_STAGING'] = ENV_STAGING;
-    $context['ENV_PRODUCTION'] = ENV_PRODUCTION;
-    return $context;
-});
-
-var_dump('ENV_LOCAL: ', ENV_LOCAL);
-var_dump('ENV_DEVELOPMENT: ', ENV_DEVELOPMENT);
-var_dump('ENV_STAGING: ', ENV_STAGING);
-var_dump('ENV_PRODUCTION: ', ENV_PRODUCTION);

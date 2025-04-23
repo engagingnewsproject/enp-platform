@@ -36,6 +36,14 @@
 	grid-row: 3;
 }
 
+.tile__debug {
+	grid-row: 7;
+	grid-column: 2/span 10;
+	font-family: Menlo, Monaco, Consolas, monospace;
+	background-color: black;
+	color: #FF8400;
+}
+
 .tile__title {
 	color: $black-grey;
 	margin-bottom: 0;
