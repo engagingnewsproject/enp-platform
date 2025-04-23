@@ -64,7 +64,7 @@ class Taxonomies
 			'show_ui'           => true, // Hide from admin UI
 			'show_admin_column' => true, // Hide from admin columns
 			// we do not want to show this in the admin menu on the dev, staging, or production sites. only on local
-			'show_in_menu'      => \ENV_LOCAL, // Hide from admin menu
+			'show_in_menu'      => !ENV_PRODUCTION, // Hide from admin menu on production sites
 			'query_var'         => true,
 			'has_archive'       => true,
 			'rewrite'           => ['slug' => 'vertical'],
