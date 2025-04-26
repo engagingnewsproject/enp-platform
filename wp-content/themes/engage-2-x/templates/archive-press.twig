@@ -54,43 +54,11 @@
 			{# Grid container for articles #}
 			<div class="press-articles-grid">
 				{# Loop through each article #}
-				{% for post in posts %}
-				{# TODO: Create a component for the press article card #}
-					<article class="press-article-card">
-						<div class="press-content">
-							{# Top section: [DATE] - [publisher] #}
-							<div class="press-meta-header">
-								{# {{ dump(post) }} #}
-								{% set hasDate = post.getPressArticlePublicationDate() or post.getPressArticlePublicationDateOtherTxt() %}
-								{% set hasPublisher = post.getPressArticlePublisher() %}
-								
-								{# Display date if available #}
-								{% if hasDate %}
-									<span class="press-publication-date">{{ post.getPressArticlePublicationDate()|date('F j, Y', 'UTC') }}</span>
-								{% elseif post.getPressArticlePublicationDateOtherTxt() %}
-									<span class="press-publication-date">{{ post.getPressArticlePublicationDateOtherTxt() }}</span>
-								{% endif %}
-								
-								{# Display separator if both date and publisher exist #}
-								{% if hasDate and hasPublisher %} <span style="color: rgb(117, 117, 117);">—</span> {% endif %}
-								
-								{# Display publisher if available #}
-								{% if hasPublisher %}
-									<span class="press-publisher">{{ post.getPressArticlePublisher() }}</span>
-								{% endif %}
-							</div>
-					
-							{# Article title with optional external link #}
-							<p class="press-title">
-								{% if post.getPressArticleUrl() %}
-									<a href="{{ post.getPressArticleUrl() }}" target="_blank" rel="noopener noreferrer">{{ post.title }}</a>
-								{% else %}
-									{{ post.title }}
-								{% endif %}
-							</p>
-						</div>
-					</article>
-				{% endfor %}
+					{% include 'tiles.twig' with { 
+						intro: archive.intro, 
+						posts: posts,
+						loadEagerTiles: 6
+					} %}
 			</div>
 
 		{% else %}

@@ -331,124 +331,18 @@
 	}
 }
 
-.page-template-publications-template {
-	.article__content {
-		@include media($phablet) {
-			width: 100%;;
-		}
-	}
-}
-
-// publications
-.publications {
-	.tile {
-		padding: 1em 1em 0 1em;
-		@supports not (display: grid) {
-			@include media($phablet) {
-				min-height: 335px;
-				width: 47%;
-				margin-left: $spacer-sm;
-			}
-		}
-		@supports (display: flex) {
-			display: flex;
-			display: -webkit-flex;
-			flex-direction: row;
-			justify-content: space-between;
-			@include media($tablet) {
-				flex: 0 0 47%;
-			}
-		}
-		@supports (display: grid) {
-			grid-template-columns: 1fr 1.5fr;
-			grid-template-rows: 1fr;
-			grid-column-end: span 6;
-			gap: 0 20px;
-			grid-template-areas: "tile__img-wrap tile__container";
-			@include media($phablet) {
-				grid-column-end: span 12;
-			}
-			@include media($tablet) {
-				grid-column-end: span 6;
-			}
-		}
-	}
-
-	.tile-archive {
-		padding-top: 0em;
-		padding-left: 0em;
-	}
-	
-	.tile__img-wrap {
-		width: 25%;
-		float: left;
-		@supports not (display: flex) {
-			padding-right: 1em;
-		}
-		@supports (display: flex) {
-			position: relative;
-			height: auto;
-			flex: 0 0 25%;
-		}
-		@supports (display: grid) {
-			grid-area: tile__img-wrap;
-		}
-	}
-	.tile__img {
-		max-height: 280px;
-	}
-	.tile__container {
-		width: 75%;
-		float: right;
-		@supports (display: flex) {
-			display: flex;
-			flex: 0 0 75%;
-			flex-direction: column;
-		}
-		@supports (display: grid) {
-			display: grid;
-			grid-area: tile__container;
-			grid-template-rows: repeat(4, min-content);
-		}
-	}
-
-	.tile__container--archive {
-		padding: 1em;
-	}
-	.tile__title
-	.tile__label,
-	.tile__date {
+.tile--press {
+	display: flex;
+	flex-direction: column;
+	padding: 2rem;
+	.tile__title-wrap {
+		display: flex;
+		flex-direction: column;
 		padding: 0;
+		gap: 1rem;
 	}
-	.tile__label {
-		margin: 9px 0 9px;
-		line-height: 1.5;
-		@include media($laptop) {
-			font-size: 14px;
-		}
-		&.subtitle {
-			font-style: italic;
-		}
-	}
-	.tile__title,
-	.tile__label {
-		grid-row: auto;
-	}
-	.tile__link {
-		text-decoration: none;
-		font-size: 0px;
-		opacity: 0;
-		position: absolute;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		top: 0;
-	}
-}
-@supports not (display: flex) {
-	.publications {
-		.tile__title {
-			margin: inherit;
-		}
+	.tile__publisher {
+		font-size: 14px;
+		color: $gray-dark;
 	}
 }
