@@ -1,5 +1,24 @@
 {# sets default feature image #}
 {% set defaultimg = theme.link ~ '/assets/img/default-logo.png' %}
+{# {{ dump(tile.meta('press_article_url')) }} #}
+{% set tile_classes = 'tile' %}
+{% set tile_image = false %}
+{% set tile_link = tile.link %}
+
+{# Set tile classes #}
+
+{% if tile.post_type == 'research' %}
+	{% set tile_classes = tile_classes ~ ' tile--has-img tile--research-cat--' ~ tile.terms('research-categories')[0].slug %}
+	{% set tile_image = true %}
+
+{% elseif tile.post_type == 'blogs' %}
+	{% set tile_classes = tile_classes ~ ' tile--has-img' %}
+	{% set tile_image = true %}
+
+{% elseif tile.post_type == 'press' %}
+	{% set tile_classes = tile_classes ~ ' tile--press' %}
+	{% set tile_link = tile.meta('press_article_url') %}
+{% endif %}
 
 {# 
 	Dynamically set `loading="eager"` prop
@@ -16,40 +35,43 @@
 	{% endif %}
 {% endif %}
 
-<div class="tile{{' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.vertical.slug ? tile.vertical.slug : tile.terms('verticals')[0].slug }}">
+<div
+	class="{{ tile_classes }}">
 
 	<div class="tile__img-wrap"  tabindex="0" role="button">
 			{% if tile.thumbnail %}
-				<img 
-					src="{{ tile.thumbnail.src('grid-large') }}"
-					srcset="{{ tile.thumbnail.srcset }}"
-					sizes="{{ tile.thumbnail.img_sizes }}"
-					alt="{{ tile.thumbnail.alt }}"
-					class="tile__img" 
-					loading="{{ loading }}"
-				/>
+				<img src="{{ tile.thumbnail.src('grid-large') }}" srcset="{{ tile.thumbnail.srcset }}" sizes="{{ tile.thumbnail.img_sizes }}" alt="{{ tile.thumbnail.alt }}" class="tile__img" loading="{{ loading }}"/>
 			{% else %}
-				<img 
-					src="{{ defaultimg }}"
-					srcset="{{ defaultimg }} 1x, {{ defaultimg }} 2x"
-					sizes="(max-width: 600px) 100vw, 600px"
-					alt="Default image"
-					class="tile__img" 
-					loading="{{ loading }}"
-				/>
+				<img src="{{ defaultimg }}" srcset="{{ defaultimg }} 1x, {{ defaultimg }} 2x" sizes="(max-width: 600px) 100vw, 600px" alt="Default image" class="tile__img" loading="{{ loading }}"/>
 			{% endif %}
-	</div> 
- 
-
-	<div class="tile__title-wrap">
-		<div class="tile__label">
-			{# The following line is the old code here #}
-			{# {{ tile.vertical.name ? tile.vertical.name : tile.terms('verticals') | join(', ') }} #}
-			<div class="tile__bar"> </div>
 		</div>
+	{% endif %}
 
-		<h3 class="tile__title h3">{{ tile.title|length > 50 ? tile.title|slice(0, 50) ~ "..." : tile.title}}</h3>
+	{# Tile title #}
+	<div
+		class="tile__title-wrap">
 
+		{# Tile label #}
+		{% if tile.post_type == 'press' %}
+			<p class="tile__date">{{ tile.date }}</p>
+		{% else %}
+			<div class="tile__label">
+				{# The following line is the old code here #}
+				{# {{ tile.vertical.name ? tile.vertical.name : tile.terms('verticals') | join(', ') }} #}<div class="tile__bar"> </div>
+			</div>
+
+		{% endif %}
+
+		{# Tile title #}
+		<h3 class="tile__title h3">
+			{% if tile.post_type != 'press' %}
+				{{ tile.title|length > 50 ? tile.title|slice(0, 50) ~ "..." : tile.title}}
+			{% else %}
+				{{ tile.title }}
+			{% endif %}
+		</h3>
+
+		{# Tile date #}
 		{% if tile.post_type == 'tribe_events' %}
 			<div class="tile__date">{% include 'partial/tile-event-date.twig' %}</div>
 		{% elseif tile.date %}
@@ -63,15 +85,10 @@
 			</div> 
 			#}
 		{% endif %}
-
-		{% if tile.excerpt %}
-			<div class="tile__excerpt">
-				{{ tile.excerpt }}
-			</div>
-		{% endif %}
-
 	</div>
-	<a class="tile__link" href="{{ tile.link }}">
+
+	{# Tile link #}
+	<a class="tile__link" href="{{ tile_link }}" {% if tile.post_type == 'press' %} target="_blank" {% endif %}>
 		<span class="sr-text">{{ tile.title }}</span>
 	</a>
 </div>
