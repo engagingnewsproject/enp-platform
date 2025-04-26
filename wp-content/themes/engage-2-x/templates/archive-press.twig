@@ -33,22 +33,6 @@
 		}) %}
 
 	<section class="archive-section container container--xl">
-		{# Archive header with categories #}
-		{# TODO: Create a component for the archive header #}
-		<div class="archive-header">
-		
-			<h1 class="archive-title">
-				{% if function('is_tax', 'press-categories') %}
-					<a href="/press">Press</a>
-					-
-					{{ function('single_term_title', '') }}
-				{% else %}
-					{{ title }}
-				{% endif %}
-			</h1>
-			
-		</div>
-
 		{# Check if we have any articles to display #}
 		{% if posts %}
 			{# Grid container for articles #}
