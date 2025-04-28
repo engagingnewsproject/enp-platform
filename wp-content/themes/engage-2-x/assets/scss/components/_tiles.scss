@@ -43,7 +43,6 @@
 
 .tile__link {
 	text-decoration: none;
-	font-size: 0px;
 	opacity: 0;
 	position: absolute;
 	left: 0;
@@ -55,7 +54,7 @@
 
 .tile__date {
 	color: $gray-dark;
-	font-size: 10px;
+	font-size: 11px;
 	margin-bottom: $spacer-xs;
 }
 .tile__img {
@@ -428,7 +427,6 @@
 	}
 	.tile__link {
 		text-decoration: none;
-		font-size: 0px;
 		opacity: 0;
 		position: absolute;
 		left: 0;
