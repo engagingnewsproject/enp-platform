@@ -23,7 +23,7 @@
 		{% if tile.post_type == 'tribe_events' %}
 			<div class="tile__date">{% include 'partial/tile-event-date.twig' %}</div>
 		{% elseif tile.date %}
-			<p class="tile__date">{{ tile.date }}</p>
+			<p class="tile__date" tabindex="0">{{ tile.date }}</p>
 		{% endif %}
 
 		<div class="tile__excerpt">{{ tile.excerpt.length(30).read_more('') }}</div>
