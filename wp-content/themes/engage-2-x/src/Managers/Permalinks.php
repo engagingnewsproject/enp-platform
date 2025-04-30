@@ -224,15 +224,17 @@ class Permalinks
 		$post_types = ['blogs', 'announcement', 'team', 'board'];
 
 		foreach ($post_types as $post_type) {
-			// /[post_type]/[category]
-			$rules[$post_type . '/([^/]+)/?$'] = 'index.php?post_type=' . $post_type . '&category_name=$matches[1]';
+			// Single post URLs must come before category URLs
+			$rules[$post_type . '/([^/]+)/?$'] = 'index.php?post_type=' . $post_type . '&name=$matches[1]';
+			
+			// Category URLs
+			$rules[$post_type . '/category/([^/]+)/?$'] = 'index.php?post_type=' . $post_type . '&category_name=$matches[1]';
 
 			// For subcategories or additional taxonomies
 			if ($post_type === 'blogs') {
 				// /blogs/[category]/category/[blogs-category]
-				$rules[$post_type . '/([^/]+)/category/([^/]+)/?$'] = 'index.php?post_type=' . $post_type . '&category_name=$matches[1]&blogs-category=$matches[2]';
+				$rules[$post_type . '/category/([^/]+)/category/([^/]+)/?$'] = 'index.php?post_type=' . $post_type . '&category_name=$matches[1]&blogs-category=$matches[2]';
 			}
-			// Add similar rules for other post types as needed
 		}
 
 		return $rules;
