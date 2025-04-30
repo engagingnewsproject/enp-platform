@@ -60,7 +60,9 @@
 	z-index: 9;
 	padding: 0 0.5rem;
 	margin-bottom: 0;
-	
+	@include media($tablet) {
+		padding: 1rem 0.5rem;
+	}
 	@include media($desktop) {
 		display: grid;
 		grid-template-columns: auto 1fr;
@@ -81,6 +83,9 @@
 		position: relative;
 		margin-left: 0;
 		padding: 1rem 0.5rem;
+		@include media($laptop) {
+			padding: 0 0.5rem;
+		}
 	}
 
 	.menu {
@@ -170,7 +175,7 @@
 
 .menu__main-menu {
 	@include media($tablet) {
-		margin: $spacer-sm auto;
+		padding: 0 1rem 0;
 	}
 	@include media($desktop) {
 		margin: 0;
@@ -179,7 +184,7 @@
 		background-color: $white;
 		margin-left: 1.6rem;
 		
-		@include media($tablet) {
+		@include media($laptop) {
 			display: none;
 		}
 	}
@@ -190,7 +195,7 @@
 	
 	
 	.menu__list {
-		@include media($laptop) {
+		@include media($desktop) {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(100px, max-content));
 			justify-content: end;
@@ -369,7 +374,7 @@
 		display: flex;
 		align-items: center;
 		gap: 1rem;
-		@include media($laptop) {
+		@include media($desktop) {
 			display: none;
 		}
 	}
