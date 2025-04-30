@@ -76,6 +76,7 @@ class Permalinks
 		$rules['research/category/media-ethics/?$'] = 'index.php?post_type=research&research-categories=media-ethics&is_research_archive=1';
 
 		// Research category archives
+		// example: /research/category/media-ethics
 		$rules['research/category/([^/]+)/?$'] = 'index.php?research-categories=$matches[1]&is_research_archive=1';
 		$rules['research/category/([^/]+)/page/?([0-9]{1,})/?$'] = 'index.php?research-categories=$matches[1]&paged=$matches[2]&is_research_archive=1';
 
@@ -128,16 +129,13 @@ class Permalinks
 	public function getAnnouncementRewrites()
 	{
 		$rules = [];
-		// vertical only
-		$rules['announcement/vertical/([^/]+)/?$'] = 'index.php?post_type=announcement&verticals=$matches[1]';
-
+		
 		// announcement-cats as /announcement/category/{term}
 		$rules['announcement/category/([^/]+)/?$'] = 'index.php?post_type=announcement&announcement-category=$matches[1]';
-
-		// double query. append query name at the end
-		// announcement/vertical/{term}/category/{term}
-		$rules['announcement/vertical/([^/]+)/category/([^/]+)/?$'] = 'index.php?post_type=announcement&verticals=$matches[1]&announcement-category=$matches[2]';
-
+		
+		// Pagination support
+		$rules['announcement/category/([^/]+)/page/?([0-9]{1,})/?$'] = 'index.php?post_type=announcement&announcement-category=$matches[1]&paged=$matches[2]';
+		
 		return $rules;
 	}
 
@@ -210,7 +208,6 @@ class Permalinks
 	 *
 	 * Creates URL structures for various post types that support categories:
 	 * - Blogs
-	 * - Announcements
 	 * - Team
 	 * - Board
 	 *
@@ -221,7 +218,7 @@ class Permalinks
 		$rules = [];
 
 		// Define post types that can have categories
-		$post_types = ['blogs', 'announcement', 'team', 'board'];
+		$post_types = ['blogs', 'team', 'board']; // Removed 'announcement' as it has its own special handling
 
 		foreach ($post_types as $post_type) {
 			// Single post URLs must come before category URLs
@@ -290,7 +287,7 @@ class Permalinks
 
 		// announcement category
 		// /vertical/{ verticalTerm }/announcement/category/{ term }
-		$rules['vertical/([^/]+)/announcement/category/([^/]+)/?$'] = 'index.php?post_type=announcement&verticals=$matches[1]&announcement-category=$matches[2]&vertical_base=1';
+		// $rules['vertical/([^/]+)/announcement/category/([^/]+)/?$'] = 'index.php?post_type=announcement&verticals=$matches[1]&announcement-category=$matches[2]&vertical_base=1';
 
 		// blogs category
 		// /vertical/{ verticalTerm }/blogs/category/{ term }

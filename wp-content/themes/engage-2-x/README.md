@@ -83,42 +83,82 @@ To adjust a query:
 
 The standardized URL structure helps distinguish between category archives and single posts while maintaining clean, SEO-friendly URLs.
 
+## ⚠️ Important: Custom Taxonomy URL Structures
 
-## Templates
+When creating custom taxonomies with URLs that include "category" (e.g., `/post-type/category/term/`), be aware of these critical points:
 
-### Press Templates
+### Common Gotcha: WordPress Default Category Handling
+- WordPress has special handling for URLs containing "category" due to its built-in category taxonomy
+- If not configured correctly, WordPress may interpret `/post-type/category/term/` as a query for the default category taxonomy instead of your custom taxonomy
 
-The press section uses several templates to handle different views:
+### How to Avoid URL Conflicts
+1. **Taxonomy Registration**:
+   ```php
+   'rewrite' => array(
+       'slug'         => 'post-type/category',
+       'with_front'   => false,
+       'hierarchical' => true
+   ),
+   'query_var' => 'your-custom-taxonomy-name'
+   ```
 
-#### `archive-press.php` & `templates/archive-press.twig`
-- Handles the main press archive page at `/press`
-- Displays a grid of press articles with:
-  - Title (with optional external link)
-  - Publisher information
-  - Publication date
-  - Categories
-- Supports filtering out specific categories via ACF options
-- Available variables:
-  - `title`: The archive title (e.g., "Press")
-  - `posts`: Array of Press objects
-  - `archive_filters`: ACF options for category filtering
+2. **Rewrite Rules**:
+   - Ensure your custom taxonomy has specific rewrite rules
+   - Remove the post type from generic category handling in `getPostTypeCategoryRewrites()`
+   - Example:
+     ```php
+     // Correct:
+     'post-type/category/([^/]+)/?$' => 'index.php?post_type=your-post-type&your-custom-taxonomy=$matches[1]'
+     
+     // Avoid competing rules using category_name:
+     'post-type/category/([^/]+)/?$' => 'index.php?post_type=your-post-type&category_name=$matches[1]'
+     ```
 
-#### `taxonomy-press-categories.php`
-- Handles press category pages at `/press/category/{category-slug}`
-- Extends the archive-press template functionality
-- Shows posts filtered by the current category
-- Maintains category exclusion logic from ACF options
-- Available variables:
-  - `title`: The category name
-  - `posts`: Array of Press objects in the current category
-  - `archive_filters`: ACF options for category filtering
+3. **After Changes**:
+   - Always flush permalinks (Settings → Permalinks → Save Changes)
+   - Clear any caching plugins
+   - Test the URLs thoroughly
 
-#### `page-press.twig`
-- Template for individual press pages
-- Displays detailed information about a single press article
-- Available variables:
-  - `post`: The current Press object
-  - `categories`: Array of press categories for the article
+### Debugging Taxonomy Routes
+If you're experiencing 404 errors with custom taxonomies, add this debugging code to `functions.php`:
+```php
+// Debug logging for queries
+add_action('parse_request', function ($wp) {
+    error_log('Current Query: ' . print_r($wp->query_vars, true));
+});
+```
+
+This will log all query variables to `wp-content/debug.log`, helping you identify if WordPress is:
+- Using the wrong taxonomy (e.g., `category_name` instead of your custom taxonomy)
+- Not recognizing the URL pattern
+- Missing expected query variables
+
+Example debug log output for incorrect routing:
+```
+[Date Time] Current Query: Array
+(
+    [category_name] => general
+    [post_type] => announcement
+)
+```
+
+Example debug log output for correct routing:
+```
+[Date Time] Current Query: Array
+(
+    [announcement-category] => general
+    [post_type] => announcement
+)
+```
+
+### Real Example
+The announcement post type uses:
+- Custom taxonomy: `announcement-category`
+- URL structure: `/announcement/category/{term}/`
+- Proper rewrite rules in `Permalinks.php`
+- Excluded from generic category handling
+
+This ensures WordPress correctly routes requests to the custom taxonomy instead of the default category taxonomy.
 
 # Deployment Summary
 
