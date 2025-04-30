@@ -108,14 +108,14 @@
 
 	{# Display a newsletter widget for post types other than team or board. #}
 	{% if post.post_type != "team" and post.post_type != "board" %}
-		<aside class="newsletter-post widget">
+		<aside class="newsletter widget">
 			{{ newsletter }}
 		</aside>
 	{% endif %}
 
 	{# Include social share buttons or other sharing options. #}
 	{% if post.post_type != 'team' %}
-		{% include 'partial/share.twig' %}
+		{% include 'partial/social.twig' with { align: 'left' } %}
 	{% endif %}
 
 </div>

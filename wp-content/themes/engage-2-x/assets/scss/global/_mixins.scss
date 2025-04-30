@@ -32,18 +32,49 @@
 	text-shadow: none;
 }
 
+/**
+ * Performance-optimized tile hover animations
+ * 
+ * Key performance improvements:
+ * 1. Use transform: translateZ(0) to enable hardware acceleration (GPU)
+ * 2. Avoid transitioning 'all' properties - only transition what changes
+ * 3. Combine multiple transforms into one declaration to prevent multiple repaints
+ * 4. Use pseudo-element with opacity for box-shadow animation instead of 
+ *    transitioning box-shadow directly (much more performant)
+ * 5. Strategic use of will-change to hint browser optimization
+ *    (use sparingly as it can be memory-intensive)
+ */
 @mixin tile-style {
 	background: #fff;
-	transition: all 0.1s ease-out;
 	box-shadow: $tile-shadow;
 	white-space: normal;
 	text-overflow: ellipsis;
 	overflow: hidden;
+	transform: translateZ(0);
+	transition: transform 0.1s ease-out;
+	will-change: transform;
 }
 
 @mixin tile-style-hover {
-	transform: scale(1.015) translate3d(0, -2px, 0);
-	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+	transform: translateZ(0) scale(1.015) translateY(-1.5px);
+	
+	&::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		box-shadow: 1.5px 2.5px 3.5px rgba(0, 0, 0, 0.15);
+		opacity: 0;
+		transition: opacity 0.1s ease-out;
+		pointer-events: none;
+		z-index: -1;
+	}
+	
+	&:hover::after {
+		opacity: 1;
+	}
 }
 
 @mixin flex-width ($width) {

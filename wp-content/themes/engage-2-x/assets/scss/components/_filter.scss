@@ -47,7 +47,7 @@
 .filter__link {
   display: inline-block;
   padding: 0 0 0 5px;
-  font-size: 14px;
+  font-size: $font-size-medium;
   text-decoration: none;
   transform: translate3d(-5px, 0, 0);
   transition: transform .15s;
