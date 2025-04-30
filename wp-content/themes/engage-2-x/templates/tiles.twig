@@ -1,12 +1,16 @@
-<section class="tiles grid grid--col-12 grid--gap-20">
+{% set type = post_type is defined and post_type ? post_type : (posts|length ? posts[0].post_type : 'unknown') %}
+<section class="tiles grid grid--col-12 grid--gap-20 tiles--{{ type }}">
 	{% if intro %}
-		{% include "partial/tile-intro.twig" with { 'tile': intro } %}
+		{% include "partial/tile-intro.twig" with { 
+			'tile': intro 
+		} %}
 	{% endif %}
 	{% for post in posts %}
 		{% include "partial/tile.twig" with { 
 			'tile': post,
 			'index': loop.index,
-			loadEagerTiles
+			'loadEagerTiles': true,
+			'post_type': post.post_type,
 		} %}
 	{% endfor %}
 </section>

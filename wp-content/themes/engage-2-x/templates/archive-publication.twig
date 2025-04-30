@@ -23,8 +23,25 @@
 			'hide_empty': true
 		}) %}
 
-	<section class="archive-section container container--lg full-width post-type--page">
-		<div class="archive-header">
+	<section 
+	class="archive-section container container--xl">
+		{% if posts %}
+			{% include 'tiles.twig' with { 
+				intro: archive.intro, 
+				posts: posts,
+				loadEagerTiles: 6,
+				post_type: archive.post_type,
+			} %}
+
+			{# {% include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3}) } %} #}
+		{% else %}
+			<p class="no-publications">No publications found.</p>
+		{% endif %}
+		
+		
+		
+		
+		{# <div class="archive-header">
 			<h1 class="tile tile--vertical--science-publications tile--intro--vertical--science-publications tile--intro">
 				{% if function('is_tax', 'publication-categories') %}
 					<a href="/publications">Publications</a>
@@ -36,26 +53,22 @@
 				</span>
 				{% endif %}
 			</h1>
-			
-			{# output the categories #}
-			{# <div class="archive-categories">
-				{% for category in categories %}
-					<a href="{{ category.link }}">{{ category.title }}</a>
-					{% if category.count > 1 %}
-						({{ category.count }})
-					{% endif %}
-					{% if not loop.last %}
-						|
-					{% endif %}
-				{% endfor %}
-			</div> #}
+		</div> #}
 		
-		</div>
-		
-		{% if posts %}
+		{# {% if posts %}
 			<div class="publications tiles grid grid--col-12 grid--gap-20">
+					{% include 'tiles.twig' with { 
+						intro: archive.intro, 
+						posts: posts,
+						loadEagerTiles: 6,
+						post_type: archive.post_type,
+					} %}
 				{% for post in archive.posts %}
-
+					{% include "partial/tile.twig" with { 
+						'tile': post,
+						'index': loop.index,
+						'loadEagerTiles': true,
+					} %}
 					<article class="tile tile-archive {% if post.thumbnail %}tile--has-img{% endif %}">
 						{% if post.thumbnail %}
 							<div 
@@ -86,14 +99,14 @@
 							</div>
 							{% endif %}
 
-							{# <div class="publication-meta"> #}
+							<div class="publication-meta">
 
 								{% if post.getPublicationDate() %}
 									<div class="tile__label year">
 										{{ post.getPublicationDate()|date('F j, Y') }}
 									</div>
 								{% endif %}
-							{# </div> #}
+							</div>
 							{% if post.excerpt %}
 								<div class="tile__label subtitle">
 									{{ post.excerpt }}
@@ -107,6 +120,6 @@
 			{% include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3}) } %}
 		{% else %}
 			<p class="no-publications">No publications found.</p>
-		{% endif %}
+		{% endif %} #}
 	</section>
 {% endblock %}

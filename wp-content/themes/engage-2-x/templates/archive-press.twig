@@ -35,7 +35,8 @@
 				{% include 'tiles.twig' with { 
 						intro: archive.intro, 
 						posts: posts,
-						loadEagerTiles: 6
+						loadEagerTiles: 6,
+						post_type: archive.post_type,
 					} %}
 			</div>
 
