@@ -5,10 +5,6 @@
 	position: relative;
 	background-color: #fff;
 	
-	@include media($phablet) {
-		margin-bottom: $spacer-sm;
-	}
-	
 	@include media($tablet) {
 		padding-left: $spacer;
 		padding-right: $spacer;
@@ -383,7 +379,7 @@
 		align-items: center;
 		background: transparent;
 		border: none;
-		color: $navy;
+		color: $blue-dark;
 		font-size: 1rem;
 		font-weight: 600;
 		cursor: pointer;
@@ -427,13 +423,9 @@
 
 .navbar-toggler {
 	@include btn-reset;
-	background-color: transparent !important;
+	background-color: $white !important;
 	padding: 15px 10px;
 	border: 1px solid transparent;
-	
-	@include media($mobile) {
-		top: 10px;
-	}
 	
 	@include media($desktop) {
 		display: none;

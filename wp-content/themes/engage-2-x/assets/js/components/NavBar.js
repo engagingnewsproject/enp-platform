@@ -94,8 +94,17 @@ document.addEventListener('DOMContentLoaded', function() {
   if (filterToggle && sidebar) {
     filterToggle.style.display = 'flex';
     filterToggle.addEventListener('click', function() {
-      sidebar.classList.add('is-open');
-      filterToggle.setAttribute('aria-expanded', 'true');
+      const isOpen = sidebar.classList.contains('is-open');
+      
+      if (isOpen) {
+        sidebar.classList.remove('is-open');
+        filterToggle.setAttribute('aria-expanded', 'false');
+        document.querySelector('.sidebar-overlay').classList.remove('is-visible');
+      } else {
+        sidebar.classList.add('is-open');
+        filterToggle.setAttribute('aria-expanded', 'true');
+        document.querySelector('.sidebar-overlay').classList.add('is-visible');
+      }
     });
   }
 
@@ -104,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
     closeBtn.addEventListener('click', function() {
       sidebar.classList.remove('is-open');
       filterToggle.setAttribute('aria-expanded', 'false');
+      document.querySelector('.sidebar-overlay').classList.remove('is-visible');
     });
   }
 
@@ -116,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ) {
       sidebar.classList.remove('is-open');
       filterToggle.setAttribute('aria-expanded', 'false');
+      document.querySelector('.sidebar-overlay').classList.remove('is-visible');
     }
   });
 });
