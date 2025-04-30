@@ -15,29 +15,22 @@
 <div class="filters__wrapper">
 	<div class="filter__container filter--{{ filters.slug }}">
 		<h2 class="filter__title filter__title--{{ filters.slug }}" {% if options.filter_settings.filter_title_color %}style="color:{{options.filter_settings.filter_title_color}};"{% endif %}>{{ filters.title }}</h2>
-		<ul
-			class="filters filters--{{ filters.slug }}">
-
+		<ul class="filters filters--{{ filters.slug }}">
 			{# Loop through each term in the filters array to create individual filter items #}
 			{% for key, term in filters.terms %}
-				{# Skip the term with the title 'Former CME' as it's not meant to be included in the filters #}
-				{% if term.title != 'Former CME' and term.title != 'Team' %}
-
-					{# Special case: If the filter menu is for 'media-ethics' and the term is 'research', change the term title to 'Case Studies' #}
-					{% if filters.slug == 'media-ethics-menu' and term.slug == 'research' %}
-						{% set term = term|merge({'title': "Case Studies"}) %}
-
-					{# Modify: If the term is 'blogs', replace it with the first sub-term title under it #}
-					{% elseif term.slug == 'blogs' %}
-						{% set nextTerm = term.terms | first %}
-						{% set term = term|merge({'title': nextTerm.title}) %}
-					{% endif %}
-
-					{# Include the filter-item.twig partial to render the individual filter item #}
-					{% include 'partial/filter-item.twig' %}
-				{% endif %}
+				{% include 'partial/filter-item.twig' with { term: term } %}
 			{% endfor %}
-
 		</ul>
 	</div>
 </div>
+{% if options.filter_settings.filter_item_color and options.filter_settings.filter_item_color_hover %}
+	<style>
+		.filter__link {
+				color: {{ options.filter_settings.filter_item_color }};
+		}
+		.filter__link:hover {
+			border-color: {{ options.filter_settings.filter_item_color_hover }};
+			color: {{ options.filter_settings.filter_item_color_hover }};
+			}
+	</style>
+{% endif %}

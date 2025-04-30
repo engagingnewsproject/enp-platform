@@ -33,14 +33,14 @@ body.archive {
 
 .archive__content__general,
 .archive__content__board {
-	grid-column: 1/-1;
+	grid-column: 3/-1;
 }
 
 // Base styles for archive pages
 .archive-section {
 	padding: 1rem 0;
 	@include media($phablet) {
-		padding: 2rem 0;
+		padding: 0 0 2rem 0;
 	}
 
 	.archive-header {

@@ -10,6 +10,12 @@
 
 use Timber\Timber;
 use Engage\Models\TileArchive;
+use Engage\Models\FilterMenu;
+use Engage\Models\BlogsFilterMenu;
+use Engage\Models\AnnouncementFilterMenu;
+use Engage\Models\ResearchFilterMenu;
+use Engage\Models\TeamFilterMenu;
+use Engage\Models\BoardFilterMenu;
 global $wp_query;
 
 /**
@@ -26,10 +32,6 @@ $title = 'Archive';
  */
 function get_sidebar_filters($globals)
 {
-	if (get_query_var('vertical_base')) {
-		return ['filters' => $globals->getVerticalMenu(get_query_var('verticals'))];
-	}
-
 	// Check each post type and return appropriate filters
 	if (is_post_type_archive(['research']) || is_tax('research-categories')) {
 		return ['filters' => $globals->getResearchMenu()];
@@ -54,8 +56,44 @@ function get_sidebar_filters($globals)
 	// Default empty options if no match
 	return [];
 }
+
 // Get sidebar filters
 $options = get_sidebar_filters($globals);
+
+// Handle blogs category filtering
+if (is_post_type_archive('blogs') || is_tax('blogs-category')) {
+	$blogs_category = get_query_var('blogs-category');
+	if ($blogs_category) {
+		$args = [
+			'post_type' => 'blogs',
+			'tax_query' => [
+				[
+					'taxonomy' => 'blogs-category',
+					'field' => 'slug',
+					'terms' => $blogs_category
+				]
+			],
+			'posts_per_page' => -1
+		];
+		$wp_query = new \WP_Query($args);
+	}
+}
+
+// Get current term for filter highlighting
+$current_term = '';
+if (is_tax('blogs-category')) {
+	$current_term = get_query_var('blogs-category');
+} elseif (is_tax('announcement-category')) {
+	$current_term = get_query_var('announcement-category');
+} elseif (is_tax('research-categories')) {
+	$current_term = get_query_var('research-categories');
+} elseif (is_tax('team_category')) {
+	$current_term = get_query_var('team_category');
+} elseif (is_tax('board_category')) {
+	$current_term = get_query_var('board_category');
+}
+
+$context['current_term'] = $current_term;
 
 /**
  * Handle media ethics category page
@@ -170,7 +208,6 @@ function handle_media_ethics_subcategory($options, $research_categories)
     
     // Set up the intro object with title and subtitle
     $archive->intro = [
-        'vertical' => false,
         'title' => 'Media Ethics',
         'subtitle' => $current_subcategory->name,
         'excerpt' => $current_subcategory->description

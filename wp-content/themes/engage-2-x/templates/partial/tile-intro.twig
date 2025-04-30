@@ -1,5 +1,6 @@
 
-{% if tile.title != "General" %}
+{# {% if tile.title != "General" %} #}
+
 	{# Logic #}
 	{# set default title #}
 	{% set tileTitle = tile.title %}
@@ -20,7 +21,7 @@
 	 #}
 	{# Really need to keep the page title for not only SEO purposes but also for usability #}
 	<div class="tile tile--intro">
-		<h1 class="tile__title tile__title--intro">
+		<h1 class="tile__title tile__title--intro title-slide-in">
 			{{ tileTitle }}
 			{% if tile.subtitle %}
 				<span class="tile__title--subtitle">| {{ tile.subtitle }}</span>
@@ -30,4 +31,4 @@
 			<div class="tile__excerpt tile__excerpt--intro">{{ tile.excerpt }}</div>
 		{% endif %}
 	</div>
-{% endif %}
+{# {% endif %} #}

@@ -17,7 +17,6 @@ class Archive extends PostQuery
 	public $pagination;       // Holds the pagination for the archive
 	public $slug;             // Holds the slug of the queried object
 	public $intro = [];       // Holds the intro information for the archive
-	public $vertical = false; // Holds the vertical of the queried object
 	public $category = false; // Holds the category of the queried object
 	public $postType;         // Holds the post type of the queried object
 	public $queriedObject;    // Holds the queried object
@@ -32,7 +31,6 @@ class Archive extends PostQuery
 	public function init($query)
 	{
 		// Set various properties using helper functions
-		$this->setVertical();
 		$this->setCategory();
 		$this->setPostType();
 
@@ -69,23 +67,10 @@ class Archive extends PostQuery
 		// because of our taxonomy rewrites, we're messing with the queried object quite a bit. As a result, we need to use this model to find the right one.
 		if ($urlConstructor->getQueriedCategory()) {
 			$this->queriedObject = $urlConstructor->getQueriedCategory();
-		} elseif ($this->vertical) {
-			$this->queriedObject = $this->vertical;
 		} else {
 			$this->queriedObject = get_queried_object();
 		}
 		return;
-	}
-
-	/**
-	 * Function to set the vertical property.
-	 *
-	 * @return void
-	 */
-	public function setVertical()
-	{
-		$urlConstructor = new URLConstructor();
-		$this->vertical = $urlConstructor->getQueriedVertical();
 	}
 
 	/**
@@ -137,10 +122,6 @@ class Archive extends PostQuery
 			}
 		} elseif (get_class($this->queriedObject) === 'WP_Post_Type') {
 			$title = $this->queriedObject->label;
-			if ($this->vertical) {
-				// since it's generic, let's add the vertical in front of the name
-				$title = $this->vertical->name . ' ' . $title;
-			}
 		} elseif (get_search_query()) {
 			$title = 'Search: ' . get_search_query();
 		}
@@ -156,15 +137,9 @@ class Archive extends PostQuery
 	{
 		// initially set off queried object
 		$this->intro = [
-			'vertical'	=> $this->vertical,
 			'title'   => $this->getTitle(),
 			'excerpt' => wpautop($this->queriedObject->description)
 		];
-
-		// if we're on a category that isn't a vertical, then bail. These intro are set by the category name and description
-		if (get_class($this->queriedObject) === 'WP_Term' && $this->queriedObject->taxonomy !== 'verticals') {
-			return;
-		}
 
 		// check if we have one from the settings
 		$intros = get_field('archive_landing_pages', 'option');
@@ -172,12 +147,10 @@ class Archive extends PostQuery
 			return;
 		}
 		foreach ($intros as $intro) {
-			if ($intro['landing_slug']['value'] === $this->postType->name && $this->vertical == $intro['landing_vertical']) {
 
-				$this->intro['title'] = $intro['landing_page_title'];
-				$this->intro['excerpt'] = wpautop($intro['landing_page_content']);
-				break;
-			}
+			$this->intro['title'] = $intro['landing_page_title'];
+			$this->intro['excerpt'] = wpautop($intro['landing_page_content']);
+			break;
 		}
 	}
 }

@@ -1,0 +1,8 @@
+parameters:
+    level: 5
+    paths:
+        - src
+    bootstrapFiles:
+        - vendor/php-stubs/acf-pro-stubs/acf-pro-stubs.php
+    ignoreErrors:
+        - '#Function get_field not found#' 
