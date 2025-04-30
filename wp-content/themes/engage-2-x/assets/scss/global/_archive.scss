@@ -9,58 +9,33 @@ body.archive {
 		}
 	}
 }
-@supports not (display: flex) {
-	.archive__content {
-		&::after {
-			content: ".";
-			visibility: hidden;
-			display: block;
-			height: 0;
-			clear: both;
-		}
-		@include media($phablet) {
-			float: right;
-			width: 80%;
-		}
-		@include media($tablet) {
-			width: 85%;
-		}
-	}
-} // END not (display: flex)
-@supports (display: flex) {
-	.archive__content {
-		@include media($phablet) {
-			display: flex;
-			flex-flow: row wrap;
-			justify-content: space-between;
-			@include flex-width(80%);
-			order: 2;
-		}
-		@include media($laptop) {
-			flex: 0 0 78%;
-		}
-		@include media($desktop) {
-			flex: 0 0 80%;
-		}
-	}
-} // END (display: flex)
 
-@supports (display: grid) {
-	.archive__content {
-		grid-column: 1 / -1;
-		display: grid;
-		@include media($tablet) {
-			grid-column: 3 / -1; 
-			width: 100%;
-		}
+.archive__content {
+	grid-column: 1 / -1;
+	@include media($phablet) {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-between;
+		@include flex-width(80%);
+		order: 2;
 	}
-	.archive__content__general,
-	.archive__content__board {
-		grid-column: 1/-1;
+	@include media($tablet) {
+		grid-column: 3 / -1; 
+		width: 100%;
 	}
-} // END (display: grid)
+	@include media($laptop) {
+		flex: 0 0 78%;
+	}
+	@include media($desktop) {
+		flex: 0 0 80%;
+	}
+}
 
-// TODO: Should be modified into components
+.archive__content__general,
+.archive__content__board {
+	grid-column: 1/-1;
+}
+
 // Base styles for archive pages
 .archive-section {
 	padding: 1rem 0;
