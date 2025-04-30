@@ -8,3 +8,4 @@ require('./components/FeaturedImgLightbox');
 require('./components/PastInternsDropdown');
 require('./components/Utilities');
 require('./components/Animation');
+require('./components/Sidebar');
