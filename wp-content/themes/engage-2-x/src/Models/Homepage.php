@@ -4,6 +4,19 @@ namespace Engage\Models;
 use Engage\Managers\Queries as Queries;
 use Timber;
 
+/**
+ * Homepage Model
+ * 
+ * This class manages the homepage content, specifically handling:
+ * - Featured research posts that appear in the slider
+ * - Additional research posts from different categories
+ * - Funder information
+ * 
+ * The homepage shows a mix of featured and recent research posts, ensuring:
+ * - No duplicate posts appear
+ * - Posts are properly sorted by date and featured status
+ * - A good mix of content from different research categories
+ */
 class Homepage {
 	public $funders;
 	public $Query;
@@ -17,13 +30,27 @@ class Homepage {
 		$this->getRecent();
 	}
 	
+	/**
+	 * Sets up the funders section by fetching all funder posts
+	 * 
+	 * This gets all the funder posts from WordPress and orders them
+	 * according to their menu order (drag-and-drop order in admin)
+	 */
 	public function setFunders() {
 		$this->funders = Timber::get_posts(
 			['post_type' => 'funders', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => 'ASC'],
 		);
 	}
 	
-	// Function to get the most recent posts from each research category
+	/**
+	 * Gets the most recent posts from each research category
+	 * 
+	 * This is the main function that populates the homepage content:
+	 * 1. Gets posts from each research category
+	 * 2. Ensures no duplicate posts appear
+	 * 3. Limits total posts to 8
+	 * 4. Sorts posts by date and featured status
+	 */
 	public function getRecent() {
 		// Get an array of all of the research categories
 		$categories = $this->Query->getResearchCategories();
@@ -32,6 +59,11 @@ class Homepage {
 		$this->allQueriedPosts = []; // Keeps track of all previously queried posts to avoid duplicates
 		
 		foreach ($categories as $category) {
+			// Skip the 'uncategorized' category
+			if ($category->slug === 'uncategorized') {
+				continue;
+			}
+			
 			$categoryName = $category->slug;
 			// Get the most recent post and moreResearch posts for that specific category
 			$results = $this->getRecentFeaturedResearch($categoryName);
@@ -43,10 +75,10 @@ class Homepage {
 			$this->allQueriedPosts = array_merge($results, $this->allQueriedPosts);
 		}
 		
-		// Limit the total number of posts to 12
-		$this->recent = array_slice($this->recent, 0, 12);
-		$this->moreRecent = array_slice($this->moreRecent, 0, 12);
-		$this->allQueriedPosts = array_slice($this->allQueriedPosts, 0, 12);
+		// Limit the total number of posts to 8
+		$this->recent = array_slice($this->recent, 0, 8);
+		$this->moreRecent = array_slice($this->moreRecent, 0, 8);
+		$this->allQueriedPosts = array_slice($this->allQueriedPosts, 0, 8);
 		
 		// $this->sortByDate(true);
 		$this->sortByDate(false);
@@ -54,7 +86,15 @@ class Homepage {
 		$this->sortSliderByTopFeatured();
 	}
 	
-	//get the most recent featured research
+	/**
+	 * Gets the most recent featured research post for a category
+	 * 
+	 * For each research category, this gets one featured post that
+	 * has been marked as "Show" or "Showpost" in the admin panel
+	 * 
+	 * @param string $categoryName The slug of the research category
+	 * @return array Array containing one featured post
+	 */
 	public function getRecentFeaturedResearch($categoryName) {
 		$featuredPosts = $this->queryPosts(true, $categoryName, 1);
 		$recentFeaturedPosts = array();
@@ -66,7 +106,18 @@ class Homepage {
 		return $recentFeaturedPosts;
 	}
 	
-	//get the more research posts
+	/**
+	 * Gets additional recent research posts for a category
+	 * 
+	 * Gets more posts from a specific category to show on the homepage:
+	 * - Default is 8 posts per category
+	 * - Journalism category gets 3 posts
+	 * - Excludes posts already shown in the featured slider
+	 * 
+	 * @param array $featuredSliderPosts Posts already in the featured slider
+	 * @param string $categoryName The slug of the research category
+	 * @return array Array of recent research posts
+	 */
 	public function getMoreRecentResearch($featuredSliderPosts, $categoryName) {
 		// how many more_research_posts should be display on the home page for each category
 		$numFeaturedPerCategory = [
@@ -82,7 +133,20 @@ class Homepage {
 		return $allRecentResearchArray;
 	}
 	
-	// query the posts with the given arguments
+	/**
+	 * Queries WordPress for research posts with specific criteria
+	 * 
+	 * This is the main query function that gets posts from WordPress:
+	 * - Can get either featured or non-featured posts
+	 * - Excludes posts that have already been shown
+	 * - Filters by research category
+	 * - Limits the number of posts returned
+	 * 
+	 * @param bool $is_featured Whether to get featured posts only
+	 * @param string $categoryName The research category to filter by
+	 * @param int $numberOfPosts How many posts to get
+	 * @return mixed Query results from WordPress
+	 */
 	public function queryPosts($is_featured, $categoryName, $numberOfPosts) {
 		$args = [
 			'postType' => 'research',
@@ -115,7 +179,15 @@ class Homepage {
 			return $this->Query->getRecentPosts($args);
 		}
 		
-		// sort by the date
+		/**
+		 * Sorts posts by their publication date
+		 * 
+		 * Orders posts from newest to oldest, either for:
+		 * - The featured slider posts ($is_slider = true)
+		 * - The additional recent posts ($is_slider = false)
+		 * 
+		 * @param bool $is_slider Whether sorting slider posts or recent posts
+		 */
 		public function sortByDate($is_slider) {
 			if ($is_slider) {
 				usort($this->recent, function ($a, $b) {
@@ -131,6 +203,12 @@ class Homepage {
 			}
 		}
 		
+		/**
+		 * Sorts the slider posts by their featured status
+		 * 
+		 * Reorders the featured slider posts so that posts marked as
+		 * "top featured" appear first in the slider
+		 */
 		public function sortSliderByTopFeatured() {
 			usort($this->recent, function ($a, $b) {
 				$topFeatureA = is_array($a->top_featured_research) ? implode('', $a->top_featured_research) : $a->top_featured_research;
