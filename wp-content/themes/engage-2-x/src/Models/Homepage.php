@@ -6,7 +6,6 @@ use Timber;
 
 class Homepage {
 	public $funders;
-	public $verticals;
 	public $Query;
 	public $recent;
 	public $moreRecent;
@@ -15,7 +14,6 @@ class Homepage {
 	public function __construct() {
 		$this->Query = new Queries();
 		$this->setFunders();
-		$this->setVerticals();
 		$this->getRecent();
 	}
 	
@@ -25,27 +23,30 @@ class Homepage {
 		);
 	}
 	
-	// Function to get the most recent posts from each vertical
+	// Function to get the most recent posts from each research category
 	public function getRecent() {
-		// Get an array of all of the verticals
-		$verticals = $this->Query->getVerticals();
-		
+		// Get an array of all of the research categories
+		$categories = $this->Query->getResearchCategories();
 		$this->recent = []; // Set to an empty array to allow array_merge
 		$this->moreRecent = [];
 		$this->allQueriedPosts = []; // Keeps track of all previously queried posts to avoid duplicates
 		
-		foreach ($verticals as $vertical) {
-			$verticalName = $vertical->slug;
-			// Get the most recent post and moreResearch posts for that specific vertical
-			$results = $this->getRecentFeaturedResearch($verticalName);
+		foreach ($categories as $category) {
+			$categoryName = $category->slug;
+			// Get the most recent post and moreResearch posts for that specific category
+			$results = $this->getRecentFeaturedResearch($categoryName);
 			$this->recent = array_merge($results, $this->recent);
 			$this->allQueriedPosts = array_merge($results, $this->allQueriedPosts);
 			
-			$results = $this->getMoreRecentResearch($this->recent, $verticalName);
-			// var_dump('results-->'.gettype($results));
+			$results = $this->getMoreRecentResearch($this->recent, $categoryName);
 			$this->moreRecent = array_merge($results, $this->moreRecent);
 			$this->allQueriedPosts = array_merge($results, $this->allQueriedPosts);
 		}
+		
+		// Limit the total number of posts to 12
+		$this->recent = array_slice($this->recent, 0, 12);
+		$this->moreRecent = array_slice($this->moreRecent, 0, 12);
+		$this->allQueriedPosts = array_slice($this->allQueriedPosts, 0, 12);
 		
 		// $this->sortByDate(true);
 		$this->sortByDate(false);
@@ -54,10 +55,10 @@ class Homepage {
 	}
 	
 	//get the most recent featured research
-	public function getRecentFeaturedResearch($verticalName) {
-		$featuredPosts = $this->queryPosts(true, $verticalName, 1);
+	public function getRecentFeaturedResearch($categoryName) {
+		$featuredPosts = $this->queryPosts(true, $categoryName, 1);
 		$recentFeaturedPosts = array();
-		//only show one featured research per vertical;
+		//only show one featured research per category
 		foreach ($featuredPosts as $featurePost) {
 			array_push($recentFeaturedPosts, $featurePost);
 			break;
@@ -66,26 +67,26 @@ class Homepage {
 	}
 	
 	//get the more research posts
-	public function getMoreRecentResearch($featuredSliderPosts, $verticalName) {
-		// how many more_research_posts should be display on the home page for each vertical
-		$numFeaturedPerVertical = [
+	public function getMoreRecentResearch($featuredSliderPosts, $categoryName) {
+		// how many more_research_posts should be display on the home page for each category
+		$numFeaturedPerCategory = [
 			"journalism" => 3,
 		];
 		
-		$num_posts = array_key_exists($verticalName, $numFeaturedPerVertical) ?
-		$numFeaturedPerVertical[$verticalName] : 1;
+		$num_posts = array_key_exists($categoryName, $numFeaturedPerCategory) ?
+		$numFeaturedPerCategory[$categoryName] : 8;
 		
-		$allRecentResearch = $this->queryPosts(false, $verticalName, $num_posts);
+		$allRecentResearch = $this->queryPosts(false, $categoryName, $num_posts);
 		$allRecentResearchArray = $allRecentResearch->to_array();
 		
 		return $allRecentResearchArray;
 	}
 	
 	// query the posts with the given arguments
-	public function queryPosts($is_featured, $verticalName, $numberOfPosts) {
+	public function queryPosts($is_featured, $categoryName, $numberOfPosts) {
 		$args = [
 			'postType' => 'research',
-			'vertical' => $verticalName,
+			'research-categories' => $categoryName,
 			'postsPerPage' => $numberOfPosts,
 			'post__not_in' => array_map(function ($post) {
 				return $post->id;
@@ -136,10 +137,6 @@ class Homepage {
 				$topFeatureB = is_array($b->top_featured_research) ? implode('', $b->top_featured_research) : $b->top_featured_research;
 				return strcmp($topFeatureB, $topFeatureA);
 			});
-		}
-		
-		public function setVerticals() {
-			$this->verticals = $this->Query->getVerticals();
 		}
 		
 	}

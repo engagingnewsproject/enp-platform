@@ -1,4 +1,5 @@
 {% set type = post_type is defined and post_type ? post_type : (posts|length ? posts[0].post_type : 'unknown') %}
+
 <section class="tiles grid grid--col-12 grid--gap-20 tiles--{{ type }}">
 	{% if intro %}
 		{% include "partial/tile-intro.twig" with { 

@@ -79,9 +79,13 @@ class Blogs
 			'labels'            => $labels,
 			'show_ui'           => true,
 			'show_admin_column' => true,
-			'query_var'         => true,
-			'has_archive'		=> true,
-			'rewrite'           => array('slug' => 'blogs-category'),
+			'query_var'         => 'blogs-category',
+			'has_archive'       => true,
+			'rewrite'           => array(
+				'slug'         => 'blogs/category',
+				'with_front'   => false,
+				'hierarchical' => true
+			),
 		);
 		// Register the 'blogs-category' taxonomy for the 'blogs' post type
 		register_taxonomy('blogs-category', array('blogs'), $args);

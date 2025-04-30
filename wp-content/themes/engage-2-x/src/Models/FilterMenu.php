@@ -158,26 +158,22 @@ class FilterMenu
 			'link'  => false,
 			'terms' => []
 		];
-		// Get current category, if any (fallback to vertical for backward compatibility)
+
+		// Get current category
 		$category = $this->urlConstructor->getQueriedCategory();
-		$vertical = $this->urlConstructor->getQueriedVertical();
-		$term = $category ? $category : $vertical;
 
 		// add all the taxonomies in the order that they were created
 		foreach ($this->postTypes as $postType) {
 			$postType = get_post_type_object($postType);
 			// check if this taxonomy already exists in the filters
 			if (!isset($base['terms'][$postType->name])) {
-
 				$base['terms'][$postType->name] = [
 					'title' => $postType->labels->name,
 					'slug'  => $postType->name,
 					'link'  => $this->urlConstructor->getTermLink([
-						'terms' => [
-							$term
-						],
-						'postType' =>  $postType->name,
-						'base'  => $term && $term->taxonomy === 'category' ? 'postType' : $this->linkBase
+						'terms' => [$category],
+						'postType' => $postType->name,
+						'base'  => $this->linkBase
 					]),
 					'terms' => []
 				];
@@ -215,17 +211,13 @@ class FilterMenu
 	 */
 	public function buildFilter($filters, $postID, $taxonomy)
 	{
-
 		$terms = get_the_terms($postID, $taxonomy);
 
 		// Get current category or vertical
 		$category = $this->urlConstructor->getQueriedCategory();
-		$vertical = $this->urlConstructor->getQueriedVertical();
-		$term = $category ? $category : $vertical;
 
 		// get post type of the taxonomy
 		$postType = $this->urlConstructor->getPostTypeByTaxonomy($taxonomy);
-
 
 		if (empty($terms)) {
 			return $filters;
@@ -234,7 +226,7 @@ class FilterMenu
 		// set the terms
 		foreach ($terms as $term) {
 			if (!isset($filters['terms'][$postType]['terms'][$term->slug]) && $term->slug !== 'uncategorized') {
-				$filters['terms'][$postType]['terms'][$term->slug] = $this->buildFilterTerm($term, $vertical, $postType);
+				$filters['terms'][$postType]['terms'][$term->slug] = $this->buildFilterTerm($term, false, $postType);
 			}
 		}
 
@@ -245,11 +237,11 @@ class FilterMenu
 	 * Build a filter term array for a specific term.
 	 *
 	 * @param object $term The term object to build the filter for.
-	 * @param mixed $vertical The vertical taxonomy term.
+	 * @param mixed $category The category taxonomy term.
 	 * @param mixed $postType The post type associated with the term.
 	 * @return array The filter term array.
 	 */
-	public function buildFilterTerm($term, $vertical = false, $postType = false)
+	public function buildFilterTerm($term, $category = false, $postType = false)
 	{
 		// If the term is a category and we're using the new URL structure
 		if ($term->taxonomy === 'category') {
@@ -281,7 +273,7 @@ class FilterMenu
 			'link'  => $this->urlConstructor->getTermLink(
 				[
 					'terms' => [
-						$vertical,
+						$category,
 						$term
 					],
 					'postType' => $postType,

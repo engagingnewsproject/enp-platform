@@ -19,7 +19,6 @@ $context['research'] = Timber::get_posts([
 		'blogs'
 	], 
 	'posts_per_page' => -1, 
-	'verticals' => 'bridging-divides', 
 	'orderby' => 'date', 
 	'order' => 'DESC'],
 );

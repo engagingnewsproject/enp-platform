@@ -37,7 +37,6 @@ use Engage\Models\PressPage;
  */
 add_filter('timber/term/classmap', function ($classmap) {
 	$custom_classmap = [
-		// 'verticals' 	=> TileArchive::class,
 		'research'	=> ResearchArticle::class,
 		'team'			=> TeamArchive::class,
 	];
@@ -109,7 +108,6 @@ add_action('after_setup_theme', function () {
 		new Permalinks(),
 		new Queries(),
 		new PostTypes(['Research', 'Blogs', 'Announcement', 'Team', 'Funders', 'Board', 'Publications', 'Press']),
-		new Taxonomies(['Verticals']),
 		new TinyMCE()
 	];
 
@@ -527,3 +525,9 @@ if (defined('DEBUG_PERMALINKS') && DEBUG_PERMALINKS === true) {
 		error_log('=== END QUERY VARS ===');
 	});
 }
+
+// Clear research filter menu transient cache
+function clear_research_filter_menu_cache() {
+    delete_transient('research-filter-menu');
+}
+add_action('init', 'clear_research_filter_menu_cache');

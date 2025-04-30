@@ -35,6 +35,7 @@ class URLConstructor
 	public function getQueriedCategory()
 	{
 		$category = get_query_var('category_name', false);
+
 		return ($category ? get_term_by('slug', $category, 'category') : false);
 	}
 
@@ -129,6 +130,11 @@ class URLConstructor
 					}
 					continue;
 				}
+				// For blogs-category, add /category/ prefix
+				if ($term->taxonomy === 'blogs-category') {
+					$link .= '/category/' . $term->slug;
+					continue;
+				}
 				if (array_key_exists($term->taxonomy, $this->taxRewriteMap)) {
 					$taxonomy = $this->taxRewriteMap[$term->taxonomy];
 					// Add it to the link
@@ -169,18 +175,17 @@ class URLConstructor
 		$rules = [];
 
 		// For post types with categories
-		$post_types = ['blogs', 'announcement', 'team', 'board']; // Remove 'research'
+		$post_types = ['blogs', 'announcement', 'team', 'board'];
 
 		foreach ($post_types as $post_type) {
-			// /blogs/[category]
-			$rules[$post_type . '/([^/]+)/?$'] = 'index.php?post_type=' . $post_type . '&category_name=$matches[1]';
+			// Base post type archive
+			$rules[$post_type . '/?$'] = 'index.php?post_type=' . $post_type;
 
-			// For subcategories or additional taxonomies
+			// For blogs category
 			if ($post_type === 'blogs') {
-				// /blogs/[category]/category/[blogs-category]
-				$rules[$post_type . '/([^/]+)/category/([^/]+)/?$'] = 'index.php?post_type=' . $post_type . '&category_name=$matches[1]&blogs-category=$matches[2]';
+				// /blogs/category/[blogs-category]
+				$rules[$post_type . '/category/([^/]+)/?$'] = 'index.php?post_type=' . $post_type . '&blogs-category=$matches[1]';
 			}
-			// Add similar rules for other post types as needed
 		}
 
 		return $rules;

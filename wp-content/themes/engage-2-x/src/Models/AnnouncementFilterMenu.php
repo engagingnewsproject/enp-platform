@@ -1,14 +1,12 @@
 <?php
 
 /**
- * ResearchFilterMenu is used when you want to have a filter menu that includes content from ALL research categories.
+ * AnnouncementFilterMenu is used when you want to have a filter menu that includes content from ALL announcement categories.
  */
 
 namespace Engage\Models;
 
-use function get_field;
-
-class ResearchFilterMenu extends FilterMenu
+class AnnouncementFilterMenu extends FilterMenu
 {
 
 	public function __construct($options)
@@ -16,16 +14,11 @@ class ResearchFilterMenu extends FilterMenu
 		parent::__construct($options);
 		$this->linkBase =  'postType';
 		// The structure property tells the system that this filter menu should be 
-		// organized by research categories rather than by post types or verticals.
-		$this->structure = 'research-categories';
+		// organized by announcement categories rather than by post types or verticals.
+		$this->structure = 'announcement-category';
 	}
 
-	/**
-	 * Sets up the filters based on research-categories taxonomy
-	 *
-	 * @return array
-	 */
-	public function setFilters(): array
+	public function setFilters()
 	{
 		$filters = [
 			'title' => $this->title,
@@ -35,26 +28,22 @@ class ResearchFilterMenu extends FilterMenu
 			'terms' => []
 		];
 
+		// Get all announcement-category terms
 		$terms = get_terms([
-			'taxonomy' => 'research-categories',
+			'taxonomy' => 'announcement-category',
 			'hide_empty' => true,
 		]);
 
-		if (is_wp_error($terms)) {
-			error_log('Error getting research categories: ' . $terms->get_error_message());
-			return $filters;
-		}
-
-		$selected_categories = get_field('archive_settings', 'option')['research_sidebar_filter'] ?? [];
-		
-		foreach ($terms as $term) {
-			// Only include terms that are selected in the ACF field
-			if (in_array($term->term_id, $selected_categories)) {
-				$filters['terms'][$term->slug] = $this->buildFilterTerm($term, false, 'research');
+		if (!empty($terms) && !is_wp_error($terms)) {
+			foreach ($terms as $term) {
+				// Skip uncategorized or any other unwanted terms
+				if ($term->slug === 'uncategorized') {
+					continue;
+				}
+				$filters['terms'][$term->slug] = $this->buildFilterTerm($term, false, 'announcement');
 			}
 		}
 
-		error_log('ResearchFilterMenu filters set: ' . print_r($filters, true));
 		return $filters;
 	}
 

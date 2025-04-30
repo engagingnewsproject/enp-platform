@@ -61,8 +61,9 @@ class TileArchive extends Archive
 		// Step 1: Determine the current slug based on the page structure
 		// For research categories, verticals, or post type structures
 		if (
-			$this->filters['structure'] === 'research-categories' ||
-			$this->filters['structure'] === 'postTypes'
+			isset($this->filters['structure']) && 
+			($this->filters['structure'] === 'research-categories' ||
+			$this->filters['structure'] === 'postTypes')
 		) {
 
 			// If not vertical, check if we're on a category page
@@ -77,24 +78,24 @@ class TileArchive extends Archive
 		}
 
 		// Step 2: Mark the appropriate filter items as current
-		if ($this->filters['terms'] && $currentSlug) {
+		if (isset($this->filters['terms']) && $currentSlug) {
 			// Loop through top-level terms (could be verticals or main categories)
 			foreach ($this->filters['terms'] as $parentTerm) {
 				// If we found the matching parent term
-				if ($currentSlug === $parentTerm['slug']) {
+				if (isset($parentTerm['slug']) && $currentSlug === $parentTerm['slug']) {
 					// Mark this term as the current parent
 					$this->filters['terms'][$parentTerm['slug']]['currentParent'] = true;
 
 					// Special handling for vertical taxonomies
-					if ($this->category->taxonomy === 'verticals') {
+					if (isset($this->category) && isset($this->category->taxonomy) && $this->category->taxonomy === 'verticals') {
 						// If it's a vertical, mark it as current
 						$this->filters['terms'][$parentTerm['slug']]['current'] = true;
 					} else {
 						// For non-verticals (like research categories), check child terms
-						if (!empty($parentTerm['terms'])) {
+						if (isset($parentTerm['terms']) && !empty($parentTerm['terms'])) {
 							// Look for a matching child term (subcategory)
 							foreach ($parentTerm['terms'] as $childTerm) {
-								if ($childTerm['slug'] === $this->category->slug) {
+								if (isset($childTerm['slug']) && isset($this->category) && isset($this->category->slug) && $childTerm['slug'] === $this->category->slug) {
 									// Mark the child term as current when found
 									$this->filters['terms'][$parentTerm['slug']]['terms'][$this->category->slug]['current'] = true;
 									break;
