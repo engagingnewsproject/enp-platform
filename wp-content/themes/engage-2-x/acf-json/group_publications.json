@@ -30,15 +30,16 @@
             "type": "date_picker",
             "instructions": "Select the publication date",
             "required": 1,
-            "conditional_logic": false,
+            "conditional_logic": 0,
             "wrapper": {
                 "width": "",
                 "class": "",
                 "id": ""
             },
-            "display_format": "d\/m\/Y",
-            "return_format": "Y-m-d",
-            "first_day": 1
+            "display_format": "F j, Y",
+            "return_format": "F j, Y",
+            "first_day": 1,
+            "allow_in_bindings": 1
         },
         {
             "key": "field_67dc3106fd931",
@@ -56,10 +57,10 @@
             },
             "message": "",
             "default_value": 0,
-            "allow_in_bindings": 0,
-            "ui": 0,
+            "allow_in_bindings": 1,
             "ui_on_text": "",
-            "ui_off_text": ""
+            "ui_off_text": "",
+            "ui": 1
         },
         {
             "key": "field_publication_subtitle",
@@ -117,5 +118,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1742483925
+    "modified": 1746017582
 }
