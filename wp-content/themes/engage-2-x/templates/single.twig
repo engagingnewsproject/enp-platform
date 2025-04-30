@@ -21,6 +21,7 @@
 								{% endif %}
 
 								<div class="article__content article__content--{{ post.post_type }}">
+									{# Video embed #}
 									{% if hasVideo %}
 										<div class="aspect-ratio-box">
 											<div class="aspect-ratio-box-inside">
@@ -55,7 +56,7 @@
 										<strong>CASE STUDY: {{post.meta('case_study_title')|raw|striptags('<em>')}} </strong>
 									</h3>
 									
-									<h4>
+									<h4 class="WHATISTHIS">
 										<strong><a href="{{ post.getReport }}" filename="{{ post.vertical.slug}} {{post.title}}"></use>Case Study PDF</a> | </strong>
 										<strong><a href="{{ post.vertical.link }}">Additional Case Studies</a></strong>
 									</h4>
