@@ -52,7 +52,7 @@ $green-gradient: linear-gradient(
   #e3ffcb
 ); //linear-gradient(10deg,#c8dc99,#f0ffdd); //linear-gradient(15deg,#d1f5f0,#dcffde) !default;
 
-$verticals: (
+$categories: (
   journalism: "journalism",
   science-communication: "science-communication",
   media-ethics: "media-ethics",
@@ -81,7 +81,7 @@ $science-communication-color-faded: $teal-xfaded;
 $media-ethics-color-faded: $teal-xfaded;
 $social-platforms-color-faded: $teal-xfaded;
 
-$verticalColors: (
+$categoryColors: (
   journalism: $orange,
   journalism-faded: $journalism-color-faded,
   journalism-light: $journalism-color-light,
@@ -96,10 +96,7 @@ $verticalColors: (
   social-platforms-faded: $social-platforms-color-faded,
   propaganda: $orange,
   propaganda-faded: $teal-xfaded,
-  center-leadership: $orange
-);
-
-$categoryColors: (
+  center-leadership: $orange,
   collaborators: $teal,
   administrative-and-technology: $teal
 );

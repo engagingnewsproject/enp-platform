@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const filterToggle = document.querySelector('.filter__toggle');
   const sidebar = document.querySelector('.archive__sidebar');
   const closeBtn = document.querySelector('.filter__close');
+  const overlay = document.querySelector('.sidebar-overlay');
 
   if (filterToggle && sidebar) {
     filterToggle.style.display = 'flex';
@@ -17,11 +18,11 @@ document.addEventListener('DOMContentLoaded', function() {
       if (isOpen) {
         sidebar.classList.remove('is-open');
         filterToggle.setAttribute('aria-expanded', 'false');
-        document.querySelector('.sidebar-overlay').classList.remove('is-visible');
+        if (overlay) overlay.classList.remove('is-visible');
       } else {
         sidebar.classList.add('is-open');
         filterToggle.setAttribute('aria-expanded', 'true');
-        document.querySelector('.sidebar-overlay').classList.add('is-visible');
+        if (overlay) overlay.classList.add('is-visible');
       }
     });
   }
@@ -31,20 +32,21 @@ document.addEventListener('DOMContentLoaded', function() {
     closeBtn.addEventListener('click', function() {
       sidebar.classList.remove('is-open');
       filterToggle.setAttribute('aria-expanded', 'false');
-      document.querySelector('.sidebar-overlay').classList.remove('is-visible');
+      if (overlay) overlay.classList.remove('is-visible');
     });
   }
 
   // Close sidebar when clicking outside
   document.addEventListener('click', function(e) {
     if (
+      sidebar && 
       sidebar.classList.contains('is-open') &&
       !sidebar.contains(e.target) &&
       e.target !== filterToggle
     ) {
       sidebar.classList.remove('is-open');
-      filterToggle.setAttribute('aria-expanded', 'false');
-      document.querySelector('.sidebar-overlay').classList.remove('is-visible');
+      if (filterToggle) filterToggle.setAttribute('aria-expanded', 'false');
+      if (overlay) overlay.classList.remove('is-visible');
     }
   });
 });
