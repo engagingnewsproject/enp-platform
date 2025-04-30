@@ -85,3 +85,37 @@ function closeMobileMenu() {
   navbarToggler.classList.remove("is-open");
   navbarDropdown.setAttribute("aria-expanded", "false");
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  const filterToggle = document.querySelector('.filter__toggle');
+  const sidebar = document.querySelector('.archive__sidebar');
+  const closeBtn = document.querySelector('.filter__close');
+
+  if (filterToggle && sidebar) {
+    filterToggle.style.display = 'flex';
+    filterToggle.addEventListener('click', function() {
+      sidebar.classList.add('is-open');
+      filterToggle.setAttribute('aria-expanded', 'true');
+    });
+  }
+
+  if (closeBtn && sidebar && filterToggle) {
+    closeBtn.style.display = 'block';
+    closeBtn.addEventListener('click', function() {
+      sidebar.classList.remove('is-open');
+      filterToggle.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  // Optional: close sidebar when clicking outside
+  document.addEventListener('click', function(e) {
+    if (
+      sidebar.classList.contains('is-open') &&
+      !sidebar.contains(e.target) &&
+      e.target !== filterToggle
+    ) {
+      sidebar.classList.remove('is-open');
+      filterToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+});

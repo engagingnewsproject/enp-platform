@@ -49,9 +49,6 @@ body.archive {
 	.archive__content {
 		grid-column: 1 / -1;
 		display: grid;
-		@include media($phablet) {
-			grid-column: 4/13;
-		}
 		@include media($tablet) {
 			grid-column: 3 / -1; 
 			width: 100%;

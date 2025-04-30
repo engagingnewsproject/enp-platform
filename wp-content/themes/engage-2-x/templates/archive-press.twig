@@ -9,36 +9,30 @@
     Available variables:
     - title: The archive title (e.g., "Press")
     - posts: Array of Press objects
-		
-		TODO:
-		- This is only a look at how to write the archive-press.twig file.
-		- Should be only one file for both Press and Publications.
-		- To do this, we need to adjust the logic in archive.php to handle both post types.
-		- Create a component for the archive header.
-		- Create a component for the article card.
 #}
 {% extends "base.twig" %}
 
 {% block content %}
 	{# Main archive section #}
-	
+
 	{# Get all categories except the filtered ones #}
 	{% set filtered_categories = archive_filters.press_archive_filter|default([]) %}
 	{% set filtered_ids = filtered_categories|map(term => term.term_id) %}
-		
+
 	{% set categories = get_terms({
 			'taxonomy': 'press-categories',
 			'hide_empty': true,
 			'exclude': filtered_ids
 		}) %}
 
-	<section class="archive-section container container--xl">
-		{# Check if we have any articles to display #}
+		<section
+		class="archive-section container container--xl"> {# Check if we have any articles to display #}
 		{% if posts %}
 			{# Grid container for articles #}
-			<div class="press-articles-grid">
+			<div
+				class="press-articles-grid">
 				{# Loop through each article #}
-					{% include 'tiles.twig' with { 
+				{% include 'tiles.twig' with { 
 						intro: archive.intro, 
 						posts: posts,
 						loadEagerTiles: 6
