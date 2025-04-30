@@ -9,56 +9,198 @@ body.archive {
 		}
 	}
 }
-@supports not (display: flex) {
-	.archive__content {
-		&::after {
-			content: ".";
-			visibility: hidden;
-			display: block;
-			height: 0;
-			clear: both;
-		}
-		@include media($phablet) {
-			float: right;
-			width: 80%;
-		}
-		@include media($tablet) {
-			width: 85%;
-		}
-	}
-} // END not (display: flex)
-@supports (display: flex) {
-	.archive__content {
-		@include media($phablet) {
-			display: flex;
-			flex-flow: row wrap;
-			justify-content: space-between;
-			@include flex-width(80%);
-			order: 2;
-		}
-		@include media($laptop) {
-			flex: 0 0 78%;
-		}
-		@include media($desktop) {
-			flex: 0 0 80%;
-		}
-	}
-} // END (display: flex)
 
-@supports (display: grid) {
-	.archive__content {
-		grid-column: 1 / -1;
-		display: grid;
+.archive__content {
+	grid-column: 1 / -1;
+	@include media($phablet) {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-between;
+		@include flex-width(80%);
+		order: 2;
+	}
+	@include media($tablet) {
+		grid-column: 3 / -1; 
+		width: 100%;
+	}
+	@include media($laptop) {
+		flex: 0 0 78%;
+	}
+	@include media($desktop) {
+		flex: 0 0 80%;
+	}
+}
+
+.archive__content__general,
+.archive__content__board {
+	grid-column: 3/-1;
+}
+
+// Base styles for archive pages
+.archive-section {
+	padding: 1rem 0;
+	@include media($phablet) {
+		padding: 0 0 2rem 0;
+	}
+
+	.archive-header {
+		margin-bottom: 1.5rem;
 		@include media($phablet) {
-			grid-column: 4/13;
-		}
-		@include media($tablet) {
-			grid-column: 3 / -1; 
-			width: 100%;
+				margin-bottom: 2rem;
+				text-align: center;
+				padding: 2rem 0;
+			}
+
+			.archive-title {
+					font-size: 2rem;
+					font-weight: 700;
+					color: var(--color-primary);
+					margin-bottom: 1rem;
+					@include media($phablet) {
+						font-size: 2.5rem;
+					}
+			}
+	}
+	
+	.archive-categories {
+			margin-bottom: 2rem;
+			@include media($phablet) {
+				text-align: center;
+			}
+	}
+	// Publications archive page
+	.publications-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 1.5rem;
+			margin-bottom: 2rem;
+			@include media($phablet) {
+				grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+				gap: 2rem;
+				margin-bottom: 4rem;
+			}
+	}
+
+	.publication-card {
+			background: #fff;
+			border-radius: 8px;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			overflow: hidden;
+			transition: transform 0.2s ease-in-out;
+
+			&:hover {
+					transform: translateY(-4px);
+			}
+
+			.publication-image {
+					width: 100%;
+					height: 200px;
+					overflow: hidden;
+
+					img {
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+							transition: transform 0.3s ease-in-out;
+					}
+
+					&:hover img {
+							transform: scale(1.05);
+					}
+			}
+
+			.publication-content {
+					padding: 1.5rem;
+
+					.publication-title {
+							font-size: 1.25rem;
+							font-weight: 600;
+							margin-bottom: 0.5rem;
+
+							a {
+									color: var(--color-primary);
+									text-decoration: none;
+									transition: color 0.2s ease-in-out;
+
+									&:hover {
+											color: var(--color-secondary);
+									}
+							}
+					}
+
+					.publication-subtitle {
+							font-size: 1rem;
+							color: var(--color-text-secondary);
+							margin-bottom: 0.75rem;
+					}
+
+					.publication-meta {
+							display: flex;
+							flex-wrap: wrap;
+							gap: 1rem;
+							margin-bottom: 1rem;
+							font-size: 0.875rem;
+							color: var(--color-text-secondary);
+
+							.publication-authors,
+							.publication-date {
+									display: flex;
+									align-items: center;
+							}
+					}
+
+					.publication-excerpt {
+							font-size: 0.875rem;
+							line-height: 1.5;
+							color: var(--color-text);
+					}
+			}
+	}
+
+	.no-publications {
+			text-align: center;
+			padding: 2rem;
+			font-size: 1.125rem;
+			color: var(--color-text-secondary);
+	}
+	// Press archive page
+	.press-article-card {
+		border-bottom: 1px solid rgb(215, 215, 215);
+	}
+	.press-content {
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+		margin-top: 1.6rem;
+	}
+	.press-meta-header {
+		display: flex;
+		flex-direction: row;
+		gap: 0.6em;
+	}
+	.press-publisher {
+		color: rgb(117, 117, 117);
+		font-weight: bold;
+	}
+	.press-publication-date {
+		color: rgb(85, 85, 85);
+		font-weight: bold;
+	}
+	.press-publisher,
+	.press-meta {
+		flex: 0 0 20%;
+	}
+	.press-title {
+		flex: 1 1 80%;
+		font-size: 1.5rem;
+		font-weight: 700;
+		// Remove underline from link
+		a {
+			text-decoration: none;
+			color: var(--color-primary);
+			&:hover {
+				text-decoration: underline;
+			}
 		}
 	}
-	.archive__content__general,
-	.archive__content__board {
-		grid-column: 1/-1;
-	}
-} // END (display: grid)
+}

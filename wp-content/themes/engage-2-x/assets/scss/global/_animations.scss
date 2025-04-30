@@ -11,10 +11,11 @@
 
 @keyframes slideInFadeIn {
   0% {
+    transform: translateX(-120%);
     opacity: 0;
   }
   100% {
-    transform: translate3d(0, 0, 0);
+    transform: translateX(0);
     opacity: 1;
   }
 }
@@ -75,8 +76,9 @@
   animation: parallaxBarScale 1.5s 0.85s forwards;
 }
 
-.slide_in_fade_in {
+.item-slide-in-fade-in {
   transform: translateX(-120%);
+  opacity: 0;
   animation: slideInFadeIn 1s forwards;
   animation-delay: 1s;
 }
@@ -121,4 +123,22 @@
   100% {
     opacity: 1;
   }
+}
+
+@keyframes titleSlideIn {
+  0% {
+    transform: translateX(-150%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.title-slide-in {
+  transform: translateX(-150%);
+  opacity: 0;
+  animation: titleSlideIn 1s forwards;
+  animation-delay: 0.5s;
 }

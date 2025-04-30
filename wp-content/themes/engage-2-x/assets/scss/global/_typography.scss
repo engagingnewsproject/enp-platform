@@ -55,9 +55,9 @@ p,
 }
 
 a {
-	color: $black-grey;
+	color: $blue-dark;
 	&:hover {
-		color: darken($black-grey, 10%);
+		color: darken($blue-dark, 10%);
 	}
 }
 
@@ -228,8 +228,8 @@ img {
 }
 
 label {
-	font-size: 14px;
-	color: $black-grey;
+	font-size: $font-size-medium;
+	color: $blue-dark;
 }
 
 input[type="text"],

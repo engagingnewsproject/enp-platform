@@ -4,47 +4,49 @@
 
 	<div class="container grid grid--gap-30 grid--col-12">
 		{% set title = archive.intro.title %}
-		
 		{# START if/else archive.filters #}
 		{% if archive.filters %}
 		
 			{# -- filter sidebar #}
-			{% if title != "General" %}
+			{# {% if title != "General" %} #}
 				<div class="archive__sidebar">
-					{% if archive.announcement == 1 %}
-						{% include 'announcement_filters.twig' with { filters: archive.filters, postType: archive.postType.name } %}
-					{% else %}
-						{% include 'filters.twig' with { filters: archive.filters, postType: archive.postType.name } %}
-					{% endif %}
+					{% include 'filters.twig' with { 
+						filters: archive.filters, 
+						postType: archive.postType.name 
+					} %}
+					<button class="filter__close" style="display:none;">Close</button>
 				</div>
-			{% endif %}
+				<div class="sidebar-overlay"></div>
+			{# {% endif %} #}
 		
 			{# Tiles main content #}
 			{# -- set variables #}
 			{% set archive_class_name = "archive__content" %}
-			{% if title == "General" %}
+			{# {% if title == "General" %}
 				{% set title = title | lower %}
 				{% set archive_class_name = archive_class_name ~ "__" ~ title %}
-			{% endif %}
+			{% endif %} #}
 			
 			{# -- tile content #}
 			<div class={{archive_class_name}}>
 				{% if archive.postType.name == "team" %}
-					{% include 'partial/teammates.twig' with { mates: archive.posts, format: "excerpt" } %}
-				{% elseif archive.postType.name == "board" %}
-					{% include 'partial/teammates.twig' with { mates: archive.posts, format: "full" } %}
-				{% elseif archive.postType.name == "announcement" %}
-
-					{% include 'tiles.twig' with { 
-						intro: archive.postType, 
-						posts: archive.posts,
-						loadEagerTiles: 6
+					{% include 'partial/teammates.twig' with { 
+						mates: archive.posts, 
+						format: "excerpt" 
 					} %}
+					
+				{% elseif archive.postType.name == "board" %}
+					{% include 'partial/teammates.twig' with { 
+						mates: archive.posts, 
+						format: "full" 
+					} %}
+					
 				{% else %}
 					{% include 'tiles.twig' with { 
 						intro: archive.intro, 
 						posts: archive.posts,
-						loadEagerTiles: 6
+						loadEagerTiles: 6,
+						post_type: archive.postType.name,
 					} %}
 					{# {% include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } %} #}
 					{# {% include 'partial/pagination.twig' with {pagination: posts.pagination} %} #}
@@ -54,7 +56,12 @@
 		{% else %} {# if/else archive.filters #}
 
 			<div class="archive__content__general">
-				{% include 'tiles.twig' with { intro: archive.intro, posts: archive.posts } %}
+				{% include 'tiles.twig' with { 
+					intro: archive.intro, 
+					posts: archive.posts,
+					loadEagerTiles: 6,
+					post_type: archive.postType.name,
+				} %}
 			</div>
 			
 		{% endif %} {# END if archive.filters #}

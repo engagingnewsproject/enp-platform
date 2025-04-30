@@ -13,7 +13,6 @@ class ConstructUsageEntity
      */
     protected $nFdBVersion;
 
-
     /**
      * Indexed array of stored forms
      *
@@ -92,6 +91,21 @@ class ConstructUsageEntity
     protected $actions = [];
 
     /**
+     * Indexed array of action settings
+     *
+     * keys: 
+     * @var array
+     */
+    protected $actionMeta = [];
+
+    /**
+     * Time spent making NF Actions request in microseconds
+     *
+     * @var integer
+     */
+    protected $actionMetaRequestTime = 0;
+
+    /**
      * Time spent making NF actions request in microseconds
      *
      * @var integer
@@ -104,7 +118,6 @@ class ConstructUsageEntity
      * @var array
      */
     protected $calculations = [];
-
 
     /**
      * Array of stored NF settings
@@ -121,6 +134,34 @@ class ConstructUsageEntity
      * @var integer
      */
     protected $ninjaFormsSettingsRequestTime = 0;
+
+    /**
+     * Array of NF Submission Posts
+     *
+     * @var array
+     */
+    protected $ninjaFormsSubmissionPosts = [];
+
+    /**
+     * Time spent making NF submissions request in microseconds
+     *
+     * @var integer
+     */
+    protected $submissionPostsRequestTime = 0;
+
+    /**
+     * Array of NF Submission Postmeta
+     *
+     * @var array
+     */
+    protected $ninjaFormsSubmissionPostmeta = [];
+
+    /**
+     * Time spent making NF submissions request in microseconds
+     *
+     * @var integer
+     */
+    protected $submissionPostmetaRequestTime = 0;
 
     /**
      * Wordpress global DB object
@@ -159,7 +200,11 @@ class ConstructUsageEntity
 
         $this->populateActions();
 
+        $this->populateActionMeta();
+
         $this->populateNinjaFormsSettings();
+
+        $this->populateSubmissionPostmeta();
 
         $array = $this->constructUsageArray();
 
@@ -181,6 +226,7 @@ class ConstructUsageEntity
             'fields' => $this->constructFieldsUsage(),
             'field_settings' => $this->constructFieldMetaUsage(),
             'actions' => $this->constructActionsUsage(),
+            'action_settings' => $this->constructActionMetaUsage(),
             'display_settings' => $this->constructDisplaySettingsUsage(),
             'restrictions' => $this->constructRestrictionsUsage(),
             'calculations' => $this->constructCalculationsUsage(),
@@ -284,6 +330,7 @@ class ConstructUsageEntity
      * - custom name attribute - empty/not empty
      * - field key - default/not default
      * - admin label - empty/not empty
+     * - field keys - count non default
      * 
      * @return array
      */
@@ -296,11 +343,17 @@ class ConstructUsageEntity
         $countArrayKeys = \array_count_values($arrayColumnKeys);
 
         $labelPositions = [];
+        $countNonDefaultKeys = 0;
 
         foreach ($this->fieldMeta as $settingArray) {
             if ('label_pos' === $settingArray['key']) {
                 $labelPositions[] = $settingArray['value'];
             }
+            
+            // Check for "key" entries that don't end in 13-digits
+            if ($settingArray['key'] === 'key' && !preg_match('/\d{13}$/', $settingArray['value'])) {
+                $countNonDefaultKeys++;
+            }            
         }
 
         $countLabelPositions = \array_count_values($labelPositions);
@@ -312,6 +365,7 @@ class ConstructUsageEntity
             'label_position' => $countLabelPositions,
             'countCustomName' => isset($countArrayKeys['custom_name_attribute']) ? $countArrayKeys['custom_name_attribute'] : 0,
             'countAdminLabel' => isset($countArrayKeys['admin_label']) ? $countArrayKeys['admin_label'] : 0,
+            'countNonDefaultFieldKeys' => $countNonDefaultKeys,
             't' => $this->fieldMetaRequestTime,
             't2' => $this->calculateElapsedTime($startTime)
         ];
@@ -329,10 +383,6 @@ class ConstructUsageEntity
      * - Export Data action active on at least one - true/false
      * - WP Hook action active on at least one - true/false
      * - Record Submissions action active on at least one form - true/false
-     * - - Designated submitter's email address value set
-     * - - Save All or Save None
-     * - - Except - empty/not empty
-     * - - Set Submissions to Expire - true/false
      * 
      * @return array
      */
@@ -410,6 +460,8 @@ class ConstructUsageEntity
      * - Validate Required Field error message - count custom
      * - Honeypot error message - count custom
      * - Field Marked Required error message - count custom
+     * - Form Currency - count custom
+     * - Public link - count enabled
      * 
      * @return array
      */
@@ -450,6 +502,8 @@ class ConstructUsageEntity
             'countValidateRequiredField' => isset($countArrayKeys['validateRequiredField']) ? $countArrayKeys['validateRequiredField'] : 0,
             'countHoneypotHoneypotError' => isset($countArrayKeys['honeypotHoneypotError']) ? $countArrayKeys['honeypotHoneypotError'] : 0,
             'countFieldsMarkedRequired' => isset($countArrayKeys['fieldsMarkedRequired']) ? $countArrayKeys['fieldsMarkedRequired'] : 0,
+            'countCurrency'=> isset($countArrayKeys['currency']) ? $countArrayKeys['currency'] : 0,
+            'countAllowPublicLink'=> isset($countArrayKeys['allow_public_link']) ? $countArrayKeys['allow_public_link'] : 0,
             't'=>$this->formMetaRequestTime
         ];
     }
@@ -521,11 +575,45 @@ class ConstructUsageEntity
     /**
      * Construct array of submissions usage
      *
+     * Data, current and planned:
+     * - Forms with Submissions - Count
+     * - Forms with only Recent Submissions (<90 days) - Count
+     * - Forms with Submissions - Average number of submissions
+     *
      * @return array
      */
     protected function constructSubmissionsUsage(): array
     {
-        return [];
+        //Check for forms with submissions
+        $activeFormIds = array_column($this->forms, 'id');
+        $submissionPostmetaMetaValues = array_column($this->ninjaFormsSubmissionPostmeta, 'meta_value');
+        $formsWithSubmissions = array_values(array_intersect($activeFormIds, $submissionPostmetaMetaValues));
+        $countFormsWithSubmissions = count($formsWithSubmissions);
+
+        //Check for forms with submissions not > 90 days
+        
+
+        //Average Submissions for forms with submissions
+        $totalSubmissions = 0;
+
+        foreach ($this->ninjaFormsSubmissionPostmeta as $postmeta) {
+            if ($postmeta['meta_key'] === '_form_id' && in_array($postmeta['meta_value'], $formsWithSubmissions)) {
+                $totalSubmissions++;
+            }
+        }
+
+        $meanSubmissionsPerForm = 0;
+        
+        if($countFormsWithSubmissions > 0){
+
+            $meanSubmissionsPerForm = $totalSubmissions / $countFormsWithSubmissions;
+        }
+
+        return [
+            'countFormsWithSubmissions' => $countFormsWithSubmissions,
+            'averageSubmissionsPerForm' => $meanSubmissionsPerForm,
+            't' => $this->submissionPostmetaRequestTime
+        ];
     }
 
     /**
@@ -661,6 +749,7 @@ class ConstructUsageEntity
             OR (`key` = "validateRequiredField" AND (`value` is NOT null AND `value` <> "")) 
             OR (`key` = "honeypotHoneypotError" AND (`value` is NOT null AND `value` <> "")) 
             OR (`key` = "fieldsMarkedRequired" AND (`value` is NOT null AND `value` <> "")) 
+            OR (`key` = "currency" AND (`value` is NOT null AND `value` <> "")) 
             OR (`key` = "unique_field_error" AND (`value` <> "'.$defaultUniqueFieldError.'")) 
             OR (`key` = "unique_field" AND (`value` is NOT null AND `value` <> ""))
             OR (`key` = "logged_in" AND (`value` is NOT null AND `value` <> ""))
@@ -736,6 +825,7 @@ class ConstructUsageEntity
             OR (`key` = "element_class" AND (`value` is NOT null AND `value` <> "")) 
             OR (`key` = "custom_name_attribute" AND (`value` is NOT null AND `value` <> "")) 
             OR (`key` = "admin_label" AND (`value` is NOT null AND `value` <> "")) 
+            OR (`key` = "key" AND (`value` is NOT null AND `value` <> "")) 
         ;';
 
         if ($this->nFdBVersion < '1.3') {
@@ -766,6 +856,96 @@ class ConstructUsageEntity
         $this->actions = $results;
 
         $this->actionsRequestTime = $this->calculateElapsedTime($startTime);
+    }
+
+    /**
+     * Populate Action Meta data
+     *
+     * @return void
+     */
+    protected function populateActionMeta(): void
+    {
+        $startTime = microtime(true);
+
+        $sql = $this->constructActionMetaSql();
+
+        $results = $this->wpdb->get_results($sql, ARRAY_A);
+
+        $this->actionMeta = $results;
+
+        $this->actionMetaRequestTime = $this->calculateElapsedTime($startTime);
+    }
+
+    /**
+     * SQL for Action meta data
+     *
+     * @return string
+     */
+    protected function constructActionMetaSql(): string
+    {
+        $return = '
+        SELECT `id`, `parent_id`, `key`, `value`
+        FROM ' . $this->wpdb->prefix . 'nf3_action_meta
+        WHERE 
+            (`key` = "submitter_email" AND (`value` is NOT null AND `value` <> ""))
+            OR (`key` = "fields-save-toggle" AND ( `value` = "save_all"))
+            OR (`key` = "set_subs_to_expire" AND ( `value` = "1"))
+            OR (`key` = "exception_fields" AND (`value` != "a:0:{}"))
+        ;';
+
+        return $return;
+    }
+
+    /**
+     * Populate Submission Postmeta data
+     *
+     * @return void
+     */
+    protected function populateSubmissionPostmeta(): void
+    {
+        $startTime = microtime(true);
+
+        $formIds = array_column ($this->forms, 'id');
+
+        $sql = '
+        SELECT post_id, meta_key, meta_value
+        FROM ' . $this->wpdb->prefix . 'postmeta
+        WHERE 
+            (`meta_key` = "_form_id" AND (meta_value IS NOT NULL AND meta_value <> ""))
+        '; 
+
+        $results = $this->wpdb->get_results($sql, ARRAY_A);
+
+        $this->ninjaFormsSubmissionPostmeta = $results;
+
+        $this->submissionPostmetaRequestTime = $this->calculateElapsedTime($startTime);
+    }
+
+    /**
+     * Construct array of actions settings usage
+     *
+     * Data, current and planned:
+     * - Record Submission Action - Count Submitter Email set
+     * - Record Submission Action - Count Field Save toggle set to save_all
+     * - Record Submission Action - Count Submissions set to Expire enabled
+     * - Record Submission Action - Count Exception Fields set
+     * 
+     * @return array
+     */
+    protected function constructActionMetaUsage(): array
+    {
+        $startTime = microtime(true);
+
+        $arrayColumnKeys = array_column($this->actionMeta, 'key');
+        $countArrayKeys = \array_count_values($arrayColumnKeys);
+
+        return [
+            'countSubmitterEmailSet' => isset($countArrayKeys['submitter_email']) ? $countArrayKeys['submitter_email'] : 0,
+            'countSaveAllToggleEnabled' => isset($countArrayKeys['fields-save-toggle']) ? $countArrayKeys['fields-save-toggle'] : 0,
+            'countSubsSetToExpireEnabled' => isset($countArrayKeys['set_subs_to_expire']) ? $countArrayKeys['set_subs_to_expire'] : 0,
+            'countExceptionFieldsPopulated' => isset($countArrayKeys['exception_fields']) ? $countArrayKeys['exception_fields'] : 0,
+            't' => $this->actionMetaRequestTime,
+        ];
     }
 
     /**

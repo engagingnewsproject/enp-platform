@@ -53,6 +53,7 @@
 
   .nf-error-msg {
     color: $danger;
+    font-size: $font-size-medium;
   }
 }
 // END ninja forms defaults
@@ -67,15 +68,6 @@
     input[type="button"] {
       @include media($phablet) {
         width: auto;
-      }
-    }
-
-    // Changes the color of the submit button to the mei color
-    .mei-btn {
-      background: #579d42;
-
-      &:hover {
-        background-color: #437933;
       }
     }
   }

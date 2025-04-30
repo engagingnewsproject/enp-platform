@@ -15,7 +15,9 @@
         $u_id = get_option( 'nf_aff', false );
         if ( !$u_id ) $u_id = apply_filters( 'ninja_forms_affiliate_id', false );
 
-        if( ! $disable_admin_notices && ! apply_filters( 'ninja_forms_disable_marketing', false ) ){
+        $is_onboarding = apply_filters('ninja_forms_current_user_is_onboarding', false);
+
+        if( ! $disable_admin_notices && ! apply_filters( 'ninja_forms_disable_marketing', false ) && ! $is_onboarding ){
             if( ! function_exists( 'NF_Layouts' ) ) {
                 $link = 'https://ninjaforms.com/extensions/layout-styles/?utm_source=Ninja+Forms+Plugin&utm_medium=Form+Builder&utm_campaign=Comment+Bubble&utm_content=Layout+and+Styles+Comment';
                 if ( $u_id ) {
@@ -727,7 +729,7 @@ Label Three
 </script>
 
 <script id="tmpl-nf-edit-setting-toggle" type="text/template">
-
+   
     <span class="nf-setting-label">{{{ data.label }}}{{{ data.renderTooltip() }}}</span>
     <input type="checkbox" data-setting="{{{ data.settingName }}}" id="{{{ data.name }}}" class="nf-toggle setting" {{{ ( 1 == data.value ) ? 'checked' : '' }}} />
     <label for="{{{ data.name }}}">{{{ data.label }}}</label>
@@ -750,8 +752,11 @@ Label Three
 </script>
 
 <script id="tmpl-nf-edit-setting-button-toggle" type="text/template">
-
+    <#
+        if ( 'none' !== data.displayLabel ) {
+    #>
 	<span class="nf-setting-label">{{{ data.label }}}{{{ data.renderTooltip() }}}</span>
+    <# } #>
 	<div class="nf-setting button-toggle">
 		<#
 		_.each( data.options, function( option ) {
@@ -953,7 +958,7 @@ Label Three
 </script>
 
 <script id="tmpl-nf-edit-setting-html" type="text/template">
-    <div class="nf-note">
+    <div class="nf-note {{{ data.className }}}">
         {{{ data.value }}}
     </div>
 </script>

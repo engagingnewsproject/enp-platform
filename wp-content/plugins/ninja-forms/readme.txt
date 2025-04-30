@@ -2,10 +2,9 @@
 Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorhouse, jmcelhaney, wpnzach, ericwindhamsd
 Tags: forms, form builder, contact form, lead form, registration form
 
-
 Requires at least: 6.5
 Tested up to: 6.7
-Stable tag: 3.8.25
+Stable tag: 3.10.0
 
 Requires PHP: 7.4
 
@@ -312,11 +311,53 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.8.25 (27 January 2025) =
+= 3.10.0 (2 April 2025) =
+*Features*
+- Add a Google Analytics 4 Action.
+
 *Bug Fixes:*
-- ensure form id value is numeric in shortcodes; responsibly reported by Peter Thaleikis via Wordfence
+- Fix an error related to using calculations in payment gateway actions.
+- Fix an error related to File Uploads merge tags.
+- Required errors should no longer trigger on removed repeater sets.
 
 == Changelog ==
+= 3.10.0 (2 April 2025) =
+*Features*
+- Add a Google Analytics 4 Action.
+
+*Bug Fixes:*
+- Fix an error related to using calculations in payment gateway actions.
+- Fix an error related to File Uploads merge tags.
+- Required errors should no longer trigger on removed repeater sets.
+
+= 3.9.2 (12 March 2025) =
+*Bug Fixes:*
+- List fields can now be used for determining the payment total in payment collection actions.
+- Fixed PHP warnings when using PHP 8.
+- Fixed an issue with the Password confirm field.
+- Ensure that time field IDs are unique.
+- Fixed an issue with the opt-in email.
+
+= 3.9.1 (24 February 2025) =
+*Features:*
+- Allows repeatable fieldsets to be editable in the Submissions page.
+
+*Bug Fixes:*
+- Numbers over 10 billion no longer cause validation errors.
+
+*Other:*
+- Add add-on communication status logs to the System Status page.
+- Add additional data points for telemetry.
+- Build file updates.
+
+= 3.9.0 (10 February 2025) =
+*Features:*
+- New user onboarding
+- Add delete forms WP-CLI command
+
+*Other:*
+- JS library updates
+
 = 3.8.25 (27 January 2025) =
 *Bug Fixes:*
 - ensure form id value is numeric in shortcodes; responsibly reported by Peter Thaleikis via Wordfence

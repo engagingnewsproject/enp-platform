@@ -34,7 +34,7 @@
 		}
 	}
 	@include media($tablet) {
-		font-size: 14px;
+		font-size: $font-size-medium;
 		padding: 15px;
 		border-bottom: solid 0.5px #000;
 	}

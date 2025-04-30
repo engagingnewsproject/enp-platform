@@ -28,8 +28,11 @@
 								<br>
 							{% endif %}
 							<h2>{{ item.title }}</h2>
-							<img src="{{ get_image(item.image).src }}" />
-							<h4>{{ item.subtitle }}</h4>
+							<img src="{{ get_image(item.image).src('thumbnail') }}"
+							     srcset="{{ get_image(item.image).srcset }}"
+							     sizes="{{ get_image(item.image).img_sizes }}"
+							     alt="{{ item.title }}"
+							     loading="eager" />							<h4>{{ item.subtitle }}</h4>
 							<p>{{ item.content }}</p>
 							<p>
 								{% if item.plugin_button_1 != "" %}

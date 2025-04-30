@@ -2,22 +2,25 @@
 /*
 * Kicks off site loading and adds in all resources
 */
+
 namespace Engage\Managers;
 
-class Theme {
+class Theme
+{
 	protected $managers = [];
-	function __construct($managers) {
-		foreach($managers as $manager) {
+	function __construct($managers)
+	{
+		foreach ($managers as $manager) {
 			$manager->run();
 		}
-		
+
 		// add_theme_support( 'post-formats' );
-		add_theme_support( 'post-thumbnails' );
-		
-		add_theme_support( 'menus' );
-		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
+		add_theme_support('post-thumbnails');
+
+		add_theme_support('menus');
+		add_theme_support('html5', array('comment-list', 'comment-form', 'search-form', 'gallery', 'caption'));
 		// Add default posts and comments RSS feed links to head.
-		add_theme_support( 'automatic-feed-links' );
+		add_theme_support('automatic-feed-links');
 		add_action('acf/init', [$this, 'addOptionsPage']);
 		/*
 		* Let WordPress manage the document title.
@@ -25,28 +28,33 @@ class Theme {
 		* hard-coded <title> tag in the document head, and expect WordPress to
 		* provide it for us.
 		*/
-		add_theme_support( 'title-tag' );
-		add_filter( 'timber/context', [ $this, 'addToContext' ] );
+		add_theme_support('title-tag');
+		add_filter('timber/context', [$this, 'addToContext']);
 		add_filter('body_class', [$this, 'bodyClass']);
-		
+
 		// images
-		add_image_size('featured-post', 510, 310, true);
-		add_image_size('featured-image', 600, 0, false);
-		add_image_size('carousel-image', 1280, 720, true);
-		add_image_size('small', 100, 0, false);
+		add_image_size('featured-image', 600, 0, false); // Featured image
+		add_image_size('carousel-image', 1280, 720, true); // Homepage slider image
+		add_image_size('grid-large', 404, 240, true); // Tile grid image
+		// Others not used
+		// add_image_size('featured-post', 510, 310, true); // use 'medium' instead
+		// add_image_size('small', 100, 0, false); // not used
 		
+		add_filter('intermediate_image_sizes_advanced', [$this, 'disable_large_wp_image_sizes']);
+		add_filter('big_image_size_threshold', '__return_false');
+		add_filter('image_size_names_choose', [$this, 'remove_image_size_options']);
 		add_action('widgets_init', [$this, 'widgetsInit']);
-		
+
 		$this->cleanup();
-		
-		
+
+
 		// Only add styles and scripts on the site, not in the admin panel
-		if(!is_admin()) {
-			add_action( 'wp_enqueue_scripts', [$this, 'enqueueStyles'] );
-			add_action( 'wp_head', [$this, 'enqueueScripts'] );
+		if (!is_admin()) {
+			add_action('wp_enqueue_scripts', [$this, 'enqueueStyles']);
+			add_action('wp_head', [$this, 'enqueueScripts']);
 			add_action('wp_head', [$this, 'preloadFirstSliderImage']);
 			// for removing styles
-			add_action( 'wp_print_styles', [$this, 'dequeueStyles'], 100 );
+			add_action('wp_print_styles', [$this, 'dequeueStyles'], 100);
 			// TODO Preload critical main navigation images
 			add_action('wp_head', function () {
 				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar/brandbar-logo.webp" as="image" type="image/webp">';
@@ -56,7 +64,7 @@ class Theme {
 				echo '<link rel="preload" fetchpriority="high" href="' . get_template_directory_uri() . '/assets/img/dots.webp" as="image" type="image/webp" />';
 			});
 		} else {
-			add_action( 'admin_init', [$this, 'enqueueStylesEditor'] );
+			add_action('admin_init', [$this, 'enqueueStylesEditor']);
 			add_filter('manage_pages_columns', [$this, 'addTemplateColumn']);
 			add_action('manage_pages_custom_column', [$this, 'displayTemplateColumn'], 10, 2);
 			add_filter('manage_edit-page_sortable_columns', [$this, 'sortableTemplateColumn']);
@@ -64,9 +72,37 @@ class Theme {
 		
 	}
 	/**
-	* Register sidebars
-	*/
-	public function widgetsInit() {
+	 * Disables WordPress's redundant image sizes while maintaining high quality options
+	 * 
+	 * @param array $sizes Array of image sizes
+	 * @return array Modified array of image sizes
+	 */
+	public function disable_large_wp_image_sizes($sizes) {
+		// Keep 2048x2048 as source for high-quality displays
+		unset($sizes['1536x1536']); // Remove 1536px as 2048px covers high-res needs
+		unset($sizes['medium_large']); // Remove 768px as it's between medium and large
+		unset($sizes['large']); // Remove 1024px as 2048px will scale down nicely
+		unset($sizes['small']); // Remove small as it's not used
+		return $sizes;
+	}
+	/**
+	 * Removes redundant image sizes from the image size selection dropdown
+	 * while keeping high quality options available
+	 * 
+	 * @param array $sizes Array of image size options
+	 * @return array Modified array of image size options
+	 */
+	public function remove_image_size_options($sizes) {
+		unset($sizes['medium_large']);
+		unset($sizes['large']);
+		unset($sizes['1536x1536']);
+		return $sizes;
+	}
+	/**
+	 * Register sidebars
+	 */
+	public function widgetsInit()
+	{
 		register_sidebar([
 			'name'          => __('Primary', 'sage'),
 			'id'            => 'sidebar-primary',
@@ -75,7 +111,7 @@ class Theme {
 			'before_title'  => '<h3 class="widget__title">',
 			'after_title'   => '</h3>'
 		]);
-		
+
 		register_sidebar([
 			'name'          => __('Research Sidebar', 'sage'),
 			'id'            => 'sidebar-research',
@@ -84,7 +120,7 @@ class Theme {
 			'before_title'  => '<h3 class="widget__title">',
 			'after_title'   => '</h3>'
 		]);
-		
+
 		register_sidebar([
 			'name'          => __('Homepage Hero', 'sage'),
 			'id'            => 'sidebar-home',
@@ -93,7 +129,7 @@ class Theme {
 			'before_title'  => '<h3 class="widget__title">',
 			'after_title'   => '</h3>'
 		]);
-		
+
 		register_sidebar([
 			'name'          => __('Top Footer', 'sage'),
 			'id'            => 'top-footer',
@@ -102,7 +138,7 @@ class Theme {
 			'before_title'  => '<h3 class="widget__title">',
 			'after_title'   => '</h3>'
 		]);
-		
+
 		register_sidebar([
 			'name'          => __('Left Footer', 'sage'),
 			'id'            => 'left-footer',
@@ -111,7 +147,7 @@ class Theme {
 			'before_title'  => '<h3 class="widget__title">',
 			'after_title'   => '</h3>'
 		]);
-		
+
 		register_sidebar([
 			'name'          => __('Center Footer', 'sage'),
 			'id'            => 'center-footer',
@@ -120,7 +156,7 @@ class Theme {
 			'before_title'  => '<h3 class="widget__title">',
 			'after_title'   => '</h3>'
 		]);
-		
+
 		register_sidebar([
 			'name'          => __('Right Footer', 'sage'),
 			'id'            => 'right-footer',
@@ -129,7 +165,7 @@ class Theme {
 			'before_title'  => '<h3 class="widget__title">',
 			'after_title'   => '</h3>'
 		]);
-		
+
 		register_sidebar([
 			'name'          => 'Newsletter',
 			'id'            => 'newsletter',
@@ -138,7 +174,7 @@ class Theme {
 			'before_title'  => '<h4 class="widget__title">',
 			'after_title'   => '</h4>',
 		]);
-		
+
 		register_sidebar([
 			'name'          => __('MEI Sidebar', 'sage'),
 			'id'            => 'mei-sidebar',
@@ -148,28 +184,30 @@ class Theme {
 			'after_title'   => '</h3>'
 		]);
 	}
-	
+
 	/**
 	 * Add ACF Options Page
 	 */
-	public function addOptionsPage() {
+	public function addOptionsPage()
+	{
 		acf_add_options_page(array(
-				'page_title' => 'Site Options',
-				'menu_slug'  => 'site-options',
-				'position'   => '',
-				'redirect'   => false,
-				'menu_icon'  => array(
-						'type'  => 'dashicons',
-						'value' => 'dashicons-admin-generic',
-				),
-				'autoload'   => true,
-				'icon_url'   => 'dashicons-admin-generic',
+			'page_title' => 'Site Options',
+			'menu_slug'  => 'site-options',
+			'position'   => '',
+			'redirect'   => false,
+			'menu_icon'  => array(
+				'type'  => 'dashicons',
+				'value' => 'dashicons-admin-generic',
+			),
+			'autoload'   => true,
+			'icon_url'   => 'dashicons-admin-generic',
 		));
 	}
-	
-	public function preloadFirstSliderImage() {
+
+	public function preloadFirstSliderImage()
+	{
 		if (is_front_page()) {
-			$slider_posts = get_field('slider_posts', get_option('page_on_front')); 
+			$slider_posts = get_field('slider_posts', get_option('page_on_front'));
 			if (!empty($slider_posts) && is_array($slider_posts)) {
 				// Get the first post ID
 				$first_post_id = $slider_posts[0]; // First post ID
@@ -178,24 +216,25 @@ class Theme {
 				$thumbnail_url = get_the_post_thumbnail_url($first_post_id, 'carousel-image'); // Replace 'carousel-image' with your image size
 
 				if ($thumbnail_url) {
-						// Add the preload link
-						echo '<link rel="preload" as="image" href="' . esc_url($thumbnail_url) . '" />';
+					// Add the preload link
+					echo '<link rel="preload" as="image" href="' . esc_url($thumbnail_url) . '" />';
 				} else {
-						error_log('No featured image found for post ID: ' . $first_post_id);
+					error_log('No featured image found for post ID: ' . $first_post_id);
 				}
 			} else {
-					error_log('No posts found in the ACF relationship field.');
+				error_log('No posts found in the ACF relationship field.');
 			}
 		}
 	}
 
-	public function enqueueStyles() {
+	public function enqueueStyles()
+	{
 		if (!is_admin()) {
-        // Add preload for Google Fonts
-        add_action('wp_head', function() {
-					echo '<link rel="preload" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&display=swap" as="style" crossorigin="anonymous" onload="this.onload=null;this.rel=\'stylesheet\'">';
-					// Fallback for users with JavaScript disabled.
-					echo '<noscript><link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&display=swap" rel="stylesheet"></noscript>';
+			// Add preload for Google Fonts
+			add_action('wp_head', function () {
+				echo '<link rel="preload" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&display=swap" as="style" crossorigin="anonymous" onload="this.onload=null;this.rel=\'stylesheet\'">';
+				// Fallback for users with JavaScript disabled.
+				echo '<noscript><link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&display=swap" rel="stylesheet"></noscript>';
 			});
 			// wp_register_style('google_fonts', '//fonts.googleapis.com/css?family=Libre+Franklin:400,700|Anton:400', array(), null, 'all');
 			wp_register_style('google_fonts', '//fonts.googleapis.com/css2?family=Anton&family=Libre+Franklin:wght@400;700&display=swap', array(), null, 'all');
@@ -210,14 +249,15 @@ class Theme {
 			// 		'3.0.0'
 			// 	);
 			// }
-			wp_enqueue_style('engage_css', get_stylesheet_directory_uri().'/dist/css/app.css', false, null);
+			wp_enqueue_style('engage_css', get_stylesheet_directory_uri() . '/dist/css/app.css', false, null);
 		}
 	}
-	
-	public function enqueueStylesEditor() {
+
+	public function enqueueStylesEditor()
+	{
 		if (is_admin()) {
 			add_editor_style('/dist/css/editor-style.css');
-			
+
 			// Style for admin pages
 			wp_enqueue_style(
 				'engage-admin-style',
@@ -227,8 +267,9 @@ class Theme {
 			);
 		}
 	}
-	
-	public function dequeueStyles() {
+
+	public function dequeueStyles()
+	{
 		// remove styles
 		if (!is_admin()) {
 			wp_dequeue_style('wptt_front');
@@ -243,39 +284,41 @@ class Theme {
 			wp_deregister_style('classic-theme-styles');
 		}
 	}
-	
-	public function enqueueScripts() {
-		$footer_defer = array( 
+
+	public function enqueueScripts()
+	{
+		$footer_defer = array(
 			'in_footer' => true,
 			'strategy'  => 'defer',
 		);
-		
+
 		if (is_single() && comments_open() && get_option('thread_comments')) {
 			wp_enqueue_script('comment-reply');
 		}
-		
+
 		// We could only enqueue this for homepage, chart, and quiz pages if we'd like
 		wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
-		
-		if(is_front_page()) {
-			wp_enqueue_script('homepage/js', get_stylesheet_directory_uri().'/dist/js/homepage.js', ['jquery'], false, false);
+
+		if (is_front_page()) {
+			wp_enqueue_script('homepage/js', get_stylesheet_directory_uri() . '/dist/js/homepage.js', ['jquery'], false, false);
 		}
-		
-		if(is_singular('research')) {
+
+		if (is_singular('research')) {
 			wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
-			wp_enqueue_script('Chart/js', get_stylesheet_directory_uri().'/dist/js/Chart.bundle.min.js', ['jquery'], false, false);
+			wp_enqueue_script('Chart/js', get_stylesheet_directory_uri() . '/dist/js/Chart.bundle.min.js', ['jquery'], false, false);
 		}
 
 		wp_enqueue_script(
-			'engage/js', 
-			get_stylesheet_directory_uri().'/dist/js/app.js', 
-			[], 
-			false, 
+			'engage/js',
+			get_stylesheet_directory_uri() . '/dist/js/app.js',
+			[],
+			false,
 			$footer_defer
 		);
 	}
-	
-	public function addToContext( $context ) {
+
+	public function addToContext($context)
+	{
 		// $context['stuff'] = 'I am a value set in your functions.php file';
 		// $context['notes'] = 'These values are available everytime you call Timber::context();';
 		$context['mainMenu'] = \Timber::get_menu('main-menu');
@@ -294,45 +337,27 @@ class Theme {
 		$context['options'] = get_fields('option');
 		return $context;
 	}
-	
-	public function bodyClass($classes) {
-		$vertical = get_query_var('verticals');
-		if($vertical) {
-			$vertical = get_term_by('slug', $vertical, 'verticals');
-		} elseif(is_singular()) {
-			$verticals = get_the_terms(get_the_ID(), 'verticals');
-			if($verticals) {
-				$vertical = $verticals[0];
-			}
-		} elseif(is_tax('verticals')) {
-			$vertical = get_queried_object();
-		}
-		
-		if($vertical) {
-			$classes[] = 'vertical--'.$vertical->slug;
-		}
-		
-		
-		// if we're on a vertical base page (/vertical/{{verticalTerm}})
-		if(get_query_var('vertical_base')) {
-			$classes[] = 'vertical-base';
-		}
-		
+
+	public function bodyClass($classes)
+	{
+		// No vertical-specific body classes needed anymore.
 		return $classes;
 	}
 
 	// Add the 'Template' column to the Pages list
-	public function addTemplateColumn($columns) {
+	public function addTemplateColumn($columns)
+	{
 		$columns['template'] = __('Template');
 		return $columns;
 	}
 
 	// Display the page template name in the 'Template' column
-	public function displayTemplateColumn($column, $post_id) {
+	public function displayTemplateColumn($column, $post_id)
+	{
 		if ($column === 'template') {
 			$template = get_page_template_slug($post_id); // Get the page template slug
 			if (!$template) {
-					echo __('Default Template'); // If no template is set
+				echo __('Default Template'); // If no template is set
 			} else {
 				// Fetch all available templates
 				$templates = wp_get_theme()->get_page_templates();
@@ -347,12 +372,14 @@ class Theme {
 	}
 
 	// Make the 'Template' column sortable
-	public function sortableTemplateColumn($columns) {
+	public function sortableTemplateColumn($columns)
+	{
 		$columns['template'] = 'template';
 		return $columns;
 	}
-	
-	public function cleanup() {
+
+	public function cleanup()
+	{
 		remove_action('template_redirect', 'rest_output_link_header', 11, 0);
 		remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10);
 		remove_action('wp_head', 'feed_links', 2);

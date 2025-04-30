@@ -161,7 +161,7 @@
             "name": "short_content",
             "aria-label": "",
             "type": "textarea",
-            "instructions": "Same as the post excerpt.",
+            "instructions": "<b>NOT USED IN TEMPLATES - DELETE?<\/b><br>\r\nSame as the post excerpt.",
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
@@ -171,6 +171,7 @@
             },
             "default_value": "",
             "maxlength": "",
+            "allow_in_bindings": 1,
             "rows": "",
             "placeholder": "",
             "new_lines": "br"
@@ -181,7 +182,7 @@
             "name": "research_resources",
             "aria-label": "",
             "type": "textarea",
-            "instructions": "List links to be included in research resources in the following format: [link name] | [full URL] (e.g. Presentation | http:\/\/cmengage.staging.wpengine.com\/link-to-presentation.ppt ) with each on it's own line.",
+            "instructions": "<b>NOT USED IN TEMPLATES - DELETE?<\/b>\r\n\r\nList links to be included in research resources in the following format: [link name] | [full URL] (e.g. Presentation | http:\/\/cmengage.staging.wpengine.com\/link-to-presentation.ppt ) with each on it's own line.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -190,9 +191,10 @@
                 "id": ""
             },
             "default_value": "",
-            "placeholder": "",
             "maxlength": "",
+            "allow_in_bindings": 1,
             "rows": "",
+            "placeholder": "",
             "new_lines": ""
         },
         {
@@ -201,7 +203,7 @@
             "name": "language",
             "aria-label": "",
             "type": "radio",
-            "instructions": "",
+            "instructions": "<b>NOT USED IN TEMPLATES - DELETE?<\/b>",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -217,6 +219,7 @@
             "return_format": "value",
             "allow_null": 0,
             "other_choice": 0,
+            "allow_in_bindings": 1,
             "layout": "vertical",
             "save_other_choice": 0
         }
@@ -252,5 +255,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1737065745
+    "modified": 1745992374
 }

@@ -10,7 +10,6 @@
 //## Gray and brand colors
 
 $black: #111;
-$black-grey: #333f48;
 $gray-darker: #333;
 $gray-dark: #5e6873;
 $gray: #888;
@@ -44,7 +43,7 @@ $green-faded: color.adjust($green, $lightness: 50%);
 $green-light-faded: color.adjust($green-light, $lightness: 50%);
 $orange-faded: color.adjust($orange, $lightness: 57%);
 $orange-stripe: darken(#fff0e3, 1%);
-$tile-shadow: 0 -1px 1px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.1);
+$tile-shadow: 1px 2px 3px $teal-faded, 0 1px 1px rgba(0, 0, 0, 0.08);
 $dropdown-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 $mobile-menu-shadow: 0px 11px 12px rgb(0, 0, 0, 0.18);
 $green-gradient: linear-gradient(
@@ -53,7 +52,7 @@ $green-gradient: linear-gradient(
   #e3ffcb
 ); //linear-gradient(10deg,#c8dc99,#f0ffdd); //linear-gradient(15deg,#d1f5f0,#dcffde) !default;
 
-$verticals: (
+$categories: (
   journalism: "journalism",
   science-communication: "science-communication",
   media-ethics: "media-ethics",
@@ -82,7 +81,7 @@ $science-communication-color-faded: $teal-xfaded;
 $media-ethics-color-faded: $teal-xfaded;
 $social-platforms-color-faded: $teal-xfaded;
 
-$verticalColors: (
+$categoryColors: (
   journalism: $orange,
   journalism-faded: $journalism-color-faded,
   journalism-light: $journalism-color-light,
@@ -97,10 +96,7 @@ $verticalColors: (
   social-platforms-faded: $social-platforms-color-faded,
   propaganda: $orange,
   propaganda-faded: $teal-xfaded,
-  center-leadership: $orange
-);
-
-$categoryColors: (
+  center-leadership: $orange,
   collaborators: $teal,
   administrative-and-technology: $teal
 );
@@ -140,9 +136,10 @@ $font-size-h4: ceil(($font-size-base * 1)) !default; // ~18px
 $font-size-h5: $font-size-base !default;
 $font-size-h6: ceil(($font-size-base * 0.85)) !default; // ~12px
 
+$font-size-small: 12px;
+$font-size-medium: 14px;
 $font-size-large: ceil(($font-size-base * 1.25)) !default; // ~18px
 $font-size-xlarge: ceil(($font-size-base * 3.25)) !default; // ~18px
-$font-size-small: 12px; // ~12px
 
 //== Media queries breakpoints
 $mobile: 400px;

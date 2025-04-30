@@ -16,6 +16,11 @@ function jetpack_get_module_i18n( $key ) {
 	static $modules;
 	if ( ! isset( $modules ) ) {
 		$modules = array(
+			'account-protection' => array(
+				'name' => _x( 'Account protection', 'Module Name', 'jetpack' ),
+				'description' => _x( 'When enabled, users can only set passwords that meet strong security standards, helping protect their accounts and your site.', 'Module Description', 'jetpack' ),
+			),
+
 			'blaze' => array(
 				'name' => _x( 'Blaze', 'Module Name', 'jetpack' ),
 				'description' => _x( 'Grow your audience by promoting your content across Tumblr and WordPress.com.', 'Module Description', 'jetpack' ),
@@ -42,8 +47,8 @@ function jetpack_get_module_i18n( $key ) {
 			),
 
 			'contact-form' => array(
-				'name' => _x( 'Contact Form', 'Module Name', 'jetpack' ),
-				'description' => _x( 'Add a customizable contact form to any post or page using the Jetpack Form Block.', 'Module Description', 'jetpack' ),
+				'name' => _x( 'Forms', 'Module Name', 'jetpack' ),
+				'description' => _x( 'Add a customizable form to any post or page using the Jetpack Form block.', 'Module Description', 'jetpack' ),
 			),
 
 			'copy-post' => array(
@@ -54,6 +59,11 @@ function jetpack_get_module_i18n( $key ) {
 			'custom-content-types' => array(
 				'name' => _x( 'Custom content types', 'Module Name', 'jetpack' ),
 				'description' => _x( 'Display different types of content on your site with custom content types.', 'Module Description', 'jetpack' ),
+			),
+
+			'geo-location' => array(
+				'name' => _x( 'Geo Location', 'Module Name', 'jetpack' ),
+				'description' => _x( 'Add location data to your posts.', 'Module Description', 'jetpack' ),
 			),
 
 			'google-fonts' => array(
@@ -203,7 +213,7 @@ function jetpack_get_module_i18n( $key ) {
 
 			'waf' => array(
 				'name' => _x( 'Firewall', 'Module Name', 'jetpack' ),
-				'description' => _x( 'Protect your site with Jetpack\'s Web Application Firewall', 'Module Description', 'jetpack' ),
+				'description' => _x( 'Protect your site with Jetpack\'s Web Application Firewall.', 'Module Description', 'jetpack' ),
 			),
 
 			'widget-visibility' => array(
@@ -246,6 +256,10 @@ function jetpack_get_module_i18n_tag( $key ) {
 			// - modules/notes.php
 			// - modules/woocommerce-analytics.php
 			'Other' => _x( 'Other', 'Module Tag', 'jetpack' ),
+
+			// Modules with `Account Protection` tag:
+			// - modules/account-protection.php
+			'Account Protection' => _x( 'Account Protection', 'Module Tag', 'jetpack' ),
 
 			// Modules with `Traffic` tag:
 			// - modules/blaze.php
@@ -359,6 +373,24 @@ function jetpack_get_module_i18n_tag( $key ) {
  */
 function jetpack_get_module_info( $key ) {
 	static $module_info = array (
+	  'account-protection' => 
+	  array (
+	    'name' => 'Account protection',
+	    'description' => 'When enabled, users can only set passwords that meet strong security standards, helping protect their accounts and your site.',
+	    'sort' => '4',
+	    'recommendation_order' => '',
+	    'introduced' => '14.5',
+	    'changed' => '',
+	    'deactivate' => '',
+	    'free' => '',
+	    'requires_connection' => 'Yes',
+	    'requires_user_connection' => 'No',
+	    'auto_activate' => 'Yes',
+	    'module_tags' => 'Account Protection',
+	    'feature' => 'Security',
+	    'additional_search_queries' => '',
+	    'plan_classes' => '',
+	  ),
 	  'blaze' => 
 	  array (
 	    'name' => 'Blaze',
@@ -451,8 +483,8 @@ function jetpack_get_module_info( $key ) {
 	  ),
 	  'contact-form' => 
 	  array (
-	    'name' => 'Contact Form',
-	    'description' => 'Add a customizable contact form to any post or page using the Jetpack Form Block.',
+	    'name' => 'Forms',
+	    'description' => 'Add a customizable form to any post or page using the Jetpack Form block.',
 	    'sort' => '15',
 	    'recommendation_order' => '14',
 	    'introduced' => '1.3',
@@ -501,6 +533,24 @@ function jetpack_get_module_info( $key ) {
 	    'module_tags' => 'Writing',
 	    'feature' => 'Writing',
 	    'additional_search_queries' => 'cpt, custom post types, portfolio, portfolios, testimonial, testimonials',
+	    'plan_classes' => '',
+	  ),
+	  'geo-location' => 
+	  array (
+	    'name' => 'Geo Location',
+	    'description' => 'Add location data to your posts.',
+	    'sort' => '',
+	    'recommendation_order' => '',
+	    'introduced' => '',
+	    'changed' => '',
+	    'deactivate' => '',
+	    'free' => '',
+	    'requires_connection' => '',
+	    'requires_user_connection' => '',
+	    'auto_activate' => '',
+	    'module_tags' => '',
+	    'feature' => '',
+	    'additional_search_queries' => '',
 	    'plan_classes' => '',
 	  ),
 	  'google-fonts' => 
@@ -1028,7 +1078,7 @@ function jetpack_get_module_info( $key ) {
 	  'waf' => 
 	  array (
 	    'name' => 'Firewall',
-	    'description' => 'Protect your site with Jetpack\'s Web Application Firewall',
+	    'description' => 'Protect your site with Jetpack\'s Web Application Firewall.',
 	    'sort' => '5',
 	    'recommendation_order' => '',
 	    'introduced' => '10.9',
@@ -1153,12 +1203,11 @@ function jetpack_get_all_module_header_names() {
  */
 function jetpack_has_no_module_info( $slug ) {
 	$no_info_slugs = array (
-	  0 => 'geo-location',
-	  1 => 'masterbar',
-	  2 => 'module-extras',
-	  3 => 'module-info',
-	  4 => 'plugin-search',
-	  5 => 'theme-tools',
+	  0 => 'masterbar',
+	  1 => 'module-extras',
+	  2 => 'module-info',
+	  3 => 'plugin-search',
+	  4 => 'theme-tools',
 	);
 
 	return in_array( $slug, $no_info_slugs, true );

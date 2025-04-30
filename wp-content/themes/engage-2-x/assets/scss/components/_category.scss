@@ -1,0 +1,96 @@
+// generates color classes for all categories
+@each $name, $value in $categories {
+	$color: map-get($categoryColors, $name);
+	@if $color == null {
+		$color: $orange; // Fallback to orange if no specific color is defined
+	}
+
+	.category-color--#{$name} {
+		color: $color;
+	}
+
+	body.category--#{$name} {
+		// any archive such as /category/ page
+		&.category-base {
+			.filter__link:hover {
+				// color: $color;
+				// border-color: $color;
+			}
+
+			.filter__link--current {
+				color: $color;
+			}
+
+			.filter__item--current-parent {
+				border-color: $color;
+			}
+
+			.filter__link--parent {
+				color: $color;
+			}
+		}
+	}
+
+	.btn--#{$name} {
+		background-color: $color;
+
+		&:hover,
+		&:focus {
+			background-color: darken($color, 10%);
+		}
+
+		&:active {
+			background-color: lighten($color, 5%);
+		}
+
+		&.btn--ghost {
+			// border-color: $color;
+			// color: $color;
+			// fill: $color;
+
+			&:hover,
+			&:focus {
+				border-color: darken($color, 10%);
+			}
+		}
+	}
+
+	.filter__item--categories--#{$name} {
+		&.filter__item--current-parent {
+			border-color: $color;
+		}
+
+		.filter__link--current {
+			color: $color;
+		}
+
+		.filter__link--parent {
+			color: $color;
+		}
+
+		.filter__link {
+			&:hover {
+				color: $color;
+				border-color: $color;
+			}
+		}
+	}
+
+	.tile--category--#{$name} {
+		&.tile--intro {
+			border-color: $color;
+
+			@include media($phablet) {
+				grid-column-end: span 12;
+			}
+		}
+
+		.tile__title--intro {
+			color: $color;
+		}
+
+		.tile__label {
+			color: $color;
+		}
+	}
+}

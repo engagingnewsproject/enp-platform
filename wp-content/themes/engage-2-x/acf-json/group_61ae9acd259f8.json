@@ -4701,25 +4701,6 @@
                             "selected": 0
                         },
                         {
-                            "key": "field_67182a0eb1799",
-                            "label": "Circle text color",
-                            "name": "circle_text_color",
-                            "aria-label": "",
-                            "type": "color_picker",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "default_value": "#3c4952",
-                            "enable_opacity": 0,
-                            "return_format": "string",
-                            "allow_in_bindings": 0
-                        },
-                        {
                             "key": "field_67236284829b7",
                             "label": "Background color",
                             "name": "background_color",
@@ -5416,5 +5397,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1737065747
+    "modified": 1745984315
 }

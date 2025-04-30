@@ -64,44 +64,6 @@ class Queries {
 		}
 	}
 	
-	/**
-	* Get a featured post from a specific post and vertical
-	* @param $vertical STRING
-	* @param $postType = 'research' or 'blogs'. They both use the same info so we're reusing this function
-	*/
-	public function getFeaturedResearchByVertical($vertical, $postType = 'research') {
-		$class = 'Engage\Models\ResearchArticle';
-		$posts = $this->getPostByVertical($postType, $vertical, $this->getFeaturedResearchMetaQuery(), $class);
-		
-		if(empty($posts)) {
-			// run the query again, but without the featured research
-			$posts =$this->getPostByVertical($postType, $vertical, [], $class);
-		}
-		// if it's not empty, return the first post
-		return ( empty($posts) ? $posts[0] : false);
-	}
-	
-	/**
-	* Uses getFeaturedResearchByVertical()
-	*
-	*/
-	public function getFeaturedBlogByVertical($vertical) {
-		return $this->getFeaturedResearcByVertical($vertical, 'blogs');
-	}
-	
-	
-	public function getPostByVertical($postType, $vertical, $extraQuery = [], $class = 'Engage\Models\Article') {
-		$query = array_merge([
-			'post_type'     => $postType,
-			'posts_per_page'  => 1
-		], $this->getVerticalTaxQuery($vertical));
-		
-		$query = array_merge($query, $extraQuery);
-		
-		
-		return Timber::get_posts($query, $class);
-	}
-	
 	public function getFeaturedResearchMetaQuery() {
 		return ['meta_query' => [
 			[
@@ -111,63 +73,16 @@ class Queries {
 				]
 				]
 			];
-		}
-		
-		public function getVerticalTaxQuery($vertical) {
-			return ['tax_query'     => [
-				[
-					'taxonomy' => 'verticals',
-					'field'    => 'slug',
-					'terms'    => $vertical
-					]
-					]
-				];
-			}
-			
-			public function getVerticals() {
-				return \Timber::get_terms([
-					'taxonomy' => 'verticals',
-					'hide_empty' => true,
-				]);
-			}
-			
-			public function getRecentPosts($options = []) {
-				
-				$defaults = [
-					'postType' 		=> 'any',
-					'postsPerPage' 	=> 10,
-					'vertical' 		=> false,
-					'class' 		=> 'Engage\Models\Article',
-					'extraQuery' 	=> [],
-					'post__not_in' => []
-				];
-				$options = array_merge($defaults, $options);
-				$query = array_merge([
-					'post_type'     => $options['postType'],
-					'posts_per_page'  => $options['postsPerPage'],
-					'post__not_in' => $options['post__not_in']
-				], $options['extraQuery']);
-				
-				if($options['vertical'] !== false) {
-					// var_dump( 'vertical false' );
-					$query = array_merge($query, $this->getVerticalTaxQuery($options['vertical']));
-				}
-				// var_dump( $query );
-				$posts = Timber::get_posts($query);
-				return $posts;
-			}
-			
-			public function getUpcomingEvents($options = []) {
-				$defaults = [
-					'postType'		=> 'tribe_events',
-					'postsPerPage' 	=> 10,
-					'vertical' 		=> false,
-					'class' 		=> 'Engage\Models\Event',
-					'extraQuery' 	=> []
-				];
-				$options = array_merge($defaults, $options);
-				
-				return $this->getRecentPosts($options);
-			}
-		}
-		
+	}
+	
+	public function getResearchCategories() {
+		return \Timber::get_terms([
+			'taxonomy' => 'research-categories',
+			'hide_empty' => true,
+		]);
+	}
+	
+	public function getRecentPosts($args) {
+		return \Timber::get_posts($args);
+	}
+}

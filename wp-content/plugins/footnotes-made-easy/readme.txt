@@ -5,7 +5,7 @@ Donate link: https://divibanks.io/sponsor/
 Requires at least: 4.6
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 3.0.5
+Stable tag: 3.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,8 @@ Footnotes Made Easy is a simple, but powerful, method of adding footnotes to you
 **Please visit the [Github page](https://github.com/divibanks/footnotes-made-easy/ "Github") for the latest code development, planned enhancements and known issues**.
 
 == Getting Started ==
+
+[youtube https://www.youtube.com/watch?v=LuXMb8Hz4tc]
 
 Creating a footnote is incredibly simple - you just need to include your footnote in double parentheses, such as this...
 
@@ -110,15 +112,11 @@ Yes, the plugin provides options to disable footnotes on the home page, archives
 
 I use semantic versioning, with the first release being 1.0.
 
-= 3.0.5 [November 2, 2024] =
-* Maintenance: WordPress 6.7 Compatibility test passed.
-* Maintenance: PHP 8.2 Compatibility test passed.
-* Links on the options page updated.
+= 3.0.6 [February 2, 2025] =
+* Fix: PHP 8.2 Compatibility issue.
 
 
 == Upgrade Notice ==
 
-= 3.0.5 =
-* Maintenance: WordPress 6.7 Compatibility test passed.
-* Maintenance: PHP 8.2 Compatibility test passed.
-* Links on the options page updated.
+= 3.0.6 =
+* Fix: PHP 8.2 Compatibility issue.

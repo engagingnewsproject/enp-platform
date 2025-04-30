@@ -1,3 +1,10 @@
+/**
+ * Handles the main navigation functionality including:
+ * - Mobile menu toggle
+ * - Dropdown menus
+ * - Click outside to close
+ */
+
 let navbarToggler = document.querySelector(".navbar-toggler");
 let navbarDropdown = document.querySelector("#navbarNavDropdown");
 let navbarDropdownExpanded = navbarDropdown.getAttribute("aria-expanded");
@@ -17,8 +24,12 @@ navbarToggler.addEventListener("click", function () {
   navbarDropdown.setAttribute("aria-expanded", navbarDropdownExpanded);
 });
 
-// Dropdown toggle
-
+/**
+ * Helper function to add event listeners to multiple elements
+ * @param {string} className - CSS class to target
+ * @param {string} event - Event type to listen for
+ * @param {Function} fn - Callback function
+ */
 function getTogglerId(className, event, fn) {
   let list = document.querySelectorAll(className);
   for (let i = 0, len = list.length; i < len; i++) {
@@ -31,6 +42,9 @@ getTogglerId(".dropdown-toggle", "click", toggleDropdown);
 let dropdownMenus = document.querySelectorAll(".dropdown-menu");
 let dropdownTogglers = document.querySelectorAll(".dropdown-toggle");
 
+/**
+ * Closes all open dropdown menus
+ */
 function closeMenus() {
   for (let j = 0; j < dropdownMenus.length; j++) {
     dropdownMenus[j].classList.remove("show");
@@ -41,6 +55,10 @@ function closeMenus() {
   }
 }
 
+/**
+ * Toggles dropdown menu visibility
+ * @param {Event} e - Click event
+ */
 function toggleDropdown(e) {
   let isOpen = this.classList.contains("show");
 
@@ -80,6 +98,9 @@ document.addEventListener("click", function(event) {
   }
 });
 
+/**
+ * Closes the mobile menu and resets its state
+ */
 function closeMobileMenu() {
   navbarDropdown.classList.remove("show");
   navbarToggler.classList.remove("is-open");

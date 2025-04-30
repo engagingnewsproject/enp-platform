@@ -10,8 +10,8 @@
 		// /vertical/{{vertical}} page
 		&.vertical-base {
 			.filter__link:hover {
-				color: map-get($verticalColors, $name);
-				border-color: map-get($verticalColors, $name);
+				// color: map-get($verticalColors, $name);
+				// border-color: map-get($verticalColors, $name);
 			}
 
 			.filter__link--current {
@@ -41,9 +41,9 @@
 		}
 
 		&.btn--ghost {
-			border-color: map-get($verticalColors, $name);
-			color: map-get($verticalColors, $name);
-			fill:  map-get($verticalColors, $name);
+			// border-color: map-get($verticalColors, $name);
+			// color: map-get($verticalColors, $name);
+			// fill:  map-get($verticalColors, $name);
 
 			&:hover,
 			&:focus {
@@ -51,7 +51,7 @@
 			}
 
 			&:active {
-				border-color: lighten(map-get($verticalColors, $name), 5%);
+				// border-color: lighten(map-get($verticalColors, $name), 5%);
 			}
 		}
 	}

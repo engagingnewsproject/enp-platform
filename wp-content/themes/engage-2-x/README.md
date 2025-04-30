@@ -32,15 +32,15 @@ Then,
 
 In **functions.php**, we call `new StarterSite();`. The `StarterSite` class sits in the **src** folder. You can update this class to add functionality to your theme. This approach is just one example for how you could do it.
 
-The **src** folder would be the right place to put your classes that [extend Timber’s functionality](https://timber.github.io/docs/v2/guides/extending-timber/).
+The **src** folder would be the right place to put your classes that [extend Timber's functionality](https://timber.github.io/docs/v2/guides/extending-timber/).
 
-Small tip: You can make use of Composer’s [autoloading functionality](https://getcomposer.org/doc/04-schema.md#psr-4) to automatically load your PHP classes when they are requested instead of requiring one by one in **functions.php**.
+Small tip: You can make use of Composer's [autoloading functionality](https://getcomposer.org/doc/04-schema.md#psr-4) to automatically load your PHP classes when they are requested instead of requiring one by one in **functions.php**.
 
 ## What else is there?
 
 - `static/` is where you can keep your static front-end scripts, styles, or images. In other words, your Sass files, JS files, fonts, and SVGs would live here.
-- `views/` contains all of your Twig templates. These pretty much correspond 1 to 1 with the PHP files that respond to the WordPress template hierarchy. At the end of each PHP template, you’ll notice a `Timber::render()` function whose first parameter is the Twig file where that data (or `$context`) will be used. Just an FYI.
-- `tests/` ... basically don’t worry about (or remove) this unless you know what it is and want to.
+- `views/` contains all of your Twig templates. These pretty much correspond 1 to 1 with the PHP files that respond to the WordPress template hierarchy. At the end of each PHP template, you'll notice a `Timber::render()` function whose first parameter is the Twig file where that data (or `$context`) will be used. Just an FYI.
+- `tests/` ... basically don't worry about (or remove) this unless you know what it is and want to.
 
 ## Other Resources
 
@@ -54,7 +54,7 @@ Small tip: You can make use of Composer’s [autoloading functionality](https://
 1. Add the post type and taxonomy as one file under /Managers/Structures/PostTypes
 2. Add the rewrites for the new post type following the format under /Managers/Permalinks
 3. Add the rewrites for the vertical under /Managers/Permalinks/addVerticalRewrites()
-4. Add the taxonomy slug to the $taxRewriteMap in /Models/Permalinks
+4. Add the taxonomy slug to the $taxRewriteMap in /Models/URLConstructor
 5. Register the Post Type to the Vertical Taxonomy under /Managers/Taxonomies/Taxonomies
 6. Update Permalinks
 7. Register a new filter menu for the item in Globals.php following the format for the other post types
@@ -64,9 +64,101 @@ Small tip: You can make use of Composer’s [autoloading functionality](https://
 
 
 ## Notes on Post Type Archive Queries
-Basically the whole site archive structure is powered by queries set in `src/Managers/Permalinks.php`. We've overridden the default queries so we can set our own queries with the verticals added in. There may be a better way to do this, but this way at least gets us a very specific way of modifying the query based on a pretty URL.
 
-To adjust a query, you'll need to add/modify the query in `src/Managers/Permalinks.php` and then re-save the permalinks in Settings->Permalinks.
+The site's archive structure is powered by queries set in `src/Managers/Permalinks.php`. We use a standardized URL structure across all post types:
+
+1. Base Archive: `/{post-type}/`
+2. Category Archives: `/{post-type}/category/{category-slug}/`
+3. Single Posts: `/{post-type}/{post-slug}/`
+
+Special cases include:
+- Media Ethics (Research): `/research/category/media-ethics/{subcategory}/`
+- Research Tags: `/research/tag/{tag-slug}/`
+- Vertical-based URLs: `/vertical/{vertical-slug}/{post-type}/`
+
+To adjust a query:
+1. Modify the appropriate section in `src/Managers/Permalinks.php`
+2. Update URL construction in `src/Models/URLConstructor.php` if needed
+3. Re-save permalinks in WordPress Admin → Settings → Permalinks
+
+The standardized URL structure helps distinguish between category archives and single posts while maintaining clean, SEO-friendly URLs.
+
+## ⚠️ Important: Custom Taxonomy URL Structures
+
+When creating custom taxonomies with URLs that include "category" (e.g., `/post-type/category/term/`), be aware of these critical points:
+
+### Common Gotcha: WordPress Default Category Handling
+- WordPress has special handling for URLs containing "category" due to its built-in category taxonomy
+- If not configured correctly, WordPress may interpret `/post-type/category/term/` as a query for the default category taxonomy instead of your custom taxonomy
+
+### How to Avoid URL Conflicts
+1. **Taxonomy Registration**:
+   ```php
+   'rewrite' => array(
+       'slug'         => 'post-type/category',
+       'with_front'   => false,
+       'hierarchical' => true
+   ),
+   'query_var' => 'your-custom-taxonomy-name'
+   ```
+
+2. **Rewrite Rules**:
+   - Ensure your custom taxonomy has specific rewrite rules
+   - Remove the post type from generic category handling in `getPostTypeCategoryRewrites()`
+   - Example:
+     ```php
+     // Correct:
+     'post-type/category/([^/]+)/?$' => 'index.php?post_type=your-post-type&your-custom-taxonomy=$matches[1]'
+     
+     // Avoid competing rules using category_name:
+     'post-type/category/([^/]+)/?$' => 'index.php?post_type=your-post-type&category_name=$matches[1]'
+     ```
+
+3. **After Changes**:
+   - Always flush permalinks (Settings → Permalinks → Save Changes)
+   - Clear any caching plugins
+   - Test the URLs thoroughly
+
+### Debugging Taxonomy Routes
+If you're experiencing 404 errors with custom taxonomies, add this debugging code to `functions.php`:
+```php
+// Debug logging for queries
+add_action('parse_request', function ($wp) {
+    error_log('Current Query: ' . print_r($wp->query_vars, true));
+});
+```
+
+This will log all query variables to `wp-content/debug.log`, helping you identify if WordPress is:
+- Using the wrong taxonomy (e.g., `category_name` instead of your custom taxonomy)
+- Not recognizing the URL pattern
+- Missing expected query variables
+
+Example debug log output for incorrect routing:
+```
+[Date Time] Current Query: Array
+(
+    [category_name] => general
+    [post_type] => announcement
+)
+```
+
+Example debug log output for correct routing:
+```
+[Date Time] Current Query: Array
+(
+    [announcement-category] => general
+    [post_type] => announcement
+)
+```
+
+### Real Example
+The announcement post type uses:
+- Custom taxonomy: `announcement-category`
+- URL structure: `/announcement/category/{term}/`
+- Proper rewrite rules in `Permalinks.php`
+- Excluded from generic category handling
+
+This ensures WordPress correctly routes requests to the custom taxonomy instead of the default category taxonomy.
 
 # Deployment Summary
 

@@ -7,7 +7,7 @@
 
 namespace Automattic\Jetpack\Publicize;
 
-use Automattic\Jetpack\Publicize\REST_API\Connections_Controller;
+use Automattic\Jetpack\Current_Plan;
 use Automattic\Jetpack\Status\Host;
 
 /**
@@ -40,7 +40,12 @@ class Publicize_Setup {
 		Publicize_Assets::configure();
 
 		$rest_controllers = array(
-			Connections_Controller::class,
+			REST_API\Connections_Controller::class,
+			REST_API\Scheduled_Actions_Controller::class,
+			REST_API\Services_Controller::class,
+			REST_API\Shares_Data_Controller::class,
+			REST_API\Share_Post_Controller::class,
+			REST_API\Social_Image_Generator_Controller::class,
 		);
 
 		// Load the REST controllers.
@@ -50,6 +55,13 @@ class Publicize_Setup {
 			} else {
 				new $controller();
 			}
+		}
+
+		Social_Admin_Page::init();
+
+		// We need this only on Jetpack sites for Google Site auto-verification.
+		if ( ! ( new Host() )->is_wpcom_simple() ) {
+			add_action( 'init', array( Keyring_Helper::class, 'init' ), 9 );
 		}
 	}
 
@@ -66,12 +78,21 @@ class Publicize_Setup {
 
 		// Adding on a higher priority to make sure we're the first field registered.
 		// The priority parameter can be removed once we deprecate WPCOM_REST_API_V2_Post_Publicize_Connections_Field
-		add_action( 'rest_api_init', array( new Connections_Post_Field(), 'register_fields' ), 5 );
+		add_action( 'rest_api_init', array( new REST_API\Connections_Post_Field(), 'register_fields' ), 5 );
 		add_action( 'rest_api_init', array( new REST_Controller(), 'register_rest_routes' ) );
 		add_action( 'current_screen', array( static::class, 'init_sharing_limits' ) );
 
 		add_action( 'rest_api_init', array( static::class, 'register_core_options' ) );
 		add_action( 'admin_init', array( static::class, 'register_core_options' ) );
+		add_action( 'current_screen', array( self::class, 'add_filters_and_actions_for_screen' ), 5 );
+
+		if ( ( new Host() )->is_wpcom_simple() ) {
+
+			wpcom_rest_api_v2_load_plugin( Jetpack_Social_Settings\Settings::class );
+		} else {
+			// Load the settings page.
+			new Jetpack_Social_Settings\Settings();
+		}
 
 		( new Social_Image_Generator\Setup() )->init();
 	}
@@ -80,8 +101,22 @@ class Publicize_Setup {
 	 * Registers the core options for the Publicize package.
 	 */
 	public static function register_core_options() {
-		( new Jetpack_Social_Settings\Settings() )->register_settings();
 		( new Jetpack_Social_Settings\Dismissed_Notices() )->register();
+	}
+
+	/**
+	 * If the current_screen has 'edit' as the base, add filter to change the post list tables.
+	 *
+	 * @param object $current_screen The current screen.
+	 */
+	public static function add_filters_and_actions_for_screen( $current_screen ) {
+		if ( 'edit' !== $current_screen->base ) {
+			return;
+		}
+
+		if ( Current_Plan::supports( 'republicize' ) ) {
+			add_filter( 'jetpack_post_list_display_share_action', '__return_true' );
+		}
 	}
 
 	/**

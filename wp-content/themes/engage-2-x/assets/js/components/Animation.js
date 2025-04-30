@@ -85,6 +85,24 @@ document.addEventListener("DOMContentLoaded", function() {
     item.classList.add(`delay_${(index % 4) + 1}`); // Cycles through delay_1 to delay_4
     fadeInAndUp.observe(item);  // Observe each grid item
   });
+
+  // Add tile animation observer
+  const tileObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        // Calculate delay class based on position in current batch
+        const delayNum = (index % 7) + 1; // Use modulo to cycle through 1-7
+        entry.target.classList.add('tile-animate', `delay-${delayNum}`);
+        tileObserver.unobserve(entry.target); // Stop observing once animated
+      }
+    });
+  }, observerOptions);
+
+  // Observe all tiles
+  const tiles = document.querySelectorAll('.tile:not(.tile--intro)'); // Exclude intro tile
+  tiles.forEach(tile => {
+    tileObserver.observe(tile);
+  });
 });
 
 

@@ -147,7 +147,10 @@ class Tiny_Notices extends Tiny_WP_Base {
 		}
 
 		$css = implode( ' ', $css );
-		$plugin_name = esc_html__( 'TinyPNG - JPEG, PNG & WebP image compression', 'tiny-compress-images' );
+		$plugin_name = esc_html__(
+			'TinyPNG - JPEG, PNG & WebP image compression',
+			'tiny-compress-images'
+		);
 
 		add_action( 'admin_notices',
 			function() use ( $css, $name, $plugin_name, $message, $add ) {
@@ -242,22 +245,6 @@ class Tiny_Notices extends Tiny_WP_Base {
 		} // End if().
 	}
 
-	public function show_offload_s3_notice() {
-		$message = esc_html__(
-			'Removing files from the server is incompatible with background compressions. Images will still be automatically compressed, but no longer in the background.',  // WPCS: Needed for proper translation.
-			'tiny-compress-images'
-		);
-		$this->show( 'offload-s3', $message, 'notice-error', false );
-	}
-
-	public function old_offload_s3_version_notice() {
-		$message = esc_html__(
-			'Background compressions are not compatible with the version of WP Offload S3 you have installed. Please update to version 0.7.2 at least.',  // WPCS: Needed for proper translation.
-			'tiny-compress-images'
-		);
-		$this->show( 'old-offload-s3-version', $message, 'notice-error', false );
-	}
-
 	public function incompatible_plugins_notice() {
 		$incompatible_plugins = array_filter( self::$incompatible_plugins, 'is_plugin_active' );
 		if ( count( $incompatible_plugins ) > 0 ) {
@@ -268,7 +255,10 @@ class Tiny_Notices extends Tiny_WP_Base {
 	private function show_incompatible_plugins( $incompatible_plugins ) {
 		$notice = '<div class="error notice tiny-notice incompatible-plugins">';
 		$notice .= '<h3>';
-		$notice .= esc_html__( 'TinyPNG - JPEG, PNG & WebP image compression', 'tiny-compress-images' );
+		$notice .= esc_html__(
+			'TinyPNG - JPEG, PNG & WebP image compression',
+			'tiny-compress-images'
+		);
 		$notice .= '</h3>';
 		$notice .= '<p>';
 		$notice .= esc_html__(
@@ -278,7 +268,10 @@ class Tiny_Notices extends Tiny_WP_Base {
 		$notice .= '</p>';
 		$notice .= '<table>';
 		$notice .= '<tr><td class="bullet">•</td><td class="name">';
-		$notice .= esc_html__( 'TinyPNG - JPEG, PNG & WebP image compression', 'tiny-compress-images' );
+		$notice .= esc_html__(
+			'TinyPNG - JPEG, PNG & WebP image compression',
+			'tiny-compress-images'
+		);
 		$notice .= '</td><td></td></tr>';
 		foreach ( $incompatible_plugins as $name => $file ) {
 			$notice .= '<tr><td class="bullet">•</td><td class="name">';

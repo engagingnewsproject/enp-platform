@@ -17,8 +17,16 @@
 						<div class="article__intro grid grid--col-12 grid--gap-20 container container--lg">
 							<div class="grid tile-col__whole">
 								<div class="grid site-logos">
-									<img src="{{ get_image(post.meta('cme_logo')).src }}"/>
-									<img src="{{ get_image(post.meta('stop_logo')).src }}"/>
+									<img src="{{ get_image(post.meta('cme_logo')).src('thumbnail') }}"
+										 loading="eager"
+										 srcset="{{ get_image(post.meta('cme_logo')).srcset }}"
+										 sizes="{{ get_image(post.meta('cme_logo')).img_sizes }}"
+										 alt="{{ get_image(post.meta('cme_logo')).alt }}" />
+									<img src="{{ get_image(post.meta('stop_logo')).src('thumbnail') }}"
+										 loading="eager"
+										 srcset="{{ get_image(post.meta('stop_logo')).srcset }}"
+										 sizes="{{ get_image(post.meta('stop_logo')).img_sizes }}"
+										 alt="{{ get_image(post.meta('stop_logo')).alt }}" />
 								</div>
 								{{ post.meta('intro')}}
 							</div>
@@ -28,7 +36,11 @@
 							<h3 class="article__title h2">{{ post.meta('pdf_title')}}</h3>
 							{# PDF file src: ACF Video Grid Field Group #}
 							<a href="{{ post.meta('pdf_file') }}" target="_blank" class="pdf">
-								<img src="{{ get_image(post.meta('pdf_image')).src('medium') }}" alt="{{ get_image(post.meta('pdf_image')).alt }}"/>
+								<img src="{{ get_image(post.meta('pdf_image')).src('medium') }}"
+									 loading="eager"
+									 srcset="{{ get_image(post.meta('pdf_image')).srcset }}"
+									 sizes="{{ get_image(post.meta('pdf_image')).img_sizes }}"
+									 alt="{{ get_image(post.meta('pdf_image')).alt }}" />
 							</a>
 						</div>
 						<div class="article__quotes grid grid--col-12 grid--gap-30 container container--lg">
@@ -57,7 +69,12 @@
 							{% for item in post.meta('vid_gal') %}
 								<div class="tile tile-col__third tile-tile--has-img grid grid--col-12 grid--gap-20">
 									<div class="img-wrap">
-										<img class="tile__img" src="{{ get_image(item.vid_poster).src }}"/>
+										<img class="tile__img"
+											 src="{{ get_image(item.vid_poster).src('medium') }}"
+											 loading="eager"
+											 srcset="{{ get_image(item.vid_poster).srcset }}"
+											 sizes="{{ get_image(item.vid_poster).img_sizes }}"
+											 alt="{{ item.vid_title }}" />
 									</div>
 									<a class="tile__link" data-modal="#modal-{{ i }}"></a>
 									<div class="title-wrap">
@@ -90,4 +107,3 @@
 		</div>
 	</div>
 {% endblock %}
-

@@ -33,7 +33,7 @@
 .orbit-callout__title {
   font-weight: 700;
   font-size: 40px;
-  color: $black-grey;
+  color: $blue-dark;
   // margin-bottom: 1rem;
   line-height: 1.2;
 
@@ -180,7 +180,7 @@
 }
 
 .orbit-field-info__title {
-  font-size: 14px;
+  font-size: $font-size-medium;
   font-weight: bold;
   color: $orange;
   margin-bottom: 0;

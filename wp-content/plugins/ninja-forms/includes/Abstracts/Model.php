@@ -125,7 +125,7 @@ class NF_Abstracts_Model
      * 
      * @var boolean
      */
-    private $db_stage_1_complete = TRUE;
+    protected $db_stage_1_complete = TRUE;
 
     //-----------------------------------------------------
     // Public Methods

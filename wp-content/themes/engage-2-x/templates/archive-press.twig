@@ -1,0 +1,48 @@
+{# 
+    Archive template for Press articles
+    
+    This template displays a grid of press articles with their details including:
+    - Title (with optional external link)
+    - Publisher information
+    - Publication date
+    
+    Available variables:
+    - title: The archive title (e.g., "Press")
+    - posts: Array of Press objects
+#}
+{% extends "base.twig" %}
+
+{% block content %}
+	{# Main archive section #}
+
+	{# Get all categories except the filtered ones #}
+	{% set filtered_categories = archive_filters.press_archive_filter|default([]) %}
+	{% set filtered_ids = filtered_categories|map(term => term.term_id) %}
+
+	{% set categories = get_terms({
+			'taxonomy': 'press-categories',
+			'hide_empty': true,
+			'exclude': filtered_ids
+		}) %}
+
+		<section
+		class="archive-section container container--xl"> {# Check if we have any articles to display #}
+		{% if posts %}
+			{# Grid container for articles #}
+			<div
+				class="press-articles-grid">
+				{# Loop through each article #}
+				{% include 'tiles.twig' with { 
+						intro: archive.intro, 
+						posts: posts,
+						loadEagerTiles: 6,
+						post_type: archive.post_type,
+					} %}
+			</div>
+
+		{% else %}
+			{# Display message if no articles are found #}
+			<p class="no-press-articles">No press articles found.</p>
+		{% endif %}
+	</section>
+{% endblock %}

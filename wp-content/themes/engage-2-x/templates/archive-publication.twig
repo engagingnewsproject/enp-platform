@@ -1,0 +1,125 @@
+{# 
+    Archive template for Publication articles
+    
+    This template displays a grid of publication articles with their details including:
+    - Title (with optional external link)
+    - Publisher information
+    - Publication date
+    
+    Available variables:
+    - title: The archive title (e.g., "Publication")
+    - posts: Array of Publication objects
+		
+		TODO:
+		- Combine with archive-press.twig
+#}
+{% extends "base.twig" %}
+
+{% block content %}
+	{# Main publication archive section #}
+
+	{% set categories = get_terms({
+			'taxonomy': 'publication-categories',
+			'hide_empty': true
+		}) %}
+
+	<section 
+	class="archive-section container container--xl">
+		{% if posts %}
+			{% include 'tiles.twig' with { 
+				intro: archive.intro, 
+				posts: posts,
+				loadEagerTiles: 6,
+				post_type: archive.post_type,
+			} %}
+
+			{# {% include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3}) } %} #}
+		{% else %}
+			<p class="no-publications">No publications found.</p>
+		{% endif %}
+		
+		
+		
+		
+		{# <div class="archive-header">
+			<h1 class="tile tile--vertical--science-publications tile--intro--vertical--science-publications tile--intro">
+				{% if function('is_tax', 'publication-categories') %}
+					<a href="/publications">Publications</a>
+					-	
+					{{ function('single_term_title', '') }}
+				{% else %}
+				<span class="tile__title tile__title--intro" >
+					{{ title }}
+				</span>
+				{% endif %}
+			</h1>
+		</div> #}
+		
+		{# {% if posts %}
+			<div class="publications tiles grid grid--col-12 grid--gap-20">
+					{% include 'tiles.twig' with { 
+						intro: archive.intro, 
+						posts: posts,
+						loadEagerTiles: 6,
+						post_type: archive.post_type,
+					} %}
+				{% for post in archive.posts %}
+					{% include "partial/tile.twig" with { 
+						'tile': post,
+						'index': loop.index,
+						'loadEagerTiles': true,
+					} %}
+					<article class="tile tile-archive {% if post.thumbnail %}tile--has-img{% endif %}">
+						{% if post.thumbnail %}
+							<div 
+							class="tile__img-wrap">
+								<img 
+								 src="{{ get_image(post.thumbnail).src('thumbnail') }}" 
+								 srcset="{{ get_image(post.thumbnail).srcset }}" 
+								 sizes="{{ get_image(post.thumbnail).img_sizes }}" 
+								alt="{{ post.thumbnail.alt }}">
+							</div>
+						{% endif %}
+						<div class="tile__container tile__container--archive">
+							<a class="tile__link" href="{{ post.getUrl() }}" target="_blank" rel="noopener noreferrer"></a>
+								
+							<h2 class="tile__title h3">
+								{{ post.title }}
+							</h2>
+
+							{% if post.getSubtitle() %}
+								<div class="tile__label subtitle">
+									{{ post.getSubtitle() }}
+								</div>
+							{% endif %}
+
+							{% if post.getAuthors() %}
+							<div class="tile__label">
+								{{ post.getAuthors() }}
+							</div>
+							{% endif %}
+
+							<div class="publication-meta">
+
+								{% if post.getPublicationDate() %}
+									<div class="tile__label year">
+										{{ post.getPublicationDate()|date('F j, Y') }}
+									</div>
+								{% endif %}
+							</div>
+							{% if post.excerpt %}
+								<div class="tile__label subtitle">
+									{{ post.excerpt }}
+								</div>
+							{% endif %}
+						</div>
+					</article>
+				{% endfor %}
+			</div>
+
+			{% include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3}) } %}
+		{% else %}
+			<p class="no-publications">No publications found.</p>
+		{% endif %} #}
+	</section>
+{% endblock %}

@@ -57,7 +57,13 @@ final class NF_MergeTags_Calcs extends NF_Abstracts_MergeTags
     
     public function get_calc_value( $key )
     {
-        return $this->merge_tags[ $key ][ 'calc_value' ];
+        $return = null;
+
+        if(isset($this->merge_tags[ $key ][ 'calc_value' ])){
+            $return = $this->merge_tags[ $key ][ 'calc_value' ];
+        }
+        
+        return $return; 
     }
     
     // @TODO: $round is no longer necessary in this context.

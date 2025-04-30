@@ -47,16 +47,14 @@
 .filter__link {
   display: inline-block;
   padding: 0 0 0 5px;
-  color: $gray;
-  font-size: 14px;
+  font-size: $font-size-medium;
   text-decoration: none;
   transform: translate3d(-5px, 0, 0);
   transition: transform .15s;
 
   &:hover {
-    color: $orange;
     transform: translate3d(0px, 0, 0);
-    border-left: 3px solid $orange;
+    border-left: 3px solid;
   }
 }
 

@@ -4,6 +4,7 @@ return apply_filters( 'ninja_forms_plugin_settings_defaults', array(
 
     'date_format' => 'm/d/Y',
     'currency' => 'USD',
+    'show_welcome' => 1,
 
     'recaptcha_site_key' => '',
     'recaptcha_secret_key' => '',

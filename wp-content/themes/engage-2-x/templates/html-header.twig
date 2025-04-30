@@ -55,7 +55,7 @@
 		<meta property="og:description" content="{{ post.excerpt.length(30).read_more('') }}" />
 
 		{% if tile.thumbnail %}
-			<meta property="og:image"   content="{{ post.thumbnail.src('featured-post') }}" />
+			<meta property="og:image" content="{{ post.thumbnail.src('medium') }}" />
 		{% endif %}
 
 	{% endif %}

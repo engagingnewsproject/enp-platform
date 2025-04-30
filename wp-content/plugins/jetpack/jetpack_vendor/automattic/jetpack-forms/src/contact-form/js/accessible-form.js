@@ -1,3 +1,9 @@
+import {
+	setSimpleFieldError,
+	clearInputError,
+	createInputErrorContainer,
+	createError,
+} from './form-errors';
 /**
  * @file Overwrites native form validation to provide an accessible experience to all users.
  *
@@ -6,6 +12,7 @@
  * represents a question of a form and can hold multiple inputs, such as the Single Choice
  * (multiple radio buttons) or Multiple Choice fields (multiple checkboxes).
  */
+import { validateDate } from './validate-helper';
 
 document.addEventListener( 'DOMContentLoaded', () => {
 	initAllForms();
@@ -29,6 +36,8 @@ const L10N = {
 	submittingForm: __( 'Submitting form', 'jetpack-forms' ),
 	/* translators: generic error message */
 	genericError: __( 'Please correct this field', 'jetpack-forms' ),
+	/* translators: error message shown when no field has been filled out */
+	emptyForm: __( 'The form you are trying to submit is empty.', 'jetpack-forms' ),
 	errorCount: d =>
 		/* translators: message displayed when errors need to be fixed. %d is the number of errors. */
 		_n( 'You need to fix %d error.', 'You need to fix %d errors.', d, 'jetpack-forms' ),
@@ -46,6 +55,24 @@ const initAllForms = () => {
 		.querySelectorAll( '.wp-block-jetpack-contact-form-container form.contact-form' )
 		.forEach( initForm );
 };
+
+function isFormEmpty( form ) {
+	const clonedForm = form.cloneNode( true );
+	// `cloneNode` API doesn't clone the selected value of the select element unless we
+	// had specifc html markup (`selected`). So, after cloning we need to update the existing
+	// select values.
+	Array.from( clonedForm.querySelectorAll( 'select' ) ).forEach( select => {
+		select.value = form.querySelector( `select[id="${ select.id }"` )?.value;
+	} );
+	// Remove hidden fields from the cloned form.
+	Array.from( clonedForm.querySelectorAll( 'input[type="hidden"]' ) ).forEach( input =>
+		input.remove()
+	);
+	const formData = new FormData( clonedForm );
+	return ! Array.from( formData.values() ).some( value =>
+		value instanceof File ? !! value.size : !! value?.trim?.()
+	);
+}
 
 /**
  * Implement a form custom validation.
@@ -75,7 +102,15 @@ const initForm = form => {
 
 		clearForm( form, inputListenerMap, opts );
 
-		if ( isFormValid( form ) ) {
+		const isValid = isFormValid( form );
+		// If a form is invalid proceed with the usual validation process, even if it's empty.
+		// This indicates that some fields are required.
+		if ( isFormEmpty( form ) && isValid ) {
+			setFormError( form, [], { disableLiveRegion: true, type: 'emptyForm' } );
+			return;
+		}
+
+		if ( isValid ) {
 			inputListenerMap = {};
 
 			form.removeEventListener( 'submit', onSubmit );
@@ -243,14 +278,12 @@ const isMultipleChoiceFieldValid = fieldset => {
 const isDateFieldValid = input => {
 	const format = input.getAttribute( 'data-format' );
 	const value = input.value;
-	const $ = window.jQuery;
 
-	if ( value && format && typeof $ !== 'undefined' ) {
-		try {
-			$.datepicker.parseDate( format, value );
-		} catch {
+	if ( value && format ) {
+		if ( validateDate( value, format ) ) {
+			input.setCustomValidity( '' );
+		} else {
 			input.setCustomValidity( L10N.invalidDate );
-
 			return false;
 		}
 	}
@@ -427,54 +460,6 @@ const createSpinner = () => {
 };
 
 /**
- * Create a new warning icon.
- * @returns {HTMLSpanElement} Warning icon
- */
-const createWarningIcon = () => {
-	const elt = document.createElement( 'span' );
-	const srOnly = document.createElement( 'span' );
-	const icon = document.createElement( 'i' );
-
-	srOnly.textContent = L10N.warning;
-	srOnly.classList.add( 'visually-hidden' );
-
-	icon.setAttribute( 'aria-hidden', true );
-
-	elt.classList.add( 'contact-form__warning-icon' );
-	elt.appendChild( srOnly );
-	elt.appendChild( icon );
-
-	return elt;
-};
-
-/**
- * Create a new error text element.
- * @param {string} str Error message
- * @returns {HTMLSpanElement} Error text element
- */
-const createErrorText = str => {
-	const elt = document.createElement( 'span' );
-
-	elt.textContent = str;
-
-	return elt;
-};
-
-/**
- * Create a new error fragment.
- * @param {string} str Error message
- * @returns {DocumentFragment} Error fragment
- */
-const createError = str => {
-	const fragment = document.createDocumentFragment();
-
-	fragment.appendChild( createWarningIcon() );
-	fragment.appendChild( createErrorText( str ) );
-
-	return fragment;
-};
-
-/**
  * Create a list of links to the invalid fields of a form.
  * @param {HTMLFormElement} form          Form element
  * @param {HTMLElement[]}   invalidFields Invalid fields
@@ -523,20 +508,6 @@ const createFormErrorContainer = () => {
 	const elt = document.createElement( 'div' );
 
 	elt.classList.add( 'contact-form__error' );
-
-	return elt;
-};
-
-/**
- * Create a new error container for a form input.
- * @param {string} errorId Error element ID
- * @returns {HTMLDivElement} Error container
- */
-const createInputErrorContainer = errorId => {
-	const elt = document.createElement( 'div' );
-
-	elt.id = errorId;
-	elt.classList.add( 'contact-form__input-error' );
 
 	return elt;
 };
@@ -649,30 +620,6 @@ const clearGroupInputError = fieldset => {
 	fieldset.removeAttribute( 'aria-describedby' );
 
 	const error = fieldset.querySelector( '.contact-form__input-error' );
-
-	if ( error ) {
-		error.replaceChildren();
-	}
-};
-
-/**
- * Empty the error element a simple field (unique input) and mark it as valid.
- * @param {HTMLElement} input Input element
- * @param {object}      opts  Form options
- */
-const clearInputError = ( input, opts ) => {
-	input.removeAttribute( 'aria-invalid' );
-	input.removeAttribute( 'aria-describedby' );
-
-	const fieldWrap = input.closest(
-		opts.hasInsetLabel ? '.contact-form__inset-label-wrap' : '.grunion-field-wrap'
-	);
-
-	if ( ! fieldWrap ) {
-		return;
-	}
-
-	const error = fieldWrap.querySelector( '.contact-form__input-error' );
 
 	if ( error ) {
 		error.replaceChildren();
@@ -914,6 +861,14 @@ const setFormError = ( form, invalidFields, opts = {} ) => {
 	}
 
 	const count = invalidFields.length;
+	// This is essentially a way to add a single error styled message when we
+	// have no field validation errors. We have to pass no invalid fields and
+	// `opts.type` to match a translatable message. We should extract it when
+	// we refactor the error handling.
+	if ( ! count && !! L10N[ opts.type ] ) {
+		error.appendChild( createError( L10N[ opts.type ] ) );
+		return;
+	}
 	const errors = [ L10N.invalidForm ];
 
 	if ( count > 0 ) {
@@ -976,35 +931,6 @@ const setFieldErrors = ( form, opts ) => {
 	}
 
 	return invalidFields;
-};
-
-/**
- * Set the error element of a simple field (single input) and mark it as invalid.
- * @param {HTMLElement}     input Input element
- * @param {HTMLFormElement} form  Parent form element
- * @param {object}          opts  Form options
- */
-const setSimpleFieldError = ( input, form, opts ) => {
-	const errorId = `${ input.name }-error`;
-
-	let error = form.querySelector( `#${ errorId }` );
-
-	if ( ! error ) {
-		error = createInputErrorContainer( errorId );
-
-		const wrap = input.closest(
-			opts.hasInsetLabel ? '.contact-form__inset-label-wrap' : '.grunion-field-wrap'
-		);
-
-		if ( wrap ) {
-			wrap.appendChild( error );
-		}
-	}
-
-	error.replaceChildren( createError( input.validationMessage ) );
-
-	input.setAttribute( 'aria-invalid', 'true' );
-	input.setAttribute( 'aria-describedby', errorId );
 };
 
 /**

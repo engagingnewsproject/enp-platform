@@ -43,6 +43,7 @@ class Funders {
 			'menu_position' => 5,
 			'menu_icon'         => 'dashicons-groups',
 			'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes' ),
+			'show_in_menu'  => false, // This will hide it from the admin sidebar
 		);
 		register_post_type( 'funders', $args );
 	}

@@ -1,5 +1,6 @@
 
-{% if tile.title != "General" %}
+{# {% if tile.title != "General" %} #}
+
 	{# Logic #}
 	{# set default title #}
 	{% set tileTitle = tile.title %}
@@ -18,12 +19,16 @@
 	Use above pre element to dump the current query
 	see Timber docs: https://timber.github.io/docs/v2/guides/debugging/#using-twigs-native-functions
 	 #}
-	{% if tile.post_type == 'page' %} {# Only show the title if we are on a page #}
-		<div class="tile tile--vertical--{{ tileClass }} tile--intro--vertical--{{ tileClass }} tile--intro">
-			<h2 class="tile__title tile__title--intro">{{ tileTitle }}</h2>
-			{% if post.post_excerpt %} {# check if the post has an excerpt first, otherwise WordPress will use part of the content #}
-				<div class="tile__excerpt tile__excerpt--intro">{{ tile.excerpt }}</div>
+	{# Really need to keep the page title for not only SEO purposes but also for usability #}
+	<div class="tile tile--intro">
+		<h1 class="tile__title tile__title--intro title-slide-in">
+			{{ tileTitle }}
+			{% if tile.subtitle %}
+				<span class="tile__title--subtitle">| {{ tile.subtitle }}</span>
 			{% endif %}
-		</div>
-	{% endif %}
-{% endif %}
+		</h1>
+		{% if post.post_excerpt %} {# check if the post has an excerpt first, otherwise WordPress will use part of the content #}
+			<div class="tile__excerpt tile__excerpt--intro">{{ tile.excerpt }}</div>
+		{% endif %}
+	</div>
+{# {% endif %} #}

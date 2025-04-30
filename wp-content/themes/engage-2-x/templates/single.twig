@@ -7,20 +7,22 @@
 						{% set hasVideo = post.getVideoEmbedLink and post.post_type != 'team' and post.post_type != 'board' %}
 						{% set hasFeaturedImage = post.thumbnail.src and post.post_type != 'team' and post.post_type != 'board' %}
 						{% set hideFeaturedImage = post.hide_feature_image %}
+						{% set category = post.terms('research-categories')|first %}
 						<article class="article post-type-{{ post.post_type }} {{ hasFeaturedImage ? 'article--has-featured-img' }} {{ hasVideo ? 'article--has-video'}}" id="post-{{ post.ID }}">
 								<h1 class="article__title article__title--{{ post.post_type }}">{{ post.title }}</h1>
 
 								{% include "partial/article-meta.twig" %}
 
 								{% if post.post_type != "team" and post.post_type != "board" %}
-										{% if post.vertical.slug == "media-ethics" %}
-												<aside class="{{post.vertical.slug}}-sidebar widget">
+										{% if category and category.slug == "media-ethics" %}
+												<aside class="{{category.slug}}-sidebar widget">
 													{{ meiSidebar }}
 												</aside>
 										{% endif %}
 								{% endif %}
 
 								<div class="article__content article__content--{{ post.post_type }}">
+									{# Video embed #}
 									{% if hasVideo %}
 										<div class="aspect-ratio-box">
 											<div class="aspect-ratio-box-inside">
@@ -31,8 +33,13 @@
 										</div>
 									{% elseif hasFeaturedImage and not hideFeaturedImage %}
 										<figure class="article__featured-img article__featured-img--{{ post.post_type }}">
-												<img class="featured-img__img flick" src="{{ post.thumbnail.src('featured-image') }}" {{ post.thumbnail.alt ? "alt='#{ post.thumbnail.alt}'" }} />
-												{% if post.thumbnail.caption %}
+								<img class="featured-img__img flick"
+										src="{{ post.thumbnail.src('featured-image') }}"
+										srcset="{{ post.thumbnail.srcset }}"
+										sizes="{{ post.thumbnail.img_sizes }}"
+										alt="{{ post.thumbnail.alt }}"
+										loading="eager" />												
+										{% if post.thumbnail.caption %}
 													<figcaption>{{ post.thumbnail.caption }}</figcaption>
 												{% endif %}
 										</figure>
@@ -44,15 +51,15 @@
 										</div>
 									{% endif %}
 
-									{% if post.vertical.slug == "media-ethics" %}
+									{% if category and category.slug == "media-ethics" %}
 									{% if post.meta('case_study_title') is not empty %}
 									<h3>
 										<strong>CASE STUDY: {{post.meta('case_study_title')|raw|striptags('<em>')}} </strong>
 									</h3>
-									
+									{{dump(post)}}
 									<h4>
-										<strong><a href="{{ post.getReport }}" filename="{{ post.vertical.slug}} {{post.title}}"></use>Case Study PDF</a> | </strong>
-										<strong><a href="{{ post.vertical.link }}">Additional Case Studies</a></strong>
+										<strong><a href="{{ post.getReport }}" filename="{{ category.slug}} {{post.title}}"></use>Case Study PDF</a> | </strong>
+										<strong><a href="{{ category.link }}">Additional Case Studies</a></strong>
 									</h4>
 									<hr>
 									{% endif %}

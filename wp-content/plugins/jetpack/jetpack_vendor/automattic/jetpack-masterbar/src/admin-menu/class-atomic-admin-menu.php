@@ -13,6 +13,7 @@ use Automattic\Jetpack\JITMS\JITM;
 use Automattic\Jetpack\Modules;
 use Automattic\Jetpack\Redirect;
 use Automattic\Jetpack\Status;
+use Automattic\Jetpack\Subscribers_Dashboard\Dashboard as Subscribers_Dashboard;
 
 require_once __DIR__ . '/class-admin-menu.php';
 
@@ -45,11 +46,6 @@ class Atomic_Admin_Menu extends Admin_Menu {
 			},
 			0
 		);
-
-		// Add notices to the settings pages when there is a Calypso page available.
-		if ( $this->use_wp_admin_interface() ) {
-			add_action( 'current_screen', array( $this, 'add_settings_page_notice' ) );
-		}
 	}
 
 	/**
@@ -80,7 +76,9 @@ class Atomic_Admin_Menu extends Admin_Menu {
 
 		// We don't need the `My Mailboxes` when the interface is set to wp-admin or the site is a staging site,
 		if ( ! $this->use_wp_admin_interface() && ! get_option( 'wpcom_is_staging_site' ) ) {
-			$this->add_my_mailboxes_menu();
+			if ( function_exists( 'wpcom_is_duplicate_views_experiment_enabled' ) && ! wpcom_is_duplicate_views_experiment_enabled() ) {
+				$this->add_my_mailboxes_menu();
+			}
 		}
 
 		// Not needed outside of wp-admin.
@@ -132,10 +130,13 @@ class Atomic_Admin_Menu extends Admin_Menu {
 			$this->update_submenus( $slug, $submenus_to_update );
 		}
 
-		if ( ! $this->use_wp_admin_interface() ) {
+		if ( ! $this->use_wp_admin_interface() && ! apply_filters( 'jetpack_wp_admin_subscriber_management_enabled', false ) ) {
 			// The 'Subscribers' menu exists in the Jetpack menu for Classic wp-admin interface, so only add it for non-wp-admin interfaces.
 			// // @phan-suppress-next-line PhanTypeMismatchArgumentProbablyReal -- Core should ideally document null for no-callback arg. https://core.trac.wordpress.org/ticket/52539.
 			add_submenu_page( 'users.php', esc_attr__( 'Subscribers', 'jetpack-masterbar' ), __( 'Subscribers', 'jetpack-masterbar' ), 'list_users', 'https://wordpress.com/subscribers/' . $this->domain, null );
+		} elseif ( apply_filters( 'jetpack_wp_admin_subscriber_management_enabled', false ) ) {
+			$subscribers_dashboard = new Subscribers_Dashboard();
+			$subscribers_dashboard->add_wp_admin_submenu();
 		}
 
 		// Users who can't 'list_users' will see "Profile" menu & "Profile > Account Settings" as submenu.
@@ -415,7 +416,10 @@ class Atomic_Admin_Menu extends Admin_Menu {
 	public function add_options_menu() {
 		parent::add_options_menu();
 
-		if ( Jetpack_Plan::supports( 'security-settings' ) ) {
+		if ( Jetpack_Plan::supports( 'security-settings' ) &&
+			function_exists( 'wpcom_is_duplicate_views_experiment_enabled' ) &&
+			! wpcom_is_duplicate_views_experiment_enabled()
+		) {
 			add_submenu_page(
 				'options-general.php',
 				esc_attr__( 'Security', 'jetpack-masterbar' ),
@@ -438,10 +442,13 @@ class Atomic_Admin_Menu extends Admin_Menu {
 			11
 		);
 
-		// Page Optimize is active by default on all Atomic sites and registers a Settings > Performance submenu which
-		// would conflict with our own Settings > Performance that links to Calypso, so we hide it it since the Calypso
-		// performance settings already have a link to Page Optimize settings page.
-		$this->hide_submenu_page( 'options-general.php', 'page-optimize' );
+		// The calypso based Performance screen is no longer linked from wp-admin and no longer conflicts with the Page Optimize "Performance"submenu item.
+		if ( function_exists( 'wpcom_is_duplicate_views_experiment_enabled' ) && ! wpcom_is_duplicate_views_experiment_enabled() ) {
+			// Page Optimize is active by default on all Atomic sites and registers a Settings > Performance submenu which
+			// would conflict with our own Settings > Performance that links to Calypso, so we hide it it since the Calypso
+			// performance settings already have a link to Page Optimize settings page.
+			$this->hide_submenu_page( 'options-general.php', 'page-optimize' );
+		}
 
 		// Hide Settings > Performance when the interface is set to wp-admin.
 		// This is due to these settings are mostly also available in Jetpack > Settings, in the Performance tab.
@@ -526,56 +533,5 @@ class Atomic_Admin_Menu extends Admin_Menu {
 			$jitm->dismiss( sanitize_text_field( wp_unslash( $_REQUEST['id'] ) ), sanitize_text_field( wp_unslash( $_REQUEST['feature_class'] ) ) );
 		}
 		wp_die();
-	}
-
-	/**
-	 * Adds a notice above each settings page while using the Classic view to indicate
-	 * that the Default view offers more features. Links to the default view.
-	 *
-	 * @return void
-	 */
-	public function add_settings_page_notice() {
-		if ( ! is_admin() ) {
-			return;
-		}
-
-		$current_screen = get_current_screen();
-
-		if ( ! $current_screen instanceof \WP_Screen ) {
-			return;
-		}
-
-		// Show the notice for the following screens and map them to the Calypso page.
-		$screen_map = array(
-			'options-general' => 'general',
-			'options-reading' => 'reading',
-		);
-
-		$mapped_screen = $screen_map[ $current_screen->id ] ?? false;
-
-		if ( ! $mapped_screen ) {
-			return;
-		}
-
-		$switch_url = sprintf( 'https://wordpress.com/settings/%s/%s', $mapped_screen, $this->domain );
-
-		// Close over the $switch_url variable.
-		$admin_notices = function () use ( $switch_url ) {
-			wp_admin_notice(
-				wp_kses(
-					sprintf(
-						// translators: %s is a link to the Calypso settings page.
-						__( 'You are currently using the Classic view, which doesn’t offer the same set of features as the Default view. To access additional settings and features, <a href="%s">switch to the Default view</a>. ', 'jetpack-masterbar' ),
-						esc_url( $switch_url )
-					),
-					array( 'a' => array( 'href' => array() ) )
-				),
-				array(
-					'type' => 'warning',
-				)
-			);
-		};
-
-		add_action( 'admin_notices', $admin_notices );
 	}
 }

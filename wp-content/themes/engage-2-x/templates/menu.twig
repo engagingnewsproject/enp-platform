@@ -9,7 +9,7 @@
 {% if menu %}
 	<nav {{ id ? "id='#{id}'" }} class="{{navClass}} menu__{{ menu.slug }} {{ collapsable ? " collapsable" }}" role="navigation">
 		{% if menu == mainMenu %}
-			<div class="navbar__components">
+			<div class="navbar__components" {% if options.navigation_settings.background_color %}style="background-color: {{options.navigation_settings.background_color}};"{% endif %}>
 				<h1 class="header__logo navbar-brand" role="banner">
 					<a class="header__logo__link" href="{{ site.link }}" rel="home">
 						<span class="sr-text">
@@ -35,10 +35,15 @@
 						</picture>
 					</a>
 				</h1>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-					{# <span class="navbar-toggler-icon"></span> #}
-					<span class="hamburger-bars"></span>
-				</button>
+				<div class="toggle__container">
+					<button class="filter__toggle" aria-controls="archiveSidebar" aria-expanded="false" style="display:none;">
+						{{ options.filter_settings.mobile_filter_menu_title }} <span class="caret"></span>
+					</button>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+						{# <span class="navbar-toggler-icon"></span> #}
+						<span class="hamburger-bars"></span>
+					</button>
+				</div>
 			</div>
 
 			<div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -79,7 +84,8 @@
 			<ul class="menu__list">
 				{% for item in menu.items %}
 					<li {% if item.children %} tabindex="{{0}}" {% endif %} class="menu__item {{ item.classes | join(' ') }}">
-						<a class="menu__link" target="{{ item.target }}" {% if item.link %} href="{{ item.link }}" {% endif %}>{{ item.title }}</a>
+						<a class="menu__link" target="{{ item.target }}" {% if item.link %} href="{{ item.link }}"{% endif %} {% if item.classes[0] == "btn" %}style="color: {{ options.navigation_settings.link_color }}"{% endif %}
+						>{{ item.title }}</a>
 						{% if item.children %}
 							<ul class="menu__sublist {{ collapsable ? " collapsable" }}">
 								{% for child in item.children %}

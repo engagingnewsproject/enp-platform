@@ -18,9 +18,10 @@
             },
             "message": "Hide Feature Image",
             "default_value": 0,
-            "ui": 0,
+            "allow_in_bindings": 1,
             "ui_on_text": "",
-            "ui_off_text": ""
+            "ui_off_text": "",
+            "ui": 1
         }
     ],
     "location": [
@@ -55,5 +56,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1737065744
+    "modified": 1745992582
 }

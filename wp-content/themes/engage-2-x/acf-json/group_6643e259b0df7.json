@@ -3,6 +3,32 @@
     "title": "Press",
     "fields": [
         {
+            "key": "field_67ed9f9f8b4be",
+            "label": "Posts",
+            "name": "posts",
+            "aria-label": "",
+            "type": "taxonomy",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "taxonomy": "press-categories",
+            "add_term": 0,
+            "save_terms": 0,
+            "load_terms": 0,
+            "return_format": "object",
+            "field_type": "checkbox",
+            "allow_in_bindings": 1,
+            "bidirectional": 0,
+            "multiple": 0,
+            "allow_null": 0,
+            "bidirectional_target": []
+        },
+        {
             "key": "field_6643e259a1c5a",
             "label": "Above",
             "name": "above",
@@ -61,5 +87,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1737065745
+    "modified": 1743626797
 }

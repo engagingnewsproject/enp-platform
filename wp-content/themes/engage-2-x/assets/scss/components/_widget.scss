@@ -6,7 +6,7 @@
 
 .widget__prompt {
 	margin-bottom: 1rem;
-	color: $black-grey;
+	color: $blue-dark;
 }
 
 .newsletter__wrapper {
@@ -36,12 +36,12 @@
 
 	.widget__title {
 		margin-top: 1rem;
-		color: $black-grey;
+		color: $blue-dark;
 	}
 
 	.newsletter-prompt {
 		margin-bottom: 1.6rem;
-		color: $black-grey;
+		color: $blue-dark;
 	}
 
 	.newsletter-input {
@@ -63,33 +63,25 @@
 		padding-top: $spacer;
 	}
 }
-
-.newsletter-about {
+.social--left {
+	justify-content: flex-start;
+}
+.social--center {
+	justify-content: center;
+}
+.social--right {
+	justify-content: flex-end;
+}
+.newsletter.widget {
 	// you can swap out this `700px` for the `$phablet` mixin :) as well as any others you found.
 	height: fit-content;
-    padding: $spacer $spacer 0 $spacer;
+	padding: $spacer;
 	background-color: $gray-lighter;
 	box-shadow: $tile-shadow;
-	@include media(700px) {
+	@include media($phablet) {
 		grid-row: 2;
 	}
-}
-// UPDATED CODE BELOW // // // // // 
-// UPDATED CODE BELOW // // // // // 
-// UPDATED CODE BELOW // // // // // 
-
-.widget .nf-form-cont .mei-btn {
-	background: #00a9b7;
-}
-
-@supports not (display: grid) {
-	.newsletter-about {
-		order: 4;
-	}
-}
-
-@supports (display: grid) {
-	.newsletter-about {
-		grid-row: 4;
+	.nf-field-element {
+		font-size: $font-size-small;
 	}
 }

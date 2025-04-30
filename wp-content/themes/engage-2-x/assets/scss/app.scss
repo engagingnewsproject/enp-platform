@@ -7,7 +7,7 @@
 @import "global/animations";
 @import "global/reset";
 @import "global/base";
-@import "global/navbar";
+@import "global/navigation";
 @import "global/utilities";
 @import "global/typography";
 @import "global/structure";
@@ -35,7 +35,6 @@
 
 // Components
 @import "components/brandbar";
-@import "components/menu";
 @import "components/footer";
 @import "components/article";
 @import "components/widget";
@@ -44,7 +43,8 @@
 @import "components/tiles";
 @import "components/filter";
 @import "components/announcement";
-@import "components/vertical";
+// @import "components/vertical";
+@import "components/category";
 @import "components/search";
 @import "components/funders";
 @import "components/events";

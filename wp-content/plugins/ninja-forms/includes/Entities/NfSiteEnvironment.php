@@ -26,6 +26,9 @@ class NfSiteEnvironment implements JsonSerializable
         'active_plugins' => 'array',
         'wp_memory_limit' => 'string',
         'deprecated_loaded' => 'bool',
+        'site_timezone' => 'string',
+        'nf_gatekeeper' => 'int',
+        'siteTheme' => 'string',
     ];
 
     public int $site_id = 0;
@@ -47,6 +50,9 @@ class NfSiteEnvironment implements JsonSerializable
     public array $active_plugins = [];
     public string $wp_memory_limit = '';
     public bool $deprecated_loaded = false;
+    public string $site_timezone = '';
+    public int $nf_gatekeeper = 100;
+    public string $siteTheme = '';
 
     /**
      * Construct entity from array

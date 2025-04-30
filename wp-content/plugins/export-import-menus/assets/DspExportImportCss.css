@@ -1,0 +1,68 @@
+.dsp-import-notice {
+	background: #fff;
+    border-left: 4px solid #fff;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+    margin: 5px 0 15px;
+    padding: 1px 12px;
+	float: left;
+    width: 99%;	
+}
+
+.dsp-file-uploader
+{
+   float: left;
+   width: 100%;
+   margin: 10px 0 10px 0;
+}
+
+.dsp-file-uploader .ajax-file-upload {
+    height: 30px;
+    line-height: 30px;
+    padding: 3px 12px 0px;
+    font-size: 13px;
+    font-weight:  100;
+}
+.dsp-generate-menus {
+    margin-top: 0;
+}
+.notice-success p {
+    color: #008c0d;
+    font-size: 14px;
+    display: block;
+}
+
+.dsps-import-notice.notice-success {
+    display: block;
+    clear:  both;
+}
+.get-import-response {
+    color: #282828;
+    padding: 10px 0 0 0;
+    font-size:  14px;
+}
+
+.dsp-generate-menus label {
+    display: inline-block;
+    margin-right: 3px;
+    vertical-align: middle;
+}
+
+.ajax-file-upload-error{
+	margin: 10px 6px 0;
+}
+.admin_form .form-group {
+    margin-bottom:  15px;
+}
+
+.form-label label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom:  8px;
+    display: block;
+}
+.form-input input[type="text"], .form-input select {
+    min-width: 250px;height: 32px;
+}
+.alert-success {color: #3c763d;margin: 0;font-size: 14px;font-weight: 600;}
+.alert-error{color: #cc0804;margin: 0;font-size: 14px;font-weight: 600;}
+.dsp-import-loader{padding: 7px;}
