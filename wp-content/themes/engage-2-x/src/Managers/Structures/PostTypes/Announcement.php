@@ -80,9 +80,13 @@ class Announcement
 			'labels'            => $labels,
 			'show_ui'           => true,
 			'show_admin_column' => true,
-			'query_var'         => true,
+			'query_var'         => 'announcement-category',
 			'has_archive'       => true,
-			'rewrite'           => array('slug' => 'announcement-category'),
+			'rewrite'           => array(
+				'slug'         => 'announcement/category',
+				'with_front'   => false,
+				'hierarchical' => true
+			),
 		);
 
 		// Register the 'announcement-category' taxonomy for the 'announcement' post type
