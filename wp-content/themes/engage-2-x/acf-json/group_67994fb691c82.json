@@ -207,6 +207,27 @@
                     "enable_opacity": 0,
                     "return_format": "string",
                     "allow_in_bindings": 0
+                },
+                {
+                    "key": "field_68121feca42ff",
+                    "label": "Mobile filter menu title",
+                    "name": "mobile_filter_menu_title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "Filters",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": ""
                 }
             ]
         },
@@ -430,5 +451,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1745431631
+    "modified": 1746018326
 }

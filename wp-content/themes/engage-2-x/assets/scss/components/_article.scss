@@ -37,7 +37,8 @@
 	color: $blue-dark;
 	font-size: $font-size-small;
 	align-self: flex-start;
-	.vertical-name {
+	.vertical-name,
+	.category-name {
 		font-size: 15px;
 		font-weight: 700;
 		text-decoration: none;

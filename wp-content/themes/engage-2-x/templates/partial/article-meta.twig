@@ -58,9 +58,10 @@
 		{% include 'partial/research-meta.twig' %}
 		{% if post.post_type != "blogs" %}
 			{# Display a link to the vertical associated with the research post. #}
-			<p class="article-meta__item article__vertical article__vertical--{{ post.vertical.slug }}">
-				<a class="vertical-name vertical-color--{{ post.vertical.slug }} " href="{{ post.vertical.link }}research">←
-					{{ post.vertical.name }}</a>
+			{% set category = post.terms('research-categories')|first %}
+			<p class="testArticleMetaTwig article-meta__item article__vertical article__vertical--{{ category.slug }}">
+				<a class="category-name category-color--{{ category.slug }}" href="/research/category/{{ category.slug }}/">←
+					{{ category.name }}</a>
 			</p>
 		{% endif %}
 		{# List of researchers #}
