@@ -16,6 +16,7 @@
 					{% else %}
 						{% include 'filters.twig' with { filters: archive.filters, postType: archive.postType.name } %}
 					{% endif %}
+					<button class="filter__close" style="display:none;">Close</button>
 				</div>
 			{% endif %}
 		

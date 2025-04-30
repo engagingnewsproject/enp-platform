@@ -35,10 +35,15 @@
 						</picture>
 					</a>
 				</h1>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-					{# <span class="navbar-toggler-icon"></span> #}
-					<span class="hamburger-bars"></span>
-				</button>
+				<div class="toggle__container">
+					<button class="filter__toggle" aria-controls="archiveSidebar" aria-expanded="false" style="display:none;">
+						Filters <span class="caret"></span>
+					</button>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+						{# <span class="navbar-toggler-icon"></span> #}
+						<span class="hamburger-bars"></span>
+					</button>
+				</div>
 			</div>
 
 			<div class="collapse navbar-collapse" id="navbarNavDropdown">
