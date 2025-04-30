@@ -1,14 +1,4 @@
 .archive__sidebar {
-	display: none;
-	position: fixed;
-	top: 0; left: 0; bottom: 0;
-	width: 80vw;
-	max-width: 320px;
-	background: #fff;
-	z-index: 1000;
-	box-shadow: 2px 0 8px rgba(0,0,0,0.15);
-	overflow-y: auto;
-	transition: transform 0.3s;
 	@include media($phablet) {
 		position: relative;
 		float: left;
@@ -19,18 +9,27 @@
 		width: 15%;
 	}
 	// Sidebar filter menu
-	@media (max-width: 800px) {
-
-		.archive__sidebar.is-open {
-			display: block;
+	@include media("max", $tablet) {
+		position: absolute;
+		z-index: 7;
+		width: 100%;
+		top: 0;
+		right: -100%;
+		box-shadow: $mobile-menu-shadow;
+		padding: 1rem 2rem 2rem 2rem;
+		background-color: $white;
+		transform: translateX(0);
+		transition: right 0.4s ease-in-out;
+		&.is-open {
+			right: 0;
+			@include media($phablet) {
+				right: -60%;
+			}
 		}
 		.filter__title {
 			cursor: pointer;
 			/* Optionally add a filter icon here */
 		}
-	}
-
-	@media (max-width: 800px) {
 		.filter__toggle {
 			display: block !important;
 			position: fixed;
@@ -39,7 +38,8 @@
 			z-index: 1100;
 		}
 	}
-	@media (min-width: 801px) {
+
+	@include media($tablet) {
 		.filter__toggle {
 			display: none !important;
 		}
@@ -301,3 +301,25 @@
 }
 // // END extra custom
 // END RPE Required reset css
+
+// Add this new overlay class
+.sidebar-overlay {
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 6;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+	
+	@include media("max", $tablet) {
+		&.is-visible {
+			opacity: 1;
+			visibility: visible;
+		}
+	}
+}
