@@ -11,7 +11,7 @@
 	{% set tile_classes = tile_classes ~ ' tile--has-img tile--research-cat--' ~ tile.terms('research-categories')[0].slug %}
 	{% set tile_image = true %}
 
-{% elseif tile.post_type == 'blogs' %}
+{% elseif tile.post_type == 'blogs' or tile.post_type == 'announcement' %}
 	{% set tile_classes = tile_classes ~ ' tile--has-img' %}
 	{% set tile_image = true %}
 

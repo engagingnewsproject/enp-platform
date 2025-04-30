@@ -2,7 +2,6 @@
 	@include tile-style;
 	cursor: pointer;
 	position: relative;
-	// padding-bottom: 30px;
 
 	&:hover {
 		@include tile-style-hover;
@@ -71,7 +70,7 @@
 	height: 240px;
 }
 .tile__excerpt {
-	font-size: 14px;
+	font-size: $font-size-medium;
 	color: $text-color;
 }
 .tile__bar {
