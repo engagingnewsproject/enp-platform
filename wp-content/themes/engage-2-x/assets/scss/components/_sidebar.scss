@@ -40,7 +40,8 @@
 	}
 
 	@include media($tablet) {
-		.filter__toggle {
+		.filter__toggle,
+		.filter__close {
 			display: none !important;
 		}
 	}
