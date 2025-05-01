@@ -108,6 +108,7 @@ add_action('after_setup_theme', function () {
 		new Permalinks(),
 		new Queries(),
 		new PostTypes(['Research', 'Blogs', 'Announcement', 'Team', 'Funders', 'Board', 'Publications', 'Press']),
+		new Taxonomies(['Verticals']), // temporary keep true for initial testing
 		new TinyMCE()
 	];
 
