@@ -1,4 +1,5 @@
 <?php
+
 namespace Engage\Models;
 
 use Engage\Managers\Queries as Queries;
@@ -17,31 +18,34 @@ use Timber;
  * - Posts are properly sorted by date and featured status
  * - A good mix of content from different research categories
  */
-class Homepage {
+class Homepage
+{
 	public $funders;
 	public $Query;
 	public $recent;
 	public $moreRecent;
 	public $allQueriedPosts;
-	
-	public function __construct() {
+
+	public function __construct()
+	{
 		$this->Query = new Queries();
 		$this->setFunders();
 		$this->getRecent();
 	}
-	
+
 	/**
 	 * Sets up the funders section by fetching all funder posts
 	 * 
 	 * This gets all the funder posts from WordPress and orders them
 	 * according to their menu order (drag-and-drop order in admin)
 	 */
-	public function setFunders() {
+	public function setFunders()
+	{
 		$this->funders = Timber::get_posts(
 			['post_type' => 'funders', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => 'ASC'],
 		);
 	}
-	
+
 	/**
 	 * Gets the most recent posts from each research category
 	 * 
@@ -51,41 +55,110 @@ class Homepage {
 	 * 3. Limits total posts to 8
 	 * 4. Sorts posts by date and featured status
 	 */
-	public function getRecent() {
-		// Get an array of all of the research categories
+	public function getRecent()
+	{
+		// Only pull posts from these research categories
+		$allowed_slugs = [
+			'bridging-divides',
+			'journalism',
+			'propaganda',
+			'social-platforms',
+			'science-communication',
+		];
+
+		// 1. Get excluded category IDs from ACF (adjust the field name if needed)
+		$excluded_ids = \get_field('more_research');
+		if (isset($excluded_ids['exclude_research_category'])) {
+			$excluded_ids = $excluded_ids['exclude_research_category'];
+		} else {
+			$excluded_ids = [];
+		}
+
+		// 2. Convert IDs to slugs
+		$excluded_slugs = [];
+		if (!empty($excluded_ids)) {
+			foreach ($excluded_ids as $cat_id) {
+				$term = \get_term($cat_id, 'research-categories');
+				if ($term && !is_wp_error($term)) {
+					$excluded_slugs[] = $term->slug;
+				}
+			}
+		}
+		// 3. Remove excluded slugs from allowed_slugs
+		$allowed_slugs = array_diff($allowed_slugs, $excluded_slugs);
+
 		$categories = $this->Query->getResearchCategories();
-		$this->recent = []; // Set to an empty array to allow array_merge
+		$this->recent = [];
 		$this->moreRecent = [];
-		$this->allQueriedPosts = []; // Keeps track of all previously queried posts to avoid duplicates
-		
+		$this->allQueriedPosts = [];
+
 		foreach ($categories as $category) {
-			// Skip the 'uncategorized' category
-			if ($category->slug === 'uncategorized') {
+			error_log('Category: ' . $category->slug);
+			if (!in_array($category->slug, $allowed_slugs)) {
 				continue;
 			}
-			
+
 			$categoryName = $category->slug;
-			// Get the most recent post and moreResearch posts for that specific category
 			$results = $this->getRecentFeaturedResearch($categoryName);
+			foreach ($results as $post) {
+				error_log('Recent Featured: ' . $post->post_title . ' (ID: ' . $post->ID . ')');
+			}
 			$this->recent = array_merge($results, $this->recent);
 			$this->allQueriedPosts = array_merge($results, $this->allQueriedPosts);
-			
-			$results = $this->getMoreRecentResearch($this->recent, $categoryName);
-			$this->moreRecent = array_merge($results, $this->moreRecent);
-			$this->allQueriedPosts = array_merge($results, $this->allQueriedPosts);
 		}
-		
-		// Limit the total number of posts to 8
-		$this->recent = array_slice($this->recent, 0, 8);
-		$this->moreRecent = array_slice($this->moreRecent, 0, 8);
-		$this->allQueriedPosts = array_slice($this->allQueriedPosts, 0, 8);
-		
+
+		// Collect the IDs of all slider posts
+		$slider_ids = array_map(function($post) {
+			// Timber\Post objects use $post->ID, but sometimes $post->id
+			return isset($post->ID) ? $post->ID : $post->id;
+		}, $this->recent);
+
+		error_log('Slider IDs: ' . implode(', ', $slider_ids));
+
+		// 3. Query for the 8 most recent posts across all allowed categories, excluding slider posts
+		$tax_query = [
+			[
+				'taxonomy' => 'research-categories',
+				'field'    => 'slug',
+				'terms'    => $allowed_slugs,
+				'operator' => 'IN',
+			]
+		];
+
+		if (!empty($excluded_slugs)) {
+			$tax_query[] = [
+				'taxonomy' => 'research-categories',
+				'field'    => 'slug',
+				'terms'    => $excluded_slugs,
+				'operator' => 'NOT IN',
+			];
+		}
+
+		$args = [
+			'post_type' => 'research',
+			'posts_per_page' => 8,
+			'orderby' => 'date',
+			'order' => 'DESC',
+			'post__not_in' => $slider_ids,
+			'tax_query' => $tax_query,
+		];
+		$this->moreRecent = Timber::get_posts($args);
+
+		// Ensure $this->moreRecent is an array before sorting
+		if ($this->moreRecent instanceof \Timber\PostQuery) {
+			$this->moreRecent = $this->moreRecent->to_array();
+		}
+
 		// $this->sortByDate(true);
 		$this->sortByDate(false);
-		
+
 		$this->sortSliderByTopFeatured();
+
+		foreach ($this->moreRecent as $post) {
+			error_log('Grid Post: ' . $post->post_title . ' (ID: ' . $post->ID . ')');
+		}
 	}
-	
+
 	/**
 	 * Gets the most recent featured research post for a category
 	 * 
@@ -95,17 +168,18 @@ class Homepage {
 	 * @param string $categoryName The slug of the research category
 	 * @return array Array containing one featured post
 	 */
-	public function getRecentFeaturedResearch($categoryName) {
-		$featuredPosts = $this->queryPosts(true, $categoryName, 1);
+	public function getRecentFeaturedResearch($categoryName)
+	{
+		// Get the most recent post, regardless of featured status
+		$recentPosts = $this->queryPosts(false, $categoryName, 1);
 		$recentFeaturedPosts = array();
-		//only show one featured research per category
-		foreach ($featuredPosts as $featurePost) {
-			array_push($recentFeaturedPosts, $featurePost);
+		foreach ($recentPosts as $post) {
+			array_push($recentFeaturedPosts, $post);
 			break;
 		}
 		return $recentFeaturedPosts;
 	}
-	
+
 	/**
 	 * Gets additional recent research posts for a category
 	 * 
@@ -118,21 +192,26 @@ class Homepage {
 	 * @param string $categoryName The slug of the research category
 	 * @return array Array of recent research posts
 	 */
-	public function getMoreRecentResearch($featuredSliderPosts, $categoryName) {
+	public function getMoreRecentResearch($featuredSliderPosts, $categoryName)
+	{
 		// how many more_research_posts should be display on the home page for each category
 		$numFeaturedPerCategory = [
 			"journalism" => 3,
 		];
-		
+
 		$num_posts = array_key_exists($categoryName, $numFeaturedPerCategory) ?
-		$numFeaturedPerCategory[$categoryName] : 8;
-		
+			$numFeaturedPerCategory[$categoryName] : 8;
+
 		$allRecentResearch = $this->queryPosts(false, $categoryName, $num_posts);
 		$allRecentResearchArray = $allRecentResearch->to_array();
-		
+
+		foreach ($allRecentResearch as $post) {
+			error_log('More Research: ' . $post->post_title . ' (ID: ' . $post->ID . ', Date: ' . $post->post_date . ')');
+		}
+
 		return $allRecentResearchArray;
 	}
-	
+
 	/**
 	 * Queries WordPress for research posts with specific criteria
 	 * 
@@ -147,19 +226,28 @@ class Homepage {
 	 * @param int $numberOfPosts How many posts to get
 	 * @return mixed Query results from WordPress
 	 */
-	public function queryPosts($is_featured, $categoryName, $numberOfPosts) {
+	public function queryPosts($is_featured, $categoryName, $numberOfPosts)
+	{
 		$args = [
-			'postType' => 'research',
-			'research-categories' => $categoryName,
-			'postsPerPage' => $numberOfPosts,
+			'post_type' => 'research',
+			'posts_per_page' => $numberOfPosts,
 			'post__not_in' => array_map(function ($post) {
-				return $post->id;
-			}, $this->allQueriedPosts)
+				return $post->ID;
+			}, $this->allQueriedPosts),
+			'orderby' => 'date',
+			'order' => 'DESC',
+			'tax_query' => [
+				[
+					'taxonomy' => 'research-categories',
+					'field'    => 'slug',
+					'terms'    => $categoryName,
+				],
+			],
 		];
 		if ($is_featured) {
 			// add extraQuery if want to get only posts that are marked by the admin to "show"
 			// in the featured_research custom field
-			
+
 			$args['extraQuery'] = [
 				'meta_query' => [
 					'relation' => 'OR',
@@ -172,50 +260,53 @@ class Homepage {
 						'key' => 'featured_research',
 						'value' => serialize(array('Showpost')),
 						'compare' => 'LIKE'
-						]
-					],
-				];
-			}
-			return $this->Query->getRecentPosts($args);
+					]
+				],
+			];
 		}
-		
-		/**
-		 * Sorts posts by their publication date
-		 * 
-		 * Orders posts from newest to oldest, either for:
-		 * - The featured slider posts ($is_slider = true)
-		 * - The additional recent posts ($is_slider = false)
-		 * 
-		 * @param bool $is_slider Whether sorting slider posts or recent posts
-		 */
-		public function sortByDate($is_slider) {
-			if ($is_slider) {
-				usort($this->recent, function ($a, $b) {
-					return strtotime($b->post_date) - strtotime($a->post_date);
-				});
-			} else {
-				usort(
-					$this->moreRecent,
-					function ($a, $b) {
-						return strtotime($b->post_date) - strtotime($a->post_date);
-					}
-				);
+		return $this->Query->getRecentPosts($args);
+	}
+
+	/**
+	 * Sorts posts by their publication date
+	 * 
+	 * Orders posts from newest to oldest, either for:
+	 * - The featured slider posts ($is_slider = true)
+	 * - The additional recent posts ($is_slider = false)
+	 * 
+	 * @param bool $is_slider Whether sorting slider posts or recent posts
+	 */
+	public function sortByDate($is_slider)
+	{
+		if ($is_slider) {
+			if ($this->recent instanceof \Timber\PostQuery) {
+				$this->recent = $this->recent->to_array();
 			}
-		}
-		
-		/**
-		 * Sorts the slider posts by their featured status
-		 * 
-		 * Reorders the featured slider posts so that posts marked as
-		 * "top featured" appear first in the slider
-		 */
-		public function sortSliderByTopFeatured() {
 			usort($this->recent, function ($a, $b) {
-				$topFeatureA = is_array($a->top_featured_research) ? implode('', $a->top_featured_research) : $a->top_featured_research;
-				$topFeatureB = is_array($b->top_featured_research) ? implode('', $b->top_featured_research) : $b->top_featured_research;
-				return strcmp($topFeatureB, $topFeatureA);
+				return strtotime($b->post_date) - strtotime($a->post_date);
+			});
+		} else {
+			if ($this->moreRecent instanceof \Timber\PostQuery) {
+				$this->moreRecent = $this->moreRecent->to_array();
+			}
+			usort($this->moreRecent, function ($a, $b) {
+				return strtotime($b->post_date) - strtotime($a->post_date);
 			});
 		}
-		
 	}
-	
+
+	/**
+	 * Sorts the slider posts by their featured status
+	 * 
+	 * Reorders the featured slider posts so that posts marked as
+	 * "top featured" appear first in the slider
+	 */
+	public function sortSliderByTopFeatured()
+	{
+		usort($this->recent, function ($a, $b) {
+			$topFeatureA = is_array($a->top_featured_research) ? implode('', $a->top_featured_research) : $a->top_featured_research;
+			$topFeatureB = is_array($b->top_featured_research) ? implode('', $b->top_featured_research) : $b->top_featured_research;
+			return strcmp($topFeatureB, $topFeatureA);
+		});
+	}
+}
