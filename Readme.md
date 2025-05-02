@@ -141,6 +141,32 @@ If you encounter issues with the Engage theme:
     git push production stable
     ```
 
+
+### Sync Production Database → Development
+
+> **Only for your Dev environment.** This will not touch uploads or code—just the DB.
+
+1. Make sure you’ve set your SSH keys as described in `ssh/sync-db.sh`.  
+2. Confirm you have the Yarn script in your `package.json`:
+    ```jsonc
+    {
+      "scripts": {
+        "sync-db": "bash ssh/sync-db.sh"
+      }
+    }
+    ```
+3. From the theme root, run:
+    ```bash
+    yarn sync-db
+    ```
+    This will:
+    - Export the Production database  
+    - Stream it into Development  
+    - Search-replace your live URL with the dev URL  
+    - Flush the WP cache  
+
+4. **Verify** by spot-checking a few pages and custom post types in your Dev site.
+
 ## ACF Field Group Syncing
 
 ### Overview
