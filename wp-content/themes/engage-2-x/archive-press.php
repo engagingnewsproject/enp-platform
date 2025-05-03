@@ -41,6 +41,7 @@ $title = post_type_archive_title('', false);
  * from the archive page
  */
 $archive_filters = get_field('archive_settings', 'options');
+$excluded_categories = $archive_filters['press_post_type']['press_archive_filter'] ?? [];
 
 /**
  * Update the context with the title and archive filters
@@ -48,7 +49,7 @@ $archive_filters = get_field('archive_settings', 'options');
  */
 $context = Timber::context([
     'title' => $title,
-    'archive_filters' => $archive_filters,
+    'archive_filters' => $excluded_categories,
 ]);
 
 /**
@@ -57,7 +58,6 @@ $context = Timber::context([
  * If there are categories set to be excluded in the ACF options,
  * we'll modify the query to exclude those categories
  */
-$excluded_categories = $context['archive_filters']['press_archive_filter'] ?? [];
 if (!empty($excluded_categories)) {
     // Convert category objects to an array of term IDs
     $excluded_category_ids = array_map(
