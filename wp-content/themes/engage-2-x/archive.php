@@ -10,12 +10,6 @@
 
 use Timber\Timber;
 use Engage\Models\TileArchive;
-use Engage\Models\FilterMenu;
-use Engage\Models\BlogsFilterMenu;
-use Engage\Models\AnnouncementFilterMenu;
-use Engage\Models\ResearchFilterMenu;
-use Engage\Models\TeamFilterMenu;
-use Engage\Models\BoardFilterMenu;
 global $wp_query;
 
 /**
@@ -37,10 +31,6 @@ function get_sidebar_filters($globals)
 		return ['filters' => $globals->getResearchMenu()];
 	}
 
-	if (is_post_type_archive(['announcement']) || is_tax('announcement-category')) {
-		return ['filters' => $globals->getAnnouncementMenu()];
-	}
-
 	if (is_post_type_archive(['board']) || is_tax('board_category')) {
 		return ['filters' => $globals->getBoardMenu()];
 	}
@@ -58,9 +48,7 @@ $options = get_sidebar_filters($globals);
 
 // Get current term for filter highlighting
 $current_term = '';
-if (is_tax('announcement-category')) {
-	$current_term = get_query_var('announcement-category');
-} elseif (is_tax('research-categories')) {
+if (is_tax('research-categories')) {
 	$current_term = get_query_var('research-categories');
 } elseif (is_tax('team_category')) {
 	$current_term = get_query_var('team_category');
