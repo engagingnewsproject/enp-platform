@@ -18,17 +18,40 @@ global $wp_query;
  */
 $context = Timber::context();
 $globals = new Engage\Managers\Globals();
-$options = [];
 
 /**
  * Define the template hierarchy for this archive page
  */
-$templates = ['templates/archive-blogs.twig', 'templates/archive.twig', 'templates/index.twig'];
+$templates = ['templates/archive.twig', 'templates/index.twig'];
+
+/**
+ * Get the archive filters from ACF options
+ * These filters are used to determine which blog categories should be excluded
+ * from the archive page
+ */
+$archive_settings = get_field('archive_settings', 'options');
+$excluded_categories = $archive_settings['blogs_post_type']['blogs_archive_filter'] ?? [];
+$title = $archive_settings['blogs_post_type']['blogs_archive_title'];
+
+// If title is empty, get the default post type label
+if (empty($title)) {
+    $post_type_obj = get_post_type_object('blogs');
+    $title = $post_type_obj->labels->name;
+}
+
+// Override title with category name if on a category page
+if (is_tax('blogs-category')) {
+    $term = get_queried_object();
+    $title = $term->name;
+}
 
 /**
  * Get sidebar filters for blogs
  */
-$options = ['filters' => $globals->getBlogMenu()];
+$options = [
+    'filters' => $globals->getBlogMenu(),
+    'postType' => 'blogs'
+];
 
 /**
  * Handle blogs category filtering
@@ -48,6 +71,36 @@ if (is_post_type_archive('blogs') || is_tax('blogs-category')) {
             'posts_per_page' => -1
         ];
         $wp_query = new \WP_Query($args);
+    } elseif (!empty($excluded_categories)) {
+        // Get all blog categories
+        $all_categories = get_terms([
+            'taxonomy' => 'blogs-category',
+            'hide_empty' => true,
+            'exclude' => array_map(
+                fn($category) => $category->term_id, 
+                $excluded_categories
+            )
+        ]);
+
+        // Build the query arguments to include only the non-excluded categories
+        $args = [
+            'post_type' => 'blogs',
+            'posts_per_page' => -1,
+            'tax_query' => [
+                [
+                    'taxonomy' => 'blogs-category',
+                    'field'    => 'term_id',
+                    'terms'    => array_map(
+                        fn($category) => $category->term_id,
+                        $all_categories
+                    ),
+                    'operator' => 'IN'
+                ]
+            ]
+        ];
+        
+        // Debug the query
+        $wp_query = new \WP_Query($args);
     }
 }
 
@@ -59,18 +112,27 @@ if (is_tax('blogs-category')) {
     $current_term = get_query_var('blogs-category');
 }
 
-$context['current_term'] = $current_term;
-
 /**
  * Create a TileArchive object for handling the archive display
  */
 $archive = new TileArchive($options, $wp_query);
-$context['archive'] = $archive;
 
 /**
- * Get the posts for the archive
+ * Set the intro property with the custom title from ACF options
  */
-$context['posts'] = Timber::get_posts();
+$archive->intro = [
+    'title' => $title,
+    'excerpt' => ''
+];
+
+/**
+ * Update the context with all necessary data
+ */
+$context = array_merge($context, [
+    'archive' => $archive,
+    'current_term' => $current_term,
+    'archive_filters' => $excluded_categories
+]);
 
 /**
  * Render the template with our context
