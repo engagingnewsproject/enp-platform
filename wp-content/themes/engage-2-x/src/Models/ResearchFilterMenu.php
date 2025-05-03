@@ -45,7 +45,7 @@ class ResearchFilterMenu extends FilterMenu
 			return $filters;
 		}
 
-		$selected_categories = get_field('archive_settings', 'option')['research_sidebar_filter'] ?? [];
+		$selected_categories = get_field('archive_settings', 'option')['research_post_type']['research_sidebar_filter'] ?? [];
 		
 		foreach ($terms as $term) {
 			// Only include terms that are selected in the ACF field

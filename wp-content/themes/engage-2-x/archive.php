@@ -224,7 +224,6 @@ if ( is_day() ) {
 } elseif ( is_post_type_archive() ) {
 	// Archive page for a post type (ex. URLS: /research, /publications, /press, /events, etc.)
 	$title = post_type_archive_title( '', false );
-	var_dump('elseif post_type_archive title: ' . $title);
 	$context = Timber::context(
 		[
 			'title' => $title,
