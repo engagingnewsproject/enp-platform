@@ -30,18 +30,19 @@ $options = [];
 $templates = ['templates/archive-press.twig', 'templates/archive.twig', 'templates/index.twig'];
 
 /**
- * Set the page title using WordPress's post type archive title function
- * This will display "Press" or whatever the post type label is set to
- */
-$title = post_type_archive_title('', false);
-
-/**
  * Get the archive filters from ACF options
  * These filters are used to determine which press categories should be excluded
  * from the archive page
  */
-$archive_filters = get_field('archive_settings', 'options');
-$excluded_categories = $archive_filters['press_post_type']['press_archive_filter'] ?? [];
+$archive_settings = get_field('archive_settings', 'options');
+$excluded_categories = $archive_settings['press_post_type']['press_archive_filter'] ?? [];
+$title = $archive_settings['press_post_type']['press_archive_title'];
+
+// If title is empty, get the default post type label
+if (empty($title)) {
+    $post_type_obj = get_post_type_object('press');
+    $title = $post_type_obj->labels->name;
+}
 
 /**
  * Update the context with the title and archive filters
@@ -98,6 +99,16 @@ if (!empty($excluded_categories)) {
  * This object provides additional functionality for displaying posts in a grid/tile format
  */
 $archive = new TileArchive($options, $wp_query);
+
+/**
+ * Set the intro property with the custom title from ACF options
+ * This overrides the default title that would be set by the parent Archive class
+ * The title will be used in the tile-intro.twig template to display the archive header
+ */
+$archive->intro = [
+    'title' => $title,
+    'excerpt' => ''
+];
 $context['archive'] = $archive;
 
 /**
