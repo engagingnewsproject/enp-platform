@@ -41,10 +41,6 @@ function get_sidebar_filters($globals)
 		return ['filters' => $globals->getAnnouncementMenu()];
 	}
 
-	if (is_post_type_archive(['blogs']) || is_tax('blogs-category')) {
-		return ['filters' => $globals->getBlogMenu()];
-	}
-
 	if (is_post_type_archive(['board']) || is_tax('board_category')) {
 		return ['filters' => $globals->getBoardMenu()];
 	}
@@ -60,30 +56,9 @@ function get_sidebar_filters($globals)
 // Get sidebar filters
 $options = get_sidebar_filters($globals);
 
-// Handle blogs category filtering
-if (is_post_type_archive('blogs') || is_tax('blogs-category')) {
-	$blogs_category = get_query_var('blogs-category');
-	if ($blogs_category) {
-		$args = [
-			'post_type' => 'blogs',
-			'tax_query' => [
-				[
-					'taxonomy' => 'blogs-category',
-					'field' => 'slug',
-					'terms' => $blogs_category
-				]
-			],
-			'posts_per_page' => -1
-		];
-		$wp_query = new \WP_Query($args);
-	}
-}
-
 // Get current term for filter highlighting
 $current_term = '';
-if (is_tax('blogs-category')) {
-	$current_term = get_query_var('blogs-category');
-} elseif (is_tax('announcement-category')) {
+if (is_tax('announcement-category')) {
 	$current_term = get_query_var('announcement-category');
 } elseif (is_tax('research-categories')) {
 	$current_term = get_query_var('research-categories');
@@ -249,6 +224,7 @@ if ( is_day() ) {
 } elseif ( is_post_type_archive() ) {
 	// Archive page for a post type (ex. URLS: /research, /publications, /press, /events, etc.)
 	$title = post_type_archive_title( '', false );
+	var_dump('elseif post_type_archive title: ' . $title);
 	$context = Timber::context(
 		[
 			'title' => $title,
