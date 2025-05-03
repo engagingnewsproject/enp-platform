@@ -39,6 +39,12 @@ if (empty($title)) {
     $title = $post_type_obj->labels->name;
 }
 
+// Override title with category name if on a category page
+if (is_tax('announcement-category')) {
+    $term = get_queried_object();
+    $title = $term->name;
+}
+
 /**
  * Get sidebar filters for announcement
  */
