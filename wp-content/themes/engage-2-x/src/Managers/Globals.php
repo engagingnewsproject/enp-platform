@@ -282,7 +282,14 @@ class Globals
 	 */
 	public function getResearchMenu()
 	{
-		$menu = get_transient('research-filter-menu');
+		// Determine the current research category slug (or 'all' if not set)
+		$category_slug = '';
+		if (is_tax('research-categories')) {
+			$category_slug = get_query_var('research-categories');
+		}
+		$cache_key = 'research-filter-menu' . ($category_slug ? '-' . $category_slug : '-all');
+
+		$menu = get_transient($cache_key);
 		if (!empty($menu)) {
 			return $menu;
 		}
@@ -293,18 +300,23 @@ class Globals
 		]);
 
 		$options = [
-			'title'				=> 'Research',
-			'slug'				=> 'research-menu',
-			'posts' 		=> $posts,
-			'taxonomies'	=> ['research-categories'],
-			'postTypes'		=> ['research'],
+			'title'             => 'Research',
+			'slug'              => 'research-menu',
+			'posts'             => $posts,
+			'taxonomies'        => ['research-categories'],
+			'postTypes'         => ['research'],
 		];
+
+		// Check if we're on the media-ethics category page
+		if (is_tax('research-categories') && $category_slug === 'media-ethics') {
+			$options['is_media_ethics'] = true;
+		}
 
 		// we don't have the research menu, so build it
 		$filters = new ResearchFilterMenu($options);
 		$menu = $filters->build();
 
-		set_transient('research-filter-menu', $menu);
+		set_transient($cache_key, $menu);
 
 		return $menu;
 	}

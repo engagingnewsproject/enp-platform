@@ -10,11 +10,13 @@ use function get_field;
 
 class ResearchFilterMenu extends FilterMenu
 {
+	protected $options;
 
 	public function __construct($options)
 	{
 		parent::__construct($options);
-		$this->linkBase =  'postType';
+		$this->options = $options;
+		$this->linkBase = 'postType';
 		// The structure property tells the system that this filter menu should be 
 		// organized by research categories rather than by post types or verticals.
 		$this->structure = 'research-categories';
@@ -35,6 +37,38 @@ class ResearchFilterMenu extends FilterMenu
 			'terms' => []
 		];
 
+		// Debug logging
+		// error_log('ResearchFilterMenu options: ' . print_r($this->options, true));
+
+		// If we're on the media-ethics category page, get its subcategories
+		if (isset($this->options['is_media_ethics']) && $this->options['is_media_ethics']) {
+			// Get all research categories except uncategorized
+			$args = [
+				'taxonomy' => 'research-categories',
+				'hide_empty' => true
+			];
+			$uncategorized = get_term_by('slug', 'uncategorized', 'research-categories');
+			if ($uncategorized) {
+				$args['exclude'] = $uncategorized->term_id;
+			}
+			$categories = get_terms($args);
+
+			foreach ($categories as $term) {
+				$thumbID = function_exists('get_field') ? get_field('category_featured_image', "research-categories_{$term->term_id}") : null;
+				if ($thumbID) {
+					$filters['terms'][$term->slug] = [
+						'ID'    => $term->term_id,
+						'slug'  => $term->slug,
+						'title' => $term->name,
+						'link'  => get_term_link($term),
+						'taxonomy' => $term->taxonomy
+					];
+				}
+			}
+			return $filters;
+		}
+
+		// Default behavior for other cases
 		$terms = get_terms([
 			'taxonomy' => 'research-categories',
 			'hide_empty' => true,
@@ -54,7 +88,6 @@ class ResearchFilterMenu extends FilterMenu
 			}
 		}
 
-		error_log('ResearchFilterMenu filters set: ' . print_r($filters, true));
 		return $filters;
 	}
 
