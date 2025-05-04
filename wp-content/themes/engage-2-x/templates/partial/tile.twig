@@ -69,11 +69,6 @@ Other tiles have a link to the post URL
 	{% endif %}
 
 	{# Tile title block #}
-		<ul>
-		{% for term in tile.terms('press-categories') %}
-			<li>{{ term.name }}</li>
-		{% endfor %}
-		</ul>
 	<div
 		class="tile__title-wrap">
 		{# Tile, Date, Publisher, Authors #}
