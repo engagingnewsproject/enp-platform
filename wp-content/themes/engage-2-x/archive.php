@@ -59,6 +59,18 @@ if (is_tax('research-categories')) {
 $context['current_term'] = $current_term;
 
 /**
+ * Handle excluding uncategorized terms for all categories
+ */
+function exclude_uncategorized_terms($args) {
+	// Exclude uncategorized if it exists
+	$uncategorized = get_term_by('slug', 'uncategorized', 'research-categories');
+	if ($uncategorized) {
+		$args['exclude'] = $uncategorized->term_id;
+	}
+	return $args;
+}
+
+/**
  * Handle media ethics category page
  */
 function handle_media_ethics_category($options, $research_categories)
@@ -74,11 +86,8 @@ function handle_media_ethics_category($options, $research_categories)
 		'hide_empty' => true
 	];
 
-	// Only exclude uncategorized if it exists
-	$uncategorized = get_term_by('slug', 'uncategorized', 'research-categories');
-	if ($uncategorized) {
-		$args['exclude'] = $uncategorized->term_id;
-	}
+	// Apply uncategorized exclusion
+	$args = exclude_uncategorized_terms($args);
 
 	$researchCategories = get_terms($args);
 	$researchTiles = [];
@@ -96,8 +105,6 @@ function handle_media_ethics_category($options, $research_categories)
 				'link' => home_url("/research/category/media-ethics/{$category->slug}/"),
 				'count' => $category->count
 			];
-		} else {
-			error_log("No featured image found for category: {$category->name}");
 		}
 	}
 
