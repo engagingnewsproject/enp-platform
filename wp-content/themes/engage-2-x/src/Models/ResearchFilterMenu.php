@@ -89,8 +89,20 @@ class ResearchFilterMenu extends FilterMenu
 			return $filters;
 		}
 
-		$selected_categories = get_field('archive_settings', 'option')['research_post_type']['research_sidebar_filter'] ?? [];
-		
+		// Get the ACF field
+		$archive_settings = get_field('archive_settings', 'option');
+
+		// Initialize default empty array
+		$selected_categories = [];
+
+		// Only try to access the nested array if we have valid data
+		if (is_array($archive_settings) && 
+			isset($archive_settings['research_post_type']) && 
+			isset($archive_settings['research_post_type']['research_sidebar_filter']) &&
+			is_array($archive_settings['research_post_type']['research_sidebar_filter'])) {
+			$selected_categories = $archive_settings['research_post_type']['research_sidebar_filter'];
+		}
+
 		foreach ($terms as $term) {
 			// Only include terms that are selected in the ACF field
 			if (in_array($term->term_id, $selected_categories)) {
