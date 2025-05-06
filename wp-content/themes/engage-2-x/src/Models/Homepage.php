@@ -93,16 +93,13 @@ class Homepage
 		$this->allQueriedPosts = [];
 
 		foreach ($categories as $category) {
-			error_log('Category: ' . $category->slug);
 			if (!in_array($category->slug, $allowed_slugs)) {
 				continue;
 			}
 
 			$categoryName = $category->slug;
 			$results = $this->getRecentFeaturedResearch($categoryName);
-			foreach ($results as $post) {
-				error_log('Recent Featured: ' . $post->post_title . ' (ID: ' . $post->ID . ')');
-			}
+
 			$this->recent = array_merge($results, $this->recent);
 			$this->allQueriedPosts = array_merge($results, $this->allQueriedPosts);
 		}
@@ -112,8 +109,6 @@ class Homepage
 			// Timber\Post objects use $post->ID, but sometimes $post->id
 			return isset($post->ID) ? $post->ID : $post->id;
 		}, $this->recent);
-
-		error_log('Slider IDs: ' . implode(', ', $slider_ids));
 
 		// 3. Query for the 8 most recent posts across all allowed categories, excluding slider posts
 		$tax_query = [
@@ -154,9 +149,6 @@ class Homepage
 
 		$this->sortSliderByTopFeatured();
 
-		foreach ($this->moreRecent as $post) {
-			error_log('Grid Post: ' . $post->post_title . ' (ID: ' . $post->ID . ')');
-		}
 	}
 
 	/**
@@ -204,10 +196,6 @@ class Homepage
 
 		$allRecentResearch = $this->queryPosts(false, $categoryName, $num_posts);
 		$allRecentResearchArray = $allRecentResearch->to_array();
-
-		foreach ($allRecentResearch as $post) {
-			error_log('More Research: ' . $post->post_title . ' (ID: ' . $post->ID . ', Date: ' . $post->post_date . ')');
-		}
 
 		return $allRecentResearchArray;
 	}
