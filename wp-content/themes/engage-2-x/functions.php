@@ -532,3 +532,18 @@ function clear_research_filter_menu_cache() {
     delete_transient('research-filter-menu');
 }
 add_action('init', 'clear_research_filter_menu_cache');
+
+/**
+ * Sort publications by publication date on taxonomy archive pages
+ * 
+ * This hook modifies the main query for publication category archive pages
+ * to sort publications by their publication_date meta field in descending order.
+ * This ensures that publications are displayed newest first on category pages.
+ */
+add_action('pre_get_posts', function($query) {
+    if (!is_admin() && $query->is_main_query() && $query->is_tax('publication-categories')) {
+        $query->set('meta_key', 'publication_date');
+        $query->set('orderby', 'meta_value_num');
+        $query->set('order', 'DESC');
+    }
+});
