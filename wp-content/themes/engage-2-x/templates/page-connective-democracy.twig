@@ -59,7 +59,7 @@
 						{% for item in post.meta('custom_posts') %}
 							<div class="tile tile--has-img {{ twoColumns }} tile--vertical--journalism">
 
-								<div class="tile__img-wrap">
+								<div class="tile__img-wrap" tabindex="0" role="button">
 									<img src="{{ get_image(item.image).src('grid-large') }}" 
 										srcset="{{ get_image(item.image).srcset }}" 
 										sizes="{{ get_image(item.image).img_sizes }}" 
@@ -71,7 +71,7 @@
 										<div class="tile__bar"></div>
 									</div>
 									<h3 class="tile__title h3">{{ item.title }}</h3>
-									<p class="tile__date">{{ item.date }}</p>
+									<p class="tile__date" tabindex="0">{{ item.date }}</p>
 									<div class="tile__excerpt">{{ item.excerpt }}</div>
 								</div>
 								<a class="tile__link" href="{{ item.link }}" {% if item.link_in_blank %}target="_blank"{% endif %}>

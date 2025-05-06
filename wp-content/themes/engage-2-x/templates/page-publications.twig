@@ -20,7 +20,7 @@
 
 				{% for item in post.meta('publication') %}
 					<div class="tile tile--has-img">
-						<div class="tile__img-wrap">
+						<div class="tile__img-wrap" tabindex="0" role="button">
 							{% if item.picture %}
 <img class="title__img" 
          src="{{ get_image(item.picture).src('thumbnail') }}" 
