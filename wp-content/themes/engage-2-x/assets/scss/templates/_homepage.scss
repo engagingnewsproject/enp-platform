@@ -169,11 +169,10 @@ $lightGrey: #fbfbfb;
 }
 .home-quiz-tool {
 	background: transparent;
+	background-color: $white;
 	overflow: hidden;
 	display: block;
-	&.grey-bkg {
-		background: $lightGrey;
-	}
+
 	.home-section__slanty-bar {
 		-webkit-transform: skewY(4deg);
 		transform: skewY(4deg);

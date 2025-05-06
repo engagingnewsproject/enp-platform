@@ -18,7 +18,7 @@
 
 <div class="tile{{' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.vertical.slug ? tile.vertical.slug : tile.terms('verticals')[0].slug }}">
 
-	<div class="tile__img-wrap" role="button">
+	<div class="tile__img-wrap" tabindex="0" role="button">
 			{% if tile.thumbnail %}
 				<img 
 					src="{{ tile.thumbnail.src('grid-large') }}"
@@ -53,7 +53,7 @@
 		{% if tile.post_type == 'tribe_events' %}
 			<div class="tile__date">{% include 'partial/tile-event-date.twig' %}</div>
 		{% elseif tile.date %}
-			<p class="tile__date">{{ tile.date }}</p>
+			<p class="tile__date" tabindex="0">{{ tile.date }}</p>
 			{# For dev output the research categories to debug which posts display by category#}
 			{# 
 			<div style="display:flex;grid-row:6;grid-column:2/span 10;gap:5px;">

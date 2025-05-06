@@ -25,7 +25,7 @@
 						{% for item in post.meta('tips_grid') %}
 							<div class="tile tile--has-img tile--research-cat-- tile--vertical--propaganda">
 								{# IMAGE #}
-								<div class="tile__img-wrap">
+								<div class="tile__img-wrap" tabindex="0" role="button">
 									{% set file = get_attachment(item.pdf_file) %}
 									<img class="title__img" 
                                          src="{{ get_image(item.tip_poster).src('thumbnail') }}" 
