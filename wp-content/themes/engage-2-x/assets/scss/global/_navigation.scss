@@ -79,6 +79,10 @@
 		position: relative;
 		margin-left: 0;
 		padding: 1rem 0.5rem;
+		&:hover a {
+			background-color: transparent;
+			color: $orange;
+		}
 		@include media($laptop) {
 			padding: 0 0.5rem;
 		}
@@ -95,6 +99,11 @@
 	.button {
 		@include btn-reset;
 		margin-left: 1.5rem;
+		
+		&:hover {
+			background-color: transparent;
+			color: $blue-dark;
+		}
 		
 		@include media($laptop) {
 			margin-left: $spacer-sm;
@@ -265,7 +274,7 @@
 
 	.menu__item {
 		&:hover a {
-			color: lighten($orange-light, 15%);
+			color: $orange;
 		}
 	}
 
