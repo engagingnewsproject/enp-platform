@@ -1,4 +1,3 @@
-
 {# set initial values #}
 {% set defaultimg = theme.link ~ '/assets/img/default-logo.png' %}
 {% set tile_image = false %}
@@ -38,7 +37,6 @@ Other tiles have a link to the post URL
 	{% set tile_target_external = false %}
 {% endif %}
 
-
 {# 
 	Dynamically set `loading="eager"` prop
 	on images above the fold
@@ -54,20 +52,30 @@ Other tiles have a link to the post URL
 	{% endif %}
 {% endif %}
 
-<div
-	class="{{ tile_classes }}">
+<div class="tile{{' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.vertical.slug ? tile.vertical.slug : tile.terms('verticals')[0].slug }}">
 
-	{# Tile image #}
-	{% if tile_image %}
-		<div class="tile__img-wrap" role="button">
+	<div class="tile__img-wrap"  tabindex="0" role="button">
 			{% if tile.thumbnail %}
-				<img src="{{ tile.thumbnail.src('grid-large') }}" srcset="{{ tile.thumbnail.srcset }}" sizes="{{ tile.thumbnail.img_sizes }}" alt="{{ tile.thumbnail.alt }}" class="tile__img" loading="{{ loading }}"/>
+				<img 
+					src="{{ tile.thumbnail.src('grid-large') }}"
+					srcset="{{ tile.thumbnail.srcset }}"
+					sizes="{{ tile.thumbnail.img_sizes }}"
+					alt="{{ tile.thumbnail.alt }}"
+					class="tile__img" 
+					loading="{{ loading }}"
+				/>
 			{% else %}
-				<img src="{{ defaultimg }}" srcset="{{ defaultimg }} 1x, {{ defaultimg }} 2x" sizes="(max-width: 600px) 100vw, 600px" alt="Default image" class="tile__img" loading="{{ loading }}"/>
+				<img 
+					src="{{ defaultimg }}"
+					srcset="{{ defaultimg }} 1x, {{ defaultimg }} 2x"
+					sizes="(max-width: 600px) 100vw, 600px"
+					alt="Default image"
+					class="tile__img" 
+					loading="{{ loading }}"
+				/>
 			{% endif %}
-		</div>
-	{% endif %}
-
+	</div> 
+ 
 	{# Tile title block #}
 	<div
 		class="tile__title-wrap">
@@ -112,20 +120,25 @@ Other tiles have a link to the post URL
 			<p class="tile__date">{{ tile.date }}</p>
 		{% endif %}
 
-		{# Tile date #}
-		{% if post_type == 'tribe_events' %}
+		{% if tile.post_type == 'tribe_events' %}
 			<div class="tile__date">{% include 'partial/tile-event-date.twig' %}</div>
+		{% elseif tile.date %}
+			<p class="tile__date" tabindex="0">{{ tile.date }}</p>
+			{# For dev output the research categories to debug which posts display by category#}
+			{# 
+			<div style="display:flex;grid-row:6;grid-column:2/span 10;gap:5px;">
+				{% for term in tile.terms('research-categories') %}
+					<p class="tile__date">{{ term.name }}</p>
+				{% endfor %}
+			</div> 
+			#}
 		{% endif %}
 
-		{# Tile excerpt #}
-		{% if post_type != 'press' and post_type != 'publication' %}
-			{% if tile.excerpt %}
-				<div class="tile__excerpt">
-					{{ tile.excerpt }}
-				</div>
-			{% endif %}
+		{% if tile.excerpt %}
+			<div class="tile__excerpt">
+				{{ tile.excerpt }}
+			</div>
 		{% endif %}
-	</div>
 
 	{# Tile link #}
 	{# if tile_link includes our base URL, don't open in new tab #}
