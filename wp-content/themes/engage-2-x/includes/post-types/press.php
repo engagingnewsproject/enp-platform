@@ -14,7 +14,8 @@
  * This ensures that press are displayed newest first on category pages.
  */
 add_action('pre_get_posts', function($query) {
-    if (!is_admin() && $query->is_main_query() && $query->is_tax('press-categories')) {
+    // Only modify the main query on the main press archive page
+    if (!is_admin() && $query->is_main_query() && is_post_type_archive('press')) {
         $query->set('meta_key', 'press_article_publication_date');
         $query->set('orderby', 'meta_value_num');
         $query->set('order', 'DESC');
