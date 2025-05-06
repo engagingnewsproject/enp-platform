@@ -10,7 +10,7 @@
 
 	$wrapper_class = ( ! empty( $form_wrap ) ) ? ' ' . Ninja_Forms()->form( $form_id )->get()->get_setting( 'wrapper_class' ) : '';
 ?>
-<div id="nf-form-<?php echo $form_id; ?>-cont" class="nf-form-cont<?php echo esc_attr( $wrapper_class ); ?>" aria-live="polite" aria-labelledby="nf-form-title-<?php echo $form_id ?>" aria-describedby="nf-form-<?php echo $form_id; ?>" role="form">
+<div id="nf-form-<?php echo $form_id; ?>-cont" class="nf-form-cont<?php echo esc_attr( $wrapper_class ); ?>" aria-live="polite" aria-labelledby="nf-form-title-<?php echo $form_id ?>" aria-describedby="nf-form-errors-<?php echo $form_id; ?>" role="form">
 
     <div class="nf-loading-spinner"></div>
 

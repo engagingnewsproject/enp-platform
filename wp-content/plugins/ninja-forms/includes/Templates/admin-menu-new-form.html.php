@@ -864,7 +864,7 @@ Label Three
         if ( 'undefined' != typeof columns.calc ) {
         #>
              <div>
-                <input type="text" class="setting" value="{{{ data.calc }}}" data-id="calc">
+                <input type="text" class="setting" value="{{{ isNaN(_.escape( data.calc )) ? 0 : Number(_.escape( data.calc )) }}}" data-id="calc">
             </div>
             <#
         }
@@ -917,7 +917,7 @@ Label Three
         if ( 'undefined' != typeof columns.calc ) {
         #>
              <div>
-                <input type="text" class="setting" value="{{{ data.calc }}}" data-id="calc">
+                <input type="text" class="setting" value="{{{ isNaN(_.escape( data.calc )) ? 0 : Number(_.escape( data.calc )) }}}" data-id="calc">
             </div>
             <#
         }
