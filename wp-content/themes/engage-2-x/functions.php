@@ -27,7 +27,7 @@ require_once __DIR__ . '/includes/hooks/editor.php';
 // Load post types and taxonomies
 require_once __DIR__ . '/includes/post-types/publications.php';
 require_once __DIR__ . '/includes/post-types/research.php';
-
+require_once __DIR__ . '/includes/post-types/press.php';
 // Load helper functions
 require_once __DIR__ . '/includes/helpers/debug.php';
 
