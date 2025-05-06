@@ -40,27 +40,37 @@ class ResearchFilterMenu extends FilterMenu
 		// Debug logging
 		// error_log('ResearchFilterMenu options: ' . print_r($this->options, true));
 
-		// If we're on the media-ethics category page, get its subcategories
-		if (isset($this->options['is_media_ethics']) && $this->options['is_media_ethics']) {
-			// Get all research categories except uncategorized
-			$args = [
-				'taxonomy' => 'research-categories',
-				'hide_empty' => true
-			];
-			$uncategorized = get_term_by('slug', 'uncategorized', 'research-categories');
-			if ($uncategorized) {
-				$args['exclude'] = $uncategorized->term_id;
-			}
-			$categories = get_terms($args);
+		// Get the current term object if on a research category archive
+		$current_term = null;
+		if (is_tax('research-categories')) {
+			$current_term = get_queried_object();
+		}
 
-			foreach ($categories as $term) {
+		// Check if we're on Media Ethics or a child of Media Ethics
+		$is_media_ethics = false;
+		$media_ethics = get_term_by('slug', 'media-ethics', 'research-categories');
+		if ($media_ethics && $current_term) {
+			if ($current_term->term_id == $media_ethics->term_id || $current_term->parent == $media_ethics->term_id) {
+				$is_media_ethics = true;
+			}
+		}
+
+		if ($is_media_ethics) {
+			// Get all children of Media Ethics
+			$subcategories = get_terms([
+				'taxonomy' => 'research-categories',
+				'parent' => $media_ethics->term_id,
+				'hide_empty' => true
+			]);
+
+			foreach ($subcategories as $term) {
 				$thumbID = function_exists('get_field') ? get_field('category_featured_image', "research-categories_{$term->term_id}") : null;
 				if ($thumbID) {
 					$filters['terms'][$term->slug] = [
 						'ID'    => $term->term_id,
 						'slug'  => $term->slug,
 						'title' => $term->name,
-						'link'  => get_term_link($term),
+						'link'  => home_url('/research/category/media-ethics/' . $term->slug . '/'),
 						'taxonomy' => $term->taxonomy
 					];
 				}
