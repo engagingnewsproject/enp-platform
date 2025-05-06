@@ -1,0 +1,10 @@
+@include body-class(true) {
+
+	#wpmudev-add-user {
+		.dashui-item {
+			button {
+				margin-right: 0 !important;
+			}
+		}
+	}
+}

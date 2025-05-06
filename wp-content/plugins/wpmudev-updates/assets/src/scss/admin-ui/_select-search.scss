@@ -1,0 +1,45 @@
+@include body-class(true) {
+	select.wpmudev-search + .sui-select {
+		.selection {
+			span[role='combobox'] {
+				&.select2-selection--single {
+					.select2-selection__rendered {
+						position: relative;
+						padding-left: 40px;
+
+						@include icon(before, 'magnifying-glass-search') {
+							width: 22px;
+							height: 22px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							position: absolute;
+							top: 8px;
+							left: 8px;
+							color: #aaa;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	select.search-no-arrow + .sui-select {
+		.selection {
+			.select2-selection__arrow {
+				display: none !important;
+			}
+		}
+	}
+
+	#wpmudev-labels-subsites-content {
+		.select2-results {
+			li.select2-results__message {
+				padding-left: 20px !important;
+				&:before {
+					content: none !important;
+				}
+			}
+		}
+	}
+}

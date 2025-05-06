@@ -1,0 +1,273 @@
+@keyframes move {
+  0% {
+    background-position: #{$dashui-connect-header--loading-background-size / 2} 0;
+  }
+  100% {
+    background-position: #{$dashui-connect-header--loading-background-size + ($dashui-connect-header--loading-background-size / 2)} 0;
+  }
+}
+
+@include body-class(true) {
+
+  .dashui-connect {
+    margin: 0;
+
+    .dashui-connect-header {
+      display: flex;
+      align-items: center;
+
+      .dashui-connect-image,
+      .dashui-connect-ready-bar,
+      .dashui-connect-loading-bar {
+        margin: 0 #{$sui-gutter-md / 2};
+
+        &:first-child {
+          margin-left: 0;
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
+      .dashui-connect-image {
+        flex: 0 0 auto;
+      }
+
+      .dashui-connect-ready-bar,
+      .dashui-connect-loading-bar {
+        flex: 1;
+        height: $dashui-connect-header--bar-height;
+        border-radius: $dashui-connect-header--bar-height;
+      }
+
+      .dashui-connect-ready-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $dashui-connect-header--connect-background;
+
+        @include icon(after, check) {
+          width: $dashui-connect-header--connect-dot-size;
+          height: $dashui-connect-header--connect-dot-size;
+          position: absolute;
+          border: 5px solid $dashui-connect-header--connect-background;
+          border-radius: #{$dashui-connect-header--connect-icon-size * 2};
+          background-color: $dashui-connect-header--connect-dot-background;
+          color: $dashui-connect-header--connect-background;
+          font-size: $dashui-connect-header--connect-icon-size;
+          line-height: #{$dashui-connect-header--connect-dot-size - 8px};
+          text-align: center;
+        }
+      }
+
+      .dashui-connect-loading-bar {
+        background-image: repeating-linear-gradient(
+                        $dashui-connect-header--loading-inclination,
+                        $dashui-connect-header--loading-bars-color,
+                        $dashui-connect-header--loading-bars-color 8px,
+                        $dashui-connect-header--loading-background 8px,
+                        $dashui-connect-header--loading-background 18px /* determines size */
+        );
+        background-size: $dashui-connect-header--loading-background-size;
+        animation: move .5s linear infinite;
+      }
+
+      @include media(min-width, md) {
+        padding: 0 $sui-gutter-md;
+      }
+    }
+
+    .dashui-connect-body {
+      position: relative;
+      margin: #{$sui-gutter-md + $dashui-connect-body--pointer-size} 0 0;
+      border: 1px solid $dashui-connect-body--border-color;
+      border-radius: $border-radius;
+      background-color: $dashui-connect-body--background;
+      text-align: initial;
+
+      &:before,
+      &:after {
+        content: " ";
+        pointer-events: none;
+        backface-visibility: hidden;
+        position: absolute;
+        border-style: solid;
+        border-color: transparent;
+      }
+
+      &:before {
+        z-index: 1;
+        top: -#{$dashui-connect-body--pointer-size + ($dashui-connect-body--pointer-size - 2px)};
+        left: #{$dashui-connect-body--pointer-position + 1px};
+        border-width: #{$dashui-connect-body--pointer-size - 1px};
+        border-bottom-color: $dashui-connect-body--background;
+      }
+
+      &:after {
+        z-index: 0;
+        top: -#{$dashui-connect-body--pointer-size + 10px};
+        left: $dashui-connect-body--pointer-position;
+        border-width: $dashui-connect-body--pointer-size;
+        border-bottom-color: #DADADA;
+      }
+
+      .dashui-stage-text {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        color: $dashui-connect-body--color;
+        font: 400 #{$dashui-connect-body--font-size}/#{$dashui-connect-body--line-height} $font;
+        letter-spacing: $font--letter-spacing;
+      }
+
+      &.dashui-final-stage {
+
+        &:before,
+        &:after {
+          left: unset;
+        }
+
+        &:before {
+          z-index: 1;
+          top: -#{$dashui-connect-body--pointer-size + ($dashui-connect-body--pointer-size - 2px)};
+          right: #{$dashui-connect-body--pointer-position + 1px};
+        }
+
+        &:after {
+          z-index: 0;
+          top: -#{$dashui-connect-body--pointer-size + 10px};
+          right: $dashui-connect-body--pointer-position;
+        }
+      }
+
+      @include media(max-width, md) {
+        padding: #{$sui-gutter-md - 2px};
+      }
+
+      @include media(min-width, md) {
+        padding: $sui-gutter $sui-gutter #{$sui-gutter - 1px} #{$sui-gutter - 1px};
+      }
+    }
+
+    .dashui-connect-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      span {
+        width: $dashui-connect-navigation--dot-size;
+        height: $dashui-connect-navigation--dot-size;
+        display: block;
+        flex: 0 0 auto;
+        margin: 0 5px;
+        border-radius: #{$dashui-connect-navigation--dot-size * 2};
+        background-color: $dashui-connect-navigation--dot-background;
+
+        &.dashui-current {
+          background-color: $dashui-connect-navigation--dot-background-current;
+        }
+      }
+
+      @include media(max-width, md) {
+        margin: $sui-gutter-md 0 0;
+      }
+
+      @include media(min-width, md) {
+        margin: $sui-gutter 0 0;
+      }
+    }
+
+    .dashui-connect-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .sui-button-lg {
+        font-size: 12px;
+      }
+    }
+
+    .dashui-connect-process {
+      width: 100%;
+      max-width: $dashui-connect-process--width;
+      margin: 0 auto;
+      padding: 0;
+      text-align: left;
+
+      &, li {
+        border: 0;
+        list-style: none;
+      }
+
+      li {
+        position: relative;
+        margin: 0;
+        padding: 0 0 0 #{$dashui-connect-process--icon-size + 10px};
+        color: $dashui-connect-process--color;
+        font: 400 13px/22px $font;
+        letter-spacing: $font--letter-spacing;
+
+        &:not(:last-child) {
+          margin: 0 0 10px;
+        }
+
+        @include icon(before, loader) {
+          position: absolute;
+          top: #{(22px - $dashui-connect-process--icon-size) / 2};
+          left: 0;
+          color: $dashui-connect-process--color;
+          font-size: $dashui-connect-process--icon-size;
+          animation: spin 1.3s linear infinite;
+        }
+
+        &.dashui-ready {
+
+          @include icon(before, check-tick, false) {
+            color: $dashui-connect-process--color-ready;
+            animation: none;
+          }
+        }
+
+        &.dashui-failed {
+
+          @include icon(before, cross-close, false) {
+            color: $dashui-connect-process--color-failed;
+            animation: none;
+          }
+        }
+
+        &.dashui-chevron-right {
+
+          @include icon(before, chevron-right, false) {
+            color: $dashui-connect-process--color-gray;
+            animation: none;
+          }
+        }
+      }
+    }
+
+    &:not(:first-child) {
+
+      @include media(max-width, md) {
+        margin: $sui-gutter-md 0 0;
+      }
+
+      @include media(min-width, md) {
+        margin: $sui-gutter 0 0;
+      }
+    }
+
+    &:not(:last-child) {
+
+      @include media(max-width, md) {
+        margin: 0 0 $sui-gutter-md;
+      }
+
+      @include media(min-width, md) {
+        margin: 0 0 $sui-gutter;
+      }
+    }
+  }
+}
