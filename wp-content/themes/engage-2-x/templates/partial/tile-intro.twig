@@ -27,8 +27,10 @@
 				<span class="tile__title--subtitle">| {{ tile.subtitle }}</span>
 			{% endif %}
 		</h1>
-		{% if post.post_excerpt %} {# check if the post has an excerpt first, otherwise WordPress will use part of the content #}
-			<div class="tile__excerpt tile__excerpt--intro">{{ tile.excerpt }}</div>
+		{% if show_excerpt is not defined or show_excerpt == true %}
+			{% if post.post_excerpt %} {# check if the post has an excerpt first, otherwise WordPress will use part of the content #}
+				<div class="tile__excerpt tile__excerpt--intro">{{ tile.excerpt }}</div>
+			{% endif %}
 		{% endif %}
 	</div>
 {# {% endif %} #}

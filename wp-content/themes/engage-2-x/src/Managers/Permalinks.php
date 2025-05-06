@@ -34,6 +34,9 @@ class Permalinks
 		// Add actions to WordPress hooks
 		add_action('query_vars', [$this, 'addQueryVars']);
 		add_filter('generate_rewrite_rules', [$this, 'addRewrites']);
+
+		// Add the term_link filter for research categories
+		add_filter('term_link', [$this, 'filterResearchCategoryTermLink'], 10, 3);
 	}
 
 	/**
@@ -223,5 +226,16 @@ class Permalinks
 			$this->getResearchRewrites() +
 			$this->getPostTypeCategoryRewrites() +
 			$wp_rewrite->rules;
+	}
+
+	/**
+	 * Filter the term link for research categories to use the custom structure.
+	 */
+	public function filterResearchCategoryTermLink($url, $term, $taxonomy)
+	{
+		if ($taxonomy === 'research-categories') {
+			$url = home_url('/research/category/' . $term->slug . '/');
+		}
+		return $url;
 	}
 }

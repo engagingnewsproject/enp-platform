@@ -22,6 +22,22 @@ if ($terms && !empty($terms)) {
     $press_posts = get_posts([
         'post_type' => 'press',
         'numberposts' => -1,
+        'meta_query' => [
+            'relation' => 'OR',
+            [
+                'key' => 'press_article_publication_date',
+                'compare' => 'EXISTS',
+                'type' => 'DATE'
+            ],
+            [
+                'key' => 'press_article_publication_date',
+                'compare' => 'NOT EXISTS'
+            ]
+        ],
+        'orderby' => [
+            'press_article_publication_date' => 'DESC',
+            'press_article_publisher' => 'ASC'
+        ],
         'tax_query' => [
             [
                 'taxonomy' => 'press-categories',

@@ -22,7 +22,7 @@
             "load_terms": 0,
             "return_format": "object",
             "field_type": "checkbox",
-            "allow_in_bindings": 1,
+            "allow_in_bindings": 0,
             "bidirectional": 0,
             "multiple": 0,
             "allow_null": 0,
@@ -87,5 +87,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1746126321
+    "modified": 1746218630
 }

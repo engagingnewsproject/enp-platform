@@ -85,7 +85,8 @@
 				{% for item in menu.items %}
 					<li {% if item.children %} tabindex="{{0}}" {% endif %} class="menu__item {{ item.classes | join(' ') }}">
 						<a class="menu__link" target="{{ item.target }}" {% if item.link %}href="{{ item.link }}"{% endif %} {% if item.children %}aria-haspopup="true" aria-expanded="false"{% endif %} {% if item.classes[0] == "btn" %}style="color: {{ options.navigation_settings.link_color }}"{% endif %}>
-						>{{ item.title }}</a>
+							{{ item.title }}
+						</a>
 						{% if item.children %}
 							<ul class="menu__sublist {{ collapsable ? " collapsable" }}">
 								{% for child in item.children %}

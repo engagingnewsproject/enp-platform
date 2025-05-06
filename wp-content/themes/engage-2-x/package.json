@@ -12,7 +12,8 @@
 		"watch": "mix watch",
 		"hot": "mix --hot",
 		"prod": "npm run production",
-		"production": "mix --production"
+		"production": "mix --production",
+		"sync-db": "bash ssh/sync-db.sh"
 	},
 	"author": "",
 	"license": "ISC",

@@ -29,8 +29,8 @@
 				{% if post.meta('custom_tiles') %}
 					{% for tile in post.meta('custom_tiles') %}
 						{% if tile.acf_fc_layout == 'custom_post' %}
-						{# set the image to the tile using TimberImage #}
-							{% set image = TimberImage(tile.image) %}
+						{# set the image to the tile using get_image #}
+							{% set image = get_image(tile.image) %}
 							{# Create a custom tile using the flexible content field data (title, excerpt, image, and link) #}
 							{% include "partial/tile.twig" with { 
 								'tile': {

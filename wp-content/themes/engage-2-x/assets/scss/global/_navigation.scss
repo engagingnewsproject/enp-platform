@@ -94,8 +94,10 @@
 	.btn,
 	.button {
 		@include btn-reset;
-		margin-left: 1.5rem;
-		
+		&:hover {
+			background-color: transparent;
+			color: $orange;
+		}
 		@include media($laptop) {
 			margin-left: $spacer-sm;
 		}
@@ -103,7 +105,7 @@
 		a {
 			border-radius: 40px;
 			margin: 0;
-			padding: 6px 12px;
+			padding: 6px 30px;
 			font-size: 0.85rem;
 			
 			@include media($tablet) {
@@ -116,7 +118,7 @@
 		a {
 			border: none;
 			color: #bf5700;
-			margin-left: 25px;
+			// margin-left: 25px;
 			
 			&::before {
 				background: url("/wp-content/themes/engage-2-x/assets/img/avatar.png") no-repeat;
@@ -125,22 +127,20 @@
 				width: 16px;
 				height: 16px;
 				position: absolute;
-				left: -10px;
+				left: 0;
 				top: 0;
 				display: block;
 				transition: all 0.3s;
 				
-				@include media($laptop) {
-					margin-left: 15px;
-				}
+		
 			}
 		}
 		
 		&:hover a:before {
-			left: 10px;
+			left: 5px;
 			
 			@include media($laptop) {
-				left: -5px;
+				left: 5px;
 			}
 		}
 	}

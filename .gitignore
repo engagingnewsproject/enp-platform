@@ -123,3 +123,5 @@ phpunit.xml
 *.wmv
 *.avi
 
+# Ignore local DB dumps
+/ssh/*.sql

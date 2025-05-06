@@ -10,12 +10,6 @@
 
 use Timber\Timber;
 use Engage\Models\TileArchive;
-use Engage\Models\FilterMenu;
-use Engage\Models\BlogsFilterMenu;
-use Engage\Models\AnnouncementFilterMenu;
-use Engage\Models\ResearchFilterMenu;
-use Engage\Models\TeamFilterMenu;
-use Engage\Models\BoardFilterMenu;
 global $wp_query;
 
 /**
@@ -37,14 +31,6 @@ function get_sidebar_filters($globals)
 		return ['filters' => $globals->getResearchMenu()];
 	}
 
-	if (is_post_type_archive(['announcement']) || is_tax('announcement-category')) {
-		return ['filters' => $globals->getAnnouncementMenu()];
-	}
-
-	if (is_post_type_archive(['blogs']) || is_tax('blogs-category')) {
-		return ['filters' => $globals->getBlogMenu()];
-	}
-
 	if (is_post_type_archive(['board']) || is_tax('board_category')) {
 		return ['filters' => $globals->getBoardMenu()];
 	}
@@ -60,32 +46,9 @@ function get_sidebar_filters($globals)
 // Get sidebar filters
 $options = get_sidebar_filters($globals);
 
-// Handle blogs category filtering
-if (is_post_type_archive('blogs') || is_tax('blogs-category')) {
-	$blogs_category = get_query_var('blogs-category');
-	if ($blogs_category) {
-		$args = [
-			'post_type' => 'blogs',
-			'tax_query' => [
-				[
-					'taxonomy' => 'blogs-category',
-					'field' => 'slug',
-					'terms' => $blogs_category
-				]
-			],
-			'posts_per_page' => -1
-		];
-		$wp_query = new \WP_Query($args);
-	}
-}
-
 // Get current term for filter highlighting
 $current_term = '';
-if (is_tax('blogs-category')) {
-	$current_term = get_query_var('blogs-category');
-} elseif (is_tax('announcement-category')) {
-	$current_term = get_query_var('announcement-category');
-} elseif (is_tax('research-categories')) {
+if (is_tax('research-categories')) {
 	$current_term = get_query_var('research-categories');
 } elseif (is_tax('team_category')) {
 	$current_term = get_query_var('team_category');
@@ -94,6 +57,18 @@ if (is_tax('blogs-category')) {
 }
 
 $context['current_term'] = $current_term;
+
+/**
+ * Handle excluding uncategorized terms for all categories
+ */
+function exclude_uncategorized_terms($args) {
+	// Exclude uncategorized if it exists
+	$uncategorized = get_term_by('slug', 'uncategorized', 'research-categories');
+	if ($uncategorized) {
+		$args['exclude'] = $uncategorized->term_id;
+	}
+	return $args;
+}
 
 /**
  * Handle media ethics category page
@@ -111,11 +86,8 @@ function handle_media_ethics_category($options, $research_categories)
 		'hide_empty' => true
 	];
 
-	// Only exclude uncategorized if it exists
-	$uncategorized = get_term_by('slug', 'uncategorized', 'research-categories');
-	if ($uncategorized) {
-		$args['exclude'] = $uncategorized->term_id;
-	}
+	// Apply uncategorized exclusion
+	$args = exclude_uncategorized_terms($args);
 
 	$researchCategories = get_terms($args);
 	$researchTiles = [];
@@ -133,8 +105,6 @@ function handle_media_ethics_category($options, $research_categories)
 				'link' => home_url("/research/category/media-ethics/{$category->slug}/"),
 				'count' => $category->count
 			];
-		} else {
-			error_log("No featured image found for category: {$category->name}");
 		}
 	}
 
@@ -254,6 +224,20 @@ if ( is_day() ) {
 			'title' => $title,
 		]
 	);
+
+	// Add custom sorting for publications
+	// sort publications by their publication_date meta field in descending order.
+	if (is_post_type_archive('publication')) {
+		$args = array(
+			'post_type' => 'publication',
+			'posts_per_page' => -1,
+			'meta_key' => 'publication_date',
+			'orderby' => 'meta_value',
+			'order' => 'DESC'
+		);
+		$wp_query = new WP_Query($args);
+	}
+
 	$archive = new TileArchive($options, $wp_query);
 	$context['archive'] = $archive;
 	array_unshift( $templates, 'templates/archive-' . get_post_type() . '.twig' );
