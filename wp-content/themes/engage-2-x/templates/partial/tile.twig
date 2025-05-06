@@ -1,30 +1,5 @@
-{# {{dump(tile.meta())}}
-
 {# sets default feature image #}
 {% set defaultimg = theme.link ~ '/assets/img/default-logo.png' %}
-{% set tile_image = false %}
-{% set tile_link = tile.link %}
-{% set tile_classes = 'tile tile--' ~ post_type %}
-
-{# 
-Press tiles have a link to the article URL
-Publication tiles have a link to the publication URL
-Other tiles have a link to the post URL
-#}
-{% if post_type == 'press' %}
-	{% set tile_link = tile.meta('press_article_url') %}
-	
-{% elseif post_type == 'publication' %}
-	{% set tile_link = tile.meta('publication_url') %}
-	{% set tile_classes = tile_classes ~ ' tile--has-img' %}
-	{% set tile_image = true %}
-	
-{% elseif tile.thumbnail or post_type != 'press' %}
-	{% set tile_classes = tile_classes ~ ' tile--has-img' %}
-	{% set tile_image = true %}
-	
-{% endif %}
-
 
 {# 
 	Dynamically set `loading="eager"` prop
@@ -41,61 +16,40 @@ Other tiles have a link to the post URL
 	{% endif %}
 {% endif %}
 
-<div
-	class="{{ tile_classes }}">
+<div class="tile{{' tile--has-img'}} tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.vertical.slug ? tile.vertical.slug : tile.terms('verticals')[0].slug }}">
 
 	<div class="tile__img-wrap"  tabindex="0" role="button">
 			{% if tile.thumbnail %}
-				<img src="{{ tile.thumbnail.src('grid-large') }}" srcset="{{ tile.thumbnail.srcset }}" sizes="{{ tile.thumbnail.img_sizes }}" alt="{{ tile.thumbnail.alt }}" class="tile__img" loading="{{ loading }}"/>
+				<img 
+					src="{{ tile.thumbnail.src('grid-large') }}"
+					srcset="{{ tile.thumbnail.srcset }}"
+					sizes="{{ tile.thumbnail.img_sizes }}"
+					alt="{{ tile.thumbnail.alt }}"
+					class="tile__img" 
+					loading="{{ loading }}"
+				/>
 			{% else %}
-				<img src="{{ defaultimg }}" srcset="{{ defaultimg }} 1x, {{ defaultimg }} 2x" sizes="(max-width: 600px) 100vw, 600px" alt="Default image" class="tile__img" loading="{{ loading }}"/>
+				<img 
+					src="{{ defaultimg }}"
+					srcset="{{ defaultimg }} 1x, {{ defaultimg }} 2x"
+					sizes="(max-width: 600px) 100vw, 600px"
+					alt="Default image"
+					class="tile__img" 
+					loading="{{ loading }}"
+				/>
 			{% endif %}
+	</div> 
+ 
+
+	<div class="tile__title-wrap">
+		<div class="tile__label">
+			{# The following line is the old code here #}
+			{# {{ tile.vertical.name ? tile.vertical.name : tile.terms('verticals') | join(', ') }} #}
+			<div class="tile__bar"> </div>
 		</div>
-	{% endif %}
 
-	{# Tile title block #}
-	<div
-		class="tile__title-wrap">
+		<h3 class="tile__title h3">{{ tile.title|length > 50 ? tile.title|slice(0, 50) ~ "..." : tile.title}}</h3>
 
-		{# Tile, Date, Publisher, Authors #}
-		{% if post_type == 'press' %}
-			<p class="tile__date">{{ tile.date }}</p>
-			<h3 class="tile__title h3">{{ tile.title }}</h3>
-			<div class="tile__publisher">
-				{{ tile.meta('press_article_publisher') }}
-			</div>
-			
-		{% elseif post_type == 'publication' %}
-			<h3 class="tile__title h3">{{ tile.title }}</h3>
-			<p class="tile__authors">
-				{{ tile.meta('publication_authors') }}
-			</p>
-			<p class="tile__date">
-				{% if tile.meta('publication_year_date') %}
-					{# If year-only is true, extract just the year from the date #}
-					{{ tile.meta('publication_date')|date('Y') }}
-				{% else %}
-					{# Otherwise show the full date #}
-					{{ tile.meta('publication_date') }}
-				{% endif %}
-			</p>
-			<p class="tile__publisher">
-				{{ tile.meta('publication_subtitle') }}
-			</p>
-			
-		{% else %}
-			<div class="tile__label">
-				{# The following line is the old code here #}
-				{# {{ tile.vertical.name ? tile.vertical.name : tile.terms('verticals') | join(', ') }} #}<div class="tile__bar"> </div>
-			</div>
-			<h3 class="tile__title h3">
-				{{ tile.title|length > 50 ? tile.title|slice(0, 50) ~ "..." : tile.title}}
-			{% else %}
-				{{ tile.title }}
-			{% endif %}
-		</h3>
-
-		{# Tile date #}
 		{% if tile.post_type == 'tribe_events' %}
 			<div class="tile__date">{% include 'partial/tile-event-date.twig' %}</div>
 		{% elseif tile.date %}
@@ -109,10 +63,15 @@ Other tiles have a link to the post URL
 			</div> 
 			#}
 		{% endif %}
-	</div>
 
-	{# Tile link #}
-	<a class="tile__link" href="{{ tile_link }}" {% if post_type == 'press' or post_type == 'publication' %} target="_blank" {% endif %}>
+		{% if tile.excerpt %}
+			<div class="tile__excerpt">
+				{{ tile.excerpt }}
+			</div>
+		{% endif %}
+
+	</div>
+	<a class="tile__link" href="{{ tile.link }}">
 		<span class="sr-text">{{ tile.title }}</span>
 	</a>
 </div>
