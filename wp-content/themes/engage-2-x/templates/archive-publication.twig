@@ -72,7 +72,7 @@
 					<article class="tile tile-archive {% if post.thumbnail %}tile--has-img{% endif %}">
 						{% if post.thumbnail %}
 							<div 
-							class="tile__img-wrap">
+							class="tile__img-wrap" tabindex="0" role="button">
 								<img 
 								 src="{{ get_image(post.thumbnail).src('thumbnail') }}" 
 								 srcset="{{ get_image(post.thumbnail).srcset }}" 
