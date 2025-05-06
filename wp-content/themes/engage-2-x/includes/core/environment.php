@@ -1,14 +1,10 @@
 <?php
 /**
- * Core theme functionality
+ * Environment configuration
  * 
- * This file handles the initialization of core theme features and dependencies.
- */
+ * This file contains configuration for the environment, including
 
-// Initialize Timber
-Timber\Timber::init();
-Timber::$dirname = ['templates'];
-Timber::$autoescape = false;
+**/
 
 // Define environment constants
 $site_url = get_home_url();
