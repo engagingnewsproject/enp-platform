@@ -29,7 +29,7 @@
 		</h1>
 		{% if show_excerpt is not defined or show_excerpt == true %}
 			{% if post.post_excerpt %} {# check if the post has an excerpt first, otherwise WordPress will use part of the content #}
-				<div class="tile__excerpt tile__excerpt--intro">{{ tile.excerpt }}</div>
+				<div class="tile__excerpt tile__excerpt--intro title-slide-in">{{ tile.excerpt }}</div>
 			{% endif %}
 		{% endif %}
 	</div>

@@ -6,7 +6,7 @@
 {% endif %}
 
 {% block content %}
-	<article class="container container--lg full-width post-type--{{post.post_type}}" id="post--{{post.ID}} page-tools">
+	<article class="container container--lg post-type--{{post.post_type}} press--{{post.post_type}}" id="post--{{post.ID}} page-tools">
 
 		<header class="article__header{{ show_header }}">
 			<h1 class="article__title h1">{{post.title}}</h1>
@@ -16,18 +16,30 @@
 
 		<div class="article__content">
 			{{post.content}}
-			<section class="publications tiles grid grid--col-12 grid--gap-20">
-
+				{% if publication_posts %}
+					{% set posts = publication_posts %}
+					{# Loop through each article #}
+					{% include 'tiles.twig' with { 
+						intro: archive.intro, 
+						posts: posts,
+						loadEagerTiles: 6,
+						post_type: archive.post_type
+					} %}
+				{% else %}
+					<p>No press posts found.</p>
+				{% endif %}
+			{# <section class="publications tiles grid grid--col-12 grid--gap-20">
 				{% for item in post.meta('publication') %}
 					<div class="tile tile--has-img">
 						<div class="tile__img-wrap" tabindex="0" role="button">
 							{% if item.picture %}
-<img class="title__img" 
-         src="{{ get_image(item.picture).src('thumbnail') }}" 
-         srcset="{{ get_image(item.picture).srcset }}" 
-         sizes="{{ get_image(item.picture).img_sizes }}" 
-         alt="{{ item.title }}" 
-         loading="eager" />							{% else %}
+								<img class="title__img" 
+								src="{{ get_image(item.picture).src('thumbnail') }}" 
+								srcset="{{ get_image(item.picture).srcset }}" 
+								sizes="{{ get_image(item.picture).img_sizes }}" 
+								alt="{{ item.title }}" 
+								loading="eager" />
+							{% else %}
 								<svg class="autosize" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75 100"><path style="line-height:normal;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;text-orientation:mixed;white-space:normal;shape-padding:0;isolation:auto;mix-blend-mode:normal;solid-color:#000;solid-opacity:1" d="M9.56 0A9.58 9.58 0 0 0 0 9.57v73.47c0 5.27 4.3 9.56 9.56 9.56h56.18c5.28 0 9.57-4.29 9.57-9.56V22.62s.15-1.76-.62-3.49c-.72-1.61-1.9-2.73-1.9-2.73a1.57 1.57 0 0 0 0-.01L58.85 2.7a1.57 1.57 0 0 0-.02-.02S57.63 1.56 55.87.8C53.8-.1 51.65 0 51.65 0h.04z" color="#000" font-weight="400" font-family="sans-serif" overflow="visible" fill="#c97427" paint-order="markers fill stroke"/><path style="line-height:normal;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;text-orientation:mixed;white-space:normal;shape-padding:0;isolation:auto;mix-blend-mode:normal;solid-color:#000;solid-opacity:1" d="M9.56 3.14H51.7a1.57 1.57 0 0 0 .03 0s1.68.02 2.92.55a8 8 0 0 1 2.03 1.28l13.9 13.65s.84.88 1.25 1.8c.33.73.35 2.07.35 2.07a1.57 1.57 0 0 0 0 .07v60.48a6.37 6.37 0 0 1-6.43 6.42H9.56a6.37 6.37 0 0 1-6.42-6.42V9.57a6.37 6.37 0 0 1 6.42-6.43z" color="#000" font-weight="400" font-family="sans-serif" overflow="visible" fill="#f5f5f5" paint-order="markers fill stroke"/><path d="M18.8 55.14c-2.16-2.17.18-5.14 6.53-8.3l4-1.98 1.55-3.4c.86-1.88 2.13-4.93 2.84-6.8L35 31.29l-.88-2.5c-1.09-3.08-1.48-7.71-.79-9.38.94-2.25 4-2.02 5.2.4.95 1.88.86 5.3-.26 9.61l-.92 3.54.8 1.37c.45.76 1.75 2.55 2.9 4L43.2 41l2.67-.35c8.5-1.11 11.42.77 11.42 3.48 0 3.41-6.68 3.7-12.28-.25-1.27-.88-2.13-1.76-2.13-1.76s-3.51.71-5.24 1.18c-1.79.48-2.68.78-5.3 1.66 0 0-.91 1.34-1.51 2.3-2.22 3.6-4.82 6.6-6.68 7.68-2.07 1.22-4.25 1.3-5.35.2zm3.4-1.22c1.21-.75 3.67-3.66 5.38-6.36l.68-1.1-3.13 1.59c-4.85 2.44-7.07 4.73-5.92 6.12.65.78 1.43.72 2.99-.25zm31.5-8.84c1.18-.83 1-2.5-.34-3.18-1.04-.53-1.89-.64-4.6-.6-1.67.12-4.36.45-4.81.55 0 0 1.47 1.02 2.13 1.4.87.5 2.99 1.42 4.53 1.9 1.53.46 2.41.41 3.08-.07zm-12.67-5.26a31.07 31.07 0 0 1-2.72-3.5c-1.02-1.34-1.52-2.28-1.52-2.28s-.75 2.39-1.35 3.82l-1.9 4.7-.55 1.06s2.92-.96 4.41-1.35c1.58-.41 4.78-1.04 4.78-1.04zm-4.08-16.37c.18-1.54.26-3.07-.24-3.85-1.37-1.5-3.03-.25-2.74 3.32.09 1.2.39 3.25.79 4.51l.72 2.3L36 28c.28-.95.71-3 .96-4.55z" fill="#c97427"/><path style="line-height:125%;-inkscape-font-specification:'Franklin Gothic Medium Cond'" d="M22.48 65.15H26q1.68 0 2.73.32 1.05.31 1.77 1.4.71 1.08.71 2.6 0 1.41-.58 2.42-.58 1-1.56 1.45-.98.45-3.02.45h-1.21v5.53h-2.35zm2.35 1.82v4.94h1.16q1.56 0 2.15-.58.6-.58.6-1.9 0-.97-.4-1.57-.39-.61-.86-.75t-1.49-.14zM33 65.15h3.19q2.32 0 3.7.82 1.39.82 2.1 2.44.71 1.62.71 3.6 0 2.07-.64 3.7-.64 1.62-1.95 2.62t-3.74 1H33zm2.35 1.88v10.42h.98q2.04 0 2.97-1.42.92-1.42.92-3.79 0-5.21-3.9-5.21zm9.61-1.88h7.87v1.88H47.3v4.24h4.43v1.88H47.3v6.17h-2.34z" font-weight="400" font-family="Franklin Gothic Medium Cond" letter-spacing="0" word-spacing="4.26" fill="#2c2c2c"/></svg>
 							{% endif %}
 						</div>
@@ -35,7 +47,6 @@
 						<div class="tile__container">
 							<h3 class="tile__title h3">{{ item.title | truncate(14) }}</h3>
 							<div class="tile__label">{{ item.entry_authors }}</div>
-							{# if date picked #}
 							{% if item.date %}
 								{% if item.year_date %}
 									{% set var = item.date|split(',')|slice(1, 1)|join %}
@@ -44,7 +55,6 @@
 									<div class="tile__label">{{ item.date }}</div>
 								{% endif %}
 							{% endif %}
-							{# if subtitle #}
 							{% if item.subtitle %}
 								<p class="tile__label subtitle">{{ item.subtitle }}</p>
 							{% endif %}
@@ -52,7 +62,7 @@
 					</div>
 				{% endfor %}
 				
-			</section>
+			</section> #}
 		</div>
 	</article>
 
