@@ -57,8 +57,8 @@ class Theme
 			add_action('wp_print_styles', [$this, 'dequeueStyles'], 100);
 			// TODO Preload critical main navigation images
 			add_action('wp_head', function () {
-				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar/brandbar-logo.webp" as="image" type="image/webp">';
-				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar/brandbar-logo-2.webp" as="image" type="image/webp">';
+				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar/brandbar-logo-ut.webp" as="image" type="image/webp">';
+				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar/brandbar-logo-moody.webp" as="image" type="image/webp">';
 				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/logo/center-for-media-engagement.webp" as="image" type="image/webp">';
 				// Preload dots.svg background image
 				echo '<link rel="preload" fetchpriority="high" href="' . get_template_directory_uri() . '/assets/img/dots.webp" as="image" type="image/webp" />';
