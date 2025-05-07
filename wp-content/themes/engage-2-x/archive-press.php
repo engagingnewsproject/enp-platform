@@ -53,46 +53,8 @@ $context = Timber::context([
     'archive_filters' => $excluded_categories,
 ]);
 
-/**
- * Handle category filtering
- * 
- * If there are categories set to be excluded in the ACF options,
- * we'll modify the query to exclude those categories
- */
-if (!empty($excluded_categories)) {
-    // Convert category objects to an array of term IDs
-    $excluded_category_ids = array_map(
-        fn($category) => $category->term_id, 
-        $excluded_categories
-    );
-
-    /**
-     * Build the query arguments
-     * We're using tax_query to exclude the specified categories
-     */
-    $args = [
-        'post_type' => 'press',
-        'posts_per_page' => -1, // Show all posts
-        'tax_query' => [
-            [
-                'taxonomy' => 'press-categories',
-                'field'    => 'term_id',
-                'terms'    => $excluded_category_ids,
-                'operator' => 'NOT IN'
-            ]
-        ]
-    ];
-
-    // Get posts that don't belong to excluded categories
-    $context['posts'] = Timber::get_posts($args);
-} else {
-    // If no categories are excluded, get all press posts
-    $args = [
-        'post_type' => 'press',
-        'posts_per_page' => -1 // Show all posts
-    ];
-    $context['posts'] = Timber::get_posts($args);
-}
+// Use the main query, which is now filtered and ordered by pre_get_posts
+$context['posts'] = Timber::get_posts($wp_query);
 
 /**
  * Create a TileArchive object for handling the archive display
