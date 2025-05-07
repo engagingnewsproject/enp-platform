@@ -225,19 +225,6 @@ if ( is_day() ) {
 		]
 	);
 
-	// Add custom sorting for publications
-	// sort publications by their publication_date meta field in descending order.
-	if (is_post_type_archive('publication')) {
-		$args = array(
-			'post_type' => 'publication',
-			'posts_per_page' => -1,
-			'meta_key' => 'publication_date',
-			'orderby' => 'meta_value',
-			'order' => 'DESC'
-		);
-		$wp_query = new WP_Query($args);
-	}
-
 	$archive = new TileArchive($options, $wp_query);
 	$context['archive'] = $archive;
 	array_unshift( $templates, 'templates/archive-' . get_post_type() . '.twig' );

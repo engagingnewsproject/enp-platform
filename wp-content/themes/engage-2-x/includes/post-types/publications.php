@@ -14,9 +14,12 @@
  * This ensures that publications are displayed newest first on category pages.
  */
 add_action('pre_get_posts', function($query) {
-    if (!is_admin() && $query->is_main_query() && $query->is_tax('publication-categories')) {
+    if (!is_admin() && $query->is_main_query() && 
+        ($query->is_post_type_archive('publication') || $query->is_tax('publication-categories'))) {
         $query->set('meta_key', 'publication_date');
-        $query->set('orderby', 'meta_value_num');
-        $query->set('order', 'DESC');
+        $query->set('orderby', array(
+            'meta_value_num' => 'DESC',
+            'date' => 'DESC'
+        ));
     }
 });

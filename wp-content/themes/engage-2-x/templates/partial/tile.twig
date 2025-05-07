@@ -99,14 +99,12 @@ Other tiles have a link to the post URL
 			{% if tile_date %}
 				<p class="tile__date tile__date--publication">
 					{% if tile.meta('publication_year_date') %}
-						{# If year-only is true, extract just the year from the date #}
 						{{ tile.meta('publication_date')|date('Y') }}
 					{% else %}
-						{# Otherwise show the full date #}
-						{{ tile.meta('publication_date') }}
-				{% endif %}
+						{{ tile.meta('publication_date')|date('F j, Y') }}
+					{% endif %}
+				</p>
 			{% endif %}
-			</p>
 			<p class="tile__publisher">
 				{{ tile.meta('publication_subtitle') }}
 			</p>
