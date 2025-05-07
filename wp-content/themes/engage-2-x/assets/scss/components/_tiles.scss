@@ -79,10 +79,17 @@
 	z-index: 1;
 }
 
-.tile__date {
+.tile__date,
+.tile__publisher {
 	color: $gray-dark;
-	font-size: 11px;
 	margin-bottom: $spacer-xs;
+}
+.tile__date {
+	font-size: 11px;
+}
+.tile__publisher {
+	font-size: 14px;
+	font-style: italic;
 }
 .tile__img {
 	object-fit: cover;
@@ -381,4 +388,21 @@
 		bottom: 0;
 		top: 0;
 	}
+}
+
+.tile__edit-link {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	background: none;
+	color: rgba(0, 0, 0, 0.25);
+	padding: 4px 8px;
+	border-radius: 3px;
+	font-size: 12px;
+	text-decoration: none;
+	z-index: 10;
+}
+
+.tile__edit-link:hover {
+	color: rgba(0,0,0,0.9);
 }
