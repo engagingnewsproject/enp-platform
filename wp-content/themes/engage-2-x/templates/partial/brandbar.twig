@@ -1,29 +1,42 @@
+{% if options.navigation_settings.brand_bar.brandbar_logo_ut.url %}
+	{% set brandbar_logo_ut = options.navigation_settings.brand_bar.brandbar_logo_ut.url %}
+{% else %}
+	{% set brandbar_logo_ut = theme.link ~ '/assets/img/brandbar/brandbar-logo-ut.webp' %}
+{% endif %}
+
+{% if options.navigation_settings.brand_bar.brandbar_logo_moody.url %}
+	{% set brandbar_logo_moody = options.navigation_settings.brand_bar.brandbar_logo_moody.url %}
+{% else %}
+	{% set brandbar_logo_moody = theme.link ~ '/assets/img/brandbar/brandbar-logo-moody.webp' %}
+{% endif %}
+
+{% set defaultimg2 = theme.link ~ '/assets/img/brandbar/brandbar-logo.webp' %}
 {% if options.navigation_settings.brand_bar %}
 	<div class="brandbar" {% if options.navigation_settings.brand_bar.brandbar_color %}style="background-color: {{options.navigation_settings.brand_bar.brandbar_color}};"{% endif %}>
 			<a href="{{options.navigation_settings.brand_bar.brandbar_redirect}}" class="brandbar__link">
 				<span class="sr-text">University of Texas at Austin</span>
 				<span class="brandbar__logo">
 					<picture>
-						<source srcset="{{options.navigation_settings.brand_bar.brandbar_logo_ut.url}}" type="image/webp">
-						<img src="{{options.navigation_settings.brand_bar.brandbar_logo_ut.url}}" 
+						<source srcset="{{ brandbar_logo_ut }}" type="image/webp">
+						<img src="{{ brandbar_logo_ut }}" 
 							alt="University of Texas at Austin" 
 							width="112" 
 							height="27" 
 							decoding="async"
 							loading="eager"
 							sizes="112px"
-							srcset="{{options.navigation_settings.brand_bar.brandbar_logo_ut.url}} 1x, {{options.navigation_settings.brand_bar.brandbar_logo_ut.url}} 2x">
+							srcset="{{ brandbar_logo_ut }} 1x, {{ brandbar_logo_ut }} 2x">
 					</picture>
 					<picture>
-						<source srcset="{{options.navigation_settings.brand_bar.brandbar_logo_moody.url}}" type="image/webp">
-						<img src="{{options.navigation_settings.brand_bar.brandbar_logo_moody.url}}"
+						<source srcset="{{ brandbar_logo_moody }}" type="image/webp">
+						<img src="{{ brandbar_logo_moody }}"
 							alt="Moody College of Communication" 
 							width="85" 
 							height="27" 
 							decoding="async"
 							loading="eager"
 							sizes="85px"
-							srcset="{{options.navigation_settings.brand_bar.brandbar_logo_moody.url}} 1x, {{options.navigation_settings.brand_bar.brandbar_logo_moody.url}} 2x">
+							srcset="{{ brandbar_logo_moody }} 1x, {{ brandbar_logo_moody }} 2x">
 					</picture>
 				</span>
 			</a>
