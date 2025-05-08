@@ -253,6 +253,9 @@
 	// max-height: 300px;
 	&.tile--has-img {
 		grid-template-rows: 1fr max-content max-content max-content max-content;
+		@include media($tablet) {
+			min-height: 200px;
+		}
 	}
 	.tile {
 		display: grid;
