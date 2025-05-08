@@ -169,6 +169,10 @@ class Globals
 	 */
 	public function getBlogMenu()
 	{
+		$archive_settings = get_field('archive_settings', 'options');
+		$title = !empty($archive_settings['blogs_post_type']['blogs_archive_title']) 
+			? $archive_settings['blogs_post_type']['blogs_archive_title']
+			: 'Blogs';
 		$menu = get_transient('blogs-filter-menu');
 		if (!empty($menu)) {
 			return $menu;
@@ -180,7 +184,7 @@ class Globals
 		]);
 
 		$options = [
-			'title'				=> 'Blogs',
+			'title'				=> $title,
 			'slug'				=> 'blogs-menu',
 			'posts' 			=> $posts,
 			'taxonomies'		=> ['blogs-category'],
