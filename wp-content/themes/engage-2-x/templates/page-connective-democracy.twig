@@ -32,24 +32,6 @@
 		<div class="post__wrapper wrapper--pad">
 			<div class="article__wrapper container container--lg">
 
-				{# header image or video #}
-				{# {% for header in post.meta('header') %}
-					{% if header.acf_fc_layout == 'image' %}
-						<img src="{{ get_image(header.header_image).src('2048x2048') }}" 
-							srcset="{{ get_image(header.header_image).srcset }}" 
-							sizes="{{ get_image(header.header_image).img_sizes }}" 
-							alt="{{ get_image(header.header_image).alt }}" 
-							class="ann__img-director" 
-							loading="eager" />
-					{% elseif header.acf_fc_layout == 'video' %}
-						<video src="{{ header.header_video }}" loop="true" muted="true" autoplay="true"></video>
-					{% endif %}
-				{% endfor %}
-
-				{% if post.meta('content_1') %}
-					<p>{{ post.meta('content_1') }}</p>
-				{% endif %} #}
-
 				{# title 1 #}
 				{% if post.meta('title_1') %}
 					<h1 class="section-margin">{{ post.meta('title_1') }}</h1>
@@ -122,24 +104,16 @@
 					</div>
 				{% endif %}
 
-				{% if post.meta('research_tiles') and post.meta('research_tiles').show_research_tiles == true %}
-					{# Research Tiles Title #}
-					{% if post.meta('research_tiles').title_3 != blank %}
-						<h1>{{post.meta('research_tiles').title_3}}</h1>
+				{% if post.meta('show_research_tiles') %}
+					{# Section title #}
+					{% if post.meta('title_3') %}
+						<h2 class="section-margin">{{ post.meta('title_3') }}</h2>
 					{% endif %}
-					{# Research Custom Tiles #}
-					{% if post.meta('research_tiles').tile_option %}
-						{% include 'tiles.twig' with { 
-							posts : get_posts(post.meta('research_tiles').custom_tiles),
-							loadEagerTiles: 0
-						}%}
-					{# Research Default Tiles #}
-					{% else %}
-						{% include 'tiles.twig' with { 
-							posts : research,
-							loadEagerTiles: 0
-						}%}
-					{% endif %}
+					{# Research Tiles #}
+					{% include 'tiles.twig' with { 
+						posts : research,
+						loadEagerTiles: 0
+					}%}
 				{% endif %}
 
 				{# content 3 #}

@@ -454,11 +454,11 @@
             ]
         },
         {
-            "key": "field_681ae285f2b6f",
-            "label": "Research tiles",
-            "name": "research_tiles",
+            "key": "field_6216b0b39e200",
+            "label": "Show research tiles",
+            "name": "show_research_tiles",
             "aria-label": "",
-            "type": "group",
+            "type": "true_false",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -467,197 +467,40 @@
                 "class": "",
                 "id": ""
             },
-            "layout": "block",
-            "sub_fields": [
-                {
-                    "key": "field_6216b0b39e200",
-                    "label": "Show research tiles",
-                    "name": "show_research_tiles",
-                    "aria-label": "",
-                    "type": "true_false",
-                    "instructions": "",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "message": "",
-                    "default_value": 1,
-                    "ui": 1,
-                    "ui_on_text": "",
-                    "ui_off_text": ""
-                },
-                {
-                    "key": "field_60d3607b9cb5c",
-                    "label": "Section title",
-                    "name": "title_3",
-                    "aria-label": "",
-                    "type": "text",
-                    "instructions": "",
-                    "required": 0,
-                    "conditional_logic": [
-                        [
-                            {
-                                "field": "field_6216b0b39e200",
-                                "operator": "==",
-                                "value": "1"
-                            }
-                        ]
-                    ],
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": "",
-                    "allow_in_bindings": 1,
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": ""
-                },
-                {
-                    "key": "field_681ae7d708e83",
-                    "label": "Tile option",
-                    "name": "tile_option",
-                    "aria-label": "",
-                    "type": "true_false",
-                    "instructions": "",
-                    "required": 0,
-                    "conditional_logic": [
-                        [
-                            {
-                                "field": "field_6216b0b39e200",
-                                "operator": "==",
-                                "value": "1"
-                            }
-                        ]
-                    ],
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "message": "",
-                    "default_value": 0,
-                    "allow_in_bindings": 1,
-                    "ui_on_text": "Custom",
-                    "ui_off_text": "Default",
-                    "ui": 1
-                },
-                {
-                    "key": "field_681a979e08b0f",
-                    "label": "Custom tiles",
-                    "name": "custom_tiles",
-                    "aria-label": "",
-                    "type": "relationship",
-                    "instructions": "",
-                    "required": 0,
-                    "conditional_logic": [
-                        [
-                            {
-                                "field": "field_6216b0b39e200",
-                                "operator": "==",
-                                "value": "1"
-                            },
-                            {
-                                "field": "field_681ae7d708e83",
-                                "operator": "==",
-                                "value": "1"
-                            }
-                        ]
-                    ],
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "post_type": [
-                        "research",
-                        "blogs"
-                    ],
-                    "post_status": [
-                        "publish"
-                    ],
-                    "taxonomy": "",
-                    "filters": [
-                        "search",
-                        "post_type",
-                        "taxonomy"
-                    ],
-                    "return_format": "id",
-                    "min": "",
-                    "max": "",
-                    "allow_in_bindings": 1,
-                    "elements": [
-                        "featured_image"
-                    ],
-                    "bidirectional": 0,
-                    "bidirectional_target": []
-                }
-            ]
+            "message": "",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "",
+            "ui_off_text": ""
         },
         {
-            "key": "field_60d38231a2173",
-            "label": "Title 4",
-            "name": "title_4",
+            "key": "field_60d3607b9cb5c",
+            "label": "Research tiles title",
+            "name": "title_3",
             "aria-label": "",
             "type": "text",
             "instructions": "",
             "required": 0,
-            "conditional_logic": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_6216b0b39e200",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
             "wrapper": {
                 "width": "",
                 "class": "",
                 "id": ""
             },
             "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 1,
             "placeholder": "",
             "prepend": "",
-            "append": "",
-            "maxlength": ""
-        },
-        {
-            "key": "field_60e7583ca15f0",
-            "label": "Research Link",
-            "name": "research_link",
-            "aria-label": "",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": ""
-        },
-        {
-            "key": "field_6216b1a257a34",
-            "label": "Content 3",
-            "name": "content_3",
-            "aria-label": "",
-            "type": "wysiwyg",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "tabs": "all",
-            "toolbar": "full",
-            "media_upload": 1,
-            "delay": 0
+            "append": ""
         }
     ],
     "location": [
@@ -681,5 +524,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1746743257
+    "modified": 1746745751
 }
