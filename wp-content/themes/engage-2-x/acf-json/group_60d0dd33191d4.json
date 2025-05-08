@@ -3,29 +3,11 @@
     "title": "Connective Democracy",
     "fields": [
         {
-            "key": "field_6216bc9c9a051",
-            "label": "",
-            "name": "",
+            "key": "field_681d2d941a66d",
+            "label": "Featured image as header image",
+            "name": "featured_image_as_header_image",
             "aria-label": "",
-            "type": "message",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "50",
-                "class": "",
-                "id": ""
-            },
-            "message": "If you don't want something to show, just leave it blank.",
-            "new_lines": "wpautop",
-            "esc_html": 0
-        },
-        {
-            "key": "field_6216a54abd8f2",
-            "label": "Header",
-            "name": "header",
-            "aria-label": "",
-            "type": "flexible_content",
+            "type": "true_false",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -34,96 +16,12 @@
                 "class": "",
                 "id": ""
             },
-            "layouts": {
-                "layout_6216a559affcf": {
-                    "key": "layout_6216a559affcf",
-                    "name": "image",
-                    "label": "Image",
-                    "display": "block",
-                    "sub_fields": [
-                        {
-                            "key": "field_6216a55ebd8f3",
-                            "label": "Image",
-                            "name": "header_image",
-                            "aria-label": "",
-                            "type": "image",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "return_format": "",
-                            "preview_size": "medium",
-                            "library": "",
-                            "min_width": "",
-                            "min_height": "",
-                            "min_size": "",
-                            "max_width": "",
-                            "max_height": "",
-                            "max_size": "",
-                            "mime_types": ""
-                        }
-                    ],
-                    "min": "",
-                    "max": ""
-                },
-                "layout_6216a5ead7c3a": {
-                    "key": "layout_6216a5ead7c3a",
-                    "name": "video",
-                    "label": "Video",
-                    "display": "block",
-                    "sub_fields": [
-                        {
-                            "key": "field_6216a5ead7c3c",
-                            "label": "Video",
-                            "name": "header_video",
-                            "aria-label": "",
-                            "type": "file",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "return_format": "url",
-                            "library": "all",
-                            "min_size": "",
-                            "max_size": "",
-                            "mime_types": ""
-                        }
-                    ],
-                    "min": "",
-                    "max": ""
-                }
-            },
-            "button_label": "Add Row",
-            "min": "",
-            "max": 1
-        },
-        {
-            "key": "field_60d35d8fed501",
-            "label": "Content 1",
-            "name": "content_1",
-            "aria-label": "",
-            "type": "wysiwyg",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "tabs": "all",
-            "toolbar": "full",
-            "media_upload": 1,
-            "delay": 0
+            "message": "",
+            "default_value": 1,
+            "allow_in_bindings": 0,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "ui": 1
         },
         {
             "key": "field_60d35fceeecb7",
@@ -777,17 +675,11 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": [
-        "the_content",
-        "excerpt",
         "discussion",
-        "comments",
-        "featured_image",
-        "categories",
-        "tags",
-        "send-trackbacks"
+        "comments"
     ],
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1746598291
+    "modified": 1746743257
 }
