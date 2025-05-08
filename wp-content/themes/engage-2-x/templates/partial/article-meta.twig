@@ -60,10 +60,12 @@
 		{% if post.post_type != "blogs" %}
 			{# Display a link to the category associated with the research post. #}
 			{% set category = post.terms('research-categories')|first %}
-			<p class="testArticleMetaTwig article-meta__item article__category article__category--{{ category.slug }}">
-				<a class="category-name category-color--{{ category.slug }}" href="/research/category/{{ category.slug }}/">←
-					{{ category.name }}</a>
-			</p>
+			{% if category.slug != 'uncategorized' %}
+				<p class="testArticleMetaTwig article-meta__item article__category article__category--{{ category.slug }}">
+					<a class="category-name category-color--{{ category.slug }}" href="/research/category/{{ category.slug }}/">←
+						{{ category.name }}</a>
+				</p>
+			{% endif %}
 		{% endif %}
 		{# List of researchers #}
 		<section class="researchers-tease">
