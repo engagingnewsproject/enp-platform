@@ -121,6 +121,29 @@
                             "append": ""
                         },
                         {
+                            "key": "field_681df212a9487",
+                            "label": "Press archive posts per page",
+                            "name": "press_archive_posts_per_page",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "To show all set to: -1",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": -1,
+                            "min": "",
+                            "max": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "step": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
                             "key": "field_67edb2367c152",
                             "label": "Press archive filter",
                             "name": "press_archive_filter",
@@ -247,6 +270,29 @@
                             "maxlength": "",
                             "allow_in_bindings": 0,
                             "placeholder": "Base archive title.",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_681df503ef251",
+                            "label": "Announcement archive posts per page",
+                            "name": "announcement_archive_posts_per_page",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "To show all set to: -1",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": -1,
+                            "min": "",
+                            "max": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "step": "",
                             "prepend": "",
                             "append": ""
                         },
@@ -659,5 +705,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1746260256
+    "modified": 1746793791
 }

@@ -10,14 +10,19 @@
 
 use Timber\Timber;
 use Engage\Models\TileArchive;
-use Engage\Models\AnnouncementFilterMenu;
 global $wp_query;
+global $paged;
+
+if (!isset($paged) || !$paged) {
+    $paged = 1;
+}
 
 /**
  * Initialize the context and get global variables
  */
 $context = Timber::context();
 $globals = new Engage\Managers\Globals();
+$archive_settings = get_field('archive_settings', 'options');
 
 /**
  * Define the template hierarchy for this archive page
@@ -25,11 +30,16 @@ $globals = new Engage\Managers\Globals();
 $templates = ['templates/archive.twig', 'templates/index.twig'];
 
 /**
+ * Get the posts per page from ACF options
+ * This is used to set the number of posts to display on the archive page
+ */
+$posts_per_page = $archive_settings['announcement_post_type']['announcement_archive_posts_per_page'];
+
+/**
  * Get the archive filters from ACF options
  * These filters are used to determine which announcement categories should be excluded
  * from the archive page
  */
-$archive_settings = get_field('archive_settings', 'options');
 $excluded_categories = $archive_settings['announcement_post_type']['announcement_archive_filter'] ?? [];
 $title = $archive_settings['announcement_post_type']['announcement_archive_title'];
 
@@ -68,9 +78,10 @@ if (is_post_type_archive('announcement') || is_tax('announcement-category')) {
                     'terms' => $announcement_category
                 ]
             ],
-            'posts_per_page' => -1
+			'posts_per_page' => $posts_per_page, // Use WordPress Reading Settings
+			'paged' => $paged
         ];
-        $wp_query = new \WP_Query($args);
+        $wp_query = new WP_Query($args);
     } elseif (!empty($excluded_categories)) {
         // Get all announcement categories
         $all_categories = get_terms([
@@ -84,8 +95,9 @@ if (is_post_type_archive('announcement') || is_tax('announcement-category')) {
 
         // Build the query arguments to include only the non-excluded categories
         $args = [
-            'post_type' => 'announcement',
-            'posts_per_page' => -1,
+            'post_type' => get_post_type(),
+			'posts_per_page' => $posts_per_page, // Use ACF option
+			'paged' => $paged,
             'tax_query' => [
                 [
                     'taxonomy' => 'announcement-category',
@@ -98,8 +110,16 @@ if (is_post_type_archive('announcement') || is_tax('announcement-category')) {
                 ]
             ]
         ];
-        $wp_query = new \WP_Query($args);
-    }
+        $wp_query = new WP_Query($args);
+    } else {
+		// Add this default query for the main archive page
+		$args = [
+			'post_type' => 'announcement',
+			'posts_per_page' => $posts_per_page,
+			'paged' => $paged
+		];
+		$wp_query = new WP_Query($args);
+	}
 }
 
 /**
@@ -129,7 +149,9 @@ $archive->intro = [
 $context = array_merge($context, [
     'archive' => $archive,
     'current_term' => $current_term,
-    'archive_filters' => $excluded_categories
+    'archive_filters' => $excluded_categories,
+	'posts_per_page' => $posts_per_page, // Use ACF option
+	'paged' => $paged,
 ]);
 
 /**
