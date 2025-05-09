@@ -32,8 +32,8 @@
 				loadEagerTiles: 6,
 				post_type: archive.post_type
 			} %}
-
-			{# {% include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3}) } %} #}
+			{# pagination #}
+			{% include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } %}
 		{% else %}
 			<p class="no-publications">No publications found.</p>
 		{% endif %}
