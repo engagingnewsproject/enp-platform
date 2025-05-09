@@ -56,6 +56,29 @@
                             "append": ""
                         },
                         {
+                            "key": "field_681dfd06aa38a",
+                            "label": "Research archive posts per page",
+                            "name": "research_archive_posts_per_page",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "To show all set to: -1",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": -1,
+                            "min": "",
+                            "max": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "step": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
                             "key": "field_67f6750079f59",
                             "label": "Research sidebar filter",
                             "name": "research_sidebar_filter",
@@ -728,5 +751,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1746795438
+    "modified": 1746795828
 }

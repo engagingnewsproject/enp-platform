@@ -24,6 +24,13 @@ $globals = new Engage\Managers\Globals();
 $options = [];
 $templates = [ 'templates/archive.twig', 'templates/index.twig' ];
 $title = 'Archive';
+$archive_settings = get_field('archive_settings', 'options');
+
+/**
+ * Get the posts per page from ACF options
+ * This is used to set the number of posts to display on the archive page
+ */
+$posts_per_page = $archive_settings['research_post_type']['research_archive_posts_per_page'];
 
 /**
  * Set sidebar filter options based on archive type
@@ -174,7 +181,7 @@ function handle_media_ethics_subcategory($options, $research_categories)
                 'terms' => $subcategories
             ]
         ],
-        'posts_per_page' => get_option('posts_per_page'),
+        'posts_per_page' => $posts_per_page, // Use ACF option
         'paged' => $GLOBALS['paged']
     ];
 
@@ -219,7 +226,7 @@ if ( is_day() ) {
 			// Set up the query with pagination
 			$args = array(
 				'post_type' => get_post_type(),
-				'posts_per_page' => get_option('posts_per_page'),
+				'posts_per_page' => $posts_per_page, // Use ACF option
 				'paged' => $paged,
 				'tax_query' => array(
 					array(
@@ -244,7 +251,7 @@ if ( is_day() ) {
 	// Set up the query with pagination
 	$args = array(
 		'post_type' => get_post_type(),
-        'posts_per_page' => get_option('posts_per_page'), // Use WordPress Reading Settings
+		'posts_per_page' => $posts_per_page, // Use ACF option
 		'paged' => $paged
 	);
 	// Create a new query with pagination
@@ -252,8 +259,8 @@ if ( is_day() ) {
     $context = Timber::context(
         array(
             'title' => $title,
-            'posts_per_page' => get_option('posts_per_page'),
-            'paged' => $paged,
+			'posts_per_page' => $posts_per_page, // Use ACF option
+			'paged' => $paged,
         )
     );
 
