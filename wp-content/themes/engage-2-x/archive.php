@@ -11,7 +11,11 @@
 use Timber\Timber;
 use Engage\Models\TileArchive;
 global $wp_query;
+global $paged;
 
+if (!isset($paged) || !$paged) {
+    $paged = 1;
+}
 /**
  * Initialize the context and get global variables
  */
@@ -154,7 +158,7 @@ function handle_media_ethics_subcategory($options, $research_categories)
         return null;
     }
 
-    // Query posts with both categories
+    // Query posts with both categories and pagination
     $args = [
         'post_type' => 'research',
         'tax_query' => [
@@ -170,7 +174,8 @@ function handle_media_ethics_subcategory($options, $research_categories)
                 'terms' => $subcategories
             ]
         ],
-        'posts_per_page' => -1
+        'posts_per_page' => get_option('posts_per_page'),
+        'paged' => $GLOBALS['paged']
     ];
 
     $query = new WP_Query($args);
@@ -211,6 +216,23 @@ if ( is_day() ) {
         }
         // Finally, if none of the special cases apply, use the default archive
         else {
+			// Set up the query with pagination
+			$args = array(
+				'post_type' => get_post_type(),
+				'posts_per_page' => get_option('posts_per_page'),
+				'paged' => $paged,
+				'tax_query' => array(
+					array(
+						'taxonomy' => get_query_var('taxonomy'),
+						'field' => 'slug',
+						'terms' => get_query_var('term')
+					)
+				)
+			);
+			
+			// Create a new query with pagination
+			$wp_query = new WP_Query($args);
+			
             $archive = new TileArchive($options, $wp_query);
             $context['archive'] = $archive;
         }
@@ -219,11 +241,21 @@ if ( is_day() ) {
 } elseif ( is_post_type_archive() ) {
 	// Archive page for a post type (ex. URLS: /research, /publications, /press, /events, etc.)
 	$title = post_type_archive_title( '', false );
-	$context = Timber::context(
-		[
-			'title' => $title,
-		]
+	// Set up the query with pagination
+	$args = array(
+		'post_type' => get_post_type(),
+        'posts_per_page' => get_option('posts_per_page'), // Use WordPress Reading Settings
+		'paged' => $paged
 	);
+	// Create a new query with pagination
+	$wp_query = new WP_Query($args);
+    $context = Timber::context(
+        array(
+            'title' => $title,
+            'posts_per_page' => get_option('posts_per_page'),
+            'paged' => $paged,
+        )
+    );
 
 	$archive = new TileArchive($options, $wp_query);
 	$context['archive'] = $archive;

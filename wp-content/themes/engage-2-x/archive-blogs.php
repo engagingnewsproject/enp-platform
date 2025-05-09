@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The template for displaying Blog Archive pages.
  *
@@ -11,8 +12,13 @@
 use Timber\Timber;
 use Engage\Models\TileArchive;
 use Engage\Models\BlogsFilterMenu;
-global $wp_query;
 
+global $wp_query;
+global $paged;
+
+if (!isset($paged) || !$paged) {
+	$paged = 1;
+}
 /**
  * Initialize the context and get global variables
  */
@@ -35,73 +41,86 @@ $title = $archive_settings['blogs_post_type']['blogs_archive_title'];
 
 // If title is empty, get the default post type label
 if (empty($title)) {
-    $post_type_obj = get_post_type_object('blogs');
-    $title = $post_type_obj->labels->name;
+	$post_type_obj = get_post_type_object('blogs');
+	$title = $post_type_obj->labels->name;
 }
 
 // Override title with category name if on a category page
 if (is_tax('blogs-category')) {
-    $term = get_queried_object();
-    $title = $term->name;
+	$term = get_queried_object();
+	$title = $term->name;
 }
 
 /**
  * Get sidebar filters for blogs
  */
 $options = [
-    'filters' => $globals->getBlogMenu(),
-    'postType' => 'blogs'
+	'filters' => $globals->getBlogMenu(),
+	'postType' => 'blogs'
 ];
 
 /**
  * Handle blogs category filtering
  */
 if (is_post_type_archive('blogs') || is_tax('blogs-category')) {
-    $blogs_category = get_query_var('blogs-category');
-    if ($blogs_category) {
-        $args = [
-            'post_type' => 'blogs',
-            'tax_query' => [
-                [
-                    'taxonomy' => 'blogs-category',
-                    'field' => 'slug',
-                    'terms' => $blogs_category
-                ]
-            ],
-            'posts_per_page' => -1
-        ];
-        $wp_query = new \WP_Query($args);
-    } elseif (!empty($excluded_categories)) {
-        // Get all blog categories
-        $all_categories = get_terms([
-            'taxonomy' => 'blogs-category',
-            'hide_empty' => true,
-            'exclude' => array_map(
-                fn($category) => $category->term_id, 
-                $excluded_categories
-            )
-        ]);
+	$blogs_category = get_query_var('blogs-category');
+	if ($blogs_category) {
+		$args = [
+			'post_type' => 'blogs',
+			'tax_query' => [
+				[
+					'taxonomy' => 'blogs-category',
+					'field' => 'slug',
+					'terms' => $blogs_category
+				]
+			],
+			'posts_per_page' => get_option('posts_per_page'),
+			'paged' => $paged
+		];
+		$wp_query = new \WP_Query($args);
+	} elseif (!empty($excluded_categories)) {
+		// Get all blog categories
+		$all_categories = get_terms([
+			'taxonomy' => 'blogs-category',
+			'hide_empty' => true,
+			'exclude' => array_map(
+				fn($category) => $category->term_id,
+				$excluded_categories
+			)
+		]);
 
-        // Build the query arguments to include only the non-excluded categories
-        $args = [
-            'post_type' => 'blogs',
-            'posts_per_page' => -1,
-            'tax_query' => [
-                [
-                    'taxonomy' => 'blogs-category',
-                    'field'    => 'term_id',
-                    'terms'    => array_map(
-                        fn($category) => $category->term_id,
-                        $all_categories
-                    ),
-                    'operator' => 'IN'
-                ]
-            ]
-        ];
-        
-        // Debug the query
-        $wp_query = new \WP_Query($args);
-    }
+		// Build the query arguments to include only the non-excluded categories
+		$args = [
+			'post_type' => 'blogs',
+			'posts_per_page' => get_option('posts_per_page'),
+			'paged' => $paged,
+			'tax_query' => [
+				[
+					'taxonomy' => 'blogs-category',
+					'field'    => 'term_id',
+					'terms'    => array_map(
+						fn($category) => $category->term_id,
+						$all_categories
+					),
+					'operator' => 'IN'
+				]
+			]
+		];
+
+		$wp_query = new WP_Query($args);
+	} else {
+		// Add default query for base /blogs URL
+		$args = [
+			'post_type' => 'blogs',
+			'posts_per_page' => get_option('posts_per_page'),
+			'paged' => $paged
+		];
+		$wp_query = new WP_Query($args);
+	}
+} else {
+	// Ensure the main query has pagination for the base /blogs URL
+	$wp_query->set('posts_per_page', get_option('posts_per_page'));
+	$wp_query->set('paged', $paged);
 }
 
 /**
@@ -109,7 +128,7 @@ if (is_post_type_archive('blogs') || is_tax('blogs-category')) {
  */
 $current_term = '';
 if (is_tax('blogs-category')) {
-    $current_term = get_query_var('blogs-category');
+	$current_term = get_query_var('blogs-category');
 }
 
 /**
@@ -121,17 +140,21 @@ $archive = new TileArchive($options, $wp_query);
  * Set the intro property with the custom title from ACF options
  */
 $archive->intro = [
-    'title' => $title,
-    'excerpt' => ''
+	'title' => $title,
+	'excerpt' => ''
 ];
 
 /**
  * Update the context with all necessary data
  */
 $context = array_merge($context, [
-    'archive' => $archive,
-    'current_term' => $current_term,
-    'archive_filters' => $excluded_categories
+	'archive' => $archive,
+	'current_term' => $current_term,
+	'archive_filters' => $excluded_categories,
+	'pagination' => [
+		'posts_per_page' => get_option('posts_per_page'),
+		'paged' => $paged
+	]
 ]);
 
 /**
