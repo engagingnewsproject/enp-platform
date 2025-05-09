@@ -11,8 +11,6 @@
 
 use Timber\Timber;
 use Engage\Models\TileArchive;
-use Engage\Models\BlogsFilterMenu;
-
 global $wp_query;
 global $paged;
 
@@ -24,20 +22,26 @@ if (!isset($paged) || !$paged) {
  */
 $context = Timber::context();
 $globals = new Engage\Managers\Globals();
+$archive_settings = get_field('archive_settings', 'options');
 
 /**
- * Define the template hierarchy for this archive page
+ * Get the posts per page from ACF options
+ * This is used to set the number of posts to display on the archive page
  */
-$templates = ['templates/archive.twig', 'templates/index.twig'];
+$posts_per_page = $archive_settings['blogs_post_type']['blogs_archive_posts_per_page'];
 
 /**
  * Get the archive filters from ACF options
  * These filters are used to determine which blog categories should be excluded
  * from the archive page
  */
-$archive_settings = get_field('archive_settings', 'options');
 $excluded_categories = $archive_settings['blogs_post_type']['blogs_archive_filter'] ?? [];
 $title = $archive_settings['blogs_post_type']['blogs_archive_title'];
+
+/**
+ * Define the template hierarchy for this archive page
+ */
+$templates = ['templates/archive.twig', 'templates/index.twig'];
 
 // If title is empty, get the default post type label
 if (empty($title)) {
@@ -74,10 +78,10 @@ if (is_post_type_archive('blogs') || is_tax('blogs-category')) {
 					'terms' => $blogs_category
 				]
 			],
-			'posts_per_page' => get_option('posts_per_page'),
+			'posts_per_page' => $posts_per_page, // Use ACF option
 			'paged' => $paged
 		];
-		$wp_query = new \WP_Query($args);
+		$wp_query = new WP_Query($args);
 	} elseif (!empty($excluded_categories)) {
 		// Get all blog categories
 		$all_categories = get_terms([
@@ -92,7 +96,7 @@ if (is_post_type_archive('blogs') || is_tax('blogs-category')) {
 		// Build the query arguments to include only the non-excluded categories
 		$args = [
 			'post_type' => 'blogs',
-			'posts_per_page' => get_option('posts_per_page'),
+			'posts_per_page' => $posts_per_page, // Use ACF option
 			'paged' => $paged,
 			'tax_query' => [
 				[
@@ -112,15 +116,11 @@ if (is_post_type_archive('blogs') || is_tax('blogs-category')) {
 		// Add default query for base /blogs URL
 		$args = [
 			'post_type' => 'blogs',
-			'posts_per_page' => get_option('posts_per_page'),
+			'posts_per_page' => $posts_per_page,
 			'paged' => $paged
 		];
 		$wp_query = new WP_Query($args);
 	}
-} else {
-	// Ensure the main query has pagination for the base /blogs URL
-	$wp_query->set('posts_per_page', get_option('posts_per_page'));
-	$wp_query->set('paged', $paged);
 }
 
 /**

@@ -209,6 +209,29 @@
                             "append": ""
                         },
                         {
+                            "key": "field_681df503ef251",
+                            "label": "Blogs archive posts per page",
+                            "name": "blogs_archive_posts_per_page",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "To show all set to: -1",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": -1,
+                            "min": "",
+                            "max": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "step": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
                             "key": "field_6815b5634cbd1",
                             "label": "Blogs archive filter",
                             "name": "blogs_archive_filter",
@@ -274,7 +297,7 @@
                             "append": ""
                         },
                         {
-                            "key": "field_681df503ef251",
+                            "key": "field_681dfa8125bb2",
                             "label": "Announcement archive posts per page",
                             "name": "announcement_archive_posts_per_page",
                             "aria-label": "",
@@ -705,5 +728,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1746793791
+    "modified": 1746795438
 }
