@@ -12,6 +12,11 @@
 use Timber\Timber;
 use Engage\Models\TileArchive;
 global $wp_query;
+global $paged;
+
+if (!isset($paged) || !$paged) {
+    $paged = 1;
+}
 
 /**
  * Initialize the context and get global variables
@@ -22,6 +27,21 @@ global $wp_query;
 $context = Timber::context();
 $globals = new Engage\Managers\Globals();
 $options = [];
+$archive_settings = get_field('archive_settings', 'options');
+
+/**
+ * Get the posts per page from ACF options
+ * This is used to set the number of posts to display on the archive page
+ */
+$posts_per_page = $archive_settings['press_post_type']['press_archive_posts_per_page'];
+
+/**
+ * Get the archive filters from ACF options
+ * These filters are used to determine which press categories should be excluded
+ * from the archive page
+ */
+$excluded_categories = $archive_settings['press_post_type']['press_archive_filter'] ?? [];
+$title = $archive_settings['press_post_type']['press_archive_title'];
 
 /**
  * Define the template hierarchy for this archive page
@@ -29,20 +49,21 @@ $options = [];
  */
 $templates = ['templates/archive-press.twig', 'templates/archive.twig', 'templates/index.twig'];
 
-/**
- * Get the archive filters from ACF options
- * These filters are used to determine which press categories should be excluded
- * from the archive page
- */
-$archive_settings = get_field('archive_settings', 'options');
-$excluded_categories = $archive_settings['press_post_type']['press_archive_filter'] ?? [];
-$title = $archive_settings['press_post_type']['press_archive_title'];
 
 // If title is empty, get the default post type label
 if (empty($title)) {
     $post_type_obj = get_post_type_object('press');
     $title = $post_type_obj->labels->name;
 }
+
+// Set up the query with pagination
+$args = array(
+	'post_type' => get_post_type(),
+	'posts_per_page' => $posts_per_page, // Use ACF option
+	'paged' => $paged
+);
+// Create a new query with pagination
+$wp_query = new WP_Query($args);
 
 /**
  * Update the context with the title and archive filters
@@ -51,6 +72,8 @@ if (empty($title)) {
 $context = Timber::context([
     'title' => $title,
     'archive_filters' => $excluded_categories,
+	'posts_per_page' => $posts_per_page, // Use ACF option
+	'paged' => $paged,
 ]);
 
 // Use the main query, which is now filtered and ordered by pre_get_posts
