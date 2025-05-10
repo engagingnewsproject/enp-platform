@@ -62,6 +62,25 @@ $args = array(
 	'posts_per_page' => $posts_per_page, // Use ACF option
 	'paged' => $paged
 );
+
+// Add tax query to exclude the filtered categories
+if (!empty($excluded_categories)) {
+    // Convert term objects to IDs
+    $excluded_category_ids = array_map(
+        function($cat) { return is_object($cat) ? $cat->term_id : $cat; },
+        $excluded_categories
+    );
+    
+    $args['tax_query'] = array(
+        array(
+            'taxonomy' => 'press-categories',
+            'field' => 'term_id',  // Changed from 'slug' to 'term_id'
+            'terms' => $excluded_category_ids,
+            'operator' => 'NOT IN'
+        )
+    );
+}
+
 // Create a new query with pagination
 $wp_query = new WP_Query($args);
 
