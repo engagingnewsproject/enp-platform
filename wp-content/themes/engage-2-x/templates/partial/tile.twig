@@ -146,7 +146,7 @@ Other tiles have a link to the post URL
     <a href="{{ tile.edit_link }}" class="tile__edit-link" target="_blank">Edit</a>
 {% endif %}
 
-{% if constant('WP_DEBUG') %}
+{# {% if constant('WP_DEBUG') %}
     {% set terms = [] %}
     {% for term in tile.terms() %}
         {% set terms = terms|merge([term.name]) %}
@@ -154,5 +154,5 @@ Other tiles have a link to the post URL
     {% if terms|length > 0 %}
         <p class="tile__terms">{{ terms|join(', ') }}</p>
     {% endif %}
-{% endif %}
+{% endif %} #}
 </div>
