@@ -31,7 +31,10 @@ $archive_settings = get_field('archive_settings', 'options');
  * This is used to set the number of posts to display on the archive page
  */
 $posts_per_page = $archive_settings['research_post_type']['research_archive_posts_per_page'];
-
+// Get publication excluded categories
+$publication_excluded_categories = $archive_settings['publication_post_type']['publication_archive_filter'] ?? [];
+// Get publication posts per page
+$publication_posts_per_page = $archive_settings['publication_post_type']['publication_archive_posts_per_page'] ?? $posts_per_page;
 /**
  * Set sidebar filter options based on archive type
  */
@@ -226,7 +229,7 @@ if ( is_day() ) {
 			// Set up the query with pagination
 			$args = array(
 				'post_type' => get_post_type(),
-				'posts_per_page' => $posts_per_page, // Use ACF option
+				'posts_per_page' => get_post_type() === 'publication' ? $publication_posts_per_page : $posts_per_page,
 				'paged' => $paged,
 				'tax_query' => array(
 					array(
@@ -237,6 +240,46 @@ if ( is_day() ) {
 				)
 			);
 			
+			// Add tax query to exclude media-ethics and uncategorized categories if we're on the research archive
+			if (get_post_type() === 'research') {
+				$args['tax_query'] = array(
+					array(
+						'taxonomy' => 'research-categories',
+						'field' => 'slug',
+						'terms' => array('media-ethics', 'uncategorized'),
+						'operator' => 'NOT IN'
+					)
+				);
+			}
+
+			// Add tax query to exclude categories if we're on the publication archive
+			if (get_post_type() === 'publication') {
+				// Add sorting by publication date
+				$args['meta_key'] = 'publication_date';
+				$args['orderby'] = array(
+					'meta_value_num' => 'DESC',
+					'date' => 'DESC'
+				);
+
+				// Add category exclusion if we have categories to exclude
+				if (!empty($publication_excluded_categories)) {
+					// Convert term objects to IDs
+					$excluded_category_ids = array_map(
+						function($cat) { return is_object($cat) ? $cat->term_id : $cat; },
+						$publication_excluded_categories
+					);
+					
+					$args['tax_query'] = array(
+						array(
+							'taxonomy' => 'publication-categories',
+							'field' => 'term_id',
+							'terms' => $excluded_category_ids,
+							'operator' => 'NOT IN'
+						)
+					);
+				}
+			}
+
 			// Create a new query with pagination
 			$wp_query = new WP_Query($args);
 			
@@ -252,7 +295,7 @@ if ( is_day() ) {
 	// Set up the query with pagination
 	$args = array(
 		'post_type' => get_post_type(),
-		'posts_per_page' => $posts_per_page,
+		'posts_per_page' => get_post_type() === 'publication' ? $publication_posts_per_page : $posts_per_page,
 		'paged' => $paged
 	);
 
@@ -268,12 +311,40 @@ if ( is_day() ) {
 		);
 	}
 
+	// Add tax query to exclude categories if we're on the publication archive
+	if (get_post_type() === 'publication') {
+		// Add sorting by publication date
+		$args['meta_key'] = 'publication_date';
+		$args['orderby'] = array(
+			'meta_value_num' => 'DESC',
+			'date' => 'DESC'
+		);
+
+		// Add category exclusion if we have categories to exclude
+		if (!empty($publication_excluded_categories)) {
+			// Convert term objects to IDs
+			$excluded_category_ids = array_map(
+				function($cat) { return is_object($cat) ? $cat->term_id : $cat; },
+				$publication_excluded_categories
+			);
+			
+			$args['tax_query'] = array(
+				array(
+					'taxonomy' => 'publication-categories',
+					'field' => 'term_id',
+					'terms' => $excluded_category_ids,
+					'operator' => 'NOT IN'
+				)
+			);
+		}
+	}
+
 	// Create a new query with pagination
 	$wp_query = new WP_Query($args);
 	$context = Timber::context(
 		array(
 			'title' => $title,
-			'posts_per_page' => $posts_per_page,
+			'posts_per_page' => get_post_type() === 'publication' ? $publication_posts_per_page : $posts_per_page,
 			'paged' => $paged,
 		)
 	);

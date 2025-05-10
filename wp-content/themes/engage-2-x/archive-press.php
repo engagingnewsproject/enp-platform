@@ -59,8 +59,15 @@ if (empty($title)) {
 // Set up the query with pagination
 $args = array(
 	'post_type' => get_post_type(),
-	'posts_per_page' => $posts_per_page, // Use ACF option
+	'posts_per_page' => $posts_per_page,
 	'paged' => $paged
+);
+
+// Add sorting by press article publication date
+$args['meta_key'] = 'press_article_publication_date';
+$args['orderby'] = array(
+	'meta_value_num' => 'DESC',
+	'date' => 'DESC'  // fallback to post date
 );
 
 // Add tax query to exclude the filtered categories
@@ -74,7 +81,7 @@ if (!empty($excluded_categories)) {
     $args['tax_query'] = array(
         array(
             'taxonomy' => 'press-categories',
-            'field' => 'term_id',  // Changed from 'slug' to 'term_id'
+            'field' => 'term_id',
             'terms' => $excluded_category_ids,
             'operator' => 'NOT IN'
         )
