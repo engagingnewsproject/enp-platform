@@ -134,7 +134,7 @@ function handle_media_ethics_category($options, $research_categories)
 /**
  * Handle media ethics subcategory pages
  */
-function handle_media_ethics_subcategory($options, $research_categories)
+function handle_media_ethics_subcategory($options, $research_categories, $posts_per_page)
 {
 	$is_media_ethics_page = false;
     $subcategories = [];
@@ -217,7 +217,7 @@ if ( is_day() ) {
     } 
     // Then check if this is a media ethics subcategory page
     else {
-        $media_ethics_subcategory_archive = handle_media_ethics_subcategory($options, $research_categories);
+        $media_ethics_subcategory_archive = handle_media_ethics_subcategory($options, $research_categories, $posts_per_page);
         if ($media_ethics_subcategory_archive) {
             $context['archive'] = $media_ethics_subcategory_archive;
         }
@@ -248,21 +248,35 @@ if ( is_day() ) {
 } elseif ( is_post_type_archive() ) {
 	// Archive page for a post type (ex. URLS: /research, /publications, /press, /events, etc.)
 	$title = post_type_archive_title( '', false );
+	
 	// Set up the query with pagination
 	$args = array(
 		'post_type' => get_post_type(),
-		'posts_per_page' => $posts_per_page, // Use ACF option
+		'posts_per_page' => $posts_per_page,
 		'paged' => $paged
 	);
+
+	// Add tax query to exclude media-ethics and uncategorized categories if we're on the research archive
+	if (get_post_type() === 'research') {
+		$args['tax_query'] = array(
+			array(
+				'taxonomy' => 'research-categories',
+				'field' => 'slug',
+				'terms' => array('media-ethics', 'uncategorized'),
+				'operator' => 'NOT IN'
+			)
+		);
+	}
+
 	// Create a new query with pagination
 	$wp_query = new WP_Query($args);
-    $context = Timber::context(
-        array(
-            'title' => $title,
-			'posts_per_page' => $posts_per_page, // Use ACF option
+	$context = Timber::context(
+		array(
+			'title' => $title,
+			'posts_per_page' => $posts_per_page,
 			'paged' => $paged,
-        )
-    );
+		)
+	);
 
 	$archive = new TileArchive($options, $wp_query);
 	$context['archive'] = $archive;
