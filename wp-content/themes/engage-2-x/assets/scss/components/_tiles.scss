@@ -421,7 +421,8 @@
 	}
 }
 
-.tile__edit-link {
+.tile__edit-link,
+.tile__terms {
 	position: absolute;
 	bottom: 10px;
 	right: 10px;
@@ -432,6 +433,12 @@
 	font-size: 12px;
 	text-decoration: none;
 	z-index: 10;
+}
+
+.tile__terms {
+	right: unset;
+	left: 10px;
+	margin-bottom: 0;
 }
 
 .tile__edit-link:hover {
