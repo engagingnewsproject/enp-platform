@@ -12,6 +12,11 @@
 use Timber\Timber;
 use Engage\Models\TileArchive;
 global $wp_query;
+global $paged;
+
+if (!isset($paged) || !$paged) {
+    $paged = 1;
+}
 
 /**
  * Initialize the context and get global variables
@@ -22,6 +27,21 @@ global $wp_query;
 $context = Timber::context();
 $globals = new Engage\Managers\Globals();
 $options = [];
+$archive_settings = get_field('archive_settings', 'options');
+
+/**
+ * Get the posts per page from ACF options
+ * This is used to set the number of posts to display on the archive page
+ */
+$posts_per_page = $archive_settings['press_post_type']['press_archive_posts_per_page'];
+
+/**
+ * Get the archive filters from ACF options
+ * These filters are used to determine which press categories should be excluded
+ * from the archive page
+ */
+$excluded_categories = $archive_settings['press_post_type']['press_archive_filter'] ?? [];
+$title = $archive_settings['press_post_type']['press_archive_title'];
 
 /**
  * Define the template hierarchy for this archive page
@@ -29,18 +49,47 @@ $options = [];
  */
 $templates = ['templates/archive-press.twig', 'templates/archive.twig', 'templates/index.twig'];
 
-/**
- * Set the page title using WordPress's post type archive title function
- * This will display "Press" or whatever the post type label is set to
- */
-$title = post_type_archive_title('', false);
 
-/**
- * Get the archive filters from ACF options
- * These filters are used to determine which press categories should be excluded
- * from the archive page
- */
-$archive_filters = get_field('archive_settings', 'options');
+// If title is empty, get the default post type label
+if (empty($title)) {
+    $post_type_obj = get_post_type_object('press');
+    $title = $post_type_obj->labels->name;
+}
+
+// Set up the query with pagination
+$args = array(
+	'post_type' => get_post_type(),
+	'posts_per_page' => $posts_per_page,
+	'paged' => $paged
+);
+
+// Add sorting by press article publication date
+$args['meta_key'] = 'press_article_publication_date';
+$args['orderby'] = array(
+	'meta_value_num' => 'DESC',
+	'date' => 'DESC'  // fallback to post date
+);
+
+// Add tax query to exclude the filtered categories
+if (!empty($excluded_categories)) {
+    // Convert term objects to IDs
+    $excluded_category_ids = array_map(
+        function($cat) { return is_object($cat) ? $cat->term_id : $cat; },
+        $excluded_categories
+    );
+    
+    $args['tax_query'] = array(
+        array(
+            'taxonomy' => 'press-categories',
+            'field' => 'term_id',
+            'terms' => $excluded_category_ids,
+            'operator' => 'NOT IN'
+        )
+    );
+}
+
+// Create a new query with pagination
+$wp_query = new WP_Query($args);
 
 /**
  * Update the context with the title and archive filters
@@ -48,56 +97,29 @@ $archive_filters = get_field('archive_settings', 'options');
  */
 $context = Timber::context([
     'title' => $title,
-    'archive_filters' => $archive_filters,
+    'archive_filters' => $excluded_categories,
+	'posts_per_page' => $posts_per_page, // Use ACF option
+	'paged' => $paged,
 ]);
 
-/**
- * Handle category filtering
- * 
- * If there are categories set to be excluded in the ACF options,
- * we'll modify the query to exclude those categories
- */
-$excluded_categories = $context['archive_filters']['press_archive_filter'] ?? [];
-if (!empty($excluded_categories)) {
-    // Convert category objects to an array of term IDs
-    $excluded_category_ids = array_map(
-        fn($category) => $category->term_id, 
-        $excluded_categories
-    );
-
-    /**
-     * Build the query arguments
-     * We're using tax_query to exclude the specified categories
-     */
-    $args = [
-        'post_type' => 'press',
-        'posts_per_page' => -1, // Show all posts
-        'tax_query' => [
-            [
-                'taxonomy' => 'press-categories',
-                'field'    => 'term_id',
-                'terms'    => $excluded_category_ids,
-                'operator' => 'NOT IN'
-            ]
-        ]
-    ];
-
-    // Get posts that don't belong to excluded categories
-    $context['posts'] = Timber::get_posts($args);
-} else {
-    // If no categories are excluded, get all press posts
-    $args = [
-        'post_type' => 'press',
-        'posts_per_page' => -1 // Show all posts
-    ];
-    $context['posts'] = Timber::get_posts($args);
-}
+// Use the main query, which is now filtered and ordered by pre_get_posts
+$context['posts'] = Timber::get_posts($wp_query);
 
 /**
  * Create a TileArchive object for handling the archive display
  * This object provides additional functionality for displaying posts in a grid/tile format
  */
 $archive = new TileArchive($options, $wp_query);
+
+/**
+ * Set the intro property with the custom title from ACF options
+ * This overrides the default title that would be set by the parent Archive class
+ * The title will be used in the tile-intro.twig template to display the archive header
+ */
+$archive->intro = [
+    'title' => $title,
+    'excerpt' => ''
+];
 $context['archive'] = $archive;
 
 /**

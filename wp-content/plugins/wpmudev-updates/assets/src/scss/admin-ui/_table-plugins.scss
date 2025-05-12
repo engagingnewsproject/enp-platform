@@ -1,0 +1,487 @@
+body:not(.wpmud-plugins) {
+  p.dashui-note-refresh.refresh-infos {
+    font-size: 13px !important;
+    text-align: center !important;
+    margin: 60px 0 0;
+    color: #888 !important;
+    padding: 14px 0 !important;
+    border-radius: 4px;
+    border: 1px solid #e6e6e6;
+  }
+}
+
+@include body-class(true) {
+
+  .dashui-table-plugins {
+    table-layout: auto;
+    color: palette(gray, light);
+
+    tbody {
+
+      tr {
+        box-shadow: inset 3px 0 $blue;
+
+        &:not(.dashui-is-notinstalled) {
+          .dashui-column-actions.plugin-row-actions {
+            text-align: center;
+          }
+        }
+
+        td {
+
+          &.plugin-row-actions {
+            &.plugin-row-actions-right {
+              text-align: right;
+            }
+          }
+
+          .sui-button-icon {
+            &.disabled,
+            &:disabled,
+            &[disabled] {
+              background: inherit;
+              color: #8888888a;
+            }
+          }
+
+          &:first-child {
+
+            @include media(max-width, md) {
+              padding-left: 0;
+            }
+          }
+
+          &:not(:last-child) {
+
+            @include media(max-width, md) {
+              margin-bottom: 10px;
+            }
+          }
+
+          &:last-child {
+
+            @include media(max-width, md) {
+              padding-right: 0;
+            }
+          }
+
+          @include media(max-width, md) {
+            height: auto;
+            display: block;
+            padding: 0 0 0 26px;
+            border-bottom-width: 0;
+          }
+        }
+
+        .dashui-column-title,
+        .dashui-column-actions {
+
+          .dashui-plugin-actions {
+
+            &.dashui-mobile-hidden {
+
+              @include media(max-width, md) {
+                display: none;
+              }
+            }
+
+            &.dashui-desktop-hidden {
+
+              @include media(min-width, md) {
+                display: none;
+              }
+            }
+          }
+
+          .dashui-loader-wrap {
+            .dashui-loader {
+              display: none;
+
+              i {
+                margin-right: 10px;
+              }
+            }
+          }
+        }
+
+        .dashui-column-title {
+
+          .dashui-plugin-title {
+            display: flex;
+
+            button {
+              font-size: 13px !important;
+            }
+
+            span {
+              font-size: 10px !important;
+            }
+
+            .sui-checkbox {
+
+              input + span {
+
+                @include media(max-width, md) {
+                  margin: 7px 0;
+                }
+              }
+
+              @include media(max-width, md) {
+                margin-right: 10px;
+                margin-bottom: 0;
+              }
+            }
+
+            .dashui-plugin-image {
+              width: 30px;
+              height: 30px;
+              display: block;
+              flex: 0 0 30px;
+              border-radius: $border-radius;
+              background-color: palette(silver, light);
+              background-repeat: no-repeat;
+              background-position: center;
+              background-size: cover;
+
+              + .dashui-plugin-name {
+                margin-left: 15px;
+                font-weight: 500;
+
+                &:hover {
+                  color: #b5b4b4 !important;
+                }
+
+                a {
+                  &:hover {
+                    color: #b5b4b4 !important;
+                  }
+                }
+              }
+            }
+
+            .dashui-plugin-name {
+              cursor: pointer;
+              margin: 0;
+              padding: 0;
+              border: 0;
+              background-color: transparent;
+              color: palette(gray, dark);
+              font: bold 13px/22px $font;
+              letter-spacing: $font--letter-spacing;
+              text-align: left;
+              transition: 0.2s ease;
+
+              a {
+                cursor: pointer;
+                margin: 0;
+                padding: 0;
+                border: 0;
+                background-color: transparent;
+                color: palette(gray, dark);
+                font: bold 13px/22px $font;
+                letter-spacing: $font--letter-spacing;
+                text-align: left;
+                transition: 0.2s ease;
+                font-weight: 500;
+              }
+
+              &,
+              &:hover,
+              &:active {
+                outline: none;
+                box-shadow: none;
+              }
+
+              &:hover,
+              &:active {
+                color: $blue;
+              }
+
+              @include media(max-width, md) {
+                flex: 1;
+              }
+
+              @include media(min-width, md) {
+                flex: 0 1 auto;
+              }
+
+            }
+
+            .dashui-plugin-actions {
+              margin-left: 10px;
+            }
+
+            @include media(min-width, md) {
+              align-items: center;
+            }
+          }
+
+          @include media(min-width, md) {
+            width: 1%;
+            min-width: 280px;
+          }
+
+          @include media(min-width, lg) {
+            min-width: 320px;
+          }
+        }
+
+        .dashui-column-description {
+
+          @include media(min-width, md) {
+            width: 40%;
+          }
+        }
+
+        .dashui-column-actions {
+          width: 10%;
+
+          .dashui-plugin-actions {
+            display: flex;
+            align-items: center;
+
+            &.dashui-mobile-hidden {
+
+              strong {
+                flex: 0 0 auto;
+
+                + .sui-actions-right {
+                  margin-left: 10px;
+                }
+              }
+
+              .sui-button {
+                //max-width: 113px;
+
+                .sui-loading-text {
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                }
+
+                &[data-action="project-configure"],
+                &[data-action="project-update"],
+                &[data-action="upgrade-membership"],
+                &[data-action="project-activate"] {
+                  min-width: 0px;
+                  max-width: 30px;
+
+                  i {
+                    margin: 0 auto;
+                  }
+                }
+
+                &[data-action="upgrade-membership"] {
+                  color: #8d00b1;
+                }
+
+              }
+
+              .sui-actions-right {
+                flex: 1;
+                justify-content: flex-end;
+
+                .sui-tag {
+                  overflow: hidden;
+                  display: block;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                }
+
+                @include media(max-width, md) {
+                  overflow: hidden;
+                }
+              }
+            }
+
+            &.dashui-desktop-hidden {
+              padding-top: 10px;
+            }
+          }
+
+          .sui-tag {
+            font-size: 10px;
+          }
+
+          @include media(max-width, md) {
+            margin-top: -10px;
+          }
+
+          @include media(min-width, md) {
+            //width: 23%;
+            //min-width: 206px;
+          }
+        }
+
+        &.dashui-bulk-action {
+          box-shadow: none;
+
+          td {
+
+            .sui-checkbox {
+
+              @include media(max-width, md) {
+                margin-bottom: 0;
+                margin-right: 10px;
+              }
+            }
+
+            @include media(max-width, md) {
+              display: flex;
+              align-items: center;
+              padding: 0;
+            }
+
+            @include media(min-width, md) {
+              padding-top: 15px;
+              padding-bottom: 15px;
+            }
+          }
+
+          @include media(max-width, md) {
+            padding-top: 0;
+            padding-bottom: 14px;
+          }
+        }
+
+        @include media(max-width, md) {
+          display: block;
+          position: relative;
+          padding: 20px;
+          border-bottom: 1px solid palette(silver, soft);
+        }
+
+        &:last-child {
+
+          td {
+            border-bottom: 1px solid #e6e6e6;
+          }
+        }
+
+        &:last-child {
+          border-bottom: 1px solid #e6e6e6;
+        }
+      }
+
+      .dashui-tr-header {
+        box-shadow: none;
+
+        p {
+          color: #AAAAAA;
+          font-size: 12px;
+          font-weight: bold;
+          vertical-align: baseline;
+        }
+      }
+
+      .dashui-plugin-notactive {
+        box-shadow: inset 3px 0 #888888;
+      }
+
+      .dashui-plugin-hasupdate {
+        box-shadow: inset 3px 0 #fecf2f;
+      }
+
+      .dashui-is-notinstalled.dashui-plugin-notactive {
+        box-shadow: none;
+      }
+
+      tr.dashui-plugin-notactive:not(.dashui-is-notinstalled) .dashui-plugin-name a {
+        color: #888888 !important;
+      }
+
+      tr.dashui-plugin-notactive:not(.dashui-is-notinstalled):not(.dashui-plugin-hasupdate) img {
+        -webkit-filter: grayscale(1);
+        filter: grayscale(1);
+      }
+
+      @include media(max-width, md) {
+        display: block;
+      }
+    }
+
+    @include media(max-width, md) {
+      display: block;
+    }
+  }
+
+  .dashui-table-installed-plugins {
+    border-bottom: 0;
+    border-right: 0;
+    margin: 0;
+    border-radius: 0;
+
+    tbody {
+      tr {
+        -webkit-box-shadow: inset 3px 0 #17A8E3;
+        box-shadow: inset 3px 0 #17A8E3;
+
+        &.has-update {
+          -webkit-box-shadow: inset 3px 0 #FECF2F;
+          box-shadow: inset 3px 0 #FECF2F;
+        }
+
+        &:first-child td {
+          margin-top: 15px;
+        }
+
+        td {
+          position: relative;
+
+          a.sui-button-onload {
+            .main-icon {
+              display: none
+            }
+          }
+        }
+
+        &:first-child {
+
+          @include media(max-width, md) {
+            padding-top: 0;
+          }
+
+          @include media(min-width, md) {
+            padding-top: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .dashui-table-widgets {
+    h4 {
+      font-weight: 500;
+      color: #333333;
+      font-family: Roboto, Arial, sans-serif;
+
+      a {
+        color: #333333;
+
+        &:hover {
+          color: #17a8e3;
+        }
+      }
+    }
+
+    tbody {
+      tr:last-child {
+        padding-bottom: 15px !important;
+      }
+    }
+  }
+
+  .dashui-mobile-hidden {
+
+    @include media(max-width, md) {
+      display: none !important;
+    }
+  }
+
+  .dashui-desktop-hidden {
+
+    @include media(min-width, md) {
+      display: none !important;
+    }
+  }
+}

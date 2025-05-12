@@ -203,7 +203,7 @@
 						{% for tile in main.tiles %}
 							<div class="tile tile--has-img tile--research-cat--reader-engagement tile--vertical--bridging-divides">
 								{% if tile.image %}
-									<div class="tile__img-wrap">
+									<div class="tile__img-wrap" tabindex="0" role="button">
 										<img 
 											src="{{ get_image(tile.image).src('grid-large') }}"
 											srcset="{{ get_image(tile.image).srcset }}"

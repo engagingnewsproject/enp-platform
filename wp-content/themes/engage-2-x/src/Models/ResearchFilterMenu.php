@@ -10,11 +10,13 @@ use function get_field;
 
 class ResearchFilterMenu extends FilterMenu
 {
+	protected $options;
 
 	public function __construct($options)
 	{
 		parent::__construct($options);
-		$this->linkBase =  'postType';
+		$this->options = $options;
+		$this->linkBase = 'postType';
 		// The structure property tells the system that this filter menu should be 
 		// organized by research categories rather than by post types or verticals.
 		$this->structure = 'research-categories';
@@ -35,6 +37,48 @@ class ResearchFilterMenu extends FilterMenu
 			'terms' => []
 		];
 
+		// Debug logging
+		// error_log('ResearchFilterMenu options: ' . print_r($this->options, true));
+
+		// Get the current term object if on a research category archive
+		$current_term = null;
+		if (is_tax('research-categories')) {
+			$current_term = get_queried_object();
+		}
+
+		// Check if we're on Media Ethics or a child of Media Ethics
+		$is_media_ethics = false;
+		$media_ethics = get_term_by('slug', 'media-ethics', 'research-categories');
+		if ($media_ethics && $current_term) {
+			if ($current_term->term_id == $media_ethics->term_id || $current_term->parent == $media_ethics->term_id) {
+				$is_media_ethics = true;
+			}
+		}
+
+		if ($is_media_ethics) {
+			// Get all children of Media Ethics
+			$subcategories = get_terms([
+				'taxonomy' => 'research-categories',
+				'parent' => $media_ethics->term_id,
+				'hide_empty' => true
+			]);
+
+			foreach ($subcategories as $term) {
+				$thumbID = function_exists('get_field') ? get_field('category_featured_image', "research-categories_{$term->term_id}") : null;
+				if ($thumbID) {
+					$filters['terms'][$term->slug] = [
+						'ID'    => $term->term_id,
+						'slug'  => $term->slug,
+						'title' => $term->name,
+						'link'  => home_url('/research/category/media-ethics/' . $term->slug . '/'),
+						'taxonomy' => $term->taxonomy
+					];
+				}
+			}
+			return $filters;
+		}
+
+		// Default behavior for other cases
 		$terms = get_terms([
 			'taxonomy' => 'research-categories',
 			'hide_empty' => true,
@@ -45,8 +89,20 @@ class ResearchFilterMenu extends FilterMenu
 			return $filters;
 		}
 
-		$selected_categories = get_field('archive_settings', 'option')['research_sidebar_filter'] ?? [];
-		
+		// Get the ACF field
+		$archive_settings = get_field('archive_settings', 'option');
+
+		// Initialize default empty array
+		$selected_categories = [];
+
+		// Only try to access the nested array if we have valid data
+		if (is_array($archive_settings) && 
+			isset($archive_settings['research_post_type']) && 
+			isset($archive_settings['research_post_type']['research_sidebar_filter']) &&
+			is_array($archive_settings['research_post_type']['research_sidebar_filter'])) {
+			$selected_categories = $archive_settings['research_post_type']['research_sidebar_filter'];
+		}
+
 		foreach ($terms as $term) {
 			// Only include terms that are selected in the ACF field
 			if (in_array($term->term_id, $selected_categories)) {
@@ -54,7 +110,6 @@ class ResearchFilterMenu extends FilterMenu
 			}
 		}
 
-		error_log('ResearchFilterMenu filters set: ' . print_r($filters, true));
 		return $filters;
 	}
 

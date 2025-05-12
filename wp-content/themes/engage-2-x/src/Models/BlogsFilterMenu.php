@@ -39,7 +39,7 @@ class BlogsFilterMenu extends FilterMenu
                 $filters['terms'][$term->slug] = $this->buildFilterTerm($term, false, 'blogs');
             }
         }
-		error_log(print_r($filters, true));
+
         return $filters;
     }
 

@@ -4,7 +4,7 @@ Tags: forms, form builder, contact form, lead form, registration form
 
 Requires at least: 6.5
 Tested up to: 6.7
-Stable tag: 3.10.0
+Stable tag: 3.10.1
 
 Requires PHP: 7.4
 
@@ -311,17 +311,16 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.10.0 (2 April 2025) =
-*Features*
-- Add a Google Analytics 4 Action.
-
+= 3.10.1 (14 April 2025) =
 *Bug Fixes:*
-- Fix an error related to using calculations in payment gateway actions.
-- Fix an error related to File Uploads merge tags.
-- Required errors should no longer trigger on removed repeater sets.
+- Prevent stored XSS in various fields
 
 == Changelog ==
-= 3.10.0 (2 April 2025) =
+= 3.10.1 (14 April 2025) =
+*Bug Fixes:*
+- Prevent stored XSS in various fields
+
+= 3.10.0 (26 March 2025) =
 *Features*
 - Add a Google Analytics 4 Action.
 

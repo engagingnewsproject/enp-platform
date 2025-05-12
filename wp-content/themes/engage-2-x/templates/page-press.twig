@@ -4,11 +4,11 @@
 {% if post.meta('show_header') == false %}
 	{% set show_header = ' sr-text' %} 
 {% endif %}
-
 {% block content %}
+
 	<article class="container container--lg post-type--{{post.post_type}} press--{{post.post_type}}" id="post--{{post.ID}} page-tools">
 		<header class="article__header{{ show_header }}">
-			<h1 class="article__title h1">{{post.title}}</h1>
+		{% include "partial/tile-intro.twig" with { 'tile': post, 'show_excerpt': false } %}
 		</header>
 
 		<div class="article__content">
@@ -18,28 +18,14 @@
 			{# TODO: Create a component for the press article card #}
 			<div class="press-posts">
 				{% if press_posts %}
-					{% for item in press_posts %}
-						<div>
-							{% if item.meta('press_article_publisher') %}
-								{{ item.meta('press_article_publisher') }}
-							{% endif %}
-
-							{% if item.meta('press_article_publication_date') %}
-								{{ item.meta('press_article_publication_date')|date('F j, Y') }}
-							{% endif %}
-
-							{% if item.meta('press_article_url') %}
-								<a href="{{ item.meta('press_article_url') }}" 
-									class="press-link" 
-									target="_blank" 
-									rel="noopener noreferrer">
-										{{ item.title }}
-								</a>
-							{% else %}
-								{{ item.title }}
-							{% endif %}
-						</div>
-					{% endfor %}
+					{% set posts = press_posts %}
+					{# Loop through each article #}
+					{% include 'tiles.twig' with { 
+						intro: archive.intro, 
+						posts: posts,
+						loadEagerTiles: 6,
+						post_type: archive.post_type
+					} %}
 				{% else %}
 					<p>No press posts found.</p>
 				{% endif %}

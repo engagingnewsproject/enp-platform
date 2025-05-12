@@ -45,6 +45,11 @@ class Theme
 		add_filter('image_size_names_choose', [$this, 'remove_image_size_options']);
 		add_action('widgets_init', [$this, 'widgetsInit']);
 
+		// Add these new optimizations
+		add_filter('jpeg_quality', function() { return 82; }); // Slightly reduce JPEG quality
+		add_filter('wp_editor_set_quality', function() { return 82; });
+		add_filter('wp_calculate_image_srcset', [$this, 'limit_srcset_sizes'], 10, 2);
+
 		$this->cleanup();
 
 
@@ -57,8 +62,8 @@ class Theme
 			add_action('wp_print_styles', [$this, 'dequeueStyles'], 100);
 			// TODO Preload critical main navigation images
 			add_action('wp_head', function () {
-				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar/brandbar-logo.webp" as="image" type="image/webp">';
-				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar/brandbar-logo-2.webp" as="image" type="image/webp">';
+				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar/brandbar-logo-ut.webp" as="image" type="image/webp">';
+				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/brandbar/brandbar-logo-moody.webp" as="image" type="image/webp">';
 				echo '<link rel="preload" href="' . get_template_directory_uri() . '/assets/img/logo/center-for-media-engagement.webp" as="image" type="image/webp">';
 				// Preload dots.svg background image
 				echo '<link rel="preload" fetchpriority="high" href="' . get_template_directory_uri() . '/assets/img/dots.webp" as="image" type="image/webp" />';
@@ -78,11 +83,21 @@ class Theme
 	 * @return array Modified array of image sizes
 	 */
 	public function disable_large_wp_image_sizes($sizes) {
-		// Keep 2048x2048 as source for high-quality displays
-		unset($sizes['1536x1536']); // Remove 1536px as 2048px covers high-res needs
-		unset($sizes['medium_large']); // Remove 768px as it's between medium and large
-		unset($sizes['large']); // Remove 1024px as 2048px will scale down nicely
-		unset($sizes['small']); // Remove small as it's not used
+		// Keep only the absolute minimum sizes we need
+		$allowed_sizes = [
+			'thumbnail',    // 150x150 - for admin thumbnails
+			'medium',       // 300x300 - for general use
+			'carousel-image', // 1280x720 - for homepage slider
+			'grid-large'    // 404x240 - for grid layouts
+		];
+		
+		// Remove all sizes except our allowed ones
+		foreach ($sizes as $size => $settings) {
+			if (!in_array($size, $allowed_sizes)) {
+				unset($sizes[$size]);
+			}
+		}
+		
 		return $sizes;
 	}
 	/**
@@ -397,5 +412,16 @@ class Theme
 		remove_action('wp_head', 'wp_generator');
 		remove_action('wp_head', 'wp_resource_hints', 2);
 		remove_action('wp_print_styles', 'print_emoji_styles');
+	}
+
+	// Limit srcset sizes to prevent too many variations
+	public function limit_srcset_sizes($sources, $size_array) {
+		// Only keep sources up to 1280px wide
+		foreach ($sources as $width => $source) {
+			if ($width > 1280) {
+				unset($sources[$width]);
+			}
+		}
+		return $sources;
 	}
 }

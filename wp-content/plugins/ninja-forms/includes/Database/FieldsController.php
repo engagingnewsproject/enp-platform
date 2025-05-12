@@ -124,7 +124,7 @@ class NF_Database_FieldsController
     }
     private function parse_fields()
     {
-        foreach( $this->fields_data as $field_data ){
+        foreach( $this->fields_data as &$field_data ){
             $field_id = $field_data[ 'id' ];
 
             /**
@@ -139,10 +139,15 @@ class NF_Database_FieldsController
                 if( isset( $field_data[ 'settings' ][ $setting_name ] ) ) {
                     // If the setting value is numeric, make sure it's intval'd.
                     if ( is_numeric( $field_data[ 'settings' ][ $setting_name ] ) ) {
-                        $value = intval( $field_data[ 'settings' ][ $setting_name ]  );
-                    } else {
-                        $value = $field_data[ 'settings' ][ $setting_name ];
+                        $field_data[ 'settings' ][ $setting_name ] = intval( $field_data[ 'settings' ][ $setting_name ]  );
                     }
+
+                    //Sanitize string settings if disallow_unfiltered_html is true
+                    if(is_string($field_data[ 'settings' ][ $setting_name ]) && WPN_Helper::maybe_disallow_unfiltered_html_for_sanitization()) {
+                        $field_data[ 'settings' ][ $setting_name ] = WPN_Helper::sanitize_string_setting_value($setting_name, $field_data[ 'settings' ][ $setting_name ]);
+                    }
+
+                    $value = $field_data[ 'settings' ][ $setting_name ];
                 }
 
                 if ( in_array( $column_name, $this->db_bit_columns ) ) {

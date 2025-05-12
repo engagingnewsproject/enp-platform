@@ -19,56 +19,444 @@
             "layout": "block",
             "sub_fields": [
                 {
-                    "key": "field_67edb2367c152",
-                    "label": "Press archive filter",
-                    "name": "press_archive_filter",
+                    "key": "field_68159d46e49a0",
+                    "label": "Research",
+                    "name": "research_post_type",
                     "aria-label": "",
-                    "type": "taxonomy",
-                    "instructions": "Exclude these categories from the Press (\/press) archive.",
+                    "type": "group",
+                    "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "",
+                        "width": "50",
                         "class": "",
                         "id": ""
                     },
-                    "taxonomy": "press-categories",
-                    "add_term": 0,
-                    "save_terms": 0,
-                    "load_terms": 0,
-                    "return_format": "object",
-                    "field_type": "multi_select",
-                    "allow_null": 0,
-                    "allow_in_bindings": 0,
-                    "bidirectional": 0,
-                    "multiple": 0,
-                    "bidirectional_target": []
+                    "layout": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_68159d6de49a1",
+                            "label": "Research archive title",
+                            "name": "research_archive_title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "Base archive title.",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_681dfd06aa38a",
+                            "label": "Research archive posts per page",
+                            "name": "research_archive_posts_per_page",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "To show all set to: -1",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": -1,
+                            "min": "",
+                            "max": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "step": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_67f6750079f59",
+                            "label": "Research sidebar filter",
+                            "name": "research_sidebar_filter",
+                            "aria-label": "",
+                            "type": "taxonomy",
+                            "instructions": "Selected categories to show on sidebar.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "taxonomy": "research-categories",
+                            "add_term": 0,
+                            "save_terms": 0,
+                            "load_terms": 0,
+                            "return_format": "id",
+                            "field_type": "multi_select",
+                            "allow_null": 0,
+                            "allow_in_bindings": 0,
+                            "bidirectional": 0,
+                            "multiple": 0,
+                            "bidirectional_target": []
+                        }
+                    ]
                 },
                 {
-                    "key": "field_67f6750079f59",
-                    "label": "Research sidebar filter",
-                    "name": "research_sidebar_filter",
+                    "key": "field_681eafd399115",
+                    "label": "Publications",
+                    "name": "publication_post_type",
                     "aria-label": "",
-                    "type": "taxonomy",
-                    "instructions": "Only selected categories will show on the research sidebar.",
+                    "type": "group",
+                    "instructions": "",
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "",
+                        "width": "50",
                         "class": "",
                         "id": ""
                     },
-                    "taxonomy": "research-categories",
-                    "add_term": 0,
-                    "save_terms": 0,
-                    "load_terms": 0,
-                    "return_format": "id",
-                    "field_type": "checkbox",
-                    "allow_in_bindings": 0,
-                    "bidirectional": 0,
-                    "multiple": 0,
-                    "allow_null": 0,
-                    "bidirectional_target": []
+                    "layout": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_681eafd399117",
+                            "label": "Publication archive title",
+                            "name": "publication_archive_title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "Base archive title.",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_681eafd399118",
+                            "label": "Publication archive posts per page",
+                            "name": "publication_archive_posts_per_page",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "To show all set to: -1",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": -1,
+                            "min": "",
+                            "max": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "step": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_681eafd399119",
+                            "label": "Publication archive filter",
+                            "name": "publication_archive_filter",
+                            "aria-label": "",
+                            "type": "taxonomy",
+                            "instructions": "Select categories to NOT show in post grid.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "taxonomy": "publication-categories",
+                            "add_term": 0,
+                            "save_terms": 0,
+                            "load_terms": 0,
+                            "return_format": "object",
+                            "field_type": "multi_select",
+                            "allow_null": 0,
+                            "allow_in_bindings": 0,
+                            "bidirectional": 0,
+                            "multiple": 0,
+                            "bidirectional_target": []
+                        }
+                    ]
+                },
+                {
+                    "key": "field_68159c32855f4",
+                    "label": "Press",
+                    "name": "press_post_type",
+                    "aria-label": "",
+                    "type": "group",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33.333",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_68159c7e855f5",
+                            "label": "Press archive title",
+                            "name": "press_archive_title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "Base archive title.",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_681df212a9487",
+                            "label": "Press archive posts per page",
+                            "name": "press_archive_posts_per_page",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "To show all set to: -1",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": -1,
+                            "min": "",
+                            "max": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "step": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_67edb2367c152",
+                            "label": "Press archive filter",
+                            "name": "press_archive_filter",
+                            "aria-label": "",
+                            "type": "taxonomy",
+                            "instructions": "Select categories to NOT show in post grid.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "taxonomy": "press-categories",
+                            "add_term": 0,
+                            "save_terms": 0,
+                            "load_terms": 0,
+                            "return_format": "object",
+                            "field_type": "multi_select",
+                            "allow_null": 0,
+                            "allow_in_bindings": 0,
+                            "bidirectional": 0,
+                            "multiple": 0,
+                            "bidirectional_target": []
+                        }
+                    ]
+                },
+                {
+                    "key": "field_6815b5634cbce",
+                    "label": "Blogs",
+                    "name": "blogs_post_type",
+                    "aria-label": "",
+                    "type": "group",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33.333",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_6815b5634cbd0",
+                            "label": "Blogs archive title",
+                            "name": "blogs_archive_title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "Base archive title.",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_681df503ef251",
+                            "label": "Blogs archive posts per page",
+                            "name": "blogs_archive_posts_per_page",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "To show all set to: -1",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": -1,
+                            "min": "",
+                            "max": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "step": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_6815b5634cbd1",
+                            "label": "Blogs archive filter",
+                            "name": "blogs_archive_filter",
+                            "aria-label": "",
+                            "type": "taxonomy",
+                            "instructions": "Select categories to NOT show in post grid.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "taxonomy": "blogs-category",
+                            "add_term": 0,
+                            "save_terms": 0,
+                            "load_terms": 0,
+                            "return_format": "object",
+                            "field_type": "multi_select",
+                            "allow_null": 0,
+                            "allow_in_bindings": 0,
+                            "bidirectional": 0,
+                            "multiple": 0,
+                            "bidirectional_target": []
+                        }
+                    ]
+                },
+                {
+                    "key": "field_6815c1d441337",
+                    "label": "Announcements",
+                    "name": "announcement_post_type",
+                    "aria-label": "",
+                    "type": "group",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "33.333",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_6815c1d441339",
+                            "label": "Announcement archive title",
+                            "name": "announcement_archive_title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "Announcement Archive Title",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "Base archive title.",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_681dfa8125bb2",
+                            "label": "Announcement archive posts per page",
+                            "name": "announcement_archive_posts_per_page",
+                            "aria-label": "",
+                            "type": "number",
+                            "instructions": "To show all set to: -1",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": -1,
+                            "min": "",
+                            "max": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "step": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_6815c1d44133a",
+                            "label": "Announcement archive filter",
+                            "name": "announcement_archive_filter",
+                            "aria-label": "",
+                            "type": "taxonomy",
+                            "instructions": "Select categories to NOT show in post grid.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "taxonomy": "announcement-category",
+                            "add_term": 0,
+                            "save_terms": 0,
+                            "load_terms": 0,
+                            "return_format": "object",
+                            "field_type": "multi_select",
+                            "allow_null": 0,
+                            "allow_in_bindings": 0,
+                            "bidirectional": 0,
+                            "multiple": 0,
+                            "bidirectional_target": []
+                        }
+                    ]
                 }
             ]
         },
@@ -451,5 +839,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1746126321
+    "modified": 1746841723
 }

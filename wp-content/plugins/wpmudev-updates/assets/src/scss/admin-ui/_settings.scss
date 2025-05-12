@@ -1,0 +1,27 @@
+@include body-class(true) {
+	.enable_sso_label {
+		display: block;
+		width: 65%;
+		label {
+			font-weight: 500;
+		}
+
+		.sui-notice {
+			margin-top: 10px;
+		}
+		@include media(max-width, md) {
+			width: 100%;
+		}
+	}
+
+	.sui-spacing-bottom--10 {
+		margin-bottom: 10px;
+	}
+}
+
+// Select fix.
+@include body-class() {
+	span.select2-container--open {
+		z-index: 1;
+	}
+}

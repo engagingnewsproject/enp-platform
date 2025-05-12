@@ -1,0 +1,86 @@
+Plugin Name: WP Defender
+Author: WPMU DEV
+Tested up to: 6.8
+
+Change Log:
+
+= 5.2.0 ( 2025-04-07 ) =
+
+- New: Session Protection
+- Enhance: Compatibility with WordPress 6.8
+- Enhance: Add a toggle to block popular spam/malicious User Agents
+- Enhance: Remove Semrush and Ahrefs from the default User Agent blocklist
+- Enhance: Improve the wpdef_sec_key_gen cron process on multisite
+- Enhance: Update Malware Signatures to detect suspicious code
+- Enhance: Improve the Quarantine flow during upgrade from free to pro plugin version
+- Enhance: Improve the class representing the vulnerability result
+- Enhance: Improve Trusted IP popup flow
+- Fix: Masked Login URL bypassed by using encoded characters
+- Fix: Audit Logging showing wrong time
+
+= 5.1.1 ( 2025-03-03 ) =
+
+- Enhance: Improve cron events for AntiBot Global Firewall on multisite
+- Enhance: Remove manual "All headers" option and migrate to Automatic IP detection for improved compatibility and security
+- Enhance: Update User Agent logic with AntiBot service to better detect potential threats
+
+= 5.1.0 ( 2025-02-26 ) =
+
+- New: Enforce strong password
+- Enhance: Manage all password-related settings in one place
+- Enhance: Improve lockout mechanism
+- Enhance: Upgrade plugin packages
+- Enhance: Support Unit server
+- Enhance: Translation improvements
+- Enhance: Improve IP Lockout redirect when user adds IP to Allowlist
+- Enhance: Create a new cookie to avoid Lockout caching in Hummingbird plugin
+- Enhance: Update minimum supported WordPress version
+- Enhance: Enable Plugin & Suspicious code scan by default on fresh installations
+- Enhance: Improve Malware_Result class
+- Enhance: Minor code improvements
+- Fix: Defender does not detect themes with vulnerabilities
+- Fix: Error while pfsockopen function is disabled
+- Fix: NaN is showing on AntiBot page when language is changed to German in the Dashboard plugin
+- Fix: Form does not submit if Google reCAPTCHA is enabled in both Defender and Forminator plugins
+- Fix: Malware Scanner highlights WordPress core files on IIS server
+- Fix: Database error related to AntiBot feature
+- Fix: Salt keys appear before open php tag
+- Fix: Google reCAPTCHA compact style is not working
+
+= 5.0.2 ( 2025-02-14 ) =
+
+- Improvement: Update 404 logic with AntiBot service to better detect and mitigate potential threats
+- Improvement: Enhancing IP Detection in Defender to prevent blocking of server IPs
+
+= 5.0.1 ( 2025-01-31 ) =
+
+- Fix: AntiBot service sync issue
+- Fix: AntiBot toggle behavior is inconsistent when managed on the Hub
+- Fix: Usage Tracking improvements
+
+= 5.0.0 ( 2025-01-27 ) =
+
+- New: AntiBot Global Firewall
+- Enhance: Global IP Blocker renamed to Central IP List and located under Local Firewall
+- Enhance: Prevent execution of CREATE TABLE query on every page load
+- Enhance: Scan lines about suspicious code are displayed even after deleting files
+- Enhance: Update WPMU DEV IP management
+- Enhance: Show Vulnerability details for Pro plugin version
+- Enhance: Usage Tracking improvements
+- Fix: Error while uninstalling Defender
+- Fix: Wrong usage of WPMU DEV Dashboard settings function
+- Fix: SUI Alert appears when trying to make any action to files detected by Malware Scanning
+- Fix: PHP notices appear in logs when running a malware scan
+
+= 4.12.0 ( 2024-12-09 ) =
+
+- Enhance: Ability to scan malicious code in files in the site's root
+- Enhance: Optimize WAF traffic management
+- Enhance: Optimize XML-RPC traffic management
+- Enhance: Remove strict declarations for default WP filters
+- Fix: Notice for _load_textdomain_just_in_time called incorrectly
+- Fix: Update malware signature to avoid false positives
+- Fix: Undefined array key warning when creating a new subsite on multisite if Audit logging is enabled
+
+
+718091-1746565007-ai

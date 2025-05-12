@@ -1,0 +1,42 @@
+@include body-class(true) {
+  .dashui-modal-list {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    list-style: none;
+
+    li {
+      padding: 14px 0;
+      border-bottom: 1px solid #e6e6e6;
+      color: #333;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 24px;
+
+      &:last-of-type {
+        border-bottom: 0;
+      }
+
+      [class*="sui-icon-"] {
+        margin-right: 14px;
+
+        &:before {
+          color: inherit;
+        }
+      }
+    }
+  }
+
+  .sui-box-header {
+    .sui-description {
+      strong {
+        color: #333;
+      }
+    }
+  }
+
+  .dashui-modal-footer-desc {
+    margin: 0;
+    text-align: center;
+  }
+}

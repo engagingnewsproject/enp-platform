@@ -641,7 +641,7 @@ class WPN_Helper
 
         if( in_array( $key, ["element_class", "container_class"] ) ) {
             $value = self::sanitize_classes($value);
-        } else if( in_array( $key, ["label"] )){
+        } else if( in_array( $key, ["label", "default"] )){
             $value = self::sanitize_text_field($value);
         }
 

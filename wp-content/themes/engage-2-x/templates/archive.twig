@@ -48,8 +48,9 @@
 						loadEagerTiles: 6,
 						post_type: archive.postType.name,
 					} %}
-					{# {% include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } %} #}
-					{# {% include 'partial/pagination.twig' with {pagination: posts.pagination} %} #}
+					{# pagination #}
+					{% include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } %}
+
 				{% endif %}
 			</div>
 		
@@ -62,6 +63,8 @@
 					loadEagerTiles: 6,
 					post_type: archive.postType.name,
 				} %}
+				{# pagination #}
+				{% include 'partial/pagination.twig' with { pagination: archive.posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } %}
 			</div>
 			
 		{% endif %} {# END if archive.filters #}

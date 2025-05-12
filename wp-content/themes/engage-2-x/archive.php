@@ -10,14 +10,12 @@
 
 use Timber\Timber;
 use Engage\Models\TileArchive;
-use Engage\Models\FilterMenu;
-use Engage\Models\BlogsFilterMenu;
-use Engage\Models\AnnouncementFilterMenu;
-use Engage\Models\ResearchFilterMenu;
-use Engage\Models\TeamFilterMenu;
-use Engage\Models\BoardFilterMenu;
 global $wp_query;
+global $paged;
 
+if (!isset($paged) || !$paged) {
+    $paged = 1;
+}
 /**
  * Initialize the context and get global variables
  */
@@ -26,7 +24,17 @@ $globals = new Engage\Managers\Globals();
 $options = [];
 $templates = [ 'templates/archive.twig', 'templates/index.twig' ];
 $title = 'Archive';
+$archive_settings = get_field('archive_settings', 'options');
 
+/**
+ * Get the posts per page from ACF options
+ * This is used to set the number of posts to display on the archive page
+ */
+$posts_per_page = $archive_settings['research_post_type']['research_archive_posts_per_page'];
+// Get publication excluded categories
+$publication_excluded_categories = $archive_settings['publication_post_type']['publication_archive_filter'] ?? [];
+// Get publication posts per page
+$publication_posts_per_page = $archive_settings['publication_post_type']['publication_archive_posts_per_page'] ?? $posts_per_page;
 /**
  * Set sidebar filter options based on archive type
  */
@@ -35,14 +43,6 @@ function get_sidebar_filters($globals)
 	// Check each post type and return appropriate filters
 	if (is_post_type_archive(['research']) || is_tax('research-categories')) {
 		return ['filters' => $globals->getResearchMenu()];
-	}
-
-	if (is_post_type_archive(['announcement']) || is_tax('announcement-category')) {
-		return ['filters' => $globals->getAnnouncementMenu()];
-	}
-
-	if (is_post_type_archive(['blogs']) || is_tax('blogs-category')) {
-		return ['filters' => $globals->getBlogMenu()];
 	}
 
 	if (is_post_type_archive(['board']) || is_tax('board_category')) {
@@ -60,32 +60,9 @@ function get_sidebar_filters($globals)
 // Get sidebar filters
 $options = get_sidebar_filters($globals);
 
-// Handle blogs category filtering
-if (is_post_type_archive('blogs') || is_tax('blogs-category')) {
-	$blogs_category = get_query_var('blogs-category');
-	if ($blogs_category) {
-		$args = [
-			'post_type' => 'blogs',
-			'tax_query' => [
-				[
-					'taxonomy' => 'blogs-category',
-					'field' => 'slug',
-					'terms' => $blogs_category
-				]
-			],
-			'posts_per_page' => -1
-		];
-		$wp_query = new \WP_Query($args);
-	}
-}
-
 // Get current term for filter highlighting
 $current_term = '';
-if (is_tax('blogs-category')) {
-	$current_term = get_query_var('blogs-category');
-} elseif (is_tax('announcement-category')) {
-	$current_term = get_query_var('announcement-category');
-} elseif (is_tax('research-categories')) {
+if (is_tax('research-categories')) {
 	$current_term = get_query_var('research-categories');
 } elseif (is_tax('team_category')) {
 	$current_term = get_query_var('team_category');
@@ -94,6 +71,18 @@ if (is_tax('blogs-category')) {
 }
 
 $context['current_term'] = $current_term;
+
+/**
+ * Handle excluding uncategorized terms for all categories
+ */
+function exclude_uncategorized_terms($args) {
+	// Exclude uncategorized if it exists
+	$uncategorized = get_term_by('slug', 'uncategorized', 'research-categories');
+	if ($uncategorized) {
+		$args['exclude'] = $uncategorized->term_id;
+	}
+	return $args;
+}
 
 /**
  * Handle media ethics category page
@@ -111,11 +100,8 @@ function handle_media_ethics_category($options, $research_categories)
 		'hide_empty' => true
 	];
 
-	// Only exclude uncategorized if it exists
-	$uncategorized = get_term_by('slug', 'uncategorized', 'research-categories');
-	if ($uncategorized) {
-		$args['exclude'] = $uncategorized->term_id;
-	}
+	// Apply uncategorized exclusion
+	$args = exclude_uncategorized_terms($args);
 
 	$researchCategories = get_terms($args);
 	$researchTiles = [];
@@ -133,8 +119,6 @@ function handle_media_ethics_category($options, $research_categories)
 				'link' => home_url("/research/category/media-ethics/{$category->slug}/"),
 				'count' => $category->count
 			];
-		} else {
-			error_log("No featured image found for category: {$category->name}");
 		}
 	}
 
@@ -153,7 +137,7 @@ function handle_media_ethics_category($options, $research_categories)
 /**
  * Handle media ethics subcategory pages
  */
-function handle_media_ethics_subcategory($options, $research_categories)
+function handle_media_ethics_subcategory($options, $research_categories, $posts_per_page)
 {
 	$is_media_ethics_page = false;
     $subcategories = [];
@@ -184,7 +168,7 @@ function handle_media_ethics_subcategory($options, $research_categories)
         return null;
     }
 
-    // Query posts with both categories
+    // Query posts with both categories and pagination
     $args = [
         'post_type' => 'research',
         'tax_query' => [
@@ -200,7 +184,8 @@ function handle_media_ethics_subcategory($options, $research_categories)
                 'terms' => $subcategories
             ]
         ],
-        'posts_per_page' => -1
+        'posts_per_page' => $posts_per_page, // Use ACF option
+        'paged' => $GLOBALS['paged']
     ];
 
     $query = new WP_Query($args);
@@ -235,12 +220,69 @@ if ( is_day() ) {
     } 
     // Then check if this is a media ethics subcategory page
     else {
-        $media_ethics_subcategory_archive = handle_media_ethics_subcategory($options, $research_categories);
+        $media_ethics_subcategory_archive = handle_media_ethics_subcategory($options, $research_categories, $posts_per_page);
         if ($media_ethics_subcategory_archive) {
             $context['archive'] = $media_ethics_subcategory_archive;
         }
         // Finally, if none of the special cases apply, use the default archive
         else {
+			// Set up the query with pagination
+			$args = array(
+				'post_type' => get_post_type(),
+				'posts_per_page' => get_post_type() === 'publication' ? $publication_posts_per_page : $posts_per_page,
+				'paged' => $paged,
+				'tax_query' => array(
+					array(
+						'taxonomy' => get_query_var('taxonomy'),
+						'field' => 'slug',
+						'terms' => get_query_var('term')
+					)
+				)
+			);
+			
+			// Add tax query to exclude media-ethics and uncategorized categories if we're on the research archive
+			if (get_post_type() === 'research') {
+				$args['tax_query'] = array(
+					array(
+						'taxonomy' => 'research-categories',
+						'field' => 'slug',
+						'terms' => array('media-ethics', 'uncategorized'),
+						'operator' => 'NOT IN'
+					)
+				);
+			}
+
+			// Add tax query to exclude categories if we're on the publication archive
+			if (get_post_type() === 'publication') {
+				// Add sorting by publication date
+				$args['meta_key'] = 'publication_date';
+				$args['orderby'] = array(
+					'meta_value_num' => 'DESC',
+					'date' => 'DESC'
+				);
+
+				// Add category exclusion if we have categories to exclude
+				if (!empty($publication_excluded_categories)) {
+					// Convert term objects to IDs
+					$excluded_category_ids = array_map(
+						function($cat) { return is_object($cat) ? $cat->term_id : $cat; },
+						$publication_excluded_categories
+					);
+					
+					$args['tax_query'] = array(
+						array(
+							'taxonomy' => 'publication-categories',
+							'field' => 'term_id',
+							'terms' => $excluded_category_ids,
+							'operator' => 'NOT IN'
+						)
+					);
+				}
+			}
+
+			// Create a new query with pagination
+			$wp_query = new WP_Query($args);
+			
             $archive = new TileArchive($options, $wp_query);
             $context['archive'] = $archive;
         }
@@ -249,11 +291,64 @@ if ( is_day() ) {
 } elseif ( is_post_type_archive() ) {
 	// Archive page for a post type (ex. URLS: /research, /publications, /press, /events, etc.)
 	$title = post_type_archive_title( '', false );
-	$context = Timber::context(
-		[
-			'title' => $title,
-		]
+	
+	// Set up the query with pagination
+	$args = array(
+		'post_type' => get_post_type(),
+		'posts_per_page' => get_post_type() === 'publication' ? $publication_posts_per_page : $posts_per_page,
+		'paged' => $paged
 	);
+
+	// Add tax query to exclude media-ethics and uncategorized categories if we're on the research archive
+	if (get_post_type() === 'research') {
+		$args['tax_query'] = array(
+			array(
+				'taxonomy' => 'research-categories',
+				'field' => 'slug',
+				'terms' => array('media-ethics', 'uncategorized'),
+				'operator' => 'NOT IN'
+			)
+		);
+	}
+
+	// Add tax query to exclude categories if we're on the publication archive
+	if (get_post_type() === 'publication') {
+		// Add sorting by publication date
+		$args['meta_key'] = 'publication_date';
+		$args['orderby'] = array(
+			'meta_value_num' => 'DESC',
+			'date' => 'DESC'
+		);
+
+		// Add category exclusion if we have categories to exclude
+		if (!empty($publication_excluded_categories)) {
+			// Convert term objects to IDs
+			$excluded_category_ids = array_map(
+				function($cat) { return is_object($cat) ? $cat->term_id : $cat; },
+				$publication_excluded_categories
+			);
+			
+			$args['tax_query'] = array(
+				array(
+					'taxonomy' => 'publication-categories',
+					'field' => 'term_id',
+					'terms' => $excluded_category_ids,
+					'operator' => 'NOT IN'
+				)
+			);
+		}
+	}
+
+	// Create a new query with pagination
+	$wp_query = new WP_Query($args);
+	$context = Timber::context(
+		array(
+			'title' => $title,
+			'posts_per_page' => get_post_type() === 'publication' ? $publication_posts_per_page : $posts_per_page,
+			'paged' => $paged,
+		)
+	);
+
 	$archive = new TileArchive($options, $wp_query);
 	$context['archive'] = $archive;
 	array_unshift( $templates, 'templates/archive-' . get_post_type() . '.twig' );

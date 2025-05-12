@@ -1,0 +1,96 @@
+@include body-class(true) {
+
+	.dashui-table-tools {
+		display: block;
+
+		tbody {
+			display: block;
+
+			tr {
+				display: flex;
+				align-items: center;
+				border-bottom: 1px solid palette(silver, soft);
+
+				td {
+					display: block;
+					flex: 0 0 auto;
+					padding-top: 0;
+					padding-bottom: 0;
+					border-bottom: 0;
+
+					h4 {
+						margin-top: 0;
+						margin-bottom: 0;
+					}
+
+					.sui-image {
+						width: 40px;
+						height: 40px;
+						border-radius: $border-radius;
+					}
+
+					@include media(max-width, md) {
+						height: auto;
+					}
+
+					@include media(min-width, md) {
+						height: auto;
+					}
+				}
+
+				td.dashui-item-content {
+					flex: 1;
+					.dashui-resources-title {
+						i {
+							&:before {
+								color: #333;
+							}
+						}
+					}
+					i {
+						&:before {
+							font-size: 1.2em;
+						}
+					}
+				}
+
+				td.dashui-item-image {
+					padding-right: 0;
+
+					+ td {
+
+						@include media(max-width, md) {
+							padding-left: $sui-gutter-md;
+						}
+					}
+
+					@include media(max-width, md) {
+						display: none;
+					}
+				}
+
+				&:last-child {
+					border-bottom-width: 0;
+
+					@include media(max-width, md) {
+						padding-bottom: $sui-gutter-md;
+					}
+
+					@include media(min-width, md) {
+						padding-bottom: $sui-gutter;
+					}
+				}
+
+				@include media(max-width, md) {
+					padding-top: #{$sui-gutter-md / 2};
+					padding-bottom: #{$sui-gutter-md / 2};
+				}
+
+				@include media(min-width, md) {
+					padding-top: #{$sui-gutter / 2};
+					padding-bottom: #{$sui-gutter / 2};
+				}
+			}
+		}
+	}
+}
