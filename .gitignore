@@ -41,6 +41,8 @@ wp-content/plugins/seo-by-rank-math-pro/
 wp-content/plugins/download-monitor/
 wp-content/plugins/codepress-admin-columns/
 wp-content/plugins/wp-optimize/
+wp-content/plugins/wp-defender/
+wp-content/plugins/wpmudev-updates/
 
 # ENP quiz
 enp-quiz-database-config.php
