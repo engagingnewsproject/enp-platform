@@ -156,13 +156,25 @@ If you encounter issues with the Engage theme:
     }
     ```
 3. From the theme root, run:
+
+    #### Dev Site
     ```bash
-    yarn sync-db
+    yarn sync-db-dev
     ```
     This will:
     - Export the Production database  
     - Stream it into Development  
     - Search-replace your live URL with the dev URL  
+    - Flush the WP cache  
+
+    #### Staging Site
+    ```bash
+    yarn sync-db-staging
+    ```
+    This will:
+    - Export the Production database  
+    - Stream it into Staging  
+    - Search-replace your live URL with the staging URL  
     - Flush the WP cache  
 
 4. **Verify** by spot-checking a few pages and custom post types in your Dev site.

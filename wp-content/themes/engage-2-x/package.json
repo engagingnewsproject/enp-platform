@@ -13,7 +13,8 @@
 		"hot": "mix --hot",
 		"prod": "npm run production",
 		"production": "mix --production",
-		"sync-db": "bash ssh/sync-db.sh"
+		"sync-db-dev": "bash ssh/sync-db-dev.sh",
+		"sync-db-staging": "bash ssh/sync-db-staging.sh"
 	},
 	"author": "",
 	"license": "ISC",
