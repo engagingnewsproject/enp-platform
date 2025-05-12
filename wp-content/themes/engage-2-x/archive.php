@@ -232,6 +232,7 @@ if ( is_day() ) {
 				'posts_per_page' => get_post_type() === 'publication' ? $publication_posts_per_page : $posts_per_page,
 				'paged' => $paged,
 				'tax_query' => array(
+					'relation' => 'AND',
 					array(
 						'taxonomy' => get_query_var('taxonomy'),
 						'field' => 'slug',
@@ -269,13 +270,12 @@ if ( is_day() ) {
 						$publication_excluded_categories
 					);
 					
-					$args['tax_query'] = array(
-						array(
-							'taxonomy' => 'publication-categories',
-							'field' => 'term_id',
-							'terms' => $excluded_category_ids,
-							'operator' => 'NOT IN'
-						)
+					// Add the exclusion to the existing tax_query
+					$args['tax_query'][] = array(
+						'taxonomy' => 'publication-categories',
+						'field' => 'term_id',
+						'terms' => $excluded_category_ids,
+						'operator' => 'NOT IN'
 					);
 				}
 			}
@@ -328,13 +328,12 @@ if ( is_day() ) {
 				$publication_excluded_categories
 			);
 			
-			$args['tax_query'] = array(
-				array(
-					'taxonomy' => 'publication-categories',
-					'field' => 'term_id',
-					'terms' => $excluded_category_ids,
-					'operator' => 'NOT IN'
-				)
+			// Add the exclusion to the existing tax_query
+			$args['tax_query'][] = array(
+				'taxonomy' => 'publication-categories',
+				'field' => 'term_id',
+				'terms' => $excluded_category_ids,
+				'operator' => 'NOT IN'
 			);
 		}
 	}
