@@ -226,6 +226,10 @@ if ( is_day() ) {
         }
         // Finally, if none of the special cases apply, use the default archive
         else {
+			// Get the WordPress timezone setting (or default to UTC if not set)
+			// This is passed to Twig so date formatting in templates matches the site's timezone
+			$timezone_string = get_option('timezone_string') ?: 'UTC';
+			$context['wp_timezone'] = $timezone_string;
 			// Set up the query with pagination
 			$args = array(
 				'post_type' => get_post_type(),
@@ -240,7 +244,7 @@ if ( is_day() ) {
 					)
 				)
 			);
-			
+			// press category pages, publication, research all run through this same function. would it be better to have a separate file for each post type?
 			// Add tax query to exclude media-ethics and uncategorized categories if we're on the research archive
 			if (get_post_type() === 'research') {
 				$args['tax_query'] = array(
