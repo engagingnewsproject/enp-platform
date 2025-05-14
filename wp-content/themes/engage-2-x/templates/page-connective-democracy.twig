@@ -17,11 +17,13 @@
 		{# Featured image as header image #}
 		{% if post.meta('featured_image_as_header_image') %}
 			<div class="article__header-image">
-				<img src="{{ get_image(post.thumbnail).src('2048x2048') }}" 
-					srcset="{{ get_image(post.thumbnail).srcset }}" 
-					sizes="{{ get_image(post.thumbnail).img_sizes }}" 
-					alt="{{ get_image(post.thumbnail).alt }}" 
-					loading="eager" />
+				<img 
+					src="{{ post.thumbnail.src('full') }}"
+					srcset="{{ post.thumbnail.srcset('full') }}"
+					sizes="100vw"
+					alt="{{ post.thumbnail.alt }}"
+					loading="eager"
+				/>
 			</div>
 		{% endif %}
 		
