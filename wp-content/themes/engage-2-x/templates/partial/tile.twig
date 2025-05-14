@@ -145,6 +145,22 @@ Other tiles have a link to the post URL
 				</div>
 			{% endif %}
 		{% endif %}
+		
+		{# Only show terms and edit link to admin users #}
+		{% if user.can_edit %}
+			<div class="tile__admin-links">
+			{# Terms #}
+			{% set terms = [] %}
+			{% for term in tile.terms() %}
+					{% set terms = terms|merge([term.name]) %}
+			{% endfor %}
+			{% if terms|length > 0 %}
+					<p class="tile__terms">{{ terms|join(', ') }}</p>
+			{% endif %}
+			{# Edit link #}
+				<a href="{{ tile.edit_link }}" class="tile__edit-link" target="_blank">Edit</a>
+			</div>
+		{% endif %}
 	</div>
 
 	{# Tile link #}
@@ -152,17 +168,4 @@ Other tiles have a link to the post URL
 	<a class="tile__link" href="{{ tile_link }}" {% if tile_target_external %} target="_blank" {% endif %}>
 		<span class="sr-text">{{ tile.title }}</span>
 	</a>
-	
-	{# Only show edit link to admin users #}
-{% if user.can_edit %}
-    <a href="{{ tile.edit_link }}" class="tile__edit-link" target="_blank">Edit</a>
-{% endif %}
-
-{# {% set terms = [] %}
-{% for term in tile.terms() %}
-		{% set terms = terms|merge([term.name]) %}
-{% endfor %}
-{% if terms|length > 0 %}
-		<p class="tile__terms">{{ terms|join(', ') }}</p>
-{% endif %} #}
 </div>

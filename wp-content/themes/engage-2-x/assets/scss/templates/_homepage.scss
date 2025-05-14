@@ -31,6 +31,9 @@ $lightGrey: #fbfbfb;
 	.tile__title-wrap {
 		padding: 0;
 	}
+	.tile__admin-links {
+		display: none;
+	}
 	.tile__bar,
 	.tile__excerpt {
 		display: none;
@@ -320,6 +323,7 @@ $lightGrey: #fbfbfb;
 		}
 		.tile__title-wrap {
 			flex: 0 0 60%;
+			grid-row: auto;
 		}
 		.home-section__tools--wrapper {
 			display: flex;

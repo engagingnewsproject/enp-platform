@@ -34,7 +34,7 @@ class Theme
 
 		// images
 		add_image_size('featured-image', 600, 0, false); // Featured image
-		add_image_size('carousel-image', 1280, 720, true); // Homepage slider image
+		add_image_size('carousel-image', 1280, 0, false); // Homepage slider image
 		add_image_size('grid-large', 404, 240, true); // Tile grid image
 		// Others not used
 		// add_image_size('featured-post', 510, 310, true); // use 'medium' instead
@@ -46,8 +46,6 @@ class Theme
 		add_action('widgets_init', [$this, 'widgetsInit']);
 
 		// Add these new optimizations
-		add_filter('jpeg_quality', function() { return 82; }); // Slightly reduce JPEG quality
-		add_filter('wp_editor_set_quality', function() { return 82; });
 		add_filter('wp_calculate_image_srcset', [$this, 'limit_srcset_sizes'], 10, 2);
 
 		$this->cleanup();
@@ -416,9 +414,9 @@ class Theme
 
 	// Limit srcset sizes to prevent too many variations
 	public function limit_srcset_sizes($sources, $size_array) {
-		// Only keep sources up to 1280px wide
+		// Only keep sources up to 2000px wide
 		foreach ($sources as $width => $source) {
-			if ($width > 1280) {
+			if ($width > 2000) {
 				unset($sources[$width]);
 			}
 		}

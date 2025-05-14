@@ -42,6 +42,7 @@ $posts_per_page = $archive_settings['announcement_post_type']['announcement_arch
  */
 $excluded_categories = $archive_settings['announcement_post_type']['announcement_archive_filter'] ?? [];
 $title = $archive_settings['announcement_post_type']['announcement_archive_title'];
+$sidebar = $archive_settings['announcement_post_type']['announcement_archive_sidebar'];
 
 // If title is empty, get the default post type label
 if (empty($title)) {
@@ -58,10 +59,14 @@ if (is_tax('announcement-category')) {
 /**
  * Get sidebar filters for announcement
  */
+if ($sidebar) {
 $options = [
     'filters' => $globals->getAnnouncementMenu(),
     'postType' => 'announcement'
 ];
+} else {
+	$options = [];
+}
 
 /**
  * Handle announcement category filtering
@@ -152,6 +157,7 @@ $context = array_merge($context, [
     'archive_filters' => $excluded_categories,
 	'posts_per_page' => $posts_per_page, // Use ACF option
 	'paged' => $paged,
+	'sidebar' => $sidebar
 ]);
 
 /**
