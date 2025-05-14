@@ -79,11 +79,7 @@ Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/s
 7. Before pushing changes, compile assets for production:
 
     ```bash
-    npm run production
-    ```
-    or
-    ```bash
-    yarn production
+    yarn prod
     ```
 
 ## Debugging Local App Connection
@@ -113,7 +109,7 @@ If you encounter issues with the Engage theme:
 2. Compile production assets:
 
     ```bash
-    npm run production
+    yarn prod
     ```
 
 3. Push changes to the development site:
