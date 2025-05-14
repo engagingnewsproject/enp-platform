@@ -1,36 +1,33 @@
-
-{# {% if tile.title != "General" %} #}
-
-	{# Logic #}
-	{# set default title #}
-	{% set tileTitle = tile.title %}
-	{#  #}
+{# Logic #}
+{# set default title #}
+{% set tileTitle = tile.title %}
+{#  #}
 	{% if tile.name == "announcement" %}
-		{% set tileClass = tile.name %}
-		{% set tileTitle = tile.label %}
-	{% elseif tile.slug == 'science-publications' %}
-		{% set tileClass = tile.slug %}
-	{% else %}
-		{% set tileClass = tile.vertical.slug %}
-	{% endif %}
-	{# END logic #}
-	{# 
+	{% set tileClass = tile.name %}
+	{% set tileTitle = tile.label %}
+{% elseif tile.slug == 'science-publications' %}
+	{% set tileClass = tile.slug %}
+{% else %}
+	{% set tileClass = tile.vertical.slug %}
+{% endif %}
+{# END logic #}
+{# 
 	{{ dump(tile) }}
 	Use above pre element to dump the current query
 	see Timber docs: https://timber.github.io/docs/v2/guides/debugging/#using-twigs-native-functions
 	 #}
-	{# Really need to keep the page title for not only SEO purposes but also for usability #}
-	<div class="tile tile--intro">
-		<h1 class="tile__title tile__title--intro title-slide-in">
-			{{ tileTitle }}
-			{% if tile.subtitle %}
-				<span class="tile__title--subtitle">| {{ tile.subtitle }}</span>
-			{% endif %}
-		</h1>
-		{% if show_excerpt is not defined or show_excerpt == true %}
-			{% if post.post_excerpt %} {# check if the post has an excerpt first, otherwise WordPress will use part of the content #}
-				<div class="tile__excerpt tile__excerpt--intro title-slide-in">{{ tile.excerpt }}</div>
-			{% endif %}
+{# Really need to keep the page title for not only SEO purposes but also for usability #}
+	<div class="tile tile--intro"> <h1 class="tile__title tile__title--intro title-slide-in">
+		{{ tileTitle }}
+		{% if tile.subtitle %}
+			<span class="tile__title--subtitle">|
+				{{ tile.subtitle }}</span>
 		{% endif %}
-	</div>
-{# {% endif %} #}
+	</h1>
+	{% if show_excerpt is not defined or show_excerpt == true %}
+		{% if post.post_excerpt %}
+			{# check if the post has an excerpt first, otherwise WordPress will use part of the content #}
+			<div class="tile__excerpt tile__excerpt--intro title-slide-in">{{ tile.excerpt }}</div>
+		{% endif %}
+	{% endif %}
+</div>
