@@ -296,7 +296,7 @@
 			grid-row: 1 / -1;
 			grid-column: 5/span 8;
 			row-gap: 10px;
-			padding: 2rem 1rem 0 0;
+			padding: 2rem 1rem 2rem 0;
 		}
 	}
 	.tile__title {
@@ -440,7 +440,10 @@
 	left: 10px;
 	margin-bottom: 0;
 }
-
+.tile--publication .tile__terms {
+	grid-column: 5 / span 8;
+	padding-left: 0;
+}
 .tile__edit-link:hover {
 	color: rgba(0,0,0,0.9);
 }

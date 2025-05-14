@@ -226,12 +226,17 @@ if ( is_day() ) {
         }
         // Finally, if none of the special cases apply, use the default archive
         else {
+			// Get the WordPress timezone setting (or default to UTC if not set)
+			// This is passed to Twig so date formatting in templates matches the site's timezone
+			$timezone_string = get_option('timezone_string') ?: 'UTC';
+			$context['wp_timezone'] = $timezone_string;
 			// Set up the query with pagination
 			$args = array(
 				'post_type' => get_post_type(),
 				'posts_per_page' => get_post_type() === 'publication' ? $publication_posts_per_page : $posts_per_page,
 				'paged' => $paged,
 				'tax_query' => array(
+					'relation' => 'AND',
 					array(
 						'taxonomy' => get_query_var('taxonomy'),
 						'field' => 'slug',
@@ -239,7 +244,7 @@ if ( is_day() ) {
 					)
 				)
 			);
-			
+			// press category pages, publication, research all run through this same function. would it be better to have a separate file for each post type?
 			// Add tax query to exclude media-ethics and uncategorized categories if we're on the research archive
 			if (get_post_type() === 'research') {
 				$args['tax_query'] = array(
@@ -269,13 +274,12 @@ if ( is_day() ) {
 						$publication_excluded_categories
 					);
 					
-					$args['tax_query'] = array(
-						array(
-							'taxonomy' => 'publication-categories',
-							'field' => 'term_id',
-							'terms' => $excluded_category_ids,
-							'operator' => 'NOT IN'
-						)
+					// Add the exclusion to the existing tax_query
+					$args['tax_query'][] = array(
+						'taxonomy' => 'publication-categories',
+						'field' => 'term_id',
+						'terms' => $excluded_category_ids,
+						'operator' => 'NOT IN'
 					);
 				}
 			}
@@ -328,13 +332,12 @@ if ( is_day() ) {
 				$publication_excluded_categories
 			);
 			
-			$args['tax_query'] = array(
-				array(
-					'taxonomy' => 'publication-categories',
-					'field' => 'term_id',
-					'terms' => $excluded_category_ids,
-					'operator' => 'NOT IN'
-				)
+			// Add the exclusion to the existing tax_query
+			$args['tax_query'][] = array(
+				'taxonomy' => 'publication-categories',
+				'field' => 'term_id',
+				'terms' => $excluded_category_ids,
+				'operator' => 'NOT IN'
 			);
 		}
 	}

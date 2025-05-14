@@ -22,7 +22,19 @@ Other tiles have a link to the post URL
 	{% if tile.meta('press_article_publication_date_other') %}
 		{% set tile_date = tile.meta('press_article_publication_date_other_txt') %}
 	{% else %}
-		{% set tile_date = tile.meta('press_article_publication_date')|date('F j, Y', false) %}
+		{% set raw_date = tile.meta('press_article_publication_date') %}
+		{% if raw_date %}
+			{# 
+				Append ' 12:00:00' to ensure the date is always interpreted as midday UTC.
+				This prevents timezone conversion from rolling the date back a day
+				when displaying in US timezones (e.g., Chicago, Los Angeles).
+				The database stores only the date (YYYYMMDD), so we add a time for safe display.
+			#}
+			{% set formatted_date = raw_date|slice(0,4) ~ '-' ~ raw_date|slice(4,2) ~ '-' ~ raw_date|slice(6,2) ~ ' 12:00:00' %}
+			{% set tile_date = formatted_date|date('F j, Y', wp_timezone) %}
+		{% else %}
+			{% set tile_date = '' %}
+		{% endif %}
 	{% endif %}
 	
 {% elseif post_type == 'publication' %}
@@ -146,13 +158,11 @@ Other tiles have a link to the post URL
     <a href="{{ tile.edit_link }}" class="tile__edit-link" target="_blank">Edit</a>
 {% endif %}
 
-{# {% if constant('WP_DEBUG') %}
-    {% set terms = [] %}
-    {% for term in tile.terms() %}
-        {% set terms = terms|merge([term.name]) %}
-    {% endfor %}
-    {% if terms|length > 0 %}
-        <p class="tile__terms">{{ terms|join(', ') }}</p>
-    {% endif %}
+{# {% set terms = [] %}
+{% for term in tile.terms() %}
+		{% set terms = terms|merge([term.name]) %}
+{% endfor %}
+{% if terms|length > 0 %}
+		<p class="tile__terms">{{ terms|join(', ') }}</p>
 {% endif %} #}
 </div>

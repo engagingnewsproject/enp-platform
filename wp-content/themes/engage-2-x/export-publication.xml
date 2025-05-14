@@ -17,13 +17,13 @@
  7. WordPress will then import each of the posts, pages, comments, categories, etc.
     contained in this file into your site.
 -->
-<!-- generator="WordPress/6.8.1" created="2025-05-08 21:00" -->
+<!-- generator="WordPress/6.8.1" created="2025-05-14 01:48" -->
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
   <channel>
 <title>Center for Media Engagement</title>
 <link>http://localhost:10120</link>
 <description>Center for Media Engagement</description>
-<pubDate>Thu, 08 May 2025 21:00:13 +0000</pubDate>
+<pubDate>Wed, 14 May 2025 01:48:35 +0000</pubDate>
 <language>en-US</language>
 <wp:wxr_version>1.2</wp:wxr_version>
 <wp:base_site_url>http://localhost:10120</wp:base_site_url>
@@ -2148,8 +2148,8 @@
   <wp:post_id>25104</wp:post_id>
   <wp:post_date>2025-03-20 12:41:16</wp:post_date>
   <wp:post_date_gmt>2025-03-20 17:41:16</wp:post_date_gmt>
-  <wp:post_modified>2025-05-06 09:20:48</wp:post_modified>
-  <wp:post_modified_gmt>2025-05-06 14:20:48</wp:post_modified_gmt>
+  <wp:post_modified>2025-05-13 18:42:17</wp:post_modified>
+  <wp:post_modified_gmt>2025-05-13 23:42:17</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>promises-and-perils-of-automated-journalism-algorithms-experimentation-and-teachers-of-machines-in-china-and-the-united-states</wp:post_name>
@@ -2202,7 +2202,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_year_date</wp:meta_key>
-    <wp:meta_value><![CDATA[0]]></wp:meta_value>
+    <wp:meta_value><![CDATA[1]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_year_date</wp:meta_key>
@@ -11933,8 +11933,8 @@
   <wp:post_id>25351</wp:post_id>
   <wp:post_date>2025-03-20 13:12:02</wp:post_date>
   <wp:post_date_gmt>2025-03-20 18:12:02</wp:post_date_gmt>
-  <wp:post_modified>2025-05-07 04:34:03</wp:post_modified>
-  <wp:post_modified_gmt>2025-05-07 09:34:03</wp:post_modified_gmt>
+  <wp:post_modified>2025-05-13 18:54:10</wp:post_modified>
+  <wp:post_modified_gmt>2025-05-13 23:54:10</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>moral-solidarity-as-a-news-value-rendering-marginalized-communities-and-enduring-social-injustice-newsworthy</wp:post_name>
@@ -17263,8 +17263,8 @@
   <wp:post_id>25424</wp:post_id>
   <wp:post_date>2025-03-20 13:14:43</wp:post_date>
   <wp:post_date_gmt>2025-03-20 18:14:43</wp:post_date_gmt>
-  <wp:post_modified>2025-03-20 13:14:43</wp:post_modified>
-  <wp:post_modified_gmt>2025-03-20 18:14:43</wp:post_modified_gmt>
+  <wp:post_modified>2025-05-12 17:39:26</wp:post_modified>
+  <wp:post_modified_gmt>2025-05-12 22:39:26</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>fact-checking-in-the-age-of-ai-reducing-biases-with-non-human-information-sources</wp:post_name>
@@ -17285,7 +17285,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20251107]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20241107]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -17313,7 +17313,15 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_edit_last</wp:meta_key>
-    <wp:meta_value><![CDATA[3826]]></wp:meta_value>
+    <wp:meta_value><![CDATA[4088]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>publication_year_date</wp:meta_key>
+    <wp:meta_value><![CDATA[1]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_publication_year_date</wp:meta_key>
+    <wp:meta_value><![CDATA[field_67dc3106fd931]]></wp:meta_value>
   </wp:postmeta>
 </item>
 <item>
@@ -17328,8 +17336,8 @@
   <wp:post_id>25425</wp:post_id>
   <wp:post_date>2025-03-20 13:14:43</wp:post_date>
   <wp:post_date_gmt>2025-03-20 18:14:43</wp:post_date_gmt>
-  <wp:post_modified>2025-03-20 13:14:43</wp:post_modified>
-  <wp:post_modified_gmt>2025-03-20 18:14:43</wp:post_modified_gmt>
+  <wp:post_modified>2025-05-12 17:39:34</wp:post_modified>
+  <wp:post_modified_gmt>2025-05-12 22:39:34</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>the-challenge-of-identifying-behavioral-goals-for-communication-in-the-context-of-basic-science</wp:post_name>
@@ -17350,7 +17358,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20251007]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20241007]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -17378,7 +17386,15 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_edit_last</wp:meta_key>
-    <wp:meta_value><![CDATA[3826]]></wp:meta_value>
+    <wp:meta_value><![CDATA[4088]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>publication_year_date</wp:meta_key>
+    <wp:meta_value><![CDATA[1]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_publication_year_date</wp:meta_key>
+    <wp:meta_value><![CDATA[field_67dc3106fd931]]></wp:meta_value>
   </wp:postmeta>
 </item>
 <item>
@@ -17393,8 +17409,8 @@
   <wp:post_id>25426</wp:post_id>
   <wp:post_date>2025-03-20 13:14:43</wp:post_date>
   <wp:post_date_gmt>2025-03-20 18:14:43</wp:post_date_gmt>
-  <wp:post_modified>2025-03-20 13:14:43</wp:post_modified>
-  <wp:post_modified_gmt>2025-03-20 18:14:43</wp:post_modified_gmt>
+  <wp:post_modified>2025-05-12 17:38:56</wp:post_modified>
+  <wp:post_modified_gmt>2025-05-12 22:38:56</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>science-communication-spaces-as-pockets-of-belonging-inviting-in-a-plurality-of-science-identities-for-scientists-in-training</wp:post_name>
@@ -17415,7 +17431,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250807]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20240807]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -17443,7 +17459,15 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_edit_last</wp:meta_key>
-    <wp:meta_value><![CDATA[3826]]></wp:meta_value>
+    <wp:meta_value><![CDATA[4088]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>publication_year_date</wp:meta_key>
+    <wp:meta_value><![CDATA[1]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_publication_year_date</wp:meta_key>
+    <wp:meta_value><![CDATA[field_67dc3106fd931]]></wp:meta_value>
   </wp:postmeta>
 </item>
 <item>
@@ -17480,7 +17504,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250602]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20240602]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -17561,7 +17585,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250407]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20240407]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -17634,7 +17658,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250302]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20240302]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -17707,7 +17731,7 @@
   <category domain="publication-categories" nicename="science-communication"><![CDATA[Science Communication Publications]]></category>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250707]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20240707]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -17772,7 +17796,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250307]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20240307]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -17845,7 +17869,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250107]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20240107]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -17918,7 +17942,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20251007]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20231007]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -17991,7 +18015,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250807]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20230807]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -18064,7 +18088,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250807]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20230807]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -18137,7 +18161,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250602]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20230602]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -18218,7 +18242,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250507]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20230507]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -18291,7 +18315,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250407]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20230407]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -18364,7 +18388,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250107]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20230107]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -18437,7 +18461,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20251207]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20221207]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -18510,7 +18534,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20251102]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20221102]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -18591,7 +18615,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20251107]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20221107]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -18664,7 +18688,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250907]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220907]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -18737,7 +18761,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250907]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220907]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -18810,7 +18834,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250907]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220907]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -18883,7 +18907,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250907]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220907]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -18956,7 +18980,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250907]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220907]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -19029,7 +19053,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250807]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220807]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -19102,7 +19126,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250702]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220702]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -19183,7 +19207,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250707]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220707]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -19256,7 +19280,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250507]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220507]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -19329,7 +19353,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250607]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220607]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -19402,7 +19426,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250507]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220507]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -19475,7 +19499,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250507]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220507]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -19548,7 +19572,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250307]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220307]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -19621,7 +19645,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250207]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220207]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -19686,7 +19710,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250207]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20220207]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -19759,7 +19783,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20251207]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20211207]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -19832,7 +19856,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20251107]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20211107]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -19905,7 +19929,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250907]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20210907]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -19978,7 +20002,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250902]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20210902]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -20059,7 +20083,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250907]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20210907]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -20132,7 +20156,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250807]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20210807]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -20205,7 +20229,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250802]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20210802]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -20286,7 +20310,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250407]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20210407]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -20359,7 +20383,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250407]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20210407]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -20432,7 +20456,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250407]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20210407]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -20505,7 +20529,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250407]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20210407]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -20578,7 +20602,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250107]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20210107]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -20651,7 +20675,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250107]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20210107]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -20724,7 +20748,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20251007]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20201007]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -20797,7 +20821,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250907]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20200907]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -20870,7 +20894,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250907]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20200907]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -20943,7 +20967,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250907]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20200907]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -21016,7 +21040,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250707]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20200707]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -21089,7 +21113,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250707]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20200707]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -21162,7 +21186,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250607]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20200607]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -21235,7 +21259,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250607]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20200607]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -21308,7 +21332,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250307]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20200307]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -21381,7 +21405,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250207]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20200207]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -21429,7 +21453,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250207]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20200207]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -21502,7 +21526,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250207]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20200207]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -21575,7 +21599,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250207]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20200207]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -21648,7 +21672,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250207]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20200207]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -21699,8 +21723,8 @@
   <wp:post_id>25485</wp:post_id>
   <wp:post_date>2025-03-20 13:14:44</wp:post_date>
   <wp:post_date_gmt>2025-03-20 18:14:44</wp:post_date_gmt>
-  <wp:post_modified>2025-03-20 13:14:44</wp:post_modified>
-  <wp:post_modified_gmt>2025-03-20 18:14:44</wp:post_modified_gmt>
+  <wp:post_modified>2025-05-08 16:15:12</wp:post_modified>
+  <wp:post_modified_gmt>2025-05-08 21:15:12</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>environmental-risk-and-benefit-information-seeking-intentions-the-case-of-carbon-capture-and-storage-in-southeast-texas</wp:post_name>
@@ -21721,7 +21745,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20251207]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20191207]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -21752,12 +21776,12 @@
     <wp:meta_value><![CDATA[field_publication_subtitle]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
-    <wp:meta_key>_thumbnail_id</wp:meta_key>
-    <wp:meta_value><![CDATA[14781]]></wp:meta_value>
+    <wp:meta_key>_edit_last</wp:meta_key>
+    <wp:meta_value><![CDATA[4088]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
-    <wp:meta_key>_edit_last</wp:meta_key>
-    <wp:meta_value><![CDATA[3826]]></wp:meta_value>
+    <wp:meta_key>_thumbnail_id</wp:meta_key>
+    <wp:meta_value><![CDATA[27363]]></wp:meta_value>
   </wp:postmeta>
 </item>
 <item>
@@ -21794,7 +21818,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20251007]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20191007]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -21867,7 +21891,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20251007]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20191007]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -21940,7 +21964,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250907]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20190907]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -22013,7 +22037,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250807]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20190807]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -22086,7 +22110,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250707]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20190707]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -22159,7 +22183,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250707]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20190707]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -22232,7 +22256,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250607]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20190607]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -22305,7 +22329,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250607]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20190607]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -22378,7 +22402,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250407]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20190407]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -22451,7 +22475,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250307]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20190307]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -22502,8 +22526,8 @@
   <wp:post_id>25496</wp:post_id>
   <wp:post_date>2025-03-20 13:14:44</wp:post_date>
   <wp:post_date_gmt>2025-03-20 18:14:44</wp:post_date_gmt>
-  <wp:post_modified>2025-03-20 13:14:44</wp:post_modified>
-  <wp:post_modified_gmt>2025-03-20 18:14:44</wp:post_modified_gmt>
+  <wp:post_modified>2025-05-13 18:50:02</wp:post_modified>
+  <wp:post_modified_gmt>2025-05-13 23:50:02</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>never-easy-to-say-sorry-exploring-the-interplay-of-crisis-involvement-brand-image-and-message-appeal-in-developing-effective-corporate-apologies</wp:post_name>
@@ -22524,7 +22548,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250307]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20180307]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -22560,7 +22584,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_edit_last</wp:meta_key>
-    <wp:meta_value><![CDATA[3826]]></wp:meta_value>
+    <wp:meta_value><![CDATA[4088]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_authors</wp:meta_key>
@@ -22572,7 +22596,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250307]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20180307]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -22588,7 +22612,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_subtitle</wp:meta_key>
-    <wp:meta_value><![CDATA[Public Relations Review, 45(1), 178-188]]></wp:meta_value>
+    <wp:meta_value><![CDATA[Public Relations Review]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_subtitle</wp:meta_key>
@@ -22596,11 +22620,11 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_thumbnail_id</wp:meta_key>
-    <wp:meta_value><![CDATA[14799]]></wp:meta_value>
+    <wp:meta_value><![CDATA[14936]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_edit_last</wp:meta_key>
-    <wp:meta_value><![CDATA[3826]]></wp:meta_value>
+    <wp:meta_value><![CDATA[4088]]></wp:meta_value>
   </wp:postmeta>
 </item>
 <item>
@@ -22637,7 +22661,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250207]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20190207]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -22710,7 +22734,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250107]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20190107]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -22783,7 +22807,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250107]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20190107]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -22856,7 +22880,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250107]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20190107]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -22929,7 +22953,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20251007]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20181007]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -23002,7 +23026,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250907]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20180907]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -23075,7 +23099,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250807]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20180807]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -23148,7 +23172,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250807]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20180807]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -23221,7 +23245,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250807]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20180807]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -23294,7 +23318,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250307]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20180307]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -23367,7 +23391,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250307]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20180307]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -23440,7 +23464,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250907]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20170907]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -23513,7 +23537,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250707]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20170707]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -23586,7 +23610,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[20250407]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20170407]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -23783,8 +23807,8 @@
   <wp:post_id>27120</wp:post_id>
   <wp:post_date>2025-05-06 08:23:51</wp:post_date>
   <wp:post_date_gmt>2025-05-06 13:23:51</wp:post_date_gmt>
-  <wp:post_modified>2025-05-06 08:23:51</wp:post_modified>
-  <wp:post_modified_gmt>2025-05-06 13:23:51</wp:post_modified_gmt>
+  <wp:post_modified>2025-05-12 17:38:56</wp:post_modified>
+  <wp:post_modified_gmt>2025-05-12 22:38:56</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>intellectual-humilitys-effects-on-political-polarization-and-engagement</wp:post_name>
@@ -23856,8 +23880,8 @@
   <wp:post_id>27166</wp:post_id>
   <wp:post_date>2025-05-07 04:35:44</wp:post_date>
   <wp:post_date_gmt>2025-05-07 09:35:44</wp:post_date_gmt>
-  <wp:post_modified>2025-05-07 04:36:16</wp:post_modified>
-  <wp:post_modified_gmt>2025-05-07 09:36:16</wp:post_modified_gmt>
+  <wp:post_modified>2025-05-13 18:57:11</wp:post_modified>
+  <wp:post_modified_gmt>2025-05-13 23:57:11</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>solidarity-in-social-media-journalism-a-framework-for-assessing-journalistic-commitments</wp:post_name>
@@ -23886,7 +23910,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20210506]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -23929,8 +23953,8 @@
   <wp:post_id>27167</wp:post_id>
   <wp:post_date>2025-05-07 04:37:44</wp:post_date>
   <wp:post_date_gmt>2025-05-07 09:37:44</wp:post_date_gmt>
-  <wp:post_modified>2025-05-07 04:37:44</wp:post_modified>
-  <wp:post_modified_gmt>2025-05-07 09:37:44</wp:post_modified_gmt>
+  <wp:post_modified>2025-05-13 18:57:17</wp:post_modified>
+  <wp:post_modified_gmt>2025-05-13 23:57:17</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>solidarity-in-u-s-journalism-social-justice-implications-of-how-journalists-humanize-people-experiencing-homelessness</wp:post_name>
@@ -23959,7 +23983,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20210501]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -24002,8 +24026,8 @@
   <wp:post_id>27168</wp:post_id>
   <wp:post_date>2025-05-07 04:39:13</wp:post_date>
   <wp:post_date_gmt>2025-05-07 09:39:13</wp:post_date_gmt>
-  <wp:post_modified>2025-05-07 04:39:13</wp:post_modified>
-  <wp:post_modified_gmt>2025-05-07 09:39:13</wp:post_modified_gmt>
+  <wp:post_modified>2025-05-13 18:57:43</wp:post_modified>
+  <wp:post_modified_gmt>2025-05-13 23:57:43</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>evoking-empathy-or-enacting-solidarity-with-marginalized-communities-a-case-study-of-journalistic-humanizing-techniques-in-the-san-francisco-homeless-project</wp:post_name>
@@ -24032,7 +24056,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20200507]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -24075,8 +24099,8 @@
   <wp:post_id>27169</wp:post_id>
   <wp:post_date>2025-05-07 04:40:38</wp:post_date>
   <wp:post_date_gmt>2025-05-07 09:40:38</wp:post_date_gmt>
-  <wp:post_modified>2025-05-07 04:40:38</wp:post_modified>
-  <wp:post_modified_gmt>2025-05-07 09:40:38</wp:post_modified_gmt>
+  <wp:post_modified>2025-05-13 18:58:01</wp:post_modified>
+  <wp:post_modified_gmt>2025-05-13 23:58:01</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>when-empathy-is-not-enough</wp:post_name>
@@ -24105,7 +24129,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20190502]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -24148,8 +24172,8 @@
   <wp:post_id>27170</wp:post_id>
   <wp:post_date>2025-05-07 04:42:05</wp:post_date>
   <wp:post_date_gmt>2025-05-07 09:42:05</wp:post_date_gmt>
-  <wp:post_modified>2025-05-07 04:42:30</wp:post_modified>
-  <wp:post_modified_gmt>2025-05-07 09:42:30</wp:post_modified_gmt>
+  <wp:post_modified>2025-05-13 18:58:23</wp:post_modified>
+  <wp:post_modified_gmt>2025-05-13 23:58:23</wp:post_modified_gmt>
   <wp:comment_status>closed</wp:comment_status>
   <wp:ping_status>closed</wp:ping_status>
   <wp:post_name>the-constructive-role-of-journalism-contentious-metadiscourse-on-constructive-journalism-and-solutions-journalism</wp:post_name>
@@ -24178,7 +24202,7 @@
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>publication_date</wp:meta_key>
-    <wp:meta_value><![CDATA[]]></wp:meta_value>
+    <wp:meta_value><![CDATA[20180505]]></wp:meta_value>
   </wp:postmeta>
   <wp:postmeta>
     <wp:meta_key>_publication_date</wp:meta_key>
@@ -26369,6 +26393,39 @@
   <wp:postmeta>
     <wp:meta_key>_publication_url</wp:meta_key>
     <wp:meta_value><![CDATA[field_publication_url]]></wp:meta_value>
+  </wp:postmeta>
+</item>
+<item>
+  <title><![CDATA[renc20-v014-i04-cover_]]></title>
+  <link>http://localhost:10120/publications/environmental-risk-and-benefit-information-seeking-intentions-the-case-of-carbon-capture-and-storage-in-southeast-texas/renc20-v014-i04-cover_/</link>
+  <pubDate>Thu, 08 May 2025 21:15:07 +0000</pubDate>
+  <dc:creator>luke@lukecarlhartman.com</dc:creator>
+  <guid isPermaLink="false">http://localhost:10120/wp-content/uploads/2025/03/renc20-v014-i04-cover_.jpg</guid>
+  <description/>
+  <content:encoded><![CDATA[]]></content:encoded>
+  <excerpt:encoded><![CDATA[]]></excerpt:encoded>
+  <wp:post_id>27363</wp:post_id>
+  <wp:post_date>2025-05-08 16:15:07</wp:post_date>
+  <wp:post_date_gmt>2025-05-08 21:15:07</wp:post_date_gmt>
+  <wp:post_modified>2025-05-08 16:15:07</wp:post_modified>
+  <wp:post_modified_gmt>2025-05-08 21:15:07</wp:post_modified_gmt>
+  <wp:comment_status/>
+  <wp:ping_status>closed</wp:ping_status>
+  <wp:post_name>renc20-v014-i04-cover_</wp:post_name>
+  <wp:status>inherit</wp:status>
+  <wp:post_parent>25485</wp:post_parent>
+  <wp:menu_order>0</wp:menu_order>
+  <wp:post_type>attachment</wp:post_type>
+  <wp:post_password/>
+  <wp:is_sticky>0</wp:is_sticky>
+  <wp:attachment_url>http://localhost:10120/wp-content/uploads/2025/03/renc20-v014-i04-cover_.jpg</wp:attachment_url>
+  <wp:postmeta>
+    <wp:meta_key>_wp_attached_file</wp:meta_key>
+    <wp:meta_value><![CDATA[2025/03/renc20-v014-i04-cover_.jpg]]></wp:meta_value>
+  </wp:postmeta>
+  <wp:postmeta>
+    <wp:meta_key>_wp_attachment_metadata</wp:meta_key>
+    <wp:meta_value><![CDATA[a:6:{s:5:"width";i:200;s:6:"height";i:285;s:4:"file";s:34:"2025/03/renc20-v014-i04-cover_.jpg";s:8:"filesize";i:7986;s:5:"sizes";a:2:{s:9:"thumbnail";a:5:{s:4:"file";s:34:"renc20-v014-i04-cover_-150x150.jpg";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:10:"image/jpeg";s:8:"filesize";i:6713;}s:10:"grid-large";a:5:{s:4:"file";s:34:"renc20-v014-i04-cover_-200x240.jpg";s:5:"width";i:200;s:6:"height";i:240;s:9:"mime-type";s:10:"image/jpeg";s:8:"filesize";i:12566;}}s:10:"image_meta";a:12:{s:8:"aperture";s:1:"0";s:6:"credit";s:0:"";s:6:"camera";s:0:"";s:7:"caption";s:0:"";s:17:"created_timestamp";s:1:"0";s:9:"copyright";s:0:"";s:12:"focal_length";s:1:"0";s:3:"iso";s:1:"0";s:13:"shutter_speed";s:1:"0";s:5:"title";s:0:"";s:11:"orientation";s:1:"0";s:8:"keywords";a:0:{}}}]]></wp:meta_value>
   </wp:postmeta>
 </item>
   </channel>

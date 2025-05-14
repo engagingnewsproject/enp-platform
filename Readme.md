@@ -79,11 +79,7 @@ Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/s
 7. Before pushing changes, compile assets for production:
 
     ```bash
-    npm run production
-    ```
-    or
-    ```bash
-    yarn production
+    yarn prod
     ```
 
 ## Debugging Local App Connection
@@ -113,7 +109,7 @@ If you encounter issues with the Engage theme:
 2. Compile production assets:
 
     ```bash
-    npm run production
+    yarn prod
     ```
 
 3. Push changes to the development site:
@@ -156,13 +152,25 @@ If you encounter issues with the Engage theme:
     }
     ```
 3. From the theme root, run:
+
+    #### Dev Site
     ```bash
-    yarn sync-db
+    yarn sync-db-dev
     ```
     This will:
     - Export the Production database  
     - Stream it into Development  
     - Search-replace your live URL with the dev URL  
+    - Flush the WP cache  
+
+    #### Staging Site
+    ```bash
+    yarn sync-db-staging
+    ```
+    This will:
+    - Export the Production database  
+    - Stream it into Staging  
+    - Search-replace your live URL with the staging URL  
     - Flush the WP cache  
 
 4. **Verify** by spot-checking a few pages and custom post types in your Dev site.
