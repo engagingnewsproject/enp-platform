@@ -37,6 +37,7 @@ $posts_per_page = $archive_settings['blogs_post_type']['blogs_archive_posts_per_
  */
 $excluded_categories = $archive_settings['blogs_post_type']['blogs_archive_filter'] ?? [];
 $title = $archive_settings['blogs_post_type']['blogs_archive_title'];
+$sidebar = $archive_settings['blogs_post_type']['blogs_archive_sidebar'];
 
 /**
  * Define the template hierarchy for this archive page
@@ -58,10 +59,14 @@ if (is_tax('blogs-category')) {
 /**
  * Get sidebar filters for blogs
  */
-$options = [
-	'filters' => $globals->getBlogMenu(),
-	'postType' => 'blogs'
-];
+if ($sidebar) {
+	$options = [
+		'filters' => $globals->getBlogMenu(),
+		'postType' => 'blogs'
+	];
+} else {
+	$options = [];
+}
 
 /**
  * Handle blogs category filtering
@@ -154,7 +159,8 @@ $context = array_merge($context, [
 	'pagination' => [
 		'posts_per_page' => get_option('posts_per_page'),
 		'paged' => $paged
-	]
+	],
+	'sidebar' => $sidebar
 ]);
 
 /**

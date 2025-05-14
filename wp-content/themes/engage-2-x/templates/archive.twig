@@ -8,7 +8,6 @@
 		{% if archive.filters %}
 		
 			{# -- filter sidebar #}
-			{# {% if title != "General" %} #}
 				<div class="archive__sidebar">
 					{% include 'filters.twig' with { 
 						filters: archive.filters, 
@@ -17,7 +16,6 @@
 					<button class="filter__close" style="display:none;">Close</button>
 				</div>
 				<div class="sidebar-overlay"></div>
-			{# {% endif %} #}
 		
 			{# Tiles main content #}
 			{# -- set variables #}
@@ -56,7 +54,7 @@
 		
 		{% else %} {# if/else archive.filters #}
 
-			<div class="archive__content__general">
+			<div class="archive__content__general{% if archive.sidebar == false %} archive__content__general--no-sidebar{% endif %}">
 				{% include 'tiles.twig' with { 
 					intro: archive.intro, 
 					posts: archive.posts,

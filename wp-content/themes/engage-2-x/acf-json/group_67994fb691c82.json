@@ -367,6 +367,27 @@
                             "bidirectional": 0,
                             "multiple": 0,
                             "bidirectional_target": []
+                        },
+                        {
+                            "key": "field_6825157a49c6e",
+                            "label": "Blogs archive sidebar",
+                            "name": "blogs_archive_sidebar",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "allow_in_bindings": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": "",
+                            "ui": 1
                         }
                     ]
                 },
@@ -455,6 +476,27 @@
                             "bidirectional": 0,
                             "multiple": 0,
                             "bidirectional_target": []
+                        },
+                        {
+                            "key": "field_68251f368d006",
+                            "label": "Announcement archive sidebar",
+                            "name": "announcement_archive_sidebar",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "allow_in_bindings": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": "",
+                            "ui": 1
                         }
                     ]
                 }
@@ -839,5 +881,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1746841723
+    "modified": 1747263324
 }

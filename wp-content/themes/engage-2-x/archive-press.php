@@ -42,6 +42,7 @@ $posts_per_page = $archive_settings['press_post_type']['press_archive_posts_per_
  */
 $excluded_categories = $archive_settings['press_post_type']['press_archive_filter'] ?? [];
 $title = $archive_settings['press_post_type']['press_archive_title'];
+// $sidebar = $archive_settings['press_post_type']['press_archive_sidebar'];
 
 /**
  * Define the template hierarchy for this archive page
@@ -55,6 +56,18 @@ if (empty($title)) {
     $post_type_obj = get_post_type_object('press');
     $title = $post_type_obj->labels->name;
 }
+
+/**
+ * Get sidebar filters for blogs
+ */
+// if ($sidebar) {
+// 	$options = [
+// 		'filters' => $globals->getBlogMenu(),
+// 		'postType' => 'blogs'
+// 	];
+// } else {
+// 	$options = [];
+// }
 
 // Set up the query with pagination
 $args = array(
