@@ -54,7 +54,7 @@ class Archive extends PostQuery
 		}
 
 		// $this->taxonomy = $this->queriedObject->taxonomy; // Set taxonomy
-		$this->slug = isset($this->queriedObject->slug) ? $this->queriedObject->slug : ''; // Set slug
+		$this->slug = (is_object($this->queriedObject) && isset($this->queriedObject->slug)) ? $this->queriedObject->slug : '';
 		$this->setIntro(); // Set intro information
 	}
 
@@ -117,13 +117,13 @@ class Archive extends PostQuery
 			$title = 'Past Events';
 		} elseif (get_query_var('query_name') === 'upcoming_events') {
 			$title = 'Upcoming Events';
-		} elseif (get_class($this->queriedObject) === 'WP_Term') {
+		} elseif (is_object($this->queriedObject) && get_class($this->queriedObject) === 'WP_Term') {
 			$title = $this->queriedObject->name;
 			$term = $this->queriedObject->taxonomy;
 			if (str_contains($term, '-tags')) {
 				$title = 'tag - ' . $title;
 			}
-		} elseif (get_class($this->queriedObject) === 'WP_Post_Type') {
+		} elseif (is_object($this->queriedObject) && get_class($this->queriedObject) === 'WP_Post_Type') {
 			$title = $this->queriedObject->label;
 		} elseif (get_search_query()) {
 			$title = 'Search: ' . get_search_query();
@@ -141,7 +141,7 @@ class Archive extends PostQuery
 		// initially set off queried object
 		$this->intro = [
 			'title'   => $this->getTitle(),
-			'excerpt' => wpautop($this->queriedObject->description)
+			'excerpt' => is_object($this->queriedObject) && isset($this->queriedObject->description) ? wpautop($this->queriedObject->description) : ''
 		];
 
 		// check if we have one from the settings
