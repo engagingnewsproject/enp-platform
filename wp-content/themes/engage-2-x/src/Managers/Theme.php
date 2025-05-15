@@ -246,38 +246,21 @@ class Theme
 			// Add preload for Google Fonts
 			add_action('wp_head', function () {
 				echo '<link rel="preload" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&display=swap" as="style" crossorigin="anonymous" onload="this.onload=null;this.rel=\'stylesheet\'">';
-				// Fallback for users with JavaScript disabled.
 				echo '<noscript><link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&display=swap" rel="stylesheet"></noscript>';
 			});
-			// wp_register_style('google_fonts', '//fonts.googleapis.com/css?family=Libre+Franklin:400,700|Anton:400', array(), null, 'all');
+			
 			wp_register_style('google_fonts', '//fonts.googleapis.com/css2?family=Anton&family=Libre+Franklin:wght@400;700&display=swap', array(), null, 'all');
 			wp_enqueue_style('google_fonts');
-			// Front page Flickity
-			// !! Moved to the templates/html-header.twig file as inline for performance
-			// if (is_front_page()) {
-			// 	wp_enqueue_style(
-			// 		'flickity-css',
-			// 		'https://unpkg.com/flickity@3.0.0/dist/flickity.min.css',
-			// 		[],
-			// 		'3.0.0'
-			// 	);
-			// }
-			wp_enqueue_style('engage_css', get_stylesheet_directory_uri() . '/dist/css/app.css', false, null);
+			
+			wp_enqueue_style('engage_css', mix('css/app.css'), false, null);
 		}
 	}
 
 	public function enqueueStylesEditor()
 	{
 		if (is_admin()) {
-			add_editor_style('/dist/css/editor-style.css');
-
-			// Style for admin pages
-			wp_enqueue_style(
-				'engage-admin-style',
-				get_stylesheet_directory_uri() . '/dist/css/admin.css',
-				[],
-				filemtime(get_stylesheet_directory() . '/dist/css/admin.css')
-			);
+			// Editor styles
+			add_editor_style(mix('css/editor-style.css'));
 		}
 	}
 
@@ -309,25 +292,19 @@ class Theme
 			wp_enqueue_script('comment-reply');
 		}
 
-		// We could only enqueue this for homepage, chart, and quiz pages if we'd like
 		wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
 
+		// Homepage JS (if used)
 		if (is_front_page()) {
-			wp_enqueue_script('homepage/js', get_stylesheet_directory_uri() . '/dist/js/homepage.js', ['jquery'], false, false);
+			wp_enqueue_script('homepage/js', mix('js/homepage.js'), ['jquery'], null, false);
 		}
 
 		if (is_singular('research')) {
-			wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
 			wp_enqueue_script('Chart/js', get_stylesheet_directory_uri() . '/dist/js/Chart.bundle.min.js', ['jquery'], false, false);
 		}
 
-		wp_enqueue_script(
-			'engage/js',
-			get_stylesheet_directory_uri() . '/dist/js/app.js',
-			[],
-			false,
-			$footer_defer
-		);
+		wp_enqueue_script('engage/js', mix('js/app.js'), [], null, $footer_defer);
+
 	}
 
 	public function addToContext($context)

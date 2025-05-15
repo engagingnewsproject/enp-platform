@@ -31,6 +31,7 @@ require_once __DIR__ . '/includes/post-types/research.php';
 require_once __DIR__ . '/includes/post-types/press.php';
 // Load helper functions
 require_once __DIR__ . '/includes/helpers/debug.php';
+require_once __DIR__ . '/includes/helpers/mix.php';
 
 // Load frontend functionality
 require_once __DIR__ . '/includes/frontend/login.php';
