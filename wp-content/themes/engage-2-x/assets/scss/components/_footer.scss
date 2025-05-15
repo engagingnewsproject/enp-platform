@@ -96,7 +96,15 @@
 	justify-content: center;
 	margin-top: $spacer-sm;
 	margin-bottom: $spacer-sm;
-	@include media($laptop) {
-		margin: 0 0 $spacer 0;
+
+}
+
+.footer__footer {
+	.social {
+		margin-top: $spacer-sm;
+		margin-bottom: $spacer-sm;
+		@include media($laptop) {
+			margin: 0 0 $spacer 0;
+		}
 	}
 }
