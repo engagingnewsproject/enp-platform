@@ -24,13 +24,6 @@ function copyEmbedCode() {
   window.getSelection().removeAllRanges();
 }
 
-if (document.getElementById("orbit-balls")) {
-  import("./Orbit").then((Orbit) => {
-    new Orbit.default();
-  });
-}
-
-
 /*
 	Code for making the timeline events appear/disappear on scroll on the quiz creator landing page
 	Currrently commented out because it's pretty inefficient and don't want to include it in this release.
