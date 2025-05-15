@@ -32,7 +32,7 @@ wp-content/mu-plugins/local-by-flywheel-live-link-helper.php
 wp-content/plugins/php-compatibility-checker/
 wp-content/plugins/hummingbird-performance/
 wp-content/plugins/enp-quiz/
-wp-content/plugins/query-monitor/*
+wp-content/plugins/query-monitor/
 wp-content/plugins/query-monitor-twig-profile/
 wp-content/plugins/admin-bar-disabler/
 wp-content/plugins/seo-by-rank-math/

@@ -41,13 +41,16 @@ class Archive extends PostQuery
 		$this->pagination = $this->pagination(); // Set pagination
 
 		// Check if the queried object is a WP_Term (taxonomy term)
-		if (get_class($this->queriedObject) === 'WP_Term') {
-			$this->taxonomy = $this->queriedObject->taxonomy; // Set taxonomy
-		} elseif (get_class($this->queriedObject) === 'WP_Post_Type') {
-			// If the queried object is a post type, set taxonomy to empty or handle accordingly
-			$this->taxonomy = ''; // Or handle in a different way if needed
+		if (is_object($this->queriedObject)) {
+			if (get_class($this->queriedObject) === 'WP_Term') {
+				$this->taxonomy = $this->queriedObject->taxonomy;
+			} elseif (get_class($this->queriedObject) === 'WP_Post_Type') {
+				$this->taxonomy = '';
+			} else {
+				$this->taxonomy = '';
+			}
 		} else {
-			$this->taxonomy = ''; // Set to empty or handle accordingly for other cases
+			$this->taxonomy = '';
 		}
 
 		// $this->taxonomy = $this->queriedObject->taxonomy; // Set taxonomy
