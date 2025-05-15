@@ -2,15 +2,20 @@
 {% extends "base.twig" %}
 
 {% block content %}
-	<article class="container container--md wrapper--pad post-type--{{post.post_type}}" id="post--{{post.ID}}">
+	<article class="container container--xl wrapper--pad post-type--{{post.post_type}}" id="post--{{post.ID}}">
 		<header class="article__header">
 			<h1 class="article__title">{{title}}:</h1>
 		</header>
 		<div class="article__content">
-			{% for post in posts %}
+			{# {% for post in posts %}
 				{% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
-			{% endfor %}
-
+			{% endfor %} #}
+			{% include 'tiles.twig' with { 
+					intro: archive.intro, 
+					posts: posts,
+					loadEagerTiles: 6,
+					post_type: archive.post_type,
+				} %}
 			{% include 'partial/pagination.twig' with { pagination: posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } %}
 		</div>
 	</article>
