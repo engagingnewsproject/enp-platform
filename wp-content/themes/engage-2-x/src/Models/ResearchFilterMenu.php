@@ -7,12 +7,14 @@
 namespace Engage\Models;
 
 use function get_field;
+use Engage\Models\URLConstructor;
 
 class ResearchFilterMenu extends FilterMenu
 {
 	protected $options;
+	public $urlConstructor;
 
-	public function __construct($options)
+	public function __construct($options, $urlConstructor = null)
 	{
 		parent::__construct($options);
 		$this->options = $options;
@@ -20,6 +22,7 @@ class ResearchFilterMenu extends FilterMenu
 		// The structure property tells the system that this filter menu should be 
 		// organized by research categories rather than by post types or verticals.
 		$this->structure = 'research-categories';
+		$this->urlConstructor = $urlConstructor ?: new URLConstructor();
 	}
 
 	/**
