@@ -10,13 +10,15 @@ if (!mix.inProduction()) {
     devtool: "inline-source-map",
   });
 }
+
 mix
-  .js("assets/js/app.js", "dist/js")
-  .js("assets/js/homepage.js", "dist/js")
-  .sass("assets/scss/app.scss", "dist/css")
-  .sass("assets/scss/editor-style.scss", "dist/css") // Editor styles
-  .sass("assets/scss/admin.scss", "dist/css") // Admin styles
-  .sourceMaps() // Add this line to enable source maps for SCSS
+  .setPublicPath('dist')
+  .js("assets/js/app.js", "js")
+  .js("assets/js/homepage.js", "js")
+  .sass("assets/scss/app.scss", "css")
+  .sass("assets/scss/editor-style.scss", "css") // Editor styles (includes admin styles)
+  .sourceMaps()
+  .version()
   .browserSync({
     proxy: proxyUrl,
     files: [
