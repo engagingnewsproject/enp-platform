@@ -149,6 +149,7 @@ Other tiles have a link to the post URL
 		{# Only show terms and edit link to admin users #}
 		{% if user.can_edit %}
 			<div class="tile__admin-links">
+			<pre>test tax</pre>
 			{# Terms #}
 			{% set terms = [] %}
 			{% for term in tile.terms() %}
