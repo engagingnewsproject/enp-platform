@@ -134,7 +134,7 @@ If you encounter issues with the Engage theme:
 7. Push to the live site:
 
     ```bash
-    git push production stable
+    git push prod stable
     ```
 
 
