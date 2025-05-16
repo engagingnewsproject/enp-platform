@@ -29,6 +29,9 @@ class Login {
 
 		// Add this new line to remove upload capability
 		add_action('init', [$this, 'remove_upload_capability']);
+
+		// Add this new line to restrict users endpoint
+		add_action('rest_api_init', [$this, 'restrict_users_endpoint']);
 	}
 	
 	// redirect to quiz creator dashboard on login
@@ -167,5 +170,19 @@ class Login {
 		if ($subscriber) {
 			$subscriber->remove_cap('upload_files');
 		}
+	}
+
+	/**
+	 * Restrict access to the users endpoint to only authenticated users with list_users capability
+	 */
+	public function restrict_users_endpoint() {
+		add_filter('rest_endpoints', function ($endpoints) {
+			if (isset($endpoints['/wp/v2/users'])) {
+				$endpoints['/wp/v2/users'][0]['permission_callback'] = function () {
+					return current_user_can('list_users');
+				};
+			}
+			return $endpoints;
+		});
 	}
 }
