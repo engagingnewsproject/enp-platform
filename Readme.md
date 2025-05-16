@@ -105,7 +105,7 @@ If you encounter issues with the Engage theme:
 
 ## Deployment (for project leads only)
 
-Github Actions deploy to each site via `public/.github/workflows/*.yml` files. See [WP Engine Branched Deploys to WP Engine with GitHub Actions](https://wpengine.com/builders/branched-deploys-wp-engine-github-actions/). _Pushing changes to the `master` branch does not deploy to the dev site._
+Github Actions deploy to each site via `public/.github/workflows/*.yml` files. See [WP Engine Branched Deploys to WP Engine with GitHub Actions](https://wpengine.com/builders/branched-deploys-wp-engine-github-actions/) for instructions and [enp-platform Actions](https://github.com/engagingnewsproject/enp-platform/actions) to view workflow processing. _Pushing changes to the `master` branch does not deploy to the dev site._
 
 1. **Notify Kat** before pushing updates to the live site.
 2. Compile production assets:
