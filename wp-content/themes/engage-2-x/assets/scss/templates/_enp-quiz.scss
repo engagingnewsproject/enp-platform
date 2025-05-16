@@ -14,7 +14,7 @@ body.enp-quiz {
 	}
 
 	.header {
-		background: darken($white, 1%);
+		background: $white;
 
 		&:after {
 			background: darken($white, 1%);
