@@ -26,6 +26,9 @@ class Login {
 
 		// Add a filter to replace specific menu item URLs with dynamic links
 		add_filter( 'wp_setup_nav_menu_item', [$this, 'enp_setup_nav_menu_item' ]);
+
+		// Add this new line to remove upload capability
+		add_action('init', [$this, 'remove_upload_capability']);
 	}
 	
 	// redirect to quiz creator dashboard on login
@@ -158,4 +161,11 @@ class Login {
 	  <?php
 	}
 	
+	// Add this method to the Login class
+	public function remove_upload_capability() {
+		$subscriber = get_role('subscriber');
+		if ($subscriber) {
+			$subscriber->remove_cap('upload_files');
+		}
+	}
 }
