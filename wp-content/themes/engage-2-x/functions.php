@@ -25,6 +25,9 @@ require_once __DIR__ . '/includes/hooks/queries.php';
 require_once __DIR__ . '/includes/hooks/editor.php';
 // require_once __DIR__ . '/includes/hooks/import-export.php';
 
+// Load admin functionality
+require_once __DIR__ . '/includes/admin/manage-quizzes.php';
+
 // Load post types and taxonomies
 require_once __DIR__ . '/includes/post-types/publications.php';
 require_once __DIR__ . '/includes/post-types/research.php';

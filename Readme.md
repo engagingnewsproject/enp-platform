@@ -105,6 +105,8 @@ If you encounter issues with the Engage theme:
 
 ## Deployment (for project leads only)
 
+Github Actions deploy to each site via `public/.github/workflows/*.yml` files. See [WP Engine Branched Deploys to WP Engine with GitHub Actions](https://wpengine.com/builders/branched-deploys-wp-engine-github-actions/) for instructions and [enp-platform Actions](https://github.com/engagingnewsproject/enp-platform/actions) to view workflow processing. _Pushing changes to the `master` branch does not deploy to the dev site._
+
 1. **Notify Kat** before pushing updates to the live site.
 2. Compile production assets:
 
@@ -112,31 +114,32 @@ If you encounter issues with the Engage theme:
     yarn prod
     ```
 
-3. Push changes to the development site:
+3. Merge and push changes to the development site:
 
     ```bash
-    git push dev master
+    git checkout dev && git merge master && git push
     ```
 
-4. Merge `master` into `stable`:
+4. Merge and push changes to the staging site:
+
+    ```bash
+    git checkout stage && git merge master && git push
+    ```
+
+5. **Notify Kat** before pushing to the live site.
+6. Merge changes to the production site:
 
     ```bash
     git checkout stable && git merge master
     ```
 
-5. Tag and push to staging:
+    `:wq` + enter
+    
+7. Push to the production site:
 
     ```bash
-    git tag -a 2.2.8 -m "message" && git push origin stable --tags && git push staging stable
+    git push
     ```
-
-6. **Notify Kat** before pushing to the live site.
-7. Push to the live site:
-
-    ```bash
-    git push prod stable
-    ```
-
 
 ### Sync Production Database → Development
 
