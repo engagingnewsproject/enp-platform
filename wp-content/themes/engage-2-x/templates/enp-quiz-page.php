@@ -13,7 +13,7 @@
  * @since      v0.0.1
  */
 
-$context = Timber::get_context();
+$context = Timber::context();
 $context['quizSVGs'] = file_get_contents(ENP_QUIZ_ROOT.'/public/quiz-create/svg/symbol-defs.svg');
 
 Timber::render(['quiz-create.twig'], $context);
