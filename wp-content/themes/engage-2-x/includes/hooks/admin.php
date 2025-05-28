@@ -12,6 +12,12 @@
 function custom_tinymce_style_formats($init_array) {
     $style_formats = [
         [
+            'title' => 'Paragraph Small',
+            'block' => 'p',
+            'classes' => 'p-small',
+            'wrapper' => false,
+        ],
+        [
             'title' => 'Paragraph 1',
             'block' => 'p',
             'classes' => 'p-1',
