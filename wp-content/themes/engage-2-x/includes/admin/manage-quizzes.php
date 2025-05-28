@@ -69,7 +69,7 @@ if (is_admin()) {
                 $user = get_user_by('id', $user_id);
                 if ($user) {
                     $edit_link = admin_url('user-edit.php?user_id=' . $user_id);
-                    return sprintf('<a href="%s">%s</a>', esc_url($edit_link), esc_html($user->display_name));
+                    return sprintf('<a href="%s" target="_blank">%s</a>', esc_url($edit_link), esc_html($user->display_name));
                 }
             }
             return esc_html($item->quiz_owner);
