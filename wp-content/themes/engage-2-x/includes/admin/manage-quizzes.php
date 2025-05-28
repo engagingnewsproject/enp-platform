@@ -8,7 +8,13 @@ if (!class_exists('WP_List_Table')) {
 }
 
 if (is_admin()) {
+    /**
+     * Custom list table for managing quizzes in WordPress admin
+     */
     class ENP_Quiz_List_Table extends WP_List_Table {
+        /**
+         * Initialize the list table with quiz-specific settings
+         */
         public function __construct() {
             parent::__construct([
                 'singular' => 'Quiz',
@@ -17,6 +23,10 @@ if (is_admin()) {
             ]);
         }
 
+        /**
+         * Define the columns to be displayed in the quiz list table
+         * @return array Column definitions
+         */
         public function get_columns() {
             return [
                 'cb'              => '', // leave blank, WP will render the checkbox
@@ -29,25 +39,66 @@ if (is_admin()) {
             ];
         }
 
-        public function column_cb($item) {
-            return sprintf('<input type="checkbox" name="quiz_id[]" value="%s" />', $item->quiz_id);
-        }
+        /**
+         * Render the checkbox column for bulk actions
+         * @param object $item The current quiz item
+         * @return string HTML for the checkbox
+         */
+		public function column_cb($item) {
+			return sprintf('<input type="checkbox" name="quiz_id[]" value="%s" />', $item->quiz_id);
+		}
 
+        /**
+         * Render the quiz title column with edit link
+         * @param object $item The current quiz item
+         * @return string HTML for the title column
+         */
         public function column_quiz_title($item) {
             $edit_link = admin_url('admin.php?page=manage_quizzes&action=edit&quiz_id=' . $item->quiz_id);
             return sprintf('<a href="%s">%s</a>', esc_url($edit_link), esc_html($item->quiz_title));
         }
 
+        /**
+         * Render the owner column with link to user profile
+         * @param object $item The current quiz item
+         * @return string HTML for the owner column
+         */
+        public function column_quiz_owner($item) {
+            $user_id = intval($item->quiz_owner);
+            if ($user_id) {
+                $user = get_user_by('id', $user_id);
+                if ($user) {
+                    $edit_link = admin_url('user-edit.php?user_id=' . $user_id);
+                    return sprintf('<a href="%s">%s</a>', esc_url($edit_link), esc_html($user->display_name));
+                }
+            }
+            return esc_html($item->quiz_owner);
+        }
+
+        /**
+         * Default column renderer
+         * @param object $item The current quiz item
+         * @param string $column_name The column name
+         * @return string HTML for the column
+         */
         public function column_default($item, $column_name) {
             return isset($item->$column_name) ? esc_html($item->$column_name) : '';
         }
 
+        /**
+         * Define bulk actions available for quizzes
+         * @return array Bulk action definitions
+         */
         public function get_bulk_actions() {
             return [
                 'delete' => 'Delete'
             ];
         }
 
+        /**
+         * Define which columns are sortable
+         * @return array Sortable column definitions
+         */
         public function get_sortable_columns() {
             return [
                 'quiz_id'         => ['quiz_id', false],
@@ -59,6 +110,10 @@ if (is_admin()) {
             ];
         }
 
+        /**
+         * Prepare the quiz items for display
+         * Handles pagination, sorting, searching, and bulk actions
+         */
         public function prepare_items() {
             global $wpdb;
             $table_name = $wpdb->prefix . 'enp_quiz';
@@ -113,46 +168,26 @@ if (is_admin()) {
             ]);
         }
 
+        /**
+         * Display message when no quizzes are found
+         */
         public function no_items() {
             _e('No quizzes found.');
         }
 
+        /**
+         * Render a single row in the table
+         * @param object $item The current quiz item
+         */
         public function single_row($item) {
             echo '<tr>';
-            foreach ($this->get_columns() as $column_name => $column_display_name) {
-                switch ($column_name) {
-                    case 'cb':
-                        echo '<th scope="row" class="check-column">' . $this->column_cb($item) . '</th>';
-                        break;
-                    case 'quiz_title':
-                        echo '<td>' . $this->column_quiz_title($item) . '</td>';
-                        break;
-                    default:
-                        echo '<td>' . $this->column_default($item, $column_name) . '</td>';
-                }
-            }
+            $this->single_row_columns($item);
             echo '</tr>';
         }
 
-        public function display() {
-            $column_info = $this->get_column_info();
-            error_log(print_r($column_info, true));
-            $this->display_tablenav('top');
-            echo '<table class="wp-list-table ' . implode(' ', $this->get_table_classes()) . '">';
-            $this->get_column_info();
-            echo '<thead>';
-            $this->print_column_headers();
-            echo '</thead>';
-            echo '<tbody id="the-list">';
-            $this->display_rows_or_placeholder();
-            echo '</tbody>';
-            echo '<tfoot>';
-            $this->print_column_headers();
-            echo '</tfoot>';
-            echo '</table>';
-            $this->display_tablenav('bottom');
-        }
-
+        /**
+         * Display the table rows or a placeholder if no items exist
+         */
         public function display_rows_or_placeholder() {
             if (!empty($this->items)) {
                 foreach ($this->items as $item) {
