@@ -861,6 +861,45 @@
                     ]
                 }
             ]
+        },
+        {
+            "key": "field_68372e63f7869",
+            "label": "Footer Settings",
+            "name": "footer_settings",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_68372e7ff786a",
+                    "label": "Quiz Footer",
+                    "name": "quiz_footer",
+                    "aria-label": "",
+                    "type": "wysiwyg",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "allow_in_bindings": 0,
+                    "tabs": "all",
+                    "toolbar": "full",
+                    "media_upload": 1,
+                    "delay": 0
+                }
+            ]
         }
     ],
     "location": [
@@ -881,5 +920,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1747263324
+    "modified": 1748446877
 }

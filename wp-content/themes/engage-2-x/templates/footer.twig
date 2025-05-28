@@ -1,9 +1,9 @@
 {% set current_url = post.link %}
 {% if current_url matches '/tax-day-quiz/' %}
   {# Code or condition to handle when the URL contains "enp-quiz" #}
-  <p style="text-align: center"><a href="/privacy-policy">Privacy Policy</a></p>
-	<p style="text-align: center;font-weight:300;font-size:0.75rem;color:#a897ba;margin-bottom:0;">Powered by the Center for Media Engagement. Quiz content is not monitored or endorsed by the Center for Media Engagement.</p>
-	<p style="text-align: center;font-weight:300;font-size:0.75rem;color:#a897ba;">Quizzes and users are not monitored or endorsed by the Center for Media Engagement.</p>
+	{% if options.footer_settings.quiz_footer %}
+		{{options.footer_settings.quiz_footer}}
+	{% endif %}
 {% endif %}
 <div class="footer__container container">
 	<div class="footer__top">
