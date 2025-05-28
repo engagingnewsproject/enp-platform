@@ -4,4 +4,7 @@
 	<div class="container content-wrapper">
 		{{content}}
 	</div><!-- /content-wrapper -->
+	{% if options.footer_settings.quiz_footer %}
+		{{options.footer_settings.quiz_footer}}
+	{% endif %}
 {% endblock %}

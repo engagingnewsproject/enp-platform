@@ -40,3 +40,25 @@ require_once __DIR__ . '/includes/helpers/mix.php';
 require_once __DIR__ . '/includes/frontend/login.php';
 require_once __DIR__ . '/includes/frontend/search.php';
 require_once __DIR__ . '/includes/frontend/events.php';
+
+/**
+ * Filter the columns for the "Manage Quizzes" admin table.
+ * 
+ * This filter is required for the custom WP_List_Table implementation in
+ * @manage-quizzes.php. It must be registered early (in functions.php)
+ * so that WordPress can apply it when building the admin screen.
+ * 
+ * @see engage-2-x/includes/admin/manage-quizzes.php
+ */
+add_filter('manage_toplevel_page_manage_quizzes_columns', function($columns) {
+    error_log('manage_toplevel_page_manage_quizzes_columns filter called');
+    return [
+        'cb'              => '',
+        'quiz_id'         => 'ID',
+        'quiz_title'      => 'Title',
+        'quiz_status'     => 'Status',
+        'quiz_owner'      => 'Owner',
+        'quiz_created_at' => 'Created At',
+        'quiz_views'      => 'Views',
+    ];
+});
