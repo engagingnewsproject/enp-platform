@@ -50,7 +50,7 @@
 				<ul class="menu__list navbar-nav">
 					{% for item in menu.items %}
 						<li class="menu__item nav-item {% if item.children %}dropdown{% endif %} {{ item.classes | join(' ') }}"{% if item.children %} tabindex="{{ 0 }}" {% endif %}>
-							<a class="menu__link" target="{{ item.target }}" {% if item.link %} href="{{ item.link }}" {% endif %}{% if item.children %} aria-haspopup="true" aria-expanded="false"{% endif %}>
+							<a class="menu__link" target="{{ item.target }}" {% if item.link %} href="{{ item.link }}" {% endif %}{% if item.children %} aria-haspopup="true" aria-expanded="false" role="button"{% endif %}>
 								{{ item.title }}
 							</a>
 							{% if item.children %}
