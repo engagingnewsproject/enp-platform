@@ -8,6 +8,7 @@ use Engage\Managers\Login;
 use Engage\Managers\Permalinks;
 use Engage\Managers\Queries;
 use Engage\Managers\Structures\PostTypes\PostTypes;
+use Engage\Managers\Structures\PostTypes\Quiz;
 use Engage\Managers\Structures\Taxonomies\Taxonomies;
 use Engage\Managers\Theme;
 use Engage\Managers\TinyMCE;
@@ -27,7 +28,8 @@ add_action('after_setup_theme', function () {
             'Funders', 
             'Board', 
             'Publications', 
-            'Press'
+            'Press',
+            'Quiz'
         ]),
 		new Taxonomies(['Verticals']),
         new TinyMCE()
