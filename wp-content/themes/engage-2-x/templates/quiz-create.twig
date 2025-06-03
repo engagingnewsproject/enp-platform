@@ -5,4 +5,7 @@
 	<section id="enp-quiz" class="enp-quiz__main">
 		{{ post.content }}
 	</section>
+	{% if options.footer_settings.quiz_footer %}
+		{{options.footer_settings.quiz_footer}}
+	{% endif %}
 {% endblock %}

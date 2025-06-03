@@ -60,5 +60,6 @@ add_filter('manage_toplevel_page_manage_quizzes_columns', function($columns) {
         'quiz_owner'      => 'Owner',
         'quiz_created_at' => 'Created At',
         'quiz_views'      => 'Views',
+		'embed_sites'     => 'Embed Sites',
     ];
 });

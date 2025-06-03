@@ -36,6 +36,7 @@ if (is_admin()) {
                 'quiz_owner'      => 'Owner',
                 'quiz_created_at' => 'Created At',
                 'quiz_views'      => 'Views',
+                'embed_sites'     => 'Embed Sites',
             ];
         }
 
@@ -73,6 +74,40 @@ if (is_admin()) {
                 }
             }
             return esc_html($item->quiz_owner);
+        }
+
+        /**
+         * Render the embed sites column
+         * @param object $item The current quiz item
+         * @return string HTML for the embed sites column
+         */
+        public function column_embed_sites($item) {
+            global $wpdb;
+            $embed_sites_table = $wpdb->prefix . 'enp_embed_site';
+            $embed_quiz_table = $wpdb->prefix . 'enp_embed_quiz';
+
+            // Get all embed sites for this quiz
+            $sites = $wpdb->get_results($wpdb->prepare(
+                "SELECT s.embed_site_url
+                 FROM $embed_sites_table s
+                 INNER JOIN $embed_quiz_table eq ON s.embed_site_id = eq.embed_site_id
+                 WHERE eq.quiz_id = %d",
+                $item->quiz_id
+            ));
+
+            if (empty($sites)) {
+                return '—';
+            }
+
+            $urls = array_map(function($site) {
+                return sprintf(
+                    '<a href="%s" target="_blank">%s</a>',
+                    esc_url($site->embed_site_url),
+                    esc_html($site->embed_site_url)
+                );
+            }, $sites);
+
+            return implode('<br>', $urls);
         }
 
         /**
@@ -135,18 +170,34 @@ if (is_admin()) {
 
             // Search
             $where = '';
+            $join = '';
             if (!empty($search)) {
-                $where = $wpdb->prepare("WHERE quiz_title LIKE %s", '%' . $wpdb->esc_like($search) . '%');
+                $like = '%' . $wpdb->esc_like($search) . '%';
+                $join = "LEFT JOIN {$wpdb->users} u ON q.quiz_owner = u.ID";
+                $where = $wpdb->prepare(
+                    "WHERE q.quiz_title LIKE %s
+                     OR q.quiz_id = %d
+                     OR u.user_login LIKE %s
+                     OR q.quiz_status LIKE %s",
+                    $like,
+                    intval($search),
+                    $like,
+                    $like
+                );
             }
 
             // Get total items
-            $total_items = $wpdb->get_var("SELECT COUNT(*) FROM $table_name $where");
+            $total_items = $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}enp_quiz q $join $where");
 
             // Get items for current page
             $offset = ($current_page - 1) * $per_page;
             $items = $wpdb->get_results(
                 $wpdb->prepare(
-                    "SELECT * FROM $table_name $where ORDER BY $orderby $order LIMIT %d OFFSET %d",
+                    "SELECT q.* FROM {$wpdb->prefix}enp_quiz q
+                     $join
+                     $where
+                     ORDER BY $orderby $order
+                     LIMIT %d OFFSET %d",
                     $per_page,
                     $offset
                 ),
