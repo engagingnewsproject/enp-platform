@@ -26,12 +26,12 @@ add_action('after_setup_theme', function () {
             'Announcement', 
             'Team', 
             'Funders', 
-            'Board', 
+            // 'Board', 
             'Publications', 
             'Press',
             'Quiz'
         ]),
-		new Taxonomies(['Verticals']),
+		// new Taxonomies(['Verticals']),
         new TinyMCE()
     ];
 
