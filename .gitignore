@@ -42,6 +42,7 @@ wp-content/plugins/codepress-admin-columns/
 wp-content/plugins/wp-optimize/
 wp-content/plugins/wp-defender/
 wp-content/plugins/wp-mail-logging/
+wp-content/.defender-security-quarantine/*
 
 # ENP quiz
 enp-quiz-database-config.php
