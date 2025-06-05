@@ -26,6 +26,7 @@ require_once __DIR__ . '/includes/hooks/editor.php';
 // require_once __DIR__ . '/includes/hooks/import-export.php';
 
 // Load admin functionality
+require_once __DIR__ . '/includes/admin/login-register.php';
 require_once __DIR__ . '/includes/admin/manage-quizzes.php';
 require_once __DIR__ . '/includes/admin/users.php';
 // require_once __DIR__ . '/includes/admin/utilities-quizzes.php';
