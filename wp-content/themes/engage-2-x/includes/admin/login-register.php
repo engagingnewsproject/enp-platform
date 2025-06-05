@@ -56,11 +56,14 @@ function block_default_login()
 	$request_uri = $_SERVER['REQUEST_URI'];
 	$action = isset($_GET['action']) ? $_GET['action'] : '';
 	$login_status = isset($_GET['login']) ? $_GET['login'] : '';
-	// Allow logout, register, and resetpass login status to go through
+	// Allow POST requests to wp-login.php (for login form submission)
 	if (
-		(strpos($request_uri, 'wp-login.php') !== false && !in_array($action, ['logout', 'register', 'resetpass']) && $login_status !== 'resetpass')
-		||
-		(strpos($request_uri, 'wp-admin') !== false && !is_user_logged_in())
+		$_SERVER['REQUEST_METHOD'] !== 'POST' &&
+		(
+			(strpos($request_uri, 'wp-login.php') !== false && !in_array($action, ['logout', 'register', 'resetpass', 'lostpassword']) && $login_status !== 'resetpass')
+			||
+			(strpos($request_uri, 'wp-admin') !== false && !is_user_logged_in())
+		)
 	) {
 		wp_redirect(home_url('/user-login'));
 		exit;
