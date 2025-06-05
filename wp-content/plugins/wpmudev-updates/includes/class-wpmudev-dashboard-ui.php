@@ -1097,6 +1097,10 @@ class WPMUDEV_Dashboard_Ui {
 		);
 
 		foreach ( $_COOKIE as $name => $value ) {
+			// string is expected by WpOrg\Requests\Cookie class https://incsub.atlassian.net/browse/WDD-548 ( continuation of wp_remote_get )
+			if ( ! is_string( $value ) ) {
+				continue;
+			}
 			$cookies[] = new WP_Http_Cookie(
 				array(
 					'name'  => $name,
@@ -1104,6 +1108,16 @@ class WPMUDEV_Dashboard_Ui {
 				)
 			);
 		}
+
+		/**
+		 * Override default cookies for UI - get_admin_menu.
+		 *
+		 * @param array $cookies Default cookies.
+		 *
+		 * @since  4.11.29
+		 *
+		 */
+		$cookies = apply_filters( "wpmudev_ui_get_admin_menu_cookies", $cookies );
 
 		$request = wp_remote_get(
 			$url,

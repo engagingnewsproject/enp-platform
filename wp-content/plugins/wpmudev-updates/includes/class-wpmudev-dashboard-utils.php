@@ -139,9 +139,29 @@ class WPMUDEV_Dashboard_Utils {
 		// Set cookies if required.
 		if ( ! empty( $_COOKIE ) ) {
 			foreach ( $_COOKIE as $name => $value ) {
-				$args['cookies'][] = new WP_Http_Cookie( compact( 'name', 'value' ) );
+				// string is expected by WpOrg\Requests\Cookie class https://incsub.atlassian.net/browse/WDD-548 ( continuation of wp_remote_post )
+				if ( ! is_string( $value ) ) {
+					continue;
+				}
+				$args['cookies'][] = new WP_Http_Cookie(
+					array(
+						'name'  => $name,
+						'value' => $value,
+					)
+				);
 			}
 		}
+
+		/**
+		 * Override default requests arguments for Utility - send_admin_request.
+		 *
+		 * @param array $args Default args.
+		 * @param array $data Data that being sent in send_admin_request.
+		 *
+		 * @since  4.11.29
+		 *
+		 */
+		$args = apply_filters( "wpmudev_utils_send_admin_request_args", $args, $data );
 
 		// Make post request.
 		$response = wp_remote_post( admin_url( 'admin-ajax.php' ), $args );

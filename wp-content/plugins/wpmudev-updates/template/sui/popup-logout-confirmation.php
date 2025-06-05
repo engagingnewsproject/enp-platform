@@ -7,7 +7,7 @@
  */
 
 // Logout URL.
-$logout_url = add_query_arg( 'clear_key', 1, WPMUDEV_Dashboard::$ui->page_urls->dashboard_url );	 	 				 	 		     	 
+$logout_url = add_query_arg( 'clear_key', 1, WPMUDEV_Dashboard::$ui->page_urls->dashboard_url );
 
 ?>
 <div

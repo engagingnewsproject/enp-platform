@@ -274,27 +274,36 @@ class WPMUDEV_Dashboard_Remote {
 	 *
 	 * Check nonce to prevent replay attacks.
 	 *
-	 * @param string $id Request ID.
-	 *
-	 * @since 4.11.1
+	 * @param string $id   Request ID.
+	 * @param string $json Request body json raw.
 	 *
 	 * @return bool
+	 * @since 4.11.1
+	 * @since 4.11.29 - added $json for further improve replay attack detection
+	 *
 	 */
-	public function validate_nonce( $id ) {
+	public function validate_nonce( $id, $json ) {
 		// Validation.
 		if ( empty( $id ) ) {
 			return false;
 		}
 
+		if ( ! is_string( $json ) ) {
+			$json = '';
+		}
+
 		// Get nonce from ID.
 		list( $id, $timestamp ) = explode( '-', $id );
 
+		// include the data in the prevention checks, it means identical data / json can not be replayed, but different data / json can be replayed -- which is the whole point of the nonce.
+		$hashed_json = hash_hmac( 'sha256', $json, WPMUDEV_Dashboard::$api->get_key() );
+
 		// Get saved nonce.
-		$nonce = WPMUDEV_Dashboard::$settings->get( 'hub_nonce', 'general' );
+		$nonce = (float) WPMUDEV_Dashboard::$settings->get( sprintf( 'hub_nonce_%s', $hashed_json ), 'general', 0 );
 
 		if ( floatval( $timestamp ) > $nonce ) {
 			// If valid nonce, save it.
-			WPMUDEV_Dashboard::$settings->set( 'hub_nonce', floatval( $timestamp ), 'general' );
+			WPMUDEV_Dashboard::$settings->set( sprintf( 'hub_nonce_%s', $hashed_json ), floatval( $timestamp ), 'general' );
 
 			return true;
 		}
@@ -357,7 +366,7 @@ class WPMUDEV_Dashboard_Remote {
 		}
 
 		// Check nonce to prevent replay attacks.
-		if ( ! $this->validate_nonce( $req_id ) ) {
+		if ( ! $this->validate_nonce( $req_id, $json ) ) {
 			if ( $die_on_failure ) {
 				wp_send_json_error(
 					array(

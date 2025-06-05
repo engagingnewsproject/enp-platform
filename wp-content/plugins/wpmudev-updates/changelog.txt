@@ -5,6 +5,12 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+4.11.29 - 19/05/2025 - Hendrawan
+- Enhance: Improve Analytics synchronization with The Hub
+
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
 4.11.28 - 25/11/2024 - Joel
 - Enhance: Improved site health information on Hub.
 - Enhance: Improvements in plugin update error handling.
@@ -979,4 +985,4 @@ Added option to disable admin notices.
 Initial Release.
 
 
-718091-1746556130
+718091-1749148038-au

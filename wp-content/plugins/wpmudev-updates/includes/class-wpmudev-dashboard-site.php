@@ -406,7 +406,7 @@ class WPMUDEV_Dashboard_Site {
 	 * Perform first activation actions.
 	 *
 	 * On first activation if we are on our hosting,
-	 * enable Analytics and Uptime monitor by default.
+	 * enable SSO
 	 *
 	 * @since 4.11.2
 	 */
@@ -429,14 +429,6 @@ class WPMUDEV_Dashboard_Site {
 
 			// We need to sync account first.
 			WPMUDEV_Dashboard::$api->hub_sync( false, true );
-			// If analytics allowed.
-			if ( WPMUDEV_Dashboard::$api->is_analytics_allowed() ) {
-				// Attempt to enable analytics.
-				if ( WPMUDEV_Dashboard::$api->analytics_enable() ) {
-					// Enabled.
-					WPMUDEV_Dashboard::$settings->set( 'enabled', true, 'analytics' );
-				}
-			}
 		}
 	}
 
@@ -2803,10 +2795,19 @@ class WPMUDEV_Dashboard_Site {
 			return;
 		}
 
-		$analytics_enabled = WPMUDEV_Dashboard::$settings->get( 'enabled', 'analytics' );
-		$analytics_site_id = WPMUDEV_Dashboard::$settings->get( 'site_id', 'analytics' );
-		$analytics_tracker = WPMUDEV_Dashboard::$settings->get( 'tracker', 'analytics' );
+		$analytics_enabled    = WPMUDEV_Dashboard::$settings->get( 'enabled', 'analytics' );
+		$analytics_site_id    = WPMUDEV_Dashboard::$settings->get( 'site_id', 'analytics' );
+		$analytics_tracker    = WPMUDEV_Dashboard::$settings->get( 'tracker', 'analytics' );
+		$analytics_script_url = WPMUDEV_Dashboard::$settings->get( 'script_url', 'analytics' );
+
 		$analytics_allowed = WPMUDEV_Dashboard::$api->is_analytics_allowed();
+		// define take priority
+		$analytics_js_url  = defined( 'WPMUDEV_ANALYTICS_JS_URL' ) ? WPMUDEV_ANALYTICS_JS_URL : $analytics_script_url;
+		if ( empty( $analytics_js_url ) ) {
+			// default if all empty
+			$analytics_js_url = 'https://analytics.wpmucdn.com/matomo.js';
+		}
+		$analytics_js_url = esc_url_raw( $analytics_js_url );
 
 		// Check if analytics can be used.
 		if ( $analytics_allowed && $analytics_enabled && $analytics_site_id && $analytics_tracker ) {
@@ -2845,7 +2846,7 @@ class WPMUDEV_Dashboard_Site {
 					g.type  = 'text/javascript';
 					g.async = true;
 					g.defer = true;
-					g.src   = 'https://stats.wpmucdn.com/analytics.js';
+					g.src   = '<?php echo $analytics_js_url; ?>';
 					s.parentNode.insertBefore(g, s);
 				})();
 			</script>
