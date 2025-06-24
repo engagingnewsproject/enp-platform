@@ -80,7 +80,7 @@ Other tiles have a link to the post URL
 
 	{# Tile image #}
 	{% if tile_image %}
-		<div class="tile__img-wrap" role="button">
+		<div class="tile__img-wrap" role="button" aria-label="Read more about {{ tile.title }}" tabindex="0">
 			{% if tile.thumbnail %}
 				<img src="{{ tile.thumbnail.src('grid-large') }}" srcset="{{ tile.thumbnail.srcset }}" sizes="{{ tile.thumbnail.img_sizes }}" alt="{{ tile.thumbnail.alt }}" class="tile__img" loading="{{ loading }}"/>
 			{% else %}

@@ -10,7 +10,7 @@
 	<nav {{ id ? "id='#{id}'" }} class="{{navClass}} menu__{{ menu.slug }} {{ collapsable ? " collapsable" }}" role="navigation">
 		{% if menu == mainMenu %}
 			<div class="navbar__components" {% if options.navigation_settings.background_color %}style="background-color: {{options.navigation_settings.background_color}};"{% endif %}>
-				<h1 class="header__logo navbar-brand" role="banner">
+				<div class="header__logo navbar-brand" role="banner">
 					<a class="header__logo__link" href="{{ site.link }}" rel="home">
 						<span class="sr-text">
 							{{ site.name }}
@@ -34,7 +34,7 @@
 									decoding="async" />
 						</picture>
 					</a>
-				</h1>
+				</div>
 				<div class="toggle__container">
 					<button class="filter__toggle" aria-controls="archiveSidebar" aria-expanded="false" style="display:none;">
 						{{ options.sidebar_settings.mobile_filter_menu_title }} <span class="caret"></span>
