@@ -14,7 +14,7 @@
 
 <div class="filters__wrapper">
 	<div class="filter__container filter--{{ filters.slug }}">
-		<h2 class="filter__title filter__title--{{ filters.slug }}" {% if options.filter_settings.filter_title_color %}style="color:{{options.filter_settings.filter_title_color}};"{% endif %}>{{ filters.title }}</h2>
+		<h2 class="filter__title filter__title--{{ filters.slug }}" {% if options.sidebar_settings.filter_title_color %}style="color:{{options.sidebar_settings.filter_title_color}};"{% endif %}>{{ filters.title }}</h2>
 		<ul class="filters filters--{{ filters.slug }}">
 			{# Loop through each term in the filters array to create individual filter items #}
 			{% for key, term in filters.terms %}
@@ -23,14 +23,14 @@
 		</ul>
 	</div>
 </div>
-{% if options.filter_settings.filter_item_color and options.filter_settings.filter_item_color_hover %}
+{% if options.sidebar_settings.filter_item_color and options.sidebar_settings.filter_item_color_hover %}
 	<style>
 		.filter__link {
-				color: {{ options.filter_settings.filter_item_color }};
+				color: {{ options.sidebar_settings.filter_item_color }};
 		}
 		.filter__link:hover {
-			border-color: {{ options.filter_settings.filter_item_color_hover }};
-			color: {{ options.filter_settings.filter_item_color_hover }};
+			border-color: {{ options.sidebar_settings.filter_item_color_hover }};
+			color: {{ options.sidebar_settings.filter_item_color_hover }};
 			}
 	</style>
 {% endif %}

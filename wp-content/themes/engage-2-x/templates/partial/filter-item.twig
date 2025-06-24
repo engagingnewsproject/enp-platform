@@ -26,14 +26,14 @@
 	{# Check if the term has a link and is not 'research', and render it as an anchor if so #}
 	{% if term.link and term.slug != 'research' %} 
 		<a class="filter__link {{ is_current ? 'filter__link--current'}} {{ term.terms ? '' : 'filter__link--child'}} {{ term.currentParent ? 'filter__link--current-parent'}}" href="{{ term.link }}">{{ term.title }}</a>
-		{% if options.filter_settings.filter_item_color and options.filter_settings.filter_item_color_hover %}
+		{% if options.sidebar_settings.filter_item_color and options.sidebar_settings.filter_item_color_hover %}
 		<style>
 			.filter__link {
-					color: {{ options.filter_settings.filter_item_color }};
+					color: {{ options.sidebar_settings.filter_item_color }};
 			}
 			.filter__link:hover {
-				border-color: {{ options.filter_settings.filter_item_color_hover }};
-				color: {{ options.filter_settings.filter_item_color_hover }};
+				border-color: {{ options.sidebar_settings.filter_item_color_hover }};
+				color: {{ options.sidebar_settings.filter_item_color_hover }};
 				}
 		</style>
 		{% endif %}

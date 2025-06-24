@@ -567,8 +567,8 @@
         },
         {
             "key": "field_679a594fbdf1a",
-            "label": "Filter Settings",
-            "name": "filter_settings",
+            "label": "Sidebar Settings",
+            "name": "sidebar_settings",
             "aria-label": "",
             "type": "group",
             "instructions": "",
@@ -658,6 +658,27 @@
                     "placeholder": "",
                     "prepend": "",
                     "append": ""
+                },
+                {
+                    "key": "field_685ad8961341e",
+                    "label": "Team item default image",
+                    "name": "team_item_default_image",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "Set a default image for any team member without a featured image.",
+                    "default_value": 0,
+                    "allow_in_bindings": 0,
+                    "ui_on_text": "",
+                    "ui_off_text": "",
+                    "ui": 1
                 }
             ]
         },
@@ -920,5 +941,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1748446877
+    "modified": 1750784265
 }
