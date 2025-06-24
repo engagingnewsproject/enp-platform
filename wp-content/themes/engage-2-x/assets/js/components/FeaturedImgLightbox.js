@@ -41,8 +41,25 @@ function openLightbox(event) {
   // Prevent the default click behavior (e.g., following links)
   event.preventDefault();
 
+  let largestSrc = this.getAttribute("src");
+  const srcset = this.getAttribute("srcset");
+  if (srcset) {
+    // Parse srcset and find the largest width
+    let maxWidth = 0;
+    srcset.split(',').forEach(entry => {
+      const [url, width] = entry.trim().split(' ');
+      if (width && width.endsWith('w')) {
+        const w = parseInt(width, 10);
+        if (w > maxWidth) {
+          maxWidth = w;
+          largestSrc = url;
+        }
+      }
+    });
+  }
+
   // Set the image source for the lightbox
-  lightboxImage.src = this.getAttribute("src");
+  lightboxImage.src = largestSrc;
 
   // Add the "lightbox-open" class to the lightbox
   lightbox.classList.add("lightbox-open");
