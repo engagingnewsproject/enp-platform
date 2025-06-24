@@ -64,4 +64,18 @@ class ResearchArticle extends Post {
         }
         return $this->researchers;
     }
+
+    /**
+     * Get the Team author as a Timber\Post (or Teammate model) from the ACF 'author' relationship field.
+     *
+     * @return \Timber\Post|null
+     */
+    public function getTeamAuthor()
+    {
+        $author_ids = get_field('author', $this->ID);
+        if (is_array($author_ids) && count($author_ids) && $author_ids[0]) {
+            return Timber::get_post($author_ids[0]);
+        }
+        return null;
+    }
 }

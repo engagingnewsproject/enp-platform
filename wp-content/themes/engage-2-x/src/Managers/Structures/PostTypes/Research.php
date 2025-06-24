@@ -57,7 +57,7 @@ class Research
 			'publicly_queryable' => true,
 			'menu_position' => 5,
 			'menu_icon' => 'dashicons-analytics',
-			'supports' => array('title', 'editor', 'thumbnail', 'excerpt'),
+			'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'author'),
 			'has_archive' => true,
 			'exclude_from_search' => false,
 			'show_in_rest' => true,

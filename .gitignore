@@ -127,3 +127,4 @@ phpunit.xml
 
 # Ignore local DB dumps
 /ssh/*.sql
+wp-content/themes/engage-2-x/.cursor/
