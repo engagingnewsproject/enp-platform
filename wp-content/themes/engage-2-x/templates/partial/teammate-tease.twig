@@ -1,3 +1,4 @@
+{% set defaultimg = theme.link ~ '/assets/img/default-staff-image.png' %}
 {% if mate %}
 	<div
 		class="{{ mate.member_image ? ' mate--has-img'}} mate--tease grid grid--col-12{{status}}">
@@ -26,6 +27,13 @@
 				     srcset="{{ image.srcset }}"
 				     sizes="{{ image.img_sizes }}"
 				     alt="{{ image.alt }}"
+				     loading="eager" />
+			</div>
+		{% else %}
+			<div class="mate__img-wrap">
+				<img class="mate__img"
+				     src="{{ defaultimg }}"
+				     alt="Default Image"
 				     loading="eager" />
 			</div>
 		{% endif %}

@@ -2,7 +2,7 @@
 // add flick to all post images
 document.addEventListener("DOMContentLoaded", function () {
   // Find all images inside elements with the ".article" class
-  var images = document.querySelectorAll(".article img");
+  var images = document.querySelectorAll(".article__content img");
 
   // Add the "flick" class to each found image
   images.forEach(function (image) {

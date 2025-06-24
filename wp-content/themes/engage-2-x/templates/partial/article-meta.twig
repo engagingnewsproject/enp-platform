@@ -16,7 +16,7 @@
 			class="article-meta__item article__author">
 			{# TODO: potentially remove/fix this line for the author display #}
 			<span class="author__by">By</span>
-			<a class="author__link" href="/team/{{post.author|lower|split(' ')|join('-')}}">{{ post.author.name }}</a>
+			<a class="author__link" href="/team/{{post.author|lower|split(' ')|join('-')}}">{{ post.author.name ? post.author.name : post.author.user_nicename|capitalize }}</a>
 		</p>
 		<p class="article-meta__item article__date">{{ post.date }}</p>
 	{% endif %}
@@ -67,6 +67,7 @@
 				</p>
 			{% endif %}
 		{% endif %}
+		
 		{# List of researchers #}
 		<section class="researchers-tease">
 			<h4 class="researchers-tease__title">{{ (post.post_type == "research") ? "Researchers" : "Authors" }}</h4>
@@ -83,10 +84,10 @@
 			
 			{# Author for research posts #}
 			{% if post.post_type == "research" %}
-				<h4 class="researchers-tease__title">Author</h4>
+				<h4 class="researchers-tease__title authors-tease__title">Author</h4>
 				{% set team_author = post.getTeamAuthor %}
 				{% if team_author and team_author.ID %}
-					{% include 'partial/teammate-tease.twig' with { mate: team_author, status: 'additional' } %}
+					{% include 'partial/teammate-tease.twig' with { mate: team_author, status: ' additional' } %}
 				{% endif %}
 			{% endif %}
 		</section>

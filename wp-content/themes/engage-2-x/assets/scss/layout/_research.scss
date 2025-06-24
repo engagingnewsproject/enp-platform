@@ -46,8 +46,14 @@
   }
 }
 
-.researchers-tease__title, .director-tease__title, .sidebar-menu__title {
+.researchers-tease__title, 
+.director-tease__title, 
+.sidebar-menu__title {
 	font-size: $font-size-h5;
+}
+
+.authors-tease__title {
+	margin-top: $spacer-xl;
 }
 
 .researchers-tease, 
