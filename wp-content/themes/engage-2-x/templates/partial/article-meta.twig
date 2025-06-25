@@ -4,8 +4,7 @@
   team members, events, research articles, etc. 
 #}
 {% set category = post.terms('research-categories')|first %}
-<div
-	class="article__meta article__meta-{{post.post_type}}">
+<div class="article__meta article__meta-{{post.post_type}}">
 
 	{# Include general article metadata, such as the publication date and author. #}
 	{% include "partial/article-meta-data.twig" %}
@@ -57,6 +56,8 @@
 	{# Include metadata specific to research or blogs post types. #}
 	{% if post.post_type == "research" or post.post_type == "blogs" %}
 		{% include 'partial/research-meta.twig' %}
+		
+		{# Display the category for the research post. #}
 		{% if post.post_type != "blogs" %}
 			{# Display a link to the category associated with the research post. #}
 			{% set category = post.terms('research-categories')|first %}
@@ -70,17 +71,17 @@
 		
 		{# List of researchers #}
 		<section class="researchers-tease">
-			<h4 class="researchers-tease__title">{{ (post.post_type == "research") ? "Researchers" : "Authors" }}</h4>
-			{# Display associated researchers or team members for the post. #}
 			{% if post.meta('project_team_member')  %}
-				{% for researcher in post.getResearchers %}
+				<h4 class="researchers-tease__title">{{ (post.post_type == "research") ? "Researchers" : "Authors" }}</h4>
+				{# Display associated researchers or team members for the post. #}
+					{% for researcher in post.getResearchers %}
+						{% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
+					{% endfor %}
+				{# Display additional team members if they exist. #}
+				{% for researcher in post.meta('additional_team_members') %}
 					{% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
 				{% endfor %}
 			{% endif %}
-			{# Display additional team members if they exist. #}
-			{% for researcher in post.meta('additional_team_members') %}
-				{% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
-			{% endfor %}
 			
 			{# Author for research posts #}
 			{% if post.post_type == "research" %}
