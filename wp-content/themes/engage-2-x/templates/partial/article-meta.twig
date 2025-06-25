@@ -84,11 +84,13 @@
 			{% endif %}
 			
 			{# Author for research posts #}
-			{% if post.post_type == "research" %}
-				<h4 class="researchers-tease__title authors-tease__title">Author</h4>
-				{% set team_author = post.getTeamAuthor %}
-				{% if team_author and team_author.ID %}
-					{% include 'partial/teammate-tease.twig' with { mate: team_author, status: ' additional' } %}
+			{% if post.post_type == "research" and post.getTeamAuthors %}
+				<h4 class="researchers-tease__title authors-tease__title">Authors</h4>
+				{% set team_authors = post.getTeamAuthors %}
+				{% if team_authors %}
+					{% for author in team_authors %}
+						{% include 'partial/teammate-tease.twig' with { mate: author, status: ' additional' } %}
+					{% endfor %}
 				{% endif %}
 			{% endif %}
 		</section>

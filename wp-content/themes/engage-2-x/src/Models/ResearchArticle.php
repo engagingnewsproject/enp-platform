@@ -70,11 +70,11 @@ class ResearchArticle extends Post {
      *
      * @return \Timber\Post|null
      */
-    public function getTeamAuthor()
+    public function getTeamAuthors()
     {
-        $author_ids = get_field('author', $this->ID);
-        if (is_array($author_ids) && count($author_ids) && $author_ids[0]) {
-            return Timber::get_post($author_ids[0]);
+        $authors_ids = get_field('author', $this->ID);
+        if (is_array($authors_ids) && count($authors_ids) && $authors_ids[0]) {
+            return Timber::get_posts($authors_ids);
         }
         return null;
     }
