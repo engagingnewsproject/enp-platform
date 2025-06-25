@@ -5,8 +5,49 @@ const carousel = new Flickity('.carousel-main', {
   // Flickity options
   wrapAround: true,
   contain: true,
-	lazyLoad: true
+	lazyLoad: true,
+  ariaLabel: 'Carousel Navigation'
 })
+
+// Enhance accessibility of navigation buttons
+function enhanceButtonAccessibility() {
+  // Previous button
+  const prevButton = document.querySelector('.flickity-prev-next-button.previous');
+  if (prevButton) {
+    prevButton.setAttribute('aria-label', 'Previous slide');
+    const prevIcon = prevButton.querySelector('.flickity-button-icon');
+    if (prevIcon) {
+      // Remove role="img" since it's decorative
+      prevIcon.removeAttribute('role');
+      prevIcon.setAttribute('aria-hidden', 'true');
+      // Remove title element if it exists
+      const titleElement = prevIcon.querySelector('title');
+      if (titleElement) {
+        titleElement.remove();
+      }
+    }
+  }
+
+  // Next button
+  const nextButton = document.querySelector('.flickity-prev-next-button.next');
+  if (nextButton) {
+    nextButton.setAttribute('aria-label', 'Next slide');
+    const nextIcon = nextButton.querySelector('.flickity-button-icon');
+    if (nextIcon) {
+      // Remove role="img" since it's decorative
+      nextIcon.removeAttribute('role');
+      nextIcon.setAttribute('aria-hidden', 'true');
+      // Remove title element if it exists
+      const titleElement = nextIcon.querySelector('title');
+      if (titleElement) {
+        titleElement.remove();
+      }
+    }
+  }
+}
+
+// Call the function after Flickity is initialized
+enhanceButtonAccessibility();
 
 let maxChars = 42;
 
