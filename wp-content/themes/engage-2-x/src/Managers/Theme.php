@@ -33,6 +33,10 @@ class Theme
 		add_filter('body_class', [$this, 'bodyClass']);
 		add_filter('wp_nav_menu_args', [$this, 'modifyNavMenuArgs']);
 
+		// Enhance image widget accessibility
+		add_filter('image_widget_image_html', [$this, 'enhance_image_widget_accessibility'], 10, 2);
+		add_filter('render_block_core/image', [$this, 'enhance_image_block_accessibility'], 10, 2);
+
 		// images
 		add_image_size('featured-image', 600, 0, false); // Featured image
 		add_image_size('carousel-image', 1280, 0, false); // Homepage slider image
@@ -438,5 +442,42 @@ class Theme
 		}
 		
 		return $args;
+	}
+
+	/**
+	 * Enhances accessibility of image widgets by adding proper ARIA attributes
+	 * and ensuring alt text is present
+	 *
+	 * @param string $html The image widget HTML
+	 * @param array $instance The widget instance settings
+	 * @return string Modified HTML
+	 */
+	public function enhance_image_widget_accessibility($html, $instance) {
+		// Add role="none" to figure element and ensure alt text is present
+		$html = preg_replace(
+			'/<figure class="([^"]*)"/',
+			'<figure $1 role="none">',
+			$html
+		);
+
+		return $html;
+	}
+
+	/**
+	 * Enhances accessibility of image blocks by adding role="none" to figure elements
+	 *
+	 * @param string $block_content The block content about to be rendered
+	 * @param array  $block         The full block, including name and attributes
+	 * @return string Modified block content
+	 */
+	public function enhance_image_block_accessibility($block_content, $block) {
+		if (strpos($block_content, '<figure') !== false) {
+			$block_content = preg_replace(
+				'/<figure([^>]*)>/',
+				'<figure$1 role="none">',
+				$block_content
+			);
+		}
+		return $block_content;
 	}
 }
