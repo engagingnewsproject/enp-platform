@@ -9,3 +9,4 @@ require('./components/PastInternsDropdown');
 require('./components/Utilities');
 require('./components/Animation');
 require('./components/Sidebar');
+require('./components/FootnoteAccessibility');
