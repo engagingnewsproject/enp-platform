@@ -49,6 +49,33 @@ function enhanceButtonAccessibility() {
 // Call the function after Flickity is initialized
 enhanceButtonAccessibility();
 
+// Utility: get all focusable elements inside a container
+function getFocusableElements(container) {
+  return container.querySelectorAll(
+    'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+  );
+}
+
+function updateSlideFocusability() {
+  document.querySelectorAll('.carousel-cell').forEach(cell => {
+    const isHidden = cell.getAttribute('aria-hidden') === 'true';
+    getFocusableElements(cell).forEach(el => {
+      if (isHidden) {
+        el.setAttribute('tabindex', '-1');
+      } else {
+        el.removeAttribute('tabindex');
+      }
+    });
+  });
+}
+
+// After Flickity changes slides, update focusability
+carousel.on('select', updateSlideFocusability);
+carousel.on('settle', updateSlideFocusability);
+
+// Also run once on page load
+updateSlideFocusability();
+
 let maxChars = 42;
 
 // Get all elements with the class "tile__title"
