@@ -6,6 +6,7 @@ namespace ACP\Migrate;
 
 use AC\ListScreenCollection;
 use AC\ListScreenRepository\Storage;
+use AC\Storage\ListScreenOrder;
 use AC\Type\ListScreenId;
 use ACP\ListScreenFactory\PrototypeFactory;
 use ACP\ListScreenPreferences;
@@ -23,14 +24,18 @@ class ImportHandler
 
     private $list_screen_factory;
 
+    private $order_storage;
+
     public function __construct(
         Storage $storage,
         AbstractDecoderFactory $decoder_factory,
-        PrototypeFactory $list_screen_factory
+        PrototypeFactory $list_screen_factory,
+        ListScreenOrder $order_storage
     ) {
         $this->storage = $storage;
         $this->decoder_factory = $decoder_factory;
         $this->list_screen_factory = $list_screen_factory;
+        $this->order_storage = $order_storage;
     }
 
     public function handle(array $encoded_data, ListScreenId $id = null): ListScreenCollection
@@ -75,6 +80,11 @@ class ImportHandler
             } catch (Exception $e) {
                 continue;
             }
+
+            $this->order_storage->add(
+                $list_screen->get_key(),
+                (string)$list_screen->get_id()
+            );
 
             $list_screens->add($list_screen);
         }

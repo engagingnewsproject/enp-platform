@@ -126,14 +126,22 @@
         <div>
             <div colspan="4" style="text-align: center;">
                 <a class="nf-secondary-control nf-open-drawer" title="Add new field" href="#" data-drawerid="addField">
-                    <i class="fa fa-plus" data-drawerid="addField" aria-hidden="true"></i>
+                    <svg class="nf-plus" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" data-drawerid="addField" aria-hidden="true">
+                        <line class="nf-plus__angle nf-plus__angle--top" x1="50" y1="0" x2="50" y2="54" />
+                        <line class="nf-plus__base" x1="0" y1="50" x2="100" y2="50" />
+                        <line class="nf-plus__angle nf-plus__angle--bottom" x1="50" y1="46" x2="50" y2="100" />
+                    </svg>
                     <span data-drawerid="addField"><?php esc_html_e( 'Add new field', 'ninja-forms' ); ?></span>
                 </a>
             </div>
         </div>
     </div>
     <a class="nf-master-control nf-open-drawer" title="<?php esc_html_e( 'Add new field', 'ninja-forms' ); ?>" href="#" data-drawerid="addField">
-        <i class="fa fa-plus" data-drawerid="addField" aria-hidden="true"></i>
+        <svg class="nf-plus" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" data-drawerid="addField" aria-hidden="true">
+            <line class="nf-plus__angle nf-plus__angle--top" x1="50" y1="0" x2="50" y2="54" />
+            <line class="nf-plus__base" x1="0" y1="50" x2="100" y2="50" />
+            <line class="nf-plus__angle nf-plus__angle--bottom" x1="50" y1="46" x2="50" y2="100" />
+        </svg>
         <span data-drawerid="addField"><?php esc_html_e( 'Add new field', 'ninja-forms' ); ?></span>
     </a>
 </script>
@@ -143,15 +151,22 @@
         <div>
             <div colspan="4" style="text-align: center;">
                 <a class="nf-secondary-control nf-open-drawer" title="Add new action" href="#" data-drawerid="addAction">
-                    <i class="fa fa-plus" data-drawerid="addAction" aria-hidden="true"></i>
-
+                    <svg class="nf-plus" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" data-drawerid="addField" aria-hidden="true">
+                        <line class="nf-plus__angle nf-plus__angle--top" x1="50" y1="0" x2="50" y2="54" />
+                        <line class="nf-plus__base" x1="0" y1="50" x2="100" y2="50" />
+                        <line class="nf-plus__angle nf-plus__angle--bottom" x1="50" y1="46" x2="50" y2="100" />
+                    </svg>
                     <span data-drawerid="addAction"><?php esc_html_e( 'Add new action', 'ninja-forms' ); ?></span>
                 </a>
             </div>
         </div>
     </div>
     <a class="nf-master-control nf-open-drawer" title="<?php esc_html_e( 'Add new action', 'ninja-forms' ); ?>" href="#" data-drawerid="addAction">
-        <i class="fa fa-plus" data-drawerid="addAction" aria-hidden="true"></i>
+        <svg class="nf-plus" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" data-drawerid="addField" aria-hidden="true">
+            <line class="nf-plus__angle nf-plus__angle--top" x1="50" y1="0" x2="50" y2="54" />
+            <line class="nf-plus__base" x1="0" y1="50" x2="100" y2="50" />
+            <line class="nf-plus__angle nf-plus__angle--bottom" x1="50" y1="46" x2="50" y2="100" />
+        </svg>
         <span><?php esc_html_e( 'Add new action', 'ninja-forms' ); ?></span>
     </a>
 </script>
@@ -475,7 +490,7 @@
 </script>
 
 <script id="tmpl-nf-drawer-action-type-button" type="text/template">
-    <div class="nf-one-third nf-action-type-draggable" data-type="{{{ data.id }}}">
+    <div class="nf-one-third" data-type="{{{ data.id }}}">
         <div class="{{{ data.renderClasses() }}}">{{{ data.nicename }}}</div>
     </div>
 </script>

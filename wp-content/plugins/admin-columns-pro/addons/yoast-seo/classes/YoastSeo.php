@@ -7,7 +7,6 @@ namespace ACA\YoastSeo;
 use AC;
 use AC\Registerable;
 use AC\Services;
-use ACA\YoastSeo\Service;
 use ACP\Service\IntegrationStatus;
 
 class YoastSeo implements Registerable

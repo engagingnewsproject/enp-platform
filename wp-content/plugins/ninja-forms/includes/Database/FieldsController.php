@@ -387,7 +387,7 @@ class NF_Database_FieldsController
     | UPDATE (EXISTING) FIELDS
     |--------------------------------------------------------------------------
     */
-    private function update_field( $field_id, $settings )
+    public function update_field( $field_id, $settings )
     {
         foreach ( $settings as $setting => $value ) {
             $line = "WHEN `id` = '{$field_id}' ";

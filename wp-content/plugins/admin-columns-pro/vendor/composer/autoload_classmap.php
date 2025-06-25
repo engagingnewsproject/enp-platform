@@ -512,6 +512,8 @@ return array(
     'ACA\\JetEngine\\Field\\Field' => $baseDir . '/addons/jetengine/classes/Field/Field.php',
     'ACA\\JetEngine\\Field\\GlossaryOptions' => $baseDir . '/addons/jetengine/classes/Field/GlossaryOptions.php',
     'ACA\\JetEngine\\Field\\GlossaryOptionsTrait' => $baseDir . '/addons/jetengine/classes/Field/GlossaryOptionsTrait.php',
+    'ACA\\JetEngine\\Field\\ManualBulkOptions' => $baseDir . '/addons/jetengine/classes/Field/ManualBulkOptions.php',
+    'ACA\\JetEngine\\Field\\ManualBulkOptionsTrait' => $baseDir . '/addons/jetengine/classes/Field/ManualBulkOptionsTrait.php',
     'ACA\\JetEngine\\Field\\MaxLength' => $baseDir . '/addons/jetengine/classes/Field/MaxLength.php',
     'ACA\\JetEngine\\Field\\MaxLengthTrait' => $baseDir . '/addons/jetengine/classes/Field/MaxLengthTrait.php',
     'ACA\\JetEngine\\Field\\Multiple' => $baseDir . '/addons/jetengine/classes/Field/Multiple.php',

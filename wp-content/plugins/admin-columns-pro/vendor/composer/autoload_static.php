@@ -597,6 +597,8 @@ class ComposerStaticInitAdminColumnsPro
         'ACA\\JetEngine\\Field\\Field' => __DIR__ . '/../..' . '/addons/jetengine/classes/Field/Field.php',
         'ACA\\JetEngine\\Field\\GlossaryOptions' => __DIR__ . '/../..' . '/addons/jetengine/classes/Field/GlossaryOptions.php',
         'ACA\\JetEngine\\Field\\GlossaryOptionsTrait' => __DIR__ . '/../..' . '/addons/jetengine/classes/Field/GlossaryOptionsTrait.php',
+        'ACA\\JetEngine\\Field\\ManualBulkOptions' => __DIR__ . '/../..' . '/addons/jetengine/classes/Field/ManualBulkOptions.php',
+        'ACA\\JetEngine\\Field\\ManualBulkOptionsTrait' => __DIR__ . '/../..' . '/addons/jetengine/classes/Field/ManualBulkOptionsTrait.php',
         'ACA\\JetEngine\\Field\\MaxLength' => __DIR__ . '/../..' . '/addons/jetengine/classes/Field/MaxLength.php',
         'ACA\\JetEngine\\Field\\MaxLengthTrait' => __DIR__ . '/../..' . '/addons/jetengine/classes/Field/MaxLengthTrait.php',
         'ACA\\JetEngine\\Field\\Multiple' => __DIR__ . '/../..' . '/addons/jetengine/classes/Field/Multiple.php',

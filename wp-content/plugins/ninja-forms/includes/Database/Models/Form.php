@@ -237,6 +237,39 @@ final class NF_Database_Models_Form extends NF_Abstracts_Model
     }
 
     /**
+     * Processes repeater fields by updating child field IDs and settings for a new form.
+     *
+     * This function handles the migration of repeater fields from an old form to a new form.
+     * It ensures that child field IDs are updated to match the new field ID and updates the
+     * field settings accordingly.
+     *
+     * @param int $new_field_id The ID of the new field in the new form.
+     * @param int $new_form_id The ID of the new form.
+     * @param int $old_field_id The ID of the old field in the old form.
+     * @param int $old_form_id The ID of the old form.
+     *
+     * @return void
+     */
+    private static function process_repeater_fields( $new_field_id, $new_form_id, $old_field_id, $old_form_id ) {
+
+        $old = Ninja_Forms()->form( $old_form_id )->get_field( $old_field_id);
+        if( $old->get_setting('type') === 'repeater') {
+             // Get child fields into new field
+            $new = Ninja_Forms()->form( $new_form_id )->get_field( $new_field_id );
+            $field_controller = new NF_Database_FieldsController( $new_form_id, $new );
+            $field_controller->update_field( $new_field_id, $new->get_settings() );
+            // Get updated field and update child fields IDs
+            $new = Ninja_Forms()->form( $new_form_id )->get_field( $new_field_id );
+            foreach($new->_settings['fields'] as $index => $child_field) {
+                $dotPosition = strpos($child_field['id'], '.');
+                $partAfterDot = substr($child_field['id'], $dotPosition);
+                $new->_settings['fields'][$index]['id'] = $new_field_id . $partAfterDot;
+                $field_controller->update_field( $new_field_id, $new->_settings );
+            }
+        }
+    }
+
+    /**
      * This static method is called to duplicate a form using the form ID.
      *
      * To duplicate a form we:
@@ -340,6 +373,29 @@ final class NF_Database_Models_Form extends NF_Abstracts_Model
                 WHERE  parent_id = %d;
                 ", $new_field_id, $old_field->id
             ));
+
+            // Detect repeater fieldset fields
+            $get_field = Ninja_Forms()->form( $form_id )->get_field($old_field->id);
+            if ($get_field->get_setting('type') === 'repeater') {
+                $repeater_fields[] = [
+                    'new_field_id' => $new_field_id,
+                    'new_form_id' => $new_form_id,
+                    'old_field_id' => $old_field->id,
+                    'old_form_id' => $form_id
+                ];
+            }   
+        }
+
+        // Process repeater fields as we need to update the child field IDs.
+        if (!empty($repeater_fields)) {
+            foreach ($repeater_fields as $repeater_field) {
+                self::process_repeater_fields(
+                    $repeater_field['new_field_id'],
+                    $repeater_field['new_form_id'],
+                    $repeater_field['old_field_id'],
+                    $repeater_field['old_form_id']
+                );
+            }
         }
 
         // Duplicate the Actions.

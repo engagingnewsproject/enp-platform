@@ -13,7 +13,6 @@ use AC\Vendor\DI;
 use AC\Vendor\DI\ContainerBuilder;
 use ACA\WC\Search\Query\OrderQueryController;
 use ACA\WC\Service\TableScreen;
-use ACA\WC\Service\TableTemplates;
 use ACP;
 use ACP\Service\IntegrationStatus;
 use ACP\Service\Storage\TemplateFiles;
@@ -131,6 +130,7 @@ final class WooCommerce implements Registerable
 
         $services = new Services([
             new Service\Columns('wp-users', $user_column_config),
+            new IntegrationStatus('ac-addon-woocommerce'),
         ]);
 
         $services_fqn = [
