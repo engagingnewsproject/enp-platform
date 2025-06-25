@@ -1,19 +1,19 @@
 {# Team member information #}
 	{% if function('get_field','member_designation') %}
-		<div class="icon-box"><svg class="icon-color"><use xlink:href="#person"></use></svg></div>
+		<div class="icon-box"><svg role="presentation" class="icon-color"><use xlink:href="#person"></use></svg></div>
 		<div class="mate__text"><a class="mate__designation meta-size vertical-color--{{ post.vertical.slug }}">{{ function('get_field','member_designation')  }}</a></div>
 	{% endif %}
 	{% if function('get_field','member_email') %}
-		<div class="icon-box"><svg class="icon-color"><use xlink:href="#mail"></use></svg></div>
+		<div class="icon-box"><svg role="presentation" class="icon-color"><use xlink:href="#mail"></use></svg></div>
 		{% set name = post.title |split(' ') %}
 		<div class="mate__text"><a class="mate__email meta-size break-word" href="mailto:{{ function('get_field','member_email') }}">Contact {{name[0]}}</a></div> 
 	{% endif %}
 	{% if function('get_field','member_external_link') %}
-		<div class="icon-box"><svg class="icon-color"><use xlink:href="#link"></use></svg></div>
+		<div class="icon-box"><svg role="presentation" class="icon-color"><use xlink:href="#link"></use></svg></div>
 		<div class="mate__text"><a class="mate__labels meta-size break-word" href="{{function('get_field','member_external_link')}}">Visit Page</a></div>        
 	{% endif %}
 	{% if function('get_field','member_telephone') %}
-		<div class="icon-box"><svg class="icon-color"><use xlink:href="#phone"></use></svg></div>
+		<div class="icon-box"><svg role="presentation" class="icon-color"><use xlink:href="#phone"></use></svg></div>
 		<div class="mate__text"><a class="mate__labels meta-size">{{function('get_field','member_telephone')}}</a></div>        
 	{% endif %}
 

@@ -2,13 +2,13 @@
 	<li class="share__item share__item--facebook">
 		<a class="share__link" href="https://www.facebook.com/sharer/sharer.php?{{ {'u': post.link}|url_encode }}">
 			<span class="sr-text">Share on Facebook</span>
-			<svg class="share__icon share__icon--facebook"><use xlink:href="#facebook"></use></svg>
+			<svg role="presentation" class="share__icon share__icon--facebook"><use xlink:href="#facebook"></use></svg>
 		</a>
 	</li>
 	<li class="share__item share__item--twitter">
 		<a class="share__link" href="https://twitter.com/share?{{ {'url': post.link, 'text': post.title}| url_encode }}">
 			<span class="sr-text">Share on Twitter</span>
-			<svg class="share__icon share__icon--twitter"><use xlink:href="#twitter"></use></svg>
+			<svg role="presentation" class="share__icon share__icon--twitter"><use xlink:href="#twitter"></use></svg>
 		</a>
 	</li>
 </ul>
