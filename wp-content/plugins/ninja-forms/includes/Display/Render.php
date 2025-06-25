@@ -313,8 +313,10 @@ class NF_Display_Render
                 if( isset( $field[ 'settings' ][ 'textarea_media' ] ) && $field[ 'settings' ][ 'textarea_media' ] || self::checkRepeaterChildSetting($field, "textarea_media", null) ){
                     array_push( self::$form_uses_textarea_media, $form_id );
                 }
+                // Check if field contains help text, this helps prevent jBox to be enqueued if there isn't a field using it.
                 // strip all tags except image tags
-                if( isset( $field[ 'settings' ][ 'help_text' ] ) &&
+                if( self::checkRepeaterChildSetting($field, "help_text", null) ||
+                    isset( $field[ 'settings' ][ 'help_text' ] ) &&
                     strip_tags( $field[ 'settings' ][ 'help_text' ], '<img>'
                     ) ){
                     array_push( self::$form_uses_helptext, $form_id );

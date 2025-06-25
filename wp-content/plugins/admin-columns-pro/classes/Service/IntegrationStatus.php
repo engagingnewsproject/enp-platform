@@ -8,7 +8,7 @@ use AC\Registerable;
 class IntegrationStatus implements Registerable
 {
 
-    private $slug;
+    private string $slug;
 
     public function __construct(string $slug)
     {

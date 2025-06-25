@@ -24,6 +24,7 @@ use AC\Storage\KeyValueFactory;
 use AC\Storage\NetworkOptionFactory;
 use AC\Storage\OptionFactory;
 use AC\Table\ScreenTools;
+use AC\Type\Url\Site;
 use AC\Vendor\DI;
 use AC\Vendor\DI\ContainerBuilder;
 use AC\Vendor\Psr\Container\ContainerInterface;
@@ -165,6 +166,7 @@ final class AdminColumnsPro
             Service\View::class,
             Service\Banner::class,
             Service\PluginNotice::class,
+            AC\Service\PluginUpdate::class,
             ScreenTools::class,
             PrimaryColumn::class,
             Service\Storage::class,
@@ -282,6 +284,8 @@ final class AdminColumnsPro
             AdminScripts::class                      => autowire()->constructorParameter(0, $location_core),
             AdminNetwork::class                      => autowire()->constructorParameter(1, $location_core),
             Service\Addon::class                     => autowire()->constructorParameter(0, array_keys($addons)),
+            AC\Service\PluginUpdate::class           => autowire()
+                ->constructorParameter(1, new Site('upgrade-to-version-%s')),
             Admin\MenuNetworkFactory::class          => autowire()
                 ->constructorParameter(0, network_admin_url('settings.php'))
                 ->constructorParameter(1, $location_core),

@@ -8,6 +8,13 @@ final class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
     protected $id = 'fields';
     protected $form_id;
 
+    /**
+     * Temporary storage for field types
+     *
+     * @var array
+     */
+    protected $fieldTypeCache=[];
+
     public function __construct()
     {
         parent::__construct();
@@ -359,8 +366,8 @@ final class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
 
         // Iterate submission indexes (each repeated fieldset in the submission)
         foreach ($array as $submissionIndex => $fieldsetArray) {
-
-            $outgoingValue .= '<tr><td><b>' . $field['label'] . ' #:' . $submissionIndex . '</b></td></tr>';
+            $fieldsetNumber = $submissionIndex + 1;
+            $outgoingValue .= '<tr><td><b>' . $field['label'] . ' #:' . $fieldsetNumber . '</b></td></tr>';
 
             // Iterate each field within a submission index
             foreach ($fieldsetArray as $fieldsetFieldId => $submissionValueArray) {
@@ -488,7 +495,21 @@ final class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
                     // If value is array (e.g. listcheckbox), then strip each
                     // individual value
                     if(is_array($fieldsetFieldSubmissionValue['value'])){
-                        $outgoing[$fieldsetFieldId]['value']=array_map('strip_shortcodes',$fieldsetFieldSubmissionValue['value']);                    
+
+                        //Detect date field value in RFF
+                        if(isset($fieldsetFieldSubmissionValue['value']['date'])){
+                            $outgoing[$fieldsetFieldId]['value'] = "";
+                            foreach($fieldsetFieldSubmissionValue['value'] as $index => $dateElement) {
+                                //Discard date index for time only fields
+                                if(strpos($dateElement, ":") === false) {
+                                    $outgoing[$fieldsetFieldId]['value'] .= $index . ": " . strip_shortcodes($dateElement) . "<br>";
+                                }
+                            }
+                            
+                        } else {
+                            // If value is not array, strip shortcode
+                            $outgoing[$fieldsetFieldId]['value']=array_map('strip_shortcodes',$fieldsetFieldSubmissionValue['value']['value']);
+                        }
                     }else{
                         // If value is not array, strip shortcode
                         $outgoing[$fieldsetFieldId]['value']=strip_shortcodes($fieldsetFieldSubmissionValue['value']);
@@ -501,7 +522,9 @@ final class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
             }
         }else{
             // Strip shortcodes for non-repeater values
-            $outgoing = strip_shortcodes($incoming);
+            if(is_string($incoming)){
+                $outgoing = strip_shortcodes($incoming);
+            }
         }
        
         return $outgoing;
@@ -564,26 +587,32 @@ final class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
      */
     protected function determineFieldType($id)
     {
-        $type = '';
 
-        if($id === (int)  $id){
+        if (isset($this->fieldTypeCache[$id])) {
+            return $this->fieldTypeCache[$id];
+        }
+
+        if ($id === (int)  $id) {
 
             $type = Ninja_Forms()->form()->field($id)->get()->get_setting('type');
-        }else{
-            foreach( $this->merge_tags['all_fields']['fields'] as $field){
+        } else {
+            $type = '';
 
-                if(
+            foreach ($this->merge_tags['all_fields']['fields'] as $field) {
+
+                if (
                     isset($field['key'])
                     && $field['key'] == $id
                     && isset($field['type'])
-                ){
+                ) {
                     $type = $field['type'];
                     break;
                 }
             }
-
         }
-       
+
+        $this->fieldTypeCache[$id] = $type;
+
         return $type;
     }
 

@@ -1,5 +1,19 @@
 == Changelog ==
 
+= 6.4.20 =
+Release Date: June 17th, 2025
+
+* [Updated] Admin Columns Core to version 4.7.16
+* [Fixed] Cache optimization
+
+= 6.4.19 =
+Release Date: June 16th, 2025
+
+* [Improved] JetEngine Select, Radio, and Checkboxes now have support for manual bulk options
+* [Updated] Admin Columns Core to version 4.7.15
+* [Fixed] Better null check for options to prevent PHP 8.3 issues
+* [Improved] Small UI changes in the admin view
+
 = 6.4.18 =
 Release Date: April 30th, 2025
 
