@@ -11,7 +11,32 @@
 
 			{% for page in pagination.pages %}
 				<li class="horiz-list__item pagination__item{{ not page.link and not page.current ? ' pagination__item--disabled'}}{{ page.current ? ' pagination__item--current'}}">
-					<a href="{{ page.link ? page.link : '#'}}" class="pagination__link {{ page.current ? ' pagination__link--current'}}">{{ page.title }}</a>
+					<a 
+						{% if page.current %}
+							href="{{ page.link }}"
+							class="pagination__link pagination__link--current"
+							aria-current="page"
+						{% elseif page.link %}
+							href="{{ page.link }}"
+							class="pagination__link"
+							{% if page.title == 'Previous' %}
+								aria-label="Go to previous page"
+							{% elseif page.title == 'Next' %}
+								aria-label="Go to next page"
+							{% elseif page.title == 'Last' %}
+								aria-label="Go to last page"
+							{% elseif page.title == 'First' %}
+								aria-label="Go to first page"
+							{% else %}
+								aria-label="Go to page {{ page.title }}"
+							{% endif %}
+						{% else %}
+							role="button"
+							aria-disabled="true"
+							class="pagination__link pagination__link--disabled"
+							tabindex="-1"
+						{% endif %}
+					>{{ page.title }}</a>
 				</li>
 			{% endfor %}
 
