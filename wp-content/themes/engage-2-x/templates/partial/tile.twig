@@ -96,7 +96,7 @@ Other tiles have a link to the post URL
 		{# Tile, Date, Publisher, Authors #}
 		{% if post_type == 'press' %}
 			{% if tile_date %}
-				<p class="tile__date tile__date--press">{{ tile_date }}</p>
+				<time class="tile__date tile__date--press" datetime="{{ tile_date|date('Y-m-d') }}">{{ tile_date }}</time>
 			{% endif %}
 			<h3 class="tile__title h3">{{ tile.title }}</h3>
 			<div class="tile__publisher">
@@ -109,13 +109,13 @@ Other tiles have a link to the post URL
 				{{ tile.meta('publication_authors') }}
 			</p>
 			{% if tile_date %}
-				<p class="tile__date tile__date--publication">
+				<time class="tile__date tile__date--publication" datetime="{{ tile.meta('publication_date')|date('Y-m-d') }}">
 					{% if tile.meta('publication_year_date') %}
 						{{ tile.meta('publication_date')|date('Y') }}
 					{% else %}
 						{{ tile.meta('publication_date')|date('F j, Y') }}
 					{% endif %}
-				</p>
+				</time>
 			{% endif %}
 			<p class="tile__publisher">
 				{{ tile.meta('publication_subtitle') }}
@@ -129,7 +129,7 @@ Other tiles have a link to the post URL
 			<h3 class="tile__title h3">
 				{{ tile.title|length > 50 ? tile.title|slice(0, 50) ~ "..." : tile.title}}
 			</h3>
-			<p class="tile__date">{{ tile.date }}</p>
+			<time class="tile__date" datetime="{{ tile.date|date('Y-m-d') }}">{{ tile.date }}</time>
 		{% endif %}
 
 		{# Tile date #}
