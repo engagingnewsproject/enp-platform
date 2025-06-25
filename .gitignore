@@ -79,6 +79,7 @@ node_modules
 
 # Plugin - Query Monitor
 wp-content/db.php
+wp-content/plugins/query-monitor/
 
 # Composer
 **/composer.lock
