@@ -1,4 +1,4 @@
-<li class="carousel-cell" role="tabpanel" id="carousel-cell-{{ current_slide }}" aria-label="slide {{ current_slide }} of {{ total_slides }}">
+<div class="carousel-cell" role="tabpanel" id="carousel-cell-{{ current_slide }}" aria-label="slide {{ current_slide }} of {{ total_slides }}">
 	<div class="hero__1 tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }}">
 		<a href="{{ tile.link }}" class="aspect-ratio-box-inside" aria-label="Read more about {{ tile.title }}"></a>
 		<img 
@@ -30,4 +30,4 @@
 			<a class="btn btn--ghost btn--see-all" href="{{ tile.link }}" aria-label="Read full article about {{ tile.title }}">Read More</a>
 		</div>
 	</div>
-</li>
+</div>
