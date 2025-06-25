@@ -29,6 +29,8 @@ require_once __DIR__ . '/includes/hooks/editor.php';
 require_once __DIR__ . '/includes/admin/login-register.php';
 require_once __DIR__ . '/includes/admin/manage-quizzes.php';
 require_once __DIR__ . '/includes/admin/users.php';
+require_once __DIR__ . '/includes/admin/alt-text-generator.php';
+require_once __DIR__ . '/includes/admin/alt-text-results.php';
 // require_once __DIR__ . '/includes/admin/utilities-quizzes.php';
 
 // Load post types and taxonomies
