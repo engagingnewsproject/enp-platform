@@ -24,11 +24,12 @@
 		<!-- End Google Tag Manager (noscript) -->
 		<div class="main-body-wrapper" {% if options.appearance.background_image %}style="background-image: url({{options.appearance.background_image.url}});"{% endif %}>
 			{% include 'partial/svg.twig' %}
-			{% if brand_bar == true %}
-				{% include 'partial/brandbar.twig' %}
-			{% endif %}
+
 			{% block header %}
 				<header class="header" >
+					{% if brand_bar == true %}
+						{% include 'partial/brandbar.twig' %}
+					{% endif %}
 					{% include 'header.twig' %}
 				</header>
 			{% endblock %}

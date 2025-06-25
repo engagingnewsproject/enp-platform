@@ -39,13 +39,6 @@
     height: 200px;
   }
 
-  .nf-field-label {
-    label {
-      font-weight: 100;
-      color: inherit;
-    }
-  }
-
   // errors
   .nf-error .ninja-forms-field {
     border-color: $danger;
@@ -61,9 +54,6 @@
 // widget ninja forms
 .widget {
   .nf-form-cont {
-    label {
-      font: inherit;
-    }
     // submit button
     input[type="button"] {
       @include media($phablet) {
@@ -83,4 +73,14 @@
   [type="email"] {
     width: 70%;
   }
+}
+
+/*
+Styling all field labels
+*/
+.field-wrap label {
+  line-height: 1.25;
+  font-weight: 700;
+  margin: 0 0 0.8rem;
+  font-size: 16px;
 }
