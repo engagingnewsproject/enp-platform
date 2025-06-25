@@ -21,19 +21,25 @@
 {% set is_current = current_term == term.slug %}
 
 <li
-	class="filter__item filter__item--{{term.taxonomy}} filter__item--{{term.slug}} filter__item--{{term.taxonomy}}--{{term.slug}} {{ is_current ? 'filter__item--current'}} {{ term.currentParent ? 'filter__item--current-parent'}} {{ term.terms ? 'filter__item--top-item collapsable--max-tablet' : 'filter__item--sub-item'}}">
+	class="filter__item filter__item--{{term.taxonomy}} filter__item--{{term.slug}} filter__item--{{term.taxonomy}}--{{term.slug}} {{ is_current ? 'filter__item--current'}} {{ term.currentParent ? 'filter__item--current-parent'}} {{ term.terms ? 'filter__item--top-item collapsable--max-tablet' : 'filter__item--sub-item'}}"
+	role="menuitem">
 
 	{# Check if the term has a link and is not 'research', and render it as an anchor if so #}
 	{% if term.link and term.slug != 'research' %} 
-		<a class="filter__link {{ is_current ? 'filter__link--current'}} {{ term.terms ? '' : 'filter__link--child'}} {{ term.currentParent ? 'filter__link--current-parent'}}" href="{{ term.link }}">{{ term.title }}</a>
-		{% if options.filter_settings.filter_item_color and options.filter_settings.filter_item_color_hover %}
+		<a class="filter__link {{ is_current ? 'filter__link--current'}} {{ term.terms ? '' : 'filter__link--child'}} {{ term.currentParent ? 'filter__link--current-parent'}}" 
+			href="{{ term.link }}"
+			{% if is_current %}
+				aria-current="page"
+			{% endif %}
+		>{{ term.title }}</a>
+		{% if options.sidebar_settings.filter_item_color and options.sidebar_settings.filter_item_color_hover %}
 		<style>
 			.filter__link {
-					color: {{ options.filter_settings.filter_item_color }};
+					color: {{ options.sidebar_settings.filter_item_color }};
 			}
 			.filter__link:hover {
-				border-color: {{ options.filter_settings.filter_item_color_hover }};
-				color: {{ options.filter_settings.filter_item_color_hover }};
+				border-color: {{ options.sidebar_settings.filter_item_color_hover }};
+				color: {{ options.sidebar_settings.filter_item_color_hover }};
 				}
 		</style>
 		{% endif %}
@@ -47,8 +53,7 @@
 		- The filter menu slug is not 'social-platforms-menu' or 'bridging-divides-menu' (these menus do not display subterms).
 	#}
 	{% if (term.terms) and (term.title) and (term.slug != "team") and (term.slug != "blogs") and (filters.slug != "social-platforms-menu") and (filters.slug != "bridging-divides-menu") %}
-		<ul
-			class="filter__sublist">
+		<ul class="filter__sublist" role="menu">
 			{# Loop through each subterm and include the filter-item.twig template recursively to render nested items #}
 			{% for subterm in term.terms %}
 				{% if subterm.slug != 'videos' and subterm.slug != 'case-studies' %}

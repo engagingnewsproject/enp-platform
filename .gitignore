@@ -41,8 +41,8 @@ wp-content/plugins/download-monitor/
 wp-content/plugins/codepress-admin-columns/
 wp-content/plugins/wp-optimize/
 wp-content/plugins/wp-defender/
-wp-content/plugins/wpmudev-updates/
 wp-content/plugins/wp-mail-logging/
+wp-content/.defender-security-quarantine/*
 
 # ENP quiz
 enp-quiz-database-config.php
@@ -127,3 +127,4 @@ phpunit.xml
 
 # Ignore local DB dumps
 /ssh/*.sql
+wp-content/themes/engage-2-x/.cursor/

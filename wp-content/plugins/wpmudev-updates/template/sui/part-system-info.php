@@ -69,7 +69,8 @@ $dbh        = $wpdb->dbh;
 if ( is_resource( $dbh ) ) {
 	$driver = 'mysql';
 	// @codingStandardsIgnoreStart: This IS PHP7+ compatible, mysql_get_server_info is included for backwards compatibility
-	$version = function_exists( 'mysqli_get_server_info' ) ? mysqli_get_server_info( $dbh ) : mysql_get_server_info( $dbh );
+	$version = function_exists( 'mysqli_get_server_info' ) ? mysqli_get_server_info( $dbh )
+		: ( function_exists( 'mysql_get_server_info' ) ? mysql_get_server_info( $dbh ) : __( 'Unknown', 'wpmudev' ) );	 	 				 	 		     	 
 	// @codingStandardsIgnoreEnd
 } elseif ( is_object( $dbh ) ) {
 	$driver = get_class( $dbh );
@@ -171,14 +172,14 @@ $dump_server['External IP']       = @$_SERVER['SERVER_ADDR'];
 $dump_server['Server Hostname']   = @$_SERVER['SERVER_NAME'];
 $dump_server['Server Admin']      = @$_SERVER['SERVER_ADMIN'];
 $dump_server['Server local time'] = date( 'Y-m-d H:i:s (\U\T\C P)' );
-$dump_server['Operating System']  = @php_uname( 's' );
-$dump_server['OS Hostname']       = @php_uname( 'n' );
-$dump_server['OS Version']        = @php_uname( 'v' );
+$dump_server['Operating System']  = function_exists( 'php_uname' ) ? php_uname( 's' ) : '';
+$dump_server['OS Hostname']       = function_exists( 'php_uname' ) ? php_uname( 'n' ) : '';
+$dump_server['OS Version']        = function_exists( 'php_uname' ) ? php_uname( 'v' ) : '';
 
 // 5. HTTP Requests -----------------------------------------------------------
 $dump_http = array();
 $options   = array();
-if ( WPMUDEV_API_UNCOMPRESSED ) {
+if ( defined( 'WPMUDEV_API_UNCOMPRESSED' ) && WPMUDEV_API_UNCOMPRESSED ) {
 	$options['decompress'] = false;
 }
 
@@ -236,7 +237,7 @@ $dump_server['External IP']       = $remote_ip;
 				<table class="dashui-table">
 					<?php foreach ( $dump_php as $item => $value ): ?>
 						<tr>
-							<th><?php echo esc_html( $item ); ?></td>
+							<th><?php echo esc_html( $item ); ?></th>
 							<td><?php echo wp_kses_post( $value ); ?></td>
 						</tr>
 					<?php endforeach; ?>
@@ -247,7 +248,7 @@ $dump_server['External IP']       = $remote_ip;
 				<table class="dashui-table">
 					<?php foreach ( $dump_mysql as $item => $value ): ?>
 						<tr>
-							<th><?php echo esc_html( $item ); ?></td>
+							<th><?php echo esc_html( $item ); ?></th>
 							<td><?php echo wp_kses_post( $value ); ?></td>
 						</tr>
 					<?php endforeach; ?>
@@ -258,7 +259,7 @@ $dump_server['External IP']       = $remote_ip;
 				<table class="dashui-table">
 					<?php foreach ( $dump_wp as $item => $value ): ?>
 						<tr>
-							<th><?php echo esc_html( $item ); ?></td>
+							<th><?php echo esc_html( $item ); ?></th>
 							<td><?php echo wp_kses_post( $value ); ?></td>
 						</tr>
 					<?php endforeach; ?>
@@ -269,7 +270,7 @@ $dump_server['External IP']       = $remote_ip;
 				<table class="dashui-table">
 					<?php foreach ( $dump_server as $item => $value ): ?>
 						<tr>
-							<th><?php echo esc_html( $item ); ?></td>
+							<th><?php echo esc_html( $item ); ?></th>
 							<td><?php echo wp_kses_post( $value ); ?></td>
 						</tr>
 					<?php endforeach; ?>

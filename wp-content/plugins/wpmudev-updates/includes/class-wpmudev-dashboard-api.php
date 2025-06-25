@@ -1514,19 +1514,17 @@ class WPMUDEV_Dashboard_Api {
 
 		$last_run = (array) WPMUDEV_Dashboard::$settings->get( 'last_run_sync', 'general', array() );
 
-		// used to bypass the cache on api side when logging in or upgrading
-		if ( $force || empty( $last_run ) ) {
-			$stats_data['call_version'] = microtime( true );
-		} else {
+
+		if ( ! $force && ! empty( $last_run ) ) {
 			// this is the main check to prevent pinging unless the data is changed or 6 hrs have passed
-			if ( $last_run['hash'] == $data_hash && $last_run['time'] > ( time() - ( HOUR_IN_SECONDS * 6 ) ) ) {
+			if ( ( $last_run['hash'] ?? '' ) == $data_hash && ( $last_run['time'] ?? 0 ) > ( time() - ( HOUR_IN_SECONDS * 6 ) ) ) {
 				if ( WPMUDEV_API_DEBUG ) {
 					error_log( '[WPMUDEV API] Skipped sync due to unchanged local data.' );
 				}
 
 				return $this->get_membership_data();
-			} elseif ( $last_run['fails'] ) { // check for exponential backoff
-				$backoff = min( pow( 5, $last_run['fails'] ), HOUR_IN_SECONDS ); // 5, 25, 125, 625, 3125, 3600 max
+			} elseif ( ( $last_run['fails'] ?? 0 ) ) { // check for exponential backoff
+				$backoff = min( pow( 5, ( $last_run['fails'] ?? 0 ) ), HOUR_IN_SECONDS ); // 5, 25, 125, 625, 3125, 3600 max
 				if ( $last_run['time'] > ( time() - $backoff ) ) {
 					if ( WPMUDEV_API_DEBUG ) {
 						error_log( '[WPMUDEV API] Skipped sync due to API error exponential backoff.' );
@@ -1536,6 +1534,8 @@ class WPMUDEV_Dashboard_Api {
 				}
 			}
 		}
+
+		$stats_data['sync_version'] = WPMUDEV_Dashboard::$version;
 
 		$response = WPMUDEV_Dashboard::$api->call_auth(
 			'hub-sync',
@@ -1563,6 +1563,33 @@ class WPMUDEV_Dashboard_Api {
 					),
 					'general'
 				);
+
+				// Sync analytics state
+				$prev_analytics_data = [
+					'site_id'    => (int) WPMUDEV_Dashboard::$settings->get( 'site_id', 'analytics' ),
+					'tracker'    => (string) WPMUDEV_Dashboard::$settings->get( 'tracker', 'analytics' ),
+					'enabled'    => wp_validate_boolean( WPMUDEV_Dashboard::$settings->get( 'enabled', 'analytics' ) ),
+					'script_url' => (string) WPMUDEV_Dashboard::$settings->get( 'script_url', 'analytics' ),
+				];
+
+				$new_analytics_data = [
+					'site_id'    => (int) ( $data['analytics_site_id'] ?? $prev_analytics_data['site_id'] ),
+					'tracker'    => (string) ( $data['analytics_tracker'] ?? $prev_analytics_data['tracker'] ),
+					'enabled'    => wp_validate_boolean( $data['analytics_enabled'] ?? $prev_analytics_data['enabled'] ),
+					'script_url' => (string) ( $data['analytics_script_url'] ?? $prev_analytics_data['script_url'] ),
+				];
+
+				$analytics_updated = false;
+				foreach ( $new_analytics_data as $key => $value ) {
+					WPMUDEV_Dashboard::$settings->set( $key, $value, 'analytics' );
+					if ( ! $analytics_updated && ( $prev_analytics_data[ $key ] ?? null ) !== $value ) {
+						$analytics_updated = true;
+					}
+				}
+
+				if ( $analytics_updated ) {
+					$this->maybe_clear_hosting_static_cache();
+				}
 
 				$res = $data;
 			} else {
@@ -2447,9 +2474,29 @@ class WPMUDEV_Dashboard_Api {
 			// Force 1 hour cookie timeout.
 			add_filter( 'auth_cookie_expiration', array( $this, 'auth_cookie_expiration' ) );
 
+			/**
+			 * Filter access user_id to be used on remote_access.
+			 *
+			 * @param int   $usser_id User ID to be used on remote_access.
+			 * @param array $access   Remote access details.
+			 *
+			 * @since 4.11.29
+			 */
+			$access['userid'] = apply_filters( 'wpmudev_remote_access_set_current_user_id', $access['userid'], $access );
+
 			wp_clear_auth_cookie();
 			wp_set_auth_cookie( $access['userid'], false );
 			wp_set_current_user( $access['userid'] );
+
+			/**
+			 * Do action after successful remote access login..
+			 *
+			 * @param int   $usser_id User ID being used on remote_access..
+			 * @param array $access   Remote access details..
+			 *
+			 * @since 4.11.29
+			 */
+			do_action( 'wpmudev_remote_access_set_current_user', $access['userid'], $access );
 
 			$secure_cookie = 'https' === wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME );
 			setcookie( 'wpmudev_is_staff', '1', time() + 3600, COOKIEPATH, COOKIE_DOMAIN, $secure_cookie, true );
@@ -2624,18 +2671,28 @@ class WPMUDEV_Dashboard_Api {
 	 * This step will verify the hmac coming from the Hub.
 	 * If the verification works, it should log in the user and redirect him.
 	 *
-	 * @param string $incoming_hmac The hmac coming from the Hub.
-	 * @param string $token The one-time passcode to prevent replay attacks.
-	 * @param string $pre_sso_state The state value that has been saved in a session cookie, in the previous step.
-	 * @param string $redirect The URL that the user needs to be redirected to.
+	 * @param array $sso_access_data {
+	 *                               incoming_hmac: string, The hmac coming from the Hub.
+	 *                               token: string, The one-time passcode to prevent replay attacks.
+	 *                               pre_sso_state: string, The state value that has been saved in a session cookie, in the previous step.
+	 *                               redirect: string, The URL that the user needs to be redirected to.
+	 *                               dev_user_id: int, The WPMU DEV User ID coming from the Hub.
+	 *                               dev_user_email: string, The WPMU DEV User email address coming from the Hub.
+	 *                               } An array of SSO Access data
 	 *
 	 * @since    4.7.3
+	 * @since    4.11.29 Simplify parameter format into an array.
 	 * @internal Ajax handler
 	 */
-	public function authenticate_sso_access_step2( $incoming_hmac, $token, $pre_sso_state, $redirect ) {
+	public function authenticate_sso_access_step2( $sso_access_data ) {
 		if ( WPMUDEV_DISABLE_SSO ) {
 			wp_die( 'Error: Single Signon is disabled in wp-config' );
 		}
+
+		$incoming_hmac = $sso_access_data['incoming_hmac'] ?? '';
+		$token         = $sso_access_data['token'] ?? '';
+		$pre_sso_state = $sso_access_data['pre_sso_state'] ?? '';
+		$redirect      = $sso_access_data['redirect'] ?? '';
 
 		$api_key        = $this->get_key();
 		$verifying_hmac = hash_hmac( 'sha256', $token . $pre_sso_state . $redirect, $api_key );
@@ -2680,10 +2737,30 @@ class WPMUDEV_Dashboard_Api {
 						WPMUDEV_Dashboard::$settings->set( 'active_token', uniqid(), 'sso' );
 					}
 
+					/**
+					 * Filter access user_id to be used on SSO.
+					 *
+					 * @param int   $userid          User ID to be used on SSO.
+					 * @param array $sso_access_data SSO access details.
+					 *
+					 * @since 4.11.29
+					 */
+					$userid = apply_filters( 'wpmudev_sso_set_current_user_id', $userid, $sso_access_data );
+
 					// If everything checks out, log in the user.
 					wp_clear_auth_cookie();
 					wp_set_auth_cookie( $userid, false );
 					wp_set_current_user( $userid );
+
+					/**
+					 * Do action after successful SSO login.
+					 *
+					 * @param int    $usser_id User ID being used on remote_access..
+					 * @param string $redirect Where to redirect after a successful SSO.
+					 *
+					 * @since 4.11.29
+					 */
+					do_action( 'wpmudev_sso_set_current_user', $userid, $sso_access_data );
 
 					wp_safe_redirect( $redirect );
 					exit;
@@ -2710,7 +2787,7 @@ class WPMUDEV_Dashboard_Api {
 	/**
 	 * Clear WPMUDEV hosting static cache if possible.
 	 *
-	 * This will be a non-blocking request, so do not expect a response.
+	 * Using Internal `wpmudev_hosting_purge_static_cache` Hosting function
 	 *
 	 * @return void
 	 */
@@ -2720,31 +2797,9 @@ class WPMUDEV_Dashboard_Api {
 			return;
 		}
 
-		// Hub site ID.
-		$hub_site_id = WPMUDEV_Dashboard::$api->get_site_id();
-		// Not a Hub site.
-		if ( empty( $hub_site_id ) ) {
-			return;
+		if ( function_exists( 'wpmudev_hosting_purge_static_cache' ) ) {
+			wpmudev_hosting_purge_static_cache();
 		}
-
-		// set api base.
-		$api_base = $this->server_root . $this->rest_api_hub;
-
-		// No blocking.
-		$options = array(
-			'timeout'  => 0.01,
-			'blocking' => false,
-		);
-		// Sets up special auth header.
-		$options['headers']                  = array();
-		$options['headers']['Authorization'] = $this->get_key();
-
-		WPMUDEV_Dashboard::$api->call(
-			$api_base . 'sites/' . $hub_site_id . '/modules/hosting/static-cache',
-			false,
-			'DELETE',
-			$options
-		);
 	}
 
 	/**
@@ -2763,7 +2818,10 @@ class WPMUDEV_Dashboard_Api {
 
 		$response = WPMUDEV_Dashboard::$api->call(
 			$api_base . 'enable',
-			array( 'domain' => $this->network_site_url() ),
+			array(
+				'domain'       => $this->network_site_url(),
+				'sync_version' => WPMUDEV_Dashboard::$version,
+			),
 			'POST',
 			$options
 		);
@@ -2773,6 +2831,9 @@ class WPMUDEV_Dashboard_Api {
 			if ( isset( $data['site_id'], $data['tracker'] ) ) {
 				WPMUDEV_Dashboard::$settings->set( 'site_id', $data['site_id'], 'analytics' );
 				WPMUDEV_Dashboard::$settings->set( 'tracker', $data['tracker'], 'analytics' );
+				if ( isset( $data['script_url'] ) ) {
+					WPMUDEV_Dashboard::$settings->set( 'script_url', $data['script_url'], 'analytics' );
+				}
 
 				// Clear WPMUDEV static cache.
 				$this->maybe_clear_hosting_static_cache();
@@ -2832,6 +2893,7 @@ class WPMUDEV_Dashboard_Api {
 	 */
 	public function analytics_stats_overall( $days_ago = 7, $subsite = 0 ) {
 		$site_id = WPMUDEV_Dashboard::$settings->get( 'site_id', 'analytics' );
+		$tracker = WPMUDEV_Dashboard::$settings->get( 'tracker', 'analytics' );
 
 		// Analytics site id is needed.
 		if ( empty( $site_id ) ) {
@@ -2858,12 +2920,13 @@ class WPMUDEV_Dashboard_Api {
 		// Add hub site ID.
 		$remote_path = add_query_arg( 'domain', $this->network_site_url(), $remote_path );
 
-		// Using version name in key to force clear cache on update.
-		$transient_key = 'wdp_analytics_v4117_' . md5( $remote_path );
+		// version to update the logic completely ( typically on plugin update )
+		// include tracker url in cache key, as id can be collided between tracker
+		$transient_key = 'analytics_data_v1_' . md5( $remote_path . $tracker );
 		// Get from transient.
-		$cached = WPMUDEV_Dashboard::$settings->get_transient( $transient_key, false );
+		$cached = WPMUDEV_Dashboard::$settings->get_transient( $transient_key );
 
-		// return from cache if possible. We don't use *_site_transient() to avoid unnecessary autoloading.
+		// return from cache if possible. We don't use *_site_transient() to avoid unnecessary autoloading. ( we use it behind the scene though ?)
 		if ( false !== $cached ) {
 			$cached = $this->_analytics_overall_filter_metrics( $cached );
 
@@ -3000,6 +3063,25 @@ class WPMUDEV_Dashboard_Api {
 				}
 			}
 
+			// for totals, we only wants if any of the days ( keys ) has page views
+			// note: 1 visits can have multiple page views
+			$data_count_with_page_views = 0;
+			if ( isset( $final_data['overall']['chart']['pageviews']['data'] ) ) {
+				foreach ( $final_data['overall']['chart']['pageviews']['data'] as $key => $value ) {
+					if ( isset( $value['y'] ) && $value['y'] > 0 ) {
+						++$data_count_with_page_views;
+					}
+				}
+			}
+			$data_compare_count_with_page_views = 0;
+			if ( isset( $comparing_data['pageviews']['data'] ) ) {
+				foreach ( $comparing_data['pageviews']['data'] as $key => $value ) {
+					if ( isset( $value['y'] ) && $value['y'] > 0 ) {
+						++$data_compare_count_with_page_views;
+					}
+				}
+			}
+
 			foreach ( $to_process as $key => $process ) {
 				if ( isset( $final_data['overall']['chart'][ $key ] ) ) {
 					$totals        = 0;
@@ -3017,14 +3099,13 @@ class WPMUDEV_Dashboard_Api {
 						$totals        = array_sum( $list );
 						$compare_total = array_sum( $compare_data );
 					} else {
-						if ( count( $list ) ) {
-							$avg = array_sum( $list ) / count( $list );
-							if ( ! empty( $compare_data ) && count( $compare_data ) ) {
-								$compare_avg = array_sum( $compare_data ) / count( $compare_data );
-							}
-						} else {
-							$avg         = false;
-							$compare_avg = false;
+						$avg         = 0;
+						$compare_avg = 0;
+						if ( $data_count_with_page_views > 0 ) {
+							$avg = array_sum( $list ) / $data_count_with_page_views;
+						}
+						if ( $data_compare_count_with_page_views > 0 ) {
+							$compare_avg = array_sum( $compare_data ) / $data_compare_count_with_page_views;
 						}
 						$totals        = $avg;
 						$compare_total = $compare_avg;
@@ -3085,7 +3166,7 @@ class WPMUDEV_Dashboard_Api {
 				'callback' => '_analytics_format_pcnt',
 			),
 			'gen_time'         => array(
-				'orig_key' => 'avg_time_generation',
+				'orig_key' => 'avg_page_load_time',
 				'callback' => '_analytics_format_time',
 			),
 			'page_time'        => array(

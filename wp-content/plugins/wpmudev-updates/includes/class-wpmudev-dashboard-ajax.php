@@ -939,12 +939,16 @@ class WPMUDEV_Dashboard_Ajax {
 	 * @return void
 	 */
 	public function wdpsso_step2() {
-		$incoming_hmac = isset( $_REQUEST['outgoing_hmac'] ) ? $_REQUEST['outgoing_hmac'] : ''; // phpcs:ignore
-		$token         = isset( $_REQUEST['token'] ) ? $_REQUEST['token'] : ''; // phpcs:ignore
-		$pre_sso_state = isset( $_REQUEST['pre_sso_state'] ) ? $_REQUEST['pre_sso_state'] : ''; // phpcs:ignore
-		$redirect      = isset( $_REQUEST['redirect'] ) ? $_REQUEST['redirect'] : ''; // phpcs:ignore
+		$data = array(
+			'incoming_hmac'  => $_REQUEST['outgoing_hmac'] ?? '',
+			'token'          => $_REQUEST['token'] ?? '',
+			'pre_sso_state'  => $_REQUEST['pre_sso_state'] ?? '',
+			'redirect'       => $_REQUEST['redirect'] ?? '',
+			'dev_user_id'    => (int) ( $_REQUEST['dev_user_id'] ?? '' ),
+			'dev_user_email' => $_REQUEST['dev_user_email'] ?? '',
+		);
 
-		WPMUDEV_Dashboard::$api->authenticate_sso_access_step2( $incoming_hmac, $token, $pre_sso_state, $redirect );
+		WPMUDEV_Dashboard::$api->authenticate_sso_access_step2( $data );
 	}
 
 	/**

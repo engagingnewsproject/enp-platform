@@ -206,8 +206,9 @@ class WPMUDEV_Dashboard_Settings {
 	public function get_transient( $name, $prefix = true ) {
 		$key = $prefix ? 'wdp_un_' . $name : $name;
 
-		// Transient name cannot be longer than 45 characters.
-		$key = substr( $key, 0, 45 );
+		// Transient name cannot be longer than 167 characters
+		// 150 is being safe
+		$key = substr( $key, 0, 150 );
 
 		return get_site_transient( $key );
 	}
@@ -230,8 +231,9 @@ class WPMUDEV_Dashboard_Settings {
 	public function set_transient( $name, $value, $expiration = 0, $prefix = true ) {
 		$key = $prefix ? 'wdp_un_' . $name : $name;
 
-		// Transient name cannot be longer than 45 characters.
-		$key = substr( $key, 0, 45 );
+		// Transient name cannot be longer than 167 characters
+		// 150 is being safe
+		$key = substr( $key, 0, 150 );
 
 		// Fix to prevent WP from hashing PHP objects.
 		delete_site_transient( $key );
@@ -363,10 +365,11 @@ class WPMUDEV_Dashboard_Settings {
 			),
 			// Analytics options.
 			'analytics'                     => array(
-				'enabled' => false,
-				'tracker' => '',
-				'site_id' => '',
-				'metrics' => array(
+				'enabled'    => false,
+				'tracker'    => '',
+				'site_id'    => '',
+				'script_url' => '',
+				'metrics'    => array(
 					'pageviews',
 					'unique_pageviews',
 					'page_time',
@@ -374,7 +377,7 @@ class WPMUDEV_Dashboard_Settings {
 					'bounce_rate',
 					'exit_rate',
 				),
-				'role'    => 'administrator',
+				'role'       => 'administrator',
 			),
 			// SSO.
 			'sso'                           => array(
@@ -410,7 +413,6 @@ class WPMUDEV_Dashboard_Settings {
 				'version'              => WPMUDEV_Dashboard::$version,
 				'limit_to_user'        => '',
 				'auth_user'            => null,
-				'hub_nonce'            => '',
 				'connected_admin'      => 0,
 			),
 		);
@@ -583,9 +585,6 @@ class WPMUDEV_Dashboard_Settings {
 				'group' => 'general',
 			),
 			'version'                             => array(
-				'group' => 'general',
-			),
-			'hub_nonce'                           => array(
 				'group' => 'general',
 			),
 			'redirected_v4'                       => array(

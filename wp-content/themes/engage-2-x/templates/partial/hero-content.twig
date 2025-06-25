@@ -1,35 +1,33 @@
-<li class="carousel-cell">
-
+<div class="carousel-cell" role="tabpanel" id="carousel-cell-{{ current_slide }}" aria-label="slide {{ current_slide }} of {{ total_slides }}">
 	<div class="hero__1 tile--research-cat--{{ tile.terms('research-categories')[0].slug  }} tile--vertical--{{ tile.terms('verticals')[0].slug }}">
-		<a href="{{ tile.link }}" class="aspect-ratio-box-inside"></a> {# Absolute positioned link over image #}
+		<a href="{{ tile.link }}" class="aspect-ratio-box-inside" aria-label="Read more about {{ tile.title }}"></a>
 		<img 
 			{% if is_first %}loading="eager"{% endif %}
 			data-flickity-lazyload="{{ post.thumbnail.src('carousel-image') }}" 
 			data-flickity-lazyload-srcset="{{ post.thumbnail.srcset }}"
 			data-flickity-lazyload-sizes="{{ post.thumbnail.img_sizes }}"
 			alt="{{ post.thumbnail.alt }}" 
-			class="carousel-cell-image" 
+			class="carousel-cell-image"
+			aria-hidden="true"
 		/>
 	</div>
 	<div class="hero__2">
-		<a href="{{ tile.link }}">
-			<div class="tile__label">
-				{{ tile.terms('verticals') | join(', ') }}
-				<div class="tile__bar"></div>
-			</div>
-			<h1>{{ tile.title|length > 100 ? tile.title|slice(0, 100) ~ "..." : tile.title}}</h1>
-		</a>
+		<div class="tile__label">
+			<span>{{ tile.terms('verticals') | join(', ') }}</span>
+			<div class="tile__bar" aria-hidden="true"></div>
+		</div>
+		<h1>{{ tile.title|length > 100 ? tile.title|slice(0, 100) ~ "..." : tile.title}}</h1>
 
 		{% if tile.post_type == 'tribe_events' %}
 			<div class="tile__date">{% include 'partial/tile-event-date.twig' %}</div>
 		{% elseif tile.date %}
-			<p class="tile__date" tabindex="0">{{ tile.date }}</p>
+			<time class="tile__date" datetime="{{ tile.date|date('Y-m-d') }}">{{ tile.date }}</time>
 		{% endif %}
 
 		<div class="tile__excerpt">{{ tile.excerpt.length(30).read_more('') }}</div>
 
 		<div class="see-all-posts text-left">
-			<a class="btn btn--ghost btn--see-all" href="{{ tile.link }}">Read More</a>
+			<a class="btn btn--ghost btn--see-all" href="{{ tile.link }}" aria-label="Read full article about {{ tile.title }}">Read More</a>
 		</div>
 	</div>
-</li>
+</div>

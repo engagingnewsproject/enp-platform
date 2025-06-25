@@ -14,11 +14,14 @@
 	</head>
 {% endblock %}
 	<body class="{{body_class}}" {% if options.appearance.background_color %}style="background-color: {{options.appearance.background_color}};"{% endif %}>
-	<!-- Google Tag Manager (noscript) -->
-	<noscript>
-		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5T4Z9KW" height="0" width="0" style="display:none;visibility:hidden"></iframe>
-	</noscript>
-	<!-- End Google Tag Manager (noscript) -->
+		<a href="#main-content" class="skip-link">Skip to main content</a>
+		<a href="#site-navigation" class="skip-link">Skip to navigation</a>
+		<a href="#site-footer" class="skip-link">Skip to footer</a>
+		<!-- Google Tag Manager (noscript) -->
+		<noscript>
+			<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5T4Z9KW" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+		</noscript>
+		<!-- End Google Tag Manager (noscript) -->
 		<div class="main-body-wrapper" {% if options.appearance.background_image %}style="background-image: url({{options.appearance.background_image.url}});"{% endif %}>
 			{% include 'partial/svg.twig' %}
 			{% if brand_bar == true %}
@@ -30,14 +33,14 @@
 				</header>
 			{% endblock %}
 
-			<main role="main" class="main wrapper{{ wrapper_padding }}">
+			<main role="main" class="main wrapper{{ wrapper_padding }}" id="main-content">
 				{% block content %}
 					Sorry, no content
 				{% endblock %}
 			</main>
 
 			{% block footer %}
-				<footer class="footer wrapper wrapper--pad">
+				<footer id="site-footer" class="footer wrapper wrapper--pad">
 					{% include 'footer.twig' %}
 				</footer>
 				{{ function('wp_footer') }}

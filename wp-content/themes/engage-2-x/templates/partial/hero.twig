@@ -1,9 +1,11 @@
-<div class="carousel carousel-main">
+<div class="carousel carousel-main" role="region" aria-label="Featured articles carousel">
 	{% for post in get_posts(post.slider_posts) %}
 		{% if post %}
 			{% include "partial/hero-content.twig" with { 
 				'tile': post,
-				'is_first': loop.first
+				'is_first': loop.first,
+				'total_slides': post.slider_posts|length,
+				'current_slide': loop.index
 			} %}
 		{% endif %}
 	{% endfor %}

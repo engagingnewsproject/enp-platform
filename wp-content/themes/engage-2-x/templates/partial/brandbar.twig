@@ -1,13 +1,17 @@
-{% if options.navigation_settings.brand_bar.brandbar_logo_ut.url %}
+{% if options.navigation_settings.brand_bar.brandbar_logo_ut %}
 	{% set brandbar_logo_ut = options.navigation_settings.brand_bar.brandbar_logo_ut.url %}
+	{% set brandbar_logo_ut_alt = options.navigation_settings.brand_bar.brandbar_logo_ut.alt %}
 {% else %}
 	{% set brandbar_logo_ut = theme.link ~ '/assets/img/brandbar/brandbar-logo-ut.webp' %}
+	{% set brandbar_logo_ut_alt = 'University of Texas at Austin' %}
 {% endif %}
 
 {% if options.navigation_settings.brand_bar.brandbar_logo_moody.url %}
 	{% set brandbar_logo_moody = options.navigation_settings.brand_bar.brandbar_logo_moody.url %}
+	{% set brandbar_logo_moody_alt = options.navigation_settings.brand_bar.brandbar_logo_moody.alt %}
 {% else %}
 	{% set brandbar_logo_moody = theme.link ~ '/assets/img/brandbar/brandbar-logo-moody.webp' %}
+	{% set brandbar_logo_moody_alt = 'Moody College of Communication' %}
 {% endif %}
 
 {% set defaultimg2 = theme.link ~ '/assets/img/brandbar/brandbar-logo.webp' %}
@@ -19,7 +23,7 @@
 					<picture>
 						<source srcset="{{ brandbar_logo_ut }}" type="image/webp">
 						<img src="{{ brandbar_logo_ut }}" 
-							alt="University of Texas at Austin" 
+							alt="{{ brandbar_logo_ut_alt }}" 
 							width="112" 
 							height="27" 
 							decoding="async"
@@ -30,7 +34,7 @@
 					<picture>
 						<source srcset="{{ brandbar_logo_moody }}" type="image/webp">
 						<img src="{{ brandbar_logo_moody }}"
-							alt="Moody College of Communication" 
+							alt="{{ brandbar_logo_moody_alt }}" 
 							width="85" 
 							height="27" 
 							decoding="async"

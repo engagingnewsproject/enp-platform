@@ -1,7 +1,7 @@
 <form {{ id ? "id='#{id}'" }} role="search" method="get" class="searchform menu__{{ menu.slug }}" action="{{site.link}}">
-	<label class="screen-reader-text" for="s">Search for:</label>
-	<input class="searchform__input" type="search" placeholder="Search" value="{{ function('get_search_query') }}" aria-label="Search" name="s" id="s"/>
-	<button class="btn--ghost btn--sm" type="submit" id="searchsubmit">Search</button>
+	<label class="screen-reader-text" id="search-label" for="search-input">Search for:</label>
+	<input class="searchform__input" type="search" placeholder="Search" value="{{ function('get_search_query') }}" aria-labelledby="search-label" name="s" id="search-input"/>
+	<button class="btn--ghost btn--sm" type="submit" id="searchsubmit" aria-label="Submit search">Search</button>
 </form>
 {% if options.navigation_settings.button_color %}
     <style>

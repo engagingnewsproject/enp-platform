@@ -13,11 +13,11 @@
 								{% for name, link in post.getMenuLinks|slice(0, post.getTitleSublinkNum) %}
 									<li class="filter__item">
 										<a class="filter__link sidebar-menu__link" href="{{link}}">{{name}}</a>
-										{% if options.filter_settings %}
+										{% if options.sidebar_settings %}
 												<style>
 													.filter__link:hover {
-														border-color: {{ options.filter_settings.filter_item_color }};
-														color: {{ options.filter_settings.filter_item_color }};
+														border-color: {{ options.sidebar_settings.filter_item_color }};
+														color: {{ options.sidebar_settings.filter_item_color }};
 													}
 												</style>
 										{% endif %}
