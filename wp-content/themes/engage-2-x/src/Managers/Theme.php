@@ -31,6 +31,7 @@ class Theme
 		add_theme_support('title-tag');
 		add_filter('timber/context', [$this, 'addToContext']);
 		add_filter('body_class', [$this, 'bodyClass']);
+		add_filter('wp_nav_menu_args', [$this, 'modifyNavMenuArgs']);
 
 		// images
 		add_image_size('featured-image', 600, 0, false); // Featured image
@@ -173,10 +174,11 @@ class Theme
 		register_sidebar([
 			'name'          => __('Right Footer', 'sage'),
 			'id'            => 'right-footer',
-			'before_widget' => '<section class="widget %1$s %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h3 class="widget__title">',
-			'after_title'   => '</h3>'
+			'before_widget' => '<nav class="widget %1$s %2$s" role="navigation" aria-label="Footer Navigation"><div class="menu-container" role="presentation">',
+			'after_widget'  => '</div></nav>',
+			'before_title'  => '<h3 class="widget__title" id="footer-nav-title">',
+			'after_title'   => '</h3>',
+			'show_in_rest' => true,
 		]);
 
 		register_sidebar([
@@ -398,5 +400,43 @@ class Theme
 			}
 		}
 		return $sources;
+	}
+
+	/**
+	 * Modify navigation menu arguments for better accessibility
+	 *
+	 * @param array $args The menu arguments
+	 * @return array Modified menu arguments
+	 */
+	public function modifyNavMenuArgs($args) {
+		// Only modify footer menu
+		if (strpos($args['menu_class'], 'menu-footer-menu') !== false) {
+			// Add ARIA attributes to the menu ul element
+			$args['container'] = 'div';
+			$args['container_class'] = 'menu-container';
+			$args['items_wrap'] = '<ul id="%1$s" class="%2$s" role="menu">%3$s</ul>';
+			
+			// Clean up menu item classes and add proper ARIA roles
+			add_filter('nav_menu_css_class', function($classes, $item, $args, $depth) {
+				// Keep only essential classes
+				$essential_classes = array_filter($classes, function($class) {
+					return strpos($class, 'menu-item') === 0;
+				});
+				return array_merge(['menu-item'], $essential_classes);
+			}, 10, 4);
+
+			// Add role="menuitem" to li elements
+			add_filter('nav_menu_item_attributes', function($atts, $item, $args, $depth) {
+				$atts['role'] = 'menuitem';
+				return $atts;
+			}, 10, 4);
+
+			// Clean up text nodes
+			add_filter('nav_menu_item_title', function($title, $item, $args, $depth) {
+				return trim($title);
+			}, 10, 4);
+		}
+		
+		return $args;
 	}
 }
