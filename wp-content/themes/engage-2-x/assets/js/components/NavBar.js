@@ -21,7 +21,7 @@ navbarToggler.addEventListener("click", function () {
     navbarDropdownExpanded = "true";
   }
 
-  navbarDropdown.setAttribute("aria-expanded", navbarDropdownExpanded);
+  navbarToggler.setAttribute("aria-expanded", navbarDropdownExpanded);
 });
 
 /**
@@ -104,5 +104,4 @@ document.addEventListener("click", function(event) {
 function closeMobileMenu() {
   navbarDropdown.classList.remove("show");
   navbarToggler.classList.remove("is-open");
-  navbarDropdown.setAttribute("aria-expanded", "false");
 }
