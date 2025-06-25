@@ -80,7 +80,7 @@ Other tiles have a link to the post URL
 
 	{# Tile image #}
 	{% if tile_image %}
-		<div class="tile__img-wrap" role="button" aria-label="Read more about {{ tile.title }}" tabindex="0">
+		<div class="tile__img-wrap">
 			{% if tile.thumbnail %}
 				<img src="{{ tile.thumbnail.src('grid-large') }}" srcset="{{ tile.thumbnail.srcset }}" sizes="{{ tile.thumbnail.img_sizes }}" alt="{{ tile.thumbnail.alt }}" class="tile__img" loading="{{ loading }}"/>
 			{% else %}
@@ -158,14 +158,27 @@ Other tiles have a link to the post URL
 					<p class="tile__terms">{{ terms|join(', ') }}</p>
 			{% endif %}
 			{# Edit link #}
-				<a href="{{ tile.edit_link }}" class="tile__edit-link" target="_blank">Edit</a>
+				<a href="{{ tile.edit_link }}" 
+					class="tile__edit-link" 
+					target="_blank" 
+					rel="noopener" 
+					aria-label="Edit {{ tile.title }} (opens in new tab)"
+				>Edit</a>
 			</div>
 		{% endif %}
 	</div>
 
-	{# Tile link #}
-	{# if tile_link includes our base URL, don't open in new tab #}
-	<a class="tile__link" href="{{ tile_link }}" {% if tile_target_external %} target="_blank" {% endif %}>
+	{# Tile link - now the only interactive element #}
+	<a class="tile__link" 
+		href="{{ tile_link }}" 
+		{% if tile_target_external %}
+			target="_blank"
+			rel="noopener"
+			aria-label="{{ tile.title }} (opens in new tab)"
+		{% else %}
+			aria-label="{{ tile.title }}"
+		{% endif %}
+	>
 		<span class="sr-text">{{ tile.title }}</span>
 	</a>
 </div>
