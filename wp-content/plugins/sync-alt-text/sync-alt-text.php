@@ -3,7 +3,14 @@
  * Plugin Name: Sync Image Alt Text with Media Library
  * Description: Syncs the alt text of images in post content with the current value in the Media Library.
  * Version: 1.0
- * Author: Your Name
+ * Author: Center for Media Engagement
+ * Version:           1.0
+ * Requires at least: 6.5
+ * Requires PHP:      7.4
+ * Author URI:        https://mediaengagement.org
+ * License:           GPL-2.0-or-later
+ * License URI:       https://spdx.org/licenses/GPL-2.0-or-later.html
+ * Text Domain:       sync-alt-text
  */
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
