@@ -83,7 +83,9 @@ class AltTextGenerator {
                 <?php if (!empty($this->api_key)): ?>
                     <div class="alt-text-controls">
                         <button id="generate-all-alt-text" class="button button-primary">Generate Alt Text for All Images</button>
-                        <button id="generate-sample-alt-text" class="button button-secondary">Generate Sample (5 images)</button>
+                        <button id="generate-sample-alt-text" class="button button-secondary">Generate Sample (35 images)</button>
+                        <button id="start-auto-batch" class="button button-primary">Start Auto-Batch (20 every 5 min)</button>
+                        <button id="stop-auto-batch" class="button button-secondary">Stop Auto-Batch</button>
                         <div id="progress-container" style="display: none;">
                             <div class="progress-bar">
                                 <div id="progress-bar-fill" style="width: 0%; height: 20px; background: #0073aa;"></div>
@@ -184,6 +186,50 @@ class AltTextGenerator {
                     }
                 });
             }
+			let autoBatchInterval = null;
+            let isAutoBatching = false;
+
+            function startAutoBatching() {
+                if (isAutoBatching) return;
+                isAutoBatching = true;
+                $('#progress-text').text('Auto-batching started...');
+                processBatch();
+                autoBatchInterval = setInterval(processBatch, 5 * 60 * 1000); // 5 minutes
+            }
+
+            function stopAutoBatching() {
+                isAutoBatching = false;
+                clearInterval(autoBatchInterval);
+                $('#progress-text').text('Auto-batching stopped.');
+            }
+
+            function processBatch() {
+                $('#progress-container').show();
+                $('#progress-bar-fill').css('width', '0%');
+                $('#progress-text').text('Processing batch...');
+                var data = {
+                    action: 'generate_alt_text',
+                    type: 'sample',
+                    image_id: null,
+                    nonce: '<?php echo wp_create_nonce('generate_alt_text_nonce'); ?>'
+                };
+                $.post(ajaxurl, data, function(response) {
+                    if (response.success) {
+                        $('#progress-text').text('Batch completed! ' + response.data.processed + ' images processed.');
+                        $('#progress-bar-fill').css('width', '100%');
+                        if (response.data.processed < 20) {
+                            stopAutoBatching();
+                            $('#progress-text').text('All images processed!');
+                        }
+                    } else {
+                        $('#progress-text').text('Error: ' + response.data);
+                        stopAutoBatching();
+                    }
+                });
+            }
+
+            $('#start-auto-batch').click(startAutoBatching);
+            $('#stop-auto-batch').click(stopAutoBatching);
         });
         </script>
         <?php
@@ -227,7 +273,7 @@ class AltTextGenerator {
                     $processed = $this->process_all_images();
                     break;
                 case 'sample':
-                    $processed = $this->process_sample_images(5);
+                    $processed = $this->process_sample_images(20);
                     break;
                 case 'single':
                     $processed = $this->process_single_image($image_id);
@@ -340,14 +386,14 @@ class AltTextGenerator {
         );
         
         $data = array(
-            'model' => 'gpt-4-vision-preview',
+            'model' => 'gpt-4o',
             'messages' => array(
                 array(
                     'role' => 'user',
                     'content' => array(
                         array(
                             'type' => 'text',
-                            'text' => 'Generate a concise, descriptive alt text for this image. Focus on what is visually important and meaningful. Keep it under 125 characters. Do not include phrases like "image of" or "photo of" - just describe what you see.'
+                            'text' => 'Generate a concise, descriptive alt text for this image. Focus on what is visually important and meaningful. Keep it under 100 characters. Do not include phrases like "image of" or "photo of" - just describe what you see.'
                         ),
                         array(
                             'type' => 'image_url',
