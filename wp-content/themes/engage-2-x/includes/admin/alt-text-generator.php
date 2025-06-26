@@ -83,14 +83,17 @@ class AltTextGenerator {
                 <?php if (!empty($this->api_key)): ?>
                     <div class="alt-text-controls">
                         <button id="generate-all-alt-text" class="button button-primary">Generate Alt Text for All Images</button>
-                        <button id="generate-sample-alt-text" class="button button-secondary">Generate Sample (35 images)</button>
-                        <button id="start-auto-batch" class="button button-primary">Start Auto-Batch (20 every 5 min)</button>
+                        <button id="generate-sample-alt-text" class="button button-secondary">Generate Sample (20 images)</button>
+                        <button id="start-auto-batch" class="button button-primary">Start Auto-Batch (20 every 1 min)</button>
                         <button id="stop-auto-batch" class="button button-secondary">Stop Auto-Batch</button>
                         <div id="progress-container" style="display: none;">
                             <div class="progress-bar">
                                 <div id="progress-bar-fill" style="width: 0%; height: 20px; background: #0073aa;"></div>
                             </div>
                             <p id="progress-text">Processing...</p>
+                            <p id="countdown-timer" style="font-weight: bold; color: #0073aa; margin-top: 10px; display: none;">
+                                Next batch in <span id="countdown-value">5:00</span>
+                            </p>
                         </div>
                     </div>
                 <?php else: ?>
@@ -194,12 +197,13 @@ class AltTextGenerator {
                 isAutoBatching = true;
                 $('#progress-text').text('Auto-batching started...');
                 processBatch();
-                autoBatchInterval = setInterval(processBatch, 5 * 60 * 1000); // 5 minutes
+                autoBatchInterval = setInterval(processBatch, 60 * 1000); // 1 minute
             }
 
             function stopAutoBatching() {
                 isAutoBatching = false;
                 clearInterval(autoBatchInterval);
+                stopCountdown();
                 $('#progress-text').text('Auto-batching stopped.');
             }
 
@@ -207,6 +211,7 @@ class AltTextGenerator {
                 $('#progress-container').show();
                 $('#progress-bar-fill').css('width', '0%');
                 $('#progress-text').text('Processing batch...');
+                stopCountdown(); // Stop any previous countdown
                 var data = {
                     action: 'generate_alt_text',
                     type: 'sample',
@@ -217,15 +222,46 @@ class AltTextGenerator {
                     if (response.success) {
                         $('#progress-text').text('Batch completed! ' + response.data.processed + ' images processed.');
                         $('#progress-bar-fill').css('width', '100%');
-                        if (response.data.processed < 20) {
+                        if (response.data.remaining === 0) {
                             stopAutoBatching();
                             $('#progress-text').text('All images processed!');
+                        } else if (isAutoBatching) {
+                            startCountdown(60); // 1 minute
                         }
                     } else {
                         $('#progress-text').text('Error: ' + response.data);
                         stopAutoBatching();
                     }
                 });
+            }
+
+            let countdownInterval = null;
+            let countdownSeconds = 0;
+
+            function startCountdown(seconds) {
+                countdownSeconds = seconds;
+                $('#countdown-timer').show();
+                updateCountdownDisplay();
+                console.log('Countdown started: ' + seconds + ' seconds until next batch.');
+                countdownInterval = setInterval(function() {
+                    countdownSeconds--;
+                    updateCountdownDisplay();
+                    if (countdownSeconds <= 0) {
+                        clearInterval(countdownInterval);
+                        $('#countdown-timer').hide();
+                    }
+                }, 1000);
+            }
+
+            function stopCountdown() {
+                clearInterval(countdownInterval);
+                $('#countdown-timer').hide();
+            }
+
+            function updateCountdownDisplay() {
+                let min = Math.floor(countdownSeconds / 60);
+                let sec = countdownSeconds % 60;
+                $('#countdown-value').text(min + ':' + (sec < 10 ? '0' : '') + sec);
             }
 
             $('#start-auto-batch').click(startAutoBatching);
@@ -236,17 +272,17 @@ class AltTextGenerator {
     }
     
     /**
-     * Get images without alt text
+     * Get images without alt text, filtering for supported formats
      */
     public function get_images_without_alt_text() {
         global $wpdb;
         
         $query = "
-            SELECT p.ID, p.post_title, p.post_name
+            SELECT p.ID, p.post_title, p.post_name, p.post_mime_type
             FROM {$wpdb->posts} p
             LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id AND pm.meta_key = '_wp_attachment_image_alt'
             WHERE p.post_type = 'attachment' 
-            AND p.post_mime_type LIKE 'image/%'
+            AND p.post_mime_type IN ('image/jpeg', 'image/png', 'image/gif', 'image/webp')
             AND (pm.meta_value IS NULL OR pm.meta_value = '')
             ORDER BY p.post_date DESC
         ";
@@ -284,6 +320,7 @@ class AltTextGenerator {
             
             wp_send_json_success(array(
                 'processed' => $processed,
+                'remaining' => count($this->get_images_without_alt_text()),
                 'message' => "Successfully processed $processed images"
             ));
             
@@ -320,6 +357,7 @@ class AltTextGenerator {
      * Process a sample of images
      */
     public function process_sample_images($count = 5) {
+        error_log("Processing a batch of $count images");
         $images = $this->get_images_without_alt_text();
         $sample = array_slice($images, 0, $count);
         $processed = 0;
