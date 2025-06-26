@@ -6,7 +6,7 @@
 # Configuration
 PLUGIN_REPO="git@github.com:engagingnewsproject/cme-alt-text-generator.git"
 PLUGIN_BRANCH="main"
-PLUGIN_PATH="public/wp-content/plugins/cme-alt-text-generator"
+PLUGIN_PATH="wp-content/plugins/cme-alt-text-generator"
 
 # Colors for output
 RED='\033[0;31m'
