@@ -27,6 +27,8 @@ add_action('admin_menu', function() {
             }
 
             if (isset($_POST['sync_alt_text']) && check_admin_referer('sync_alt_text_action', 'sync_alt_text_nonce')) {
+                // Clear previous log
+                delete_option('cme_sync_alt_text_log');
                 // Output a JS redirect instead of wp_redirect
                 echo "<script>window.location.href='" . add_query_arg([
                     'page' => 'sync-alt-text',
@@ -64,6 +66,8 @@ add_action('admin_menu', function() {
                 $query = new WP_Query($args);
                 $total = $query->found_posts;
                 echo "<div class='notice notice-info'><p>Found {$total} posts to process.</p></div>";
+                
+                $updated_posts = [];
                 foreach ($query->posts as $post) {
                     $content = $post->post_content;
                     $new_content = preg_replace_callback(
@@ -90,8 +94,22 @@ add_action('admin_menu', function() {
                             'post_content' => $new_content,
                         ]);
                         $updated++;
+                        $updated_posts[] = [
+                            'id' => $post->ID,
+                            'title' => $post->post_title,
+                            'type' => $post->post_type,
+                            'url' => get_edit_post_link($post->ID)
+                        ];
                     }
                 }
+                
+                // Store updated posts in log
+                if (!empty($updated_posts)) {
+                    $existing_log = get_option('cme_sync_alt_text_log', []);
+                    $existing_log = array_merge($existing_log, $updated_posts);
+                    update_option('cme_sync_alt_text_log', $existing_log);
+                }
+                
                 $total_updated = get_option('cme_sync_alt_text_updated', 0) + $updated;
                 update_option('cme_sync_alt_text_updated', $total_updated);
 
@@ -108,8 +126,30 @@ add_action('admin_menu', function() {
                     $show_form = false;
                 } else {
                     // Done
+                    $updated_log = get_option('cme_sync_alt_text_log', []);
                     echo "<div class='notice notice-success'><p>Alt text sync complete! Processed {$processed} posts. Updated alt text in {$total_updated} posts total.</p></div>";
-                    // Optionally, delete the option after displaying
+                    
+                    if (!empty($updated_log)) {
+                        echo "<div class='notice notice-info'>";
+                        echo "<h3>Posts Updated ({$total_updated}):</h3>";
+                        echo "<div style='max-height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background: #f9f9f9;'>";
+                        echo "<table class='wp-list-table widefat fixed striped'>";
+                        echo "<thead><tr><th>ID</th><th>Title</th><th>Type</th><th>Action</th></tr></thead>";
+                        echo "<tbody>";
+                        foreach ($updated_log as $post) {
+                            echo "<tr>";
+                            echo "<td>{$post['id']}</td>";
+                            echo "<td>" . esc_html($post['title']) . "</td>";
+                            echo "<td>{$post['type']}</td>";
+                            echo "<td><a href='" . esc_url($post['url']) . "' class='button button-small'>Edit</a></td>";
+                            echo "</tr>";
+                        }
+                        echo "</tbody></table>";
+                        echo "</div>";
+                        echo "</div>";
+                    }
+                    
+                    // Optionally, delete the options after displaying
                     delete_option('cme_sync_alt_text_updated');
                     $done = true;
                 }
