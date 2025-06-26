@@ -305,9 +305,9 @@ class Theme
 			wp_enqueue_script('homepage/js', mix('js/homepage.js'), ['jquery'], null, false);
 		}
 
-		if (is_singular('research')) {
-			wp_enqueue_script('Chart/js', get_stylesheet_directory_uri() . '/dist/js/Chart.bundle.min.js', ['jquery'], false, false);
-		}
+		// if (is_singular('research')) {
+		// 	wp_enqueue_script('Chart/js', get_stylesheet_directory_uri() . '/dist/js/Chart.bundle.min.js', ['jquery'], false, false);
+		// }
 
 		wp_enqueue_script('engage/js', mix('js/app.js'), [], null, $footer_defer);
 

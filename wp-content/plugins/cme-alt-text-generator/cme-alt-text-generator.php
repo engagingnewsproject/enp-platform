@@ -1,16 +1,25 @@
 <?php
 /**
- * Alt Text Generator for WordPress Images
- * 
- * Provides both CLI and admin interface for automatically generating
- * alt text for images using AI services.
- * 
- * @package Engage
+ * Plugin Name: CME Alt Text Generator for WordPress Images
+ * Description: Provides admin interface for automatically generating alt text for images using AI services.
+ * Version: 1.0.0
+ * Author: Center for Media Engagement
+ * Requires at least: 6.5
+ * Requires PHP: 7.4
+ * Author URI: https://mediaengagement.org
+ * License: GPL-2.0-or-later
+ * License URI: https://spdx.org/licenses/GPL-2.0-or-later.html
+ * Text Domain: cme-alt-text-generator
  */
 
-namespace Engage\Admin;
+namespace CME\AltTextGenerator;
+
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 use Exception;
+
+// Load the results file
+require_once __DIR__ . '/cme-alt-text-results.php';
 
 class AltTextGenerator {
     
@@ -23,7 +32,7 @@ class AltTextGenerator {
      * Constructor
      */
     public function __construct() {
-        $this->api_key = get_option('engage_alt_text_openai_key', '');
+        $this->api_key = get_option('cme_alt_text_openai_key', '');
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('wp_ajax_generate_alt_text', array($this, 'ajax_generate_alt_text'));
         add_action('wp_ajax_get_images_without_alt', array($this, 'ajax_get_images_without_alt'));
@@ -35,8 +44,8 @@ class AltTextGenerator {
     public function add_admin_menu() {
         add_submenu_page(
             'tools.php',
-            'Alt Text Generator',
-            'Alt Text Generator',
+            'CME Alt Text Generator',
+            'CME Alt Text Generator',
             'manage_options',
             'alt-text-generator',
             array($this, 'admin_page')
@@ -48,15 +57,15 @@ class AltTextGenerator {
      */
     public function admin_page() {
         if (isset($_POST['save_api_key'])) {
-            update_option('engage_alt_text_openai_key', sanitize_text_field($_POST['openai_api_key']));
-            $this->api_key = get_option('engage_alt_text_openai_key', '');
+            update_option('cme_alt_text_openai_key', sanitize_text_field($_POST['openai_api_key']));
+            $this->api_key = get_option('cme_alt_text_openai_key', '');
             echo '<div class="notice notice-success"><p>API key saved successfully!</p></div>';
         }
         
         $images_without_alt = $this->get_images_without_alt_text();
         ?>
         <div class="wrap">
-            <h1>Alt Text Generator</h1>
+            <h1>CME Alt Text Generator</h1>
             
             <div class="card">
                 <h2>OpenAI API Configuration</h2>
@@ -83,12 +92,17 @@ class AltTextGenerator {
                 <?php if (!empty($this->api_key)): ?>
                     <div class="alt-text-controls">
                         <button id="generate-all-alt-text" class="button button-primary">Generate Alt Text for All Images</button>
-                        <button id="generate-sample-alt-text" class="button button-secondary">Generate Sample (5 images)</button>
+                        <button id="generate-sample-alt-text" class="button button-secondary">Generate Sample (20 images)</button>
+                        <button id="start-auto-batch" class="button button-primary">Start Auto-Batch (20 every 1 min)</button>
+                        <button id="stop-auto-batch" class="button button-secondary">Stop Auto-Batch</button>
                         <div id="progress-container" style="display: none;">
                             <div class="progress-bar">
                                 <div id="progress-bar-fill" style="width: 0%; height: 20px; background: #0073aa;"></div>
                             </div>
                             <p id="progress-text">Processing...</p>
+                            <p id="countdown-timer" style="font-weight: bold; color: #0073aa; margin-top: 10px; display: none;">
+                                Next batch in <span id="countdown-value">5:00</span>
+                            </p>
                         </div>
                     </div>
                 <?php else: ?>
@@ -184,23 +198,100 @@ class AltTextGenerator {
                     }
                 });
             }
+			let autoBatchInterval = null;
+            let isAutoBatching = false;
+
+            function startAutoBatching() {
+                if (isAutoBatching) return;
+                isAutoBatching = true;
+                $('#progress-text').text('Auto-batching started...');
+                processBatch();
+                autoBatchInterval = setInterval(processBatch, 60 * 1000); // 1 minute
+            }
+
+            function stopAutoBatching() {
+                isAutoBatching = false;
+                clearInterval(autoBatchInterval);
+                stopCountdown();
+                $('#progress-text').text('Auto-batching stopped.');
+            }
+
+            function processBatch() {
+                $('#progress-container').show();
+                $('#progress-bar-fill').css('width', '0%');
+                $('#progress-text').text('Processing batch...');
+                stopCountdown(); // Stop any previous countdown
+                var data = {
+                    action: 'generate_alt_text',
+                    type: 'sample',
+                    image_id: null,
+                    nonce: '<?php echo wp_create_nonce('generate_alt_text_nonce'); ?>'
+                };
+                $.post(ajaxurl, data, function(response) {
+                    if (response.success) {
+                        $('#progress-text').text('Batch completed! ' + response.data.processed + ' images processed.');
+                        $('#progress-bar-fill').css('width', '100%');
+                        if (response.data.remaining === 0) {
+                            stopAutoBatching();
+                            $('#progress-text').text('All images processed!');
+                        } else if (isAutoBatching) {
+                            startCountdown(60); // 1 minute
+                        }
+                    } else {
+                        $('#progress-text').text('Error: ' + response.data);
+                        stopAutoBatching();
+                    }
+                });
+            }
+
+            let countdownInterval = null;
+            let countdownSeconds = 0;
+
+            function startCountdown(seconds) {
+                countdownSeconds = seconds;
+                $('#countdown-timer').show();
+                updateCountdownDisplay();
+                console.log('Countdown started: ' + seconds + ' seconds until next batch.');
+                countdownInterval = setInterval(function() {
+                    countdownSeconds--;
+                    updateCountdownDisplay();
+                    if (countdownSeconds <= 0) {
+                        clearInterval(countdownInterval);
+                        $('#countdown-timer').hide();
+                    }
+                }, 1000);
+            }
+
+            function stopCountdown() {
+                clearInterval(countdownInterval);
+                $('#countdown-timer').hide();
+            }
+
+            function updateCountdownDisplay() {
+                let min = Math.floor(countdownSeconds / 60);
+                let sec = countdownSeconds % 60;
+                $('#countdown-value').text(min + ':' + (sec < 10 ? '0' : '') + sec);
+            }
+
+            $('#start-auto-batch').click(startAutoBatching);
+            $('#stop-auto-batch').click(stopAutoBatching);
         });
         </script>
         <?php
     }
     
     /**
-     * Get images without alt text
+     * Get images without alt text, filtering for supported formats
      */
     public function get_images_without_alt_text() {
         global $wpdb;
         
         $query = "
-            SELECT p.ID, p.post_title, p.post_name
+            SELECT p.ID, p.post_title, p.post_name, p.post_mime_type
             FROM {$wpdb->posts} p
             LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id AND pm.meta_key = '_wp_attachment_image_alt'
             WHERE p.post_type = 'attachment' 
-            AND p.post_mime_type LIKE 'image/%'
+            AND p.post_mime_type IN ('image/jpeg', 'image/png', 'image/gif', 'image/webp')
             AND (pm.meta_value IS NULL OR pm.meta_value = '')
             ORDER BY p.post_date DESC
         ";
@@ -227,7 +318,7 @@ class AltTextGenerator {
                     $processed = $this->process_all_images();
                     break;
                 case 'sample':
-                    $processed = $this->process_sample_images(5);
+                    $processed = $this->process_sample_images(20);
                     break;
                 case 'single':
                     $processed = $this->process_single_image($image_id);
@@ -238,6 +329,7 @@ class AltTextGenerator {
             
             wp_send_json_success(array(
                 'processed' => $processed,
+                'remaining' => count($this->get_images_without_alt_text()),
                 'message' => "Successfully processed $processed images"
             ));
             
@@ -274,6 +366,7 @@ class AltTextGenerator {
      * Process a sample of images
      */
     public function process_sample_images($count = 5) {
+        error_log("Processing a batch of $count images");
         $images = $this->get_images_without_alt_text();
         $sample = array_slice($images, 0, $count);
         $processed = 0;
@@ -340,14 +433,14 @@ class AltTextGenerator {
         );
         
         $data = array(
-            'model' => 'gpt-4-vision-preview',
+            'model' => 'gpt-4o',
             'messages' => array(
                 array(
                     'role' => 'user',
                     'content' => array(
                         array(
                             'type' => 'text',
-                            'text' => 'Generate a concise, descriptive alt text for this image. Focus on what is visually important and meaningful. Keep it under 125 characters. Do not include phrases like "image of" or "photo of" - just describe what you see.'
+                            'text' => 'Generate a concise, descriptive alt text for this image. Focus on what is visually important and meaningful. Keep it under 100 characters. Do not include phrases like "image of" or "photo of" - just describe what you see.'
                         ),
                         array(
                             'type' => 'image_url',
@@ -387,5 +480,38 @@ class AltTextGenerator {
     }
 }
 
-// Initialize the class
-new AltTextGenerator(); 
+// Add settings link to plugin page
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), __NAMESPACE__ . '\\add_settings_link');
+
+function add_settings_link($links) {
+    $settings_link = '<a href="' . admin_url('tools.php?page=alt-text-generator') . '">' . __('Settings', 'cme-alt-text-generator') . '</a>';
+    array_unshift($links, $settings_link);
+    return $links;
+}
+
+// Initialize the plugin
+function init_plugin() {
+    new AltTextGenerator();
+    new \CME\AltTextGenerator\AltTextResults();
+}
+
+add_action('plugins_loaded', __NAMESPACE__ . '\\init_plugin');
+
+// Plugin activation hook
+register_activation_hook(__FILE__, __NAMESPACE__ . '\\activate_plugin');
+
+function activate_plugin() {
+    // Add any activation tasks here if needed
+    // For now, just ensure the option exists
+    if (!get_option('cme_alt_text_openai_key')) {
+        add_option('cme_alt_text_openai_key', '');
+    }
+}
+
+// Plugin deactivation hook
+register_deactivation_hook(__FILE__, __NAMESPACE__ . '\\deactivate_plugin');
+
+function deactivate_plugin() {
+    // Clean up if needed
+    // Note: We don't delete the API key option in case user reactivates
+} 

@@ -1,13 +1,13 @@
 <?php
 /**
- * Alt Text Results Viewer
+ * CME Alt Text Results Viewer
  * 
  * Admin page to view recently generated alt text
  * 
- * @package Engage
+ * @package CME\AltTextGenerator
  */
 
-namespace Engage\Admin;
+namespace CME\AltTextGenerator;
 
 class AltTextResults {
     
@@ -18,8 +18,8 @@ class AltTextResults {
     public function add_admin_menu() {
         add_submenu_page(
             'tools.php',
-            'Alt Text Results',
-            'Alt Text Results',
+            'CME Alt Text Results',
+            'CME Alt Text Results',
             'manage_options',
             'alt-text-results',
             array($this, 'admin_page')
@@ -74,7 +74,7 @@ class AltTextResults {
         
         ?>
         <div class="wrap">
-            <h1>Alt Text Generation Results</h1>
+            <h1>CME Alt Text Generation Results</h1>
             
             <div class="card">
                 <h2>Progress Summary</h2>
@@ -199,7 +199,4 @@ class AltTextResults {
         </style>
         <?php
     }
-}
-
-// Initialize the class
-new AltTextResults(); 
+} 

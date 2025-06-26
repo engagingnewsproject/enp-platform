@@ -5,11 +5,6 @@
 	position: relative;
 	background-color: #fff;
 	
-	@include media($tablet) {
-		padding-left: $spacer;
-		padding-right: $spacer;
-	}
-	
 	@include media($desktop) {
 		padding: 0;
 	}
