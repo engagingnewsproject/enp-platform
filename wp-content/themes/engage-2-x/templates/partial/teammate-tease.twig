@@ -44,14 +44,12 @@
 		{% endset %}
 
 		{# Conditional link wrapping based on the post type (e.g., research or page) #}
-		{% if post.post_type == 'research' or post.post_type == 'page' %}
-			{% if mate.getDisplayLink %}
-				<a class="mate-link" href="{{site.url}}/team/{{mate.slug}}/">
-					{{ mate_content }}
-				</a>
-			{% else %}
+		{% if mate.getDisplayLink %}
+			<a class="mate-link" href="{{site.url}}/team/{{mate.slug}}/">
 				{{ mate_content }}
-			{% endif %}
+			</a>
+		{% else %}
+			{{ mate_content }}
 		{% endif %}
 	</div>
 {% endif %}
