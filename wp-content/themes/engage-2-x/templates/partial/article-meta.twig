@@ -4,7 +4,8 @@
   team members, events, research articles, etc. 
 #}
 {% set category = post.terms('research-categories')|first %}
-<div class="article__meta article__meta-{{post.post_type}}">
+<div
+	class="article__meta article__meta-{{post.post_type}}">
 
 	{# Include general article metadata, such as the publication date and author. #}
 	{% include "partial/article-meta-data.twig" %}
@@ -42,12 +43,7 @@
 				{% endfor %}
 				{% set imagelink = link|slice(0,index)|join("")~"-150x150"~link|slice(index,link|length)|join("") %}
 			{% endif %}
-			<img class="mate__img"
-						src="{{ post.thumbnail.src('thumbnail') }}"
-						srcset="{{ post.thumbnail.srcset }}"
-						sizes="{{ post.thumbnail.img_sizes }}"
-						alt="{{ post.thumbnail.alt }}"
-						loading="eager" />
+			<img class="mate__img" src="{{ post.thumbnail.src('thumbnail') }}" srcset="{{ post.thumbnail.srcset }}" sizes="{{ post.thumbnail.img_sizes }}" alt="{{ post.thumbnail.alt }}" loading="eager"/>
 		</div>
 		<br>
 		{% include 'partial/team-link.twig' %}
@@ -56,7 +52,7 @@
 	{# Include metadata specific to research or blogs post types. #}
 	{% if post.post_type == "research" or post.post_type == "blogs" %}
 		{% include 'partial/research-meta.twig' %}
-		
+
 		{# Display the category for the research post. #}
 		{% if post.post_type != "blogs" %}
 			{# Display a link to the category associated with the research post. #}
@@ -68,24 +64,24 @@
 				</p>
 			{% endif %}
 		{% endif %}
-		
+
 		{# List of researchers #}
 		<section class="researchers-tease">
 			{% if post.meta('project_team_member')  %}
-				<h4 class="researchers-tease__title">{{ (post.post_type == "research") ? "Researchers" : "Authors" }}</h4>
+				<h2 class="researchers-tease__title">{{ (post.post_type == "research") ? "Researchers" : "Authors" }}</h2>
 				{# Display associated researchers or team members for the post. #}
-					{% for researcher in post.getResearchers %}
-						{% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
-					{% endfor %}
+				{% for researcher in post.getResearchers %}
+					{% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
+				{% endfor %}
 				{# Display additional team members if they exist. #}
 				{% for researcher in post.meta('additional_team_members') %}
 					{% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
 				{% endfor %}
 			{% endif %}
-			
+
 			{# Author for research posts #}
 			{% if post.post_type == "research" and post.getTeamAuthors %}
-				<h4 class="researchers-tease__title authors-tease__title">Authors</h4>
+				<h2 class="researchers-tease__title authors-tease__title">Authors</h2>
 				{% set team_authors = post.getTeamAuthors %}
 				{% if team_authors %}
 					{% for author in team_authors %}
