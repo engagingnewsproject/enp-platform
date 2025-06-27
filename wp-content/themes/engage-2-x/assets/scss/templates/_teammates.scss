@@ -46,12 +46,12 @@
 			text-transform: uppercase;
 		}
 		.mate__header {
-			font-size: 1.8rem;  
-    
+			font-size: 1.8rem;
+
 			@include media($phablet) {
 				font-size: 2.5rem;
 			}
-			
+
 			@include media($laptop) {
 				font-size: 3rem;
 			}
@@ -82,7 +82,6 @@
 	border-radius: $circle-radius;
 }
 
-
 .mate__name {
 	font-family: $font-family-sans-serif;
 	margin-bottom: 0;
@@ -91,35 +90,32 @@
 }
 
 .mate__orange {
-    color: $orange !important;
-    transition: color 0.2s ease;
-    
-    &:where(a):hover {
-        color: darken($orange, 10%) !important;
-    }
+	color: $orange !important;
+	transition: color 0.2s ease;
+
+	&:where(a):hover {
+		color: darken($orange, 10%) !important;
+	}
 }
 
 .mate__labels,
-.mate__phone, 
+.mate__phone,
 .mate__designation,
 .mate__email {
-	font-family: "Arial", monospace;
+	font-family: 'Arial', monospace;
 	letter-spacing: 0.5px;
 	margin-bottom: 0;
 	color: #333f48;
-
-
-	
 }
 
 .mate__linked {
-    transform: scale(1);
-    transform-origin: center;
-    transition: transform 0.3s ease-in-out;
+	transform: scale(1);
+	transform-origin: center;
+	transition: transform 0.3s ease-in-out;
 
-    &:hover {
-        transform: scale(1.07);
-    }
+	&:hover {
+		transform: scale(1.07);
+	}
 }
 
 .size {
@@ -127,16 +123,16 @@
 }
 
 .meta-size {
-	font-size:0.75rem;
+	font-size: 0.75rem;
 }
 
-
-.mate--tease {
+.mate-tease {
 	position: relative;
 	grid-column-gap: 5px;
 
 	.mate__img-wrap {
 		max-width: 50px;
+		height: auto;
 
 		@include media($mobile) {
 			grid-row: 1;
@@ -169,23 +165,34 @@
 	.mate__labels {
 		font-size: 0.6rem;
 	}
+
+	.mate__img {
+		width: 50px;
+		height: 50px;
+		object-fit: cover;
+		border-radius: 50%;
+	}
 }
 
-.mate-tease__link {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	width: 100%;
+.mate-tease.mate-tease_link {
+	display: block;
+}
+
+.mate-link {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
 	height: 100%;
+	text-decoration: none;
+	@include media($phablet) {
+		grid-template-columns: repeat(12, 1fr);
+		column-gap: 5px;
+	}
 }
 
 .cme-position {
 	color: #005f86;
 	width: max-content;
 }
-
 
 @supports not (display: grid) {
 	.mate {
@@ -198,7 +205,6 @@
 	.mate {
 		margin: 15px;
 		text-align: center;
-
 	}
 }
 
@@ -214,14 +220,13 @@
 }
 
 .icon-box {
-	float:left; 
+	float: left;
 	position: relative;
 }
 
 .mate__text {
 	padding-left: 20px;
 }
-
 
 .break-word {
 	overflow-wrap: break-word;
@@ -232,12 +237,12 @@
 }
 
 .mate__bottom-dots::after {
-    bottom: -20px;
-    color: #30383d;
-    content: "........................";
-    font-weight: 400;
-    left: 50%;
-    letter-spacing: 3px;
-    position: absolute;
-    transform: translateX(-50%);
+	bottom: -20px;
+	color: #30383d;
+	content: '........................';
+	font-weight: 400;
+	left: 50%;
+	letter-spacing: 3px;
+	position: absolute;
+	transform: translateX(-50%);
 }
