@@ -7,11 +7,11 @@
 
 {# Hide title / ACF / Page settings #}
 {% if post.meta('show_header') == false %}
-	{% set show_header = ' sr-text' %} 
+	{% set show_header = ' sr-text' %}
 {% endif %}
 
 {% block content %}
-	<article class="article container container--md full-width post-type--{{post.post_type}}" id="post--{{post.ID}}">
+	<article class="article container container--md full-width post-type--{{post.post_type}} template--quiz-landing" id="post--{{post.ID}}">
 		<header class="article__header{{ show_header }}">
 			<h1 class="article__title title-landing-font">{{post.title}}</h1>
 		</header>
@@ -29,7 +29,7 @@
 									</div>
 								{% endfor %}
 							{% endif %}
-							
+
 						</div>
 					</div>
 				</div>
@@ -42,21 +42,25 @@
 					<p>&nbsp;</p>
 					{% set count = 0 %}
 					{% for step in post.meta('quiz_steps') %}
-					{% if count % 2 == 0 %}
-						<div class="row">
-					{% endif %}
-						<div class="col-sm-4">
-							<h4 class="step-header"><strong>{{step.step_number}}</strong></h4>
-							<p class="step-header">{{step.step_details}}</p>
-						</div>
-						{% set count = count + 1 %}
-					{% if count % 2 == 0 %}
-						</div>
-						<p>&nbsp;</p>
+						{% if count % 2 == 0 %}
+							<div class="row">
+							{% endif %}
+							<div class="col-sm-4">
+								<h4 class="step-header">
+									<strong>{{step.step_number}}</strong>
+								</h4>
+								<p class="step-header">{{step.step_details}}</p>
+							</div>
+							{% set count = count + 1 %}
+							{% if count % 2 == 0 %}
+							</div>
+							<p>&nbsp;</p>
 
-					{% endif %}
+						{% endif %}
 					{% endfor %}
-					<p style="text-align: center;"><a class="btn btn-primary" href={{post.meta("quiz_steps_button")['url']}}>Get Started</a></p>
+					<p style="text-align: center;">
+						<a class="btn btn-primary" href={{post.meta("quiz_steps_button")['url']}}>Get Started</a>
+					</p>
 				</div>
 			</section>
 		</article>
@@ -69,7 +73,9 @@
 								<h2 class="headline">{{post.meta('additional_info_header')}}</h2>
 								<h4 class="subhead">{{post.meta('additional_info_subheader')}}</h4>
 								<p>{{post.meta("additional_info_text")}}</p>
-								<p><a href={{post.meta("explore_research_link")}}>Explore Research</a></p>
+								<p>
+									<a href={{post.meta("explore_research_link")}}>Explore Research</a>
+								</p>
 							</div>
 						</div>
 					</div>

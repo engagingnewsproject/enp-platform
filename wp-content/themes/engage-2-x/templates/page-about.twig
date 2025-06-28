@@ -2,32 +2,33 @@
 
 {# Hide title / ACF / Page settings #}
 {% if post.meta('show_header') == false %}
-	{% set show_header = ' sr-text' %} 
+	{% set show_header = ' sr-text' %}
 {% endif %}
 
 {% block content %}
-<div class="post__wrapper wrapper--pad">
-	<div class="article__wrapper container container--lg">
-		<article class="article container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}}">
-			<header class="article__header{{ show_header }}">
-				<h1 class="article__title">{{post.title}}</h1>
-			</header>
-			{% if post.meta('show_newsletter') %} {# ACF / Page settings #}
-				<aside class="newsletter widget">
+	<div class="post__wrapper wrapper--pad template--about">
+		<div class="article__wrapper container container--lg">
+			<article class="article container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}}">
+				<header class="article__header{{ show_header }}">
+					<h1 class="article__title">{{post.title}}</h1>
+				</header>
+				{% if post.meta('show_newsletter') %}
+					{# ACF / Page settings #}
+					<aside class="newsletter widget">
 						{{ newsletter }}
-				</aside>
-			{% endif %}
-			<div class="article__content">
-				{{post.content}}
-			</div>
-			{% if post.title == "About Us" %}
-				{# <div class="home-funders home-section">
-					<div class="container container--xl wrapper--pad">
-						{% include 'partial/funders.twig' with { funders: funders } %}
-					</div>
-				</div> #}
-			{% endif %}
-		</article>
+					</aside>
+				{% endif %}
+				<div class="article__content">
+					{{post.content}}
+				</div>
+				{% if post.title == "About Us" %}
+					{# <div class="home-funders home-section">
+										<div class="container container--xl wrapper--pad">
+											{% include 'partial/funders.twig' with { funders: funders } %}
+										</div>
+									</div> #}
+				{% endif %}
+			</article>
+		</div>
 	</div>
-</div>
 {% endblock %}

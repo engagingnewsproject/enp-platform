@@ -1,0 +1,18 @@
+.template--about {
+	.article__content {
+		@include media($laptop) {
+			grid-column: 2 / span 1;
+		}
+	}
+	.newsletter.widget {
+		grid-row: 3;
+		@include media($phablet) {
+			display: none;
+		}
+		@include media($tablet) {
+			display: block;
+			grid-column: 1 / span 1;
+			grid-row: 2;
+		}
+	}
+}
