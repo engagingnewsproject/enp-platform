@@ -256,7 +256,9 @@
 	@include media($laptop) {
 		grid-column: 1 / span 2;
 	}
-	&.article__content--research {
+	&.article__content--research,
+	&.article__content--blogs,
+	&.article__content--announcement {
 		grid-column: 1 / span 2;
 		@include media($phablet) {
 			grid-column: 2;

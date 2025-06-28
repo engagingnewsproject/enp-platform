@@ -10,6 +10,7 @@ class ResearchArticle extends Post {
 	public $summary = false;
 	public $video = false;
     public $researchers = false;
+	public $additional_team_members = false;
     public $id;
     
 	public function init($pid = null)
@@ -63,6 +64,29 @@ class ResearchArticle extends Post {
             ]);
         }
         return $this->researchers;
+    }
+
+	public function getAdditionalTeamMembers() {
+        if ($this->additional_team_members === false) {
+            $rows = $this->meta('additional_team_members', $this->ID);
+            $members = [];
+            if (is_array($rows)) {
+                foreach ($rows as $row) {
+                    $members[] = (object) [
+                        'name'           => $row['name'] ?? '',
+                        'title'          => $row['title'] ?? '',
+                        'getDisplayLink' => false,
+                        'slug'           => '',
+                        'thumbnail'      => null,
+                        'member_image'   => null,
+                        'terms'          => [],
+                        'getDesignation' => $row['title'] ?? 'Researcher',
+                    ];
+                }
+            }
+            $this->additional_team_members = $members;
+        }
+        return $this->additional_team_members;
     }
 
     /**
