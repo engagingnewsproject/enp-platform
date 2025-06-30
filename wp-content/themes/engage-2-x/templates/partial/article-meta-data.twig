@@ -8,9 +8,9 @@
 	<div
 		class="article__meta article__meta__data">
 		{# Display the post type label with an associated bookmark icon #}
-		<p class="article__post-type article-meta__item article__post-type--{{ post.post_type }}">
+		<a class="article__post-type article-meta__item article__post-type--{{ post.post_type }}" href="{{ post.getPostTypeArchiveLink() }}">
 			{% include 'assets/img/bookmark-regular.svg' %}
 			{{ post.type.labels.singular_name }}
-		</p>
+		</a>
 	</div>
 {% endif %}
