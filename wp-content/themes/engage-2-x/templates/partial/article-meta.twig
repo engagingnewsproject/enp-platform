@@ -68,8 +68,9 @@
 		{# List of researchers #}
 		<section class="researchers-tease">
 
+			<h2 class="researchers-tease__title">{{ (post.post_type == "research") ? "Researchers" : "Authors" }}</h2>
+
 			{% if post.meta('project_team_member') %}
-				<h2 class="researchers-tease__title">{{ (post.post_type == "research") ? "Researchers" : "Authors" }}</h2>
 				{# Display associated researchers or team members for the post. #}
 				{% for researcher in post.getResearchers %}
 					{% include 'partial/teammate-tease.twig' with { mate: researcher, status: ' additional' } %}
