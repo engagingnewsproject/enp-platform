@@ -9,6 +9,7 @@ if (!mix.inProduction()) {
   mix.webpackConfig({
     devtool: "inline-source-map",
   });
+  mix.sourceMaps();
 }
 
 mix
@@ -17,7 +18,6 @@ mix
   .js("assets/js/homepage.js", "js")
   .sass("assets/scss/app.scss", "css")
   .sass("assets/scss/editor-style.scss", "css") // Editor styles (includes admin styles)
-  .sourceMaps()
   .version()
   .browserSync({
     proxy: proxyUrl,
