@@ -68,19 +68,31 @@ class ResearchArticle extends Post {
 
 	public function getAdditionalTeamMembers() {
         if ($this->additional_team_members === false) {
+			// Get the additional team members from the ACF field.
             $rows = $this->meta('additional_team_members', $this->ID);
+			// Initialize an empty array to store the members.
             $members = [];
+			// Check if the rows are an array.
             if (is_array($rows)) {
+				// Loop through the rows.
                 foreach ($rows as $row) {
+					// Get the name and title from the row.
+                    $name = $row['name'] ?? '';
+                    $title = $row['title'] ?? '';
+                    // Skip if both name and title are empty.
+                    if (trim($name) === '' && trim($title) === '') {
+                        continue;
+                    }
+					// Add the member to the members array.
                     $members[] = (object) [
-                        'name'           => $row['name'] ?? '',
-                        'title'          => $row['title'] ?? '',
+                        'name'           => $name,
+                        'title'          => $title,
                         'getDisplayLink' => false,
                         'slug'           => '',
                         'thumbnail'      => null,
                         'member_image'   => null,
                         'terms'          => [],
-                        'getDesignation' => $row['title'] ?? 'Researcher',
+                        'getDesignation' => $title ?: 'Researcher',
                     ];
                 }
             }
