@@ -73,119 +73,50 @@
 }
 // END base styles
 
-@supports not (display: flex) {
-	.sidebar-primary {
-		@include media($phablet) {
-			width: 75%;
-			padding-left: 1.6rem;
-			float: right;
-		}
-		@include media($desktop) {
-			width: 80%;
-			float: right;
-		}
+.sidebar-primary {
+	order: 4;
+	@include media($phablet) {
+		grid-column: 2;
+		grid-row-start: 6;
+		padding-left: 0;
+	}
+}
+.archive__sidebar {
+	@include media($tablet) {
+		width: 100%;
+		padding-right: 10px;
+		display: grid !important;
+		grid-column: 1/3;
+		grid-row: 1;
+	}
+}
+.newsletter-about {
+	@include media($phablet) {
+		grid-column: 1/4; 
+		grid-row: 2;
+	}
+}
+.newsletter-post,
+.newsletter-about,
+.newsletter-landing {
+	@include media($phablet) {
+		grid-column: 1;
+	}
+}
+.media-ethics-sidebar {
+	order: 2;
+	@include media($phablet) {
+		grid-column: 2;
+	}
+	@include media($desktop) {
+		grid-row: 3 / span 4; 
+		grid-column: 3;
+		font-size: $font-size-base;
+		max-width: 200px;
+		margin-left: 0px;
 	}
 }
 
-@supports not (display: grid) {
-	.archive__sidebar {
-		@include media("max", $mobile) {
-			order: 1;
-		}
-		@include media($phablet) {
-			@include flex-width(25%);
-		}
-	}
-	.media-ethics-sidebar {
-		width: 20%;
-	}
-} // END not (display: grid)
-
-@supports (display: flex) {
-	.sidebar-primary {
-		@include media($phablet) {
-			order: 5;
-			padding-left: $sidebar-width-md;
-		}
-		@include media($laptop) {
-			padding-left: $sidebar-width-xlg;
-		}
-		@include media($desktop) {
-			padding-left: $sidebar-width-lg;
-		}
-	}
-	.archive__sidebar {
-		@include media($phablet) {
-			@include flex-width(15%);
-			order: 1;
-		}
-		@include media($tablet) {
-			display: flex;
-			flex-flow: column wrap;
-			justify-content: flex-start;
-			@include flex-width(15%);
-		}
-		@include media($laptop) {
-			@include flex-width(20%);
-		}
-	}
-	.newsletter-post,
-	.newsletter-about,
-	.newsletter-landing {
-		@include media($phablet) {
-			@include flex-width(20%);
-		}
-	}
-	.full-width .newsletter__wrapper {
-		order: 4;
-	}
-} // END (display: flex)
-
-@supports (display: grid) {
-	.sidebar-primary {
-		order: 4;
-		@include media($phablet) {
-			grid-column: 2;
-			grid-row-start: 6;
-			padding-left: 0;
-		}
-	}
-	.archive__sidebar {
-		@include media($tablet) {
-			width: 100%;
-			padding-right: 10px;
-			display: grid !important;
-			grid-column: 1/3;
-			grid-row: 1;
-		}
-	}
-	.newsletter-about {
-		@include media($phablet) {
-			grid-column: 1/4; 
-			grid-row: 2;
-		}
-	}
-	.newsletter-post,
-	.newsletter-about,
-	.newsletter-landing {
-		@include media($phablet) {
-			grid-column: 1;
-		}
-	}
-	.media-ethics-sidebar {
-		order: 2;
-		@include media($phablet) {
-			grid-column: 2;
-		}
-		@include media($desktop) {
-			grid-row: 3 / span 4; 
-			grid-column: 3;
-			font-size: $font-size-base;
-			max-width: 200px;
-			margin-left: 0px;
-		}
-	}
-} // END (display: grid)
 .emoji {
 	max-width: 20px;
 }
