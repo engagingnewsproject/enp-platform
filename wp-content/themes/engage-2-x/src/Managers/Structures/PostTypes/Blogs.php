@@ -77,7 +77,7 @@ class Blogs
 		$args = array(
 			'hierarchical'      => true,
 			'labels'            => $labels,
-			'show_ui'           => true,
+			'show_ui'           => false,
 			'show_admin_column' => true,
 			'query_var'         => 'blogs-category',
 			'has_archive'       => true,

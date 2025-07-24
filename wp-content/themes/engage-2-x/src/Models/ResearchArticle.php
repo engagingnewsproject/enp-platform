@@ -114,4 +114,8 @@ class ResearchArticle extends Post {
         }
         return null;
     }
+
+    public function getPostTypeArchiveLink() {
+        return get_post_type_archive_link($this->post_type);
+    }
 }
