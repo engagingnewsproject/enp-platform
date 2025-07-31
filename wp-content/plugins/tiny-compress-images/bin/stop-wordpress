@@ -1,6 +1,0 @@
-#!/bin/bash
-
-
-npx wp-env stop
-
-
