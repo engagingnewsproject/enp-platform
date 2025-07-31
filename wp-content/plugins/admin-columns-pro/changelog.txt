@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 6.4.21 =
+Release Date: July 28th, 2025
+
+* [Improved] User Role editing, now correctly updates instead of replacing roles
+* [Improved] Show full State name for WooCommerce Address fields
+* [Fixed] Wrong alignment of sticky headers
+* [Fixed] Missing Bulk Edit buttons after toggling columns in the Screen Options
+
+
 = 6.4.20 =
 Release Date: June 17th, 2025
 

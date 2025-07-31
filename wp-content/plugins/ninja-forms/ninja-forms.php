@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=WordPress&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.10.2.2
+Version: 3.10.4
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -43,7 +43,7 @@ final class Ninja_Forms
      * @since 3.0
      */
 
-    const VERSION = '3.10.2.2';
+    const VERSION = '3.10.4';
 
     /**
      * @since 3.4.0
@@ -1224,13 +1224,10 @@ register_uninstall_hook( __FILE__, 'ninja_forms_uninstall' );
 
 function ninja_forms_uninstall(){
 
-    if( Ninja_Forms()->get_setting( 'delete_on_uninstall' ) ) {
-        require_once plugin_dir_path(__FILE__) . '/includes/Database/Migrations.php';
-        $migrations = new NF_Database_Migrations();
-        $migrations->nuke(TRUE, TRUE);
-        $migrations->nuke_settings(TRUE, TRUE);
-        $migrations->nuke_deprecated(TRUE, TRUE);
-    }
+    /**
+     *  Nothing to see here.
+     */
+
 }
 
 // Scheduled Action Hook

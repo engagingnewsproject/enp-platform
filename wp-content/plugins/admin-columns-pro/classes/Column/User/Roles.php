@@ -32,10 +32,9 @@ class Roles extends AC\Column\Meta
 
     public function get_value($user_id)
     {
-        $user = new WP_User($user_id);
-
         $roles = [];
-        foreach (ac_helper()->user->translate_roles($user->roles) as $role => $label) {
+
+        foreach ($this->get_roles(new WP_User($user_id)) as $role => $label) {
             $roles[] = ac_helper()->html->tooltip($label, $role);
         }
 
@@ -44,6 +43,15 @@ class Roles extends AC\Column\Meta
         }
 
         return implode($this->get_separator(), $roles);
+    }
+
+    private function get_roles(WP_User $user): array
+    {
+        $roles = ac_helper()->user->translate_roles($user->roles);
+
+        natcasesort($roles);
+
+        return $roles;
     }
 
     public function editing()

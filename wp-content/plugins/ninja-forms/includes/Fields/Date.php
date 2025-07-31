@@ -267,6 +267,7 @@ class NF_Fields_Date extends NF_Fields_Textbox
          * Explode our value at each ','.
          * It'll be in a format like 01/05/2021,hour,minute,ampm.
          */
+        
         $exploded_value = explode( ',', $value );
         
         $date = $exploded_value[0];
@@ -280,7 +281,11 @@ class NF_Fields_Date extends NF_Fields_Textbox
         }
 
         if ( 'time_only' == $field[ 'settings' ][ 'date_mode' ] ) {
-            return $time;
+            if($time === ':' && !strpos($value, ',')) {
+                return $value;
+            } else {
+                return $time;
+            } 
         }
 
         return $date . ' ' . $time;
