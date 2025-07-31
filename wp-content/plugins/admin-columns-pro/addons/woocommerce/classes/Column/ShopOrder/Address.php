@@ -56,6 +56,12 @@ abstract class Address extends AC\Column\Meta
         switch ($this->get_address_property()) {
             case '':
                 return $this->get_formatted_address(wc_get_order($id));
+            case 'state':
+                $country_code = get_post_meta($id, $this->get_meta_key_prefix() . 'country', true);
+                $states = (array)WC()->countries->get_states($country_code);
+                $state_key = parent::get_raw_value($id);
+
+                return $states[$state_key] ?? $state_key;
             case 'full_name':
                 $value = sprintf(
                     '%s %s',

@@ -39,6 +39,13 @@ class OrderAddress
         $value = $order->$method();
 
         switch ($this->property) {
+            case 'state' :
+                $country_code = $this->type->get() === 'billing'
+                    ? $order->get_billing_country()
+                    : $order->get_shipping_country();
+                $states = (array)WC()->countries->get_states($country_code);
+
+                return $states[$value] ?? $value;
             case 'country' :
                 return WC()->countries->get_countries()[$value] ?? $this->empty_char;
             default:
