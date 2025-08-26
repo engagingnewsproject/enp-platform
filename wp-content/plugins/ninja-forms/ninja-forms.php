@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=WordPress&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.10.4
+Version: 3.11.1
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -43,7 +43,7 @@ final class Ninja_Forms
      * @since 3.0
      */
 
-    const VERSION = '3.10.4';
+    const VERSION = '3.11.1';
 
     /**
      * @since 3.4.0
@@ -1240,11 +1240,7 @@ function nf_optin_update_environment_vars() {
     /**
      * Make sure that we've reported our opt-in.
      */
-    if( get_option( 'ninja_forms_optin_reported', 0 ) ) return;
-
-    Ninja_Forms()->dispatcher()->send( 'optin', array( 'send_email' => 1 ) );
-    // Debounce opt-in dispatch.
-    update_option( 'ninja_forms_optin_reported', 1 );
+    Ninja_Forms()->tracking->report_optin();
 }
 add_action( 'nf_optin_cron', 'nf_optin_update_environment_vars' );
 

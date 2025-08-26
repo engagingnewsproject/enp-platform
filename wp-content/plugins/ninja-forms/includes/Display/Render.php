@@ -31,6 +31,7 @@ class NF_Display_Render
     public static $use_test_values = FALSE;
 
     protected static $form_uses_recaptcha      = array();
+    protected static $form_uses_turnstile      = array();
     protected static $form_uses_datepicker     = array();
     protected static $form_uses_inputmask      = array();
     protected static $form_uses_currencymask   = array();
@@ -210,7 +211,7 @@ class NF_Display_Render
                 }
 
                 $field= self::ensureFieldArrayStructureValidity($field,$fieldBeforeFilters);
-                
+
                 // Copy field ID into the field settings array for use in localized data.
                 $field[ 'settings' ][ 'id' ] = $field[ 'id' ];
 
@@ -283,17 +284,20 @@ class NF_Display_Render
                 $currencySymbol = Ninja_Forms()->get_setting('currency_symbol');
 
                 $settings = static::ensureProductRelatedCostLocalizeSettings($settings,$decimal_point,$thousands_sep,$currencySymbol);
-                
+
                 $settings['element_templates'] = $templates;
                 $settings['old_classname'] = $field_class->get_old_classname();
                 $settings['wrap_template'] = $field_class->get_wrap_template();
 
                 $settings['label']=\wp_kses_post(Sanitizer::preventScriptTriggerInHtmlOutput($settings['label']));
-                
+
                 $fields[] = apply_filters( 'ninja_forms_localize_field_settings_' . $field_type, $settings, $form );
 
                 if( 'recaptcha' == $field[ 'settings' ][ 'type' ] ){
                     array_push( self::$form_uses_recaptcha, $form_id );
+                }
+                if( 'turnstile' == $field[ 'settings' ][ 'type' ] ){
+                    array_push( self::$form_uses_turnstile, $form_id );
                 }
                 if( 'date' == $field[ 'settings' ][ 'type' ] || self::checkRepeaterChildType($field, 'date') ){
                     array_push( self::$form_uses_datepicker, $form_id );
@@ -435,7 +439,7 @@ class NF_Display_Render
      *
      * Property types are not declared because we cannot guarantee what is
      * returned from apply_filters.
-     * 
+     *
      * @param array $field
      * @param string $field_type
      * @return array
@@ -474,6 +478,10 @@ class NF_Display_Render
             $return = self::ensureRecaptchaFieldStructureValidity($return);
         }
 
+        if ('turnstile' === $field['settings']['type']) {
+            $return = self::ensureTurnstileFieldStructureValidity($return);
+        }
+
         return $return;
     }
 
@@ -491,9 +499,32 @@ class NF_Display_Render
 
         // Hide the label on invisible reCAPTCHA fields
         if (
-            'recaptcha' === $field['settings']['type'] 
+            'recaptcha' === $field['settings']['type']
             && isset($field['settings']['size'])
             && 'invisible' === $field['settings']['size']) {
+
+            $return['settings']['label_pos'] = 'hidden';
+        }
+
+        return $return;
+    }
+
+    /**
+     * Ensure that Turnstile field array structure is correct
+     *
+     * @param array $field
+     * @return array
+     */
+    protected static function ensureTurnstileFieldStructureValidity(array $field): array
+    {
+        // initialize return value to incoming value
+        $return = $field;
+
+        // Hide the label when label_visibility is set to 'hide'
+        if (
+            'turnstile' === $field['settings']['type']
+            && isset($field['settings']['label_visibility'])
+            && 'invisible' === $field['settings']['label_visibility']) {
 
             $return['settings']['label_pos'] = 'hidden';
         }
@@ -513,7 +544,7 @@ class NF_Display_Render
         if(!is_string($currency)){
             return '';
         }
-        
+
         $return = isset( $currencySymbolLookup[ $currency ] ) ? $currencySymbolLookup[ $currency ] : '';
 
         return $return;
@@ -540,7 +571,7 @@ class NF_Display_Render
                 } else {
                     array_push( $return, isset( $child[ $setting ] ) && $child[ $setting ] );
                 }
-                
+
             }
         }
         return in_array(true, $return, true);
@@ -700,11 +731,11 @@ class NF_Display_Render
 
     /**
      * Set root element that will insert the WP element
-     * 
+     *
      * @since 3.7.4
-     * 
+     *
      * @param string Form ID
-     * 
+     *
      * @return void
      */
     public static function localize_iframe( $form_id )
@@ -718,11 +749,11 @@ class NF_Display_Render
 
     /**
      * Enqueue scripts and localize data needed to insert the iFrame
-     * 
+     *
      * @since 3.7.4
-     * 
+     *
      * @param string Form ID
-     * 
+     *
      * @return void
      */
     public static function enqueue_iframe_scripts( $form_id ) {
@@ -762,7 +793,7 @@ class NF_Display_Render
             $field['settings']['product_price'] = (float)str_replace($currencySymbol, '', $field['settings']['product_price']);
             $field['settings']['product_price'] = number_format((float)$field['settings']['product_price'], 2);
         } elseif ('total' == $field['settings']['type']) {
-            
+
             if (!isset($field['settings']['value'])) $field['settings']['value'] = 0;
             $field['settings']['value'] = number_format((float)$field['settings']['value'], 2);
         }
@@ -798,6 +829,10 @@ class NF_Display_Render
             wp_enqueue_script('nf-google-recaptcha', 'https://www.google.com/recaptcha/api.js?hl=' . $recaptcha_lang . '&onload=nfRenderRecaptcha&render=explicit', array( 'jquery', 'nf-front-end-deps' ), $ver, TRUE );
         }
 
+        if( $is_preview || in_array( $form_id, self::$form_uses_turnstile ) ) {
+            wp_enqueue_script('nf-cloudflare-turnstile', 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', array( 'jquery', 'nf-front-end-deps' ), null, TRUE );
+        }
+
         if( $is_preview || in_array( $form_id, self::$form_uses_datepicker ) ) {
             wp_enqueue_style( 'nf-flatpickr', $css_dir . 'flatpickr.css', $ver );
             wp_enqueue_script('nf-datepicker', $js_dir . 'datepicker.min.js', array( 'jquery', 'nf-front-end' ), $ver );
@@ -816,7 +851,7 @@ class NF_Display_Render
                 wp_enqueue_media();
             }
 
-            wp_enqueue_style( 'summernote',         $css_dir . 'summernote.css'   , $ver );
+            wp_enqueue_style( 'summernote',         $css_dir . 'summernote-lite.min.css'   , $ver );
             wp_enqueue_style( 'codemirror',         $css_dir . 'codemirror.css'   , $ver );
             wp_enqueue_style( 'codemirror-monokai', $css_dir . 'monokai-theme.css', $ver );
             wp_enqueue_script('nf-front-end--rte', $js_dir . 'front-end--rte.min.js', array( 'jquery' ), $ver );

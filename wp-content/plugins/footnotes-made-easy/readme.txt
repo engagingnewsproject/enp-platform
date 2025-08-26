@@ -3,9 +3,9 @@ Contributors: lumiblog, divibanks, dartiss, manuell
 Tags: bibliography, footnotes, formatting, reference
 Donate link: https://divibanks.io/sponsor/
 Requires at least: 4.6
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.0.6
+Stable tag: 3.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,11 +112,16 @@ Yes, the plugin provides options to disable footnotes on the home page, archives
 
 I use semantic versioning, with the first release being 1.0.
 
+= 3.0.7 [August 9, 2025] =
+* Fix: PHP 8.4 Compatibility issue.
+* WordPress 6.8 Compatibility Test
+
 = 3.0.6 [February 2, 2025] =
 * Fix: PHP 8.2 Compatibility issue.
 
 
 == Upgrade Notice ==
 
-= 3.0.6 =
-* Fix: PHP 8.2 Compatibility issue.
+= 3.0.7 =
+* Fix: PHP 8.4 Compatibility issue.
+* WordPress 6.8 Compatibility Test

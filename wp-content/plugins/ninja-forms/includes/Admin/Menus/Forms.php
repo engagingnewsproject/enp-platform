@@ -326,9 +326,9 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
          */
         wp_enqueue_style( 'wp-color-picker' );
         wp_enqueue_style( 'jBox', Ninja_Forms::$url . 'assets/css/jBox.css' );
-        wp_enqueue_style( 'summernote', Ninja_Forms::$url . 'assets/css/summernote.css' );
         wp_enqueue_style( 'codemirror', Ninja_Forms::$url . 'assets/css/codemirror.css' );
         wp_enqueue_style( 'codemirror-monokai', Ninja_Forms::$url . 'assets/css/monokai-theme.css' );
+        wp_enqueue_style( 'summernote', Ninja_Forms::$url . 'assets/css/summernote-lite.min.css' );
 
         /**
          * JS Libraries
@@ -351,7 +351,7 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
         wp_enqueue_script( 'codemirror', Ninja_Forms::$url . 'assets/js/lib/codemirror.min.js', array( 'jquery', 'nf-builder-deps' ) );
         wp_enqueue_script( 'codemirror-xml', Ninja_Forms::$url . 'assets/js/lib/codemirror-xml.min.js', array( 'jquery', 'codemirror' ) );
         wp_enqueue_script( 'codemirror-formatting', Ninja_Forms::$url . 'assets/js/lib/codemirror-formatting.min.js', array( 'jquery', 'codemirror' ) );
-        wp_enqueue_script( 'summernote', Ninja_Forms::$url . 'assets/js/lib/summernote.min.js', array( 'jquery', 'nf-builder-deps' ) );
+        wp_enqueue_script( 'summernote', Ninja_Forms::$url . 'assets/js/lib/summernote-lite.min.js', array( 'jquery', 'nf-builder-deps' ) );
 
 
         wp_enqueue_script( 'nf-builder', Ninja_Forms::$url . 'assets/js/min/builder.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'jquery-effects-bounce', 'wp-color-picker' ), $this->ver );

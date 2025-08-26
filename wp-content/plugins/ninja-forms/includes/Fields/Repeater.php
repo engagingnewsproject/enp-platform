@@ -53,9 +53,13 @@ class NF_Fields_Repeater extends NF_Abstracts_Field
 
             if( ! isset( Ninja_Forms()->fields[ $field_type ] ) ) {
                 $unknown_field = NF_Fields_Unknown::create( $field );
+                $key = $field['key'];
+
                 $field = array(
                     'settings' => $unknown_field->get_settings(),
-                    'id' => $unknown_field->get_id()
+                    'id' => $unknown_field->get_id(),
+                    'type'=> 'unknown',
+                    'key'=>$key
                 );
                 $field_type = $field[ 'type' ];
             }
@@ -71,12 +75,23 @@ class NF_Fields_Repeater extends NF_Abstracts_Field
 
             $field_class = Ninja_Forms()->fields[$field_type];
 
+            // No object defined in fields collection, so return
+            if(is_null($field_class)){
+                return $fieldset;
+            }
+
             if (NF_Display_Render::$use_test_values) {
                 $field[ 'value' ] = $field_class->get_test_value();
             }
 
             // Disallow recaptcha fields in repeater.
             if( 'recaptcha' === $field_type ) {
+                unset($fieldset['fields'][$index]);
+                continue 1;
+            }
+
+            // Disallow turnstile fields in repeater.
+            if( 'turnstile' === $field_type ) {
                 unset($fieldset['fields'][$index]);
                 continue 1;
             }
