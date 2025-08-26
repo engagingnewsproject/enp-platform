@@ -130,3 +130,4 @@ phpunit.xml
 /ssh/*.sql
 wp-content/themes/engage-2-x/.cursor/
 wp-content/themes/engage-2-x/.prettierignore
+wp-content/wp-defender-secrets.php
