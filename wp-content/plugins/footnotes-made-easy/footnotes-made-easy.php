@@ -3,7 +3,7 @@
 Plugin Name: Footnotes Made Easy
 Plugin URI: https://github.com/divibanks/footnotes-made-easy/
 Description: Allows post authors to easily add and manage footnotes in posts.
-Version: 3.0.6
+Version: 3.0.7
 Author: Patrick Lumumba
 Author URI: https://lumumbas.blog
 Text Domain: footnotes-made-easy

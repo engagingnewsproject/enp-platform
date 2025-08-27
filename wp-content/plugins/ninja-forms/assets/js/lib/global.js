@@ -52,6 +52,16 @@ nfRadio.channel( 'form' ).on( 'render:view', function() {
 			};
 		}
 	} );
+
+	jQuery( '.cf-turnstile' ).each( function() {
+		var callback = jQuery( this ).data( 'callback' );
+		var fieldID = jQuery( this ).data( 'fieldid' );
+		if ( typeof window[ callback ] !== 'function' ){
+			window[ callback ] = function( response ) {
+				nfRadio.channel( 'turnstile' ).request( 'update:response', response, fieldID );
+			};
+		}
+	} );
 } );
 
 var nfRecaptcha = Marionette.Object.extend( {
@@ -95,6 +105,47 @@ var nfRecaptcha = Marionette.Object.extend( {
 
 var nfRenderRecaptcha = function() {
 	new nfRecaptcha();
+}
+
+var nfTurnstile = Marionette.Object.extend( {
+	initialize: function() {
+		/*
+		 * If we've already rendered our form view, render our turnstile fields.
+		 */
+		if ( 0 != jQuery( '.cf-turnstile' ).length ) {
+			this.renderTurnstile();
+		}
+		/*
+		 * We haven't rendered our form view, so hook into the view render radio message, and then render.
+		 */
+		this.listenTo( nfRadio.channel( 'form' ), 'render:view', this.renderTurnstile );
+        this.listenTo( nfRadio.channel( 'captcha' ), 'reset', this.renderTurnstile );
+	},
+
+	renderTurnstile: function() {
+		if ( typeof turnstile === 'undefined' ) {
+			return;
+		}
+		
+		jQuery( '.cf-turnstile:empty' ).each( function() {
+			var opts = {
+				'theme': jQuery( this ).data( 'theme' ),
+				'size': jQuery( this ).data( 'size' ),
+				'sitekey': jQuery( this ).data( 'sitekey' ),
+				'callback': jQuery( this ).data( 'callback' )
+			};
+
+			try {
+				turnstile.render( jQuery( this )[0], opts );
+			} catch( e ){
+				// Silent fail
+			}
+		} );
+	}
+} );
+
+var nfRenderTurnstile = function() {
+	new nfTurnstile();
 }
 
 if (typeof nf_reprocess_recaptcha === 'undefined') {

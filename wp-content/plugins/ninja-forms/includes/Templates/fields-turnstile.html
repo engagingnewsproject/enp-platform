@@ -1,0 +1,5 @@
+<script id="tmpl-nf-field-turnstile" type="text/template">
+	<input id="nf-field-{{{ data.id }}}" name="nf-field-{{{ data.id }}}" class="{{{ data.renderClasses() }}} nf-element" type="hidden" value="{{{ data.value }}}" />
+
+	<div class="nf-cf-turnstile" data-callback="nfTurnstileCallback" data-theme="{{{ data.theme }}}" data-size="{{{ data.size }}}" data-sitekey="{{{ data.site_key }}}" data-fieldid="{{{ data.id }}}"></div>
+</script>

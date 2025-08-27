@@ -2,9 +2,9 @@
 Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorhouse, jmcelhaney, wpnzach, ericwindhamsd, mrpritchett
 Tags: forms, form builder, contact form, lead form, registration form
 
-Requires at least: 6.5
+Requires at least: 6.6
 Tested up to: 6.8
-Stable tag: 3.10.4
+Stable tag: 3.11.1
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -310,13 +310,39 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.10.4 (July 7 2025) =
+= 3.11.1 (August 20, 2025) =
 *Bug Fixes:*
-- Fixes value issue with time_only date field.
-- Fixes issue with common value for date/time field in repeatable field sets.
-- Fixes incorrect value for single checkbox merge tags.
+- Prevent object wakeup from unserialization
 
 == Changelog ==
+= 3.11.1 (August 20, 2025) =
+*Bug Fixes:*
+- Prevent object wakeup from unserialization
+
+= 3.11.0 (July 28 2025) =
+*Features:*
+- Adds Cloudflare Turnstile CAPTCHA as a modern, privacy-friendly alternative to traditional CAPTCHAs.
+- Adds configurable theme (light/dark/auto) and size options for Turnstile field.
+- Improves accessibility with screen reader support for CAPTCHA challenges.
+
+*Bug Fixes:*
+- Fixes submission expiration failing on forms with 50+ fields processed in chunks.
+- Fixes Summernote editor dropdown menus not displaying properly in certain themes.
+- Fixes JavaScript errors in merge tags functionality with improved function binding.
+- Fixes forced marketing email sending for late-reported opt-ins.
+- Prevents Turnstile field from being used within repeatable fieldsets.
+
+*Performance:*
+- Replaces full Summernote library with lightweight Summernote Lite version.
+- Removes unnecessary Bootstrap dependencies reducing CSS by 4,616 lines.
+- Reduces total codebase by ~12,000 lines for improved page load times.
+
+*Other:*
+- Updates build system to Node.js 20 for better compatibility.
+- Improves CSS build process with proper source map generation.
+- Adds comprehensive E2E tests for RTE settings and Turnstile integration.
+- Updates test folder structure for better organization.
+
 = 3.10.4 (July 7 2025) =
 *Bug Fixes:*
 - Fixes value issue with time_only date field.

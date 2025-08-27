@@ -50,10 +50,44 @@ class NF_Actions_Save extends SotAction implements InterfacesSotAction
     /** @inheritDoc */
     public function save(array $action_settings)
     {
-        if (! isset($_POST['form'])) return;
         // Get the form data from the Post variable and send it off for processing.
-        $form = json_decode(stripslashes($_POST['form']));
-        $this->submission_expiration_processing($action_settings, $form->id);
+        $formId = $this->extractFormIdFromPost();
+
+        if($formId===0) {
+            // If we can't extract the form ID do not proceed
+            return;
+        }
+
+        $this->submission_expiration_processing($action_settings, $formId);
+    }
+
+    /**
+     * Extract Form ID from Post
+     * 
+     * Can be either from complete POSTed form or from chunked POST data.
+     *
+     * @return integer
+     */
+    protected function extractFormIdFromPost(): int
+    {
+        $return = 0;
+
+        $action = filter_input(INPUT_POST, 'action');
+
+        if ($action == 'nf_save_form') {
+
+            $formPost = $_POST['form'];
+            $form = json_decode(stripslashes($formPost));
+
+            $return = (int)$form->id;
+        } else if ($action == 'nf_batch_process') {
+
+            $chunkedPost = $_POST['data'];
+
+            $return = (int)$chunkedPost['form_id'];
+        }
+
+        return $return;
     }
 
     /**

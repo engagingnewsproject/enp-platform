@@ -498,17 +498,21 @@ final class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
 
                         //Detect date field value in RFF
                         if(isset($fieldsetFieldSubmissionValue['value']['date'])){
+
+                            // initialize outgoing datefield value as empty string
                             $outgoing[$fieldsetFieldId]['value'] = "";
-                            foreach($fieldsetFieldSubmissionValue['value'] as $index => $dateElement) {
+
+                            foreach($fieldsetFieldSubmissionValue['value'] as $dateFieldKey => $dateElement) {
                                 //Discard date index for time only fields
                                 if(strpos($dateElement, ":") === false) {
-                                    $outgoing[$fieldsetFieldId]['value'] .= $index . ": " . strip_shortcodes($dateElement) . "<br>";
+                                    $outgoing[$fieldsetFieldId]['value'] .= $dateFieldKey . ": " . strip_shortcodes($dateElement) . "<br>";
                                 }
                             }
                             
                         } else {
-                            // If value is not array, strip shortcode
-                            $outgoing[$fieldsetFieldId]['value']=array_map('strip_shortcodes',$fieldsetFieldSubmissionValue['value']['value']);
+                            // value is array but not a date array
+                            // use array_map to strip shortcodes from each value in indexed array
+                            $outgoing[$fieldsetFieldId]['value']=array_map('strip_shortcodes',$fieldsetFieldSubmissionValue['value']);
                         }
                     }else{
                         // If value is not array, strip shortcode

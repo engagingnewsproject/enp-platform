@@ -380,8 +380,8 @@ class NF_Handlers_FieldsetRepeater
     {
         $return = [];
 
-        if(is_string($fieldSubmissionValue)){
-            $fieldSubmissionValue = maybe_unserialize($fieldSubmissionValue);
+        if(is_string($fieldSubmissionValue) && is_serialized($fieldSubmissionValue)){
+            $fieldSubmissionValue = unserialize($fieldSubmissionValue,['allowed_classes' => false]);
         }
 
         if (!is_array($fieldSubmissionValue)) {
