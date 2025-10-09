@@ -12,8 +12,10 @@ use Exception;
 use WP_Defender\Component;
 use WP_Defender\Behavior\WPMUDEV;
 use WP_Defender\Controller\Firewall;
+use WP_Defender\Model\Lockout_Log;
 use WP_Defender\Model\Setting\Global_Ip_Lockout;
 use WP_Defender\Traits\Defender_Dashboard_Client;
+use WP_Defender\Traits\Country;
 
 /**
  * Handles global IP functionalities including allow and block lists.
@@ -21,7 +23,9 @@ use WP_Defender\Traits\Defender_Dashboard_Client;
 class Global_IP extends Component {
 
 	use Defender_Dashboard_Client;
+	use Country;
 
+	public const REASON_SLUG = 'global_ip';
 	/**
 	 * Global IP list key.
 	 */
@@ -132,7 +136,7 @@ class Global_IP extends Component {
 	}
 
 	/**
-	 * Check if Central IP lists can be synced automatically.
+	 * Check if Custom IP lists can be synced automatically.
 	 *
 	 * @return bool True for enabled or false for disabled.
 	 */
@@ -153,7 +157,7 @@ class Global_IP extends Component {
 	}
 
 	/**
-	 * Check if blocked or allowlisted IPs can be synced with the Central IP lists on HUB.
+	 * Check if blocked or allowlisted IPs can be synced with the Custom IP lists on HUB.
 	 *
 	 * @return bool
 	 */
@@ -543,5 +547,52 @@ class Global_IP extends Component {
 	 */
 	public function is_active(): bool {
 		return $this->is_global_ip_enabled() && $this->is_site_connected_to_hub_via_hcm_or_dash();
+	}
+
+	/**
+	 * Log the event into db.
+	 *
+	 * @param string $ip The IP address involved in the event.
+	 */
+	public function log_event( $ip ): void {
+		$model     = wd_di()->get( Lockout_Log::class );
+		$model->ip = $ip;
+		if ( $model->has_recent_ip_log() ) {
+			$this->log( 'Custom IP Blocklist: IP already logged', Firewall::FIREWALL_LOG );
+			return;
+		}
+		$user_agent        = defender_get_data_from_request( 'HTTP_USER_AGENT', 's' );
+		$model->user_agent = isset( $user_agent )
+			? \WP_Defender\Component\User_Agent::fast_cleaning( $user_agent )
+			: null;
+		$model->date       = time();
+		$model->blog_id    = get_current_blog_id();
+
+		$ip_to_country = $this->ip_to_country( $ip );
+
+		if ( isset( $ip_to_country['iso'] ) ) {
+			$model->country_iso_code = $ip_to_country['iso'];
+		}
+		/* translators: %s is the IP address */
+		$model->log = sprintf( esc_html__( '%s locked out - found in Custom IP Blocklist', 'wpdef' ), $ip );
+
+		$model->type  = Lockout_Log::LOCKOUT_IP_CUSTOM;
+		$model->tried = Lockout_Log::LOCKOUT_IP_CUSTOM;
+		$model->save();
+		// We don’t use defender_notify hook for LOCKOUT_IP_CUSTOM.
+	}
+
+	/**
+	 * Handle expired membership by automatically disabling the Central IP module.
+	 * Logs the action when the feature is disabled due to expired membership.
+	 *
+	 * @return void
+	 */
+	public function handle_expired_membership(): void {
+		if ( $this->is_expired_membership_type() && $this->model->enabled ) {
+			$this->model->enabled = false;
+			$this->model->save();
+			$this->log( 'Central IP automatically disabled due to expired membership.', 'central_ip.log' );
+		}
 	}
 }

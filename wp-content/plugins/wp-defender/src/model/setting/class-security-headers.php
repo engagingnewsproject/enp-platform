@@ -244,32 +244,24 @@ class Security_Headers extends Setting {
 	 * @return void
 	 */
 	protected function after_validate(): void {
-		if ( true === $this->sh_xframe
-			&& ( empty( $this->sh_xframe_mode )
-					|| ! in_array( $this->sh_xframe_mode, array( 'sameorigin', 'deny' ), true ) )
-		) {
+		if ( true === $this->sh_xframe && ! in_array( $this->sh_xframe_mode, array( 'sameorigin', 'deny' ), true ) ) {
 			$this->errors[] = esc_html__( 'X-Frame-Options mode is invalid', 'wpdef' );
-		} elseif ( true === $this->sh_xss_protection
-					&& ( empty( $this->sh_xss_protection_mode )
-						|| ! in_array( $this->sh_xss_protection_mode, array( 'sanitize', 'block', 'none' ), true ) )
-		) {
+		} elseif ( true === $this->sh_xss_protection && ! in_array( $this->sh_xss_protection_mode, array( 'sanitize', 'block', 'none' ), true ) ) {
 			$this->errors[] = esc_html__( 'X-XSS-Protection mode is invalid', 'wpdef' );
 		} elseif ( true === $this->sh_referrer_policy
-					&& ( empty( $this->sh_referrer_policy_mode )
-						|| ! in_array(
-							$this->sh_referrer_policy_mode,
-							array(
-								'no-referrer',
-								'no-referrer-when-downgrade',
-								'origin',
-								'origin-when-cross-origin',
-								'same-origin',
-								'strict-origin',
-								'strict-origin-when-cross-origin',
-								'unsafe-url',
-							),
-							true
-						)
+					&& ! in_array(
+						$this->sh_referrer_policy_mode,
+						array(
+							'no-referrer',
+							'no-referrer-when-downgrade',
+							'origin',
+							'origin-when-cross-origin',
+							'same-origin',
+							'strict-origin',
+							'strict-origin-when-cross-origin',
+							'unsafe-url',
+						),
+						true
 					)
 		) {
 			$this->errors[] = esc_html__( 'Referrer Policy mode is invalid', 'wpdef' );

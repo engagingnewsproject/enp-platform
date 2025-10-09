@@ -72,20 +72,13 @@ trait Theme {
 	 */
 	public function is_active_theme( $file_path ): bool {
 		$active_theme = $this->get_theme();
-		if ( ! is_object( $active_theme ) ) {
-			return false;
-		}
-		$theme_dir = $this->get_path_of_themes_dir();
-		$abs_path  = $theme_dir;
-		$abs_path  = defender_replace_line( $abs_path );
+		$theme_dir    = $this->get_path_of_themes_dir();
+		$abs_path     = $theme_dir;
+		$abs_path     = defender_replace_line( $abs_path );
 		// Without the first slash.
 		$rev_file   = str_replace( $abs_path, '', $file_path );
 		$theme_data = explode( '/', $rev_file );
-		if ( ! empty( $theme_data ) ) {
-			$theme_slug = $theme_data[0];
-		} else {
-			return false;
-		}
+		$theme_slug = $theme_data[0];
 		// Checking if the given theme is a child theme.
 		if ( false !== stripos( $theme_slug, '-child' ) ) {
 			$theme_slug = str_replace( '-child', '', $theme_slug );

@@ -13,6 +13,7 @@ use WP_Defender\Model\Lockout_Ip;
 use WP_Defender\Model\Lockout_Log;
 use WP_Defender\Model\Setting\User_Agent_Lockout;
 use WP_Defender\Model\Notification\Firewall_Notification;
+use WP_Filesystem_Base;
 
 /**
  * Handles User-Agent based operations including lockouts and logging for security purposes.
@@ -31,6 +32,9 @@ class User_Agent extends Component {
 	 * Human Readable text denotes user agent header is empty.
 	 */
 	public const EMPTY_USER_AGENT_TEXT = 'Empty User Agent';
+
+	public const GO_HTTP_CLIENT_KEY  = 'go-http-client';
+	public const PYTHON_REQUESTS_KEY = 'python-requests';
 
 	/**
 	 * Use for cache.
@@ -72,7 +76,7 @@ class User_Agent extends Component {
 
 		$ip_to_country = $this->ip_to_country( $ip );
 
-		if ( ! empty( $ip_to_country ) && isset( $ip_to_country['iso'] ) ) {
+		if ( isset( $ip_to_country['iso'] ) ) {
 			$model->country_iso_code = $ip_to_country['iso'];
 		}
 
@@ -119,18 +123,17 @@ class User_Agent extends Component {
 	 * @return bool Returns true if the user agent is bad, false otherwise.
 	 */
 	public function is_bad_user_agent( $user_agent ): bool {
-		$allowlist = str_replace( '#', '\#', $this->model->get_lockout_list( 'allowlist' ) );
-		$blocklist = str_replace( '#', '\#', $this->model->get_lockout_list( 'blocklist' ) );
-
+		$allowlist               = str_replace( '#', '\#', $this->model->get_lockout_list( 'allowlist' ) );
 		$allowlist_regex_pattern = '#' . implode( '|', $allowlist ) . '#i';
-		$blocklist_regex_pattern = '#' . implode( '|', $blocklist ) . '#i';
-
-		$allowlist_match = preg_match( $allowlist_regex_pattern, $user_agent );
-		$blocklist_match = preg_match( $blocklist_regex_pattern, $user_agent );
+		$allowlist_match         = preg_match( $allowlist_regex_pattern, $user_agent );
 
 		if ( count( $allowlist ) > 0 && ! empty( $allowlist_match ) ) {
 			return false;
 		}
+
+		$blocklist               = str_replace( '#', '\#', $this->model->get_all_selected_blocklist_ua() );
+		$blocklist_regex_pattern = '#' . implode( '|', $blocklist ) . '#i';
+		$blocklist_match         = preg_match( $blocklist_regex_pattern, $user_agent );
 
 		if ( count( $blocklist ) > 0 && ! empty( $blocklist_match ) ) {
 			return true;
@@ -163,6 +166,9 @@ class User_Agent extends Component {
 		$this->log_event( $ip, $user_agent, $reason );
 		do_action( 'wd_user_agent_lockout', $this->model, self::SCENARIO_USER_AGENT_LOCKOUT );
 		// Shouldn't block IP via hook 'wd_blacklist_this_ip', block only when the button 'Ban IP' is clicked.
+		if ( defender_is_wp_org_version() ) {
+			Rate::run_counter_of_ua_lockouts();
+		}
 	}
 
 	/**
@@ -220,7 +226,7 @@ class User_Agent extends Component {
 	public function verify_import_file( $file ) {
 		global $wp_filesystem;
 		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}
@@ -261,7 +267,7 @@ class User_Agent extends Component {
 	 * @return string Human-readable text if log_type is UA else empty string.
 	 */
 	public function get_status_text( $log_type, $user_agent ): string {
-		if ( Lockout_Log::LOCKOUT_UA !== $log_type ) {
+		if ( ! in_array( $log_type, Lockout_Log::get_ua_lockout_types(), true ) ) {
 			return '';
 		}
 
@@ -281,21 +287,102 @@ class User_Agent extends Component {
 	}
 
 	/**
-	 * A list of known bad user agents.
+	 * Get Blocklist presets.
 	 *
-	 * @return array An array of user agents.
+	 * @return array
 	 */
-	public static function get_spam_user_agent_list() {
+	public static function get_blocklist_presets(): array {
 		return array(
-			'AhrefsBot',
-			'DotBot',
-			'EmailSiphon',
-			'HTTrack',
-			'MJ12Bot',
-			'Nmap',
-			'SEMrushBot',
-			'sqlmap',
-			'ZmEu',
+			'brute_forcing_tools' => array(
+				'feroxbuster' => 'Feroxbuster',
+				'gobuster'    => 'Gobuster',
+			),
+			'security_scanners'   => array(
+				'sqlmap' => 'SQLMap',
+				'wfuzz'  => 'Wfuzz',
+			),
+			'seo_crawlers'        => array(
+				'dotbot'     => 'DotBot (Moz)',
+				'mj12bot'    => 'MJ12Bot (Majestic)',
+				'ahrefsbot'  => 'AhrefsBot',
+				'semrushbot' => 'SEMrushBot',
+			),
 		);
+	}
+
+	/**
+	 * Get only keys of nested Blocklist preset arrays.
+	 *
+	 * @return array
+	 */
+	public static function get_nested_keys_of_blocklist_presets(): array {
+		$all_keys = array();
+		$presets  = self::get_blocklist_presets();
+		foreach ( $presets as $category => $tools ) {
+			foreach ( $tools as $key => $value ) {
+				$all_keys[] = $key;
+			}
+		}
+
+		return $all_keys;
+	}
+
+	/**
+	 * Is the current UA in the Blocklist preset list?
+	 *
+	 * @param string $key User Agent key.
+	 *
+	 * @return bool
+	 */
+	public static function is_blocklist_presets( $key ): bool {
+		return in_array( $key, self::get_nested_keys_of_blocklist_presets(), true );
+	}
+
+	/**
+	 * Get Script presets.
+	 *
+	 * @return array
+	 */
+	public static function get_script_presets(): array {
+		return array(
+			self::PYTHON_REQUESTS_KEY => array(
+				'label' => 'Python Script',
+				'desc'  => __( '( This will block all requests from python-requests/* agent )', 'wpdef' ),
+			),
+			self::GO_HTTP_CLIENT_KEY  => array(
+				'label' => 'Go Http Clients',
+				'desc'  => __( '( This will block all requests from Go-http-client/* agent )', 'wpdef' ),
+			),
+		);
+	}
+
+	/**
+	 * Is the current UA in the Script preset list?
+	 *
+	 * @param string $key User Agent key.
+	 *
+	 * @return bool
+	 */
+	public static function is_script_presets( $key ): bool {
+		return in_array( $key, array_keys( self::get_script_presets() ), true );
+	}
+
+	/**
+	 * Check and remove duplicates in passed UA array.
+	 *
+	 * @param array $arr_source Source array.
+	 * @param array $arr_search Search array.
+	 *
+	 * @return array
+	 */
+	public static function check_and_remove_duplicates( $arr_source, $arr_search ): array {
+		foreach ( $arr_search as $ua ) {
+			$key = array_search( $ua, $arr_source, true );
+			if ( false !== $key ) {
+				unset( $arr_source[ $key ] );
+			}
+		}
+
+		return ! empty( $arr_source ) ? array_values( $arr_source ) : array();
 	}
 }

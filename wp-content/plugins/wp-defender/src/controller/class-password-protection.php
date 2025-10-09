@@ -14,13 +14,13 @@ use Countable;
 use WP_Defender\Event;
 use Calotes\Component\Request;
 use Calotes\Component\Response;
+use WP_Defender\Integrations\Woocommerce;
 use WP_Defender\Component\Config\Config_Hub_Helper;
 
 /**
  * Handles password protection.
  */
 class Password_Protection extends Event {
-
 	/**
 	 * The model for handling the data.
 	 *
@@ -58,11 +58,14 @@ class Password_Protection extends Event {
 				is_multisite() && ! is_main_site()
 				&& ! wd_di()->get( \WP_Defender\Model\Setting\Mask_Login::class )->is_active()
 			) {
-				add_filter( 'network_site_url', array( &$this, 'filter_site_url' ), 100, 2 );
+				add_filter( 'network_site_url', array( $this, 'filter_site_url' ), 100, 2 );
 			}
 			add_action( 'wp_authenticate_user', array( $this, 'handle_login_password' ), 100, 2 );
 			add_action( 'validate_password_reset', array( $this, 'handle_reset_check_password' ), 100, 2 );
 			add_action( 'user_profile_update_errors', array( $this, 'handle_profile_update_password' ), 1, 3 );
+			if ( wd_di()->get( Woocommerce::class )->is_wc_login_context() ) {
+				add_filter( 'woocommerce_reset_password_message', array( $this->service, 'add_woocommerce_error_message' ) );
+			}
 		}
 	}
 
@@ -128,7 +131,7 @@ class Password_Protection extends Event {
 		}
 
 		// Check if display_pwned_password_warning cookie enabled then show warning message on reset password page.
-		if ( isset( $_COOKIE['display_pwned_password_warning'] ) ) {
+		if ( ! defender_get_data_from_request( 'wc_reset_password', 'p' ) && isset( $_COOKIE['display_pwned_password_warning'] ) ) {
 			$message = empty( $this->model->pwned_actions['force_change_message'] )
 				? $this->default_msg
 				: $this->model->pwned_actions['force_change_message'];
@@ -254,8 +257,8 @@ class Password_Protection extends Event {
 
 				return new Response( true, array_merge( $response, $this->data_frontend() ) );
 			}
-			// Maybe track.
-			if ( ! defender_is_wp_cli() && $this->is_tracking_active() ) {
+
+			if ( $this->maybe_track() ) {
 				$prev_data = $this->get_model()->get_old_settings();
 
 				if ( ! empty( $prev_data ) ) {

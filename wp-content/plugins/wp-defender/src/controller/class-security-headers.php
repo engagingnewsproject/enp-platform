@@ -76,8 +76,8 @@ class Security_Headers extends Event {
 		if ( $this->model->validate() ) {
 			$this->model->save();
 			Config_Hub_Helper::set_clear_active_flag();
-			// Maybe track.
-			if ( ! defender_is_wp_cli() && $this->is_tracking_active() ) {
+
+			if ( $this->maybe_track() ) {
 				// The current model data.
 				$is_active_curr_data = $this->get_model()->is_any_activated();
 				// The previous model data.

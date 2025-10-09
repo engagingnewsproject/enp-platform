@@ -58,7 +58,7 @@ class Onboard extends Event {
 	public function __construct() {
 		$this->attach_behavior( WPMUDEV::class, WPMUDEV::class );
 		$this->add_main_page();
-		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
+		add_action( 'defender_enqueue_assets', array( $this, 'enqueue_assets' ) );
 	}
 
 	/**
@@ -68,10 +68,7 @@ class Onboard extends Event {
 		$this->register_page(
 			$this->get_menu_title(),
 			$this->parent_slug,
-			array(
-				&$this,
-				'main_view',
-			),
+			array( $this, 'main_view' ),
 			null,
 			$this->get_menu_icon()
 		);
@@ -183,7 +180,7 @@ class Onboard extends Event {
 		// Create new scan.
 		$ret = \WP_Defender\Model\Scan::create();
 		if ( is_object( $ret ) && ! is_wp_error( $ret ) ) {
-			if ( ! $this->is_tracking_active() ) {
+			if ( $this->is_tracking_active() ) {
 				wd_di()->get( Model_Main_Setting::class )->toggle_tracking( true );
 			}
 			$scan_controller = wd_di()->get( Controller_Scan::class );

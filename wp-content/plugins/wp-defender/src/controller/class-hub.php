@@ -54,8 +54,8 @@ class HUB extends Event {
 	 */
 	public function __construct() {
 		$this->attach_behavior( WPMUDEV::class, WPMUDEV::class );
-		add_action( 'wdp_register_hub_action', array( &$this, 'add_hub_endpoint' ) );
-		add_action( 'defender_hub_sync', array( &$this, 'hub_sync' ) );
+		add_action( 'wdp_register_hub_action', array( $this, 'add_hub_endpoint' ) );
+		add_action( 'defender_hub_sync', array( $this, 'hub_sync' ) );
 	}
 
 	/**
@@ -66,28 +66,28 @@ class HUB extends Event {
 	 * @return array The updated actions array with hub endpoints added.
 	 */
 	public function add_hub_endpoint( $actions ) {
-		$actions['defender_new_scan']              = array( &$this, 'new_scan' );
-		$actions['defender_schedule_scan']         = array( &$this, 'schedule_scan' );
-		$actions['defender_manage_audit_log']      = array( &$this, 'manage_audit_log' );
-		$actions['defender_manage_lockout']        = array( &$this, 'manage_lockout' );
-		$actions['defender_whitelist_ip']          = array( &$this, 'whitelist_ip' );
-		$actions['defender_blacklist_ip']          = array( &$this, 'blacklist_ip' );
-		$actions['defender_get_scan_progress']     = array( &$this, 'get_scan_progress' );
-		$actions['defender_manage_recaptcha']      = array( &$this, 'manage_recaptcha' );
-		$actions['defender_manage_2fa']            = array( &$this, 'manage_2fa' );
-		$actions['defender_manage_global_ip_list'] = array( &$this, 'manage_global_ip_list' );
-		$actions['defender_set_global_ip_list']    = array( &$this, 'set_global_ips' );
+		$actions['defender_new_scan']              = array( $this, 'new_scan' );
+		$actions['defender_schedule_scan']         = array( $this, 'schedule_scan' );
+		$actions['defender_manage_audit_log']      = array( $this, 'manage_audit_log' );
+		$actions['defender_manage_lockout']        = array( $this, 'manage_lockout' );
+		$actions['defender_whitelist_ip']          = array( $this, 'whitelist_ip' );
+		$actions['defender_blacklist_ip']          = array( $this, 'blacklist_ip' );
+		$actions['defender_get_scan_progress']     = array( $this, 'get_scan_progress' );
+		$actions['defender_manage_recaptcha']      = array( $this, 'manage_recaptcha' );
+		$actions['defender_manage_2fa']            = array( $this, 'manage_2fa' );
+		$actions['defender_manage_global_ip_list'] = array( $this, 'manage_global_ip_list' );
+		$actions['defender_set_global_ip_list']    = array( $this, 'set_global_ips' );
 		$actions['defender_set_antibot_status']    = array( $this, 'set_antibot_status' );
 		// Backup/restore settings.
-		$actions['defender_export_settings'] = array( &$this, 'export_settings' );
-		$actions['defender_import_settings'] = array( &$this, 'import_settings' );
+		$actions['defender_export_settings'] = array( $this, 'export_settings' );
+		$actions['defender_import_settings'] = array( $this, 'import_settings' );
 		// Get stats, version#1.
-		$actions['defender_get_stats'] = array( &$this, 'get_stats' );
+		$actions['defender_get_stats'] = array( $this, 'get_stats' );
 		// Version#2.
-		$actions['defender_get_stats_v2'] = array( &$this, 'defender_get_stats_v2' );
+		$actions['defender_get_stats_v2'] = array( $this, 'defender_get_stats_v2' );
 
-		$actions['defender_get_quarantined_files']    = array( &$this, 'get_quarantined_files' );
-		$actions['defender_restore_quarantined_file'] = array( &$this, 'restore_quarantined_file' );
+		$actions['defender_get_quarantined_files']    = array( $this, 'get_quarantined_files' );
+		$actions['defender_restore_quarantined_file'] = array( $this, 'restore_quarantined_file' );
 
 		return $actions;
 	}
@@ -215,7 +215,7 @@ class HUB extends Event {
 			}
 			$settings->save();
 			$feature = '404 Detection';
-		} elseif ( 'ua-lockout' === $type ) {
+		} elseif ( User_Agent_Lockout::get_module_slug() === $type ) {
 			$settings = new User_Agent_Lockout();
 			if ( $settings->enabled ) {
 				$settings->enabled = false;
@@ -435,6 +435,7 @@ class HUB extends Event {
 
 		$quarantined_files = class_exists( 'WP_Defender\Component\Quarantine' ) ?
 			wd_di()->get( Quarantine::class )->hub_list() : array();
+		$antibot_service   = wd_di()->get( Antibot_Global_Firewall::class );
 
 		$ret = array(
 			'summary'           => array(
@@ -507,7 +508,8 @@ class HUB extends Event {
 				'lockout_404_enabled'        => wd_di()->get( Notfound_Lockout::class )->enabled,
 				'user_agent_lockout_enabled' => wd_di()->get( User_Agent_Lockout::class )->enabled,
 				'global_ip_list_enabled'     => wd_di()->get( Global_Ip_Lockout::class )->enabled,
-				'antibot_enabled'            => wd_di()->get( Antibot_Global_Firewall::class )->frontend_is_enabled(),
+				'antibot_enabled'            => $antibot_service->frontend_is_enabled(),
+				'antibot_mode'               => $antibot_service->frontend_mode(),
 			),
 			'audit'             => array(
 				'last_event' => $audit['lastEvent'],
@@ -651,8 +653,10 @@ class HUB extends Event {
 
 	/**
 	 * Activate/deactivate 2FA from HUB.
+	 *
+	 * @param array $params Request parameters.
 	 */
-	public function manage_2fa() {
+	public function manage_2fa( array $params ) {
 		$response = null;
 		if ( class_exists( Two_Fa::class ) ) {
 			$settings = wd_di()->get( Two_Fa::class );
@@ -667,7 +671,8 @@ class HUB extends Event {
 			$settings->save();
 			// Track.
 			if ( $this->is_tracking_active() ) {
-				$this->track_feature_from_hub( ! $settings->enabled, 'Two-Factor Authentication' );
+				// Only deactivation from the Hub.
+				$this->track_feature_from_hub( false, 'Two-Factor Authentication' );
 			}
 		}
 
@@ -827,7 +832,7 @@ class HUB extends Event {
 	}
 
 	/**
-	 * Enable/Disable Antibot Functionality.
+	 * Enable/Disable Antibot Functionality. Only for third party site.
 	 *
 	 * @param  object $params  Request parameters.
 	 *
@@ -835,7 +840,7 @@ class HUB extends Event {
 	 * @since 4.11.0
 	 */
 	public function set_antibot_status( object $params ): void {
-		if ( ! isset( $params->enable ) ) {
+		if ( ! isset( $params->enable ) && ! isset( $params->mode ) ) {
 			wp_send_json_error(
 				array( 'message' => esc_html__( 'Missing parameter(s)', 'wpdef' ) )
 			);
@@ -847,17 +852,41 @@ class HUB extends Event {
 			);
 		}
 
+		$is_updated       = false;
 		$antibot_settings = wd_di()->get( Antibot_Global_Firewall_Setting::class );
-		$old_enabled      = $antibot_settings->enabled;
-		$new_enabled      = (bool) $params->enable;
-		if ( $old_enabled !== $new_enabled ) {
-			$antibot_settings->enabled = $new_enabled;
-			$antibot_settings->save();
-			// Track.
-			if ( $this->is_tracking_active() ) {
-				wd_di()->get( \WP_Defender\Helper\Analytics\Antibot::class )
-					->track_antibot( $old_enabled, 'Hub' );
+
+		if ( isset( $params->mode ) ) {
+			if ( ! in_array( $params->mode, Antibot_Global_Firewall_Setting::get_valid_modes(), true ) ) {
+				wp_send_json_error(
+					array( 'message' => esc_html__( 'Invalid mode', 'wpdef' ) )
+				);
 			}
+
+			$old_mode = $antibot_settings->mode;
+			$new_mode = $params->mode;
+			if ( $old_mode !== $new_mode ) {
+				$is_updated             = true;
+				$antibot_settings->mode = $new_mode;
+			}
+		}
+
+		if ( isset( $params->enable ) ) {
+			$old_enabled = $antibot_settings->enabled;
+			$new_enabled = (bool) $params->enable;
+			if ( $old_enabled !== $new_enabled ) {
+				$is_updated                = true;
+				$antibot_settings->enabled = $new_enabled;
+
+				// Track.
+				if ( $this->is_tracking_active() ) {
+					wd_di()->get( \WP_Defender\Helper\Analytics\Antibot::class )
+						->track_antibot( $old_enabled, 'Hub' );
+				}
+			}
+		}
+
+		if ( $is_updated ) {
+			$antibot_settings->save();
 
 			/**
 			 * Download and store the blocklist.
@@ -870,6 +899,11 @@ class HUB extends Event {
 			}
 		}
 
-		wp_send_json_success( array( 'enabled' => $antibot_settings->enabled ) );
+		wp_send_json_success(
+			array(
+				'enabled' => $antibot_settings->enabled,
+				'mode'    => $antibot_settings->mode,
+			)
+		);
 	}
 }

@@ -15,9 +15,9 @@ class ChallengeOptions
 
     public function __construct($options = [])
     {
-        $this->algorithm = $options['algorithm'] ?? Algorithm::SHA256;
-        $this->maxNumber = $options['maxNumber'] ?? 1e6;
-        $this->saltLength = $options['saltLength'] ?? 12;
+        $this->algorithm = $options['algorithm'] ?? Altcha::DEFAULT_ALGORITHM;
+        $this->maxNumber = $options['maxNumber'] ?? Altcha::DEFAULT_MAX_NUMBER;
+        $this->saltLength = $options['saltLength'] ?? Altcha::DEFAULT_SALT_LENGTH;
         $this->hmacKey = $options['hmacKey'] ?? '';
         $this->salt = $options['salt'] ?? '';
         $this->number = $options['number'] ?? 0;

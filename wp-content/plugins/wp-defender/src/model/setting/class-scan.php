@@ -105,7 +105,7 @@ class Scan extends Setting {
 	 * @sanitize_text_field
 	 * @defender_property
 	 */
-	public $day_n;
+	public int $day_n = 1;
 
 	/**
 	 * Same as $day.
@@ -126,23 +126,32 @@ class Scan extends Setting {
 	public $quarantine_expire_schedule = 'thirty_days';
 
 	/**
+	 * Enable Abandoned or outdated plugins.
+	 *
+	 * @defender_property
+	 * @var bool
+	 */
+	public $check_abandoned_plugin = true;
+
+	/**
 	 * Define settings labels.
 	 *
 	 * @return array
 	 */
 	public function labels(): array {
 		return array(
-			'integrity_check'    => esc_html__( 'File change detection', 'wpdef' ),
-			'check_core'         => esc_html__( 'Scan core files', 'wpdef' ),
-			'check_plugins'      => esc_html__( 'Scan plugin files', 'wpdef' ),
-			'check_known_vuln'   => esc_html__( 'Known vulnerabilities', 'wpdef' ),
-			'scan_malware'       => esc_html__( 'Suspicious Code', 'wpdef' ),
-			'filesize'           => esc_html__( 'Max included file size', 'wpdef' ),
-			'scheduled_scanning' => esc_html__( 'Scheduled Scanning', 'wpdef' ),
-			'frequency'          => esc_html__( 'Frequency', 'wpdef' ),
-			'day'                => esc_html__( 'Day of the week', 'wpdef' ),
-			'day_n'              => esc_html__( 'Day of the month', 'wpdef' ),
-			'time'               => esc_html__( 'Time of day', 'wpdef' ),
+			'integrity_check'        => esc_html__( 'File change detection', 'wpdef' ),
+			'check_core'             => esc_html__( 'Scan core files', 'wpdef' ),
+			'check_plugins'          => esc_html__( 'Scan plugin files', 'wpdef' ),
+			'check_abandoned_plugin' => esc_html__( 'Outdated & removed plugins', 'wpdef' ),
+			'check_known_vuln'       => esc_html__( 'Known vulnerabilities', 'wpdef' ),
+			'scan_malware'           => esc_html__( 'Suspicious code', 'wpdef' ),
+			'filesize'               => esc_html__( 'Max included file size', 'wpdef' ),
+			'scheduled_scanning'     => esc_html__( 'Scheduled Scanning', 'wpdef' ),
+			'frequency'              => esc_html__( 'Frequency', 'wpdef' ),
+			'day'                    => esc_html__( 'Day of the week', 'wpdef' ),
+			'day_n'                  => esc_html__( 'Day of the month', 'wpdef' ),
+			'time'                   => esc_html__( 'Time of day', 'wpdef' ),
 		);
 	}
 
@@ -177,9 +186,7 @@ class Scan extends Setting {
 				'<strong>' . esc_html__( 'File change detection', 'wpdef' ) . '</strong>'
 			);
 			// Case#2: all scan types are unchecked and Scheduled Scanning is checked.
-		} elseif ( ! $this->integrity_check && ! $this->check_known_vuln && ! $this->scan_malware
-					&& $this->scheduled_scanning
-		) {
+		} elseif ( ! $this->is_enabled_any_scan_type() && $this->scheduled_scanning ) {
 			$this->errors[] = esc_html__(
 				'You have not selected a scan type. Please enable at least one scan type and save the settings again.',
 				'wpdef'
@@ -209,13 +216,24 @@ class Scan extends Setting {
 			$mins = '00';
 		} else {
 			++$current_hours;
-			$current_hours >= 24 ? '00' : $current_hours;
 			$mins = '00';
 		}
 
 		$this->frequency = 'weekly';
 		$this->day       = $day;
-		$this->day_n     = '1';
+		$this->day_n     = 1;
 		$this->time      = $current_hours . ':' . $mins;
+	}
+
+	/**
+	 * Is enabled any scan type at least?
+	 *
+	 * @return bool
+	 */
+	private function is_enabled_any_scan_type(): bool {
+		return $this->integrity_check
+			|| $this->check_known_vuln
+			|| $this->scan_malware
+			|| $this->check_abandoned_plugin;
 	}
 }

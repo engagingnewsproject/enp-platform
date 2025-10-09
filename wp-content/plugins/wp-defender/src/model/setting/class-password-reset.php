@@ -106,7 +106,7 @@ class Password_Reset extends Setting {
 	public function is_active(): bool {
 		return (bool) apply_filters(
 			'wd_password_reset_active',
-			$this->expire_force && count( $this->user_roles ) > 0 && $this->force_time
+			$this->expire_force && count( $this->user_roles ) > 0 && $this->force_time > 0
 		);
 	}
 

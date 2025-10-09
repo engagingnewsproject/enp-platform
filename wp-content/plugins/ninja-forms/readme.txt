@@ -3,8 +3,8 @@ Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorho
 Tags: forms, form builder, contact form, lead form, registration form
 
 Requires at least: 6.6
-Tested up to: 6.8
-Stable tag: 3.11.1
+Tested up to: 6.8.2
+Stable tag: 3.12.1
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -310,11 +310,22 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.11.1 (August 20, 2025) =
+= 3.12.1 (September 22, 2025) =
 *Bug Fixes:*
-- Prevent object wakeup from unserialization
+- Ensure nonce use in download and telemetry
 
 == Changelog ==
+= 3.12.1 (September 22, 2025) =
+*Bug Fixes:*
+- Ensure nonce use in download and telemetry
+
+= 3.12.0 (September 8, 2025) =
+*Features:*
+- Add hCaptcha field
+
+*Bug Fixes:*
+- Ensure File Upload link in submissions table is clickable
+
 = 3.11.1 (August 20, 2025) =
 *Bug Fixes:*
 - Prevent object wakeup from unserialization

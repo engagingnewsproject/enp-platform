@@ -20,7 +20,7 @@ trait Setting {
 	 */
 	public function get_update_message( $data, $old_data, $module_name ) {
 		// Empty data after sanitizing.
-		if ( empty( $data ) ) {
+		if ( ! isset( $data['enabled'] ) ) {
 			return esc_html__( 'Your settings have been updated.', 'wpdef' );
 		}
 		$new_data = (bool) $data['enabled'];

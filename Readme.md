@@ -42,64 +42,74 @@ Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/s
 
 1. Clone the repo and navigate to the theme directory:
 
-    ```bash
-    cd yourSiteName/app/public/wp-content/themes/engage-2-x
-    ```
+   ```bash
+   cd yourSiteName/app/public/wp-content/themes/engage-2-x
+   ```
 
 2. Check if you're using the correct Node version:
 
-    ```bash
-    npm doctor
-    ```
+   ```bash
+   npm doctor
+   ```
 
 3. Install npm dependencies:
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
 4. Install Timber via Composer:
 
-    ```bash
-    composer require timber/timber
-    ```
+   ```bash
+   composer require timber/timber
+   ```
 
 5. Activate the `engage-2-x` theme from WP Admin → Appearance.
 
 6. Run the development server:
 
-    ```bash
-    npm run watch
-    ```
-    or
-    ```bash
-    yarn watch
-    ```
+   ```bash
+   npm run watch
+   ```
+
+   or
+
+   ```bash
+   yarn watch
+   ```
 
 7. Before pushing changes, compile assets for production:
 
-    ```bash
-    yarn prod
-    ```
+   ```bash
+   npm run prod
+   ```
+
+   or
+
+   ```bash
+   yarn prod
+   ```
 
 ## Debugging Local App Connection
 
 If you encounter issues with the Engage theme:
 
 1. **Check the Local App setup:**
-    - Switch the web server to nginx.
-    - Ensure PHP version is 8.2.10 or higher.
+
+   - Switch the web server to nginx.
+   - Ensure PHP version is 8.2.10 or higher.
 
 2. **Switch to a default theme:**
-    - Rename the `engage` theme folder to force WordPress to switch to a default theme.
-    - Disable all plugins except for ACF.
-    - Rename the theme back and reactivate it in WP Admin.
+
+   - Rename the `engage` theme folder to force WordPress to switch to a default theme.
+   - Disable all plugins except for ACF.
+   - Rename the theme back and reactivate it in WP Admin.
 
 3. **Install Timber Dump Extension (if needed):**
 
-    ```bash
-    composer require hellonico/timber-dump-extension
-    ```
+   ```bash
+   composer require hellonico/timber-dump-extension
+   ```
 
 4. **Deactivate the Engaging Quiz Plugin:** It is known to cause issues.
 
@@ -110,71 +120,77 @@ Github Actions deploy to each site via `public/.github/workflows/*.yml` files. S
 1. **Notify Kat** before pushing updates to the live site.
 2. Compile production assets:
 
-    ```bash
-    yarn prod
-    ```
+   ```bash
+   yarn prod
+   ```
 
 3. Merge and push changes to the development site:
 
-    ```bash
-    git checkout dev && git merge master && git push
-    ```
+   ```bash
+   git checkout dev && git merge master && git push
+   ```
 
 4. Merge and push changes to the staging site:
 
-    ```bash
-    git checkout stage && git merge master && git push
-    ```
+   ```bash
+   git checkout stage && git merge master && git push
+   ```
 
 5. **Notify Kat** before pushing to the live site.
 6. Merge changes to the production site:
 
-    ```bash
-    git checkout stable && git merge master
-    ```
+   ```bash
+   git checkout stable && git merge master
+   ```
 
-    `:wq` + enter
-    
+   `:wq` + enter
+
 7. Push to the production site:
 
-    ```bash
-    git push
-    ```
+   ```bash
+   git push
+   ```
 
 ### Sync Production Database → Development
 
 > **Only for your Dev environment.** This will not touch uploads or code—just the DB.
 
-1. Make sure you’ve set your SSH keys as described in `ssh/sync-db.sh`.  
+1. Make sure you’ve set your SSH keys as described in `ssh/sync-db.sh`.
 2. Confirm you have the Yarn script in your `package.json`:
-    ```jsonc
-    {
-      "scripts": {
-        "sync-db": "bash ssh/sync-db.sh"
-      }
-    }
-    ```
+   ```jsonc
+   {
+   	"scripts": {
+   		"sync-db": "bash ssh/sync-db.sh"
+   	}
+   }
+   ```
 3. From the theme root, run:
 
-    #### Dev Site
-    ```bash
-    yarn sync-db-dev
-    ```
-    This will:
-    - Export the Production database  
-    - Stream it into Development  
-    - Search-replace your live URL with the dev URL  
-    - Flush the WP cache  
+   #### Dev Site
 
-    #### Staging Site
-    ```bash
-    yarn sync-db-staging
-    ```
-    This will:
-    - Export the Production database  
-    - Stream it into Staging  
-    - Search-replace your live URL with the staging URL  
-    - Flush the WP cache  
+   ```bash
+   yarn sync-db-dev
+   ```
+
+   This will:
+
+   - Export the Production database
+   - Stream it into Development
+   - Search-replace your live URL with the dev URL
+   - Flush the WP cache
+
+   #### Staging Site
+
+   ```bash
+   yarn sync-db-staging
+   ```
+
+   This will:
+
+   - Export the Production database
+   - Stream it into Staging
+   - Search-replace your live URL with the staging URL
+   - Flush the WP cache
 
 4. **Verify** by spot-checking a few pages and custom post types in your Dev site.
 

@@ -65,7 +65,7 @@ class Main_Wp {
 
 		$ips = $this->get_user_ip();
 
-		if ( empty( $ips ) ) {
+		if ( array() === $ips ) {
 			return false;
 		}
 

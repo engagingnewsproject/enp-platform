@@ -149,7 +149,7 @@ class Login_Duration extends Abstract_Security_Tweaks implements Security_Key_Co
 	 */
 	public function get_tweak_duration(): int {
 		$duration = $this->get_duration_in_days();
-		if ( empty( $duration ) || $this->is_incorect_duration( $duration ) ) {
+		if ( $this->is_incorect_duration( $duration ) ) {
 			return self::DEFAULT_DAYS;
 		}
 

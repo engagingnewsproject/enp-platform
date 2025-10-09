@@ -100,8 +100,12 @@ class Firewall extends Setting {
 			$ip_array = preg_split( '#\r\n|[\r\n]#', $ip );
 
 			if ( is_array( $ip_array ) ) {
-				$ip_array = array_filter( $ip_array );
-				$ip_array = array_map( 'trim', $ip_array );
+				$ip_array = array_filter(
+					$ip_array,
+					function ( $ip ) {
+						return strlen( trim( $ip ) ) > 0;
+					}
+				);
 				$ip_array = array_map( 'strtolower', $ip_array );
 			}
 		}
@@ -129,7 +133,7 @@ class Firewall extends Setting {
 		if (
 			isset( $validation_object['error'] )
 			&& true === $validation_object['error']
-			&& ! empty( $validation_object['message'] )
+			&& '' !== $validation_object['message']
 		) {
 			$this->errors[] = $validation_object['message'];
 		}
@@ -155,7 +159,7 @@ class Firewall extends Setting {
 		) {
 			$trusted_proxies_ip = $this->get_trusted_proxies_ip();
 
-			if ( empty( $trusted_proxies_ip ) ) {
+			if ( array() === $trusted_proxies_ip ) {
 				// Nothing to check.
 				return array( 'error' => false );
 			}

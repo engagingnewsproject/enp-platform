@@ -18,6 +18,7 @@ use WP_Defender\Model\Setting\Main_Setting;
 use WP_Defender\Component\Scheduler\Scheduler;
 use WP_Defender\Model\Setting\Scan as Scan_Setting;
 use WP_Defender\Model\Quarantine as Quarantine_Model;
+use WP_Filesystem_Base;
 
 /**
  * Service layer for quarantine files functionality.
@@ -369,7 +370,7 @@ class Quarantine extends Component {
 	public function restore_file( $entity ): array {
 		global $wp_filesystem;
 		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}
@@ -518,7 +519,7 @@ class Quarantine extends Component {
 	private function get_quarantine_directory(): string {
 		global $wp_filesystem;
 		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}
@@ -556,7 +557,7 @@ class Quarantine extends Component {
 	private function plugin_write_handler( Quarantine_Model $quarantine_model ): array {
 		global $wp_filesystem;
 		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}
@@ -748,7 +749,7 @@ class Quarantine extends Component {
 			);
 		}
 
-		add_action( self::CRON_HOOK, array( &$this, 'cron_process' ) );
+		add_action( self::CRON_HOOK, array( $this, 'cron_process' ) );
 
 		$this->get_quarantine_directory();
 	}

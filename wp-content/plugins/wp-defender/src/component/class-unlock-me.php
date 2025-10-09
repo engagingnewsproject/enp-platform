@@ -9,6 +9,7 @@ namespace WP_Defender\Component;
 
 use Calotes\Helper\HTTP;
 use WP_Defender\Component;
+use WP_Defender\Traits\Country;
 use WP_Defender\Model\Unlockout;
 use WP_Defender\Model\Lockout_Ip;
 use WP_Defender\Controller\Firewall;
@@ -19,6 +20,7 @@ use WP_Defender\Controller\Firewall;
  * @since 4.6.0
  */
 class Unlock_Me extends Component {
+	use Country;
 
 	/**
 	 * Time after which the unlock attempt is considered expired.
@@ -122,7 +124,7 @@ class Unlock_Me extends Component {
 				$model->status = Lockout_Ip::STATUS_NORMAL;
 				$model->save();
 				$this->log(
-					'Unlock Me. Success. IP ' . $ip . ' have been unblocked from Active lockouts.',
+					'Unlock Me. Success. IP ' . $model->ip . ' have been unblocked from Active lockouts.',
 					Firewall::FIREWALL_LOG
 				);
 			}
@@ -136,22 +138,38 @@ class Unlock_Me extends Component {
 			}
 		}
 
-		// Remove IP(s) from Central IP Blocklist.
+		// Remove IP(s) from Custom IP Blocklist.
 		$ret = wd_di()->get( IP\Global_IP::class )->remove_from_blocklist( $ips );
 		if ( is_wp_error( $ret ) ) {
 			$this->log(
-				'Unlock Me. Error. IP(s) ' . implode( ',', $ips ) . ' have not been unblocked from Central IP Blocklist.',
+				'Unlock Me. Error. IP(s) ' . implode( ',', $ips ) . ' have not been unblocked from Custom IP Blocklist.',
 				Firewall::FIREWALL_LOG
 			);
 		} else {
 			$this->log(
-				'Unlock Me. Success. IP(s) ' . implode( ',', $ips ) . ' have been unblocked from Central IP Blocklist.',
+				'Unlock Me. Success. IP(s) ' . implode( ',', $ips ) . ' have been unblocked from Custom IP Blocklist.',
 				Firewall::FIREWALL_LOG
 			);
 		}
 
 		// Remove the old counter.
 		delete_transient( $this->check_ip_by_remote_addr( $first_ip ) );
+		// Log the successful unlock.
+		$user_agent        = defender_get_data_from_request( 'HTTP_USER_AGENT', 's' );
+		$model             = wd_di()->get( \WP_Defender\Model\Lockout_Log::class );
+		$model->ip         = $first_ip;
+		$model->user_agent = isset( $user_agent ) ? \WP_Defender\Component\User_Agent::fast_cleaning( $user_agent ) : null;
+		$model->date       = time();
+		$model->tried      = $user ? $user->user_login : '';
+		$model->blog_id    = get_current_blog_id();
+		$ip_to_country     = $this->ip_to_country( $first_ip );
+		if ( isset( $ip_to_country['iso'] ) ) {
+			$model->country_iso_code = $ip_to_country['iso'];
+		}
+		$model->type = \WP_Defender\Model\Lockout_Log::IP_UNLOCK;
+		/* translators: %s: IP address */
+		$model->log = sprintf( __( '%s was unlocked via "Unlock Me (Email)"', 'wpdef' ), $first_ip );
+		$model->save();
 		// Redirect.
 		wp_safe_redirect( Mask_Login::maybe_masked_login_url() );
 		exit;

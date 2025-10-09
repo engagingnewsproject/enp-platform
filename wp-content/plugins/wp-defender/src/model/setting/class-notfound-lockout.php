@@ -159,7 +159,14 @@ class Notfound_Lockout extends Setting {
 	 */
 	public function get_lockout_list( $type = 'blocklist' ): array {
 		$data = ( 'blocklist' === $type ) ? $this->blacklist : $this->whitelist;
-		$arr  = is_array( $data ) ? $data : array_filter( explode( PHP_EOL, $data ) );
+		$arr  = is_array( $data )
+			? $data
+			: array_filter(
+				explode( PHP_EOL, $data ),
+				function ( $line ) {
+					return strlen( trim( $line ) ) > 0;
+				}
+			);
 		$arr  = array_map( 'trim', $arr );
 		$arr  = array_map( 'strtolower', $arr );
 

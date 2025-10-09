@@ -24,6 +24,7 @@
 			var el = $(this);
 			$.ajax({
 				type: 'POST',
+				// $url is safe because it is generated via admin_url().
 				url: '<?php echo $url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>',
 				data: {},
 				dataType: 'JSON',

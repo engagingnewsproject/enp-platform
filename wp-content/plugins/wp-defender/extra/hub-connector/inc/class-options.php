@@ -29,21 +29,21 @@ class Options {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $name    The option name.
-	 * @param mixed  $default Optional. Set value to return if option not found.
+	 * @param string $name          The option name.
+	 * @param mixed  $default_value Optional. Set value to return if option not found.
 	 *
 	 * @return mixed The option value.
 	 */
-	public static function get( $name, $default = false ) {
+	public static function get( $name, $default_value = false ) {
 		if ( ! empty( $name ) ) {
 			// Get options.
 			$options = self::get_options();
 
 			// Return value.
-			return isset( $options[ $name ] ) ? $options[ $name ] : $default;
+			return $options[ $name ] ?? $default_value;
 		}
 
-		return $default;
+		return $default_value;
 	}
 
 	/**
@@ -113,8 +113,9 @@ class Options {
 	public static function get_transient( $name, $prefix = true ) {
 		$key = $prefix ? 'wpmudev_hc_' . $name : $name;
 
-		// Transient name cannot be longer than 45 characters.
-		$key = substr( $key, 0, 45 );
+		// Transient name cannot be longer than 167 characters
+		// 150 is being safe.
+		$key = substr( $key, 0, 150 );
 
 		return get_site_transient( $key );
 	}
@@ -137,8 +138,9 @@ class Options {
 	public static function set_transient( $name, $value, $expiration = 0, $prefix = true ) {
 		$key = $prefix ? 'wpmudev_hc_' . $name : $name;
 
-		// Transient name cannot be longer than 45 characters.
-		$key = substr( $key, 0, 45 );
+		// Transient name cannot be longer than 167 characters
+		// 150 is being safe.
+		$key = substr( $key, 0, 150 );
 
 		// Fix to prevent WP from hashing PHP objects.
 		delete_site_transient( $key );
@@ -178,7 +180,6 @@ class Options {
 			// Other small options.
 			'timestamp_sync'  => array(),
 			'version'         => \WPMUDEV_HUB_CONNECTOR_VERSION,
-			'hub_nonce'       => '',
 		);
 
 		/**

@@ -399,7 +399,10 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                 }
 
                 if ( isset ( $_REQUEST['download_all'] ) && $_REQUEST['download_all'] != '' ) {
-                    $redirect = esc_url_raw( add_query_arg( array( 'download_file' => esc_html( $_REQUEST['download_all'] ) ) ) );
+                    $redirect = esc_url_raw( add_query_arg( array( 
+                        'download_file' => esc_html( $_REQUEST['download_all'] ),
+                        '_wpnonce' => wp_create_nonce( 'ninja_forms_download_submission_nonce' )
+                    ) ) );
                     $redirect = remove_query_arg( array( 'download_all' ), $redirect );
                     ?>
                     document.location.href = "<?php echo $redirect; ?>";
@@ -445,6 +448,11 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
         }
 
         if (isset ($_REQUEST['download_file']) && !empty($_REQUEST['download_file'])) {
+
+            // Verify nonce for CSRF protection
+            if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'ninja_forms_download_submission_nonce' ) ) {
+                wp_die( 'Security check failed' );
+            }
 
             // Open our download all file
             $filename = esc_html($_REQUEST['download_file']);

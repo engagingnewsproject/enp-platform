@@ -152,6 +152,7 @@ final class TableScreen implements Registerable
                     'codepress-admin-columns'
                 ),
                 'backorder'                 => __('On backorder', 'woocommerce'),
+                'cancel'                    => __('Cancel'),
                 'clear_sale_price'          => __('Clear Sale Price', 'codepress-admin-columns'),
                 'decimals'                  => __('Decimals', 'codepress-admin-columns'),
                 'decrease_by'               => __('Decrease by', 'codepress-admin-columns'),

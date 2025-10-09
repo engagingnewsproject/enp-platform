@@ -32,6 +32,7 @@ class NF_Display_Render
 
     protected static $form_uses_recaptcha      = array();
     protected static $form_uses_turnstile      = array();
+    protected static $form_uses_hcaptcha       = array();
     protected static $form_uses_datepicker     = array();
     protected static $form_uses_inputmask      = array();
     protected static $form_uses_currencymask   = array();
@@ -298,6 +299,9 @@ class NF_Display_Render
                 }
                 if( 'turnstile' == $field[ 'settings' ][ 'type' ] ){
                     array_push( self::$form_uses_turnstile, $form_id );
+                }
+                if( 'hcaptcha' == $field[ 'settings' ][ 'type' ] ){
+                    array_push( self::$form_uses_hcaptcha, $form_id );
                 }
                 if( 'date' == $field[ 'settings' ][ 'type' ] || self::checkRepeaterChildType($field, 'date') ){
                     array_push( self::$form_uses_datepicker, $form_id );
@@ -831,6 +835,10 @@ class NF_Display_Render
 
         if( $is_preview || in_array( $form_id, self::$form_uses_turnstile ) ) {
             wp_enqueue_script('nf-cloudflare-turnstile', 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', array( 'jquery', 'nf-front-end-deps' ), null, TRUE );
+        }
+
+        if( $is_preview || in_array( $form_id, self::$form_uses_hcaptcha ) ) {
+            wp_enqueue_script('nf-hcaptcha', 'https://js.hcaptcha.com/1/api.js?render=explicit', array( 'jquery', 'nf-front-end-deps' ), null, TRUE );
         }
 
         if( $is_preview || in_array( $form_id, self::$form_uses_datepicker ) ) {

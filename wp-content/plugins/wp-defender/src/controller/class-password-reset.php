@@ -60,7 +60,7 @@ class Password_Reset extends Event {
 				is_multisite() && ! is_main_site()
 				&& ! wd_di()->get( \WP_Defender\Model\Setting\Mask_Login::class )->is_active()
 			) {
-				add_filter( 'network_site_url', array( &$this, 'filter_site_url' ), 100, 2 );
+				add_filter( 'network_site_url', array( $this, 'filter_site_url' ), 100, 2 );
 			}
 			add_action( 'validate_password_reset', array( $this, 'handle_reset_check_password' ), 10, 2 );
 			add_action( 'profile_update', array( $this, 'handle_update_user' ), 10, 2 );

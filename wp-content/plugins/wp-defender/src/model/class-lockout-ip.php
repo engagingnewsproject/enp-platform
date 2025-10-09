@@ -66,12 +66,15 @@ class Lockout_Ip extends DB {
 	 * Table column for lock time.
 	 *
 	 * @since 3.7.0 Used as timestamp for Login/404 lockouts.
+	 * @since 5.4.0 Used as timestamp for Malicious Bot lockouts too.
+	 * @since 5.6.0 Used as timestamp for Fake Bot lockouts too.
+	 *
 	 * @var int
 	 * @defender_property
 	 */
 	public $lock_time;
 	/**
-	 * Todo: need to use this column less. The lock_time column is used for both lockouts.
+	 * Todo: need to use this column less. The lock_time column is used for Login/404/Malicious Bot lockouts/Fake Bot lockouts.
 	 *
 	 * @var int
 	 * @defender_property
@@ -195,9 +198,9 @@ class Lockout_Ip extends DB {
 	/**
 	 * Retrieves bulk IPs based on the provided status, IPs, and limit.
 	 *
-	 * @param  string          $status  The status of the IPs to retrieve.
-	 * @param  array|null      $ips  An array of IPs to retrieve. If null, retrieves all IPs with the given status.
-	 * @param  int|string|null $limit  The maximum number of IPs to retrieve. If null, retrieves all IPs.
+	 * @param  string     $status  The status of the IPs to retrieve.
+	 * @param  array|null $ips  An array of IPs to retrieve. If null, retrieves all IPs with the given status.
+	 * @param  int|null   $limit  The maximum number of IPs to retrieve. If null, retrieves all IPs.
 	 *
 	 * @return array An array of IP models.
 	 */

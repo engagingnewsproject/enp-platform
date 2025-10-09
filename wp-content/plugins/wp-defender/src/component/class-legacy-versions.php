@@ -11,6 +11,7 @@ use WP_Defender\Component;
 use WP_Defender\Model\Scan;
 use WP_Defender\Model\Scan_Item;
 use WP_Defender\Controller\Scan as Scan_Controller;
+use WP_Filesystem_Base;
 
 /**
  * Responsible for handling legacy data migration and management related to scan issues and ignored items.
@@ -268,7 +269,7 @@ class Legacy_Versions extends Component {
 	 * @return int ID of the scan.
 	 */
 	private function run_simlpe_scan() {
-		$scan_component = wd_di()->get( Scan::class );
+		$scan_component = wd_di()->get( \WP_Defender\Component\Scan::class );
 		$scan_model     = wd_di()->get( Scan::class );
 		// The simplest data.
 		$scan_model->percent         = 100;
@@ -390,7 +391,7 @@ class Legacy_Versions extends Component {
 	public static function get_decrypted_data_with_pub_key( $data ) {
 		global $wp_filesystem;
 		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}

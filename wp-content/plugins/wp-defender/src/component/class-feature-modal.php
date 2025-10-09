@@ -21,8 +21,8 @@ class Feature_Modal extends Component {
 	/**
 	 * Feature data for the last active "What's new" modal.
 	 */
-	public const FEATURE_SLUG    = 'wd_show_feature_session_protection';
-	public const FEATURE_VERSION = '5.2.0';
+	public const FEATURE_SLUG    = 'wd_show_feature_fake_bots';
+	public const FEATURE_VERSION = '5.6.0';
 
 	/**
 	 * Get modals that are displayed on the Dashboard page.
@@ -80,8 +80,8 @@ class Feature_Modal extends Component {
 			),
 			// The latest feature.
 			array(
-				'slug' => 'wd_show_feature_strong_password',
-				'vers' => '5.1.0',
+				'slug' => 'wd_show_feature_abandoned_plugin',
+				'vers' => '5.5.0',
 			),
 			// The current feature.
 			array(

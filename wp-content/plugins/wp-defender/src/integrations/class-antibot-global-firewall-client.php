@@ -12,7 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WP_Error;
-use WP_Defender\Behavior\WPMUDEV;
 use WP_Defender\Traits\Defender_Dashboard_Client;
 
 /**
@@ -29,22 +28,6 @@ class Antibot_Global_Firewall_Client {
 	 * @var string
 	 */
 	private $base_url = 'https://api.blocklist-service.com';
-
-	/**
-	 * The WPMUDEV instance.
-	 *
-	 * @var WPMUDEV
-	 */
-	private $wpmudev;
-
-	/**
-	 * Constructor for the Antibot_Global_Firewall_Client class.
-	 *
-	 * @param  WPMUDEV $wpmudev  The WPMUDEV object.
-	 */
-	public function __construct( WPMUDEV $wpmudev ) {
-		$this->wpmudev = $wpmudev;
-	}
 
 	/**
 	 * Get the base URL of the AntiBot Global Firewall API service.
@@ -73,17 +56,20 @@ class Antibot_Global_Firewall_Client {
 	/**
 	 * Get the blocklist download URL and hashes.
 	 *
+	 * @param string $mode The mode for fetching the blocklist.
+	 *
 	 * @since 4.8.0
 	 * @return array|WP_Error
 	 */
-	public function get_blocklist_download() {
-		return $this->make_request( 'GET', '/download' );
+	public function get_blocklist_download( $mode ) {
+		$path = '/download/' . rawurlencode( $mode );
+		return $this->make_request( 'GET', $path );
 	}
 
 	/**
 	 * Get Blocklist Statistics.
 	 *
-	 * @return int|\WP_Error
+	 * @return array|\WP_Error
 	 */
 	public function get_blocklist_stats() {
 		$response = $this->make_request( 'GET', '/stats' );
@@ -92,11 +78,7 @@ class Antibot_Global_Firewall_Client {
 			return $response;
 		}
 
-		if ( empty( $response['data'] ) || ! isset( $response['data']['blocked_ips'] ) ) {
-			return 0;
-		}
-
-		return (int) $response['data']['blocked_ips'];
+		return isset( $response['data'] ) && is_array( $response['data'] ) ? $response['data'] : array();
 	}
 
 	/**
@@ -111,7 +93,7 @@ class Antibot_Global_Firewall_Client {
 	private function make_request( $method, $endpoint, $data = array() ) {
 		$apikey = $this->get_api_key();
 
-		if ( ! $apikey ) {
+		if ( '' === $apikey ) {
 			return new WP_Error( 'no_api_key', 'No API key provided' );
 		}
 

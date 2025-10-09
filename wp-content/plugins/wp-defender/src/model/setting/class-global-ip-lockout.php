@@ -35,7 +35,7 @@ class Global_Ip_Lockout extends Setting {
 	 * @var bool
 	 * @defender_property
 	 */
-	public bool $allow_self_unlock = false;
+	public bool $allow_self_unlock = true;
 
 	/**
 	 * Table column for autosync.
@@ -72,7 +72,7 @@ class Global_Ip_Lockout extends Setting {
 	 * @return string The module name.
 	 */
 	public static function get_module_name(): string {
-		return esc_html__( 'Central IP List', 'wpdef' );
+		return esc_html__( 'Custom IP List', 'wpdef' );
 	}
 
 	/**

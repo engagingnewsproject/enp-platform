@@ -2,9 +2,9 @@
   'root' => 
   array (
     'name' => 'the-events-calendar/tribe-common',
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
-    'reference' => 'f0d4f977206d78c2d23aac2272a1690c72c80a44',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
+    'reference' => 'e1d3c3344007426e8e8b3c3141eff1b78765adb3',
     'type' => 'wordpress-plugin',
     'install_path' => __DIR__ . '/../',
     'aliases' => 
@@ -173,9 +173,9 @@
     ),
     'stellarwp/shepherd' => 
     array (
-      'pretty_version' => '0.0.5',
-      'version' => '0.0.5.0',
-      'reference' => 'dcf29953277e5b77c8743e0cd80b4ede8422ab59',
+      'pretty_version' => '0.0.6',
+      'version' => '0.0.6.0',
+      'reference' => 'd93bcedf3a28fee87365eb7ea699efed81e83c41',
       'type' => 'library',
       'install_path' => __DIR__ . '/../stellarwp/shepherd',
       'aliases' => 
@@ -202,6 +202,18 @@
       'reference' => '5bc1f115efe629dd4244bff08809aea45ed9d8f1',
       'type' => 'library',
       'install_path' => __DIR__ . '/../stellarwp/uplink',
+      'aliases' => 
+      array (
+      ),
+      'dev_requirement' => false,
+    ),
+    'trustedlogin/client' => 
+    array (
+      'pretty_version' => 'v1.9.0',
+      'version' => '1.9.0.0',
+      'reference' => 'b913058ae57b512a7766f449ab8d55952500fe72',
+      'type' => 'library',
+      'install_path' => __DIR__ . '/../trustedlogin/client',
       'aliases' => 
       array (
       ),

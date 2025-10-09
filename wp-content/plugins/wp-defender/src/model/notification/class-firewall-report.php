@@ -46,7 +46,7 @@ class Firewall_Report extends \WP_Defender\Model\Notification {
 			'dry_run'              => false,
 			'frequency'            => 'weekly',
 			'day'                  => 'sunday',
-			'day_n'                => '1',
+			'day_n'                => 1,
 			'time'                 => '4:00',
 			'configs'              => array(),
 		);

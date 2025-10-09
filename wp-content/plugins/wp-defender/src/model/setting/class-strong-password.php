@@ -46,6 +46,22 @@ class Strong_Password extends Setting {
 	public $message = '';
 
 	/**
+	 * Plugin integrations settings.
+	 *
+	 * @defender_property
+	 * @var array
+	 */
+	public $plugins = array();
+
+	/**
+	 * Form integrations settings.
+	 *
+	 * @defender_property
+	 * @var array
+	 */
+	public $forms = array();
+
+	/**
 	 * Check if the model is activated.
 	 *
 	 * @return bool
@@ -65,6 +81,13 @@ class Strong_Password extends Setting {
 	protected function before_load(): void {
 		$this->user_roles = $this->get_default_roles();
 		$this->message    = $this->get_message();
+		// Only set defaults if not already configured.
+		if ( 0 === count( $this->plugins ) ) {
+			$this->plugins = $this->get_default_plugins();
+		}
+		if ( 0 === count( $this->forms ) ) {
+			$this->forms = $this->get_default_forms();
+		}
 	}
 
 	/**
@@ -84,7 +107,7 @@ class Strong_Password extends Setting {
 	 * @return string
 	 */
 	public function get_message(): string {
-		if ( empty( $this->message ) ) {
+		if ( '' === $this->message ) {
 			return $this->get_default_message();
 		}
 		return $this->message;
@@ -98,5 +121,62 @@ class Strong_Password extends Setting {
 			"You are required to change your password because your password doesn't meet the strong password guidelines set by the administrator.",
 			'wpdef'
 		);
+	}
+
+	/**
+	 * Get default plugin integrations.
+	 */
+	protected function get_default_plugins(): array {
+		return array(
+			'woocommerce' => false,
+		);
+	}
+
+	/**
+	 * Get default form integrations.
+	 */
+	protected function get_default_forms(): array {
+		return array(
+			'woocommerce' => array(),
+		);
+	}
+
+	/**
+	 * Check by deactivated locations. Only if the plugin is enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_unchecked_woo_locations(): bool {
+		return isset( $this->plugins['woocommerce'] ) && $this->plugins['woocommerce'] && array() === $this->forms['woocommerce'];
+	}
+
+	/**
+	 * Validates the form after submission.
+	 *
+	 * @return void
+	 */
+	protected function after_validate(): void {
+		if ( $this->is_unchecked_woo_locations() ) {
+			$this->errors['enable_woo'] = esc_html__(
+				"You have enabled Strong password rule for WooCommerce but you've not selected any form yet. Please select at least one form to proceed.",
+				'wpdef'
+			);
+		}
+	}
+
+	/**
+	 * Export model data with proper type casting.
+	 *
+	 * @return array
+	 */
+	public function export(): array {
+		$data = parent::export();
+
+		// Cast plugin booleans.
+		if ( isset( $data['plugins']['woocommerce'] ) ) {
+			$data['plugins']['woocommerce'] = (bool) $data['plugins']['woocommerce'];
+		}
+
+		return $data;
 	}
 }

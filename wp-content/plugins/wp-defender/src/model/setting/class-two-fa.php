@@ -205,7 +205,7 @@ To complete your login, copy and paste the temporary password into the Password 
 		$this->email_subject       = $default_values['email_subject'];
 		$this->email_sender        = $default_values['email_sender'];
 		$this->email_body          = $default_values['email_body'];
-		$this->app_title           = empty( $default_values['app_title'] )
+		$this->app_title           = '' === $default_values['app_title']
 			? wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES )
 			: $default_values['app_title'];
 		$this->force_auth_mess     = $default_values['message'];
@@ -229,7 +229,7 @@ To complete your login, copy and paste the temporary password into the Password 
 	 *
 	 * @param  string $plugin  The plugin to check for conflict.
 	 *
-	 * @return int Returns 0 if the plugin is not in conflict, 1 if it is in conflict, and 0 if it is not in conflict
+	 * @return int|bool Returns 0 if the plugin is not in conflict, true if it is in conflict, and false if it is not in conflict
 	 *     but has been marked as not conflicting.
 	 */
 	public function is_conflict( $plugin ) {

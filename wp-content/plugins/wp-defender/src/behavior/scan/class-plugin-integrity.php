@@ -19,6 +19,7 @@ use WP_Defender\Integrations\Smush;
 use WP_Defender\Model\Setting\Scan as Scan_Settings;
 use WP_Defender\Helper\Analytics\Scan as Scan_Analytics;
 use WP_Defender\Controller\Scan as Scan_Controller;
+use WP_Defender\Component\Scan as Scan_Component;
 
 /**
  * It is responsible for performing integrity checks on plugins.
@@ -75,19 +76,42 @@ class Plugin_Integrity extends Behavior {
 	}
 
 	/**
-	 * Retrieve hash for a given plugin from wordpress.org.
+	 * Check if a plugin is a WPMUDEV pro plugin by checking for WDP ID header.
+	 *
+	 * @param  string $plugin_file  Plugin main file path.
+	 *
+	 * @return bool True if it's a WPMUDEV pro plugin, false otherwise.
+	 */
+	private function is_wpmudev_pro_plugin( $plugin_file ): bool {
+		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_file );
+		// @phpstan-ignore-next-line - WDP ID is a custom header used by WPMUDEV plugins.
+		return array_key_exists( 'WDP ID', $plugin_data ) && '' !== $plugin_data['WDP ID'];
+	}
+
+	/**
+	 * Retrieve hash for a given plugin from wp.org.
+	 * Excludes premium plugins and WPMUDEV pro plugins from hash retrieval.
 	 *
 	 * @param  string $slug  Plugin folder.
 	 * @param  string $version  Plugin version.
+	 * @param  string $plugin_file  Plugin main file path.
 	 *
 	 * @return array
 	 */
-	private function get_plugin_hash( $slug, $version ): array {
+	private function get_plugin_hash( $slug, $version, $plugin_file = '' ): array {
 		if ( ! $this->is_valid_wporg_slug( $slug ) ) {
 			$this->premium_slugs[] = $slug;
 
 			return array();
 		}
+
+		// Check if this is a WPMUDEV pro plugin that upgraded from free version.
+		if ( '' !== $plugin_file && $this->is_wpmudev_pro_plugin( $plugin_file ) ) {
+			$this->premium_slugs[] = $slug;
+
+			return array();
+		}
+
 		// Get original from wp.org e.g. https://downloads.wordpress.org/plugin-checksums/hello-dolly/1.6.json.
 		$response = wp_remote_get( self::URL_PLUGIN_VCS . $slug . '/' . $version . '.json' );
 
@@ -133,33 +157,25 @@ class Plugin_Integrity extends Behavior {
 	 */
 	protected function plugin_checksum(): array {
 		$all_plugin_hashes = array();
-		/**
-		 * Exclude plugin slugs.
-		 *
-		 * @param  array  $slugs  Slugs of excluded plugins.
-		 *
-		 * @since 3.1.0
-		 */
-		$excluded_slugs = (array) apply_filters( 'wd_scan_excluded_plugin_slugs', array() );
+		$actioned_plugins  = get_site_option( Scan_Component::PLUGINS_ACTIONED );
 
-		foreach ( $this->get_plugins() as $slug => $plugin ) {
-			if ( false === strpos( $slug, '/' ) ) {
-				// Todo: get correct hashes for single-file plugins.
-				// Separate case for 'Hello Dolly'.
-				$base_slug = 'hello.php' === $slug ? 'hello-dolly' : $slug;
-			} else {
-				$base_slug = explode( '/', $slug );
-				$base_slug = array_shift( $base_slug );
+		if ( Scan_Component::are_actioned_plugins( $actioned_plugins ) ) {
+			foreach ( $actioned_plugins as $slug => $plugin_data ) {
+				$plugin_hashes = $this->get_plugin_hash( $slug, $plugin_data['Version'], $plugin_data['Slug'] );
+
+				if ( ! empty( $plugin_hashes ) ) {
+					$all_plugin_hashes = array_merge( $all_plugin_hashes, $plugin_hashes );
+				}
 			}
+		} else {
+			// An emergency option if for some reason the plugin's quick data is not saved in the first step.
+			foreach ( $this->get_plugins() as $plugin_file => $plugin ) {
+				$slug          = $this->get_plugin_slug_by( $plugin_file );
+				$plugin_hashes = $this->get_plugin_hash( $slug, $plugin['Version'], $plugin_file );
 
-			if ( in_array( $base_slug, $excluded_slugs, true ) ) {
-				continue;
-			}
-
-			$plugin_hashes = $this->get_plugin_hash( $base_slug, $plugin['Version'] );
-
-			if ( ! empty( $plugin_hashes ) ) {
-				$all_plugin_hashes = array_merge( $all_plugin_hashes, $plugin_hashes );
+				if ( ! empty( $plugin_hashes ) ) {
+					$all_plugin_hashes = array_merge( $all_plugin_hashes, $plugin_hashes );
+				}
 			}
 		}
 

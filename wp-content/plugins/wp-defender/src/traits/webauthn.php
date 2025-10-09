@@ -26,10 +26,10 @@ trait Webauthn {
 	public function is_ssl(): bool {
 		$server_data = defender_get_data_from_request( null, 's' );
 		if (
-			( ! empty( $server_data['HTTPS'] ) && ( 'on' === strtolower( $server_data['HTTPS'] ) || '1' === $server_data['HTTPS'] ) ) ||
-			( ! empty( $server_data['REQUEST_SCHEME'] ) && 'https' === $server_data['REQUEST_SCHEME'] ) ||
-			( ! empty( $server_data['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $server_data['HTTP_X_FORWARDED_PROTO'] ) ||
-			( ! empty( $server_data['HTTP_X_FORWARDED_SSL'] ) && 'on' === $server_data['HTTP_X_FORWARDED_SSL'] )
+			( isset( $server_data['HTTPS'] ) && ( 'on' === strtolower( $server_data['HTTPS'] ) || '1' === $server_data['HTTPS'] ) ) ||
+			( isset( $server_data['REQUEST_SCHEME'] ) && 'https' === $server_data['REQUEST_SCHEME'] ) ||
+			( isset( $server_data['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $server_data['HTTP_X_FORWARDED_PROTO'] ) ||
+			( isset( $server_data['HTTP_X_FORWARDED_SSL'] ) && 'on' === $server_data['HTTP_X_FORWARDED_SSL'] )
 		) {
 			return true;
 		}
@@ -141,20 +141,18 @@ trait Webauthn {
 	 * @param  int    $user_id  User ID.
 	 * @param  string $name  Metadata key.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
-	public function get_user_meta( int $user_id, string $name ) {
+	public function get_user_meta( int $user_id, string $name ): array {
 		$value = get_user_meta( $user_id, $this->option_prefix . $name, true );
 
-		if ( null !== $value ) {
-			try {
-				return json_decode( $value, true );
-			} catch ( Throwable $exception ) {
-				return array();
-			}
+		if ( null === $value ) {
+			return array();
 		}
 
-		return array();
+		$data = json_decode( $value, true );
+
+		return is_array( $data ) ? $data : array();
 	}
 
 	/**
@@ -177,7 +175,7 @@ trait Webauthn {
 		$site_domain = preg_replace( '#^www\.#', '', $site_domain );
 		$site_domain = explode( '/', $site_domain );
 
-		return $site_domain[0] ?? $site_domain;
+		return $site_domain[0];
 	}
 
 	/**
@@ -211,6 +209,6 @@ trait Webauthn {
 	 */
 	public function base64url_decode( string $data ) {
 		// No need to add '=' at the end.
-		return base64_decode( strtr( $data, '-_', '+/' ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
+		return base64_decode( strtr( $data, '-_', '+/' ), true ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 	}
 }

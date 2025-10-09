@@ -12,12 +12,13 @@ use WP_Defender\Component;
 use WP_Defender\Traits\IP;
 use Calotes\Helper\Array_Cache;
 use WP_Defender\Traits\Country;
+use WP_Defender\Traits\Continent;
 use WP_Defender\Model\Lockout_Log;
 use MaxMind\Db\Reader\InvalidDatabaseException;
 use WP_Defender\Integrations\MaxMind_Geolocation;
 use WP_Defender\Model\Setting\Blacklist_Lockout as Model_Blacklist_Lockout;
-use WP_Defender\Component\Firewall;
 use WP_Defender\Integrations\Main_Wp;
+use WP_Filesystem_Base;
 
 /**
  * Handles operations related to IP and country-based blacklisting and whitelisting.
@@ -26,9 +27,38 @@ class Blacklist_Lockout extends Component {
 
 	use Country;
 	use IP;
+	use Continent;
 
 	// Define the transient key.
 	const IP_LIST_KEY = 'wpmu_dev_ip_list';
+
+	/**
+	 * Check if a country code belongs to a continent.
+	 *
+	 * @param string $country_iso The country ISO code to check.
+	 * @param string $continent_code The continent code (EU, AS, AF, AM, OC).
+	 * @return bool True if the country belongs to the continent, false otherwise.
+	 */
+	private function is_country_in_continent( $country_iso, $continent_code ): bool {
+		$countries_with_continents = $this->get_countries_with_continents();
+
+		if ( ! isset( $countries_with_continents[ $continent_code ] ) ) {
+			return false;
+		}
+
+		$continent = $countries_with_continents[ $continent_code ];
+		if ( ! isset( $continent['area'] ) ) {
+			return false;
+		}
+
+		foreach ( $continent['area'] as $area ) {
+			if ( isset( $area['countries'][ $country_iso ] ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	/**
 	 * Checks if a given IP is whitelisted based on the country.
@@ -49,8 +79,21 @@ class Blacklist_Lockout extends Component {
 		if ( empty( $whitelist ) ) {
 			return false;
 		}
-		if ( ! empty( $country['iso'] ) && in_array( strtoupper( $country['iso'] ), $whitelist, true ) ) {
-			return true;
+
+		if ( ! empty( $country['iso'] ) ) {
+			$country_iso = strtoupper( $country['iso'] );
+
+			// Check if the specific country is in the whitelist.
+			if ( in_array( $country_iso, $whitelist, true ) ) {
+				return true;
+			}
+
+			// Check if any continent containing this country is in the whitelist.
+			foreach ( $whitelist as $allowed_code ) {
+				if ( $this->is_country_in_continent( $country_iso, $allowed_code ) ) {
+					return true;
+				}
+			}
 		}
 
 		return false;
@@ -180,8 +223,21 @@ class Blacklist_Lockout extends Component {
 		if ( in_array( 'all', $blacklisted, true ) ) {
 			return true;
 		}
-		if ( ! empty( $country['iso'] ) && in_array( strtoupper( $country['iso'] ), $blacklisted, true ) ) {
-			return true;
+
+		if ( ! empty( $country['iso'] ) ) {
+			$country_iso = strtoupper( $country['iso'] );
+
+			// Check if the specific country is in the blacklist.
+			if ( in_array( $country_iso, $blacklisted, true ) ) {
+				return true;
+			}
+
+			// Check if any continent containing this country is in the blacklist.
+			foreach ( $blacklisted as $blocked_code ) {
+				if ( $this->is_country_in_continent( $country_iso, $blocked_code ) ) {
+					return true;
+				}
+			}
 		}
 
 		return false;
@@ -197,7 +253,7 @@ class Blacklist_Lockout extends Component {
 	public function verify_import_file( $file ) {
 		global $wp_filesystem;
 		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}
@@ -245,14 +301,25 @@ class Blacklist_Lockout extends Component {
 	 * @throws InvalidDatabaseException Thrown for unexpected data is found in DB.
 	 */
 	public function is_geodb_downloaded(): bool {
-		$model = new Model_Blacklist_Lockout();
-		// Likely the case after the config import with existed MaxMind license key.
+		$model       = new Model_Blacklist_Lockout();
+		$license_key = $model->maxmind_license_key;
+		// Using Geo DB without a license key is not advisable.
+		if ( empty( $license_key ) && is_file( $model->geodb_path ) ) {
+			$service_geo = wd_di()->get( MaxMind_Geolocation::class );
+			$service_geo->delete_database();
+			$model->geodb_path = '';
+			$model->save();
+
+			return false;
+		}
+
+		// Likely the case after the config import with the existed MaxMind license key.
 		if (
-			! empty( $model->maxmind_license_key )
+			! empty( $license_key )
 			&& ( is_null( $model->geodb_path ) || ! is_file( $model->geodb_path ) )
 		) {
 			$service_geo = wd_di()->get( MaxMind_Geolocation::class );
-			$tmp         = $service_geo->get_downloaded_url( $model->maxmind_license_key );
+			$tmp         = $service_geo->get_downloaded_url( $license_key );
 			if ( ! is_wp_error( $tmp ) ) {
 				$phar = new PharData( $tmp );
 				$path = $service_geo->get_db_base_path();
@@ -311,12 +378,66 @@ class Blacklist_Lockout extends Component {
 				return true;
 			}
 
-			if ( move_uploaded_file( $model->geodb_path, $rel_path ) ) {
-				$model->geodb_path = $rel_path;
-				$model->save();
+			if ( $this->validate_geodb_file( $model->geodb_path ) ) {
+				global $wp_filesystem;
+				if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
+					require_once ABSPATH . '/wp-admin/includes/file.php';
+					WP_Filesystem();
+				}
+
+				if ( $wp_filesystem->move( $model->geodb_path, $rel_path ) ) {
+					$wp_filesystem->chmod( $rel_path, 0644 );
+					$model->geodb_path = $rel_path;
+					$model->save();
+				}
 			} else {
 				return false;
 			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Validates GeoDB file for security before processing.
+	 *
+	 * @param string $file_path Path to the file to validate.
+	 * @return bool True if file is valid, false otherwise.
+	 */
+	private function validate_geodb_file( $file_path ): bool {
+		if ( ! file_exists( $file_path ) ) {
+			return false;
+		}
+
+		$allowed_extensions = array( 'mmdb' );
+		$file_extension     = strtolower( pathinfo( $file_path, PATHINFO_EXTENSION ) );
+
+		if ( ! in_array( $file_extension, $allowed_extensions, true ) ) {
+			return false;
+		}
+
+		$file_size = filesize( $file_path );
+		$max_size  = 100 * 1024 * 1024; // 100MB.
+
+		if ( $max_size < $file_size || 0 === $file_size ) {
+			return false;
+		}
+
+		global $wp_filesystem;
+		if ( empty( $wp_filesystem ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
+
+		// Read only first 4 bytes for header validation.
+		$header = $wp_filesystem->get_contents( $file_path );
+		if ( false === $header || strlen( $header ) < 4 ) {
+			return false;
+		}
+		$header = substr( $header, 0, 4 );
+		// MaxMind DB format magic bytes: 0xABCDEF00 .
+		if ( "\xab\xcd\xef\x00" !== $header ) {
+			return false;
 		}
 
 		return true;
