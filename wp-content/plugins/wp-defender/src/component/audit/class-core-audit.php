@@ -16,6 +16,7 @@ use WP_Defender\Component\Security_Tweaks\WP_Version;
  * installation, and theme activation, deactivation, and installation.
  */
 class Core_Audit extends Audit_Event {
+	use \WP_Defender\Traits\Plugin;
 
 	public const ACTION_ACTIVATED = 'activated', ACTION_DEACTIVATED = 'deactivated', ACTION_INSTALLED = 'installed', ACTION_UPGRADED = 'upgraded';
 	public const FILE_ADDED       = 'file_added', FILE_MODIFIED = 'file_modified';
@@ -237,7 +238,7 @@ class Core_Audit extends Audit_Event {
 		} elseif ( 'plugin' === $options['type'] ) {
 			$texts = array();
 			foreach ( $options['plugins'] as $slug ) {
-				$plugin = get_plugin_data( WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $slug );
+				$plugin = get_plugin_data( $this->get_abs_plugin_path_by_slug( $slug ) );
 				if ( is_array( $plugin ) && isset( $plugin['Name'] ) && ! empty( $plugin['Name'] ) ) {
 					$texts[] = sprintf(
 					/* translators: 1: Plugin name, 2: Plugin version. */
@@ -281,7 +282,7 @@ class Core_Audit extends Audit_Event {
 		if ( 'theme' === $options['type'] ) {
 			$theme = wp_get_theme( $options['theme'] );
 			if ( is_object( $theme ) ) {
-				$name    = $theme->Name; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				$name    = $theme->get( 'Name' );
 				$version = $theme->get( 'Version' );
 
 				return array(
@@ -300,7 +301,7 @@ class Core_Audit extends Audit_Event {
 			}
 		} elseif ( 'plugin' === $options['type'] ) {
 			$slug = $options['plugin'];
-			$data = get_plugin_data( WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $slug );
+			$data = get_plugin_data( $this->get_abs_plugin_path_by_slug( $slug ) );
 			if ( is_array( $data ) ) {
 				$name    = $data['Name'];
 				$version = $data['Version'];
@@ -516,7 +517,7 @@ class Core_Audit extends Audit_Event {
 	 */
 	public function get_plugin_abs_path( string $slug ): string {
 		if ( ! is_file( $slug ) ) {
-			$slug = WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $slug;
+			$slug = $this->get_abs_plugin_path_by_slug( $slug );
 		}
 
 		return $slug;

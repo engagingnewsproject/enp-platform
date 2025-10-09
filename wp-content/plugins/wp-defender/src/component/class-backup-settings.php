@@ -42,11 +42,15 @@ use WP_Defender\Model\Setting\Main_Setting as Model_Main_Setting;
 use WP_Defender\Model\Setting\Audit_Logging as Model_Audit_Logging;
 use WP_Defender\Model\Setting\Login_Lockout as Model_Login_Lockout;
 use WP_Defender\Model\Setting\User_Agent_Lockout as Model_Ua_Lockout;
+use WP_Defender\Model\Setting\Strong_Password as Strong_Password_Model;
 use WP_Defender\Model\Setting\Security_Tweaks as Model_Security_Tweaks;
+use WP_Defender\Controller\Strong_Password as Strong_Password_Controller;
 use WP_Defender\Controller\Security_Tweaks as Controller_Security_Tweaks;
 use WP_Defender\Model\Setting\Notfound_Lockout as Model_Notfound_Lockout;
 use WP_Defender\Model\Setting\Security_Headers as Model_Security_Headers;
 use WP_Defender\Model\Setting\Blacklist_Lockout as Model_Blacklist_Lockout;
+use WP_Defender\Model\Setting\Session_Protection as Session_Protection_Model;
+use WP_Defender\Controller\Session_Protection as Session_Protection_Controller;
 use WP_Defender\Model\Setting\Password_Protection as Model_Password_Protection;
 use WP_Defender\Controller\Password_Protection as Controller_Password_Protection;
 
@@ -276,6 +280,22 @@ class Backup_Settings extends Component {
 		$ret['pwned_passwords']['enabled']        = $pwned_password_model->is_active();
 		$ret['pwned_passwords']['user_roles']     = $pwned_password_model->user_roles;
 		$ret['pwned_passwords']['custom_message'] = $pwned_password_model->pwned_actions['force_change_message'];
+		// For Strong Passwords.
+		$strong_password_model                      = wd_di()->get( Strong_Password_Model::class );
+		$ret['force_strong_password']['enabled']    = $strong_password_model->is_active();
+		$ret['force_strong_password']['user_roles'] = $strong_password_model->user_roles;
+		$ret['force_strong_password']['message']    = $strong_password_model->get_message();
+		// For Session Protection.
+		if ( $this->is_pro ) {
+			$session_protection_model                     = wd_di()->get( Session_Protection_Model::class );
+			$ret['session_protection']['enabled']         = $session_protection_model->enabled;
+			$ret['session_protection']['user_roles']      = $session_protection_model->user_roles;
+			$ret['session_protection']['lock_properties'] = $session_protection_model->lock_properties;
+			$ret['session_protection']['idle_timeout']    = $session_protection_model->idle_timeout;
+			$ret['session_protection']['login_duration']  = $session_protection_model->login_duration;
+		} else {
+			$ret['session_protection']['enabled'] = false;
+		}
 		// It's better to add Tweaks as the last key to eliminate unexpected behavior with possible user logout.
 		$ret['security_tweaks'] = $security_tweaks;
 
@@ -415,7 +435,7 @@ class Backup_Settings extends Component {
 		$default_2fa_values                 = ( new Model_Two_Fa() )->get_default_values();
 		// Total data.
 		$data = array(
-			'scan'             => array(
+			'scan'                  => array(
 				'integrity_check'               => true,
 				'check_core'                    => true,
 				'check_plugins'                 => true,
@@ -426,7 +446,7 @@ class Backup_Settings extends Component {
 				'always_send'                   => false,
 				'report_subscribers'            => $default_recipients,
 				'day'                           => 'sunday',
-				'day_n'                         => '1',
+				'day_n'                         => 1,
 				'time'                          => '4:00',
 				'frequency'                     => 'weekly',
 				// @since 2.7.0 We can remove it in the next version.
@@ -445,7 +465,7 @@ class Backup_Settings extends Component {
 				// Values for frequency, day and time are above.
 				'scheduled_scanning'            => true,
 			),
-			'iplockout'        => array(
+			'iplockout'             => array(
 				'login_protection'                       => true,
 				'login_protection_login_attempt'         => '5',
 				'login_protection_lockout_timeframe'     => '300',
@@ -483,7 +503,7 @@ class Backup_Settings extends Component {
 				'report_subscribers'                     => $default_recipients,
 				'report_frequency'                       => 'weekly',
 				'day'                                    => 'sunday',
-				'day_n'                                  => '1',
+				'day_n'                                  => 1,
 				'report_time'                            => '4:00',
 				// @since 2.7.0 We can remove it in the next version.
 				'dry_run'                                => false,
@@ -501,7 +521,7 @@ class Backup_Settings extends Component {
 				'global_ip_list'                         => false,
 				'global_ip_list_blocklist_autosync'      => false,
 			),
-			'two_factor'       => array(
+			'two_factor'            => array(
 				// @since 2.6.5 Disabled module.
 				'enabled'             => false,
 				'lost_phone'          => true,
@@ -518,14 +538,14 @@ class Backup_Settings extends Component {
 				'email_body'          => $default_2fa_values['email_body'],
 				'app_title'           => $default_2fa_values['app_title'],
 			),
-			'mask_login'       => array(
+			'mask_login'            => array(
 				'enabled'                  => false,
 				'mask_url'                 => '',
 				'redirect_traffic'         => 'off',
 				'redirect_traffic_url'     => '',
 				'redirect_traffic_page_id' => 0,
 			),
-			'security_headers' => array(
+			'security_headers'      => array(
 				'sh_xframe'                    => true,
 				'sh_xframe_mode'               => 'sameorigin',
 				'sh_xframe_urls'               => '',
@@ -543,7 +563,7 @@ class Backup_Settings extends Component {
 				'sh_feature_policy_mode'       => 'self',
 				'sh_feature_policy_urls'       => '',
 			),
-			'settings'         => array(
+			'settings'              => array(
 				'uninstall_data'     => 'keep',
 				'uninstall_settings' => 'preserve',
 				// @since 2.7.0 Empty.
@@ -551,30 +571,42 @@ class Backup_Settings extends Component {
 				'usage_tracking'     => false,
 				'high_contrast_mode' => false,
 			),
-			'pwned_passwords'  => array(
+			'pwned_passwords'       => array(
 				'enabled'        => false,
 				'user_roles'     => $user_roles,
 				'custom_message' => $default_password_protection_values['message'],
 			),
+			'force_strong_password' => array(
+				'enabled'    => false,
+				'user_roles' => $user_roles,
+				'message'    => ( new Strong_Password_Model() )->get_message(),
+			),
 		);
 		// Pro properties.
 		if ( $this->is_pro ) {
-			$data['audit']             = array(
+			$data['audit']              = array(
 				'enabled'      => true,
 				'report'       => 'enabled',
 				'subscribers'  => $default_recipients,
 				'frequency'    => 'weekly',
 				'day'          => 'sunday',
-				'day_n'        => '1',
+				'day_n'        => 1,
 				'time'         => '4:00',
 				// @since 2.7.0 We can remove it in the next version.
 				'dry_run'      => false,
 				'storage_days' => '6 months',
 			);
-			$data['blocklist_monitor'] = array(
+			$data['blocklist_monitor']  = array(
 				// @since 2.7.0 Enable.
 				'enabled' => true,
 				'status'  => '1',
+			);
+			$data['session_protection'] = array(
+				'enabled'         => false,
+				'idle_timeout'    => 1,
+				'login_duration'  => ( new Session_Protection_Model() )->get_default_duration(),
+				'user_roles'      => $user_roles,
+				'lock_properties' => array(),
 			);
 		} else {
 			$data['audit']['enabled']             = false;
@@ -782,8 +814,8 @@ class Backup_Settings extends Component {
 							$scan_report->day   = $module_data['day'];
 						}
 						if ( isset( $module_data['day_n'] ) ) {
-							$scan_settings->day_n = $module_data['day_n'];
-							$scan_report->day_n   = $module_data['day_n'];
+							$scan_settings->day_n = (int) $module_data['day_n'];
+							$scan_report->day_n   = (int) $module_data['day_n'];
 						}
 						if ( isset( $module_data['time'] ) ) {
 							$scan_settings->time = $module_data['time'];
@@ -854,7 +886,7 @@ class Backup_Settings extends Component {
 								$lockout_report->frequency = $module_data['report_frequency'];
 							}
 							if ( isset( $module_data['day_n'] ) ) {
-								$lockout_report->day_n = $module_data['day_n'];
+								$lockout_report->day_n = (int) $module_data['day_n'];
 							}
 							if ( isset( $module_data['report_time'] ) ) {
 								$lockout_report->time = $module_data['report_time'];
@@ -893,7 +925,7 @@ class Backup_Settings extends Component {
 						// @since 2.7.0 We can remove it in the next version.
 						$lockout_report->dry_run   = false;
 						$lockout_report->frequency = 'weekly';
-						$lockout_report->day_n     = '1';
+						$lockout_report->day_n     = 1;
 						$lockout_report->day       = 'sunday';
 						$lockout_report->time      = '4:00';
 						$lockout_report->save();
@@ -915,7 +947,7 @@ class Backup_Settings extends Component {
 							$audit_report->frequency = $module_data['frequency'];
 						}
 						if ( isset( $module_data['day_n'] ) ) {
-							$audit_report->day_n = $module_data['day_n'];
+							$audit_report->day_n = (int) $module_data['day_n'];
 						}
 						if ( isset( $module_data['day'] ) ) {
 							$audit_report->day = $module_data['day'];
@@ -941,7 +973,7 @@ class Backup_Settings extends Component {
 						// @since 2.7.0 We can remove it in the next version.
 						$audit_report->dry_run   = false;
 						$audit_report->frequency = 'weekly';
-						$audit_report->day_n     = '1';
+						$audit_report->day_n     = 1;
 						$audit_report->day       = 'sunday';
 						$audit_report->time      = '4:00';
 					}
@@ -961,6 +993,10 @@ class Backup_Settings extends Component {
 					'pwned_passwords' === $module
 					&& isset( $module_data['custom_message'] )
 				) {
+					$controller->import_data( $module_data );
+				} elseif ( 'force_strong_password' === $module ) {
+					$controller->import_data( $module_data );
+				} elseif ( 'session_protection' === $module && $this->is_pro ) {
 					$controller->import_data( $module_data );
 				} elseif ( 'two_factor' === $module ) {
 					$controller->import_data( $module_data );
@@ -1110,6 +1146,10 @@ class Backup_Settings extends Component {
 				return new Blocklist_Monitor();
 			case 'pwned_passwords':
 				return new Controller_Password_Protection();
+			case 'force_strong_password':
+				return new Strong_Password_Controller();
+			case 'session_protection':
+				return new Session_Protection_Controller();
 			default:
 				return '';
 		}
@@ -1233,6 +1273,10 @@ class Backup_Settings extends Component {
 				);
 			} elseif ( 'pwned_passwords' === $key ) {
 				$strings['pwned_passwords'][] = esc_html__( 'Inactive', 'wpdef' );
+			} elseif ( 'force_strong_password' === $key ) {
+				$strings['force_strong_password'][] = esc_html__( 'Inactive', 'wpdef' );
+			} elseif ( 'session_protection' === $key ) {
+				$strings['session_protection'][] = esc_html__( 'Inactive', 'wpdef' );
 			}
 		}
 

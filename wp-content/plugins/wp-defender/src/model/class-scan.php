@@ -17,6 +17,7 @@ use WP_Defender\Traits\Formats;
 use WP_Defender\Component\Error_Code;
 use WP_Defender\Behavior\Scan_Item\Core_Integrity;
 use WP_Defender\Behavior\Scan_Item\Plugin_Integrity;
+use WP_Defender\Behavior\Scan_Item\Abandoned_Result;
 
 /**
  * Model for scan table.
@@ -28,7 +29,7 @@ class Scan extends DB {
 
 	public const STATUS_INIT = 'init', STATUS_ERROR = 'error', STATUS_FINISH = 'finish';
 	// Default state.
-	public const STEP_GATHER_INFO = 'gather_info';
+	public const STEP_GATHER_INFO = 'gather_info', STEP_ABANDONED_PLUGIN_CHECK = 'abandoned_plugin_check';
 	public const STEP_CHECK_CORE  = 'core_integrity_check', STEP_CHECK_PLUGIN = 'plugin_integrity_check';
 	public const STEP_VULN_CHECK  = 'vuln_check', STEP_SUSPICIOUS_CHECK = 'suspicious_check';
 	public const IGNORE_INDEXER   = 'defender_scan_ignore_index';
@@ -76,6 +77,7 @@ class Scan extends DB {
 	 *  - vuln_check
 	 *  - suspicious_check
 	 *  - idle
+	 *  - abandoned_plugin_check
 	 *
 	 * @var string
 	 * @defender_property
@@ -150,6 +152,8 @@ class Scan extends DB {
 	 *     - 'count_plugin' (int): Number of plugin check issues.
 	 *     - 'count_malware' (int): Number of suspicious/malware issues.
 	 *     - 'count_vuln' (int): Number of vulnerability issues.
+	 *     - 'count_outdated_plugin' (int): Number of outdated plugin issues.
+	 *     - 'count_closed_plugin' (int): Number of closed plugin issues.
 	 */
 	public function prepare_issues( $per_page = null, $paged = null, $type = null ): array {
 		$ignored_models = $this->get_issues( $type, Scan_Item::STATUS_IGNORE, $per_page, $paged );
@@ -162,20 +166,25 @@ class Scan extends DB {
 
 		$scan_item_group_total = wd_di()->get( Scan_Item::class )->get_types_total( $this->id, Scan_Item::STATUS_ACTIVE );
 
-		$count_issues  = ! empty( $scan_item_group_total['all'] ) ?
+		$count_issues  = isset( $scan_item_group_total['all'] ) ?
 			$scan_item_group_total['all'] : 0;
-		$count_core    = ! empty( $scan_item_group_total[ Scan_Item::TYPE_INTEGRITY ] ) ?
+		$count_core    = isset( $scan_item_group_total[ Scan_Item::TYPE_INTEGRITY ] ) ?
 			$scan_item_group_total[ Scan_Item::TYPE_INTEGRITY ] : 0;
-		$count_plugin  = ! empty( $scan_item_group_total[ Scan_Item::TYPE_PLUGIN_CHECK ] ) ?
+		$count_plugin  = isset( $scan_item_group_total[ Scan_Item::TYPE_PLUGIN_CHECK ] ) ?
 			$scan_item_group_total[ Scan_Item::TYPE_PLUGIN_CHECK ] : 0;
-		$count_malware = ! empty( $scan_item_group_total[ Scan_Item::TYPE_SUSPICIOUS ] ) ?
+		$count_malware = isset( $scan_item_group_total[ Scan_Item::TYPE_SUSPICIOUS ] ) ?
 			$scan_item_group_total[ Scan_Item::TYPE_SUSPICIOUS ] : 0;
-		$count_vuln    = ! empty( $scan_item_group_total[ Scan_Item::TYPE_VULNERABILITY ] ) ?
+		$count_vuln    = isset( $scan_item_group_total[ Scan_Item::TYPE_VULNERABILITY ] ) ?
 			$scan_item_group_total[ Scan_Item::TYPE_VULNERABILITY ] : 0;
+		// New counts since v5.5.0.
+		$count_outdated_plugin = isset( $scan_item_group_total[ Scan_Item::TYPE_PLUGIN_OUTDATED ] ) ?
+			$scan_item_group_total[ Scan_Item::TYPE_PLUGIN_OUTDATED ] : 0;
+		$count_closed_plugin   = isset( $scan_item_group_total[ Scan_Item::TYPE_PLUGIN_CLOSED ] ) ?
+			$scan_item_group_total[ Scan_Item::TYPE_PLUGIN_CLOSED ] : 0;
 
 		$scan_item_ignore_total = wd_di()->get( Scan_Item::class )->get_types_total( $this->id, Scan_Item::STATUS_IGNORE );
 
-		$count_ignored = ! empty( $scan_item_ignore_total['all'] ) ?
+		$count_ignored = isset( $scan_item_ignore_total['all'] ) ?
 			$scan_item_ignore_total['all'] : 0;
 
 		foreach ( $ignored_models as $model ) {
@@ -205,6 +214,36 @@ class Scan extends DB {
 			'count_plugin'          => $count_plugin,
 			'count_malware'         => $count_malware,
 			'count_vuln'            => $count_vuln,
+			'count_outdated_plugin' => $count_outdated_plugin,
+			'count_closed_plugin'   => $count_closed_plugin,
+		);
+	}
+
+	/**
+	 * Get all Scan types.
+	 *
+	 * @return array
+	 */
+	private static function get_all_scan_types(): array {
+		return array(
+			Scan_Item::TYPE_VULNERABILITY,
+			Scan_Item::TYPE_INTEGRITY,
+			Scan_Item::TYPE_PLUGIN_CHECK,
+			Scan_Item::TYPE_SUSPICIOUS,
+			Scan_Item::TYPE_PLUGIN_CLOSED,
+			Scan_Item::TYPE_PLUGIN_OUTDATED,
+		);
+	}
+
+	/**
+	 * Get abandoned plugin types.
+	 *
+	 * @return array
+	 */
+	public static function get_abandoned_types(): array {
+		return array(
+			Scan_Item::TYPE_PLUGIN_CLOSED,
+			Scan_Item::TYPE_PLUGIN_OUTDATED,
 		);
 	}
 
@@ -214,12 +253,12 @@ class Scan extends DB {
 	 * filtered by type, status, and pagination parameters.
 	 * The retrieved items are then attached with relevant behaviors based on their type.
 	 *
-	 * @param  string|null $type  Optional. The type of scan issue to filter by.
-	 *                            Accepts 'vulnerability', 'integrity', 'plugin_check', or 'suspicious'. Default null.
-	 * @param  string|null $status  Optional. The status of the scan issue to filter by.
-	 *                            Accepts 'ignore' or 'active'. Default null.
-	 * @param  int|null    $per_page  Optional. The number of items to retrieve per page. Default null.
-	 * @param  int|null    $paged  Optional. The page number of items to retrieve. Default null.
+	 * @param  string|array|null $type  Optional. The type of scan issue to filter by.
+	 *                                  Accepts 'vulnerability', 'integrity', 'plugin_check', or 'suspicious'. Default null.
+	 * @param  string|null       $status  Optional. The status of the scan issue to filter by.
+	 *                                    Accepts 'ignore' or 'active'. Default null.
+	 * @param  int|null          $per_page  Optional. The number of items to retrieve per page. Default null.
+	 * @param  int|null          $paged  Optional. The page number of items to retrieve. Default null.
 	 *
 	 * @return array An array of scan issue models with attached behaviors.
 	 */
@@ -228,44 +267,44 @@ class Scan extends DB {
 		$builder = $orm->get_repository( Scan_Item::class )
 						->where( 'parent_id', $this->id );
 
-		if (
-			! is_null( $type )
-			&& in_array(
-				$type,
-				array(
-					Scan_Item::TYPE_VULNERABILITY,
-					Scan_Item::TYPE_INTEGRITY,
-					Scan_Item::TYPE_PLUGIN_CHECK,
-					Scan_Item::TYPE_SUSPICIOUS,
-				),
-				true
-			)
-		) {
-			$builder->where( 'type', $type );
-		}
-		if (
-			! is_null( $status )
-			&& in_array( $status, array( Scan_Item::STATUS_IGNORE, Scan_Item::STATUS_ACTIVE ), true )
-		) {
-			$builder->where( 'status', $status );
-		}
-		if ( ! is_null( $per_page ) && ! is_null( $paged ) ) {
-			$limit = ( ( $paged - 1 ) * $per_page ) . ',' . $per_page;
-			$builder->limit( $limit );
-		}
-		$models = $builder->get();
-		foreach ( $models as $key => $model ) {
-			switch ( $model->type ) {
-				case Scan_Item::TYPE_INTEGRITY:
-					$model->attach_behavior( Core_Integrity::class, Core_Integrity::class );
-					break;
-				case Scan_Item::TYPE_PLUGIN_CHECK:
-					$model->attach_behavior( Plugin_Integrity::class, Plugin_Integrity::class );
-					break;
-				default:
-					break;
+		if ( null !== $type ) {
+			$valid_types = self::get_all_scan_types();
+			if ( is_array( $type ) ) {
+				$filtered_types = array_intersect( $type, $valid_types );
+				if ( ! empty( $filtered_types ) ) {
+					$builder->where( 'type', 'IN', $filtered_types );
+				}
+			} elseif ( in_array( $type, $valid_types, true ) ) {
+				$builder->where( 'type', $type );
 			}
-			$models[ $key ] = $model;
+		}
+
+		if ( null !== $status ) {
+			static $valid_statuses = array( Scan_Item::STATUS_IGNORE, Scan_Item::STATUS_ACTIVE );
+			if ( in_array( $status, $valid_statuses, true ) ) {
+				$builder->where( 'status', $status );
+			}
+		}
+
+		if ( is_int( $per_page ) && is_int( $paged ) && $per_page > 0 && $paged > 0 ) {
+			$offset = ( $paged - 1 ) * $per_page;
+			$builder->limit( $per_page, $offset );
+		}
+
+		$models = $builder->get();
+
+		static $behavior_map = array(
+			Scan_Item::TYPE_INTEGRITY       => Core_Integrity::class,
+			Scan_Item::TYPE_PLUGIN_CHECK    => Plugin_Integrity::class,
+			Scan_Item::TYPE_PLUGIN_CLOSED   => Abandoned_Result::class,
+			Scan_Item::TYPE_PLUGIN_OUTDATED => Abandoned_Result::class,
+		);
+
+		foreach ( $models as $model ) {
+			if ( isset( $behavior_map[ $model->type ] ) ) {
+				$behavior_class = $behavior_map[ $model->type ];
+				$model->attach_behavior( $behavior_class, $behavior_class );
+			}
 		}
 
 		return $models;
@@ -290,12 +329,7 @@ class Scan extends DB {
 			! is_null( $type )
 			&& in_array(
 				$type,
-				array(
-					Scan_Item::TYPE_VULNERABILITY,
-					Scan_Item::TYPE_INTEGRITY,
-					Scan_Item::TYPE_PLUGIN_CHECK,
-					Scan_Item::TYPE_SUSPICIOUS,
-				),
+				self::get_all_scan_types(),
 				true
 			)
 		) {
@@ -391,15 +425,16 @@ class Scan extends DB {
 			->first();
 
 		if ( is_object( $model ) ) {
-			switch ( $model->type ) {
-				case Scan_Item::TYPE_INTEGRITY:
-					$model->attach_behavior( Core_Integrity::class, Core_Integrity::class );
-					break;
-				case Scan_Item::TYPE_PLUGIN_CHECK:
-					$model->attach_behavior( Plugin_Integrity::class, Plugin_Integrity::class );
-					break;
-				default:
-					break;
+			static $behavior_map = array(
+				Scan_Item::TYPE_INTEGRITY       => Core_Integrity::class,
+				Scan_Item::TYPE_PLUGIN_CHECK    => Plugin_Integrity::class,
+				Scan_Item::TYPE_PLUGIN_CLOSED   => Abandoned_Result::class,
+				Scan_Item::TYPE_PLUGIN_OUTDATED => Abandoned_Result::class,
+			);
+
+			if ( isset( $behavior_map[ $model->type ] ) ) {
+				$behavior_class = $behavior_map[ $model->type ];
+				$model->attach_behavior( $behavior_class, $behavior_class );
 			}
 		}
 
@@ -417,6 +452,19 @@ class Scan extends DB {
 	}
 
 	/**
+	 * Get all scan types where the target entity is the whole folder.
+	 *
+	 * @return array
+	 */
+	private function get_scan_types_for_whole_folder(): array {
+		return array(
+			Scan_Item::TYPE_VULNERABILITY,
+			Scan_Item::TYPE_PLUGIN_CLOSED,
+			Scan_Item::TYPE_PLUGIN_OUTDATED,
+		);
+	}
+
+	/**
 	 * Remove other Scan issue(-s) for the same file.
 	 *
 	 * @param string $path The path to file.
@@ -425,20 +473,20 @@ class Scan extends DB {
 	 * @return void
 	 */
 	public function remove_related_issue_by( string $path, string $type ) {
-		// No needs to separate check Scan_Item::TYPE_VULNERABILITY because we do not delete per file for that type.
 		$orm     = self::get_orm();
 		$builder = $orm->get_repository( Scan_Item::class )
 			->where( 'parent_id', $this->id );
+		// No needs to separate check VULNERABILITY, PLUGIN_CLOSED and PLUGIN_OUTDATED because we do not delete per file for such types.
+		$arr_excluded_types = $this->get_scan_types_for_whole_folder();
 		if ( '' !== $path ) {
-			$builder->where( 'type', 'NOT IN', array( $type, Scan_Item::TYPE_VULNERABILITY ) );
-		} else {
-			$builder->where( 'type', 'NOT IN', array( Scan_Item::TYPE_VULNERABILITY ) );
+			$arr_excluded_types[] = $type;
 		}
+		$builder->where( 'type', 'NOT IN', $arr_excluded_types );
 		$models = $builder->get();
 
-		if ( ! empty( $models ) ) {
+		if ( is_array( $models ) && array() !== $models ) {
 			foreach ( $models as $model ) {
-				if ( $model->raw_data['file'] === $path ) {
+				if ( isset( $model->raw_data['file'] ) && $model->raw_data['file'] === $path ) {
 					$this->remove_issue( $model->id );
 				}
 			}
@@ -464,6 +512,7 @@ class Scan extends DB {
 				'task_checkpoint' => $this->task_checkpoint,
 				// This only for hub, when a scan running.
 				'count'           => array( 'total' => 0 ),
+				'run_background'  => (int) get_site_transient( 'defender_run_background' ) === $this->id,
 			);
 		} elseif ( in_array( $this->status, array( self::STATUS_FINISH, self::STATUS_IDLE ), true ) ) {
 			$total_filtered        = (int) $this->count( $type );
@@ -473,7 +522,7 @@ class Scan extends DB {
 			$scan_item_ignore_total = wd_di()->get( Scan_Item::class )
 				->get_types_total( $this->id, Scan_Item::STATUS_IGNORE );
 
-			$count_ignored = ! empty( $scan_item_ignore_total['all'] ) ?
+			$count_ignored = isset( $scan_item_ignore_total['all'] ) ?
 				$scan_item_ignore_total['all'] : 0;
 
 			$total_issue_pages   = 1;
@@ -491,16 +540,21 @@ class Scan extends DB {
 			$scan_item_group_total = wd_di()->get( Scan_Item::class )
 				->get_types_total( $this->id, Scan_Item::STATUS_ACTIVE );
 
-			$count_issues  = ! empty( $scan_item_group_total['all'] ) ?
+			$count_issues  = isset( $scan_item_group_total['all'] ) ?
 				$scan_item_group_total['all'] : 0;
-			$count_core    = ! empty( $scan_item_group_total[ Scan_Item::TYPE_INTEGRITY ] ) ?
+			$count_core    = isset( $scan_item_group_total[ Scan_Item::TYPE_INTEGRITY ] ) ?
 				$scan_item_group_total[ Scan_Item::TYPE_INTEGRITY ] : 0;
-			$count_plugin  = ! empty( $scan_item_group_total[ Scan_Item::TYPE_PLUGIN_CHECK ] ) ?
+			$count_plugin  = isset( $scan_item_group_total[ Scan_Item::TYPE_PLUGIN_CHECK ] ) ?
 				$scan_item_group_total[ Scan_Item::TYPE_PLUGIN_CHECK ] : 0;
-			$count_malware = ! empty( $scan_item_group_total[ Scan_Item::TYPE_SUSPICIOUS ] ) ?
+			$count_malware = isset( $scan_item_group_total[ Scan_Item::TYPE_SUSPICIOUS ] ) ?
 				$scan_item_group_total[ Scan_Item::TYPE_SUSPICIOUS ] : 0;
-			$count_vuln    = ! empty( $scan_item_group_total[ Scan_Item::TYPE_VULNERABILITY ] ) ?
+			$count_vuln    = isset( $scan_item_group_total[ Scan_Item::TYPE_VULNERABILITY ] ) ?
 				$scan_item_group_total[ Scan_Item::TYPE_VULNERABILITY ] : 0;
+			// New counts since v5.5.0.
+			$count_outdated_plugin = isset( $scan_item_group_total[ Scan_Item::TYPE_PLUGIN_OUTDATED ] ) ?
+				$scan_item_group_total[ Scan_Item::TYPE_PLUGIN_OUTDATED ] : 0;
+			$count_closed_plugin   = isset( $scan_item_group_total[ Scan_Item::TYPE_PLUGIN_CLOSED ] ) ?
+				$scan_item_group_total[ Scan_Item::TYPE_PLUGIN_CLOSED ] : 0;
 
 			return array(
 				'status'          => $this->status,
@@ -516,6 +570,8 @@ class Scan extends DB {
 					'core'                  => $count_core + $count_plugin,
 					'content'               => $count_malware,
 					'vuln'                  => $count_vuln,
+					'outdated_plugin'       => $count_outdated_plugin,
+					'closed_plugin'         => $count_closed_plugin,
 				),
 				'paging'          => array(
 					'issue'    => array(
@@ -674,6 +730,8 @@ class Scan extends DB {
 				return esc_html__( 'Checking for any published vulnerabilities in your plugins and themes...', 'wpdef' );
 			case self::STEP_SUSPICIOUS_CHECK:
 				return esc_html__( 'Analyzing WordPress Content...', 'wpdef' );
+			case self::STEP_ABANDONED_PLUGIN_CHECK:
+				return esc_html__( 'Checking for any outdated & removed plugins...', 'wpdef' );
 			default:
 				return esc_html__( 'The scan is running', 'wpdef' );
 		}
@@ -691,7 +749,7 @@ class Scan extends DB {
 		$task_max      = ( 0 !== $this->total_tasks ) ? ( 100 / $this->total_tasks ) : 0;
 		$task_base     = $task_max * ( $pos - 1 );
 		$micro         = $task_percent * $task_max / 100;
-		$this->percent = round( $task_base + $micro, 2 );
+		$this->percent = (int) round( $task_base + $micro, 2 );
 		if ( $this->percent > 100 ) {
 			$this->percent = 100;
 		}
@@ -731,7 +789,7 @@ class Scan extends DB {
 	 *
 	 * @return bool
 	 */
-	public function is_issue_whitelisted( $slug ) {
+	public function is_issue_whitelisted( string $slug ): bool {
 		$whitelisted_files = $this->whitelisted_files();
 		foreach ( $whitelisted_files as $file ) {
 			if ( false !== stristr( $slug, $file ) ) {
@@ -749,7 +807,7 @@ class Scan extends DB {
 	 */
 	public function update_ignore_list( $ignore_lists ) {
 		$ignore_lists = array_unique( $ignore_lists );
-		$ignore_lists = array_filter( $ignore_lists );
+		$ignore_lists = array_filter( $ignore_lists, 'strlen' );
 		update_site_option( self::IGNORE_INDEXER, $ignore_lists );
 	}
 
@@ -827,7 +885,7 @@ class Scan extends DB {
 	 * @return bool Return true on positive integer else false.
 	 * @since 2.6.1
 	 */
-	private function is_positive_int( $id ) {
+	private function is_positive_int( $id ): bool {
 		return is_int( $id ) && $id > 0;
 	}
 }

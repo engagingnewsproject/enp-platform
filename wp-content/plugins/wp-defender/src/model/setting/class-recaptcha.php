@@ -189,19 +189,19 @@ class Recaptcha extends Setting {
 	private function check_recaptcha_type( string $active_type ): bool {
 		if (
 			'v2_checkbox' === $active_type
-			&& ! empty( $this->data_v2_checkbox['key'] )
-			&& ! empty( $this->data_v2_checkbox['secret'] )
+			&& '' !== $this->data_v2_checkbox['key']
+			&& '' !== $this->data_v2_checkbox['secret']
 		) {
 			return true;
 		} elseif (
 			'v2_invisible' === $active_type
-			&& ! empty( $this->data_v2_invisible['key'] )
-			&& ! empty( $this->data_v2_invisible['secret'] )
+			&& '' !== $this->data_v2_invisible['key']
+			&& '' !== $this->data_v2_invisible['secret']
 		) {
 			return true;
 		} elseif (
 			'v3_recaptcha' === $active_type
-			&& ! empty( $this->data_v3_recaptcha['key'] ) && ! empty( $this->data_v3_recaptcha['secret'] )
+			&& '' !== $this->data_v3_recaptcha['key'] && '' !== $this->data_v3_recaptcha['secret']
 		) {
 			return true;
 		} else {
@@ -231,7 +231,7 @@ class Recaptcha extends Setting {
 	 * @return bool
 	 */
 	public function enable_default_location(): bool {
-		return ! empty( $this->locations );
+		return array() !== $this->locations;
 	}
 
 	/**
@@ -240,7 +240,7 @@ class Recaptcha extends Setting {
 	 * @return bool
 	 */
 	public function enable_woo_location(): bool {
-		return $this->detect_woo && ! empty( $this->woo_checked_locations );
+		return $this->detect_woo && array() !== $this->woo_checked_locations;
 	}
 
 	/**
@@ -249,7 +249,7 @@ class Recaptcha extends Setting {
 	 * @return bool
 	 */
 	public function is_unchecked_woo_locations(): bool {
-		return $this->detect_woo && empty( $this->woo_checked_locations );
+		return $this->detect_woo && array() === $this->woo_checked_locations;
 	}
 
 	/**
@@ -273,7 +273,7 @@ class Recaptcha extends Setting {
 	 * @return bool
 	 */
 	public function enable_buddypress_location(): bool {
-		return $this->detect_buddypress && ! empty( $this->buddypress_checked_locations );
+		return $this->detect_buddypress && array() !== $this->buddypress_checked_locations;
 	}
 
 	/**
@@ -282,7 +282,7 @@ class Recaptcha extends Setting {
 	 * @return bool
 	 */
 	public function is_unchecked_buddypress_locations(): bool {
-		return $this->detect_buddypress && empty( $this->buddypress_checked_locations );
+		return $this->detect_buddypress && array() === $this->buddypress_checked_locations;
 	}
 
 	/**

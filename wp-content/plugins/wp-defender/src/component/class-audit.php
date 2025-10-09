@@ -164,10 +164,10 @@ class Audit extends Component {
 			$item['msg'] = addslashes( $item['msg'] );
 			$data[]      = $item;
 		}
-
 		if ( count( $data ) ) {
 			$ret = $this->curl_to_api( $data );
 			if ( ! is_wp_error( $ret ) ) {
+				$this->log( sprintf( 'API sync successful, marking %s logs as synced', count( $data ) ), self::AUDIT_LOG );
 				foreach ( $logs as $log ) {
 					$log->synced = 1;
 					$log->save();
@@ -194,11 +194,13 @@ class Audit extends Component {
 			// Count the logs that should be deleted.
 			$logs_count = Audit_Log::count( $date_from->getTimestamp(), $date_to->getTimestamp() );
 			if ( $logs_count > 0 ) {
+				$this->log( 'Cleaning up old logs from ' . $date_from->format( 'Y-m-d H:i:s' ) . ' to ' . $date_to->format( 'Y-m-d H:i:s' ), self::AUDIT_LOG );
+				// Since v5.0.0.
+				$delete_count = (int) apply_filters( 'wpdef_audit_limit_deleted_logs', 50 );
 				Audit_Log::delete_old_logs(
 					$date_from->getTimestamp(),
 					$date_to->getTimestamp(),
-					// Since v5.0.0.
-					(int) apply_filters( 'wpdef_audit_limit_deleted_logs', 50 )
+					$delete_count,
 				);
 			}
 		}

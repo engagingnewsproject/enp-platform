@@ -3,7 +3,7 @@
 Contributors: theeventscalendar, stellarwp, borkweb, bordoni, brianjessee, aguseo, camwynsp, jentheo, leahkoerper, lucatume, neillmcshea, vicskf, zbtirrell
 Tags: events, calendar, event, schedule, organizer
 Donate link: https://evnt.is/29
-Stable tag: 6.15.0.1
+Stable tag: 6.15.7
 Requires at least: 6.6
 Tested up to: 6.8.2
 Requires PHP: 7.4
@@ -231,6 +231,75 @@ Previous versions of The Events Calendar are not cross-compatible with 6.X add-o
 Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
+
+= [6.15.7] 2025-10-07 =
+
+* Tweak - Added `aria-label` to nav tags to make page landmarks unique. [TEC-5208]
+* Tweak - Event Date time block structure updated to improve accessibility. [TEC-5531]
+* Tweak - Change default opt-in status to prevent false positives in checks when the value is not set. [TEC-5583]
+* Tweak - Add ARIA landmark roles and `aria-current` attributes to breadcrumbs to improve screen reader support. [TEC-5205]
+* Tweak - Replace breadcrumbs with a "Back to Events" link on Venue and Organizer single pages for clearer navigation and improved accessibility.[TEC-5207][TEC-5205]
+* Tweak - Changed views: `blocks/event-datetime`, `v2/components/backlink`, `v2/components/breadcrumbs`, `v2/components/breadcrumbs/breadcrumb`, `v2/components/breadcrumbs/linked-breadcrumb`, `v2/components/header`, `v2/list/nav`, `v2/list/top-bar/nav`
+* Language - 4 new strings added, 6 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.15.6] 2025-09-30 =
+
+* Version - The Events Calendar 6.15.6 is only compatible with Events Pro 7.7.6 and higher.
+* Fix - Elementor Venue widget now shows the map show or hide option with proper styling options. [TEC-5092]
+* Fix - Enhanced iCal feed timezone definitions to include extended DST transition data for better calendar compatibility. [TEC-5061]
+* Fix - Onboarding wizard now shows loading spinner properly while waiting for Event Tickets installation. [TEC-5584]
+* Fix - Prevent ICS download from redirecting when List view is disabled. [TEC-5609]
+* Tweak - Added filters: `tec_events_views_v2_should_redirect`, `tec_events_ical_timezone_extend_years`
+* Tweak - Changed views: `v2/month/calendar-body/day/cell-title`, `v2/month/calendar-body/day/cell`, `v2/month/calendar-body/day/more-events`, `v2/month/mobile-events/mobile-day`, `v2/month/mobile-events/mobile-day/more-events`
+* Tweak - Hide the Event Tickets upsell on the currency page when Event Tickets is enabled. [TEC-5585]
+* Tweak - Introduce subtabs for the Integration settings for better organization. [TEC-5681]
+* Tweak - Updated Community Addon upsell link to go to the proper page. [TEC-5586]
+* Accessibility - Add aria-label for the more events link in month view. [TEC-5216]
+* Accessibility - Adjust aria-label for month view day link to use formatting from TEC settings. [TEC-5214]
+* Compatibility - Conditionally remove template option if Elementor Pro is active to avoid conflicts. [TEC-5610]
+* Language - 4 new strings added, 75 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.15.5] 2025-09-23 =
+
+* Tweak - Adds search capabilities to the countries dropdown in onboarding. [TEC-5581]
+* Language - 0 new strings added, 0 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.15.4] 2025-09-16 =
+
+* Fix - Add more robust checking for dates to handle occurrences and similar non-post events. [TEC-1052]
+* Fix - Fixed an issue where Venues and Organizers created via Community Events could have missing permalinks when events were published. [CE-330]
+* Tweak - Changed views: `blocks/event-venue`, `blocks/parts/map`, `blocks/parts/venue`, `modules/meta/map`, `modules/meta/organizer`, `modules/meta/venue`, `v2/components/header`, `v2/day/event/venue`, `v2/list`, `v2/list/event/venue`
+* Accessibility - Return keyboard focus to the triggering button after closing the datepicker for improved accessibility. [CE-278]
+* Language - 0 new strings added, 13 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.15.3] 2025-09-10 =
+
+* Tweak - Changed views: `blocks/event-venue`, `blocks/parts/map`, `blocks/parts/venue`, `modules/meta/map`, `modules/meta/organizer`, `modules/meta/venue`, `v2/components/header`, `v2/day`, `v2/day/event/venue`, `v2/list`, `v2/list/event/venue`
+* Security - Ensures password protected Venues and Organizers have their data protected. [SVUL-19]
+* Language - 0 new strings added, 59 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.15.2] 2025-09-09 =
+
+* Fix - Corrected path for enqueuing ACF scripts to avoid 404 errors. [TEC-5604]
+* Fix - Fix the process of updating event time zone data. [TEC-5423]
+* Fix - Make sure the user is redirected to the correct settings page after clicking on the "Fix Time Zone Data" button. [TEC-5423]
+* Tweak - Added search capabilities to the currency dropdown in onboarding. [TEC-5580]
+* Tweak - Added search capabilities to the timezone dropdown in onboarding. [TEC-5579]
+* Tweak - Changed views: `blocks/parts/subscribe-list`, `v2/components/subscribe-links/item`.
+* Tweak - Hide unsupported items from the Subscribe to Calendar dropdown for archive pages. [TEC-4242]
+* Tweak - Visual updates to the ECP teaser pill in TEC->Settings->Display.
+* Language - 0 new strings added, 20 updated, 1 fuzzied, and 1 obsoleted.
+
+= [6.15.1.1] 2025-09-03 =
+
+* Security - Ensures only known values are accepted for the ORDER BY query clause. [SVUL-19]
+
+= [6.15.1] 2025-09-02 =
+
+* Fix - Figure out where assets are located in complex environments with a mix of symlinked or normally placed plugins. Resolving as a result issues with Recurring Events UI in WordPress.com. [ECP-1929]
+* Tweak - Changed views: `blocks/event-links`, `integrations/elementor/templates/starter`, `integrations/event-tickets/emails/template-parts/header/head/tec-styles`
+* Compatibility - PHP 8.3 compatibility improvements. [TEC-5571]
+* Language - 0 new strings added, 2 updated, 0 fuzzied, and 0 obsoleted.
 
 = [6.15.0.1] 2025-08-20 =
 
@@ -839,4 +908,4 @@ Remember to always make a backup of your database and files before updating!
 
 * Tweak - Updated hook for showing Event name in the event tickets order report pages. [ET-1810]
 
-### For all versions, please see the full [changelog](https://github.com/the-events-calendar/the-events-calendar/blob/master/changelog.md) in our documentation.
+### For all versions, please see the full [changelog](https://github.com/the-events-calendar/the-events-calendar/blob/main/changelog.md) in our documentation.

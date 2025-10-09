@@ -77,10 +77,7 @@ class Session_Protection extends Setting {
 	 * @return void
 	 */
 	protected function before_load(): void {
-		$tweak_duration       = wd_di()->get( Login_Duration::class )->get_tweak_duration();
-		$this->login_duration = ! empty( $tweak_duration )
-			? $tweak_duration
-			: $this->login_duration;
+		$this->login_duration = $this->get_default_duration();
 		$this->user_roles     = array( 'administrator' );
 	}
 
@@ -90,7 +87,7 @@ class Session_Protection extends Setting {
 	 * @return bool
 	 */
 	public function has_properties(): bool {
-		return ! empty( $this->lock_properties );
+		return array() !== $this->lock_properties;
 	}
 
 	/**
@@ -111,5 +108,27 @@ class Session_Protection extends Setting {
 	 */
 	public static function get_module_slug(): string {
 		return 'session-protection';
+	}
+
+	/**
+	 * Determines whether session protection is currently active.
+	 *
+	 * @return bool True if enabled and roles are set; otherwise, false.
+	 */
+	public function is_active(): bool {
+		return $this->enabled && count( $this->user_roles ) > 0;
+	}
+
+	/**
+	 * Retrieves the default login duration.
+	 *
+	 * @return int Default login duration in days.
+	 */
+	public function get_default_duration(): int {
+		$tweak_duration = wd_di()->get( Login_Duration::class )->get_tweak_duration();
+
+		return $tweak_duration > 0
+			? $tweak_duration
+			: $this->login_duration;
 	}
 }

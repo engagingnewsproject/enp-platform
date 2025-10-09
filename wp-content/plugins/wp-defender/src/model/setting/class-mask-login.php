@@ -117,7 +117,7 @@ class Mask_Login extends Setting {
 	 * @return string The new login URL. Returns an empty string if the mask URL is empty.
 	 */
 	public function get_new_login_url( $domain = null ) {
-		if ( empty( $this->mask_url ) ) {
+		if ( '' === $this->mask_url ) {
 			return '';
 		}
 
@@ -134,7 +134,7 @@ class Mask_Login extends Setting {
 	 * @return string The redirect URL. Returns an empty string if the redirect traffic URL is empty.
 	 */
 	public function get_redirect_url(): string {
-		if ( empty( $this->redirect_traffic_url ) ) {
+		if ( '' === $this->redirect_traffic_url ) {
 			return '';
 		}
 
@@ -170,7 +170,7 @@ class Mask_Login extends Setting {
 	 * @return void
 	 */
 	protected function after_validate(): void {
-		if ( ! empty( $this->mask_url ) ) {
+		if ( '' !== $this->mask_url ) {
 			/**
 			 * Filter forbidden slugs.
 			 *
@@ -225,7 +225,7 @@ class Mask_Login extends Setting {
 	 */
 	public function is_mask_url_page_post_exists(): bool {
 		$mask_url = ltrim( $this->mask_url, '/\\' );
-		if ( empty( $mask_url ) ) {
+		if ( '' === $mask_url ) {
 			return false;
 		}
 
@@ -279,7 +279,7 @@ class Mask_Login extends Setting {
 	public function is_permalink_structure_empty(): bool {
 		$permalink_structure = get_option( 'permalink_structure' );
 
-		return empty( $permalink_structure );
+		return '' === $permalink_structure;
 	}
 
 	/**

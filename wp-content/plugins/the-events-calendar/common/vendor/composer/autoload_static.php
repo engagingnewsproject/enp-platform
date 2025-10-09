@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit34496109de6831e657ff9d61a8fc1f50
+class ComposerStaticInite77cae00f678431fd76325306dab4848
 {
     public static $prefixLengthsPsr4 = array (
         'T' => 
@@ -12,6 +12,7 @@ class ComposerStaticInit34496109de6831e657ff9d61a8fc1f50
             'Tribe\\' => 6,
             'TEC\\Event_Automator\\' => 20,
             'TEC\\Common\\lucatume\\DI52\\' => 25,
+            'TEC\\Common\\TrustedLogin\\' => 24,
             'TEC\\Common\\StellarWP\\Uplink\\Views\\' => 34,
             'TEC\\Common\\StellarWP\\Uplink\\Assets_Dir\\' => 39,
             'TEC\\Common\\StellarWP\\Uplink\\Admin_Views\\' => 40,
@@ -36,6 +37,10 @@ class ComposerStaticInit34496109de6831e657ff9d61a8fc1f50
             'TEC\\Common\\Firebase\\JWT\\' => 24,
             'TEC\\Common\\' => 11,
         ),
+        'S' => 
+        array (
+            'ScssPhp\\ScssPhp\\' => 16,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -50,6 +55,10 @@ class ComposerStaticInit34496109de6831e657ff9d61a8fc1f50
         'TEC\\Common\\lucatume\\DI52\\' => 
         array (
             0 => __DIR__ . '/..' . '/lucatume/di52/src',
+        ),
+        'TEC\\Common\\TrustedLogin\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/trustedlogin/client/src',
         ),
         'TEC\\Common\\StellarWP\\Uplink\\Views\\' => 
         array (
@@ -143,6 +152,10 @@ class ComposerStaticInit34496109de6831e657ff9d61a8fc1f50
         array (
             0 => __DIR__ . '/../..' . '/src/Common',
         ),
+        'ScssPhp\\ScssPhp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/scssphp/scssphp/src',
+        ),
     );
 
     public static $classMap = array (
@@ -152,9 +165,9 @@ class ComposerStaticInit34496109de6831e657ff9d61a8fc1f50
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit34496109de6831e657ff9d61a8fc1f50::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit34496109de6831e657ff9d61a8fc1f50::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit34496109de6831e657ff9d61a8fc1f50::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite77cae00f678431fd76325306dab4848::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite77cae00f678431fd76325306dab4848::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite77cae00f678431fd76325306dab4848::$classMap;
 
         }, null, ClassLoader::class);
     }

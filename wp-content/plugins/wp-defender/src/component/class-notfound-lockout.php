@@ -38,7 +38,7 @@ class Notfound_Lockout extends Component {
 	 * Queue hooks when this class init.
 	 */
 	public function add_hooks() {
-		add_action( 'template_redirect', array( &$this, 'process_404_detect_multiple' ) );
+		add_action( 'template_redirect', array( $this, 'process_404_detect_multiple' ) );
 	}
 
 	/**
@@ -343,7 +343,7 @@ class Notfound_Lockout extends Component {
 
 		$ip_to_country = $this->ip_to_country( $ip );
 
-		if ( ! empty( $ip_to_country ) && isset( $ip_to_country['iso'] ) ) {
+		if ( isset( $ip_to_country['iso'] ) ) {
 			$model->country_iso_code = $ip_to_country['iso'];
 		}
 
@@ -375,6 +375,9 @@ class Notfound_Lockout extends Component {
 				break;
 		}
 		$model->save();
+		// @since 5.4.0 Action hook triggered after a failed 404 attempt.
+		do_action( 'wd_404_attempt', $model, $scenario, $uri );
+
 		if ( Lockout_Log::LOCKOUT_404 === $model->type ) {
 			do_action( 'defender_notify', 'firewall-notification', $model );
 		}

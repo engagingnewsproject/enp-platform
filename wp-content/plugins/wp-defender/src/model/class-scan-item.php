@@ -10,6 +10,7 @@ namespace WP_Defender\Model;
 use WP_Defender\DB;
 use WP_Defender\Behavior\Scan_Item\Vuln_Result;
 use WP_Defender\Behavior\Scan_Item\Malware_Result;
+use WP_Defender\Behavior\Scan_Item\Abandoned_Result;
 
 /**
  * Model for scan item table.
@@ -20,6 +21,8 @@ class Scan_Item extends DB {
 	public const TYPE_INTEGRITY = 'core_integrity', TYPE_PLUGIN_CHECK = 'plugin_integrity';
 	// For 'Known vulnerabilities' and 'Suspicious code' options.
 	public const TYPE_VULNERABILITY = 'vulnerability', TYPE_SUSPICIOUS = 'malware';
+	// For 'Abandoned' option.
+	public const TYPE_PLUGIN_CLOSED = 'plugin_closed', TYPE_PLUGIN_OUTDATED = 'plugin_outdated';
 	// Different statuses.
 	public const STATUS_ACTIVE = 'active', STATUS_IGNORE = 'ignore';
 
@@ -123,6 +126,10 @@ class Scan_Item extends DB {
 				break;
 			case self::TYPE_VULNERABILITY:
 				$this->attach_behavior( Vuln_Result::class, Vuln_Result::class );
+				break;
+			case self::TYPE_PLUGIN_CLOSED:
+			case self::TYPE_PLUGIN_OUTDATED:
+				$this->attach_behavior( Abandoned_Result::class, Abandoned_Result::class );
 				break;
 			default:
 				break;

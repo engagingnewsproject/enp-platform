@@ -18,7 +18,6 @@ use WP_Defender\Controller\Scan;
 use WP_Defender\Component\Crypt;
 use WP_Defender\Behavior\WPMUDEV;
 use WP_Defender\Controller\Onboard;
-use WP_Defender\Controller\Tutorial;
 use WP_Defender\Controller\Webauthn;
 use WP_Defender\Controller\Dashboard;
 use WP_Defender\Controller\Recaptcha;
@@ -39,20 +38,23 @@ use WP_Defender\Controller\Security_Headers;
 use WP_Defender\Controller\Blocklist_Monitor;
 use WP_Defender\Controller\Session_Protection;
 use WP_Defender\Controller\Password_Protection;
+use WP_Defender\Component\Network_Cron_Manager;
 use WP_Defender\Component\Logger\Rotation_Logger;
 use WP_Defender\Component\Firewall as Firewall_Component;
 use WP_Defender\Controller\Firewall as Firewall_Controller;
 use WP_Defender\Controller\Hub_Connector as Hub_Connector_Controller;
 use WP_Defender\Model\Onboard as Onboard_Model;
+use WP_Defender\Controller\Rate as Rate_Controller;
+use WP_Defender\Component\Rate as Rate_Component;
 
 trait Defender_Bootstrap {
-
 	/**
 	 * Table name for quarantine.
 	 *
 	 * @var string
 	 */
 	private $quarantine_table = 'defender_quarantine';
+
 	/**
 	 * Table name for scan item.
 	 *
@@ -73,7 +75,7 @@ trait Defender_Bootstrap {
 
 		return $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
-				"SELECT COUNT(`ENGINE`) = %d FROM   information_schema.TABLES WHERE TABLE_SCHEMA = %s AND `ENGINE` = %s AND TABLE_NAME IN ( '{$wpdb->users}', '{$wpdb->base_prefix}defender_scan_item' );",
+				"SELECT COUNT(`ENGINE`) = %d FROM information_schema.TABLES WHERE TABLE_SCHEMA = %s AND `ENGINE` = %s AND TABLE_NAME IN ( '{$wpdb->users}', '{$wpdb->base_prefix}defender_scan_item' );",
 				$total_table,
 				$wpdb->dbname,
 				'innodb',
@@ -154,7 +156,7 @@ trait Defender_Bootstrap {
 		$this->on_activation();
 		// Create a file with a random key if it doesn't exist.
 		( new Crypt() )->create_key_file();
-		// If this is a plugin reactivatin, then track it. No need the check by 'wd_nofresh_install' key because the option is disabled by default.
+		// If this is a plugin reactivating, then track it. No need the check by 'wd_nofresh_install' key because the option is disabled by default.
 		$settings = wd_di()->get( Main_Setting::class );
 		$settings->set_intention( 'Reactivation' );
 		$settings->track_opt( true );
@@ -189,6 +191,7 @@ trait Defender_Bootstrap {
 		wp_clear_scheduled_hook( 'wpdef_smart_ip_detection_ping' );
 		wp_clear_scheduled_hook( 'wpdef_confirm_antibot_toggle_on_hosting' );
 		wp_clear_scheduled_hook( 'wpdef_firewall_whitelist_server_public_ip' );
+		wp_clear_scheduled_hook( 'wpdef_rotate_malicious_bot_secret_hash' );
 
 		// Remove old legacy cron jobs if they exist.
 		wp_clear_scheduled_hook( 'lockoutReportCron' );
@@ -371,13 +374,11 @@ SQL;
 	}
 
 	/**
-	 * Initializes the common modules of the application.
+	 * Check if this is onboarding.
 	 *
-	 * @return void
+	 * @return bool
 	 */
-	private function init_modules_common(): void {
-		// Init main ORM.
-		Array_Cache::set( 'orm', new Mapper() );
+	private function is_onboarding(): bool {
 		/**
 		 * Display Onboarding if:
 		 * it's a fresh install and there were no requests from the Hub before,
@@ -387,7 +388,20 @@ SQL;
 		 */
 		$hub_class = wd_di()->get( HUB::class );
 		$hub_class->set_onboarding_status( Onboard_Model::maybe_show_onboarding() );
-		if ( $hub_class->get_onboarding_status() && ! defender_is_wp_cli() ) {
+
+		return $hub_class->get_onboarding_status() && ! defender_is_wp_cli();
+	}
+
+	/**
+	 * Initialize the common modules of the application.
+	 *
+	 * @return void
+	 */
+	private function init_modules_common(): void {
+		// Init main ORM.
+		Array_Cache::set( 'orm', new Mapper() );
+
+		if ( $this->is_onboarding() ) {
 			// If it's cli we should start this normally.
 			Array_Cache::set( 'onboard', wd_di()->get( Onboard::class ) );
 		} else {
@@ -406,7 +420,6 @@ SQL;
 		wd_di()->get( Recaptcha::class );
 		wd_di()->get( Notification::class );
 		wd_di()->get( Main_Setting::class );
-		wd_di()->get( Tutorial::class );
 		wd_di()->get( Blocklist_Monitor::class );
 		wd_di()->get( Password_Protection::class );
 		wd_di()->get( Password_Reset::class );
@@ -420,6 +433,13 @@ SQL;
 			wd_di()->get( Quarantine::class );
 		}
 		wd_di()->get( Data_Tracking::class );
+		if ( defender_is_wp_org_version() ) {
+			wd_di()->get( Rate_Controller::class );
+		}
+
+		if ( is_multisite() ) {
+			wd_di()->get( Network_Cron_Manager::class );
+		}
 	}
 
 	/**
@@ -462,7 +482,7 @@ SQL;
 	 */
 	private function register_scripts(): void {
 		$base_url     = WP_DEFENDER_BASE_URL;
-		$dependencies = array( 'def-vue', 'defender', 'wp-i18n' );
+		$dependencies = array( 'def-vue', 'def-manifest', 'defender', 'wp-i18n' );
 		$js_files     = array(
 			'wpmudev-sui'         => array(
 				$base_url . 'assets/js/shared-ui.js',
@@ -471,7 +491,10 @@ SQL;
 				$base_url . 'assets/js/scripts.js',
 			),
 			'def-vue'             => array(
-				$base_url . 'assets/js/vendor/vue.runtime.min.js',
+				$base_url . 'assets/js/vendor.js',
+			),
+			'def-manifest'        => array(
+				$base_url . 'assets/js/manifest.js',
 			),
 			'def-dashboard'       => array(
 				$base_url . 'assets/app/dashboard.js',
@@ -517,10 +540,6 @@ SQL;
 				$base_url . 'assets/app/onboard.js',
 				$dependencies,
 			),
-			'def-tutorial'        => array(
-				$base_url . 'assets/app/tutorial.js',
-				$dependencies,
-			),
 			'def-expert-services' => array(
 				$base_url . '/assets/app/expert-services.js',
 				$dependencies,
@@ -554,6 +573,20 @@ SQL;
 		}
 		$misc['high_contrast'] = defender_high_contrast();
 
+		if ( defender_is_wp_org_version() ) {
+			$misc['rating'] = array();
+			$rate_service   = Rate_Component::is_achievement_displayed();
+			if ( $rate_service['is_displayed'] ) {
+				$misc['rating']         = wd_di()->get( Rate_Controller::class )->data_frontend();
+				$misc['rating']['text'] = Rate_Component::get_notice_by_slug( $rate_service['slug'] );
+			}
+
+			$misc['rating']['is_displayed'] = $rate_service['is_displayed'];
+			$misc['rating']['type']         = $rate_service['slug'];
+		} else {
+			$misc['rating']['is_displayed'] = false;
+		}
+
 		wp_localize_script(
 			'def-vue',
 			'defender',
@@ -576,6 +609,8 @@ SQL;
 				'upgrade_title'               => esc_html__( 'UPGRADE TO PRO', 'wpdef' ),
 				'tracking_modal'              => $is_tracking ? 'show' : 'hide',
 				'hosted'                      => $wpmu_dev->is_wpmu_hosting(),
+				'file_upload_nonce'           => wp_create_nonce( 'defender_file_upload' ),
+				'wpmudev_hub_link'            => 'https://wpmudev.com/hub2/',
 			)
 		);
 
@@ -639,8 +674,10 @@ SQL;
 			},
 			9
 		);
-		// Registers the Hub Connector early to handle the auth callback during the admin init hook.
+		// Register the Hub Connector early to handle the auth callback during the admin init hook.
 		add_action( 'plugins_loaded', array( wd_di()->get( Hub_Connector::class ), 'init' ) );
+		// Register the Cross-Sell module.
+		add_action( 'init', array( wd_di()->get( \WP_Defender\Component\Cross_Sell::class ), 'init' ), 9 );
 		// Include admin class. Don't use is_admin().
 		add_action( 'admin_init', array( ( new Admin() ), 'init' ) );
 		// Add WP-CLI commands.

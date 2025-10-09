@@ -126,6 +126,7 @@ class NF_Actions_Save extends SotAction implements InterfacesSotAction
     /**
      * Retrieve a stored option
      *
+     * @codeCoverageIgnore
      * @param string $key
      * @param mixed $default
      * @return mixed
@@ -140,6 +141,7 @@ class NF_Actions_Save extends SotAction implements InterfacesSotAction
     /**
      * Update a stored value in option table
      *
+     * @codeCoverageIgnore
      * @param string $key
      * @param mixed $value
      * @return void

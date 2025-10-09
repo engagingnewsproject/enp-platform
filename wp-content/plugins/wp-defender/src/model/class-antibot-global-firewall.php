@@ -110,7 +110,7 @@ class Antibot_Global_Firewall extends DB {
 	 * @return int|false The number of rows affected, or false on error.
 	 */
 	public function unlock_ips( array $ips ) {
-		if ( empty( $ips ) ) {
+		if ( array() === $ips ) {
 			return false;
 		}
 

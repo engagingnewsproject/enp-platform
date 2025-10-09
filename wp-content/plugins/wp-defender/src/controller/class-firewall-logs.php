@@ -21,6 +21,7 @@ use WP_Defender\Model\Lockout_Log;
 use WP_Defender\Component\User_Agent;
 use WP_Defender\Component\IP\Global_IP;
 use WP_Defender\Component\Table_Lockout;
+use WP_Defender\Component\Network_Cron_Manager;
 use WP_Defender\Integrations\Antibot_Global_Firewall_Client;
 use WP_Defender\Model\Setting\Blacklist_Lockout;
 use WP_Defender\Model\Setting\User_Agent_Lockout;
@@ -70,7 +71,7 @@ class Firewall_Logs extends Controller {
 	 */
 	public function __construct( Antibot_Global_Firewall_Client $antibot_client ) {
 		$this->register_routes();
-		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
+		add_action( 'defender_enqueue_assets', array( $this, 'enqueue_assets' ) );
 
 		$this->wpmudev = wd_di()->get( WPMUDEV::class );
 
@@ -78,11 +79,16 @@ class Firewall_Logs extends Controller {
 
 		/**
 		 * Send Firewall logs to AntiBot Global Firewall API.
+		 *
+		 * @var Network_Cron_Manager $network_cron_manager
 		 */
-		if ( ! wp_next_scheduled( 'wpdef_firewall_send_compact_logs_to_api' ) ) {
-			wp_schedule_event( time() + 15, 'twicedaily', 'wpdef_firewall_send_compact_logs_to_api' );
-		}
-		add_action( 'wpdef_firewall_send_compact_logs_to_api', array( $this, 'send_compact_logs_to_api' ) );
+		$network_cron_manager = wd_di()->get( Network_Cron_Manager::class );
+		$network_cron_manager->register_callback(
+			'wpdef_firewall_send_compact_logs_to_api',
+			array( $this, 'send_compact_logs_to_api' ),
+			12 * HOUR_IN_SECONDS,
+			time() + 15
+		);
 		if ( class_exists( 'Akismet' ) ) {
 			add_filter( 'http_response', array( $this, 'akismet_http_response' ), 10, 3 );
 		}
@@ -222,7 +228,7 @@ class Firewall_Logs extends Controller {
 		if ( 0 === $per_page ) {
 			$per_page = 20;
 		}
-		if ( - 1 === (int) $per_page ) {
+		if ( - 1 === $per_page ) {
 			$per_page = false;
 		}
 
@@ -230,7 +236,7 @@ class Firewall_Logs extends Controller {
 		if ( 0 === $paged ) {
 			$paged = 1;
 		}
-		$logs = Lockout_Log::query_logs( $filters, $paged, 'date', 'desc', $per_page );
+		$logs = Lockout_Log::query_logs( $filters, $paged, 'id', 'desc', $per_page );
 
 		$tl_component = new Table_Lockout();
 
@@ -254,6 +260,7 @@ class Firewall_Logs extends Controller {
 			esc_html__( 'Type', 'wpdef' ),
 			esc_html__( 'IP address', 'wpdef' ),
 			esc_html__( 'IP Status', 'wpdef' ),
+			esc_html__( 'User Agent Name', 'wpdef' ),
 			esc_html__( 'User Agent Status', 'wpdef' ),
 		);
 		fputcsv( $fp, $headers, ',', '"', '\\' );
@@ -266,6 +273,7 @@ class Firewall_Logs extends Controller {
 				$tl_component->get_type( $log->type ),
 				$log->ip,
 				$tl_component->get_ip_status_text( $log->ip ),
+				$log->user_agent,
 				$ua_component->get_status_text( $log->type, $log->tried ),
 			);
 			fputcsv( $fp, $item, ',', '"', '\\' );
@@ -275,7 +283,7 @@ class Firewall_Logs extends Controller {
 				flush();
 			}
 		}
-
+		// WP_Filesystem is not suitable here because it abstracts to reading/writing files on disk, not to output streams.
 		fclose( $fp ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 		exit();
 	}
@@ -322,10 +330,10 @@ class Firewall_Logs extends Controller {
 
 			$global_ip_service = wd_di()->get( Global_IP::class );
 			if ( $global_ip_service->can_blocklist_autosync() ) {
-				$data = array(
+				$global_ip_data = array(
 					'block_list' => array( $ip ),
 				);
-				$global_ip_service->add_to_global_ip_list( $data );
+				$global_ip_service->add_to_global_ip_list( $global_ip_data );
 			}
 
 			/* translators: 1: IP address. 2: IP address list. 3: IP address list. 4: URL for Defender > Firewall > IP Banning. */
@@ -499,14 +507,16 @@ class Firewall_Logs extends Controller {
 		return new Response(
 			true,
 			array(
-				'message' => sprintf(
+				'message'                 => sprintf(
 					$message,
 					'<strong>' . $data['ua'] . '</strong>',
 					$data['list'],
 					$data['list'],
 					'<a href="' . network_admin_url( 'admin.php?page=wdf-ip-lockout&view=ua-lockout' ) . '">' . esc_html__( 'User Agent Banning', 'wpdef' ) . '</a>'
 				),
-				'logs'    => $logs,
+				'logs'                    => $logs,
+				// Include blocklist preset values for the frontend.
+				'blocklist_preset_values' => $model->blocklist_preset_values,
 			)
 		);
 	}
@@ -613,14 +623,6 @@ class Firewall_Logs extends Controller {
 		if ( ! $this->is_page_active() ) {
 			return;
 		}
-		wp_enqueue_script( 'def-momentjs', defender_asset_url( '/assets/js/vendor/moment/moment.min.js' ), array(), DEFENDER_VERSION, true );
-		wp_enqueue_script(
-			'def-daterangepicker',
-			defender_asset_url( '/assets/js/vendor/daterangepicker/daterangepicker.js' ),
-			array(),
-			DEFENDER_VERSION,
-			true
-		);
 		wp_localize_script(
 			'def-iplockout',
 			'lockout_logs',
@@ -634,11 +636,13 @@ class Firewall_Logs extends Controller {
 	 * @return array An array of data for the frontend.
 	 */
 	public function data_frontend(): array {
+		$type = defender_get_data_from_request( 'type', 'g' );
+
 		$def_filters  = array( 'misc' => wd_di()->get( Table_Lockout::class )->get_filters() );
 		$init_filters = array(
 			'from'       => strtotime( '-30 days' ),
 			'to'         => time(),
-			'type'       => '',
+			'type'       => $type,
 			'ip'         => '',
 			'ban_status' => '',
 		);
@@ -675,11 +679,6 @@ class Firewall_Logs extends Controller {
 
 		$count = Lockout_Log::count( $filters['from'], $filters['to'], $filters['type'], $filters['ip'], $conditions );
 		$logs  = Lockout_Log::get_logs_and_format( $filters, $paged, $order_by, $order, $per_page );
-
-		if ( - 1 === (int) $per_page ) {
-			$per_page = Lockout_Log::INFINITE_SCROLL_SIZE;
-		}
-
 		return array(
 			'count'       => $count,
 			'logs'        => $logs,
@@ -715,6 +714,7 @@ class Firewall_Logs extends Controller {
 	 * Delete all the data & the cache.
 	 */
 	public function remove_data() {
+		delete_site_transient( self::AKISMET_BLOCKED_IPS );
 	}
 
 	/**

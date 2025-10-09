@@ -44,6 +44,11 @@ final class NF_Tracking
      */
     public function maybe_opt_in()
     {
+        // Verify nonce for CSRF protection
+        if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'nf_optin_nonce' ) ) {
+            wp_die( 'Security check failed' );
+        }
+
         if( $this->can_opt_in() ) {
 
             $opt_in_action = htmlspecialchars( $_POST[ self::FLAG ] );

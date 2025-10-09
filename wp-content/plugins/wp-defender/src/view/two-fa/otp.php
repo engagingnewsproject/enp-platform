@@ -184,6 +184,7 @@ if ( ! function_exists( 'login_header_otp' ) ) {
 			<a id="otp-logo" href="<?php echo esc_url( $login_header_url ); ?>"
 				title="<?php echo esc_attr( $login_header_title ); ?>" tabindex="-1"><?php bloginfo( 'name' ); ?></a>
 		</h1>
+		<div id="notification"></div>
 			<?php
 		}
 		unset( $login_header_url, $login_header_title );
@@ -269,6 +270,7 @@ END;
 	login_header_otp( '', '', $show_logo, $error );
 
 	if ( ! empty( $providers ) ) {
+		$nonce = wp_create_nonce( 'verify_otp' );
 		foreach ( $providers as $slug => $provider ) {
 			?>
 				<form method="post" class="wpdef-2fa-form" id="wpdef-2fa-form-<?php echo esc_attr( $slug ); ?>" action="
@@ -290,13 +292,13 @@ END;
 					<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>"/>
 					<input type="hidden" name="password" value="<?php echo esc_attr( $password ); ?>"/>
 					<input type="hidden" name="requested_user" value="<?php echo esc_attr( $user_id ); ?>"/>
+					<input type="hidden" id="_wpnonce_<?php echo esc_attr( $slug ); ?>" name="_wpnonce" value="<?php echo esc_attr( $nonce ); ?>" />
 				<?php
 				if ( ! empty( defender_get_data_from_request( 'interim-login', 'r' ) ) ) {
 					?>
 						<input type="hidden" name="interim-login" value="1"/>
 					<?php
 				}
-				wp_nonce_field( 'verify_otp' );
 				?>
 				</form>
 				<?php
@@ -309,16 +311,14 @@ END;
 					<?php foreach ( $providers as $slug => $provider ) { ?>
 							<li class="wpdef-2fa-link" id="wpdef-2fa-link-<?php echo esc_attr( $slug ); ?>"
 								data-slug="<?php echo esc_attr( $slug ); ?>">
-
+								<!-- The label value is escaped on backend. It's safe. -->
 								<?php echo $provider->get_login_label(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
 							</li>
 						<?php } ?>
 					</ul>
-					<img class="def-ajaxloader" src="<?php defender_asset_url( '/assets/img/spinner.svg', true ); ?>"/>
 				</div>
 			<?php } ?>
-			<p class="notification"></p>
 		<?php } ?>
 		<?php if ( $custom_graphic ) { ?>
 			<style type="text/css">
@@ -331,82 +331,86 @@ END;
 		$totp_script = <<<END
 		<script>
 		jQuery(function ($) {
-            function two_factor_providers( defaultSlug ) {
-                // Hide all forms and show the one default.
-                $('.wpdef-2fa-form').hide();
-                $('#wpdef-2fa-form-' + defaultSlug).show();
-                // Hide all links and show others except the default.
-                if ( $('.wpdef-2fa-link').length > 0 ) {
-                    $('.wpdef-2fa-link').hide();
-                    $('.wpdef-2fa-link:not(#wpdef-2fa-link-'+ defaultSlug +')').each(function(){
-                        $(this).show();
-                    });
-                }
-                // Focus on the current input-field.
-                if ($('#wpdef-2fa-form-' + defaultSlug).find('[name="otp"]').length > 0) {
-                    $('#wpdef-2fa-form-' + defaultSlug).find('[name="otp"]').focus();
-                }
-            }
-            var is_sent = false;
-            // Logic for FallbackEmail method.
-            function resend_code() {
-                // Work with the button 'Resen Code'.
-                var that = $('input[name="button_resend_code"]');
-                if (is_sent === false) {
-                    is_sent = true;
-                }
-                let data = {
-                    data: JSON.stringify({
-                        'token': '{$token}',
-                        'requested_user': '{$user_id}'
-                    })
-                };
-                $.ajax({
-                    type: 'POST',
-                    url: '{$action_fallback_email}',
-                    data: data,
-                    beforeSend: function () {
-                        that.attr('disabled', 'disabled');
-                        $('.def-ajaxloader').show();
-                    },
-                    success: function (data) {
-                        that.removeAttr('disabled');
-                        $('.def-ajaxloader').hide();
-                        $('.notification').text(data.data.message);
-                        is_sent = false;
-                    }
-                })
-            }
+			function two_factor_providers(defaultSlug) {
+				// Hide all forms and show the one default.
+				$('.wpdef-2fa-form').hide();
+				$('#wpdef-2fa-form-' + defaultSlug).show();
+				// Hide all links and show others except the default.
+				if ($('.wpdef-2fa-link').length > 0) {
+					$('.wpdef-2fa-link').hide();
+					$('.wpdef-2fa-link:not(#wpdef-2fa-link-' + defaultSlug + ')').each(function () {
+						$(this).show();
+					});
+				}
+				// Focus on the current input-field.
+				if ($('#wpdef-2fa-form-' + defaultSlug).find('[name="otp"]').length > 0) {
+					$('#wpdef-2fa-form-' + defaultSlug).find('[name="otp"]').trigger('focus');
+				}
+			}
 
-            $('.def-ajaxloader').hide();
-            // Hide all forms and show the one default.
-            var defaultSlug = '{$default_slug}';
-            if ( ! defaultSlug && 0 < $( 'form.wpdef-2fa-form' ).first().length ) {
-                var twoFaFormId = $( 'form.wpdef-2fa-form' ).first().attr( 'id' );
-                defaultSlug = twoFaFormId.replace( 'wpdef-2fa-form-', '' );
-                if ( 'fallback-email' === defaultSlug ) {
-                    resend_code();
-                }
-            }
-            two_factor_providers( defaultSlug );
-            // Work with links.
-            $('body').on('click', '.wpdef-2fa-link', function () {
-                $('#login_error').remove();
-                // Clear any previous notification.
-                $('.notification').empty();
-                var slug = $(this).data('slug');
-                two_factor_providers( slug );
-                // Switch to 'Fallback Email' method.
-                if ('fallback-email' === slug) {
-                    resend_code();
-                }
-            });
-            // Resend code.
-            $('body').on('click', 'input[name="button_resend_code"]', function (e) {
-                e.preventDefault();
-                resend_code();
-            })
-        })
+			var is_sent = false;
+			// Logic for FallbackEmail method.
+			function resend_code() {
+				// Work with the button 'Resend Code'.
+				var that = $('#wd-2fa-resend-code');
+				if (is_sent === false) {
+					is_sent = true;
+				}
+				let data = {
+					data: JSON.stringify({
+						'token': '{$token}',
+						'requested_user': '{$user_id}'
+					})
+				};
+				$.ajax({
+					type: 'POST',
+					url: '{$action_fallback_email}',
+					data: data,
+					beforeSend: function () {
+						that.prop('disabled', true);
+						$('.def-ajaxloader').show();
+					},
+					success: function (data) {
+						that.prop('disabled', false);
+						$('.def-ajaxloader').hide();
+						$('#notification').removeClass().addClass('notice notice-success').text(data.data.message).show();
+						is_sent = false;
+					}
+				});
+			}
+
+			$('.def-ajaxloader').hide();
+			// Hide all forms and show the one default.
+			var defaultSlug = '{$default_slug}';
+			if (!defaultSlug && 0 < $('form.wpdef-2fa-form').first().length) {
+				var twoFaFormId = $('form.wpdef-2fa-form').first().attr('id');
+				defaultSlug = twoFaFormId.replace('wpdef-2fa-form-', '');
+				if ('fallback-email' === defaultSlug) {
+					resend_code();
+				} else {
+					$('#notification').hide();
+				}
+			}
+			two_factor_providers(defaultSlug);
+			// Work with links.
+			$('body').on('click', '.wpdef-2fa-link', function () {
+				$('#login_error').remove();
+				// Clear any previous notification.
+				var slug = $(this).data('slug');
+				two_factor_providers(slug);
+				// Switch to 'Fallback Email' method.
+				if ('fallback-email' === slug) {
+					resend_code();
+				} else {
+					$('#notification').hide();
+				}
+			});
+			// Resend code.
+			$('body').on('click', '#wd-2fa-resend-code', function (e) {
+				e.preventDefault();
+				resend_code();
+			});
+		});
 		</script>
 END;
 		add_action(

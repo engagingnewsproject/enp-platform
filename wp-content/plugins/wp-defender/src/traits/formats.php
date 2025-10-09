@@ -94,10 +94,13 @@ trait Formats {
 			array( 1, esc_html__( 'second', 'wpdef' ) ),
 		);
 
+		$seconds = 0;
+		$name    = '';
+		$count   = 0;
 		for ( $i = 0, $j = count( $chunks ); $i < $j; $i++ ) {
 			$seconds = $chunks[ $i ][0];
 			$name    = $chunks[ $i ][1];
-			$count   = floor( $since / $seconds );
+			$count   = (int) floor( $since / $seconds );
 			if ( 0 !== $count ) {
 				break;
 			}
@@ -151,14 +154,14 @@ trait Formats {
 	 */
 	public function local_to_utc( $timestring ) {
 		$tz = get_option( 'timezone_string' );
-		if ( ! $tz ) {
+		if ( '' === $tz || false === $tz ) {
 			$gmt_offset = get_option( 'gmt_offset' );
 			if ( 0 === $gmt_offset ) {
 				return strtotime( $timestring );
 			}
 			$tz = $this->get_timezone_string( $gmt_offset );
 		}
-		if ( ! $tz ) {
+		if ( '' === $tz || false === $tz ) {
 			$tz = 'UTC';
 		}
 		$timezone = new DateTimeZone( $tz );
@@ -183,7 +186,7 @@ trait Formats {
 		}
 		$offset = implode( ':', $timezone );
 
-		[ $hours, $minutes ] = explode( ':', $offset );
+		[ $hours, $minutes ] = array_map( 'intval', explode( ':', $offset ) );
 		$seconds             = $hours * 60 * 60 + $minutes * 60;
 		$lc                  = localtime( time(), true );
 		if ( isset( $lc['tm_isdst'] ) ) {
@@ -321,7 +324,7 @@ trait Formats {
 	public function get_time_diff( string $last_time ): string {
 		// If the given time is empty, return a string indicating that the
 		// feature has never been used.
-		if ( empty( $last_time ) ) {
+		if ( '' === $last_time ) {
 			return esc_html__( 'Never', 'wpdef' );
 		}
 

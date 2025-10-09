@@ -102,7 +102,7 @@ class PHP_Version extends Abstract_Security_Tweaks {
 
 			return;
 		}
-
+		// Ref: https://make.wordpress.org/core/handbook/references/php-compatibility-and-wordpress-versions/.
 		$supported_php    = apply_filters(
 			"defender_{$this->slug}_supported_php",
 			array(
@@ -110,6 +110,7 @@ class PHP_Version extends Abstract_Security_Tweaks {
 				'8.0',
 				'8.1',
 				'8.2',
+				'8.3',
 			)
 		);
 		$this->stable_php = $info['recommended_version'];

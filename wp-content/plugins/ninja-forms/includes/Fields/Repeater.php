@@ -84,14 +84,14 @@ class NF_Fields_Repeater extends NF_Abstracts_Field
                 $field[ 'value' ] = $field_class->get_test_value();
             }
 
-            // Disallow recaptcha fields in repeater.
-            if( 'recaptcha' === $field_type ) {
-                unset($fieldset['fields'][$index]);
-                continue 1;
-            }
+            // Disallow certain fields in repeaters.
+            $disallowed = apply_filters('ninja_forms_repeater_disallow_field_types', array(
+                'recaptcha',
+                'turnstile',
+                'hcaptcha'
+            ));
 
-            // Disallow turnstile fields in repeater.
-            if( 'turnstile' === $field_type ) {
+            if( in_array( $field_type, $disallowed ) ) {
                 unset($fieldset['fields'][$index]);
                 continue 1;
             }

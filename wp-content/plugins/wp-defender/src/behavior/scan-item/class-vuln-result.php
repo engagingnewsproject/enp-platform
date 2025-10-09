@@ -252,7 +252,7 @@ class Vuln_Result extends Behavior {
 			);
 		}
 
-		$abs_path = wp_normalize_path( WP_PLUGIN_DIR ) . DIRECTORY_SEPARATOR . $data['base_slug'];
+		$abs_path = $this->get_abs_plugin_path_by_slug( $data['base_slug'] );
 		if ( file_exists( $abs_path ) && ! $this->remove_vulnerability( $abs_path ) ) {
 			return array(
 				'type_notice' => 'error',

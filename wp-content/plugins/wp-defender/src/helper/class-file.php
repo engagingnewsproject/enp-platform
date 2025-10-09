@@ -8,6 +8,7 @@
 namespace WP_Defender\Helper;
 
 use WP_Error;
+use WP_Filesystem_Base;
 
 /**
  * Handles file related tasks.
@@ -51,7 +52,7 @@ class File {
 	public function maybe_dir_access_deny( string $directory ) {
 		global $wp_filesystem;
 		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}
@@ -70,7 +71,7 @@ class File {
 
 		foreach ( $files as $file ) {
 			$file_path = trailingslashit( $file['base'] ) . $file['file'];
-			if ( ! is_null( $file_path ) && ! file_exists( $file_path ) ) {
+			if ( ! file_exists( $file_path ) ) {
 				$wp_filesystem->put_contents( $file_path, $file['content'] );
 			}
 		}

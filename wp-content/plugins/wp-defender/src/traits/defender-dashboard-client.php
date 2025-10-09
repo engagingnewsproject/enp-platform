@@ -13,6 +13,7 @@ use WPMUDEV\Hub\Connector\Data;
 use WP_Defender\Component\Config\Config_Hub_Helper;
 
 trait Defender_Dashboard_Client {
+	use \WP_Defender\Traits\Plugin;
 
 	/**
 	 * Get membership status.
@@ -66,7 +67,7 @@ trait Defender_Dashboard_Client {
 		} else {
 			// Check if it's Pro but user logged the WPMU DEV Dashboard out.
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-			$menu_title = file_exists( WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . WP_DEFENDER_PRO_PATH )
+			$menu_title = file_exists( $this->get_abs_plugin_path_by_slug( WP_DEFENDER_PRO_PATH ) )
 							&& is_plugin_active( WP_DEFENDER_PRO_PATH )
 				? esc_html__( 'Defender Pro', 'wpdef' )
 				: esc_html__( 'Defender', 'wpdef' );
@@ -127,11 +128,11 @@ trait Defender_Dashboard_Client {
 	public function is_site_connected_to_hub(): bool {
 		// The case if Pro version is activated, it is TFH account and a site is from 3rd party hosting.
 		if ( WP_DEFENDER_PRO_PATH === DEFENDER_PLUGIN_BASENAME && $this->is_another_hosted_site_connected_to_tfh() ) {
-			return ! empty( $this->get_api_key() );
+			return '' !== $this->get_api_key();
 		} else {
 			$hub_site_id = $this->get_site_id();
 
-			return ! empty( $hub_site_id ) && is_int( $hub_site_id );
+			return is_int( $hub_site_id ) && $hub_site_id > 0;
 		}
 	}
 
@@ -207,6 +208,15 @@ trait Defender_Dashboard_Client {
 			return Data::get()->membership_type();
 		}
 		return 'free';
+	}
+
+	/**
+	 * Check if the membership type is expired.
+	 *
+	 * @return bool True if membership is expired, false otherwise.
+	 */
+	public function is_expired_membership_type(): bool {
+		return 'expired' === $this->get_membership_type();
 	}
 
 	/**

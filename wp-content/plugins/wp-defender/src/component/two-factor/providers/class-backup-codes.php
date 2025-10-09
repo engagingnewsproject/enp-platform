@@ -79,8 +79,8 @@ class Backup_Codes extends Two_Factor_Provider {
 	 */
 	public function __construct() {
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
-		add_action( 'wd_2fa_init_provider_' . self::$slug, array( &$this, 'init_provider' ) );
-		add_action( 'wd_2fa_user_options_' . self::$slug, array( &$this, 'user_options' ) );
+		add_action( 'wd_2fa_init_provider_' . self::$slug, array( $this, 'init_provider' ) );
+		add_action( 'wd_2fa_user_options_' . self::$slug, array( $this, 'user_options' ) );
 	}
 
 	/**

@@ -58,6 +58,27 @@ class Altcha
         return bin2hex(self::hmacHash($algorithm, $data, $key));
     }
 
+    private static function decodePayload($payload)
+    {
+        $decoded = base64_decode($payload);
+
+        if (!$decoded) {
+            return null;
+        }
+
+        try {
+            $data = json_decode($decoded, true, 2, JSON_THROW_ON_ERROR);
+        } catch (\JsonException|\ValueError $e) {
+            return null;
+        }
+
+        if (!is_array($data) || empty($data)) {
+            return null;
+        }
+
+        return $data;
+    }
+
     public static function createChallenge($options)
     {
         if (is_array($options)) {
@@ -90,7 +111,13 @@ class Altcha
     public static function verifySolution($payload, $hmacKey, $checkExpires = true)
     {
         if (is_string($payload)) {
-            $payload = json_decode(base64_decode($payload), true);
+            $payload = self::decodePayload($payload);
+        }
+
+        if ($payload === null
+            || !isset($payload['algorithm'], $payload['challenge'], $payload['number'], $payload['salt'], $payload['signature'])
+        ) {
+            return false;
         }
 
         $payload = new Payload($payload['algorithm'], $payload['challenge'], $payload['number'], $payload['salt'], $payload['signature']);
@@ -140,7 +167,13 @@ class Altcha
     public static function verifyServerSignature($payload, $hmacKey)
     {
         if (is_string($payload)) {
-            $payload = json_decode(base64_decode($payload), true);
+            $payload = self::decodePayload($payload);
+        }
+
+        if ($payload === null
+            || !isset($payload['algorithm'], $payload['verificationData'], $payload['signature'], $payload['verified'])
+        ) {
+            return false;
         }
 
         $payload = new ServerSignaturePayload($payload['algorithm'], $payload['verificationData'], $payload['signature'], $payload['verified']);

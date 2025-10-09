@@ -139,8 +139,12 @@ class Fallback_Email extends Two_Factor_Provider {
 			?>
 		</button>
 		<p class="wpdef-2fa-email-resend">
-			<input type="submit" class="button" name="button_resend_code"
-					value="<?php esc_attr_e( 'Resend Code', 'wpdef' ); ?>"/>
+			<button class="button button-secondary" type="button" id="wd-2fa-resend-code">
+				<?php
+				esc_html_e( 'Resend Code', 'wpdef' );
+				?>
+				<img class="def-ajaxloader" src="<?php defender_asset_url( '/assets/img/spinner.svg', true ); ?>"/>
+			</button>
 		</p>
 		<?php
 	}

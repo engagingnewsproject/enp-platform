@@ -52,7 +52,7 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 			'frequency'            => 'weekly',
 			'day'                  => 'sunday',
 			'time'                 => '4:00',
-			'day_n'                => '1',
+			'day_n'                => 1,
 			'dry_run'              => false,
 			'configs'              => array(),
 		);
@@ -130,7 +130,7 @@ class Audit_Report extends \WP_Defender\Model\Notification {
 		$audit_logging = wd_di()->get( Audit_Logging::class );
 		$mail_object   = wd_di()->get( Mail::class );
 		$plugin_label  = $mail_object->get_sender_name( self::SLUG );
-		if ( count( $data ) ) {
+		if ( count( $data ) > 0 ) {
 			$logs_url = network_admin_url( 'admin.php?page=wdf-logging&view=logs' );
 			// Need for activated Mask Login feature.
 			$logs_url = apply_filters( 'report_email_logs_link', $logs_url, $email );

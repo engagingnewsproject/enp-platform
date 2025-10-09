@@ -79,4 +79,13 @@ class AltchaTest extends TestCase
         $this->assertEquals($solution->number, $solution->number);
         $this->assertGreaterThan(0, $solution->took);
     }
+
+    public function testInvalidPayload()
+    {
+        $isValid = Altcha::verifySolution('I am invalid', 'key');
+        $this->assertFalse($isValid);
+
+        $isValid = Altcha::verifyServerSignature('I am invalid', 'key');
+        $this->assertFalse($isValid);
+    }
 }

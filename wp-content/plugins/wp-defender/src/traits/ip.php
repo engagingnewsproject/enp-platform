@@ -16,12 +16,12 @@ trait IP {
 	/**
 	 * Check if the IP is IPv4 address.
 	 *
-	 * @param  mixed $ip  IP address.
+	 * @param  string $ip  The IP address to check.
 	 *
-	 * @return mixed
+	 * @return bool Returns true if the IP address is an IPv4 address, false otherwise.
 	 */
 	private function is_v4( $ip ) {
-		return filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 );
+		return false !== filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 );
 	}
 
 	/**
@@ -32,7 +32,7 @@ trait IP {
 	 * @return bool Returns true if the IP address is an IPv6 address, false otherwise.
 	 */
 	private function is_v6( $ip ) {
-		return filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 );
+		return false !== filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 );
 	}
 
 	/**
@@ -134,7 +134,7 @@ trait IP {
 		}
 		$ip      = ip2long( $ip );
 		$subnet  = ip2long( $subnet );
-		$mask    = - 1 << ( 32 - $bits );
+		$mask    = - 1 << ( 32 - (int) $bits );
 		$subnet &= $mask;// nb: in case the supplied subnet wasn't correctly aligned.
 
 		return ( $ip & $mask ) === $subnet;
@@ -157,8 +157,8 @@ trait IP {
 		$subnet            = inet_pton( $subnet );
 		$b_subnet          = $this->ine_to_bits( $subnet );
 
-		$ip_net_bits = substr( $b_ip, 0, $bits );
-		$subnet_bits = substr( $b_subnet, 0, $bits );
+		$ip_net_bits = substr( $b_ip, 0, (int) $bits );
+		$subnet_bits = substr( $b_subnet, 0, (int) $bits );
 
 		return $ip_net_bits === $subnet_bits;
 	}
@@ -459,7 +459,7 @@ trait IP {
 	public function check_ip_by_remote_addr( $blocked_ip ): string {
 		$ip_addr = defender_get_data_from_request( 'REMOTE_ADDR', 's' );
 
-		return ! empty( $ip_addr ) ? $ip_addr : $blocked_ip;
+		return '' !== $ip_addr ? $ip_addr : $blocked_ip;
 	}
 
 	/**
@@ -481,5 +481,66 @@ trait IP {
 	 */
 	public function get_localhost_ips(): array {
 		return array( '127.0.0.1', '::1' );
+	}
+
+	/**
+	 * Determines if the current request originates from this server.
+	 *
+	 * Validates that the request is a loopback from the server by:
+	 * 1. Matching the IP against localhost, hostname IP, or a whitelisted server public IP.
+	 * 2. Matching the User-Agent against the WordPress core loopback format.
+	 *
+	 * @return bool True if it's a valid server-originated loopback request; false otherwise.
+	 */
+	public function request_is_from_server(): bool {
+		$user_ips = $this->get_user_ip();
+		if ( array() === $user_ips ) {
+			return false;
+		}
+
+		// Start building list of trusted server IPs.
+		$trusted_ips = $this->get_localhost_ips();
+		$server_ip   = defender_get_data_from_request( 'SERVER_ADDR', 's' );
+		if ( $this->check_validate_ip( $server_ip ) ) {
+			$trusted_ips[] = $server_ip;
+		}
+
+		$stored_ip = get_site_option( \WP_Defender\Component\Firewall::WHITELIST_SERVER_PUBLIC_IP_OPTION, '' );
+		if ( $this->check_validate_ip( $stored_ip ) ) {
+			$trusted_ips[] = $stored_ip;
+		}
+
+		/**
+		 * Filters the list of trusted server IP addresses used to validate server-originated loopback requests.
+		 *
+		 * This filter allows developers to customize the list of IP addresses considered as trusted sources
+		 * for internal server requests. These IPs are checked against the request's origin IP to determine
+		 * whether it's a valid server-initiated loopback (e.g., WordPress cron or REST loopback check).
+		 *
+		 * Common use cases:
+		 * - Add public-facing server IPs behind proxies/load balancers.
+		 * - Adjust loopback behavior in containerized or cloud environments.
+		 * - Remove/override default server hostname resolution or localhost IPs.
+		 *
+		 * @since 5.3.0
+		 *
+		 * @param array $trusted_ips An array of trusted server IP addresses.
+		 */
+		$trusted_ips = (array) apply_filters( 'wp_defender_server_ips', array_unique( $trusted_ips ) );
+		// Only return true if the request IP is in the trusted list.
+		if ( array() !== array_intersect( $user_ips, $trusted_ips ) ) {
+			return true;
+		}
+
+		// User-Agent missing? Not a valid loopback.
+		$server_agent = defender_get_data_from_request( 'HTTP_USER_AGENT', 's' );
+		if ( '' === $server_agent ) {
+			return false;
+		}
+
+		// User-Agent must match WordPress loopback format.
+		$expected_ua = 'WordPress/' . wp_get_wp_version() . '; ' . home_url( '/' );
+
+		return $server_agent === $expected_ua;
 	}
 }

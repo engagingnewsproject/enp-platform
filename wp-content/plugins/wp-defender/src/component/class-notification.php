@@ -20,6 +20,7 @@ use WP_Defender\Model\Notification\Tweak_Reminder;
 use WP_Defender\Model\Notification\Firewall_Report;
 use WP_Defender\Model\Notification\Malware_Notification;
 use WP_Defender\Model\Notification\Firewall_Notification;
+use WP_Defender\Controller\Notification as Controller_Notification;
 
 /**
  * Handles notifications for various WP Defender components such as Firewall, Malware, and Audit Logging.
@@ -205,7 +206,7 @@ class Notification extends Component {
 		$url     = $this->create_subscribe_url( $model->slug, $email, $inhouse );
 		$subject = sprintf( /* translators: %s: Model title. */ 'Subscribe to %s', $model->title );
 		// Renders emails.
-		$notification = wd_di()->get( \WP_Defender\Controller\Notification::class );
+		$notification = wd_di()->get( Controller_Notification::class );
 		$content_body = $notification->render_partial(
 			'email/confirm',
 			array(
@@ -246,7 +247,7 @@ class Notification extends Component {
 			'subscribe_confimed'
 		);
 
-		$notification = wd_di()->get( \WP_Defender\Controller\Notification::class );
+		$notification = wd_di()->get( Controller_Notification::class );
 		$subject      = esc_html__( 'Confirmed', 'wpdef' );
 		$content_body = $notification->render_partial(
 			'email/subscribed',
@@ -283,7 +284,7 @@ class Notification extends Component {
 		$subject = esc_html__( 'Unsubscribed', 'wpdef' );
 		$url     = $this->create_subscribe_url( $m->slug, $email, $inhouse );
 		// Render emails.
-		$notification = wd_di()->get( \WP_Defender\Controller\Notification::class );
+		$notification = wd_di()->get( Controller_Notification::class );
 		$content_body = $notification->render_partial(
 			'email/unsubscribe',
 			array(
@@ -315,7 +316,7 @@ class Notification extends Component {
 	}
 
 	/**
-	 * Creates a URL for unsubscribing from notifications.
+	 * Create a URL for unsubscribing from notifications.
 	 *
 	 * @param  string $slug  Notification slug.
 	 * @param  string $email  Email address of the subscriber.
@@ -325,7 +326,7 @@ class Notification extends Component {
 	public function create_unsubscribe_url( $slug, $email ): string {
 		return add_query_arg(
 			array(
-				'action' => 'defender_listen_user_unsubscribe',
+				'action' => Controller_Notification::SLUG_UNSUBSCRIBE,
 				'hash'   => hash( 'sha256', $email . AUTH_SALT ),
 				'slug'   => $slug,
 			),
@@ -334,7 +335,7 @@ class Notification extends Component {
 	}
 
 	/**
-	 * Creates a URL for subscribing to notifications.
+	 * Create a URL for subscribing to notifications.
 	 *
 	 * @param  string $slug  Notification slug.
 	 * @param  string $email  Email address of the subscriber.
@@ -345,7 +346,7 @@ class Notification extends Component {
 	public function create_subscribe_url( $slug, $email, $inhouse ): string {
 		return add_query_arg(
 			array(
-				'action'  => 'defender_listen_user_subscribe',
+				'action'  => Controller_Notification::SLUG_SUBSCRIBE,
 				'hash'    => hash( 'sha256', $email . AUTH_SALT ),
 				'uid'     => $slug,
 				'inhouse' => $inhouse,

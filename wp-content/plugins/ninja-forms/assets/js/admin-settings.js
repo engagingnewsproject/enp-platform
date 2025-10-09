@@ -206,7 +206,7 @@ jQuery(document).ready(function($) {
         $( '#nfTelOptin' ).addClass( 'hidden' );
         $( '#nfTelSpinner' ).css( 'display', 'inline-block' );
         // Hit AJAX endpoint and opt-in.
-        $.post( ajaxurl, { action: 'nf_optin', ninja_forms_opt_in: 1 },
+        $.post( ajaxurl, { action: 'nf_optin', ninja_forms_opt_in: 1, _wpnonce: nfAdmin.nf_optin_nonce },
                     function( response ) {
             $( '#nfTelOptout' ).removeClass( 'hidden' );
             $( '#nfTelSpinner' ).css( 'display', 'none' );
@@ -219,7 +219,7 @@ jQuery(document).ready(function($) {
         $( '#nfTelOptout' ).addClass( 'hidden' );
         $( '#nfTelSpinner' ).css( 'display', 'inline-block' );
         // Hit AJAX endpoint and opt-out.
-        $.post( ajaxurl, { action: 'nf_optin', ninja_forms_opt_in: 0 },
+        $.post( ajaxurl, { action: 'nf_optin', ninja_forms_opt_in: 0, _wpnonce: nfAdmin.nf_optin_nonce },
                     function( response ) {
             $( '#nfTelOptin' ).removeClass( 'hidden' );
             $( '#nfTelSpinner' ).css( 'display', 'none' );

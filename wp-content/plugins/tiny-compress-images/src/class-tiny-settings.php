@@ -50,6 +50,13 @@ class Tiny_Settings extends Tiny_WP_Base {
 		}
 	}
 
+	public function cli_init() {
+		try {
+			$this->init_compressor();
+		} catch ( Tiny_Exception $e ) {
+		}
+	}
+
 	public function ajax_init() {
 		try {
 			$this->init_compressor();
@@ -149,7 +156,8 @@ class Tiny_Settings extends Tiny_WP_Base {
 			$this->render_size_checkboxes_description(
 				$_GET['image_sizes_selected'],
 				isset( $_GET['resize_original'] ),
-				isset( $_GET['compress_wr2x'] )
+				isset( $_GET['compress_wr2x'] ),
+				self::get_conversion_enabled()
 			);
 		}
 		exit();
@@ -660,9 +668,9 @@ class Tiny_Settings extends Tiny_WP_Base {
 		echo wp_kses( __( 'Resizing takes <strong>1 additional compression</strong> for each image that is larger.', 'tiny-compress-images' ), $strong ); // WPCS: Needed for proper translation.
 		echo '</span>';
 		echo '<div class="tiny-resize-inputs">';
-		printf( '%s: ', esc_html__( 'Max Width' ) );
+		printf( '%s: ', esc_html__( 'Max Width', 'tiny-compress-images' ) );
 		$this->render_resize_input( 'width' );
-		printf( '%s: ', esc_html__( 'Max Height' ) );
+		printf( '%s: ', esc_html__( 'Max Height', 'tiny-compress-images' ) );
 		$this->render_resize_input( 'height' );
 		echo '</div></div></div>';
 

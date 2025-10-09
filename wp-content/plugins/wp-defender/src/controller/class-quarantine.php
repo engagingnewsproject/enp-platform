@@ -137,12 +137,10 @@ class Quarantine extends Controller {
 	/**
 	 * Get quarantine collection.
 	 *
-	 * @param  Request $request  Request object.
-	 *
 	 * @return Response
 	 * @defender_route
 	 */
-	public function quarantine_collection( Request $request ) {
+	public function quarantine_collection() {
 		$data = $this->quarantine_component->quarantine_collection();
 
 		return new Response(

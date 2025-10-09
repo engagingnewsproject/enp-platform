@@ -58,7 +58,7 @@ class Mask_Login extends Event {
 	 * Initializes the model and service, registers routes, and sets up scheduled events if the model is active.
 	 */
 	public function __construct() {
-		add_filter( 'wp_defender_advanced_tools_data', array( &$this, 'script_data' ) );
+		add_filter( 'wp_defender_advanced_tools_data', array( $this, 'script_data' ) );
 		// Internal cache, so we don't need to query many times.
 		$this->model   = wd_di()->get( Model_Mask_Login::class );
 		$this->service = wd_di()->get( Component_Mask_Login::class );
@@ -86,19 +86,19 @@ class Mask_Login extends Event {
 				return;
 			}
 			// Monitor wp-admin, wp-login.php.
-			add_filter( 'wp_redirect', array( &$this, 'filter_wp_redirect' ), 10 );
+			add_filter( 'wp_redirect', array( $this, 'filter_wp_redirect' ), 10 );
 			// Filter site_url & network_site_url so people won't get block screen.
-			add_filter( 'site_url', array( &$this, 'filter_site_url' ), 100 );
-			add_filter( 'network_site_url', array( &$this, 'filter_site_url' ), 100 );
+			add_filter( 'site_url', array( $this, 'filter_site_url' ), 100 );
+			add_filter( 'network_site_url', array( $this, 'filter_site_url' ), 100 );
 			// For prevent admin redirect.
 			remove_action( 'template_redirect', 'wp_redirect_admin_locations' );
 			// If Pro site is activated and user email is not defined, we need to update the email to match the new login URL.
-			add_filter( 'update_welcome_email', array( &$this, 'update_welcome_email_prosite_case' ), 10, 6 );
-			add_filter( 'lostpassword_redirect', array( &$this, 'change_lostpassword_redirect' ), 10 );
+			add_filter( 'update_welcome_email', array( $this, 'update_welcome_email_prosite_case' ), 10, 6 );
+			add_filter( 'lostpassword_redirect', array( $this, 'change_lostpassword_redirect' ), 10 );
 			// Log links in email.
-			add_filter( 'report_email_logs_link', array( &$this, 'update_report_logs_link' ), 10, 2 );
+			add_filter( 'report_email_logs_link', array( $this, 'update_report_logs_link' ), 10, 2 );
 			if ( class_exists( 'bbPress' ) ) {
-				add_filter( 'bbp_redirect_login', array( &$this, 'make_sure_wpadmin_after_login' ), 10, 3 );
+				add_filter( 'bbp_redirect_login', array( $this, 'make_sure_wpadmin_after_login' ), 10, 3 );
 			}
 
 			if ( 'flywheel' === Server::get_current_server() ) {
@@ -106,7 +106,7 @@ class Mask_Login extends Event {
 					add_action( 'login_form_rp', array( $this, 'handle_password_reset' ) );
 					add_action( 'login_form_resetpass', array( $this, 'handle_password_reset' ) );
 				}
-				add_filter( 'retrieve_password_message', array( &$this, 'flywheel_change_password_message' ), 10, 4 );
+				add_filter( 'retrieve_password_message', array( $this, 'flywheel_change_password_message' ), 10, 4 );
 			}
 
 			global $pagenow;
@@ -159,6 +159,7 @@ class Mask_Login extends Event {
 	 */
 	public function show_login_page(): void {
 		global $error, $interim_login, $action, $user_login, $user, $redirect_to;
+		// Simulate the environment as a "login page".
 		$GLOBALS['pagenow'] = 'wp-login.php'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		if ( $this->service->is_recovery_mode() ) {
 			( new WP_Recovery_Mode() )->initialize();
@@ -472,11 +473,6 @@ class Mask_Login extends Event {
 	 * @return void
 	 */
 	public function maybe_lock(): void {
-		$forbidden_message = esc_html__(
-			'This feature is forbidden temporarily for security reason. Try login again.',
-			'wpdef'
-		);
-
 		if ( 'custom_url' === $this->get_model()->redirect_traffic && strlen( $this->get_model()->redirect_traffic_url ) ) {
 			if ( 'url' === $this->get_model()->is_url_or_slug() ) {
 				$redirect_url = wp_sanitize_redirect( $this->get_model()->redirect_traffic_url );
@@ -484,7 +480,7 @@ class Mask_Login extends Event {
 
 				// Give up if malformed URL.
 				if ( false === $lp ) {
-					wp_die( esc_html( $forbidden_message ) );
+					$this->show_forbidden_screen();
 				}
 				// If the URL is without scheme, e.g. example.com, then add 'http' protocol at the beginning of the URL.
 				if ( ! isset( $lp['scheme'] ) && isset( $lp['path'] ) ) {
@@ -528,7 +524,20 @@ class Mask_Login extends Event {
 		// Handle user profile email change request.
 		$this->handle_email_change_request();
 
-		wp_die( esc_html( $forbidden_message ) );
+		$this->show_forbidden_screen();
+	}
+
+	/**
+	 * Show the forbidden screen.
+	 */
+	public function show_forbidden_screen(): void {
+		wp_die(
+			esc_html__( 'This feature is forbidden temporarily for security reason. Try login again.', 'wpdef' ),
+			esc_html__( 'Forbidden', 'wpdef' ),
+			array(
+				'response' => 403,
+			)
+		);
 	}
 
 	/**

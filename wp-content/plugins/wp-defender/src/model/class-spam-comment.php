@@ -28,13 +28,13 @@ class Spam_Comment {
 			$limit       = 100;
 			$mu_spam_ips = array();
 			while ( $blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs} LIMIT {$offset}, {$limit}", ARRAY_A ) ) { // phpcs:ignore
-				if ( ! empty( $blogs ) && is_array( $blogs ) ) {
+				if ( is_array( $blogs ) && array() !== $blogs ) {
 					foreach ( $blogs as $blog ) {
 						switch_to_blog( $blog['blog_id'] );
 
 						$mu_spam_ips = self::fetch_manual_spam_comments_ip();
 
-						if ( ! empty( $mu_spam_ips ) && is_array( $mu_spam_ips ) ) {
+						if ( is_array( $mu_spam_ips ) && array() !== $mu_spam_ips ) {
 							foreach ( $mu_spam_ips as $ip => $count ) {
 								$spam_ips[ $ip ] = isset( $spam_ips[ $ip ] )
 									? $spam_ips[ $ip ] + $count
@@ -75,7 +75,7 @@ class Spam_Comment {
 		$results = $wpdb->get_results( $sql, ARRAY_A ); // phpcs:ignore
 
 		$spam_ips = array();
-		if ( is_array( $results ) && ! empty( $results ) ) {
+		if ( is_array( $results ) && array() !== $results ) {
 			foreach ( $results as $row ) {
 				$spam_ips[ $row['ip'] ] = (int) $row['count'];
 			}

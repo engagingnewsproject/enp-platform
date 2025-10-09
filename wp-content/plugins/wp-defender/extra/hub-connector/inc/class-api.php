@@ -63,21 +63,30 @@ class API {
 			return \WPMUDEV_APIKEY;
 		} else {
 			/**
-			 * If forced, clear cache and get the value.
+			 * If forced, clear notoptions cache.
 			 *
-			 * Temporary workaround for cache plugin conflicts.
+			 * Workaround W3 total Cache, due to possibility of discrepancies where object cache is used/allowed ( wp-admin vs non wp-admin ).
 			 *
-			 * @see https://incsub.atlassian.net/browse/DEF-2895
+			 * @see https://incsub.atlassian.net/browse/HUB-10174?focusedCommentId=312567
 			 */
 			if ( $force ) {
-				if ( is_multisite() ) {
-					$network_id = get_current_network_id();
-					$cache_key  = "$network_id:wpmudev_apikey";
-					wp_cache_delete( $cache_key, 'site-options' );
-				} else {
-					wp_cache_delete( 'wpmudev_apikey', 'options' );
+				if ( defined( 'W3TC' ) ) {
+					if ( is_multisite() ) {
+						$network_id  = get_current_network_id();
+						$cache_key   = "$network_id:notoptions";
+						$cache_group = 'site-options';
+					} else {
+						$cache_key   = 'notoptions';
+						$cache_group = 'options';
+					}
+					$notoptions = wp_cache_get( $cache_key, $cache_group );
+					unset( $notoptions['wpmudev_apikey'] );
+					wp_cache_set( $cache_key, $notoptions, $cache_group );
+					wp_cache_delete( 'wpmudev_apikey', $cache_group );
 				}
 			}
+
+			do_action( 'wpmudev_hub_connector_before_get_api_key', $force );
 
 			// If 'clear_key' is present in URL then do not load the key from DB.
 			return get_site_option( 'wpmudev_apikey', '' );
@@ -465,30 +474,12 @@ class API {
 			);
 		}
 
+		// Only enabled with constants.
+		// phpcs:disable WordPress.PHP.DevelopmentFunctions.error_log_wp_debug_backtrace_summary
+		// phpcs:disable WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		if ( defined( '\WPMUDEV_API_DEBUG' ) && \WPMUDEV_API_DEBUG ) {
-			$trace     = debug_backtrace();
-			$caller    = array();
-			$last_line = '';
-			foreach ( $trace as $level => $item ) {
-				if ( ! isset( $item['class'] ) ) {
-					$item['class'] = '';
-				}
-				if ( ! isset( $item['type'] ) ) {
-					$item['type'] = '';
-				}
-				if ( ! isset( $item['function'] ) ) {
-					$item['function'] = '<function>';
-				}
-				if ( ! isset( $item['line'] ) ) {
-					$item['line'] = '?';
-				}
-
-				if ( $level > 0 ) {
-					$caller[] = $item['class'] . $item['type'] . $item['function'] . ':' . $last_line;
-				}
-				$last_line = $item['line'];
-			}
-			$caller_dump = "\n\t# " . implode( "\n\t# ", $caller );
+			$trace       = wp_debug_backtrace_summary( null, null, false );
+			$caller_dump = "\n\t# " . implode( "\n\t# ", $trace );
 
 			if ( is_array( $response ) && isset( $response['request_url'] ) ) {
 				$caller_dump = "\n\tURL: " . $response['request_url'] . $caller_dump;
@@ -507,9 +498,11 @@ class API {
 				0
 			);
 		}
+		// phpcs:enable WordPress.PHP.DevelopmentFunctions.error_log_wp_debug_backtrace_summary
+		// phpcs:enable WordPress.PHP.DevelopmentFunctions.error_log_error_log
 
 		// If error was "invalid API key" then log out the user. (we don't call logout here to avoid infinite loop).
-		if ( 401 == $error_code && ! defined( '\WPMUDEV_APIKEY' ) && ! defined( '\WPMUDEV_OVERRIDE_LOGOUT' ) ) {
+		if ( 401 === (int) $error_code && ! defined( '\WPMUDEV_APIKEY' ) && ! defined( '\WPMUDEV_OVERRIDE_LOGOUT' ) ) {
 			$this->set_api_key( '' );
 		}
 
@@ -527,9 +520,10 @@ class API {
 	 */
 	private function update_membership_data( $data ) {
 		if (
-			isset( $data['membership'] ) &&
-			empty( $data['membership'] ) &&
-			! defined( '\WPMUDEV_APIKEY' ) && $this->get_api_key()
+			isset( $data['membership'] )
+			&& empty( $data['membership'] )
+			&& ! defined( '\WPMUDEV_APIKEY' )
+			&& $this->get_api_key()
 		) {
 			// Clear API key.
 			$this->set_api_key( '' );
@@ -549,10 +543,13 @@ class API {
 	 * @return void
 	 */
 	private function maybe_log( $data ) {
+		// phpcs:disable WordPress.PHP.DevelopmentFunctions.error_log_error_log
+
 		// Only if logging is enabled.
 		if ( defined( '\WPMUDEV_API_DEBUG' ) && \WPMUDEV_API_DEBUG ) {
 			error_log( $data );
 		}
+		// phpcs:enable WordPress.PHP.DevelopmentFunctions.error_log_error_log
 	}
 
 	/**

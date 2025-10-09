@@ -60,12 +60,17 @@ class Table_Lockout extends Component {
 	 */
 	private function get_types(): array {
 		return array(
-			'all'                    => esc_html__( 'All', 'wpdef' ),
-			Lockout_Log::AUTH_FAIL   => esc_html__( 'Failed login attempts', 'wpdef' ),
-			Lockout_Log::AUTH_LOCK   => esc_html__( 'Login lockout', 'wpdef' ),
-			Lockout_Log::ERROR_404   => esc_html__( '404 error', 'wpdef' ),
-			Lockout_Log::LOCKOUT_404 => esc_html__( '404 lockout', 'wpdef' ),
-			Lockout_Log::LOCKOUT_UA  => esc_html__( 'User Agent Lockout', 'wpdef' ),
+			'all'                              => esc_html__( 'All', 'wpdef' ),
+			Lockout_Log::AUTH_FAIL             => esc_html__( 'Failed login attempts', 'wpdef' ),
+			Lockout_Log::AUTH_LOCK             => esc_html__( 'Login lockout', 'wpdef' ),
+			Lockout_Log::ERROR_404             => esc_html__( '404 error', 'wpdef' ),
+			Lockout_Log::LOCKOUT_404           => esc_html__( '404 lockout', 'wpdef' ),
+			Lockout_Log::LOCKOUT_UA            => esc_html__( 'User Agent Lockout', 'wpdef' ),
+			Lockout_Log::LOCKOUT_MALICIOUS_BOT => esc_html__( 'Malicious Bot Lockout', 'wpdef' ),
+			Lockout_Log::LOCKOUT_FAKE_BOT      => esc_html__( 'Fake Bot Lockout', 'wpdef' ),
+			// New IP Lockout type since 5.3.0.
+			Lockout_Log::LOCKOUT_IP_CUSTOM     => esc_html__( 'Custom IP Lockout', 'wpdef' ),
+			Lockout_Log::IP_UNLOCK             => esc_html__( 'IP Unlock', 'wpdef' ),
 		);
 	}
 
@@ -91,15 +96,8 @@ class Table_Lockout extends Component {
 	 * @return string The description of the type.
 	 */
 	public function get_type( $type ): string {
-		$types = array(
-			Lockout_Log::AUTH_FAIL        => esc_html__( 'Failed login attempts', 'wpdef' ),
-			Lockout_Log::AUTH_LOCK        => esc_html__( 'Login lockout', 'wpdef' ),
-			Lockout_Log::ERROR_404        => esc_html__( '404 error', 'wpdef' ),
-			Lockout_Log::ERROR_404_IGNORE => esc_html__( '404 error', 'wpdef' ),
-			Lockout_Log::LOCKOUT_404      => esc_html__( '404 lockout', 'wpdef' ),
-			Lockout_Log::LOCKOUT_UA       => esc_html__( 'User Agent Lockout', 'wpdef' ),
-		);
-
+		$types                                  = $this->get_types();
+		$types[ Lockout_Log::ERROR_404_IGNORE ] = esc_html__( '404 error', 'wpdef' );
 		return $types[ $type ] ?? '';
 	}
 

@@ -16,6 +16,7 @@ use WP_Defender\Component\Backup_Settings;
 use WP_Defender\Component\Config\Config_Adapter;
 use WP_Defender\Component\Config\Config_Hub_Helper;
 use WP_Defender\Model\Setting\Main_Setting as Model_Main_Setting;
+use WP_Filesystem_Base;
 
 /**
  * Methods for handling main settings.
@@ -65,10 +66,7 @@ class Main_Setting extends Event {
 		$this->register_page(
 			esc_html__( 'Settings', 'wpdef' ),
 			$this->slug,
-			array(
-				&$this,
-				'main_view',
-			),
+			array( $this, 'main_view' ),
 			$this->parent_slug
 		);
 
@@ -76,7 +74,7 @@ class Main_Setting extends Event {
 		$this->model   = new Model_Main_Setting();
 		$this->service = wd_di()->get( Backup_Settings::class );
 		$this->wpmudev = wd_di()->get( WPMUDEV::class );
-		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
+		add_action( 'defender_enqueue_assets', array( $this, 'enqueue_assets' ) );
 		$this->register_routes();
 
 		// Add cron schedule to clean out outdated logs.
@@ -184,7 +182,6 @@ class Main_Setting extends Event {
 
 		wd_di()->get( Mask_Login::class )->remove_settings();
 		wd_di()->get( Notification::class )->remove_settings();
-		wd_di()->get( Tutorial::class )->remove_settings();
 		wd_di()->get( Two_Factor::class )->remove_settings();
 		wd_di()->get( Blocklist_Monitor::class )->remove_settings();
 		$this->set_intention( 'Data Reset' );
@@ -347,7 +344,7 @@ class Main_Setting extends Event {
 	public function import_config(): Response {
 		global $wp_filesystem;
 		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}
@@ -627,7 +624,7 @@ class Main_Setting extends Event {
 		$data        = $request->get_data();
 		$key         = trim( $data['key'] );
 		$name        = trim( $data['name'] );
-		$description = trim( $data['description'] );
+		$description = trim( $data['desc'] );
 		if ( empty( $name ) || empty( $key ) ) {
 			return new Response(
 				false,
@@ -833,18 +830,23 @@ class Main_Setting extends Event {
 			global $wpdb;
 			$offset = 0;
 			$limit  = 100;
-			// Variable within condition is for comparison.
-			while ( $blogs = $wpdb->get_results( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->blogs} LIMIT %d, %d", $offset, $limit ), ARRAY_A ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery, Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
-				if ( ! empty( $blogs ) && is_array( $blogs ) ) {
-					foreach ( $blogs as $blog ) {
-						switch_to_blog( $blog['blog_id'] );
+			$blogs  = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+				$wpdb->prepare( "SELECT blog_id FROM {$wpdb->blogs} LIMIT %d, %d", $offset, $limit ),
+				ARRAY_A
+			);
+			while ( ! empty( $blogs ) && is_array( $blogs ) ) {
+				foreach ( $blogs as $blog ) {
+					switch_to_blog( $blog['blog_id'] );
 
-						$this->clear_logs_from_files( $time_limit );
+					$this->clear_logs_from_files( $time_limit );
 
-						restore_current_blog();
-					}
+					restore_current_blog();
 				}
 				$offset += $limit;
+				$blogs   = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+					$wpdb->prepare( "SELECT blog_id FROM {$wpdb->blogs} LIMIT %d, %d", $offset, $limit ),
+					ARRAY_A
+				);
 			}
 		} else {
 			$this->clear_logs_from_files( $time_limit );
@@ -862,7 +864,7 @@ class Main_Setting extends Event {
 	public function clear_logs_from_files( int $time_limit = MONTH_IN_SECONDS ) {
 		global $wp_filesystem;
 		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}

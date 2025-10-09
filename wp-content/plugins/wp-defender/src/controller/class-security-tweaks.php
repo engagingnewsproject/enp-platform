@@ -13,7 +13,6 @@ use WP_Defender\Admin;
 use Calotes\Component\Request;
 use Calotes\Component\Response;
 use Calotes\Helper\Array_Cache;
-use WP_Defender\Component\Rate;
 use WP_Defender\Model\Notification\Tweak_Reminder;
 use WP_Defender\Component\Config\Config_Hub_Helper;
 use WP_Defender\Component\Security_Tweaks\Hide_Error;
@@ -95,8 +94,8 @@ class Security_Tweaks extends Event {
 		// Now shield up.
 		$this->boot();
 		// Add addition hooks.
-		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
-		add_action( 'wp_loaded', array( &$this, 'should_output_error' ) );
+		add_action( 'defender_enqueue_assets', array( $this, 'enqueue_assets' ) );
+		add_action( 'wp_loaded', array( $this, 'should_output_error' ) );
 	}
 
 	/**
@@ -511,30 +510,7 @@ class Security_Tweaks extends Event {
 			$not_allowed_bulk[] = 'prevent-php-executed';
 		}
 
-		$tweak_arr    = $this->model->get_tweak_types();
-		$total_tweaks = $tweak_arr['count_fixed'] + $tweak_arr['count_ignored'] + $tweak_arr['count_issues'];
-
-		// Prepare additional data.
-		if ( wd_di()->get( Admin::class )->is_wp_org_version() ) {
-			$misc = array(
-				'rating_is_displayed' => ! Rate::was_rate_request() && $tweak_arr['count_fixed'] === $total_tweaks,
-				'rating_text'         => sprintf(
-				/* translators: %d - Total number. */
-					esc_html__(
-						'You`ve resolved all %d security recommendations - that`s impressive! We are happy to be a part of helping you secure your site, and we would appreciate it if you dropped us a rating on wp.org to help us spread the word and boost our motivation.',
-						'wpdef'
-					),
-					$total_tweaks
-				),
-				'rating_type'         => 'tweak',
-			);
-		} else {
-			$misc = array(
-				'rating_is_displayed' => false,
-				'rating_text'         => '',
-				'rating_type'         => '',
-			);
-		}
+		$tweak_arr = $this->model->get_tweak_types();
 
 		$data = array(
 			'summary'              => array(
@@ -552,7 +528,6 @@ class Security_Tweaks extends Event {
 			'is_autogenerate_keys' => $this->security_key->get_is_autogenerate_keys(),
 			'reminder_frequencies' => $this->security_key->reminder_frequencies(),
 			'enabled_user_enums'   => $this->prevent_enum_users->get_enabled_user_enums(),
-			'misc'                 => $misc,
 		);
 
 		return array_merge( $data, $this->dump_routes_and_nonces() );
@@ -1099,34 +1074,6 @@ class Security_Tweaks extends Event {
 			$is_success,
 			array( 'message' => $message )
 		);
-	}
-
-	/**
-	 * Handle tweaks rating notice.
-	 *
-	 * @param  Request $request  Request.
-	 *
-	 * @return Response
-	 * @defender_route
-	 */
-	public function handle_notice( Request $request ): Response {
-		update_site_option( Rate::SLUG_FOR_BUTTON_RATE, true );
-
-		return new Response( true, array() );
-	}
-
-	/**
-	 * Attention: Tweaks rating notice doesn't have postpone_notice route.
-	 *
-	 * @param  Request $request  Request object.
-	 *
-	 * @defender_route
-	 * @return Response
-	 */
-	public function refuse_notice( Request $request ): Response {
-		update_site_option( Rate::SLUG_FOR_BUTTON_THANKS, true );
-
-		return new Response( true, array() );
 	}
 
 	/**

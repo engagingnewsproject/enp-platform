@@ -87,12 +87,19 @@ class Product extends AC\Column implements ACP\Search\Searchable, ACP\Conditiona
 
     public function search()
     {
-        return new Search\Order\Product();
+        return $this->is_analytics_enabled()
+            ? new Search\Order\Product()
+            : new Search\Order\ProductNonAnalytics();
     }
 
     public function export()
     {
         return new ACP\Export\Model\StrippedValue($this);
+    }
+
+    private function is_analytics_enabled(): bool
+    {
+        return get_option('woocommerce_analytics_enabled') !== 'no';
     }
 
 }

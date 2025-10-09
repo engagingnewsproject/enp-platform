@@ -109,7 +109,7 @@ class Config_Adapter extends Component {
 	 */
 	private function frequency_day( $frequency_type, $report_day ): array {
 		$days = array(
-			'day_n' => '1',
+			'day_n' => 1,
 			'day'   => 'sunday',
 		);
 		if (
@@ -126,7 +126,7 @@ class Config_Adapter extends Component {
 			}
 			// Otherwise, get a number of the first day of the month by the day of the week.
 			$format        = sprintf( 'first %s of next month', $report_day );
-			$days['day_n'] = wp_date( 'j', strtotime( $format ) );
+			$days['day_n'] = (int) wp_date( 'j', strtotime( $format ) );
 
 			return $days;
 		}
@@ -244,7 +244,7 @@ class Config_Adapter extends Component {
 		// Todo: need the key 'last_report_sent'? It's no always in the unixtime format.
 		if ( empty( $old_data['frequency'] ) ) {
 			$scan['day']   = 'sunday';
-			$scan['day_n'] = '1';
+			$scan['day_n'] = 1;
 
 			return $scan;
 		} else {
@@ -371,7 +371,7 @@ class Config_Adapter extends Component {
 
 		if ( empty( $old_data['report_frequency'] ) ) {
 			$iplockout['day']   = 'sunday';
-			$iplockout['day_n'] = '1';
+			$iplockout['day_n'] = 1;
 
 			return $iplockout;
 		} else {
@@ -415,7 +415,7 @@ class Config_Adapter extends Component {
 
 		if ( empty( $old_data['frequency'] ) ) {
 			$audit['day']   = 'sunday';
-			$audit['day_n'] = '1';
+			$audit['day_n'] = 1;
 
 			return $audit;
 		} else {

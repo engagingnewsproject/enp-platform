@@ -11,6 +11,7 @@ use WP_Error;
 use PharData;
 use Exception;
 use WP_Defender\Traits\IO;
+use WP_Filesystem_Base;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
@@ -120,7 +121,7 @@ class MaxMind_Geolocation {
 	public function delete_database() {
 		global $wp_filesystem;
 		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}

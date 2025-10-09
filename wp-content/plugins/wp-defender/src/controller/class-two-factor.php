@@ -103,31 +103,31 @@ class Two_Factor extends Event {
 		$this->register_page(
 			esc_html__( '2FA', 'wpdef' ),
 			$this->slug,
-			array( &$this, 'main_view' ),
+			array( $this, 'main_view' ),
 			$this->parent_slug
 		);
-		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
+		add_action( 'defender_enqueue_assets', array( $this, 'enqueue_assets' ) );
 		$this->register_routes();
 		$this->service                     = wd_di()->get( Two_Fa_Component::class );
 		$this->model                       = wd_di()->get( Two_Fa::class );
 		$this->password_protection_service = wd_di()->get( Password_Protection_Service::class );
 		$this->is_woo_activated            = wd_di()->get( Woocommerce::class )->is_activated();
 
-		add_action( 'update_option_jetpack_active_modules', array( &$this, 'listen_for_jetpack_option' ), 10, 2 );
+		add_action( 'update_option_jetpack_active_modules', array( $this, 'listen_for_jetpack_option' ), 10, 2 );
 
 		if ( $this->model->is_active() ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 			$is_jetpack_sso = $this->service->is_jetpack_sso();
 			$is_tml         = $this->service->is_tml();
 			add_action( 'admin_init', array( $this->service, 'get_providers' ) );
-			add_action( 'pre_get_users', array( &$this, 'filter_users_by_2fa' ) );
-			add_action( 'show_user_profile', array( &$this, 'show_user_profile' ) );
-			add_action( 'profile_update', array( &$this, 'profile_update' ) );
+			add_action( 'pre_get_users', array( $this, 'filter_users_by_2fa' ) );
+			add_action( 'show_user_profile', array( $this, 'show_user_profile' ) );
+			add_action( 'profile_update', array( $this, 'profile_update' ) );
 
 			if ( ! defined( 'DOING_AJAX' ) && ! $is_jetpack_sso && ! $is_tml ) {
-				add_filter( 'authenticate', array( &$this, 'maybe_show_otp_form' ), 30, 3 );
-				add_action( 'set_logged_in_cookie', array( &$this, 'store_session_key' ) );
-				add_action( 'login_form_defender-verify-otp', array( &$this, 'verify_otp_login_time' ) );
+				add_filter( 'authenticate', array( $this, 'maybe_show_otp_form' ), 30, 3 );
+				add_action( 'set_logged_in_cookie', array( $this, 'store_session_key' ) );
+				add_action( 'login_form_defender-verify-otp', array( $this, 'verify_otp_login_time' ) );
 			} else {
 				if ( $is_jetpack_sso ) {
 					$this->compatibility_notices[] = esc_html__(
@@ -143,7 +143,7 @@ class Two_Factor extends Event {
 				}
 			}
 			// Force auth redirect for admin area.
-			add_action( 'current_screen', array( &$this, 'maybe_redirect_to_show_2fa_enabler' ), 1 );
+			add_action( 'current_screen', array( $this, 'maybe_redirect_to_show_2fa_enabler' ), 1 );
 
 			$this->service->add_hooks();
 
@@ -158,9 +158,9 @@ class Two_Factor extends Event {
 					&& $this->service->is_auth_enable_for( $this->current_user, $this->model->user_roles )
 				) {
 					// Show a new Woo submenu.
-					add_action( 'init', array( &$this, 'wp_defender_2fa_endpoint' ) );
-					add_filter( 'query_vars', array( &$this, 'wp_defender_2fa_query_vars' ), 0 );
-					add_filter( 'woocommerce_account_menu_items', array( &$this, 'wp_defender_2fa_link_my_account' ) );
+					add_action( 'init', array( $this, 'wp_defender_2fa_endpoint' ) );
+					add_filter( 'query_vars', array( $this, 'wp_defender_2fa_query_vars' ), 0 );
+					add_filter( 'woocommerce_account_menu_items', array( $this, 'wp_defender_2fa_link_my_account' ) );
 					add_action(
 						"woocommerce_account_{$this->slug}_endpoint",
 						array(
@@ -228,7 +228,7 @@ class Two_Factor extends Event {
 			return;
 		}
 		// Is TOTP saved with a passcode?
-		if ( ! empty( $this->service->get_available_providers_for_user( $user ) ) ) {
+		if ( array() !== $this->service->get_available_providers_for_user( $user ) ) {
 			return;
 		}
 		$screen = get_current_screen();
@@ -283,7 +283,7 @@ class Two_Factor extends Event {
 		}
 
 		$post = defender_get_data_from_request( null, 'p' );
-		if ( empty( $post['_wpnonce'] ) || ! wp_verify_nonce( $post['_wpnonce'], 'verify_otp' ) ) {
+		if ( '' === $post['_wpnonce'] || ! wp_verify_nonce( $post['_wpnonce'], 'verify_otp' ) ) {
 			wp_die( esc_html__( 'Nonce verification failed.', 'wpdef' ) );
 		}
 
@@ -291,7 +291,7 @@ class Two_Factor extends Event {
 		$user_id     = (int) HTTP::post( 'requested_user', 0 );
 		$auth_method = HTTP::post( 'auth_method' );
 		$password    = HTTP::post( 'password' );
-		if ( empty( $token ) || empty( $user_id ) || empty( $auth_method ) || empty( $password ) ) {
+		if ( '' === $token || 0 === $user_id || '' === $auth_method || '' === $password ) {
 			wp_die( esc_html__( 'Missing parameter(s)', 'wpdef' ) );
 		}
 

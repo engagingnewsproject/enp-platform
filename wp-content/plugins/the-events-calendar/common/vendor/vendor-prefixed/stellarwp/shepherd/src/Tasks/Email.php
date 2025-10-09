@@ -28,8 +28,9 @@ class Email extends Task_Abstract
      * The email task's constructor.
      *
      * @since 0.0.1
+     * @since TBD - Allow multiple comma-separated recipients.
      *
-     * @param string   $to_email    The email address to send the email to.
+     * @param string   $to_email    The email address(es) to send the email to. Can be comma-separated for multiple recipients.
      * @param string   $subject     The email subject.
      * @param string   $body        The email body.
      * @param string[] $headers     Optional. Additional headers.
@@ -77,8 +78,19 @@ class Email extends Task_Abstract
         if (count($args) < 3) {
             throw new InvalidArgumentException(__('Email task requires at least 3 arguments.', 'stellarwp-shepherd'));
         }
-        if (!is_email($args[0])) {
-            throw new InvalidArgumentException(__('Email address is invalid.', 'stellarwp-shepherd'));
+        $recipients = $args[0];
+        if (!is_string($recipients) || empty(trim($recipients))) {
+            throw new InvalidArgumentException(__('Email recipients must be a non-empty string.', 'stellarwp-shepherd'));
+        }
+        // Split by comma and validate each email.
+        $emails = array_map('trim', explode(',', $recipients));
+        $invalid_emails = array_filter($emails, fn($email) => !is_email($email));
+        if (!empty($invalid_emails)) {
+            throw new InvalidArgumentException(sprintf(
+                // translators: %s is a comma-separated list of invalid email addresses.
+                __('Invalid email address(es): %s', 'stellarwp-shepherd'),
+                implode(', ', $invalid_emails)
+            ));
         }
         if (!is_string($args[1])) {
             throw new InvalidArgumentException(__('Email subject must be a string.', 'stellarwp-shepherd'));

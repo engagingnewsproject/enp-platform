@@ -41,9 +41,9 @@ class Webauthn implements PublicKeyCredentialSourceRepository {
 	 *
 	 * @param int $user_id The user ID.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
-	public function getCredentials( int $user_id ) {
+	public function getCredentials( int $user_id ): array {
 		return $this->get_user_meta( $user_id, self::CREDENTIAL_OPTION_KEY );
 	}
 

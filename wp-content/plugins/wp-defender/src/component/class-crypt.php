@@ -14,6 +14,7 @@ use SodiumException;
 use RuntimeException;
 use WP_Defender\Traits\IO;
 use Calotes\Base\Component;
+use WP_Filesystem_Base;
 
 /**
  * Methods for generating cryptographically secure pseudo-random bytes and integers, comparing strings securely,
@@ -267,7 +268,7 @@ class Crypt extends Component {
 	public function create_key_file(): bool {
 		global $wp_filesystem;
 		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}

@@ -1066,6 +1066,7 @@ class Recaptcha extends Event {
 
 		$html = '';
 		if ( isset( $this->recaptcha_type ) && ! empty( $this->public_key ) ) {
+			// Google reCAPTCHA script must be connected with dynamic parameters (onload, render, etc.).
 			$html .= '<script src="https://www.google.com/recaptcha/api.js?hl=' . esc_attr( $language ) . '&render=explicit&onload=' . $onload . '" async defer></script>' . $js; // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
 
 			$html .= sprintf(

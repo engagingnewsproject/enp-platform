@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function defender_asset_url( string $path, bool $print_url = false ) {
 	$url = untrailingslashit( WP_DEFENDER_BASE_URL ) . $path;
 
-	if ( empty( $print_url ) ) {
+	if ( ! $print_url ) {
 		return $url;
 	}
 
@@ -174,7 +174,7 @@ if ( ! function_exists( 'wp_timezone_string' ) ) {
 	function wp_timezone_string() {
 		$timezone_string = get_option( 'timezone_string' );
 
-		if ( $timezone_string ) {
+		if ( '' !== $timezone_string ) {
 			return $timezone_string;
 		}
 
@@ -207,17 +207,13 @@ if ( ! function_exists( 'wp_timezone' ) ) {
 /**
  * Get hostname.
  *
- * @return string|null
+ * @return string
  */
-function defender_get_hostname() {
+function defender_get_hostname(): string {
 	$host = wp_parse_url( get_site_url(), PHP_URL_HOST );
 	$host = str_replace( 'www.', '', $host );
 	$host = explode( '.', $host );
-	if ( is_array( $host ) ) {
-		$host = array_shift( $host );
-	} else {
-		$host = null;
-	}
+	$host = array_shift( $host );
 
 	return $host;
 }
@@ -290,8 +286,9 @@ function defender_noreply_email( string $filter_tag = '' ) {
 function defender_white_label_status() {
 	/* translators: %s: heart icon */
 	$footer_text  = sprintf( esc_html__( 'Made with %s by WPMU DEV', 'wpdef' ), '<i class="sui-icon-heart"></i>' );
-	$custom_image = apply_filters( 'wpmudev_branding_hero_image', '' );
-	$whitelabled  = apply_filters( 'wpmudev_branding_hide_branding', false );
+	$custom_image = (string) apply_filters( 'wpmudev_branding_hero_image', '' );
+	$custom_image = trim( $custom_image );
+	$whitelabled  = (bool) apply_filters( 'wpmudev_branding_hide_branding', false );
 
 	return array(
 		'hide_branding' => apply_filters( 'wpmudev_branding_hide_branding', false ),
@@ -299,8 +296,8 @@ function defender_white_label_status() {
 		'footer_text'   => apply_filters( 'wpmudev_branding_footer_text', $footer_text ),
 		'hero_image'    => $custom_image,
 		'change_footer' => apply_filters( 'wpmudev_branding_change_footer', false ),
-		'is_unbranded'  => empty( $custom_image ) && $whitelabled,
-		'is_rebranded'  => ! empty( $custom_image ) && $whitelabled,
+		'is_unbranded'  => '' === $custom_image && $whitelabled,
+		'is_rebranded'  => '' !== $custom_image && $whitelabled,
 	);
 }
 
@@ -310,7 +307,7 @@ function defender_white_label_status() {
  * @since 2.5.5
  */
 function defender_no_fresh_install() {
-	if ( empty( get_site_option( 'wd_nofresh_install' ) ) ) {
+	if ( ! get_site_option( 'wd_nofresh_install' ) ) {
 		update_site_option( 'wd_nofresh_install', true );
 	}
 }
@@ -368,7 +365,6 @@ function is_defender_page(): bool {
 		'wdf-advanced-tools',
 		'wdf-notification',
 		'wdf-setting',
-		'wdf-tutorial',
 		'wdf-expert-services',
 	);
 
@@ -463,14 +459,10 @@ function defender_cron_schedules( $schedules ) {
  * @return string
  * @since 3.0.0
  */
-function defender_generate_random_string( $length = 16, $strings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567' ) {
+function defender_generate_random_string( int $length = 16, string $strings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567' ) {
 	if ( defined( 'DEFENDER_2FA_SECRET' ) ) {
 		// Only use in test.
 		return constant( 'DEFENDER_2FA_SECRET' );
-	}
-
-	if ( ! is_string( $strings ) ) {
-		return '';
 	}
 
 	$secret = array();
@@ -525,7 +517,7 @@ function defender_gettext_translations(): array {
 	 */
 	foreach ( $l10n['wpdef']->entries as $value ) {
 		// If there's a translation, use it; otherwise, use the original word/phrase.
-		$items[ $value->key() ] = empty( $value->translations ) ? $value->key() : $value->translations[0];
+		$items[ $value->key() ] = isset( $value->translations[0] ) ? $value->translations[0] : $value->key();
 	}
 
 	// Return the list of words/phrases and their translations.
@@ -576,7 +568,7 @@ function defender_quarantine_pro_only(): string {
 function defender_get_user_agent( $default_string = '' ) {
 	$user_agent = defender_get_data_from_request( 'HTTP_USER_AGENT', 's' );
 
-	return ! empty( $user_agent ) ? User_Agent::fast_cleaning( $user_agent ) : $default_string;
+	return '' !== $user_agent ? User_Agent::fast_cleaning( $user_agent ) : $default_string;
 }
 
 /**
@@ -599,7 +591,7 @@ function defender_is_wp_cli() {
  */
 function defender_is_rest_api_request(): bool {
 	$request_uri = Request::get_request_uri();
-	if ( empty( $request_uri ) ) {
+	if ( '' === $request_uri ) {
 		return false;
 	}
 
@@ -635,7 +627,7 @@ function defender_deprecated_function( string $function_name, string $version, s
 			do_action( 'deprecated_function_run', $function_name, $replacement, $version );
 
 			$log_string  = "Function {$function_name} is deprecated since version {$version}!";
-			$log_string .= $replacement ? " Use {$replacement} instead." : '';
+			$log_string .= '' !== $replacement ? " Use {$replacement} instead." : '';
 			wp_die( esc_html( $log_string ) );
 		} else {
 			_deprecated_function( esc_html( $function_name ), esc_html( $version ), esc_html( $replacement ) );
@@ -662,7 +654,7 @@ if ( ! function_exists( 'defender_get_data_from_request' ) ) {
 	) {
 		if ( in_array( $source, array( 'r', 'p', 'g' ), true ) ) {
 			if (
-				! empty( $nonce_key ) && ! wp_verify_nonce(
+				'' !== $nonce_key && ! wp_verify_nonce(
 					sanitize_text_field( wp_unslash( $_REQUEST[ $nonce_key ] ?? '' ) ),
 					$nonce_action
 				)
@@ -694,14 +686,14 @@ if ( ! function_exists( 'defender_get_data_from_request' ) ) {
 				break;
 		}
 
-		if ( empty( $key ) ) {
+		if ( null === $key || '' === $key ) {
 			return $data;
 		} elseif ( 's' === $source ) {
 			return sanitize_text_field( wp_unslash( $data[ $key ] ?? '' ) );
 		} elseif ( 'data' === $key ) {
 			return json_decode( sanitize_text_field( wp_unslash( $data[ $key ] ?? '' ) ), true );
 		} elseif ( 'f' === $source && 'file' === $key && isset( $data[ $key ] ) ) {
-			if ( ! empty( $data[ $key ]['name'] ) ) {
+			if ( isset( $data[ $key ]['name'] ) && '' !== $data[ $key ]['name'] ) {
 				$data[ $key ]['name'] = sanitize_file_name( $data[ $key ]['name'] );
 			}
 
@@ -802,4 +794,28 @@ function defender_get_domain() {
 	$domain = (string) apply_filters( 'wpdef_current_site_domain', $domain );
 
 	return esc_html( $domain );
+}
+
+/**
+ * WP_DEFENDER_PRO sometimes doesn't match WPMUDEV::is_pro().
+ *
+ * @return bool
+ */
+function defender_is_wp_org_version(): bool {
+	return ! wd_di()->get( WPMUDEV::class )->is_pro()
+		&& ( defined( 'WP_DEFENDER_PRO' ) && ! WP_DEFENDER_PRO );
+}
+
+/**
+ * Get the user agent of the plugin.
+ *
+ * @return string
+ */
+function defender_get_own_user_agent(): string {
+	return defender_is_wp_org_version()
+		? sprintf( 'Mozilla/5.0 (compatible; Defender/%1$s)', DEFENDER_VERSION )
+		: sprintf(
+			'Mozilla/5.0 (compatible; WPMU DEV Defender/%1$s; +https://wpmudev.com)',
+			DEFENDER_VERSION
+		);
 }

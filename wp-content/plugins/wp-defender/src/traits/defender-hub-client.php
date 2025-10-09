@@ -192,7 +192,7 @@ trait Defender_Hub_Client {
 	) {
 		$api_key = $this->get_api_key();
 
-		if ( empty( $api_key ) ) {
+		if ( '' === $api_key ) {
 			$link_text = sprintf(
 				'<a target="_blank" href="%s">%s</a>',
 				'https://wpmudev.com/project/wpmu-dev-dashboard/',
@@ -249,7 +249,7 @@ trait Defender_Hub_Client {
 	 * @throws Exception If the WPMU DEV Dashboard plugin is missing.
 	 */
 	public function can_wpmu_free_request() {
-		return in_array( $this->get_membership_type(), array( 'free', 'full' ), true );
+		return in_array( $this->get_membership_type(), array( 'free', 'full', 'unit' ), true );
 	}
 
 	/**
@@ -265,6 +265,8 @@ trait Defender_Hub_Client {
 			'plugin_integrity'   => 0,
 			'vulnerability_db'   => 0,
 			'file_suspicious'    => 0,
+			'outdated_plugin'    => 0,
+			'closed_plugin'      => 0,
 			'last_completed'     => false,
 			'scan_items'         => array(),
 			'num_issues'         => 0,
@@ -278,10 +280,12 @@ trait Defender_Hub_Client {
 			$scan_result['plugin_integrity']   = $data['count_plugin'];
 			$scan_result['vulnerability_db']   = $data['count_vuln'];
 			$scan_result['file_suspicious']    = $data['count_malware'];
+			$scan_result['outdated_plugin']    = $data['count_outdated_plugin'];
+			$scan_result['closed_plugin']      = $data['count_closed_plugin'];
 			$scan_result['last_completed']     = $scan->date_end;
 			$scan_result['num_ignored_issues'] = $data['count_ignored'];
 
-			if ( ! empty( $data['issues'] ) ) {
+			if ( isset( $data['issues'] ) && is_array( $data['issues'] ) && array() !== $data['issues'] ) {
 				$total_issues = $data['count_issues'];
 				foreach ( $data['issues'] as $issue ) {
 					$scan_result['scan_items'][] = array(
@@ -404,6 +408,7 @@ trait Defender_Hub_Client {
 	 */
 	public function build_lockout_hub_data(): array {
 		$firewall = wd_di()->get( Firewall::class )->data_frontend();
+		$antibot  = wd_di()->get( Antibot_Global_Firewall::class );
 
 		return array(
 			'last_lockout'           => $firewall['last_lockout'],
@@ -414,7 +419,8 @@ trait Defender_Hub_Client {
 			'ua'                     => wd_di()->get( User_Agent_Lockout::class )->enabled,
 			'ua_week'                => $firewall['ua']['week'],
 			'global_ip_list_enabled' => wd_di()->get( Global_Ip_Lockout::class )->enabled,
-			'antibot_enabled'        => wd_di()->get( Antibot_Global_Firewall::class )->frontend_is_enabled(),
+			'antibot_enabled'        => $antibot->frontend_is_enabled(),
+			'antibot_mode'           => $antibot->frontend_mode(),
 		);
 	}
 
@@ -449,7 +455,7 @@ trait Defender_Hub_Client {
 		}
 
 		return array(
-			'active'       => $settings->enabled && count( $settings->user_roles ),
+			'active'       => $settings->enabled && array() !== $settings->user_roles,
 			'enabled'      => $settings->enabled,
 			'active_users' => $active_users,
 		);
@@ -503,7 +509,7 @@ trait Defender_Hub_Client {
 	 * @return string
 	 */
 	private function get_notification_day( $module_report ): string {
-		if ( ! is_object( $module_report ) ) {
+		if ( ! ( isset( $module_report->frequency ) && isset( $module_report->day ) && isset( $module_report->day_n ) ) ) {
 			return '';
 		}
 
@@ -675,6 +681,7 @@ trait Defender_Hub_Client {
 					'total_lockout'          => (int) $firewall_data['lp_week'] + (int) $firewall_data['nf_week'] + (int) $firewall_data['ua_week'],
 					'global_ip_list_enabled' => $firewall_data['global_ip_list_enabled'],
 					'antibot_enabled'        => $firewall_data['antibot_enabled'],
+					'antibot_mode'           => $firewall_data['antibot_mode'],
 					'advanced'               => array(
 						// This is moved but still keep here for backward compatibility.
 						'multi_factors_auth'  => array(
@@ -711,7 +718,7 @@ trait Defender_Hub_Client {
 	 * @return bool
 	 */
 	public function is_wpmu_hosting(): bool {
-		return ! empty( $_SERVER['WPMUDEV_HOSTED'] );
+		return isset( $_SERVER['WPMUDEV_HOSTED'] );
 	}
 
 	/**

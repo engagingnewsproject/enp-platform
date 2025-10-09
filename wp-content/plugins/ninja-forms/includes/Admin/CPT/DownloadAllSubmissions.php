@@ -182,7 +182,10 @@ class NF_Admin_CPT_DownloadAllSubmissions extends NF_Step_Processing {
                     }
 
                     if ( isset ( $_REQUEST['download_all'] ) && $_REQUEST['download_all'] != '' ) {
-                    $redirect = esc_url_raw( add_query_arg( array( 'download_file' => esc_html( $_REQUEST['download_all'] ) ) ) );
+                    $redirect = esc_url_raw( add_query_arg( array( 
+                        'download_file' => esc_html( $_REQUEST['download_all'] ),
+                        '_wpnonce' => wp_create_nonce( 'ninja_forms_download_submission_nonce' )
+                    ) ) );
                     $redirect = remove_query_arg( array( 'download_all' ), $redirect );
                     ?>
                     document.location.href = "<?php echo $redirect; ?>";

@@ -72,14 +72,14 @@ class Login_Lockout extends Component {
 		global $wp_version;
 
 		if ( isset( $wp_version ) && version_compare( $wp_version, '5.4.0', '>=' ) ) {
-			add_action( 'wp_login_failed', array( &$this, 'process_fail_attempt' ), 10, 2 );
+			add_action( 'wp_login_failed', array( $this, 'process_fail_attempt' ), 10, 2 );
 		} else {
-			add_action( 'wp_login_failed', array( &$this, 'process_fail_attempt_compatibility' ), 10 );
+			add_action( 'wp_login_failed', array( $this, 'process_fail_attempt_compatibility' ), 10 );
 		}
 
-		add_filter( 'authenticate', array( &$this, 'show_attempt_left' ), 9999, 2 );
-		add_action( 'wp_login', array( &$this, 'clear_login_attempt' ) );
-		add_action( 'wd_2fa_lockout', array( &$this, 'two_factor_lockout' ), 10, 3 );
+		add_filter( 'authenticate', array( $this, 'show_attempt_left' ), 9999, 2 );
+		add_action( 'wp_login', array( $this, 'clear_login_attempt' ) );
+		add_action( 'wd_2fa_lockout', array( $this, 'two_factor_lockout' ), 10, 3 );
 	}
 
 	/**
@@ -357,7 +357,7 @@ class Login_Lockout extends Component {
 
 		$ip_to_country = $this->ip_to_country( $ip );
 
-		if ( ! empty( $ip_to_country ) && isset( $ip_to_country['iso'] ) ) {
+		if ( isset( $ip_to_country['iso'] ) ) {
 			$model->country_iso_code = $ip_to_country['iso'];
 		}
 

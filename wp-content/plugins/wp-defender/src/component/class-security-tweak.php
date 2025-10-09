@@ -12,6 +12,7 @@ use SplFileObject;
 use Calotes\Base\Component;
 use Calotes\Helper\Array_Cache;
 use WP_Defender\Model\Setting\Security_Tweaks;
+use WP_Filesystem_Base;
 
 /**
  * Handles security tweaks operations such as retrieving issues, ignored, and fixed tweaks.
@@ -123,7 +124,7 @@ class Security_Tweak extends Component {
 	public function advanced_check_file() {
 		global $wp_filesystem;
 		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}

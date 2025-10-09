@@ -11,7 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Cose\Algorithm\Mac;		 		 			 		 	    		 
+namespace Cose\Algorithm\Mac;
 
 final class HS384 extends Hmac
 {
