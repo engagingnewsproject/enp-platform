@@ -41,6 +41,27 @@
             "ui_on_text": "Show",
             "ui_off_text": "Hide",
             "ui": 1
+        },
+        {
+            "key": "field_68e7a4069af16",
+            "label": "",
+            "name": "show_excerpt",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Excerpt",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "allow_in_bindings": 1,
+            "ui_on_text": "Show",
+            "ui_off_text": "Hide",
+            "ui": 1
         }
     ],
     "location": [
@@ -63,5 +84,5 @@
     "active": true,
     "description": "(show\/hide header or newsletter module)",
     "show_in_rest": 1,
-    "modified": 1746216570
+    "modified": 1760011408
 }

@@ -24,8 +24,10 @@
 				{{ tile.subtitle }}</span>
 		{% endif %}
 	</h1>
-	{% if show_excerpt is not defined or show_excerpt == true %}
-		{% if post.post_excerpt %}
+	{% if post.post_excerpt %}
+		{# Get the show_excerpt field value, default to true if not set #}
+		{% set show_excerpt = tile.get_field('show_excerpt') %}
+		{% if show_excerpt is null or show_excerpt == true %}
 			{# check if the post has an excerpt first, otherwise WordPress will use part of the content #}
 			<div class="tile__excerpt tile__excerpt--intro title-slide-in">{{ tile.excerpt }}</div>
 		{% endif %}
