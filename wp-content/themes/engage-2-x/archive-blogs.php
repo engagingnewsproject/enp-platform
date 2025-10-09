@@ -88,17 +88,6 @@ if (is_post_type_archive('blogs') || is_tax('blogs-category')) {
 		];
 		$wp_query = new WP_Query($args);
 	} elseif (!empty($excluded_categories)) {
-		// Get all blog categories
-		$all_categories = get_terms([
-			'taxonomy' => 'blogs-category',
-			'hide_empty' => true,
-			'exclude' => array_map(
-				fn($category) => $category->term_id,
-				$excluded_categories
-			)
-		]);
-
-		// Build the query arguments to include only the non-excluded categories
 		$args = [
 			'post_type' => 'blogs',
 			'posts_per_page' => $posts_per_page, // Use ACF option
@@ -109,9 +98,9 @@ if (is_post_type_archive('blogs') || is_tax('blogs-category')) {
 					'field'    => 'term_id',
 					'terms'    => array_map(
 						fn($category) => $category->term_id,
-						$all_categories
+						$excluded_categories
 					),
-					'operator' => 'IN'
+					'operator' => 'NOT IN'
 				]
 			]
 		];
