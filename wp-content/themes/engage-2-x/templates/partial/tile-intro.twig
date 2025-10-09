@@ -17,19 +17,20 @@
 	see Timber docs: https://timber.github.io/docs/v2/guides/debugging/#using-twigs-native-functions
 	 #}
 {# Really need to keep the page title for not only SEO purposes but also for usability #}
-	<div class="tile tile--intro"> <h1 class="tile__title tile__title--intro title-slide-in">
+	<div class="tile tile--intro">
+		<h1 class="tile__title tile__title--intro title-slide-in">
 		{{ tileTitle }}
 		{% if tile.subtitle %}
 			<span class="tile__title--subtitle">|
 				{{ tile.subtitle }}</span>
 		{% endif %}
 	</h1>
-	{% if post.post_excerpt %}
-		{# Get the show_excerpt field value, default to true if not set #}
-		{% set show_excerpt = tile.get_field('show_excerpt') %}
-		{% if show_excerpt is null or show_excerpt == true %}
-			{# check if the post has an excerpt first, otherwise WordPress will use part of the content #}
-			<div class="tile__excerpt tile__excerpt--intro title-slide-in">{{ tile.excerpt }}</div>
-		{% endif %}
+{% if post.post_excerpt|trim %}
+	{# Get the show_excerpt field value, default to true if not set #}
+	{% set show_excerpt = tile.get_field('show_excerpt') %}
+	{% if show_excerpt is null or show_excerpt == true %}
+		{# check if the post has an excerpt first, otherwise WordPress will use part of the content #}
+		<div class="tile__excerpt tile__excerpt--intro title-slide-in">{{ tile.excerpt({read_more: false}) }}</div>
 	{% endif %}
+{% endif %}
 </div>
