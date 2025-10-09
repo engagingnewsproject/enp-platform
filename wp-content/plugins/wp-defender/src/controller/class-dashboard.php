@@ -45,10 +45,10 @@ class Dashboard extends Event {
 		$this->attach_behavior( WPMUDEV::class, WPMUDEV::class );
 		$this->add_main_page();
 		$this->register_routes();
-		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
+		add_action( 'defender_enqueue_assets', array( $this, 'enqueue_assets' ) );
 		add_filter( 'custom_menu_order', '__return_true' );
-		add_filter( 'menu_order', array( &$this, 'menu_order' ) );
-		add_action( 'admin_init', array( &$this, 'maybe_redirect_notification_request' ), 99 );
+		add_filter( 'menu_order', array( $this, 'menu_order' ) );
+		add_action( 'admin_init', array( $this, 'maybe_redirect_notification_request' ), 99 );
 	}
 
 	/**
@@ -78,9 +78,10 @@ class Dashboard extends Event {
 	public function menu_order( $menu_order ) {
 		global $submenu;
 		if ( isset( $submenu['wp-defender'] ) ) {
-			$defender_menu          = $submenu['wp-defender'];
-			$defender_menu[0][0]    = esc_html__( 'Dashboard', 'wpdef' );
-			$defender_menu          = array_values( $defender_menu );
+			$defender_menu       = $submenu['wp-defender'];
+			$defender_menu[0][0] = esc_html__( 'Dashboard', 'wpdef' );
+			$defender_menu       = array_values( $defender_menu );
+			// Change the global $submenu variable, because otherwise the menu name/order will not change.
 			$submenu['wp-defender'] = $defender_menu; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		}
 
@@ -93,6 +94,7 @@ class Dashboard extends Event {
 			: null;
 		foreach ( $menu as $k => $item ) {
 			if ( 'wp-defender' === $item[2] ) {
+				// Add a badge next to the "Defender" menu item in the global $menu variable.
 				$menu[ $k ][0] .= $indicator; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 			}
 		}
@@ -107,10 +109,7 @@ class Dashboard extends Event {
 		$this->register_page(
 			$this->get_menu_title(),
 			$this->parent_slug,
-			array(
-				&$this,
-				'main_view',
-			),
+			array( $this, 'main_view' ),
 			null,
 			$this->get_menu_icon()
 		);
@@ -246,11 +245,9 @@ class Dashboard extends Event {
 	public function data_frontend(): array {
 		[ $endpoints, $nonces ] = Route::export_routes( 'dashboard' );
 		$firewall               = wd_di()->get( Firewall::class );
-		// Session is Pro feature.
-		$force_hide_modal = ( new WPMUDEV() )->is_pro() && wd_di()->get( Session_Protection::class )->enabled;
 
 		return array_merge(
-			wd_di()->get( Feature_Modal::class )->get_dashboard_modals( $force_hide_modal ),
+			wd_di()->get( Feature_Modal::class )->get_dashboard_modals(),
 			array(
 				'scan'              => wd_di()->get( Scan::class )->data_frontend(),
 				'firewall'          => $firewall->data_frontend(),
@@ -263,14 +260,14 @@ class Dashboard extends Event {
 				'blocklist_monitor' => wd_di()->get( Blocklist_Monitor::class )->data_frontend(),
 				'two_fa'            => wd_di()->get( Two_Factor::class )->data_frontend(),
 				'advanced_tools'    => array(
-					'mask_login'       => wd_di()->get( Mask_Login::class )->dashboard_widget(),
-					'security_headers' => wd_di()->get( Security_Headers::class )->dashboard_widget(),
-					'pwned_passwords'  => wd_di()->get( Password_Protection::class )->dashboard_widget(),
-					'recaptcha'        => wd_di()->get( Recaptcha::class )->dashboard_widget(),
-					'strong_passwords' => wd_di()->get( Strong_Password::class )->dashboard_widget(),
+					'mask_login'         => wd_di()->get( Mask_Login::class )->dashboard_widget(),
+					'security_headers'   => wd_di()->get( Security_Headers::class )->dashboard_widget(),
+					'pwned_passwords'    => wd_di()->get( Password_Protection::class )->dashboard_widget(),
+					'recaptcha'          => wd_di()->get( Recaptcha::class )->dashboard_widget(),
+					'strong_passwords'   => wd_di()->get( Strong_Password::class )->dashboard_widget(),
+					'session_protection' => wd_di()->get( Session_Protection::class )->export(),
 				),
 				'security_tweaks'   => wd_di()->get( Security_Tweaks::class )->dashboard_widget(),
-				'tutorials'         => wd_di()->get( Tutorial::class )->data_frontend(),
 				'notifications'     => wd_di()->get( Notification::class )->data_frontend(),
 				'settings'          => wd_di()->get( Main_Setting::class )->data_frontend(),
 				'countries'         => $firewall->dashboard_widget(),

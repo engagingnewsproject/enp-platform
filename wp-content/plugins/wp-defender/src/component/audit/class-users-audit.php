@@ -31,7 +31,7 @@ class Users_Audit extends Audit_Event {
 	public function get_hooks(): array {
 
 		return array(
-			'wp_login_failed'       => array(
+			'wp_login_failed'              => array(
 				'args'        => array( 'username' ),
 				'text'        => sprintf(
 				/* translators: 1: Blog name, 2: Username */
@@ -43,7 +43,7 @@ class Users_Audit extends Audit_Event {
 				'context'     => self::CONTEXT_SESSION,
 				'action_type' => self::ACTION_LOGIN,
 			),
-			'wp_login'              => array(
+			'wp_login'                     => array(
 				'args'        => array( 'userlogin', 'user' ),
 				'text'        => sprintf(
 				/* translators: 1: Blog name, 2: Username */
@@ -55,7 +55,7 @@ class Users_Audit extends Audit_Event {
 				'context'     => self::CONTEXT_SESSION,
 				'action_type' => self::ACTION_LOGIN,
 			),
-			'wpmu_2fa_login'        => array(
+			'wpmu_2fa_login'               => array(
 				'args'         => array( 'user_id', '2fa_slug' ),
 				'text'         => sprintf(
 				/* translators: 1: Blog name, 2: 2fa method slug, 3: Username. */
@@ -78,7 +78,7 @@ class Users_Audit extends Audit_Event {
 					),
 				),
 			),
-			'wp_logout'             => array(
+			'wp_logout'                    => array(
 				'args'         => array( 'user_id' ),
 				'text'         => sprintf(
 				/* translators: 1: Blog name, 2: Username */
@@ -100,7 +100,7 @@ class Users_Audit extends Audit_Event {
 					),
 				),
 			),
-			'user_register'         => array(
+			'user_register'                => array(
 				'args'         => array( 'user_id' ),
 				'text'         => is_admin()
 					? sprintf(
@@ -138,7 +138,7 @@ class Users_Audit extends Audit_Event {
 					),
 				),
 			),
-			'delete_user'           => array(
+			'delete_user'                  => array(
 				'args'         => array( 'user_id' ),
 				'text'         => sprintf(
 				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: User ID, 4: Username */
@@ -162,14 +162,14 @@ class Users_Audit extends Audit_Event {
 					),
 				),
 			),
-			'remove_user_from_blog' => array(
+			'remove_user_from_blog'        => array(
 				'args'        => array( 'user_id', 'blog_id' ),
 				'context'     => self::CONTEXT_USERS,
 				'action_type' => self::ACTION_DELETED,
 				'event_type'  => Audit_Log::EVENT_TYPE_USER,
 				'callback'    => array( self::class, 'remove_user_from_blog_callback' ),
 			),
-			'wpmu_delete_user'      => array(
+			'wpmu_delete_user'             => array(
 				'args'         => array( 'user_id' ),
 				'text'         => sprintf(
 				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: User ID, 4: Username */
@@ -193,14 +193,14 @@ class Users_Audit extends Audit_Event {
 					),
 				),
 			),
-			'profile_update'        => array(
+			'profile_update'               => array(
 				'args'        => array( 'user_id', 'old_user_data' ),
 				'action_type' => self::ACTION_UPDATED,
 				'event_type'  => Audit_Log::EVENT_TYPE_USER,
 				'context'     => self::CONTEXT_PROFILE,
 				'callback'    => array( self::class, 'profile_update_callback' ),
 			),
-			'retrieve_password'     => array(
+			'retrieve_password'            => array(
 				'args'         => array( 'username' ),
 				'text'         => sprintf(
 				/* translators: 1: Blog name, 2: Username */
@@ -221,7 +221,7 @@ class Users_Audit extends Audit_Event {
 					),
 				),
 			),
-			'after_password_reset'  => array(
+			'after_password_reset'         => array(
 				'args'        => array( 'user' ),
 				'text'        => sprintf(
 				/* translators: 1: Blog name, 2: Username. */
@@ -236,7 +236,7 @@ class Users_Audit extends Audit_Event {
 					'user_login' => '{{user->user_login}}',
 				),
 			),
-			'set_user_role'         => array(
+			'set_user_role'                => array(
 				'args'         => array( 'user_ID', 'new_role', 'old_role' ),
 				'text'         => sprintf(
 				/* translators: 1: Blog name, 2: Source of action. For e.g. Hub or a logged-in user, 3: Username, 4: Old user role, 5: New user role */
@@ -271,7 +271,7 @@ class Users_Audit extends Audit_Event {
 					),
 				),
 			),
-			'wpdef_session_lock'    => array(
+			'wpdef_session_lock'           => array(
 				'args'         => array( 'user_id', 'session_lock_type' ),
 				'text'         => sprintf(
 					/* translators: 1: Blog name, 2: Username, 3: Session lock type. */
@@ -294,11 +294,34 @@ class Users_Audit extends Audit_Event {
 					),
 				),
 			),
-			'wpdef_session_timeout' => array(
+			'wpdef_session_timeout'        => array(
 				'args'         => array( 'user_id' ),
 				'text'         => sprintf(
 					/* translators: 1: Blog name, 2: Username. */
 					esc_html__( '%1$s User session ended for %2$s due to an idle session', 'wpdef' ),
+					'{{blog_name}}',
+					'{{username}}'
+				),
+				'event_type'   => Audit_Log::EVENT_TYPE_USER,
+				'context'      => self::CONTEXT_SESSION,
+				'action_type'  => self::ACTION_LOGIN,
+				'program_args' => array(
+					'username' => array(
+						'callable'        => 'get_user_by',
+						'params'          => array(
+							'id',
+							'{{user_id}}',
+						),
+						'result_property' => 'user_login',
+					),
+				),
+			),
+			// Since 5.6.0.
+			'wpmudev_sso_set_current_user' => array(
+				'args'         => array( 'user_id' ),
+				'text'         => sprintf(
+				/* translators: 1: Blog name, 2: Username. */
+					esc_html__( '%1$s Hub SSO login success: %2$s', 'wpdef' ),
 					'{{blog_name}}',
 					'{{username}}'
 				),

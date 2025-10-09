@@ -10,15 +10,17 @@ Hub Connector module is used in our free plugins to connect the user websites wi
 # How to use it #
 
 1. Insert this repository as **sub-module** into the existing project
-
 2. Include the file `connector.php` in your plugin and initialize it by calling ``\WPMUDEV\Hub\Connector::get();``.
-
 3. Set the plugin specific options (see below for more details) using a unique plugin identifier. Identifier can be any unique string.
   ``\WPMUDEV\Hub\Connector::get()->set_options( 'blc', $options );``
-
 4. Call the action `wpmudev_hub_connector_ui` where you want the Hub connector UI to render.
-
-5. Done!
+5. **[IMPORTANT]** Make sure your distributable plugin **NOT** having these files ( via your build script ):
+    - `test/` ( whole directory)
+    - `pipeline-scipts/` ( whole directory)
+    - `.gitignore`
+    - `bitbucket-pipelines.yml`
+    - `phpcs.ruleset.xml`
+6. Done!
 
 ### Options
 
@@ -132,10 +134,10 @@ add_filter( 'wpmudev_hub_connector_localize_text_vars', function ( $texts, $plug
 
 There are a few action hooks which you can use in your plugins.
 
-| Hook              | Description                                              |
-|-------------------|----------------------------------------------------------|
-| `wpmudev_hub_connector_sync_completed`   | Runs after every succesful hub sync.                     |
-| `wpmudev_hub_connector_first_sync_completed` | Runs after first hub sync after connecting with Hub.     |
+| Hook                                         | Description                                          |
+|----------------------------------------------|------------------------------------------------------|
+| `wpmudev_hub_connector_sync_completed`       | Runs after every successful hub sync.                |
+| `wpmudev_hub_connector_first_sync_completed` | Runs after first hub sync after connecting with Hub. |
 
 # Development
 
@@ -145,11 +147,11 @@ Do not commit anything directly to `master` branch. The `master` branch should a
 
 Everything should be handled by npm. Note that you don't need to interact with Gulp in a direct way.
 
-| Command              | Action                                                 |
-|----------------------|--------------------------------------------------------|
-| `npm run watch`      | Compiles and watch for changes.                        |
-| `npm run compile`    | Compile production ready assets.                       |
-| `npm run build`  | Build production ready submodule inside `/build/` folder |
+| Command           | Action                                                   |
+|-------------------|----------------------------------------------------------|
+| `npm run watch`   | Compiles and watch for changes.                          |
+| `npm run compile` | Compile production ready assets.                         |
+| `npm run build`   | Build production ready submodule inside `/build/` folder |
 
 ## Git Workflow
 

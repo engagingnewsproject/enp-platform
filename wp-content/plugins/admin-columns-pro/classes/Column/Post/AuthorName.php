@@ -4,6 +4,7 @@ namespace ACP\Column\Post;
 
 use AC;
 use AC\Settings\Column\BeforeAfter;
+use AC\Settings\Column\CustomFieldType;
 use ACP\ConditionalFormat;
 use ACP\Editing;
 use ACP\Export;
@@ -77,7 +78,17 @@ class AuthorName extends AC\Column\Post\AuthorName
             case AC\Settings\Column\User::PROPERTY_FULL_NAME :
             case AC\Settings\Column\User::PROPERTY_DISPLAY_NAME :
             case AC\Settings\Column\User::PROPERTY_ID :
-                return new Search\Comparison\Post\Author($this->get_post_type());
+                return new Search\Comparison\Post\Author($this->get_post_type() ?: '');
+            case Settings\Column\User::PROPERTY_META :
+                switch ($this->get_option('field_type')) {
+                    case CustomFieldType::TYPE_BOOLEAN:
+                    case CustomFieldType::TYPE_COLOR:
+                    case CustomFieldType::TYPE_DEFAULT:
+                    case CustomFieldType::TYPE_NUMERIC:
+                    case CustomFieldType::TYPE_TEXT:
+                    case CustomFieldType::TYPE_URL:
+                        return new Search\Comparison\Post\AuthorMeta((string)($this->get_option('field') ?: ''));
+                }
             default:
                 return false;
         }

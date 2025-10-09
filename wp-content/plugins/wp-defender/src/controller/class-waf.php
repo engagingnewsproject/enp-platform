@@ -43,13 +43,10 @@ class WAF extends Controller {
 		$this->register_page(
 			esc_html__( 'WAF', 'wpdef' ),
 			$this->slug,
-			array(
-				&$this,
-				'main_view',
-			),
+			array( $this, 'main_view' ),
 			$this->parent_slug
 		);
-		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
+		add_action( 'defender_enqueue_assets', array( $this, 'enqueue_assets' ) );
 		$this->register_routes();
 	}
 
@@ -130,12 +127,16 @@ class WAF extends Controller {
 
 	/**
 	 * Removes settings for all submodules.
+	 *
+	 * @return mixed
 	 */
 	public function remove_settings() {
 	}
 
 	/**
 	 * Delete all the data & the cache.
+	 *
+	 * @return mixed
 	 */
 	public function remove_data() {
 	}

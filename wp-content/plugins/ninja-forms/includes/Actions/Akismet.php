@@ -4,9 +4,11 @@ use NinjaForms\Includes\Abstracts\SotAction;
 use NinjaForms\Includes\Traits\SotGetActionProperties;
 use NinjaForms\Includes\Interfaces\SotAction as InterfacesSotAction;
 
+// @codeCoverageIgnoreStart
 if (! defined('ABSPATH') ) {
 	exit;
 }
+// @codeCoverageIgnoreEnd
 
 /**
  * Class NF_Actions_Akismet

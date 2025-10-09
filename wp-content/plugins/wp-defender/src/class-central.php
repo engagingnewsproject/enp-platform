@@ -36,8 +36,8 @@ class Central extends Component {
 	 */
 	public function __construct() {
 		$action = defender_base_action();
-		add_action( 'wp_ajax_' . $action, array( &$this, 'routing' ) );
-		add_action( 'wp_ajax_nopriv_' . $action, array( &$this, 'routing' ) );
+		add_action( 'wp_ajax_' . $action, array( $this, 'routing' ) );
+		add_action( 'wp_ajax_nopriv_' . $action, array( $this, 'routing' ) );
 	}
 
 	/**

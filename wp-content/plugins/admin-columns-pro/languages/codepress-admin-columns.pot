@@ -8,7 +8,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: Admin Columns <info@admincolumns.com>\n"
 "Last-Translator: Codepress <info@codepress.nl\n"
-"POT-Creation-Date: 2025-07-29 07:20+0000\n"
+"POT-Creation-Date: 2025-09-22 08:21+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -1533,7 +1533,7 @@ msgstr ""
 msgid "Insert into variation"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/ColumnGroups.php:18, admin-columns-pro/addons/woocommerce/classes/Service/ListScreenGroups.php:38, admin-columns-pro/addons/woocommerce/classes/Service/ListScreenGroups.php:41, admin-columns-pro/addons/woocommerce/classes/Service/ListScreenGroups.php:48, admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:253, admin-columns-pro/addons/woocommerce/classes/Settings/ShopOrder/Customer.php:30
+#: admin-columns-pro/addons/woocommerce/classes/Service/ColumnGroups.php:18, admin-columns-pro/addons/woocommerce/classes/Service/ListScreenGroups.php:38, admin-columns-pro/addons/woocommerce/classes/Service/ListScreenGroups.php:41, admin-columns-pro/addons/woocommerce/classes/Service/ListScreenGroups.php:48, admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:254, admin-columns-pro/addons/woocommerce/classes/Settings/ShopOrder/Customer.php:30
 msgid "WooCommerce"
 msgstr ""
 
@@ -1553,89 +1553,89 @@ msgstr ""
 msgid "This note will be send to the customer by email"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:155
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:156
 msgid "Clear Sale Price"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:156
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:157
 msgid "Decimals"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:157
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:158
 msgid "Decrease by"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:161
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:162
 msgid "Increase by"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:167
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:168
 msgid "Regular"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:168
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:169
 msgid "Regular Price"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:169
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:170
 msgid "Replace"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:172
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:173
 msgid "Sale from"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:173
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:174
 msgid "Sale To"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:174
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:175
 msgid "Set New"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:175
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:176
 msgid "Set the sale price based on the regular price"
-msgstr ""
-
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:180
-msgctxt "schedule"
-msgid "From"
 msgstr ""
 
 #: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:181
 msgctxt "schedule"
+msgid "From"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:182
+msgctxt "schedule"
 msgid "To"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:182, admin-columns-pro/addons/woocommerce/classes/Search/Product/Sale.php:30
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:183, admin-columns-pro/addons/woocommerce/classes/Search/Product/Sale.php:30
 msgid "Scheduled"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:189
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:190
 msgid "No Rounding"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:190
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:191
 msgid "Round up"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:191
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:192
 msgid "Round down"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:192
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:193
 msgid "Example:"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:194
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:195
 msgid "Delete note"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:195
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:196
 msgid "Are you sure you want to delete this note?"
 msgstr ""
 
-#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:287, admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:315
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:288, admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:316
 msgid "View Variations"
 msgstr ""
 

@@ -17,6 +17,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<?php echo $discourage_crawlers ? '<meta name="robots" content="noindex, nofollow">' : ''; ?>
 	<title>
 		<?php
 		$devman_img  = defender_asset_url( '/assets/img/def-stand.svg' );
@@ -473,6 +474,8 @@
 			});
 		});
 	</script>
+	<script src="<?php echo plugins_url( 'assets/js/vendor.js', WP_DEFENDER_FILE ); ?>"></script>
+	<script src="<?php echo plugins_url( 'assets/js/manifest.js', WP_DEFENDER_FILE ); ?>"></script>
 	<script src="<?php echo plugins_url( 'assets/js/altcha.js', WP_DEFENDER_FILE ); ?>"></script>
 <?php } else if ( ! empty( $is_unlock_me ) ) { ?>
 	<script>

@@ -164,7 +164,7 @@ jQuery(document).ready(function($) {
             jQuery( '#optin' ).html( '<span class="dashicons dashicons-update dashicons-update-spin"></span>' );
             jQuery( '#optin' ).width( width );
             // Hit AJAX endpoint and opt-in.
-            jQuery.post( ajaxurl, { action: 'nf_optin', ninja_forms_opt_in: 1, send_email: sendEmail, user_email: userEmail },
+            jQuery.post( ajaxurl, { action: 'nf_optin', ninja_forms_opt_in: 1, send_email: sendEmail, user_email: userEmail, _wpnonce: nfAdmin.nf_optin_nonce },
                         function( response ) {
                 /**
                  * When we get a response from our endpoint, show a thank you and set a timeout
@@ -190,8 +190,8 @@ jQuery(document).ready(function($) {
             // Show spinner.
             jQuery( '#optout' ).html( '<span class="dashicons dashicons-update dashicons-update-spin"></span>' );
             jQuery( '#optout' ).width( width );
-            // Hit AJAX endpoint and opt-in.
-             jQuery.post( ajaxurl, { action: 'nf_optin', ninja_forms_opt_in: 0 }, function( response ) {
+            // Hit AJAX endpoint and opt-out.
+             jQuery.post( ajaxurl, { action: 'nf_optin', ninja_forms_opt_in: 0, _wpnonce: nfAdmin.nf_optin_nonce }, function( response ) {
                 // When we get a response from our endpoint, close the modal. 
                 optinModal.close();
             } );            

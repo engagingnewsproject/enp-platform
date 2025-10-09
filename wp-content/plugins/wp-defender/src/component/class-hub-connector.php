@@ -73,7 +73,10 @@ class Hub_Connector extends Component {
 		// Get advanced params.
 		$page = defender_get_data_from_request( 'page', 'g' );
 		$view = defender_get_data_from_request( 'view', 'g' );
-		$res  = $this->get_utm_tags( $page, $view );
+
+		$result = $this->maybe_summary_box_trigger( $view );
+		// Get advanced params.
+		$res = $this->get_utm_tags( $page, $result['view'], $result['is_summary'] );
 		if ( ! empty( $res['utm_campaign'] ) ) {
 			$options['extra_args']['register']['utm_campaign'] = $res['utm_campaign'];
 		}
@@ -141,7 +144,7 @@ class Hub_Connector extends Component {
 		$view = defender_get_data_from_request( 'view', 'g' );
 		switch ( $view ) {
 			case 'blocklist':
-				return __( 'Central IP Allow/Block list', 'wpdef' );
+				return __( 'Custom IP Allow/Block list', 'wpdef' );
 			default:
 				return __( 'AntiBot Global Firewall', 'wpdef' );
 		}
@@ -152,30 +155,31 @@ class Hub_Connector extends Component {
 	 *
 	 * @param string $page The page to load.
 	 * @param string $view The view to load.
+	 * @param bool   $is_summary Is this from the Summary section? Default false.
 	 *
 	 * @return array
 	 */
-	private function get_utm_tags( string $page = '', string $view = '' ): array {
+	private function get_utm_tags( string $page = '', string $view = '', bool $is_summary = false ): array {
 		$utm_campaign = '';
 		$utm_content  = '';
 		if ( ! empty( $page ) ) {
 			switch ( $page ) {
 				// There are buttons on notice or widget on the Dashboard page.
 				case 'wp-defender':
-					$utm_content  = ( 'dashboard' === $view )
-						? 'dashboard'
-						: 'onboarding';
+					$utm_content  = 'hub-connector';
 					$utm_campaign = ( 'dashboard' === $view )
-						? 'defender_dashboard'
-						: 'defender_onboarding';
+						? 'defender_dashboard_firewall_antibot'
+						: 'defender_onboarding_antibot';
 					break;
 				case 'wdf-ip-lockout':
-					$utm_content  = ( 'blocklist' === $view )
-						? 'firewall_page_connect_site'
-						: 'feature_page';
-					$utm_campaign = ( 'blocklist' === $view )
-						? 'defender_firewall_centralip'
-						: 'defender_firewall_antibot';
+					$utm_content = 'hub-connector';
+					if ( $is_summary ) {
+						$utm_campaign = 'defender_firewall_antibot_summary';
+					} else {
+						$utm_campaign = ( 'blocklist' === $view )
+							? 'defender_firewall_centralip'
+							: 'defender_firewall_antibot';
+					}
 					break;
 				default:
 					break;
@@ -185,6 +189,20 @@ class Hub_Connector extends Component {
 		return array(
 			'utm_campaign' => $utm_campaign,
 			'utm_content'  => $utm_content,
+		);
+	}
+
+	/**
+	 * Update data if a trigger is the Summary section.
+	 *
+	 * @param string $view The view to load.
+	 *
+	 * @return array
+	 */
+	private function maybe_summary_box_trigger( string $view ): array {
+		return array(
+			'view'       => 'summary-box' === $view ? 'global-ip' : $view,
+			'is_summary' => 'summary-box' === $view,
 		);
 	}
 
@@ -203,8 +221,10 @@ class Hub_Connector extends Component {
 				'utm_source' => self::PLUGIN_IDENTIFIER,
 				'utm_medium' => 'plugin',
 			);
+
+			$result = $this->maybe_summary_box_trigger( $view );
 			// Get advanced params.
-			$res = $this->get_utm_tags( $page, $view );
+			$res = $this->get_utm_tags( $page, $result['view'], $result['is_summary'] );
 			if ( ! empty( $res['utm_campaign'] ) ) {
 				$args['utm_campaign'] = $res['utm_campaign'];
 			}

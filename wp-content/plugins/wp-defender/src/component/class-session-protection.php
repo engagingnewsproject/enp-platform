@@ -109,12 +109,17 @@ class Session_Protection extends Component {
 	 * @return void
 	 */
 	public function handle_session_timeout() {
-		if ( ! is_user_logged_in() || wp_doing_ajax() || wp_doing_cron() || defender_is_rest_api_request() ) {
+		if (
+			! is_user_logged_in()
+			|| wp_doing_ajax()
+			|| wp_doing_cron()
+			|| defender_is_rest_api_request()
+			|| $this->request_is_from_server()
+		) {
 			return;
 		}
 
 		if ( ! $this->can_apply_session_protection() ) {
-			$this->log( 'Session Protection is not applied for the current user role.', self::LOG_FILE_NAME );
 			return;
 		}
 
@@ -131,13 +136,11 @@ class Session_Protection extends Component {
 				sprintf( 'User session timed out due to inactivity during %s hours', $this->settings->idle_timeout ),
 				self::LOG_FILE_NAME
 			);
-			/**
-			 * Fires during session timeout.
-			 *
-			 * @param int $user_id
-			 */
-			do_action( 'wpdef_session_timeout', get_current_user_id() );
-			$this->logout();
+			$user_id = get_current_user_id();
+			// Fires during session timeout.
+			do_action( 'wpdef_session_timeout', $user_id );
+			$this->logout( $user_id );
+
 			return;
 		}
 		$this->update_last_activity();
@@ -160,13 +163,24 @@ class Session_Protection extends Component {
 	/**
 	 * Logs out the current user due to inactivity.
 	 *
+	 * @param int|null $user_id User ID.
+	 *
 	 * @return void
 	 */
-	public function logout() {
+	public function logout( $user_id = null ) {
 		if ( is_user_logged_in() ) {
-			$user_id               = get_current_user_id();
-			$current_session_token = wp_get_session_token(); // Get current session token.
-
+			// Case without $user_id may be from Ajax.
+			if ( empty( $user_id ) ) {
+				$user_id = get_current_user_id();
+				$this->log(
+					sprintf( 'User session timed out due to inactivity during %s hours', $this->settings->idle_timeout ),
+					self::LOG_FILE_NAME
+				);
+				// Fires during session timeout.
+				do_action( 'wpdef_session_timeout', $user_id );
+			}
+			// Get current session token.
+			$current_session_token = wp_get_session_token();
 			if ( $current_session_token ) {
 				// Get session manager for the user.
 				$session_manager = \WP_Session_Tokens::get_instance( $user_id );
@@ -250,7 +264,7 @@ class Session_Protection extends Component {
 	 * @return void
 	 */
 	public function enqueue_idle_scripts() {
-		if ( is_user_logged_in() ) {
+		if ( is_user_logged_in() && $this->can_apply_session_protection() ) {
 			wp_enqueue_script( 'wpdef-session-idle', plugins_url( 'assets/js/idle-session.js', WP_DEFENDER_FILE ), array( 'jquery' ), DEFENDER_VERSION, true );
 			wp_localize_script(
 				'wpdef-session-idle',
@@ -259,6 +273,8 @@ class Session_Protection extends Component {
 					'timeout'   => $this->get_idle_timeout(),
 					'ajax_url'  => admin_url( 'admin-ajax.php' ),
 					'login_url' => wp_login_url(),
+					// Exclude sending Logout-callbacks if the user is logged out and the login form is displayed in the popup.
+					'stop'      => false,
 				)
 			);
 		}
@@ -299,11 +315,10 @@ class Session_Protection extends Component {
 	 * Attach session information to the current user session.
 	 *
 	 * @param array $session Array of extra data.
-	 * @param int   $user_id User ID.
 	 *
 	 * @return array Array of extra data.
 	 */
-	public function attach_session_information( $session, $user_id ) {
+	public function attach_session_information( $session ) {
 		if ( $this->settings->is_property_locked( self::LOCK_IP_ADDRESS ) ) {
 			$session['defender_ip'] = implode( '|', $this->get_user_ip() );
 		}
@@ -331,7 +346,7 @@ class Session_Protection extends Component {
 		$session_data = $manager->get( $token );
 		if ( ! is_array( $session_data ) ) {
 			$this->log( 'Session data is missing or malformed. Destroying all sessions.', self::LOG_FILE_NAME );
-			$this->logout();
+			$this->logout( $user_id );
 			return;
 		}
 		$user_ips = $this->get_user_ip();
@@ -382,7 +397,7 @@ class Session_Protection extends Component {
 			 * @param string $session_lock_type
 			 */
 			do_action( 'wpdef_session_lock', $user_id, 'IP address' );
-			$this->logout();
+			$this->logout( $user_id );
 		}
 	}
 
@@ -406,7 +421,7 @@ class Session_Protection extends Component {
 				self::LOG_FILE_NAME
 			);
 			do_action( 'wpdef_session_lock', $user_id, 'hostname' );
-			$this->logout();
+			$this->logout( $user_id );
 		}
 	}
 
@@ -430,7 +445,7 @@ class Session_Protection extends Component {
 				self::LOG_FILE_NAME
 			);
 			do_action( 'wpdef_session_lock', $user_id, 'browser' );
-			$this->logout();
+			$this->logout( $user_id );
 		}
 	}
 

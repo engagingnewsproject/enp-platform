@@ -3,7 +3,7 @@
 /**
  * Class NF_MergeTags_Calcs
  */
-final class NF_MergeTags_Calcs extends NF_Abstracts_MergeTags
+class NF_MergeTags_Calcs extends NF_Abstracts_MergeTags
 {
     protected $id = 'calcs';
 

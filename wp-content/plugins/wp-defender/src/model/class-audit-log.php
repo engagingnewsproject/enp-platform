@@ -163,7 +163,7 @@ class Audit_Log extends DB {
 		$model = $orm->get_repository( self::class )
 					->where( 'synced', 'in', array( 0, 1 ) )
 					->order_by( 'id', 'desc' )
-					->limit( '0,2' )
+					->limit( 2, 0 )
 					->get();
 
 		return array_pop( $model );
@@ -211,11 +211,11 @@ class Audit_Log extends DB {
 			$builder->where( 'event_type', 'in', $events );
 		}
 
-		if ( ! empty( $user_id ) ) {
+		if ( is_numeric( $user_id ) && $user_id > 0 ) {
 			$builder->where( 'user_id', $user_id );
 		}
 
-		if ( ! empty( $ip ) ) {
+		if ( is_string( $ip ) && '' !== trim( $ip ) ) {
 			$builder->where( 'ip', 'like', "%$ip%" );
 		}
 		$builder->order_by( 'timestamp', 'desc' );
@@ -223,8 +223,8 @@ class Audit_Log extends DB {
 		if ( false !== $paged ) {
 			// If paged == false, then it will be no paging.
 			$per_page = 20;
-			$offset   = ( ( $paged - 1 ) * $per_page ) . ',' . $per_page;
-			$builder->limit( $offset );
+			$offset   = ( $paged - 1 ) * $per_page;
+			$builder->limit( $per_page, $offset );
 		}
 
 		return $builder->get();
@@ -274,15 +274,15 @@ class Audit_Log extends DB {
 			$builder->where( 'event_type', 'in', $events );
 		}
 
-		if ( ! empty( $user_id ) ) {
+		if ( is_numeric( $user_id ) && $user_id > 0 ) {
 			$builder->where( 'user_id', $user_id );
 		}
 
-		if ( ! empty( $ip ) ) {
+		if ( is_string( $ip ) && '' !== trim( $ip ) ) {
 			$builder->where( 'ip', 'like', "%$ip%" );
 		}
 
-		return $builder->count();
+		return (int) $builder->count();
 	}
 
 	/**

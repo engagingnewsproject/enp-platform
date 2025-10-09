@@ -54,7 +54,7 @@ class Webauthn extends Two_Factor_Provider {
 	 * @return string
 	 */
 	public function get_login_label(): string {
-		return $this->get_label();
+		return $this->get_user_label();
 	}
 
 	/**

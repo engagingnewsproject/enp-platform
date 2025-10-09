@@ -51,12 +51,16 @@ class Scan extends Event {
 
 	/**
 	 * Removes settings for all submodules.
+	 *
+	 * @return mixed
 	 */
 	public function remove_settings() {
 	}
 
 	/**
 	 * Delete all the data & the cache.
+	 *
+	 * @return mixed
 	 */
 	public function remove_data() {
 	}
@@ -76,13 +80,16 @@ class Scan extends Event {
 	 *
 	 * @param  Scan_Model $scan_model  Scan model object.
 	 *
-	 * @return array[
+	 * @return array{
 	 *   'event' => string,
 	 *   'data' => array
-	 * ]
+	 * }
 	 */
 	public function scan_completed( Scan_Model $scan_model ): array {
-		$last_scan             = $scan_model::get_last();
+		$last_scan = $scan_model::get_last();
+		if ( ! $last_scan instanceof Scan_Model ) {
+			return array();
+		}
 		$scan_item_group_total = wd_di()->get( Scan_Item::class )
 										->get_types_total( $last_scan->id, Scan_Item::STATUS_ACTIVE );
 
@@ -92,20 +99,35 @@ class Scan extends Event {
 			$data['Threats Count'] = $scan_item_group_total['all'];
 		}
 
-		if ( isset( $scan_item_group_total['core_integrity'] ) ) {
-			$data['WP core issue count'] = $scan_item_group_total['core_integrity'];
+		if ( isset( $scan_item_group_total[ Scan_Item::TYPE_INTEGRITY ] ) ) {
+			$data['WP core issue count'] = $scan_item_group_total[ Scan_Item::TYPE_INTEGRITY ];
 		}
 
-		if ( isset( $scan_item_group_total['malware'] ) ) {
-			$data['Suspicious Code'] = $scan_item_group_total['malware'];
+		if ( isset( $scan_item_group_total[ Scan_Item::TYPE_SUSPICIOUS ] ) ) {
+			$data['Suspicious Code'] = $scan_item_group_total[ Scan_Item::TYPE_SUSPICIOUS ];
 		}
 
-		if ( isset( $scan_item_group_total['plugin_integrity'] ) ) {
-			$data['Plugin file modified'] = $scan_item_group_total['plugin_integrity'];
+		if ( isset( $scan_item_group_total[ Scan_Item::TYPE_PLUGIN_CHECK ] ) ) {
+			$data['Plugin file modified'] = $scan_item_group_total[ Scan_Item::TYPE_PLUGIN_CHECK ];
 		}
 
-		if ( isset( $scan_item_group_total['vulnerability'] ) ) {
-			$data['Vulnerability'] = $scan_item_group_total['vulnerability'];
+		if ( isset( $scan_item_group_total[ Scan_Item::TYPE_VULNERABILITY ] ) ) {
+			$data['Vulnerability'] = $scan_item_group_total[ Scan_Item::TYPE_VULNERABILITY ];
+		}
+
+		$is_closed   = false;
+		$is_outdated = false;
+		$count       = 0;
+		if ( isset( $scan_item_group_total[ Scan_Item::TYPE_PLUGIN_CLOSED ] ) ) {
+			$is_closed = true;
+			$count    += $scan_item_group_total[ Scan_Item::TYPE_PLUGIN_CLOSED ];
+		}
+		if ( isset( $scan_item_group_total[ Scan_Item::TYPE_PLUGIN_OUTDATED ] ) ) {
+			$is_outdated = true;
+			$count      += $scan_item_group_total[ Scan_Item::TYPE_PLUGIN_OUTDATED ];
+		}
+		if ( $is_closed || $is_outdated ) {
+			$data['Outdated & Removed Plugins'] = $count;
 		}
 
 		return array(

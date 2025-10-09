@@ -67,8 +67,6 @@ class Bootstrap {
 				'defender_page_wdf-advanced-tools-network',
 				'defender_page_wdf-notification',
 				'defender_page_wdf-notification-network',
-				'defender_page_wdf-tutorial',
-				'defender_page_wdf-tutorial-network',
 				'defender_page_wdf-expert-services',
 				'defender_page_wdf-expert-services-network',
 			),

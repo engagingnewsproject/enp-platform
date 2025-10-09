@@ -44,8 +44,6 @@ function defender_init_routes() {
 			'update_security_reminder'  => 'update_security_reminder',
 			'update_autogenerate_flag'  => 'update_autogenerate_flag',
 			'update_enabled_user_enums' => 'update_enabled_user_enums',
-			'handle_notice'             => 'handle_notice',
-			'refuse_notice'             => 'refuse_notice',
 			'check_xml_rpc'             => 'check_xml_rpc',
 		),
 		'ip_lockout'        => array(
@@ -77,9 +75,6 @@ function defender_init_routes() {
 			'item_action'     => 'item_action',
 			'update_settings' => 'save_settings',
 			'bulk_action'     => 'bulk_action',
-			'handle_notice'   => 'handle_notice',
-			'postpone_notice' => 'postpone_notice',
-			'refuse_notice'   => 'refuse_notice',
 		),
 		'audit'             => array(
 			'update_settings' => 'save_settings',
@@ -117,9 +112,6 @@ function defender_init_routes() {
 			'skip'             => 'skip',
 			'antibot_reminder' => 'antibot_reminder',
 		),
-		'tutorial'          => array(
-			'hide' => 'hide',
-		),
 		'blocklist_monitor' => array(
 			'blacklist_status'        => 'blacklist_status',
 			'toggle_blacklist_status' => 'toggle_blacklist_status',
@@ -130,6 +122,11 @@ function defender_init_routes() {
 		),
 		'hub_connector'     => array(
 			'activate_dashboard_plugin' => 'activate_dashboard_plugin',
+		),
+		'rate'              => array(
+			'postpone_notice' => 'postpone_notice',
+			'refuse_notice'   => 'refuse_notice',
+			'handle_notice'   => 'handle_notice',
 		),
 	);
 

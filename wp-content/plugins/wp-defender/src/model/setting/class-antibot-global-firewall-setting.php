@@ -15,9 +15,12 @@ use Calotes\Model\Setting;
  * @package WP_Defender\Model\Setting
  */
 class Antibot_Global_Firewall_Setting extends Setting {
-	public const MODULE_SLUG = 'global-ip';
-
+	public const MODULE_SLUG        = 'global-ip';
 	public const MANAGED_BY_ALLOWED = array( '', 'plugin', 'hosting' );
+	public const MODE_BASIC         = 'basic';
+	public const MODE_STRICT        = 'strict';
+	public const MODE_BASIC_LABEL   = 'Basic';
+	public const MODE_STRICT_LABEL  = 'Strict';
 
 	/**
 	 * Option name.
@@ -40,9 +43,24 @@ class Antibot_Global_Firewall_Setting extends Setting {
 	 *
 	 * @var string
 	 * @defender_property
-	 * @rule in[,plugin,hosting]
+	 * @rule in[plugin,hosting]
 	 */
 	public $managed_by = '';
+
+	/**
+	 * Mode for fetching AntiBot blockist.
+	 *
+	 * Allowed values:
+	 * - self::MODE_BASIC: Excludes 404 and user agent IPs from the blocklist.
+	 * - self::MODE_STRICT: Includes all IPs in the blocklist.
+	 *
+	 * Default is self::MODE_BASIC.
+	 *
+	 * @var string
+	 * @defender_property
+	 * @rule in[basic,strict]
+	 */
+	public string $mode = self::MODE_BASIC;
 
 	/**
 	 * Validation rules.
@@ -52,6 +70,7 @@ class Antibot_Global_Firewall_Setting extends Setting {
 	protected $rules = array(
 		array( array( 'enabled' ), 'boolean' ),
 		array( array( 'managed_by' ), 'in', self::MANAGED_BY_ALLOWED ),
+		array( array( 'mode' ), 'in', array( self::MODE_BASIC, self::MODE_STRICT ) ),
 	);
 
 	/**
@@ -92,5 +111,23 @@ class Antibot_Global_Firewall_Setting extends Setting {
 	 */
 	public static function get_module_slug(): string {
 		return self::MODULE_SLUG;
+	}
+
+	/**
+	 * Retrieves the mode label.
+	 *
+	 * @return string The mode label.
+	 */
+	public function get_mode_label(): string {
+		return self::MODE_STRICT === $this->mode ? self::MODE_STRICT_LABEL : self::MODE_BASIC_LABEL;
+	}
+
+	/**
+	 * Retrieves the valid modes.
+	 *
+	 * @return array The valid modes.
+	 */
+	public static function get_valid_modes(): array {
+		return array( self::MODE_BASIC, self::MODE_STRICT );
 	}
 }

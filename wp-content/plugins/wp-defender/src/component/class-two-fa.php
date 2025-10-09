@@ -164,17 +164,15 @@ class Two_Fa extends Component {
 			// Loop through all sites.
 			$is_conflict = $settings->is_conflict( 'jetpack/jetpack.php' );
 			if ( 0 === $is_conflict ) {
-				// No data, init.
-				global $wpdb;
-				$blogs = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
-					"SELECT blog_id FROM `{$wpdb->base_prefix}blogs`"
-				);
-				foreach ( $blogs as $id ) {
-					$options = get_blog_option( $id, 'jetpack_active_modules', array() );
-					if ( array_search( 'sso', $options, true ) ) {
-						$settings->mark_as_conflict( 'jetpack/jetpack.php' );
+				$blog_ids = get_sites( array( 'fields' => 'ids' ) );
+				if ( is_array( $blog_ids ) ) {
+					foreach ( $blog_ids as $id ) {
+						$options = get_blog_option( $id, 'jetpack_active_modules', array() );
+						if ( array_search( 'sso', $options, true ) ) {
+							$settings->mark_as_conflict( 'jetpack/jetpack.php' );
 
-						return true;
+							return true;
+						}
 					}
 				}
 			} else {

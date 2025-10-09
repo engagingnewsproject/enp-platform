@@ -93,6 +93,6 @@ class Rotation_Logger implements Rotation_Logger_Interface {
 		if ( ! wp_next_scheduled( 'wpdef_log_rotational_delete' ) ) {
 			wp_schedule_event( time(), 'daily', 'wpdef_log_rotational_delete' );
 		}
-		add_action( 'wpdef_log_rotational_delete', array( &$this, 'purge_old_log' ) );
+		add_action( 'wpdef_log_rotational_delete', array( $this, 'purge_old_log' ) );
 	}
 }

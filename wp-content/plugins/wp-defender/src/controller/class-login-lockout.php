@@ -50,7 +50,7 @@ class Login_Lockout extends Event {
 	 */
 	public function __construct() {
 		$this->register_routes();
-		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
+		add_action( 'defender_enqueue_assets', array( $this, 'enqueue_assets' ) );
 		$this->model   = wd_di()->get( Model_Login_Lockout::class );
 		$this->service = wd_di()->get( \WP_Defender\Component\Login_Lockout::class );
 		$service       = wd_di()->get( Blacklist_Lockout::class );

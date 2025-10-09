@@ -8,13 +8,12 @@
 namespace WP_Defender\Controller;
 
 use ActionScheduler;
+use WP_Defender\Component\Breadcrumbs;
 use WP_Defender\Event;
-use WP_Defender\Admin;
 use Valitron\Validator;
 use Calotes\Component\Request;
 use Calotes\Component\Response;
 use WP_Defender\Controller\Quarantine;
-use WP_Defender\Component\Rate;
 use WP_Defender\Traits\Formats;
 use WP_Defender\Traits\Scan_Upsell;
 use WP_Defender\Model\Scan_Item;
@@ -28,6 +27,7 @@ use WP_Defender\Component\Config\Config_Hub_Helper;
 use WP_Defender\Helper\Analytics\Scan as Scan_Analytics;
 use WP_Defender\Model\Notification\Malware_Notification;
 use WP_Defender\Component\Quarantine as Quarantine_Component;
+use WP_Defender\Behavior\Scan\Plugin_Integrity;
 
 /**
  * Contains methods for handling scans.
@@ -78,12 +78,9 @@ class Scan extends Event {
 	 */
 	public function __construct() {
 		$this->register_page(
-			esc_html__( 'Malware Scanning', 'wpdef' ),
+			$this->get_title(),
 			$this->slug,
-			array(
-				$this,
-				'main_view',
-			),
+			array( $this, 'main_view' ),
 			$this->parent_slug
 		);
 
@@ -96,12 +93,12 @@ class Scan extends Event {
 		}
 
 		$this->register_routes();
-		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
-		add_action( 'wp_ajax_defender_process_scan', array( &$this, 'process' ) );
-		add_action( 'wp_ajax_nopriv_defender_process_scan', array( &$this, 'process' ) );
-		add_action( 'defender/async_scan', array( &$this, 'process' ) );
+		add_action( 'defender_enqueue_assets', array( $this, 'enqueue_assets' ) );
+		add_action( 'wp_ajax_defender_process_scan', array( $this, 'process' ) );
+		add_action( 'wp_ajax_nopriv_defender_process_scan', array( $this, 'process' ) );
+		add_action( 'defender/async_scan', array( $this, 'process' ) );
 		// Clean up data after successful core update.
-		add_action( '_core_updated_successfully', array( &$this, 'clean_up_data' ) );
+		add_action( '_core_updated_successfully', array( $this, 'clean_up_data' ) );
 
 		global $pagenow;
 		// since 2.6.2.
@@ -129,6 +126,15 @@ class Scan extends Event {
 	}
 
 	/**
+	 * Return the title of the page.
+	 *
+	 * @return string The title of the page.
+	 */
+	public function get_title(): string {
+		return esc_html__( 'Malware Scanning', 'wpdef' );
+	}
+
+	/**
 	 * Clean up data after core updating.
 	 *
 	 * @return void
@@ -148,6 +154,7 @@ class Scan extends Event {
 		$model = Model_Scan::create();
 		if ( is_object( $model ) && ! is_wp_error( $model ) ) {
 			$this->log( 'Initial ping self', self::SCAN_LOG );
+			$this->service->gather_actioned_plugin_details();
 
 			$this->do_async_scan( 'scan' );
 
@@ -309,6 +316,14 @@ class Scan extends Event {
 				}
 			} elseif ( Scan_Item::TYPE_SUSPICIOUS === $scan_item->type ) {
 				$threat_type = 'Suspicious function';
+			} elseif (
+				in_array(
+					$scan_item->type,
+					Model_Scan::get_abandoned_types(),
+					true
+				)
+			) {
+				$threat_type = 'Outdated & removed plugins';
 			}
 
 			$this->track_feature(
@@ -566,7 +581,7 @@ class Scan extends Event {
 			$report_change     = true;
 			$report->frequency = $data['frequency'];
 			$report->day       = $data['day'];
-			$report->day_n     = $data['day_n'];
+			$report->day_n     = (int) $data['day_n'];
 			$report->time      = $data['time'];
 			// Disable 'Scheduled Scanning'.
 		} elseif ( true === $this->model->scheduled_scanning && false === $data['scheduled_scanning'] ) {
@@ -634,11 +649,11 @@ class Scan extends Event {
 				),
 				'per_page' => array(
 					'type'     => 'string',
-					'sanitize' => 'sanitize_text_field',
+					'sanitize' => 'intval',
 				),
 				'paged'    => array(
 					'type'     => 'int',
-					'sanitize' => 'sanitize_text_field',
+					'sanitize' => 'intval',
 				),
 			)
 		);
@@ -670,48 +685,43 @@ class Scan extends Event {
 	}
 
 	/**
-	 * Handle notice.
-	 * Send the notice to the admin dashboard of the site.
+	 * Update the run background state for active scan.
 	 *
 	 * @param  Request $request  Request object.
 	 *
 	 * @return Response Response object.
 	 * @defender_route
 	 */
-	public function handle_notice( Request $request ): Response {
-		update_site_option( Rate::SLUG_FOR_BUTTON_RATE, true );
+	public function update_background( Request $request ): Response {
+		$data = $request->get_data(
+			array(
+				'run_background' => array(
+					'type'     => 'boolean',
+					'sanitize' => 'rest_sanitize_boolean',
+				),
+			)
+		);
 
-		return new Response( true, array() );
-	}
+		$run_background = $data['run_background'] ?? false;
+		$scan           = Model_Scan::get_active();
 
-	/**
-	 * Handle postponed notice.
-	 * Reset counters for postponed notice.
-	 *
-	 * @param  Request $request  Request object.
-	 *
-	 * @return Response Response object.
-	 * @defender_route
-	 */
-	public function postpone_notice( Request $request ): Response {
-		Rate::reset_counters();
+		if ( is_object( $scan ) && $run_background ) {
+			set_site_transient( 'defender_run_background', $scan->id, HOUR_IN_SECONDS * 2 );
 
-		return new Response( true, array() );
-	}
+			return new Response(
+				true,
+				array(
+					'scan' => $scan->to_array(),
+				)
+			);
+		}
 
-	/**
-	 * Handle refuse notice.
-	 * Send the refuse notice to the admin dashboard of the site.
-	 *
-	 * @param  Request $request  Request object.
-	 *
-	 * @return Response Response object.
-	 * @defender_route
-	 */
-	public function refuse_notice( Request $request ): Response {
-		update_site_option( Rate::SLUG_FOR_BUTTON_THANKS, true );
-
-		return new Response( true, array() );
+		return new Response(
+			false,
+			array(
+				'message' => esc_html__( 'No active scan found', 'wpdef' ),
+			)
+		);
 	}
 
 	/**
@@ -735,88 +745,6 @@ class Scan extends Event {
 		wp_enqueue_script( 'def-scan' );
 		wp_enqueue_script( 'clipboard' );
 		$this->enqueue_main_assets();
-		wp_enqueue_script( 'def-codemirror', defender_asset_url( '/assets/js/vendor/codemirror/codemirror.js' ), array(), DEFENDER_VERSION, true );
-		wp_enqueue_script( 'def-codemirror-xml', defender_asset_url( '/assets/js/vendor/codemirror/xml/xml.js' ), array( 'def-codemirror' ), DEFENDER_VERSION, true );
-		wp_enqueue_script(
-			'def-codemirror-clike',
-			defender_asset_url( '/assets/js/vendor/codemirror/clike/clike.js' ),
-			array( 'def-codemirror' ),
-			DEFENDER_VERSION,
-			true
-		);
-		wp_enqueue_script( 'def-codemirror-css', defender_asset_url( '/assets/js/vendor/codemirror/css/css.js' ), array( 'def-codemirror' ), DEFENDER_VERSION, true );
-		wp_enqueue_script(
-			'def-codemirror-javascript',
-			defender_asset_url( '/assets/js/vendor/codemirror/javascript/javascript.js' ),
-			array( 'def-codemirror' ),
-			DEFENDER_VERSION,
-			true
-		);
-		wp_enqueue_script(
-			'def-codemirror-htmlmixed',
-			defender_asset_url( '/assets/js/vendor/codemirror/htmlmixed/htmlmixed.js' ),
-			array( 'def-codemirror' ),
-			DEFENDER_VERSION,
-			true
-		);
-		wp_enqueue_script( 'def-codemirror-php', defender_asset_url( '/assets/js/vendor/codemirror/php/php.js' ), array( 'def-codemirror' ), DEFENDER_VERSION, true );
-		wp_enqueue_script(
-			'def-codemirror-merge',
-			defender_asset_url( '/assets/js/vendor/codemirror/merge/merge.js' ),
-			array( 'def-codemirror' ),
-			DEFENDER_VERSION,
-			true
-		);
-		wp_enqueue_script( 'def-diff-match-patch', defender_asset_url( '/assets/js/vendor/diff-match-patch.js' ), array( 'def-codemirror' ), DEFENDER_VERSION, true );
-		wp_enqueue_script(
-			'def-codemirror-annotatescrollbar',
-			defender_asset_url( '/assets/js/vendor/codemirror/scroll/annotatescrollbar.js' ),
-			array( 'def-codemirror' ),
-			DEFENDER_VERSION,
-			true
-		);
-		wp_enqueue_script(
-			'def-codemirror-simplescrollbars',
-			defender_asset_url( '/assets/js/vendor/codemirror/scroll/simplescrollbars.js' ),
-			array( 'def-codemirror' ),
-			DEFENDER_VERSION,
-			true
-		);
-		wp_enqueue_script(
-			'def-codemirror-searchcursor',
-			defender_asset_url( '/assets/js/vendor/codemirror/search/searchcursor.js' ),
-			array( 'def-codemirror' ),
-			DEFENDER_VERSION,
-			true
-		);
-		wp_enqueue_script(
-			'def-codemirror-matchonscrollbars',
-			defender_asset_url( '/assets/js/vendor/codemirror/search/matchesonscrollbar.js' ),
-			array( 'def-codemirror' ),
-			DEFENDER_VERSION,
-			true
-		);
-
-		wp_enqueue_style( 'def-codemirror', defender_asset_url( '/assets/js/vendor/codemirror/codemirror.css' ), array(), DEFENDER_VERSION );
-		wp_enqueue_style( 'def-codemirror-dracula', defender_asset_url( '/assets/js/vendor/codemirror/dracula.css' ), array( 'def-codemirror' ), DEFENDER_VERSION );
-		wp_enqueue_style(
-			'def-codemirror-merge',
-			defender_asset_url( '/assets/js/vendor/codemirror/merge/merge.css' ),
-			array( 'def-codemirror' ),
-			DEFENDER_VERSION
-		);
-		wp_enqueue_style(
-			'def-codemirror-matchonscrollbars',
-			defender_asset_url( '/assets/js/vendor/codemirror/search/matchesonscrollbar.css' ),
-			array( 'def-codemirror' ),
-			DEFENDER_VERSION
-		);
-		wp_enqueue_style(
-			'def-codemirror-simplescrollbars',
-			defender_asset_url( '/assets/js/vendor/codemirror/scroll/simplescrollbars.css' ),
-			array( 'def-codemirror' ),
-			DEFENDER_VERSION
-		);
 	}
 
 	/**
@@ -858,6 +786,8 @@ class Scan extends Event {
 	public function remove_data(): void {
 		delete_site_option( Model_Scan::IGNORE_INDEXER );
 		delete_site_option( Core_Integrity::ISSUE_CHECKSUMS );
+		delete_site_transient( Plugin_Integrity::$org_slugs );
+		delete_site_transient( Plugin_Integrity::$org_responses );
 	}
 
 	/**
@@ -886,31 +816,20 @@ class Scan extends Event {
 				$settings->frequency
 			);
 		}
-		// Prepare additional data.
-		if ( wd_di()->get( Admin::class )->is_wp_org_version() ) {
-			$scan_array = Rate::what_scan_notice_display();
-			$misc       = array(
-				'rating_is_displayed' => ! Rate::was_rate_request() && ! empty( $scan_array['text'] ),
-				'rating_text'         => $scan_array['text'],
-				'rating_type'         => $scan_array['slug'],
-			);
-		} else {
-			$misc = array(
-				'days_of_week'        => $this->get_days_of_week(),
-				'times_of_day'        => $this->get_times(),
-				'timezone_text'       => sprintf(
-				/* translators: %s - timezone, %s - time */
-					esc_html__( 'Your timezone is set to %1$s, so your current time is %2$s.', 'wpdef' ),
-					'<strong>' . wp_timezone_string() . '</strong>',
-					'<strong>' . wp_date( 'H:i' ) . '</strong>'
-				),
-				'show_notice'         => ! $settings->scheduled_scanning
-										&& 'scheduled_scanning' === defender_get_data_from_request( 'enable', 'g' ),
-				'rating_is_displayed' => false,
-				'rating_text'         => '',
-				'rating_type'         => '',
-			);
-		}
+
+		$misc['outdated_period'] = \WP_Defender\Behavior\Scan\Abandoned_Plugin::get_outdated_period();
+		$misc['labels']          = $settings->labels();
+		$misc['days_of_week']    = $this->get_days_of_week();
+		$misc['times_of_day']    = $this->get_times();
+		$misc['timezone_text']   = sprintf(
+			/* translators: 1. Timezone. 2. Time. */
+			esc_html__(
+				'Your timezone is set to %1$s, so your current time is %2$s.',
+				'wpdef'
+			),
+			'<strong>' . wp_timezone_string() . '</strong>',
+			'<strong>' . wp_date( 'H:i', time() ) . '</strong>'
+		);
 
 		// Todo: add logic for deactivated scan settings. Maybe display some notice.
 		$data = array(
@@ -918,10 +837,11 @@ class Scan extends Event {
 			'settings'     => $settings->export(),
 			'report'       => $report_text,
 			'active_tools' => array(
-				'integrity_check'    => $settings->integrity_check,
-				'check_known_vuln'   => $settings->check_known_vuln,
-				'scan_malware'       => $settings->scan_malware,
-				'scheduled_scanning' => $settings->scheduled_scanning,
+				'integrity_check'        => $settings->integrity_check,
+				'check_known_vuln'       => $settings->check_known_vuln,
+				'scan_malware'           => $settings->scan_malware,
+				'scheduled_scanning'     => $settings->scheduled_scanning,
+				'check_abandoned_plugin' => $settings->check_abandoned_plugin,
 			),
 			'notification' => $report->to_string(),
 			'next_run'     => $report->get_next_run_as_string(),
@@ -948,7 +868,7 @@ class Scan extends Event {
 		if ( empty( $data ) ) {
 			$model->scheduled_scanning = false;
 			$model->frequency          = 'weekly';
-			$model->day_n              = '1';
+			$model->day_n              = 1;
 			$model->day                = 'sunday';
 			$model->time               = '4:00';
 			$model->save();
@@ -975,8 +895,10 @@ class Scan extends Event {
 			// Pro version. Check all parent types.
 			return $file_change_check || $settings->check_known_vuln || $settings->scan_malware;
 		} else {
-			// Free version. Check the 'File change detection' type because only it's available with nested types.
-			return $file_change_check;
+			// Free version:
+			// Check the 'File change detection' type because only it's available with nested types.
+			// Check the Abandoned plugin type.
+			return $file_change_check || $settings->check_abandoned_plugin;
 		}
 	}
 
@@ -1026,7 +948,7 @@ class Scan extends Event {
 	 */
 	public function config_strings( array $config, bool $is_pro ): array {
 		$strings   = array();
-		$strings[] = $this->service->is_any_scan_active( $config, $is_pro )
+		$strings[] = $this->service->is_any_scan_active( $config )
 			? esc_html__( 'Active', 'wpdef' )
 			: esc_html__( 'Inactive', 'wpdef' );
 
@@ -1120,6 +1042,9 @@ class Scan extends Event {
 
 			$scan_model     = wd_di()->get( Model_Scan::class );
 			$analytics_data = $scan_analytics->scan_completed( $scan_model );
+			if ( empty( $analytics_data ) ) {
+				return;
+			}
 
 			$this->track_feature(
 				$analytics_data['event'],

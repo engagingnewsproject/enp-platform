@@ -10,6 +10,7 @@ namespace WP_Defender\Helper\Analytics;
 use WP_Defender\Event;
 use WP_Defender\Traits\Defender_Dashboard_Client;
 use WP_Defender\Component\IP\Antibot_Global_Firewall;
+use WP_Defender\Model\Setting\Antibot_Global_Firewall_Setting;
 
 /**
  * Gather analytics data required for AntiBot feature.
@@ -57,10 +58,12 @@ class Antibot extends Event {
 
 	/**
 	 * Exports strings.
+	 *
+	 * @return array
 	 */
 	public function export_strings() {
+		return array();
 	}
-	// End.
 
 	/**
 	 * Track feature.
@@ -77,6 +80,7 @@ class Antibot extends Event {
 			'State'          => 'plugin' === wd_di()->get( Antibot_Global_Firewall::class )->get_managed_by()
 				? 'Managed by Defender Plugin'
 				: 'Managed by WPMU DEV Hosting',
+			'Mode'           => wd_di()->get( Antibot_Global_Firewall_Setting::class )->get_mode_label(),
 		);
 		if ( 'Hub' !== $location ) {
 			$data['Connection Method'] = $this->is_dash_activated()

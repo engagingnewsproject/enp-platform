@@ -10,10 +10,10 @@
 
 namespace WPMUDEV\Hub\Connector;
 
-use WP_Error;
-use Theme_Upgrader;
 use Plugin_Upgrader;
+use Theme_Upgrader;
 use WP_Ajax_Upgrader_Skin;
+use WP_Error;
 
 /**
  * Class Upgrader
@@ -57,9 +57,13 @@ class Upgrader {
 	/**
 	 * Install a new plugin or theme.
 	 *
-	 * Optionally plugin can be activated after installation.
+	 *  Optionally plugin can be activated after installation.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param string $item    The item to install.
+	 * @param string $type    Type of the item to install.
+	 * @param array  $options Install options.
 	 *
 	 * @return bool
 	 */
@@ -96,7 +100,8 @@ class Upgrader {
 					$upgrader->plugin_info(),
 					false,
 					$this->get_option( 'network_wide', is_multisite() ),
-					$this->get_option( 'silent', true )
+					// https://incsub.atlassian.net/browse/WDD-418.
+					$this->get_option( 'silent' )
 				);
 
 				// If error in activation.
@@ -241,13 +246,13 @@ class Upgrader {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $key     Option key.
-	 * @param mixed  $default Default value.
+	 * @param string $key           Option key.
+	 * @param mixed  $default_value Default value.
 	 *
 	 * @return mixed
 	 */
-	public function get_option( $key, $default = false ) {
-		return isset( $this->options[ $key ] ) ? $this->options[ $key ] : $default;
+	public function get_option( $key, $default_value = false ) {
+		return $this->options[ $key ] ?? $default_value;
 	}
 
 	/**

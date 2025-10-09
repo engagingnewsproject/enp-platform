@@ -237,7 +237,7 @@ class Firewall extends Component {
 			$global_ip->is_ip_blocked( $ip )
 		) {
 			return array(
-				'reason' => 'global_ip',
+				'reason' => IP\Global_IP::REASON_SLUG,
 				'result' => true,
 			);
 		}

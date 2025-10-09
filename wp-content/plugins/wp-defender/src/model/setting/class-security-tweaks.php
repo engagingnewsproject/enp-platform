@@ -79,7 +79,7 @@ class Security_Tweaks extends Setting {
 	public function is_tweak_ignore( string $slug ): bool {
 		// Empty ignored tweak is string on old versions, so change it to array.
 		if ( is_string( $this->ignore ) ) {
-			$this->ignore = empty( $this->ignore ) ? array() : array( $this->ignore );
+			$this->ignore = '' === $this->ignore ? array() : array( $this->ignore );
 			$this->save();
 		}
 

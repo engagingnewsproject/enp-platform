@@ -23,17 +23,17 @@ trait Scan_Upsell {
 		switch ( $location ) {
 			case 'dashboard':
 				return array(
-					'url'         => 'https://wpmudev.com/hub2/services/?utm_source=defender-pro&utm_medium=plugin&utm_campaign=defender_services_dash_upsell',
+					'url'         => 'https://wpmudev.com/hub2/expert-services/?utm_source=defender-pro&utm_medium=plugin&utm_campaign=defender_services_dash_upsell',
 					'description' => $anc_link,
 				);
 			case 'scan':
 				return array(
-					'url'         => 'https://wpmudev.com/hub2/services/?utm_source=defender-pro&utm_medium=plugin&utm_campaign=defender_services_mwscanning_upsell',
+					'url'         => 'https://wpmudev.com/hub2/expert-services/?utm_source=defender-pro&utm_medium=plugin&utm_campaign=defender_services_mwscanning_upsell',
 					'description' => $anc_link,
 				);
 			case 'email':
 				return array(
-					'url'         => 'https://wpmudev.com/hub2/services/?utm_source=defender-pro&utm_medium=email&utm_campaign=defender_services_email_upsell',
+					'url'         => 'https://wpmudev.com/hub2/expert-services/?utm_source=defender-pro&utm_medium=email&utm_campaign=defender_services_email_upsell',
 					'description' => $anc_link,
 				);
 			default:

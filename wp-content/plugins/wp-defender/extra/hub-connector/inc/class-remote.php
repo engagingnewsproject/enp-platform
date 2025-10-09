@@ -10,6 +10,9 @@
 
 namespace WPMUDEV\Hub\Connector;
 
+// nature of the callbacks workflow.
+// phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+
 /**
  * Class Remote
  */
@@ -186,26 +189,35 @@ class Remote {
 	 * Check nonce to prevent replay attacks.
 	 *
 	 * @since 1.0.0
+	 * @since 1.0.7 ( add $json body as validation parameter )
 	 *
-	 * @param string $id Request ID.
+	 * @param string $id   Request ID.
+	 * @param string $json Request body json raw.
 	 *
 	 * @return bool
 	 */
-	public function validate_nonce( $id ) {
+	public function validate_nonce( $id, $json ) {
 		// Validation.
 		if ( empty( $id ) ) {
 			return false;
 		}
 
+		if ( ! is_string( $json ) ) {
+			$json = '';
+		}
+
 		// Get nonce from ID.
 		list( $id, $timestamp ) = explode( '-', $id );
 
+		// include the data in the prevention checks, it means identical data / json can not be replayed, but different data / json can be replayed -- which is the whole point of the nonce.
+		$hashed_json = hash_hmac( 'sha256', $json, API::get()->get_api_key() );
+
 		// Get saved nonce.
-		$nonce = Options::get( 'hub_nonce' );
+		$nonce = floatval( Options::get_transient( sprintf( 'hub_nonce_%s', $hashed_json ) ) );
 
 		if ( floatval( $timestamp ) > $nonce ) {
-			// If valid nonce, save it.
-			Options::set( 'hub_nonce', floatval( $timestamp ) );
+			// If valid nonce, save it. Hold for a day ( similar as wp_nonce_tick ).
+			Options::set_transient( sprintf( 'hub_nonce_%s', $hashed_json ), floatval( $timestamp ), DAY_IN_SECONDS );
 
 			return true;
 		}
@@ -268,7 +280,7 @@ class Remote {
 		}
 
 		// Check nonce to prevent replay attacks.
-		if ( ! $this->validate_nonce( $req_id ) ) {
+		if ( ! $this->validate_nonce( $req_id, $json ) ) {
 			if ( $die_on_failure ) {
 				wp_send_json_error(
 					array(
@@ -577,7 +589,7 @@ class Remote {
 			}
 		}
 
-		wp_send_json_success();
+		wp_send_json_success( $actions );
 	}
 
 	/**
@@ -663,3 +675,5 @@ class Remote {
 		return ! empty( $_GET['wpmudev-hub'] ); // phpcs:ignore
 	}
 }
+
+// phpcs:enable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed

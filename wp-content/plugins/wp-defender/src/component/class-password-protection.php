@@ -11,6 +11,7 @@ use WP_User;
 use WP_Error;
 use Calotes\Helper\HTTP;
 use WP_Defender\Component;
+use WP_Defender\Integrations\Woocommerce;
 use WP_Defender\Model\Setting\Password_Reset;
 use WP_Defender\Component\Security_Tweaks\Servers\Server;
 use WP_Defender\Model\Setting\Password_Protection as Password_Protection_Settings;
@@ -61,7 +62,7 @@ class Password_Protection extends Component {
 	 */
 	public function get_submitted_password() {
 		$password = '';
-		foreach ( array( 'pwd', 'pass1', 'password', 'edd_user_pass' ) as $key ) {
+		foreach ( array( 'pwd', 'pass1', 'password', 'edd_user_pass', 'password_1', 'account_password' ) as $key ) {
 			$submitted_pass = HTTP::post( $key );
 			if ( ! empty( $submitted_pass ) ) {
 				$password = $submitted_pass;
@@ -87,10 +88,7 @@ class Password_Protection extends Component {
 		$args = array(
 			'method'  => 'GET',
 			'headers' => array(
-				'user-agent' => sprintf(
-					'Mozilla/5.0 (compatible; WPMU DEV Defender/%1$s; +https://wpmudev.com)',
-					DEFENDER_VERSION
-				),
+				'user-agent' => defender_get_own_user_agent(),
 			),
 		);
 
@@ -168,44 +166,34 @@ class Password_Protection extends Component {
 	 *
 	 * @param  WP_User $user  The user for whom to generate the URL.
 	 *
-	 * @return string|null
+	 * @return string
 	 */
-	public function get_reset_password_redirect_url( $user ) {
-		$url = null;
-
+	public function get_reset_password_redirect_url( $user ): string {
+		$url = '';
 		$key = get_password_reset_key( $user );
 		if ( ! is_wp_error( $key ) ) {
-			$url = add_query_arg(
-				array(
-					'action' => 'rp',
-					'key'    => $key,
-					'login'  => $user->user_login,
-				),
-				wp_login_url()
-			);
-			// Extra hosting checks.
+			if ( wd_di()->get( Woocommerce::class )->is_wc_login_context() && function_exists( 'wc_lostpassword_url' ) ) {
+				$url = add_query_arg(
+					array(
+						'key'   => $key,
+						'login' => $user->user_login,
+					),
+					wc_lostpassword_url()
+				);
+			} else {
+				$url = add_query_arg(
+					array(
+						'action' => 'rp',
+						'key'    => $key,
+						'login'  => $user->user_login,
+					),
+					wp_login_url()
+				);
+			}
 			$this->hosting_compatibility( $key, $user->user_login );
 		}
 
 		return $url;
-	}
-
-	/**
-	 * Reset password redirect.
-	 *
-	 * @param  string|null $url  The URL to redirect to.
-	 * @param  bool        $safe  Whether to use safe redirect.
-	 *
-	 * @return void
-	 */
-	public function reset_password_redirect( $url, $safe = false ) {
-		if ( empty( $url ) ) {
-			return;
-		}
-		$url = esc_url_raw( $url );
-		header( 'Cache-Control: no-store, no-cache' );
-		$safe ? wp_safe_redirect( $url ) : wp_redirect( $url ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
-		exit();
 	}
 
 	/**
@@ -232,7 +220,7 @@ class Password_Protection extends Component {
 	 * @since 4.3.0 Removed the $time parameter.
 	 */
 	public function remove_cookie_notice( string $name ): void {
-		if ( isset( $_COOKIE[ $name ] ) ) {
+		if ( isset( $_COOKIE[ $name ] ) && ! headers_sent() ) {
 			setcookie( $name, '', time() - YEAR_IN_SECONDS, '/' );
 		}
 		$this->remove_extra_cookies();
@@ -305,7 +293,7 @@ class Password_Protection extends Component {
 	 * Removes extra cookies set during the password reset process.
 	 */
 	protected function remove_extra_cookies() {
-		if ( isset( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ) && 'flywheel' === Server::get_current_server() ) {
+		if ( isset( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ) && 'flywheel' === Server::get_current_server() && ! headers_sent() ) {
 			setcookie(
 				'wp-resetpass-' . COOKIEHASH,
 				'',
@@ -386,7 +374,30 @@ class Password_Protection extends Component {
 		 */
 		do_action( 'wd_forced_reset_password_url', $url, $action );
 		// Redirect to the reset password page.
-		$this->reset_password_redirect( $url );
+		if ( '' !== $url ) {
+			$url = esc_url_raw( $url );
+			header( 'Cache-Control: no-store, no-cache' );
+			wp_safe_redirect( $url );
+			exit();
+		}
+	}
+
+	/**
+	 * Add WooCommerce error message for password reset warnings.
+	 *
+	 * @param  string $wc_message  WooCommerce default error message.
+	 * @return string              WooCommerce error message.
+	 */
+	public function add_woocommerce_error_message( $wc_message ) {
+		if ( isset( $_COOKIE['display_pwned_password_warning'] ) && function_exists( 'wc_print_notice' ) ) {
+			wc_print_notice( $this->password_protection_model->pwned_actions['force_change_message'], 'error' );
+			$this->remove_cookie_notice( 'display_pwned_password_warning' );
+		}
+		if ( isset( $_COOKIE['display_reset_password_warning'] ) && function_exists( 'wc_print_notice' ) ) {
+			wc_print_notice( $this->model->message, 'error' );
+			$this->remove_cookie_notice( 'display_reset_password_warning' );
+		}
+		return $wc_message;
 	}
 
 	/**

@@ -12,6 +12,7 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
 use Calotes\Component\Behavior;
+use WP_Filesystem_Base;
 
 /**
  * Base class for all components.
@@ -269,7 +270,7 @@ class Component {
 	protected function log( $message, $category = '' ): void {
 		global $wp_filesystem;
 		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}

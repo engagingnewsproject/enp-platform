@@ -109,7 +109,8 @@ class Mapper extends Component {
 		global $wpdb;
 		if ( 2 === count( $args ) ) {
 			list($key, $value) = $args;
-			$this->where[]     = $wpdb->prepare( "`$key` = " . $this->guess_var_type( $value ), $value ); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			// It is safe because guess_var_type() returns correct placeholder and value goes through $wpdb->prepare().
+			$this->where[] = $wpdb->prepare( "`$key` = " . $this->guess_var_type( $value ), $value ); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 			return $this;
 		}
@@ -133,12 +134,14 @@ class Mapper extends Component {
 			);
 			$this->where[] = $sql;
 		} elseif ( 'between' === strtolower( $operator ) ) {
+			// It is safe because guess_var_type() returns correct placeholder and value goes through $wpdb->prepare().
 			$this->where[] = $wpdb->prepare(
 				"{$key} {$operator} {$this->guess_var_type($value[0])} AND {$this->guess_var_type($value[1])}", // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$value[0],
 				$value[1]
 			);
 		} else {
+			// It is safe because guess_var_type() returns correct placeholder and value goes through $wpdb->prepare().
 			$this->where[] = $wpdb->prepare( "`$key` $operator {$this->guess_var_type($value)}", $value ); // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		}
 
@@ -152,7 +155,7 @@ class Mapper extends Component {
 	 *
 	 * @return string
 	 */
-	private function guess_var_type( $value ) {
+	private function guess_var_type( $value ): string {
 		if ( filter_var( $value, FILTER_VALIDATE_INT ) ) {
 			return '%d';
 		}
@@ -220,19 +223,21 @@ class Mapper extends Component {
 	}
 
 	/**
-	 * Set the limit for the SQL query based on the provided offset.
+	 * Set the limit for the SQL query based on the provided value.
 	 *
-	 * @param  mixed $offset  The offset value for the query limit.
+	 * @param  int      $limit  The limit value.
+	 * @param  int|null $offset The offset value.
 	 *
 	 * @return $this
 	 */
-	public function limit( $offset ) {
+	public function limit( $limit, $offset = null ) {
 		global $wpdb;
-		$this->limit = str_replace(
-			"'",
-			'',
-			$wpdb->prepare( 'LIMIT ' . $this->guess_var_type( $offset ), $offset ) // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQL.NotPrepared
-		);
+
+		if ( null === $offset ) {
+			$this->limit = $wpdb->prepare( 'LIMIT %d', $limit );
+		} else {
+			$this->limit = $wpdb->prepare( 'LIMIT %d OFFSET %d', $limit, $offset );
+		}
 
 		return $this;
 	}

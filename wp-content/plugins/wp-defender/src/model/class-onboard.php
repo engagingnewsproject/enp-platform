@@ -8,7 +8,7 @@
 namespace WP_Defender\Model;
 
 /**
- * Class Onboard
+ * Class Onboard.
  *
  * Provides methods to check if the site is newly created.
  */
@@ -32,7 +32,7 @@ class Onboard {
 			);
 		}
 		// Get '1' for direct SQL request if Onboarding was already.
-		if ( empty( $res ) ) {
+		if ( '1' !== $res ) {
 			return true;
 		}
 

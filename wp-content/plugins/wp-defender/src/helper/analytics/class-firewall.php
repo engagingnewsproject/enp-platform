@@ -51,16 +51,20 @@ class Firewall extends Event {
 
 	/**
 	 * Delete all the data & the cache.
+	 *
+	 * @return mixed
 	 */
 	public function remove_data() {
 	}
 
 	/**
 	 * Exports strings.
+	 *
+	 * @return array
 	 */
 	public function export_strings() {
+		return array();
 	}
-	// End.
 
 	/**
 	 * Get a label of the detection method.

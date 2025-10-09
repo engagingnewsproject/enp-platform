@@ -37,10 +37,10 @@ trait Hummingbird {
 			'wphb_settings',
 			array()
 		);
-		if ( empty( $settings ) || ! is_array( $settings ) ) {
+		if ( ! is_array( $settings ) || array() === $settings ) {
 			return false;
 		}
 
-		return ! empty( $settings['advanced']['lazy_load']['enabled'] ) && $settings['advanced']['lazy_load']['enabled'];
+		return isset( $settings['advanced']['lazy_load']['enabled'] ) && $settings['advanced']['lazy_load']['enabled'];
 	}
 }

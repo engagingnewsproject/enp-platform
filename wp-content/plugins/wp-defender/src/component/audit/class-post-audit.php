@@ -48,7 +48,7 @@ class Post_Audit extends Audit_Event {
 	 * the array of various post, as we don't want data be excluded. This way we can get more control.
 	 */
 	public function __construct() {
-		add_action( 'post_updated', array( &$this, 'cache_post_updated' ), 10, 3 );
+		add_action( 'post_updated', array( $this, 'cache_post_updated' ), 10, 3 );
 	}
 
 	/**

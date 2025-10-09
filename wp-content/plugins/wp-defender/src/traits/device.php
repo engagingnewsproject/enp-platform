@@ -17,7 +17,7 @@ trait Device {
 	 */
 	private function is_tablet() {
 		$user_agent = defender_get_data_from_request( 'HTTP_USER_AGENT', 's' );
-		if ( empty( $user_agent ) ) {
+		if ( '' === $user_agent ) {
 			return false;
 		}
 		/**
@@ -36,7 +36,7 @@ trait Device {
 	 */
 	private function is_mobile() {
 		$user_agent = defender_get_data_from_request( 'HTTP_USER_AGENT', 's' );
-		if ( empty( $user_agent ) ) {
+		if ( '' === $user_agent ) {
 			return false;
 		}
 		// Do not use wp_is_mobile() since it doesn't detect ipad/tablet.

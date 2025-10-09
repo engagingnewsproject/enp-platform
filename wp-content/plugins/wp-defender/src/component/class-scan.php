@@ -9,7 +9,6 @@ namespace WP_Defender\Component;
 
 use Countable;
 use ArrayIterator;
-use WP_Defender\Admin;
 use WP_Defender\Component;
 use WP_Plugins_List_Table;
 use WP_Defender\Model\Scan_Item;
@@ -22,6 +21,7 @@ use WP_Defender\Behavior\Scan\Plugin_Integrity;
 use WP_Defender\Behavior\Scan\Malware_Deep_Scan;
 use WP_Defender\Behavior\Scan\Malware_Quick_Scan;
 use WP_Defender\Behavior\Scan\Known_Vulnerability;
+use WP_Defender\Behavior\Scan\Abandoned_Plugin;
 use WP_Defender\Model\Setting\Scan as Scan_Settings;
 use WP_Defender\Helper\Analytics\Scan as Scan_Analytics;
 use WP_Defender\Controller\Scan as Scan_Controller;
@@ -30,6 +30,10 @@ use WP_Defender\Controller\Scan as Scan_Controller;
  * The Scan class handles the scanning process, managing tasks, and coordinating different types of scans.
  */
 class Scan extends Component {
+	use \WP_Defender\Traits\Plugin;
+
+	// For all Scan types where plugins are used.
+	public const PLUGINS_ACTIONED = 'wp-defender-actioned-plugins';
 
 	/**
 	 * The current scan model.
@@ -74,11 +78,25 @@ class Scan extends Component {
 	private ?Gather_Fact $gather_fact;
 
 	/**
+	 * Instance of Abandoned_Plugin to handle abandoned plugin checks.
+	 *
+	 * @var Abandoned_Plugin
+	 */
+	private $abandoned_plugin;
+
+	/**
 	 * Lock file name for scanning.
 	 *
 	 * @var string
 	 */
 	protected string $lock_filename = 'scan.lock';
+
+	/**
+	 * Indicate whether the current installation is a pro version.
+	 *
+	 * @var bool
+	 */
+	private $is_pro;
 
 	/**
 	 * Constructs the Scan object and initializes behaviors.
@@ -87,18 +105,20 @@ class Scan extends Component {
 		$this->attach_behavior( WPMUDEV::class, WPMUDEV::class );
 		$this->attach_behavior( Core_Integrity::class, Core_Integrity::class );
 		$this->attach_behavior( Plugin_Integrity::class, Plugin_Integrity::class );
+		$this->is_pro   = wd_di()->get( WPMUDEV::class )->is_pro();
+		$this->settings = wd_di()->get( Scan_Settings::class );
 	}
 
 	/**
 	 * Performs additional actions after an advanced scan.
 	 *
-	 * @param  object $model  The scan model.
+	 * @param Scan_Model $model  The scan model.
 	 */
 	public function advanced_scan_actions( $model ) {
 		$this->reindex_ignored_issues( $model );
 		$this->clean_up();
 
-		if ( wd_di()->get( Admin::class )->is_wp_org_version() ) {
+		if ( defender_is_wp_org_version() ) {
 			Rate::run_counter_of_completed_scans();
 		}
 	}
@@ -206,8 +226,7 @@ class Scan extends Component {
 	 * @return array
 	 */
 	public function get_tasks(): array {
-		$this->settings = new Scan_Settings();
-		$tasks          = array( Scan_Model::STEP_GATHER_INFO => 'gather_info' );
+		$tasks = array( Scan_Model::STEP_GATHER_INFO => 'gather_info' );
 		if ( $this->settings->integrity_check ) {
 			// Nested options.
 			if ( $this->settings->check_core ) {
@@ -217,16 +236,16 @@ class Scan extends Component {
 				$tasks[ Scan_Model::STEP_CHECK_PLUGIN ] = 'plugin_integrity_check';
 			}
 		}
-		if ( $this->is_pro() ) {
-			if ( $this->settings->check_known_vuln ) {
-				if ( $this->has_method( Scan_Model::STEP_VULN_CHECK ) ) {
-					$tasks[ Scan_Model::STEP_VULN_CHECK ] = 'vuln_check';
-				}
+
+		if ( $this->settings->check_abandoned_plugin ) {
+			$tasks[ Scan_Model::STEP_ABANDONED_PLUGIN_CHECK ] = 'abandoned_plugin_check';
+		}
+		if ( $this->is_pro ) {
+			if ( $this->settings->check_known_vuln && $this->has_method( Scan_Model::STEP_VULN_CHECK ) ) {
+				$tasks[ Scan_Model::STEP_VULN_CHECK ] = 'vuln_check';
 			}
-			if ( $this->settings->scan_malware ) {
-				if ( $this->has_method( Scan_Model::STEP_SUSPICIOUS_CHECK ) ) {
-					$tasks[ Scan_Model::STEP_SUSPICIOUS_CHECK ] = 'suspicious_check';
-				}
+			if ( $this->settings->scan_malware && $this->has_method( Scan_Model::STEP_SUSPICIOUS_CHECK ) ) {
+				$tasks[ Scan_Model::STEP_SUSPICIOUS_CHECK ] = 'suspicious_check';
 			}
 		}
 
@@ -258,7 +277,6 @@ class Scan extends Component {
 				}
 
 				return $this->vuln_check( $this->known_vulnerability );
-
 			case 'suspicious_check':
 				if ( class_exists( Malware_Scan::class ) ) {
 					$this->set_malware_scan(
@@ -267,7 +285,14 @@ class Scan extends Component {
 				}
 
 				return $this->suspicious_check( $this->malware_scan );
+			case 'abandoned_plugin_check':
+				if ( empty( $this->abandoned_plugin ) && class_exists( Abandoned_Plugin::class ) ) {
+					$this->set_abandoned_plugin(
+						wd_di()->make( Abandoned_Plugin::class, array( 'scan' => $this->scan ) )
+					);
+				}
 
+				return $this->abandoned_plugin_check( $this->abandoned_plugin );
 			default:
 				return $this->$task();
 		}
@@ -326,6 +351,32 @@ class Scan extends Component {
 		if ( class_exists( Malware_Scan::class ) ) {
 			$this->malware_scan = $malware_scan;
 		}
+	}
+
+	/**
+	 * Set the Abandoned_Plugin object.
+	 *
+	 * @param  Abandoned_Plugin $abandoned_plugin  The Abandoned_Plugin object to set.
+	 */
+	public function set_abandoned_plugin( Abandoned_Plugin $abandoned_plugin ) {
+		if ( class_exists( Abandoned_Plugin::class ) ) {
+			$this->abandoned_plugin = $abandoned_plugin;
+		}
+	}
+
+	/**
+	 * A wrapper method for Abandoned_Plugin class method abandoned_plugin_check.
+	 *
+	 * @param  Abandoned_Plugin $abandoned_plugin  An instance of Abandoned_Plugin.
+	 *
+	 * @return bool
+	 */
+	private function abandoned_plugin_check( Abandoned_Plugin $abandoned_plugin ): bool {
+		if ( method_exists( $abandoned_plugin, 'abandoned_plugin_check' ) ) {
+			return $abandoned_plugin->abandoned_plugin_check();
+		}
+
+		return true;
 	}
 
 	/**
@@ -407,16 +458,15 @@ class Scan extends Component {
 	 * Checks if any scan type is active based on the scan settings and the user's membership status.
 	 *
 	 * @param  array $scan_settings  The scan settings.
-	 * @param  bool  $is_pro  Whether the user has a pro membership.
 	 *
 	 * @return bool Returns true if any scan type is active, false otherwise.
 	 */
-	public function is_any_scan_active( $scan_settings, $is_pro ): bool {
+	public function is_any_scan_active( $scan_settings ): bool {
 		if ( empty( $scan_settings['integrity_check'] ) ) {
 			// Check the parent type.
 			$file_change_check = false;
 		} elseif (
-			! empty( $scan_settings['integrity_check'] )
+			$scan_settings['integrity_check']
 			&& empty( $scan_settings['check_core'] )
 			&& empty( $scan_settings['check_plugins'] )
 		) {
@@ -426,12 +476,13 @@ class Scan extends Component {
 			$file_change_check = true;
 		}
 		// Similar to is_any_active(...) method from the controller.
-		if ( $is_pro ) {
+		if ( $this->is_pro ) {
 			// Pro version. Check all parent types.
-			return $file_change_check || ! empty( $scan_settings['check_known_vuln'] ) || ! empty( $scan_settings['scan_malware'] );
+			return $file_change_check || ! empty( $scan_settings['check_known_vuln'] )
+				|| ! empty( $scan_settings['scan_malware'] );
 		} else {
-			// Free version. Check the 'File change detection' type because only it's available with nested types.
-			return $file_change_check;
+			// Free version.
+			return $file_change_check || ! empty( $scan_settings['check_abandoned_plugin'] );
 		}
 	}
 
@@ -501,6 +552,7 @@ class Scan extends Component {
 		delete_site_option( Core_Integrity::CACHE_CHECKSUMS );
 		delete_site_option( Plugin_Integrity::PLUGIN_SLUGS );
 		delete_site_option( Plugin_Integrity::PLUGIN_PREMIUM_SLUGS );
+		delete_site_option( self::PLUGINS_ACTIONED );
 		$this->maybe_track_failed_checksum();
 	}
 
@@ -784,5 +836,70 @@ class Scan extends Component {
 			'unignore',
 			'quarantine',
 		);
+	}
+
+	/**
+	 * Get the list of actioned plugins taking into account the Ignored and Excluded.
+	 *
+	 * @return array
+	 */
+	public function gather_actioned_plugin_details(): array {
+		$cache = get_site_option( self::PLUGINS_ACTIONED );
+		if ( self::are_actioned_plugins( $cache ) ) {
+			return $cache;
+		}
+
+		$items          = array();
+		$is_plugin_used = false;
+		if ( $this->settings->integrity_check && $this->settings->check_plugins ) {
+			$is_plugin_used = true;
+		} elseif ( $this->settings->check_abandoned_plugin ) {
+			$is_plugin_used = true;
+		} elseif ( $this->is_pro && ( $this->settings->check_known_vuln || $this->settings->scan_malware ) ) {
+			$is_plugin_used = true;
+		}
+
+		if ( $is_plugin_used ) {
+			$model = Scan_Model::get_last();
+			/**
+			 * Exclude plugin slugs.
+			 *
+			 * @param  array  $slugs  Slugs of excluded plugins.
+			 *
+			 * @since 3.1.0
+			 */
+			$excluded_slugs = (array) apply_filters( 'wd_scan_excluded_plugin_slugs', array() );
+
+			foreach ( $this->get_plugins() as $slug => $item ) {
+				if ( is_object( $model ) && $model->is_issue_ignored( $slug ) ) {
+					continue;
+				}
+				$base_slug = $this->get_plugin_slug_by( $slug );
+				if ( in_array( $base_slug, $excluded_slugs, true ) ) {
+					continue;
+				}
+				// Use keys with the first capital letter to match default plugin header keys.
+				$items[ $base_slug ] = array(
+					'Name'    => $item['Name'],
+					'Version' => $item['Version'],
+					'Slug'    => $slug,
+				);
+			}
+
+			update_site_option( self::PLUGINS_ACTIONED, $items );
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Does the list of actioned plugins exist and no empty?
+	 *
+	 * @param array|false $actioned_plugins The actioned plugins.
+	 *
+	 * @return bool
+	 */
+	public static function are_actioned_plugins( $actioned_plugins ): bool {
+		return is_array( $actioned_plugins ) && array() !== $actioned_plugins;
 	}
 }

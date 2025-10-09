@@ -8,6 +8,7 @@ use ACP\Helper\Select\User\LabelFormatter\UserName;
 use ACP\Helper\Select\User\PaginatedFactory;
 use ACP\Search\Comparison\SearchableValues;
 use ACP\Search\Operators;
+use WP_User;
 
 class Author extends PostField
     implements SearchableValues
@@ -35,7 +36,13 @@ class Author extends PostField
 
     public function format_label($value): string
     {
-        return $value ? $this->formatter()->format_label(get_userdata($value)) : '';
+        $user = $value
+            ? get_userdata($value)
+            : null;
+
+        return $user instanceof WP_User
+            ? $this->formatter()->format_label($user)
+            : '';
     }
 
     protected function get_field(): string
@@ -55,8 +62,8 @@ class Author extends PostField
     public function get_values(string $search, int $page): Paginated
     {
         return (new PaginatedFactory())->create([
-            'search' => $search,
-            'paged' => $page,
+            'search'  => $search,
+            'paged'   => $page,
             'include' => $this->get_author_ids($this->post_type),
         ], $this->formatter());
     }

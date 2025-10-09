@@ -53,7 +53,7 @@ class Dashboard_Whitelabel {
 	 * @return string URL of whitelabel logo or default logo.
 	 */
 	public function get_branding_logo(): string {
-		if ( $this->is_hide_branding() && ! empty( trim( $this->wpmudev_branding['hero_image'] ) ) ) {
+		if ( $this->is_hide_branding() && '' !== trim( $this->wpmudev_branding['hero_image'] ) ) {
 			return $this->wpmudev_branding['hero_image'];
 		}
 
@@ -124,7 +124,7 @@ class Dashboard_Whitelabel {
 	private function plugin_enabled( $plugin_id ) {
 		if (
 			! class_exists( '\WPMUDEV_Dashboard' ) ||
-			empty( WPMUDEV_Dashboard::$whitelabel ) ||
+			null === WPMUDEV_Dashboard::$whitelabel ||
 			! method_exists( WPMUDEV_Dashboard::$whitelabel, 'get_settings' )
 		) {
 			return false;

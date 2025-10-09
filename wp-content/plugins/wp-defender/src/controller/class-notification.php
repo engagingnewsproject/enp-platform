@@ -60,28 +60,25 @@ class Notification extends Event {
 		$this->register_page(
 			esc_html__( 'Notifications', 'wpdef' ),
 			$this->slug,
-			array(
-				&$this,
-				'main_view',
-			),
+			array( $this, 'main_view' ),
 			$this->parent_slug
 		);
 		$this->register_routes();
 		$this->service = wd_di()->get( \WP_Defender\Component\Notification::class );
-		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
+		add_action( 'defender_enqueue_assets', array( $this, 'enqueue_assets' ) );
 		// We use custom ajax endpoint here as the nonce would fail with other user.
-		add_action( 'wp_ajax_' . self::SLUG_SUBSCRIBE, array( &$this, 'verify_subscriber' ) );
-		add_action( 'wp_ajax_nopriv_' . self::SLUG_SUBSCRIBE, array( &$this, 'verify_subscriber' ) );
-		add_action( 'wp_ajax_' . self::SLUG_UNSUBSCRIBE, array( &$this, 'unsubscribe_and_send_email' ) );
-		add_action( 'wp_ajax_nopriv_' . self::SLUG_UNSUBSCRIBE, array( &$this, 'unsubscribe_and_send_email' ) );
-		add_action( 'defender_notify', array( &$this, 'send_notify' ), 10, 2 );
+		add_action( 'wp_ajax_' . self::SLUG_SUBSCRIBE, array( $this, 'verify_subscriber' ) );
+		add_action( 'wp_ajax_nopriv_' . self::SLUG_SUBSCRIBE, array( $this, 'verify_subscriber' ) );
+		add_action( 'wp_ajax_' . self::SLUG_UNSUBSCRIBE, array( $this, 'unsubscribe_and_send_email' ) );
+		add_action( 'wp_ajax_nopriv_' . self::SLUG_UNSUBSCRIBE, array( $this, 'unsubscribe_and_send_email' ) );
+		add_action( 'defender_notify', array( $this, 'send_notify' ), 10, 2 );
 		// We will schedule the time to send reports.
 		if ( ! wp_next_scheduled( 'wdf_maybe_send_report' ) ) {
 			$timestamp = gmmktime( wp_date( 'H' ), 0, 0 );
 			wp_schedule_event( $timestamp, 'thirty_minutes', 'wdf_maybe_send_report' );
 		}
-		add_action( 'wdf_maybe_send_report', array( &$this, 'report_sender' ) );
-		add_action( 'admin_notices', array( &$this, 'show_actions_with_subscription' ) );
+		add_action( 'wdf_maybe_send_report', array( $this, 'report_sender' ) );
+		add_action( 'admin_notices', array( $this, 'show_actions_with_subscription' ) );
 	}
 
 	/**
@@ -375,7 +372,7 @@ class Notification extends Event {
 			// since 2.7.0.
 			if ( Malware_Report::SLUG !== $slug ) {
 				$import['frequency'] = $data['frequency'];
-				$import['day_n']     = $data['day_n'];
+				$import['day_n']     = (int) $data['day_n'];
 				$import['day']       = $data['day'];
 				$import['time']      = $data['time'];
 			}
@@ -652,7 +649,6 @@ class Notification extends Event {
 			'notification',
 			array_merge( $this->data_frontend(), $this->dump_routes_and_nonces() )
 		);
-		wp_enqueue_script( 'def-momentjs', defender_asset_url( '/assets/js/vendor/moment/moment.min.js' ), array(), DEFENDER_VERSION, true );
 		wp_enqueue_script( 'def-notification' );
 		$this->enqueue_main_assets();
 		wp_enqueue_style(

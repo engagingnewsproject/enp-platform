@@ -13,7 +13,6 @@ use Calotes\Component\Request;
 use Calotes\Component\Response;
 use WP_Defender\Component\Session_Protection as Service;
 use WP_Defender\Model\Setting\Session_Protection as Settings;
-use WP_Defender\Component\Breadcrumbs;
 
 /**
  * Handle session protection module.
@@ -48,7 +47,6 @@ class Session_Protection extends Event {
 			add_action( 'wp_enqueue_scripts', array( $this->service, 'enqueue_idle_scripts' ) );
 			add_action( 'admin_enqueue_scripts', array( $this->service, 'enqueue_idle_scripts' ) );
 			add_action( 'wp_ajax_wpdef_logout', array( $this->service, 'logout' ) );
-			add_action( 'wp_ajax_wpdef_keep_alive', array( $this->service, 'wpdef_keep_alive' ) );
 			add_action( 'wp_login', array( $this->service, 'update_last_activity' ) );
 
 			// Show login modal with custom message.
@@ -57,7 +55,7 @@ class Session_Protection extends Event {
 
 			// Attach IPs to the current user session.
 			if ( $this->model->has_properties() ) {
-				add_filter( 'attach_session_information', array( $this->service, 'attach_session_information' ), 10, 2 );
+				add_filter( 'attach_session_information', array( $this->service, 'attach_session_information' ) );
 			}
 		}
 	}
@@ -81,14 +79,11 @@ class Session_Protection extends Event {
 	 * @return array
 	 */
 	public function data_frontend(): array {
-		$is_visited = wd_di()->get( Breadcrumbs::class )->get_meta_key();
-
 		return array_merge(
 			array(
-				'model'            => $this->model->export(),
-				'properties'       => $this->service::session_lock_properties(),
-				'show_feature_dot' => wd_di()->get( \WP_Defender\Behavior\WPMUDEV::class )->is_pro() && ! $is_visited,
-				'roles'            => $this->get_all_editable_roles(),
+				'model'      => $this->model->export(),
+				'properties' => $this->service::session_lock_properties(),
+				'roles'      => $this->get_all_editable_roles(),
 			),
 			$this->dump_routes_and_nonces()
 		);
@@ -112,15 +107,17 @@ class Session_Protection extends Event {
 			\WP_Defender\Component\Config\Config_Hub_Helper::set_clear_active_flag();
 
 			// Maybe track if any settings have changed except user roles.
-			if ( ! defender_is_wp_cli() && $this->is_tracking_active() && ! empty( $prev_data ) &&
+			if ( $this->maybe_track() && ! empty( $prev_data ) &&
 				(
 					( $this->model->enabled !== $prev_data['enabled'] )
 					|| ! empty( array_diff( $this->model->lock_properties, $prev_data['lock_properties'] ) )
+					|| $this->model->idle_timeout !== $prev_data['idle_timeout']
 				)
 			) {
 				$data = array(
 					'Idle Time'    => $this->model->idle_timeout,
 					'Session Lock' => $this->service->get_session_lock_string(),
+					'Action'       => $this->model->enabled ? 'Enable' : 'Disable',
 				);
 				$this->track_feature( 'def_session_protection', $data );
 			}
@@ -132,6 +129,8 @@ class Session_Protection extends Event {
 			} elseif ( ( $prev_data['enabled'] ?? false ) !== $this->model->enabled && $this->model->enabled ) {
 				/* translators: 1. tag open, 2. tag close */
 				$message = sprintf( esc_html__( '%1$s Session Protection %2$s activated successfully!', 'wpdef' ), '<strong>', '</strong>' );
+				// Update last activity time to prevent instant logout.
+				$this->service->update_last_activity();
 			}
 
 			return new Response(
@@ -166,6 +165,12 @@ class Session_Protection extends Event {
 	 * @return null|void
 	 */
 	public function import_data( array $data ) {
+		$this->model->import( $data );
+		if ( $this->model->validate() ) {
+			$this->model->save();
+			$this->service->update_last_activity();
+			return;
+		}
 	}
 
 	/**
@@ -180,7 +185,6 @@ class Session_Protection extends Event {
 	 * Remove all data.
 	 */
 	public function remove_data() {
-		wd_di()->get( Breadcrumbs::class )->delete_meta_key();
 		delete_site_transient( Service::LOGOUT_MSG_TRANSIENT_KEY );
 	}
 
@@ -190,7 +194,9 @@ class Session_Protection extends Event {
 	 * @return array
 	 */
 	public function export_strings() {
-		return array();
+		return array(
+			$this->model->is_active() ? esc_html__( 'Active', 'wpdef' ) : esc_html__( 'Inactive', 'wpdef' ),
+		);
 	}
 
 	/**

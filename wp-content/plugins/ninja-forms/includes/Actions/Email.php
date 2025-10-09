@@ -4,7 +4,7 @@ use NinjaForms\Includes\Abstracts\SotAction;
 use NinjaForms\Includes\Traits\SotGetActionProperties;
 use NinjaForms\Includes\Interfaces\SotAction as InterfacesSotAction;
 
-if (! defined('ABSPATH')) exit;
+if (! defined('ABSPATH')) exit; //@codeCoverageIgnore
 
 /**
  * Class NF_Action_Email

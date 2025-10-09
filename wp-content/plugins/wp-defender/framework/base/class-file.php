@@ -297,8 +297,8 @@ class File {
 		$data = array();
 		$dh   = opendir( $path );
 		if ( $dh ) {
-			// Assignment in condition is for comparison.
-			while ( ( $file = readdir( $dh ) ) !== false ) { // phpcs:ignore Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition
+			$file = readdir( $dh );
+			while ( false !== $file ) {
 				if ( '.' === $file || '..' === $file ) {
 					continue;
 				}
@@ -336,6 +336,7 @@ class File {
 						$data  = array_merge( $data, $tdata );
 					}
 				}
+				$file = readdir( $dh );
 			}
 			closedir( $dh );
 		}

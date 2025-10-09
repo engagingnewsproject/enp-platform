@@ -11,6 +11,7 @@ use WP_Error;
 use DOMXPath;
 use DOMDocument;
 use DOMException;
+use WP_Filesystem_Base;
 
 /**
  * Provides methods to apply and revert security rules on servers.
@@ -69,7 +70,7 @@ class IIS_7 {
 	public function process() {
 		global $wp_filesystem;
 		// Initialize the WP filesystem, no more using 'file-put-contents' function.
-		if ( empty( $wp_filesystem ) ) {
+		if ( ! $wp_filesystem instanceof WP_Filesystem_Base ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 			WP_Filesystem();
 		}

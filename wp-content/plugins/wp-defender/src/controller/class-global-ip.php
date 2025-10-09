@@ -13,6 +13,7 @@ use Calotes\Component\Response;
 use WP_Defender\Traits\Setting;
 use WP_Defender\Traits\Formats;
 use WP_Defender\Behavior\WPMUDEV;
+use WP_Defender\Component\Network_Cron_Manager;
 use WP_Defender\Model\Setting\Global_Ip_Lockout;
 use WP_Defender\Component\Config\Config_Hub_Helper;
 use WP_Defender\Component\IP\Global_IP as Global_IP_Component;
@@ -58,19 +59,28 @@ class Global_Ip extends Controller {
 	 */
 	public function __construct() {
 		$this->register_routes();
-		add_action( 'defender_enqueue_assets', array( &$this, 'enqueue_assets' ) );
+		add_action( 'defender_enqueue_assets', array( $this, 'enqueue_assets' ) );
 		$this->model   = wd_di()->get( Global_Ip_Lockout::class );
 		$this->service = wd_di()->get( Global_IP_Component::class );
 		$this->wpmudev = wd_di()->get( WPMUDEV::class );
 
-		if ( ! wp_next_scheduled( 'wpdef_fetch_global_ip_list' ) ) {
-			wp_schedule_event( time(), 'hourly', 'wpdef_fetch_global_ip_list' );
-		}
-		add_action( 'wpdef_fetch_global_ip_list', array( $this, 'fetch_global_ip_list' ) );
+		/**
+		 * Network Cron Manager
+		 *
+		 * @var Network_Cron_Manager $network_cron_manager
+		 */
+		$network_cron_manager = wd_di()->get( Network_Cron_Manager::class );
+		$network_cron_manager->register_callback(
+			'wpdef_fetch_global_ip_list',
+			array( $this, 'fetch_global_ip_list' ),
+			HOUR_IN_SECONDS
+		);
 
 		if ( $this->service->can_blocklist_autosync() ) {
+			// No need to run Rate mechanism for IP lockouts because we do it in Blacklist class.
 			add_action( 'wd_blacklist_this_ip', array( $this, 'blacklist_an_ip' ) );
 		}
+		add_action( 'init', array( $this->service, 'handle_expired_membership' ) );
 	}
 
 	/**
@@ -168,6 +178,8 @@ class Global_Ip extends Controller {
 						Global_Ip_Lockout::get_module_name()
 					),
 					'is_show_dashboard_notice' => $this->service->is_show_dashboard_notice(),
+					'current_plan'             => $this->service->get_membership_type(),
+					'is_expired_membership'    => $this->service->is_expired_membership_type(),
 				),
 				'hub'   => array(
 					'global_ip_list'        => $this->service->get_formated_global_ip_list(),
@@ -193,13 +205,11 @@ class Global_Ip extends Controller {
 	/**
 	 * Refresh Global IP list.
 	 *
-	 * @param  Request $request  The request object.
-	 *
 	 * @return Response
 	 * @defender_route
 	 * @since 3.4.0
 	 */
-	public function refresh_global_ip_list( Request $request ): Response {
+	public function refresh_global_ip_list(): Response {
 		$data = $this->service->fetch_global_ip_list();
 
 		if ( ! is_wp_error( $data ) ) {
@@ -207,7 +217,7 @@ class Global_Ip extends Controller {
 				true,
 				array(
 					'message'        => esc_html__(
-						'The global IP addresses have been updated.',
+						'The Custom IP List has been updated successfully.',
 						'wpdef'
 					),
 					'global_ip_list' => $this->service->get_formated_global_ip_list(),
@@ -218,7 +228,7 @@ class Global_Ip extends Controller {
 				false,
 				array(
 					'message' => esc_html__(
-						'An error occurred while synchronizing the global IPs.',
+						'An error occurred while synchronizing the Custom IP List.',
 						'wpdef'
 					),
 				)

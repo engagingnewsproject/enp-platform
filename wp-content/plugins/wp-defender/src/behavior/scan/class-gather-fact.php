@@ -165,7 +165,7 @@ class Gather_Fact extends Component {
 		$files   = $content->get_dir_tree();
 		$files   = array_filter( $files );
 		$files[] = defender_wp_config_path();
-		$this->log( sprintf( 'Content: %s', count( $files ) ), Scan_Controller::SCAN_LOG );
+		$this->log( sprintf( 'Number of files: %s', count( $files ) ), Scan_Controller::SCAN_LOG );
 		update_site_option( self::CACHE_CONTENT, $files );
 	}
 }
