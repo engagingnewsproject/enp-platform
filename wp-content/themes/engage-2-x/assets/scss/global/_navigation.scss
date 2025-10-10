@@ -372,20 +372,21 @@
 	.filter__toggle {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		background: transparent;
 		border: none;
+		border-radius: 0;
 		color: $blue-dark;
 		font-size: $font-size-base;
 		cursor: pointer;
-		
-		.caret {
-			display: inline-block;
-			width: 0;
-			height: 0;
-			border-left: 5px solid transparent;
-			border-right: 5px solid transparent;
-			border-top: 5px solid $navy;
-			margin-left: 5px;
+		padding: 15px 10px;
+		min-width: 46px;
+		&[aria-expanded="true"] {
+			background-color: $blue-dark;
+			
+			svg {
+				fill: $white;
+			}
 		}
 		
 		@include media($tablet) {
