@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
       sidebar && 
       sidebar.classList.contains('is-open') &&
       !sidebar.contains(e.target) &&
-      e.target !== filterToggle
+      !filterToggle.contains(e.target)
     ) {
       sidebar.classList.remove('is-open');
       if (filterToggle) filterToggle.setAttribute('aria-expanded', 'false');
