@@ -62,7 +62,7 @@ class NF_Database_FieldsController
         'personally_identifiable',
     );
 
-    public function __construct( $form_id, $fields_data )
+    public function __construct( int $form_id, $fields_data )
     {
         global $wpdb;
         $this->db = $wpdb;

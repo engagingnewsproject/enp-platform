@@ -18,6 +18,8 @@ class NF_Fields_Zip extends NF_Fields_Textbox
 
     protected $_test_value = '37312';
 
+    protected $_settings_exclude = array( 'custom_autocomplete' );
+
     public function __construct()
     {
         parent::__construct();

@@ -24,7 +24,8 @@ class NF_Fields_Textbox extends NF_Abstracts_Input
 	    'mask',
 	    'custom_mask',
 	    'custom_name_attribute',
-	    'personally_identifiable'
+	    'personally_identifiable',
+	    'custom_autocomplete'
     );
 
     public function __construct()

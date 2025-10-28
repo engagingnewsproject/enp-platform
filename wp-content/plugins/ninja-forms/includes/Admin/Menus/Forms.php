@@ -236,6 +236,7 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
                 'ajaxNonce'         => wp_create_nonce( 'ninja_forms_dashboard_nonce' ),
                 'batchNonce'        => wp_create_nonce( 'ninja_forms_batch_nonce' ),
                 'updateNonce'       => wp_create_nonce( 'ninja_forms_required_update_nonce' ),
+                'nf_optin_nonce'    => wp_create_nonce( 'nf_optin_nonce' ),
                 'formTelemetry'     => ( get_option( 'nf_form_tel_sent' ) ) ? 0 : 1,
                 'showOptin'         => ( get_option( 'ninja_forms_do_not_allow_tracking' ) ||
                                          get_option( 'ninja_forms_allow_tracking' ) ) ? 0 : 1,

@@ -17,6 +17,8 @@ class NF_Fields_Phone extends NF_Fields_Textbox
 
     protected $_templates = 'tel';
 
+    protected $_settings_exclude = array( 'custom_autocomplete' );
+
     public function __construct()
     {
         parent::__construct();

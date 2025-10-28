@@ -66,6 +66,15 @@ add_action('init', function () {
         'render_callback' => function ($attributes, $content) {
             if (isset($attributes['formID']) && $attributes['formID']) {
                 wp_enqueue_script('ninja-forms/submissions-table/render');
+
+                // Enqueue signature fonts for proper display in Gutenberg block
+                wp_enqueue_style(
+                    'nf-signature-fonts',
+                    Ninja_Forms::$url . 'assets/fonts/signature/google-fonts.css',
+                    [],
+                    Ninja_Forms::VERSION
+                );
+
                 $className = 'ninja-forms-views-submissions-table';
                 if (isset($attributes['alignment'])) {
                     $className .= ' align' . $attributes['alignment'];

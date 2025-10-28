@@ -209,6 +209,14 @@ class NF_Actions_Save extends SotAction implements InterfacesSotAction
             }
 
             $field['value'] = apply_filters('nf_save_sub_user_value', $field['value'], $field['id']);
+            
+            // Sanitize signature field values before saving
+            if ('signature' === $field['type']) {
+                $field_class = Ninja_Forms()->fields[$field['type']];
+                if (is_object($field_class) && method_exists($field_class, 'sanitize_field_value')) {
+                    $field['value'] = $field_class->sanitize_field_value($field['value']);
+                }
+            }
 
             $save_all_none = $action_settings['fields-save-toggle'];
             $save_field = true;
