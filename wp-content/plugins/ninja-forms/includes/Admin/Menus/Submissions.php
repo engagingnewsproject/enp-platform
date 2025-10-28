@@ -718,6 +718,14 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                 //Enqueue Submissions style
                 wp_enqueue_style( 'ninja_forms_admin_submissions_style', Ninja_Forms::$url . 'build/submissions.scss.css',  [], $submissions_asset_scss_version );
 
+                //Enqueue signature fonts for proper display in submissions table
+                wp_enqueue_style(
+                    'nf-signature-fonts',
+                    Ninja_Forms::$url . 'assets/fonts/signature/google-fonts.css',
+                    [],
+                    Ninja_Forms::VERSION
+                );
+
                 //Get all forms, to base form selector on.
                 $forms = Ninja_Forms()->form()->get_forms();
                 if (!empty($forms)) {

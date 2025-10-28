@@ -131,6 +131,14 @@ class NF_Admin_CPT_Submission
             array( 'jquery', 'jquery-ui-datepicker' ) );
 
         wp_localize_script( 'subs-cpt', 'nf_sub', array( 'form_id' => $form_id ) );
+
+        // Enqueue signature fonts for proper display in admin submissions
+        wp_enqueue_style(
+            'nf-signature-fonts',
+            Ninja_Forms::$url . 'assets/fonts/signature/google-fonts.css',
+            [],
+            Ninja_Forms::VERSION
+        );
     }
 
     public function post_row_actions( $actions, $sub )

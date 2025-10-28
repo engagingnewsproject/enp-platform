@@ -4,7 +4,7 @@ Tags: forms, form builder, contact form, lead form, registration form
 
 Requires at least: 6.6
 Tested up to: 6.8.2
-Stable tag: 3.12.1
+Stable tag: 3.13.0
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -310,11 +310,23 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.12.1 (September 22, 2025) =
+= 3.13.0 (October 27, 2025) =
+*Features:*
+- NEW Signature field
+
 *Bug Fixes:*
-- Ensure nonce use in download and telemetry
+- Ensure opt-in popup can be dismissed
+- Allow only ExtraDataHandlers into Submission metabox
+- Require form id as integer
+- Fix an accessibility issue with labels for HTML and Divider fields.
 
 == Changelog ==
+= 3.12.2 (October 6, 2025) =
+*Bug Fixes:*
+- fix undefined $outgoing
+- accessibility fix to set autocomplete
+- fix checkbox field calculation, was showing 0 when checked
+
 = 3.12.1 (September 22, 2025) =
 *Bug Fixes:*
 - Ensure nonce use in download and telemetry

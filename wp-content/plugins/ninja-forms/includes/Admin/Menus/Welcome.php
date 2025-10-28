@@ -87,6 +87,7 @@ final class NF_Admin_Menus_Welcome extends NF_Abstracts_Submenu
             'ajax_url'      => admin_url( 'admin-ajax.php' ),
             'dashboard_url' => admin_url( 'admin.php?page=ninja-forms' ),
             'batchNonce'   => wp_create_nonce( 'ninja_forms_batch_nonce' ),
+            'nf_optin_nonce' => wp_create_nonce( 'nf_optin_nonce' ),
             'i18n'          => array(
             ),
             'currentUserEmail'  => $current_user->user_email,

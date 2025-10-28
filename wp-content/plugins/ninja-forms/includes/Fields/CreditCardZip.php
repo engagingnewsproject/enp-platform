@@ -14,7 +14,7 @@ class NF_Fields_CreditCardZip extends NF_Fields_Zip
 
     protected $_templates = array( 'zip', 'textbox' );
 
-    protected $_settings_exclude = array( 'disable_input', 'input_limit_set' );
+    protected $_settings_exclude = array( 'disable_input', 'input_limit_set', 'custom_autocomplete' );
 
     public function __construct()
     {

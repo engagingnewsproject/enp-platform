@@ -21,7 +21,8 @@ class FieldsBuilder {
         extract( $field );
         return [
             'id' => $id,
-            'label' => $label
+            'label' => $label,
+            'type' => $type
         ];
     }
 }
