@@ -1,6 +1,6 @@
 <script id="tmpl-nf-field-label" type="text/template">
 	<div class="nf-field-label">
-		<# if ( data.type === "listcheckbox" || data.type === "listradio" || data.type === "listimage" || data.type === "date" || data.type === "starrating" ) { #>
+		<# if ( data.type === "listcheckbox" || data.type === "listradio" || data.type === "listimage" || data.type === "date" || data.type === "starrating" || data.type === "signature" || data.type === "html" || data.type === "hr" ) { #>
 			<span id="nf-label-field-{{{ data.id }}}"
 				class="nf-label-span {{{ data.renderLabelClasses() }}}">
 					{{{ ( data.maybeFilterHTML() === 'true' ) ? _.escape( data.label ) : data.label }}} {{{ ( 'undefined' != typeof data.required && 1 == data.required ) ? '<span class="ninja-forms-req-symbol">*</span>' : '' }}} 

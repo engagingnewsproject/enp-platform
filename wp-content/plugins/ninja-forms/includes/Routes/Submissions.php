@@ -866,9 +866,14 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
         $extraHandler = $data['handleExtra'];
         
         /** @var SubmissionHandler $object */
-        if(class_exists($extraHandler)){
-            $object = new $extraHandler;
-            $response = $object->handle($populatedSubmission);
+        if($used = class_implements($extraHandler, false)) {
+            // Ensure we only load classes that implement the submission handler contract.
+            if(in_array('NinjaForms\Includes\Contracts\SubmissionHandler', $used)) {
+                $object = new $extraHandler;
+                $response = $object->handle($populatedSubmission);
+            } else {
+                die(esc_html__('Submission handler not recognized.', 'ninja-forms'));
+            }
         }
 
         // Handlers using NinjaForms\Includes\Abstracts\SubmissionHandler

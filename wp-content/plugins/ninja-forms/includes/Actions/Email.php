@@ -82,7 +82,7 @@ final class NF_Actions_Email extends SotAction implements InterfacesSotAction
                 $data['fields'] = $sorted;
         }
 
-        $attachments = $this->_get_attachments($action_settings, $data);
+        $attachments = $this->_get_attachments($action_settings, $data, $form_id);
 
         if ('html' == $action_settings['email_format']) {
             $message = wpautop($action_settings['email_message']);
@@ -217,12 +217,12 @@ final class NF_Actions_Email extends SotAction implements InterfacesSotAction
         return $headers;
     }
 
-    private function _get_attachments($settings, $data)
+    private function _get_attachments($settings, $data, $form_id)
     {
         $attachments = array();
 
         if (isset($settings['attach_csv']) && 1 == $settings['attach_csv']) {
-            $attachments[] = $this->_create_csv($data['fields']);
+            $attachments[] = $this->_create_csv($data['fields'], $form_id);
         }
 
         if (! isset($settings['id'])) $settings['id'] = '';
@@ -299,7 +299,7 @@ final class NF_Actions_Email extends SotAction implements InterfacesSotAction
         return $recipient;
     }
 
-    private function _create_csv($fields)
+    private function _create_csv($fields, $form_id = 0)
     {
         $csv_array = array();
 
@@ -347,12 +347,31 @@ final class NF_Actions_Email extends SotAction implements InterfacesSotAction
                                 $in_field_value['value'] = implode(" , ", $field_files_names);
                             }
 
-                            $value .= $field_model['label'] . "#" . $index_found . " : " . WPN_Helper::stripslashes($in_field_value['value']) . " \n";
+                            // Handle signature fields within repeaters
+                            $field_value = $in_field_value['value'];
+                            if ( isset($field_model['type']) && 'signature' === $field_model['type'] ) {
+                                // Process signature field using the filter
+                                $field_data = array(
+                                    'type' => 'signature',
+                                    'form_id' => $form_id
+                                );
+                                $field_value = apply_filters('ninja_forms_subs_export_field_value_signature', $field_value, $field_data);
+                            } else {
+                                $field_value = WPN_Helper::stripslashes($field_value);
+                            }
+
+                            $value .= $field_model['label'] . "#" . $index_found . " : " . $field_value . " \n";
                         };
                     }
                 }
             } else {
-                $value = WPN_Helper::stripslashes($field['value']);
+                // For signature fields, preserve the JSON structure
+                if ( 'signature' === $field['type'] ) {
+                    $value = $field['value'];
+                } else {
+                    $value = WPN_Helper::stripslashes($field['value']);
+                }
+                
                 if (empty($value) && ! isset($value)) {
                     $value = '';
                 }
@@ -360,6 +379,9 @@ final class NF_Actions_Email extends SotAction implements InterfacesSotAction
                     $value = implode(',', $value);
                 }
             }
+
+            // Add form_id to field data for use in filters
+            $field['form_id'] = $form_id;
 
             // add filter to add single quote if first character in value is '='
             $value = apply_filters('ninja_forms_subs_export_field_value_' . $field['type'], $value, $field);

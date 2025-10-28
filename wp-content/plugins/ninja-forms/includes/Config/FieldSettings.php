@@ -937,6 +937,19 @@ return apply_filters( 'ninja_forms_field_settings', array(
     ),
 
     /*
+     * Custom Autocomplete Value
+     */
+
+    'custom_autocomplete' => array(
+        'name' => 'custom_autocomplete',
+        'type' => 'textbox',
+        'label' => esc_html__( 'Custom Autocomplete Value', 'ninja-forms' ),
+        'width' => 'full',
+        'group' => 'advanced',
+        'help' => esc_html__( 'Set a custom autocomplete value (e.g., tel, email, given-name).', 'ninja-forms' ),
+    ),
+
+    /*
      * Disable input
      */
 
@@ -1313,6 +1326,199 @@ return apply_filters( 'ninja_forms_field_settings', array(
         'group' => 'administration',
         'value' => FALSE,
         'help' => esc_html__( 'Used for marking a field for processing.', 'ninja-forms' ),
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Signature Field Settings
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+     * Signature Method
+     */
+
+    'signature_method' => array(
+        'name' => 'signature_method',
+        'type' => 'select',
+        'label' => esc_html__( 'Signature Method', 'ninja-forms' ),
+        'width' => 'full',
+        'group' => 'primary',
+        'value' => 'both',
+        'options' => array(
+            array(
+                'label' => esc_html__( 'Typed Only', 'ninja-forms' ),
+                'value' => 'typed'
+            ),
+            array(
+                'label' => esc_html__( 'Drawn Only', 'ninja-forms' ),
+                'value' => 'drawn'
+            ),
+            array(
+                'label' => esc_html__( 'Both Options', 'ninja-forms' ),
+                'value' => 'both'
+            ),
+        ),
+        'help' => esc_html__( 'Choose whether users can type their name, draw their signature, or have both options.', 'ninja-forms' )
+    ),
+
+    /*
+     * Signature Font
+     */
+
+    'signature_font' => array(
+        'name' => 'signature_font',
+        'type' => 'select',
+        'label' => esc_html__( 'Typed Signature Font', 'ninja-forms' ),
+        'width' => 'full',
+        'group' => 'primary',
+        'value' => 'dancing-script',
+        'options' => array(
+            array(
+                'label' => 'Dancing Script',
+                'value' => 'dancing-script'
+            ),
+            array(
+                'label' => 'Satisfy',
+                'value' => 'satisfy'
+            ),
+            array(
+                'label' => 'Cursive (System)',
+                'value' => 'cursive'
+            ),
+        ),
+        'deps' => array(
+           'settings' => array(
+                array( 'name' => 'signature_method', 'value' => 'typed' ),
+                array( 'name' => 'signature_method', 'value' => 'both' ),
+            ),
+            'match' => 'any',
+        ),
+        'help' => esc_html__( 'Select the font to use for typed signatures.', 'ninja-forms' )
+    ),
+
+    /*
+     * Typed Signature Placeholder
+     */
+
+    'typed_placeholder' => array(
+        'name' => 'typed_placeholder',
+        'type' => 'textbox',
+        'label' => esc_html__( 'Typed Signature Placeholder', 'ninja-forms' ),
+        'width' => 'full',
+        'group' => 'primary',
+        'value' => esc_html__( 'John Doe', 'ninja-forms' ),
+        'help' => esc_html__( 'Placeholder text for the typed signature input field.', 'ninja-forms' ),
+        'deps' => array(
+           'settings' => array(
+                array( 'name' => 'signature_method', 'value' => 'typed' ),
+                array( 'name' => 'signature_method', 'value' => 'both' ),
+            ),
+            'match' => 'any',
+        ),
+    ),
+
+    /*
+     * Drawn Signature Placeholder
+     */
+
+    'drawn_placeholder' => array(
+        'name' => 'drawn_placeholder',
+        'type' => 'textbox',
+        'label' => esc_html__( 'Drawn Signature Placeholder', 'ninja-forms' ),
+        'width' => 'full',
+        'group' => 'primary',
+        'value' => esc_html__( 'Sign here', 'ninja-forms' ),
+        'help' => esc_html__( 'Placeholder text for the drawn signature canvas area.', 'ninja-forms' ),
+        'deps' => array(
+           'settings' => array(
+                array( 'name' => 'signature_method', 'value' => 'drawn' ),
+                array( 'name' => 'signature_method', 'value' => 'both' ),
+            ),
+            'match' => 'any',
+        ),
+    ),
+
+    /*
+     * Canvas Width
+     */
+
+    'canvas_width' => array(
+        'name' => 'canvas_width',
+        'type' => 'number',
+        'label' => esc_html__( 'Canvas Width (px)', 'ninja-forms' ),
+        'width' => 'one-half',
+        'group' => 'primary',
+        'value' => 400,
+        'help' => esc_html__( 'Width of the signature drawing area in pixels.', 'ninja-forms' ),
+        'deps' => array(
+           'settings' => array(
+                array( 'name' => 'signature_method', 'value' => 'drawn' ),
+                array( 'name' => 'signature_method', 'value' => 'both' ),
+            ),
+            'match' => 'any',
+        ),
+    ),
+
+    /*
+     * Canvas Height
+     */
+
+    'canvas_height' => array(
+        'name' => 'canvas_height',
+        'type' => 'number',
+        'label' => esc_html__( 'Canvas Height (px)', 'ninja-forms' ),
+        'width' => 'one-half',
+        'group' => 'primary',
+        'value' => 150,
+        'help' => esc_html__( 'Height of the signature drawing area in pixels.', 'ninja-forms' ),
+        'deps' => array(
+           'settings' => array(
+                array( 'name' => 'signature_method', 'value' => 'drawn' ),
+                array( 'name' => 'signature_method', 'value' => 'both' ),
+            ),
+            'match' => 'any',
+        ),
+    ),
+
+    /*
+     * Pen Color
+     */
+
+    'pen_color' => array(
+        'name' => 'pen_color',
+        'type' => 'color',
+        'label' => esc_html__( 'Pen Color', 'ninja-forms' ),
+        'width' => 'one-half',
+        'group' => 'primary',
+        'value' => '#000000',
+         'deps' => array(
+           'settings' => array(
+                array( 'name' => 'signature_method', 'value' => 'drawn' ),
+                array( 'name' => 'signature_method', 'value' => 'both' ),
+            ),
+            'match' => 'any',
+        ),
+    ),
+
+    /*
+     * Background Color
+     */
+
+    'background_color' => array(
+        'name' => 'background_color',
+        'type' => 'color',
+        'label' => esc_html__( 'Background Color', 'ninja-forms' ),
+        'width' => 'one-half',
+        'group' => 'primary',
+        'value' => '#ffffff',
+        'deps' => array(
+           'settings' => array(
+                array( 'name' => 'signature_method', 'value' => 'drawn' ),
+                array( 'name' => 'signature_method', 'value' => 'both' ),
+            ),
+            'match' => 'any',
+        ),
     ),
 
 ));

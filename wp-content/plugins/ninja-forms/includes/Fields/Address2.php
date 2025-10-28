@@ -16,6 +16,8 @@ class NF_Fields_Address2 extends NF_Fields_Textbox
 
     protected $_templates = array( 'address2', 'address' );
 
+    protected $_settings_exclude = array( 'custom_autocomplete' );
+
     public function __construct()
     {
         parent::__construct();

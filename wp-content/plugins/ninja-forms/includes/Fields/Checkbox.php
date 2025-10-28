@@ -129,8 +129,8 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
      */
     public function filter_merge_tag_value_calc( $value, $field )
     {
-        // If value is equal to 1...
-        if ( 1 == $value ) {
+        // If checkbox is checked (using same logic as filter_merge_tag_value)...
+        if ( ! empty( $field[ 'settings' ][ 'value' ] ) ) {
             // ...return the checked calc value of the field model.
             return $field[ 'checked_calc_value' ];
         } else {
