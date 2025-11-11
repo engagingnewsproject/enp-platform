@@ -28,7 +28,7 @@
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "50",
+                        "width": "33.333",
                         "class": "",
                         "id": ""
                     },
@@ -116,7 +116,7 @@
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "50",
+                        "width": "33.333",
                         "class": "",
                         "id": ""
                     },
@@ -128,7 +128,7 @@
                             "name": "media_ethics_sidebar_order",
                             "aria-label": "",
                             "type": "taxonomy",
-                            "instructions": "Selected categories to show on sidebar.",
+                            "instructions": "Drag the categories in the order you'd like on the frontend.",
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
@@ -160,7 +160,7 @@
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
-                        "width": "50",
+                        "width": "33.333",
                         "class": "",
                         "id": ""
                     },
@@ -1013,5 +1013,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1762897929
+    "modified": 1762900265
 }
