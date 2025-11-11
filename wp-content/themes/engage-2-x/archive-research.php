@@ -132,6 +132,7 @@ function handle_media_ethics_category($options, $research_categories)
 
     // Create tiles for each category with featured image
     foreach ($researchCategories as $category) {
+		if ($category->slug === 'all-case-studies') { continue; }
         $thumbID = get_field('category_featured_image', "research-categories_{$category->term_id}");
 
         if ($thumbID) {

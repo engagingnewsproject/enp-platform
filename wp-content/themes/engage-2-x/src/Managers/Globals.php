@@ -275,8 +275,37 @@ class Globals
 	 */
 	public function clearResearchMenu($term_id, $tt_id)
 	{
-		// delete the cache for this item
-		delete_transient('research-filter-menu');
+		global $wpdb;
+
+		// Sweep every transient whose name starts with the research filter prefix. This catches both
+		// the per-context keys we record and any legacy entries that pre-date the registry option.
+		$patterns = [
+			$wpdb->esc_like('_transient_research-filter-menu') . '%',
+			$wpdb->esc_like('_transient_timeout_research-filter-menu') . '%',
+			$wpdb->esc_like('_site_transient_research-filter-menu') . '%',
+			$wpdb->esc_like('_site_transient_timeout_research-filter-menu') . '%',
+		];
+
+		$placeholders = implode(' OR option_name LIKE ', array_fill(0, count($patterns), '%s'));
+		$option_names = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE {$placeholders}",
+				...$patterns
+			)
+		);
+
+		foreach ($option_names as $option_name) {
+			$transient_key = str_replace(
+				['_transient_', '_transient_timeout_', '_site_transient_', '_site_transient_timeout_'],
+				'',
+				$option_name
+			);
+
+			delete_transient($transient_key);
+		}
+
+		// Reset the registry so future builds start clean and store fresh keys.
+		delete_option('research_filter_menu_keys');
 	}
 
 	/**
@@ -322,6 +351,17 @@ class Globals
 
 		set_transient($cache_key, $menu);
 
+		$cache_keys = get_option('research_filter_menu_keys', []);
+		if (!is_array($cache_keys)) {
+			$cache_keys = [];
+		}
+	
+		// Track the cache key so clearResearchMenu() can invalidate this exact variant after taxonomy updates.
+		if (!in_array($cache_key, $cache_keys, true)) {
+			$cache_keys[] = $cache_key;
+			update_option('research_filter_menu_keys', $cache_keys);
+		}
+		
 		return $menu;
 	}
 
