@@ -45,6 +45,11 @@ if (is_plugin_active('advanced-custom-fields-pro/acf.php')) {
             
             // Clear the research filter menu transient
             delete_transient('research-filter-menu');
+            delete_option('research_filter_menu_keys');
+
+            if (class_exists('\Engage\Managers\Globals')) {
+                (new \Engage\Managers\Globals())->clearResearchMenu(0, 0);
+            }
             
             // Also clear WordPress object cache
             wp_cache_flush();
