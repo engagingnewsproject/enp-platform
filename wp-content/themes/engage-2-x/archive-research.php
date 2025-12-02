@@ -13,11 +13,9 @@ use Engage\Models\TileArchive;
 
 // Get global variables
 global $wp_query;
-global $paged;
 
-if (!isset($paged) || !$paged) {
-    $paged = 1;
-}
+// Get the current page number from query string
+$paged = get_query_var('paged') ? get_query_var('paged') : (get_query_var('page') ? get_query_var('page') : 1);
 
 // Initialize context and templates
 $context = Timber::context();
@@ -33,16 +31,18 @@ $posts_per_page = $archive_settings['research_post_type']['research_archive_post
 $options = ['filters' => $globals->getResearchMenu()];
 
 // Handle research category pages
-if (is_tax('research-categories')) {
-    $research_categories = get_query_var('research-categories');
-    
+// Check both is_tax() and if research-categories query var exists (for comma-separated values)
+$research_categories = get_query_var('research-categories');
+$is_research_category_page = is_tax('research-categories') || !empty($research_categories);
+
+if ($is_research_category_page) {
     // Main media ethics category page - displays subcategories as tiles
     if (is_string($research_categories) && $research_categories === 'media-ethics') {
         $context['archive'] = handle_media_ethics_category($options, $research_categories);
     } 
     // Media ethics subcategory pages - displays posts within a subcategory
     else {
-        $media_ethics_subcategory_archive = handle_media_ethics_subcategory($options, $research_categories, $posts_per_page);
+        $media_ethics_subcategory_archive = handle_media_ethics_subcategory($options, $research_categories, $posts_per_page, $paged);
         if ($media_ethics_subcategory_archive) {
             $context['archive'] = $media_ethics_subcategory_archive;
         } else {
@@ -136,7 +136,7 @@ function handle_media_ethics_category($options, $research_categories)
         $thumbID = get_field('category_featured_image', "research-categories_{$category->term_id}");
 
         if ($thumbID) {
-            $image = Timber::get_image($thumbID);            
+            $image = Timber::get_image($thumbID);
             $researchTiles[] = [
                 'ID' => $category->term_id,
                 'title' => $category->name,
@@ -163,8 +163,14 @@ function handle_media_ethics_category($options, $research_categories)
 /**
  * Handles Media Ethics subcategory pages
  * Displays posts that belong to both 'media-ethics' and the specific subcategory
+ * 
+ * @param array $options Archive options
+ * @param string|array $research_categories Research categories
+ * @param int $posts_per_page Number of posts per page
+ * @param int $paged Current page number
+ * @return TileArchive|null Archive object or null if not a media ethics subcategory page
  */
-function handle_media_ethics_subcategory($options, $research_categories, $posts_per_page)
+function handle_media_ethics_subcategory($options, $research_categories, $posts_per_page, $paged = 1)
 {
     $is_media_ethics_page = false;
     $subcategories = [];
@@ -212,7 +218,7 @@ function handle_media_ethics_subcategory($options, $research_categories, $posts_
             ]
         ],
         'posts_per_page' => $posts_per_page,
-        'paged' => $GLOBALS['paged']
+        'paged' => $paged
     ];
 
     $query = new WP_Query($args);

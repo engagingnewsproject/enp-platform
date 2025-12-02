@@ -61,7 +61,9 @@ $context['current_term'] = $current_term;
  * Route to specific post type handlers
  * Research and publication archives have dedicated handlers
  */
-if (is_post_type_archive('research') || is_tax('research-categories')) {
+// Check for research archives - include query var check for comma-separated taxonomy values
+$research_categories = get_query_var('research-categories');
+if (is_post_type_archive('research') || is_tax('research-categories') || !empty($research_categories)) {
     include get_template_directory() . '/archive-research.php';
     return;
 }
