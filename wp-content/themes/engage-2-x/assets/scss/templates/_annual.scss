@@ -661,7 +661,11 @@ blockquote {
 			}
 		}
 		img {
-			min-height: 78px;
+			// Ensure all icons have consistent sizing
+			width: auto;
+			height: 78px;
+			object-fit: contain;
+			object-position: center;
 		}
 		.ann__grid_num {
 			margin-bottom: 0;
