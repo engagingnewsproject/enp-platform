@@ -1,0 +1,20 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<svg width="100%" height="100%" viewBox="0 0 29 527" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>arrows</title>
+	<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+			<g id="Arrows" transform="translate(-163, -101)">
+					<g id="arrows" transform="translate(163.93, 101.69)">
+							<polygon id="Path" fill="#F8971F" points="13.96 0 7.92 9.33 1.87 18.67 13.96 18.67 26.06 18.67 20.01 9.33" class="svg-elem-1"></polygon>
+							<polygon id="Path" fill="#FFFFFF" points="7.92 159.92 1.87 169.25 13.96 169.25 26.06 169.25 20.01 159.92 13.96 150.58" class="svg-elem-2"></polygon>
+							<g id="Graphic" transform="translate(0, 151)" stroke="#BE5827">
+									<polygon id="Path" points="13.96 18.0266272 1.87 18.0266272 7.92 9.03144779 13.96 0.0266272189 20.01 9.03144779 26.06 18.0266272" class="svg-elem-3"></polygon>
+							</g>
+							<polygon id="Path" fill="#BE5827" points="7.92 223.01 1.87 232.35 13.96 232.35 26.06 232.35 20.01 223.01 13.96 213.67" class="svg-elem-4"></polygon>
+							<polygon id="Path" fill="#F8971F" points="7.92 298.43 1.87 307.77 13.96 307.77 26.06 307.77 20.01 298.43 13.96 289.09" class="svg-elem-5"></polygon>
+							<polygon id="Path" fill="#F8971F" points="7.92 349.19 1.87 358.52 13.96 358.52 26.06 358.52 20.01 349.19 13.96 339.85" class="svg-elem-6"></polygon>
+							<polygon id="Path" fill="#BE5827" points="7.92 516.89 1.87 526.23 13.96 526.23 26.06 526.23 20.01 516.89 13.96 507.55" class="svg-elem-7"></polygon>
+							<polygon id="Path" fill="#BE5827" points="7.92 475.37 1.87 484.71 13.96 484.71 26.06 484.71 20.01 475.37 13.96 466.03" class="svg-elem-8"></polygon>
+					</g>
+			</g>
+	</g>
+</svg>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180px" height="225px" viewBox="0 0 180 225" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>wave-top-right</title>
+    <defs>
+        <path d="M0,0 L178.36,0 L178.36,224.02 L0,224.02 L0,0 Z" id="path-1"></path>
+    </defs>
+    <g id="wave-top-right" stroke="none" fill="none" transform="translate(0.86, 0.17)" xlink:href="#path-1" fill-rule="evenodd">
+        <path d="M2.27371941e-13,1.38777878e-17 L178.35,1.38777878e-17 L178.35,224.02 C171.96,221.87 166.27,219.28 162.24,216.96 C148.05,208.75 136.58,196.56 129.48,182.45 C126.85,177.26 124.82,171.81 123.46,166.21 C119.01,147.91 121.36,128.16 113.52,110.9 C105.84,93.98 89.49,81.94 72.67,72.43 C65.24,68.22 57.56,64.34 50.05,60.25 C40.54,55.09 31.3,49.61 23.12,42.76 C10,31.78 -0.2,16.17 3.41059646e-13,-0.02" id="Path" fill="#343F49"></path>
+    </g>
+</svg>

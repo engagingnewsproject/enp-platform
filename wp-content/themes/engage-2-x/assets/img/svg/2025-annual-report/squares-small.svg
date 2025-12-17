@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="37px" viewBox="0 0 36 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>squares-small</title>
+    <g id="squares-small" stroke="none" fill="none" transform="translate(0.82, 0.26)" fill-rule="evenodd">
+        <rect id="Rectangle" fill="#BE5827" x="4.97379915e-14" y="1.63424829e-13" width="11.64" height="11.64"></rect>
+        <rect id="Rectangle" fill="#F8971F" x="11.88" y="11.86" width="11.64" height="11.64"></rect>
+        <rect id="Rectangle" fill="#BE5827" x="22.47" y="23.63" width="11.64" height="11.64"></rect>
+    </g>
+</svg>
