@@ -2063,7 +2063,7 @@ svg.deco-border-svg {
 	transform-origin: top right;
 	z-index: 2;
 	@include media($phablet) {
-		left: 20vw;
+		left: 10vw;
 		width: 15px;
 	}
 	@include media($laptop) {
@@ -2196,8 +2196,8 @@ svg.deco-border-svg {
 	top: 24vh;
 	right: 15vw;
 	@include media($phablet) {
-		top: 25vh;
-		right: 25vw;
+		top: 20vh;
+		right: 22vw;
 	}
 	@include media($laptop) {
 		top: 15vh;
