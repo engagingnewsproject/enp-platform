@@ -3,8 +3,8 @@ Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorho
 Tags: forms, form builder, contact form, lead form, registration form
 
 Requires at least: 6.6
-Tested up to: 6.8.2
-Stable tag: 3.13.0
+Tested up to: 6.8.3
+Stable tag: 3.13.3
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -310,6 +310,23 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
+= 3.13.3 (December 8, 2025) =
+*Bug Fixes:*
+- Limit submission token generation
+
+== Changelog ==
+= 3.13.3 (December 8, 2025) =
+*Bug Fixes:*
+- Limit submission token generation
+
+= 3.13.2 (November 25, 2025) =
+*Bug Fixes:*
+- Prevent unserialization of user submitted values
+
+= 3.13.1 (November 17, 2025) =
+*Bug Fixes:*
+- Ensure submission block token valid only for given page
+
 = 3.13.0 (October 27, 2025) =
 *Features:*
 - NEW Signature field
@@ -320,7 +337,6 @@ This section describes how to install the plugin and get it working.
 - Require form id as integer
 - Fix an accessibility issue with labels for HTML and Divider fields.
 
-== Changelog ==
 = 3.12.2 (October 6, 2025) =
 *Bug Fixes:*
 - fix undefined $outgoing

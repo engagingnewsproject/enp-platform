@@ -333,9 +333,16 @@ class NF_Abstracts_Model
             }
         }
 
+        // Prevent any user submitted data from EVER being unserialized, which could allow for object __wakeup.
+        $danger = ['value', 'submitted_value'];
+
         // Un-serialize queried settings results.
         foreach( $this->_settings as $key => $value ){
-            $this->_settings[ $key ] = maybe_unserialize( $value );
+            if( in_array($key, $danger) ) {
+                $this->_settings[ $key ] = $value;
+            } else {
+                $this->_settings[ $key ] = maybe_unserialize( $value );
+            }
         }
 
         // Check for passed arguments to limit the returned settings.

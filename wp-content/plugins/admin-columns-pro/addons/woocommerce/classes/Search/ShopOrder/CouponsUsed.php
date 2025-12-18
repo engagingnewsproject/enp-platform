@@ -31,7 +31,7 @@ class CouponsUsed extends Comparison
 
         switch ($operator) {
             case Operators::IS_EMPTY:
-                $sub_operator = 'NOT_IN';
+                $sub_operator = 'NOT IN';
                 break;
             default:
                 $sub_operator = 'IN';

@@ -435,6 +435,7 @@ return array(
     'AC\\Service\\IntegrationColumns' => $baseDir . '/classes/Service/IntegrationColumns.php',
     'AC\\Service\\NoticeChecks' => $baseDir . '/classes/Service/NoticeChecks.php',
     'AC\\Service\\PluginUpdate' => $baseDir . '/classes/Service/PluginUpdate.php',
+    'AC\\Service\\PromoChecks' => $baseDir . '/classes/Service/PromoChecks.php',
     'AC\\Service\\Setup' => $baseDir . '/classes/Service/Setup.php',
     'AC\\Services' => $baseDir . '/classes/Services.php',
     'AC\\Settings\\Column' => $baseDir . '/classes/Settings/Column.php',

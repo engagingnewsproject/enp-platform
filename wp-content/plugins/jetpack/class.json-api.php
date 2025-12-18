@@ -221,7 +221,7 @@ class WPCOM_JSON_API {
 			return false;
 		}
 
-		switch ( strtolower( (string) $value ) ) {
+		switch ( strtolower( $value ) ) {
 			case '1':
 			case 't':
 			case 'true':
@@ -250,7 +250,7 @@ class WPCOM_JSON_API {
 			return false;
 		}
 
-		switch ( strtolower( (string) $value ) ) {
+		switch ( strtolower( $value ) ) {
 			case '0':
 			case 'f':
 			case 'false':
@@ -476,7 +476,8 @@ class WPCOM_JSON_API {
 		}
 
 		// Find which endpoint to serve.
-		$found = false;
+		$found       = false;
+		$path_pieces = array();
 		foreach ( $this->endpoints as $endpoint_path_versions => $endpoints_by_method ) {
 			// @todo Determine if anything depends on this being serialized rather than e.g. JSON.
 			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Legacy, possibly depended on elsewhere.
@@ -499,6 +500,7 @@ class WPCOM_JSON_API {
 				$endpoint_path = untrailingslashit( $endpoint_path );
 				if ( $is_help ) {
 					// Truncate path at help depth.
+					// @phan-suppress-next-line PhanPossiblyUndeclaredVariable -- $depth is set when $is_help is true.
 					$endpoint_path = implode( '/', array_slice( explode( '/', $endpoint_path ), 0, $depth ) );
 				}
 
@@ -557,6 +559,7 @@ class WPCOM_JSON_API {
 			 */
 			do_action( 'wpcom_json_api_output', 'help' );
 			$proxied = function_exists( 'wpcom_is_proxied_request' ) ? wpcom_is_proxied_request() : false;
+			// @phan-suppress-next-line PhanPossiblyUndeclaredVariable -- $help_content_type is set when $is_help is true.
 			if ( 'json' === $help_content_type ) {
 				$docs = array();
 				foreach ( $matching_endpoints as $matching_endpoint ) {
@@ -576,13 +579,16 @@ class WPCOM_JSON_API {
 			exit( 0 );
 		}
 
+		// @phan-suppress-next-line PhanPossiblyUndeclaredVariable -- $endpoint is set when $find_all_matching_endpoints is false and $found is true, which is guaranteed here.
 		if ( $endpoint->in_testing && ! WPCOM_JSON_API__DEBUG ) {
 			return $this->output( 404, '', 'text/plain' );
 		}
 
 		/** This action is documented in class.json-api.php */
+		// @phan-suppress-next-line PhanPossiblyUndeclaredVariable -- $endpoint is set when $find_all_matching_endpoints is false and $found is true, which is guaranteed here.
 		do_action( 'wpcom_json_api_output', $endpoint->stat );
 
+		// @phan-suppress-next-line PhanPossiblyUndeclaredVariable -- $endpoint is set when $find_all_matching_endpoints is false and $found is true, which is guaranteed here.
 		$response = $this->process_request( $endpoint, $path_pieces );
 
 		if ( ! $response && ! is_array( $response ) ) {
@@ -678,7 +684,7 @@ class WPCOM_JSON_API {
 
 		if ( 'text/plain' === $content_type ||
 			'text/html' === $content_type ) {
-			status_header( (int) $status_code );
+			status_header( $status_code );
 			header( 'Content-Type: ' . $content_type );
 			foreach ( $extra as $key => $value ) {
 				header( "$key: $value" );
@@ -700,7 +706,7 @@ class WPCOM_JSON_API {
 			$content_type = 'application/json';
 		}
 
-		status_header( (int) $status_code );
+		status_header( $status_code );
 		header( "Content-Type: $content_type" );
 		if ( isset( $this->query['callback'] ) && is_string( $this->query['callback'] ) ) {
 			$callback = preg_replace( '/[^a-z0-9_.]/i', '', $this->query['callback'] );
