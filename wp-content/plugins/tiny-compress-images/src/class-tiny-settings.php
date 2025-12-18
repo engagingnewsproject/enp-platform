@@ -239,6 +239,12 @@ class Tiny_Settings extends Tiny_WP_Base {
 		return array( null, null );
 	}
 
+	/**
+	 * Retrieves image sizes as a map of size and width, height and tinify meta data
+	 * The first entry will always be '0', aka the original uploaded image.
+	 *
+	 * @return array{string: array{width: int|null, height: int|null, tinify: array{}}} $sizes
+	 */
 	public function get_sizes() {
 		if ( is_array( $this->sizes ) ) {
 			return $this->sizes;
@@ -374,7 +380,7 @@ class Tiny_Settings extends Tiny_WP_Base {
 	/**
 	 * Retrieves the configured settings for conversion.
 	 *
-	 * @return array{ convert: bool, convert_to: string } The conversion options.
+	 * @return array{ convert: bool, convert_to: array{string} } The conversion options.
 	 */
 	public function get_conversion_options() {
 		return array(
@@ -712,7 +718,7 @@ class Tiny_Settings extends Tiny_WP_Base {
 		if ( 'background' == $value && $as3cf_local_files_present && $checked ) {
 			echo '<div class="notice notice-warning inline"><p>';
 			echo '<strong>' . esc_html__( 'Warning', 'tiny-compress-images' ) . '</strong> — ';
-			$message = esc_html_e(
+			$message = esc_html__(
 				'For compression to work you will need to configure WP Offload S3 to keep a copy of the images on the server.', // WPCS: Needed for proper translation.
 				'tiny-compress-images'
 			);

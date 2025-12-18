@@ -1,10 +1,10 @@
 === Jetpack - WP Security, Backup, Speed, & Growth ===
 Contributors: automattic, adamkheckler, adrianmoldovanwp, aduth, akirk, allendav, alternatekev, andy, annamcphee, annezazu, apeatling, arcangelini, arsihasi, azaozz, barry, batmoo, beaulebens, bindlegirl, biskobe, bjorsch, blobaugh, brbrr, brileyhooper, cainm, cena, cfinke, cgastrell, chaselivingston, chellycat, clickysteve, csonnek, danielbachhuber, daniloercoli, davoraltman, delawski, designsimply, dkmyta, dllh, drawmyface, dsmart, dun2mis, dzver, ebinnion, egregor, eliorivero, enej, eoigal, erania-pinnera, ethitter, fgiannar, gcorne, georgestephanis, gibrown, goldsounds, hew, hugobaeta, hypertextranch, iammattthomas, iandunn, joen, jblz, jeffgolenski, jeherve, jenhooks, jenia, jessefriedman, jgs, jkudish, jmdodd, joanrho, johnjamesjacoby, jshreve, kbrownkd, keoshi, koke, kraftbj, lancewillett, leogermani, lhkowalski, lschuyler, macmanx, martinremy, matt, mattwiebe, matveb, maverick3x6, mcsf, mdawaffe, mdbitz, MichaelArestad, migueluy, miguelxavierpenha, mikeyarce, mkaz, nancythanki, nickmomrik, njweller, nunyvega, obenland, oskosk, pento, professor44, rachelsquirrel, rdcoll, renatoagds, retrofox, richardmtl, richardmuscat, robertbpugh, roccotripaldi, ryancowles, samhotchkiss, samiff, scarstocea, scottsweb, sdixon194, sdquirk, sermitr, simison, stephdau, thehenridev, tmoorewp, tyxla, Viper007Bond, westi, williamvianas, wpkaren, yoavf, zinigor
 Tags: Security, backup, malware, scan, performance
-Stable tag: 15.1.1
+Stable tag: 15.3.1
 Requires at least: 6.7
 Requires PHP: 7.2
-Tested up to: 6.8
+Tested up to: 6.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -326,48 +326,49 @@ Jetpack Backup can do a full website migration to a new host, migrate theme file
 
 
 == Changelog ==
-### 15.1.1 - 2025-10-10
+### 15.3.1 - 2025-12-04
 #### Bug fixes
-- Asset CDN: avoid errors when we do not receive valid information about a plugin from WordPress.org.
+- Forms: Use the correct case on cipher names.
 
-### 15.1 - 2025-10-08
-
-- Testimonials: Prevent warning when custom post type is not registered.
-
+### 15.3 - 2025-12-03
 #### Enhancements
-- Forms: Add hidden field.
-- Forms: Add hidden input field block.
-- Forms: Add integrations permissions check.
-- Forms: Add new block toggle to skip saving form submisions on WP Admin.
-- Forms: Add preloaded config endpoint.
-- Forms: Add scheduled deletion for submissions that skip the submission's inbox and are stored as temporary feedback.
-- Forms: Add setting to enable or disable email notifications for form submissions.
-- Forms: Allow enabling integration by default.
-- Forms: Improve preloading for endpoints.
-- Forms: Improve supported integrations filter.
-- Forms: Make rating and slider fields available to self-hosted users.
-- Forms: Phone field can now contain a country selector combobox.
-- Forms: Rename 'Manage responses' forms sidebar block panel to 'Responses storage'.
-- Forms: Return integration titles from endpoint.
-- Forms: Use localized number format for number of responses shown.
+- Forms: Add browser info to the form response email notification.
+- Forms: Add form response webhook support.
+- Forms: Add integrations to dashboard mobile menu.
+- Forms: Add keyboard navigation to go through reponses quickly.
+- Forms: Add WordPress Abilities API integration for form submissions management and integrations access.
+- Forms: Change integrations modal width.
+- Forms: Improve MailPoet subscriber handling.
+- Forms: Improve name variation handling.
+- Forms: Remove related-posts from API calls.
+- Forms: Update dashboard header buttons.
+- Forms: Use core WP colors for basic primitive components such as buttons at Forms dashboard.
+- Forms: Use first/last name for author.
+- Premium Content Block: Added email rendering callback.
+- Social: Improve auto-share UI in the editor by streamlining the notices and descriptions.
+- Social: Improve the sidebar by making titles more descriptive and combining sections.
+- Social: Update the connections list in the editor to a vertical toggle list with labels and icons.
 
 #### Improved compatibility
-- Change the location of the Jetpack -> Stats submenu item to a new top-level admin menu item called "Stats".
-- Cookie Consent Block: Ensure we always have a default set of colors to style the block when theme colors are not available.
-- Forms: Add integrations feature flag.
-- Site Accelerator (Image CDN): Add support for images added via Breakdance blocks.
+- Replace icons removed from @wordpress/icons with alternatives.
 
 #### Bug fixes
-- AI Assistant: Fix spacing on Forms block.
-- Cookie Consent Widget: Ensure the default widget text can be translated.
-- Forms: Don't override field labels on transforms.
-- Forms: Fix MailPoet string warning.
-- Forms: Fix missing REST attributes.
-- Forms: Fix slider min/max editing.
-- Forms: Fix slider value position.
-- Resolve conflict with WordPress 6.7.3.
-- Sharing: Fix Facebook sharing URL.
-- Widget Visibility: Prevent PHP error under specific block conditions.
+- Cookies & Consents Banner Widget: ensure form headings are properly displayed.
+- Fix a compatibility bug with the Gutenberg plugin.
+- Forms: Do not link to empty source link.
+- Forms: Ensure we show duplicate form field values on export.
+- Forms: Fix integrations modal flash.
+- Forms: Fix name variation isActive setting.
+- Forms: Fix the flickering between the sidebar loading on different browser widths.
+- Forms: Reject form submissions when the parent post/page with the form has been deleted or is no longer published.
+- Forms: Remove clashing between meta dn field names on export.
+- GifBlock: Ensure url is not reset when publishing post.
+- Google Docs: Ensure that slides/sheets embeds render on the front-end.
+- GSheets embed: Give time for the iframe to finish before showing an error.
+- My Jetpack: Fix expiring renewal prompt to show all products.
+- Remove `getIconColor` functions for block icons.
+- Restrict inline file preview to only image formats and PDFs, force download for other file types for security.
+- Social: Fix connection icon not reflecting the change when profile picture is updated.
 
 --------
 

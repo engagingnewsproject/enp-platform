@@ -270,7 +270,10 @@
                             },
                             "default_value": "#f8971f",
                             "enable_opacity": 0,
-                            "return_format": "string"
+                            "return_format": "string",
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         },
                         {
                             "key": "field_61b2656f4e334",
@@ -288,7 +291,10 @@
                             },
                             "default_value": "#ff9900",
                             "enable_opacity": 0,
-                            "return_format": "string"
+                            "return_format": "string",
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         }
                     ],
                     "min": "",
@@ -524,7 +530,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_67290b06636b3",
@@ -543,7 +552,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_67290b06636b4",
@@ -587,7 +599,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_67290b06636b6",
@@ -979,7 +994,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 1
+                                    "allow_in_bindings": 1,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_6747dca6d5352",
@@ -1295,7 +1313,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_674f9344ed195",
@@ -1322,7 +1343,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_674f9344ed196",
@@ -1382,7 +1406,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_674f9344ed198",
@@ -1622,7 +1649,10 @@
                                     "default_value": "#f8971f",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 1
+                                    "allow_in_bindings": 1,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_6747d49e1e4e5",
@@ -1752,7 +1782,10 @@
                             "default_value": "",
                             "enable_opacity": 0,
                             "return_format": "string",
-                            "allow_in_bindings": 1
+                            "allow_in_bindings": 1,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         },
                         {
                             "key": "field_67185ebd4141c",
@@ -1771,7 +1804,10 @@
                             "default_value": "",
                             "enable_opacity": 1,
                             "return_format": "string",
-                            "allow_in_bindings": 1
+                            "allow_in_bindings": 1,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         },
                         {
                             "key": "field_671808323d08a",
@@ -1790,7 +1826,10 @@
                             "default_value": "",
                             "enable_opacity": 1,
                             "return_format": "string",
-                            "allow_in_bindings": 1
+                            "allow_in_bindings": 1,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         },
                         {
                             "key": "field_6718ead773189",
@@ -1889,7 +1928,9 @@
                             "allow_in_bindings": 0,
                             "ui": 1,
                             "ajax": 0,
-                            "placeholder": ""
+                            "placeholder": "",
+                            "create_options": 0,
+                            "save_options": 0
                         },
                         {
                             "key": "field_67182f4b153ef",
@@ -1925,7 +1966,9 @@
                             "allow_in_bindings": 0,
                             "ui": 1,
                             "ajax": 0,
-                            "placeholder": ""
+                            "placeholder": "",
+                            "create_options": 0,
+                            "save_options": 0
                         }
                     ],
                     "min": "",
@@ -2339,7 +2382,9 @@
                             "ui": 0,
                             "return_format": "value",
                             "ajax": 0,
-                            "placeholder": ""
+                            "placeholder": "",
+                            "create_options": 0,
+                            "save_options": 0
                         },
                         {
                             "key": "field_61afa47a94169",
@@ -2357,7 +2402,10 @@
                             },
                             "default_value": "",
                             "enable_opacity": false,
-                            "return_format": "string"
+                            "return_format": "string",
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         }
                     ],
                     "min": "",
@@ -2466,7 +2514,10 @@
                             },
                             "default_value": "",
                             "enable_opacity": false,
-                            "return_format": "string"
+                            "return_format": "string",
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         },
                         {
                             "key": "field_61af9f8985862",
@@ -2484,7 +2535,10 @@
                             },
                             "default_value": "",
                             "enable_opacity": false,
-                            "return_format": "string"
+                            "return_format": "string",
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         }
                     ],
                     "min": "",
@@ -2797,7 +2851,9 @@
                                     "ui": 1,
                                     "ajax": 0,
                                     "placeholder": "",
-                                    "parent_repeater": "field_61aeb5302939a"
+                                    "parent_repeater": "field_61aeb5302939a",
+                                    "create_options": 0,
+                                    "save_options": 0
                                 },
                                 {
                                     "key": "field_61aeb54e2939b",
@@ -2959,7 +3015,10 @@
                             "default_value": "",
                             "enable_opacity": 1,
                             "return_format": "string",
-                            "allow_in_bindings": 0
+                            "allow_in_bindings": 0,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         },
                         {
                             "key": "field_6725108a3a3b0",
@@ -3004,7 +3063,10 @@
                             "default_value": "",
                             "enable_opacity": 0,
                             "return_format": "string",
-                            "allow_in_bindings": 0
+                            "allow_in_bindings": 0,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         },
                         {
                             "key": "field_6723b8fa6c4d3",
@@ -3044,7 +3106,10 @@
                             "default_value": "",
                             "enable_opacity": 0,
                             "return_format": "string",
-                            "allow_in_bindings": 0
+                            "allow_in_bindings": 0,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         },
                         {
                             "key": "field_67240fbc01b7d",
@@ -3290,7 +3355,10 @@
                                     "default_value": "#02b2bf",
                                     "enable_opacity": false,
                                     "return_format": "string",
-                                    "parent_repeater": "field_61aec13b653a1"
+                                    "parent_repeater": "field_61aec13b653a1",
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 }
                             ]
                         }
@@ -3492,6 +3560,65 @@
                             "selected": 0
                         },
                         {
+                            "key": "field_6942c5e20de7b",
+                            "label": "Landing Animation",
+                            "name": "landing_animation",
+                            "aria-label": "",
+                            "type": "select",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "circles": "Circles",
+                                "arrows": "Arrows"
+                            },
+                            "default_value": "circles",
+                            "return_format": "value",
+                            "multiple": 0,
+                            "allow_null": 0,
+                            "allow_in_bindings": 0,
+                            "ui": 0,
+                            "ajax": 0,
+                            "placeholder": "",
+                            "create_options": 0,
+                            "save_options": 0
+                        },
+                        {
+                            "key": "field_6942d66f08c23",
+                            "label": "Landing title position vertically",
+                            "name": "landing_title_position_vertically",
+                            "aria-label": "",
+                            "type": "select",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "top": "Top",
+                                "center": "Center",
+                                "bottom": "Bottom"
+                            },
+                            "default_value": "bottom",
+                            "return_format": "value",
+                            "multiple": 0,
+                            "allow_null": 0,
+                            "allow_in_bindings": 0,
+                            "ui": 0,
+                            "ajax": 0,
+                            "placeholder": "",
+                            "create_options": 0,
+                            "save_options": 0
+                        },
+                        {
                             "key": "field_6747d7cd805af",
                             "label": "Background",
                             "name": "background",
@@ -3524,7 +3651,10 @@
                                     "default_value": "#f8971f",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 1
+                                    "allow_in_bindings": 1,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_6747d7cd805b1",
@@ -3599,7 +3729,10 @@
                             "default_value": "",
                             "enable_opacity": 0,
                             "return_format": "array",
-                            "allow_in_bindings": 0
+                            "allow_in_bindings": 0,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         }
                     ],
                     "min": "",
@@ -3859,7 +3992,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_67237d44cbbff",
@@ -3886,7 +4022,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_6723aae2a4fe7",
@@ -3946,7 +4085,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_6723a2f7c9409",
@@ -4116,7 +4258,10 @@
                             "default_value": "",
                             "enable_opacity": 1,
                             "return_format": "string",
-                            "allow_in_bindings": 0
+                            "allow_in_bindings": 0,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         },
                         {
                             "key": "field_6705a5e888c53",
@@ -4135,7 +4280,10 @@
                             "default_value": "",
                             "enable_opacity": 0,
                             "return_format": "string",
-                            "allow_in_bindings": 1
+                            "allow_in_bindings": 1,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         }
                     ],
                     "min": "",
@@ -4515,7 +4663,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_674fcc5d79d06",
@@ -4534,7 +4685,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_674fcc5d79d07",
@@ -4586,7 +4740,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_674fcc5d79d09",
@@ -4717,7 +4874,10 @@
                             "default_value": "",
                             "enable_opacity": 0,
                             "return_format": "string",
-                            "allow_in_bindings": 0
+                            "allow_in_bindings": 0,
+                            "custom_palette_source": "",
+                            "palette_colors": "",
+                            "show_color_wheel": true
                         },
                         {
                             "key": "field_6747d0100e465",
@@ -5024,7 +5184,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_674f8bfbb195f",
@@ -5051,7 +5214,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_674f8bfbb1960",
@@ -5111,7 +5277,10 @@
                                     "default_value": "",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 0
+                                    "allow_in_bindings": 0,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_674f8bfbb1962",
@@ -5297,7 +5466,10 @@
                                     "default_value": "#f8971f",
                                     "enable_opacity": 0,
                                     "return_format": "string",
-                                    "allow_in_bindings": 1
+                                    "allow_in_bindings": 1,
+                                    "custom_palette_source": "",
+                                    "palette_colors": "",
+                                    "show_color_wheel": true
                                 },
                                 {
                                     "key": "field_6747d716162ef",
@@ -5397,5 +5569,6 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1746216571
+    "display_title": "",
+    "modified": 1765988021
 }
