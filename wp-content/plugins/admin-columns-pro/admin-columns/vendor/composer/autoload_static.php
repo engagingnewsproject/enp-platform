@@ -480,6 +480,7 @@ class ComposerStaticInitAdminColumns
         'AC\\Service\\IntegrationColumns' => __DIR__ . '/../..' . '/classes/Service/IntegrationColumns.php',
         'AC\\Service\\NoticeChecks' => __DIR__ . '/../..' . '/classes/Service/NoticeChecks.php',
         'AC\\Service\\PluginUpdate' => __DIR__ . '/../..' . '/classes/Service/PluginUpdate.php',
+        'AC\\Service\\PromoChecks' => __DIR__ . '/../..' . '/classes/Service/PromoChecks.php',
         'AC\\Service\\Setup' => __DIR__ . '/../..' . '/classes/Service/Setup.php',
         'AC\\Services' => __DIR__ . '/../..' . '/classes/Services.php',
         'AC\\Settings\\Column' => __DIR__ . '/../..' . '/classes/Settings/Column.php',

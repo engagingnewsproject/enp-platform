@@ -31,7 +31,9 @@ class StockStatus extends AC\Column\Meta
             return $this->get_empty_char();
         }
 
-        switch ($this->get_raw_value($post_id)) {
+        $raw = $this->get_raw_value($post_id);
+
+        switch ($raw) {
             case 'instock' :
                 return ac_helper()->icon->yes(__('In stock', 'codepress-admin-columns'));
             case 'outofstock' :
@@ -45,7 +47,7 @@ class StockStatus extends AC\Column\Meta
                     ]
                 );
             default :
-                return $this->get_empty_char();
+                return $raw;
         }
     }
 

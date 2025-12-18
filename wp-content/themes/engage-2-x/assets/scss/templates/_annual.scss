@@ -1,5 +1,4 @@
-// background dots
-// variables
+// START Variables
 $annual-blue: #30383D;
 $annual-red: #AE542D;
 $annual-orange: #CC6B00;
@@ -8,17 +7,255 @@ $annual-title-size: 3rem;
 $annual-subtitle-size: 1.5rem;
 $annual-desktop-page-width: 60em;
 $annual-desktop-max-width: 90em;
-// typography
+// END Variables
+
+
+
+// START @keyframes
+@keyframes fadeInBackground {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+@keyframes rotateCounter90 {
+	from {
+		transform: rotate(45deg);
+	}
+
+	to {
+		transform: rotate(-90deg);
+	}
+}
+@keyframes rotateCounter95 {
+	from {
+		transform: rotate(50deg);
+	}
+
+	to {
+		transform: rotate(-110deg);
+	}
+}
+@keyframes rotate85 {
+	from {
+		transform: rotate(40deg);
+	}
+
+	to {
+		transform: rotate(200deg);
+	}
+}
+@keyframes rotate81 {
+	from {
+		transform: rotate(35deg);
+	}
+
+	to {
+		transform: rotate(200deg);
+	}
+}
+// fadeIn and slideIn are defined in global/_animations.scss
+@keyframes clipPathAnimation {
+	0% {
+		clip-path: polygon(25% 28%, 22% 32%, 72% 50%, 73% 100%, 0 100%, 0 0);
+	}
+	100% {
+		clip-path: polygon(30% 20%, 45% 35%, 80% 50%, 70% 100%, 0 100%, 0 0);
+	}
+}
+@keyframes pushInTopRight {
+	0% {
+		opacity: 0;
+		transform: translate(100%, -100%);
+	}
+	100% {
+		opacity: 1;
+		transform: translate(0, 0);
+	}
+}
+@keyframes pushInBottomLeft {
+	0% {
+		opacity: 0;
+		transform: translate(-100%, 100%);
+	}
+	100% {
+		opacity: 1;
+		transform: translate(0, 0);
+	}
+}
+@keyframes arrowFillOrange {
+	0% {
+		stroke-dashoffset: 70.68px;
+		fill: transparent;
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	100% {
+		stroke-dashoffset: 0;
+		fill: rgb(248, 151, 31);
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+@keyframes arrowFillWhite {
+	0% {
+		stroke-dashoffset: 70.68px;
+		fill: transparent;
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	100% {
+		stroke-dashoffset: 0;
+		fill: rgb(255, 255, 255);
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+@keyframes arrowFillBurgundy {
+	0% {
+		stroke-dashoffset: 70.7px;
+		fill: transparent;
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	100% {
+		stroke-dashoffset: 0;
+		fill: rgb(190, 88, 39);
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+@keyframes arrowStroke {
+	0% {
+		stroke-dashoffset: 69.56px;
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	100% {
+		stroke-dashoffset: 0;
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+@keyframes circleScaleUp {
+	0% {
+		transform: scale(0);
+		opacity: 0;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+@keyframes circleDrawIn {
+	0% {
+		stroke-dashoffset: 947px; // Circumference: 2 * π * 150.817 ≈ 947px
+	}
+	100% {
+		stroke-dashoffset: 0;
+	}
+}
+@keyframes circleSmallDrawIn {
+	0% {
+		stroke-dashoffset: 330px; // Approximate circumference for small circle
+	}
+	100% {
+		stroke-dashoffset: 0;
+	}
+}
+@keyframes circleOuterDrawIn {
+	0% {
+		stroke-dashoffset: 1137px; // Circumference: 2 * π * 181 ≈ 1137px
+	}
+	100% {
+		stroke-dashoffset: 0;
+	}
+}
+@keyframes slideInSquare3 {
+	0% {
+		opacity: 1;
+		transform: translate(calc(-25vw + 36px - 22.47px), calc(-30vh + 37px - 23.63px)) scale(0.8);
+	}
+	100% {
+		opacity: 1;
+		transform: translate(0, 0) scale(1);
+	}
+}
+@keyframes slideInSquare2 {
+	0% {
+		opacity: 1;
+		transform: translate(calc(-25vw + 36px - 11.88px), calc(-30vh + 37px - 11.86px)) scale(0.8);
+	}
+	100% {
+		opacity: 1;
+		transform: translate(0, 0) scale(1);
+	}
+}
+@keyframes slideInSquare1 {
+	0% {
+		opacity: 1;
+		transform: translate(calc(-25vw + 36px), calc(-30vh + 37px)) scale(0.8);
+	}
+	100% {
+		opacity: 1;
+		transform: translate(0, 0) scale(1);
+	}
+}
+@keyframes slideInCircle1 {
+	0% {
+		opacity: 1;
+		transform: translate(calc(-25vw + 42px - 1.65px - 0.9098px), calc(30vh - 33.75px - 0.4498px)) scale(0.8);
+	}
+	100% {
+		opacity: 1;
+		transform: translate(0, 0) scale(1);
+	}
+}
+@keyframes slideInCircle2 {
+	0% {
+		opacity: 1;
+		transform: translate(calc(-25vw + 42px - 12.16px - 0.9098px), calc(30vh - 23.06px - 0.4498px)) scale(0.8);
+	}
+	100% {
+		opacity: 1;
+		transform: translate(0, 0) scale(1);
+	}
+}
+@keyframes slideInCircle3 {
+	0% {
+		opacity: 1;
+		transform: translate(calc(-25vw + 42px - 22.66px - 0.9098px), calc(30vh - 12.37px - 0.4498px)) scale(0.8);
+	}
+	100% {
+		opacity: 1;
+		transform: translate(0, 0) scale(1);
+	}
+}
+@keyframes slideInCircle4 {
+	0% {
+		opacity: 1;
+		transform: translate(calc(-25vw + 42px - 33.16px - 0.9098px), calc(30vh - 1.69px - 0.4498px)) scale(0.8);
+	}
+	100% {
+		opacity: 1;
+		transform: translate(0, 0) scale(1);
+	}
+}
+// END @keyframes
+
+
+
+// STARTBase styles/typography
 blockquote, .founders {
 	font-family: $font-family-founders-grotesk-bold;
 	font-style: condensed;
 	font-weight: bold;
 }
-// typography END
 p {
 	line-height: 1.5;
 }
-// Elements
 hr {
 	background-color: $annual-red;
 	height: 4px;
@@ -30,15 +267,17 @@ blockquote {
 	padding: 2rem 0 1rem 2rem;
 	line-height: 1.5;
 }
+// END Base styles/typography
 
-// Widths
+
+
+// START Utility classes
 .ann__width-page {
 	@include media($laptop) {
 		max-width: $annual-desktop-page-width;
 		margin: 0 auto;
 	}
 }
-
 .ann__width-full {
 	z-index: 2;
 	@include media($laptop) {
@@ -46,8 +285,11 @@ blockquote {
 		margin: 0 auto;
 	}
 }
+// END Utility classes
 
-// Headers
+
+
+// START Components
 .ann__feat-header {
 	background-color: $teal-light;
 	z-index: 1;
@@ -138,7 +380,6 @@ blockquote {
 		padding: 0;
 	}
 }
-// Titles
 .ann__subtitle {
 	text-transform: uppercase;
 	font-size: $annual-subtitle-size;
@@ -230,10 +471,8 @@ blockquote {
 			left: 0; /* Move it to the left side */
 			@include media($phablet) {
 				clip-path: ellipse(100% 100% at 0% -33%);
-				-webkit-clip-path: ellipse(100% 100% at 0% -33%);
 				&::after {
 					clip-path: ellipse(100% 100% at -12% -25%);
-					-webkit-clip-path: ellipse(100% 100% at -12% -25%);
 				}
 			}
 		}
@@ -249,10 +488,8 @@ blockquote {
 				top: -3px;
 				right: 0;
 				clip-path: ellipse(100% 100% at 100% -33%);
-				-webkit-clip-path: ellipse(100% 100% at 100% -33%);
 				&::after {
 					clip-path: ellipse(100% 100% at 112% -25%);
-					-webkit-clip-path: ellipse(100% 100% at 112% -25%);
 				}
 			}
 		}
@@ -279,7 +516,6 @@ blockquote {
 		}
 	}
 }
-// Buttons
 .btn--annual-report {
 	animation: slideIn 0.6666666667s ease-out;
 	z-index: 1000;
@@ -299,9 +535,8 @@ blockquote {
 		background-color: darken(#2e4249, 10%);
 	}
 }
-// Sections/Layouts
-// https://css-tricks.com/bem-101/#sass-and-bem
 .ann {
+	// Sections/Layouts https://css-tricks.com/bem-101/#sass-and-bem
 	@at-root #{&}__sct {
 		margin-top: unset;
 		display: grid;
@@ -564,7 +799,6 @@ blockquote {
 		}
 	}
 }
-
 .ann__landing_circle_logo {
 	.ann__landing_circle_cme {
 		fill: #AE542D;
@@ -584,7 +818,6 @@ blockquote {
 		font-family: $font-family-founders-grotesk-bold;
 	}
 }
-
 .ann__sct_quote {
 	background-image: url("/wp-content/themes/engage-2-x/assets/img/grey-dots-2.svg");
 	background-repeat: no-repeat;
@@ -597,8 +830,6 @@ blockquote {
 .ann__sct_faculty {
 	position: relative;
 }
-
-// blocks
 .ann__block {
 	@include media($laptop) {
 		padding-right: 40px;
@@ -631,8 +862,6 @@ blockquote {
 		}
 	}
 }
-
-// // grid
 .ann__grid {
 	grid-row-gap: 3em;
 	@include media($desktop) {
@@ -661,7 +890,11 @@ blockquote {
 			}
 		}
 		img {
-			min-height: 78px;
+			// Ensure all icons have consistent sizing
+			width: auto;
+			// height: 78px;
+			object-fit: contain;
+			object-position: center;
 		}
 		.ann__grid_num {
 			margin-bottom: 0;
@@ -709,12 +942,9 @@ blockquote {
 		position: relative;
 	}
 }
-
 .ann__image-grid {
 	z-index: 2;
 }
-
-// Grid svg decorative border
 svg.deco-border-svg {
 	width: 102%;
 	height: auto;
@@ -724,7 +954,6 @@ svg.deco-border-svg {
 	zoom: 2;
 	transform: scale(1.08); 
 }
-
 .grid_columns {
 	&-5, &-4, &-3 {
 		grid: repeat(4, auto) / repeat(2, 1fr);
@@ -760,8 +989,6 @@ svg.deco-border-svg {
 		}
 	}
 }
-
-// // list
 .ann__list {
 	list-style: none;
 	margin-bottom: 0;
@@ -792,7 +1019,6 @@ svg.deco-border-svg {
 		}
 	}
 }
-// hover cards
 .ann__tile {
 	position: relative;
 	display: grid;
@@ -881,7 +1107,6 @@ svg.deco-border-svg {
 		color: $white;
 	}
 }
-// // outreach
 .ann__sct_outreach {
 	grid-template-rows: auto auto auto 1fr;
 	grid-template-columns: 3em 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -924,7 +1149,6 @@ svg.deco-border-svg {
 		}
 	}
 }
-// social
 .ann__sct_pad_img_title {
 	grid-template-rows: auto 1fr;
 	padding: 2rem 2.4rem;
@@ -936,7 +1160,6 @@ svg.deco-border-svg {
 		}
 	}
 }
-// Footer
 .ann__sct_footer {
 	position: relative;
 	overflow: hidden;
@@ -1016,7 +1239,6 @@ svg.deco-border-svg {
 		z-index: 2;
 	}
 }
-// research section, 2023
 .ann__sct_research {
 	&_grid {
 		display: grid;
@@ -1043,15 +1265,12 @@ svg.deco-border-svg {
 
 
 }
-
 .ann__landing {
 	display: flex;
 	position: relative;
 	flex-direction: column-reverse;
-
 	min-height: 100vh;
 	padding: 2rem;
-
 	overflow: hidden;
 	
 	@include media($tablet) {
@@ -1189,8 +1408,6 @@ svg.deco-border-svg {
 			max-height: calc(50vh + 225px);
 		}
 	}
-
-
 	/* circle animations */
 	&_circle_container > &_circle_logo {
 		position: absolute;
@@ -1215,12 +1432,10 @@ svg.deco-border-svg {
 		}
 		
 	}
-
 	&_circle {
 		fill: none;
 		transform-origin: center;
 	}
-
 	@mixin half-circle-stroke($color, $width, $transform: none) {
 		stroke: $color;
 		stroke-width: $width;
@@ -1307,87 +1522,7 @@ svg.deco-border-svg {
 			animation-delay: 0.9s; 
 		}
 	}
-
-	@keyframes fadeInBackground {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-	
-	@keyframes rotateCounter90 {
-		from {
-			transform: rotate(45deg);
-		}
-	
-		to {
-			transform: rotate(-90deg);
-		}
-	}
-	
-	@keyframes rotateCounter95 {
-		from {
-			transform: rotate(50deg);
-		}
-	
-		to {
-			transform: rotate(-110deg);
-		}
-	}
-	
-	@keyframes rotate85 {
-		from {
-			transform: rotate(40deg);
-		}
-	
-		to {
-			transform: rotate(200deg);
-		}
-	}
-	
-	@keyframes rotate81 {
-		from {
-			transform: rotate(35deg);
-		}
-	
-		to {
-			transform: rotate(200deg);
-		}
-	}
-	
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-		}
-	
-		to {
-			opacity: 1;
-		}
-	}
-
-	@keyframes slideIn {
-		from {
-			transform: translateY(24px);
-		}
-	
-		to {
-			transform: translateY(0);
-		}
-	}
-	@keyframes clipPathAnimation {
-    0% {
-			clip-path: polygon(25% 28%, 22% 32%, 72% 50%, 73% 100%, 0 100%, 0 0);
-			-webkit-clip-path: polygon(25% 28%, 22% 32%, 72% 50%, 73% 100%, 0 100%, 0 0);
-    }
-    100% {
-			clip-path: polygon(30% 20%, 45% 35%, 80% 50%, 70% 100%, 0 100%, 0 0);
-			-webkit-clip-path: polygon(30% 20%, 45% 35%, 80% 50%, 70% 100%, 0 100%, 0 0);
-    }
-	}
 }
-// Content table
 .ann__content-table {
 	display: flex;
 	flex-direction: column;
@@ -1489,7 +1624,6 @@ svg.deco-border-svg {
 		width: auto;
 	}
 }
-// Research initiatives
 .ann__research-initiatives {
 	display: flex;
 	flex-direction: column;
@@ -1565,7 +1699,6 @@ svg.deco-border-svg {
 		}
 	}
 }
-// Outcomes
 .ann__outcomes {
 	display: flex;
 	flex-direction: column;
@@ -1611,7 +1744,6 @@ svg.deco-border-svg {
 		row-gap: 2em;
 	}
 }
-// 
 .ann__wysiwyg {
 	padding: 4em 2em;
 	@include media($phablet) {
@@ -1678,7 +1810,6 @@ svg.deco-border-svg {
 		min-width: 100vw;
 	}
 }
-// modifiers
 .ann__list_title {
 	h4 {
 		margin-bottom: 0;
@@ -1687,48 +1818,376 @@ svg.deco-border-svg {
 		margin-bottom: 1em;
 	}
 }
-// END modifiers
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInBackground {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes rotateCounter90 {
-    from { transform: rotate(45deg); }
-    to { transform: rotate(-90deg); }
-}
-
-@keyframes rotateCounter95 {
-    from { transform: rotate(50deg); }
-    to { transform: rotate(-110deg); }
-}
-
-@keyframes rotate85 {
-    from { transform: rotate(40deg); }
-    to { transform: rotate(200deg); }
-}
-
-@keyframes rotate81 {
-    from { transform: rotate(35deg); }
-    to { transform: rotate(200deg); }
-}
-
 .img-with-text-overlay {
 	position: relative;
 }
 .img-with-text-overlay + figcaption {
 	position: absolute;
 	top: 0;
+}
+.ann__landing_arrows {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-template-rows: auto;
+	padding: 4rem 2rem 2rem 2rem;
+	@include media($phablet) {
+		padding: 4rem 4rem 2rem 4rem;
+	}
+}
+.ann__landing_arrows_layout_container {
+	position: absolute;
+	width: 100%;
+	height: 100vh;
+	left: 0;
+	top: 0;
+	margin: 0;
+	padding: 0;
+	z-index: 2;
+}
+.ann__landing_header_wrap_arrows {
+	grid-column: 1 / span 12;
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-template-rows: auto;
+	@include media($phablet) {
+		grid-template-rows: auto auto;
+	}
+	.ann__landing_header_container {
+		border-left: none;
+		padding-left: 0;
+	}
+	.ann__landing_header_top {
+		font-size: 2rem;
+    font-weight: 600;
+		@include media($phablet) {
+			font-size: 3rem;
+		}
+	}
+	.ann__landing_header_bottom {
+		font-size: 4rem;
+		font-weight: 800;
+		color: #3c4952;
+		@include media($phablet) {
+			font-size: 5rem;
+		}
+		@include media($laptop) {
+			font-size: 6rem;
+		}
+	}
+	.button-container {
+		grid-column: 1/span 12;
+		display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: flex-end;
+		row-gap: 1rem;
+		@include media($phablet) {
+			flex-direction: row;
+			column-gap: 1rem;
+		}
+		@include media($laptop) {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+			align-items: end;
+		}
+	}
+	.ann__landing_logo {
+		grid-column: 2;
+		max-width: 16rem;
+		justify-self: center;
+		border-left: 4px solid #ae542d;
+		padding: 1rem;
+		@include media($phablet) {
+			max-width: 19rem;
+		}
+		@include media($laptop) {
+			max-width: 25rem;
+		}
+	}
+	.btn {
+		grid-column: 3;
+		justify-self: end;
+		text-wrap: nowrap;
+	}
+}
+.ann__landing_arrows_wave_top_right {
+	position: absolute;
+	right: 0;
+	top: 0;
+	margin: 0;
+	padding: 0;
+	z-index: 2;
+	display: block;
+	width: 143px;
+	height: 179px;
+	@include media($phablet) {
+		width: 343px;
+		height: 429px;
+	}
+	
+	// Ensure SVG and its children have no spacing
+	&,
+	& * {
+		margin: 0;
+		padding: 0;
+	}
+	
+	.wave-path {
+		opacity: 0;
+		transform: translate(100%, -100%);
+		animation: pushInTopRight 1s ease-out 0.5s forwards;
+	}
+}
+.ann__landing_arrows_wave_bottom_left {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	margin: 0;
+	padding: 0;
+	z-index: 2;
+	display: block;
+	width: 86px;
+	height: 190px;
+	@include media($phablet) {
+		width: 150px;
+		height: 330px;
+	}
+	
+	// Ensure SVG and its children have no spacing
+	&,
+	& * {
+		margin: 0;
+		padding: 0;
+	}
+	
+	.wave-path {
+		transform: translate(-100%, 100%);
+		animation: pushInBottomLeft 1s ease-out 0.7s forwards;
+	}
+}
+.ann__landing_arrows_svg {
+	position: absolute;
+	width: 10px;
+	min-height: 100vh;
+	left: 5vw;
+	top: -20px;
+	opacity: 0; /* Initially hidden */
+	animation: fadeInBackground ease forwards; /* Apply fade-in effect */
+	transform-origin: top right;
+	z-index: 2;
+	@include media($phablet) {
+		left: 10vw;
+		width: 15px;
+	}
+	@include media($laptop) {
+		left: calc(50% - 345px);
+	}
+
+	.ann__landing_arrows_svg-1 {
+		stroke-dasharray: 70.68px;
+		fill: transparent;
+		opacity: 0;
+		transform: translateY(20px);
+		animation: arrowFillOrange 1.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.1s forwards;
+	}
+
+	.ann__landing_arrows_svg-2 {
+		stroke-dasharray: 70.68px;
+		fill: transparent;
+		opacity: 0;
+		transform: translateY(20px);
+		animation: arrowFillWhite 1.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.2s forwards;
+	}
+
+	.ann__landing_arrows_svg-3 {
+		stroke-dasharray: 69.56px;
+		stroke-dashoffset: 69.56px;
+		stroke: rgb(190, 88, 39);
+		fill: none;
+		opacity: 0;
+		transform: translateY(20px);
+		animation: arrowStroke 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0.24s forwards;
+	}
+
+	.ann__landing_arrows_svg-4 {
+		stroke-dasharray: 70.7px;
+		fill: transparent;
+		opacity: 0;
+		transform: translateY(20px);
+		animation: arrowFillBurgundy 1.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.4s forwards;
+	}
+
+	.ann__landing_arrows_svg-5 {
+		stroke-dasharray: 70.7px;
+		fill: transparent;
+		opacity: 0;
+		transform: translateY(20px);
+		animation: arrowFillOrange 1.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.5s forwards;
+	}
+
+	.ann__landing_arrows_svg-6 {
+		stroke-dasharray: 70.68px;
+		fill: transparent;
+		opacity: 0;
+		transform: translateY(20px);
+		animation: arrowFillOrange 1.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.6s forwards;
+	}
+
+	.ann__landing_arrows_svg-7 {
+		stroke-dasharray: 70.7px;
+		fill: transparent;
+		opacity: 0;
+		transform: translateY(20px);
+		animation: arrowFillBurgundy 1.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.7s forwards;
+	}
+
+	.ann__landing_arrows_svg-8 {
+		stroke-dasharray: 70.7px;
+		fill: transparent;
+		opacity: 0;
+		transform: translateY(20px);
+		animation: arrowFillBurgundy 1.7s cubic-bezier(0.47, 0, 0.745, 0.715) 0.8s forwards;
+	}
+}
+.ann__landing_arrows_circles_middle {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -60%);
+	z-index: 1;
+	width: 350px;
+	height: 350px;
+	@include media($phablet) {
+		width: 500px;
+		height: 500px;
+	}
+	// Step 1: circle-middle-fill scales up (0s - 0.6s) - orange filled circle
+	.circle-middle-fill {
+		transform: scale(0);
+		opacity: 0;
+		transform-origin: 185.97px 187.79px; // Center of circle
+		animation: circleScaleUp 1.6s ease-in-out 1.5s forwards;
+	}
+
+	// Step 2: circle-middle-border draws in from top center (0.6s - 1.8s) - burgundy border
+	.circle-middle-border {
+		stroke-dasharray: 949px; // Circumference: 2 * π * 150.817 ≈ 947px
+		stroke-dashoffset: 947px; // Start fully hidden
+		fill: none;
+		transform-origin: 185.97px 187.79px; // Center of circle
+		animation: circleDrawIn 1.2s ease-in-out 0.6s forwards;
+	}
+
+	// Step 4: circle-outer draws in from top center (0.1s - 1.7s) - clockwise like a clock
+	.circle-outer {
+		stroke-dasharray: 1137px; // Circumference: 2 * π * 181 ≈ 1137px
+		stroke-dashoffset: 1137px; // Start fully hidden
+		transform-origin: 185.97px 187px; // Center of outer circle
+		animation: circleOuterDrawIn 1.6s ease-in-out 0.1s forwards;
+	}
+
+	// Step 5: circle-sm-border draws in (1.8s - 2.6s)
+	.circle-sm-border {
+		stroke-dasharray: 330px;
+		stroke-dashoffset: 330px;
+		transform-origin: 306.614px 290.08px; // Center of small circle
+		animation: circleSmallDrawIn 0.8s ease-in-out 1.8s forwards;
+	}
+
+	// Step 6: circle-sm-fill scales in (2.6s - 3.2s)
+	.circle-sm-fill {
+		transform: scale(0);
+		opacity: 0;
+		transform-origin: 306.614px 290.08px; // Center of small circle
+		animation: circleScaleUp 0.6s ease-in-out 2.6s forwards;
+	}
+}
+.ann__landing_arrows_circles_small {
+	position: absolute;
+	z-index: 0; // Behind the center circles
+	opacity: 1;
+	top: 24vh;
+	right: 15vw;
+	@include media($phablet) {
+		top: 20vh;
+		right: 22vw;
+	}
+	@include media($laptop) {
+		top: 15vh;
+		right: calc(50% - 270px);
+	}
+	// Container stays at final position, no animation
+	
+	// Each circle slides individually from center with staggered timing
+	.circle-1 {
+		// Furthest out circle (bottom, largest) - slides out first
+		opacity: 1;
+		transform: translate(calc(-25vw + 42px - 1.65px - 0.9098px), calc(30vh - 33.75px - 0.4498px)) scale(0.8);
+		transform-origin: center;
+		animation: slideInCircle1 1s cubic-bezier(0.47, 0, 0.745, 0.715) 2.4s forwards;
+	}
+	
+	.circle-2 {
+		// Middle circle - slides out second
+		opacity: 1;
+		transform: translate(calc(-25vw + 42px - 12.16px - 0.9098px), calc(30vh - 23.06px - 0.4498px)) scale(0.8);
+		transform-origin: center;
+		animation: slideInCircle2 1s cubic-bezier(0.47, 0, 0.745, 0.715) 2.6s forwards;
+	}
+	
+	.circle-3 {
+		// Top-middle circle - slides out third
+		opacity: 1;
+		transform: translate(calc(-25vw + 42px - 22.66px - 0.9098px), calc(30vh - 12.37px - 0.4498px)) scale(0.8);
+		transform-origin: center;
+		animation: slideInCircle3 1s cubic-bezier(0.47, 0, 0.745, 0.715) 2.7s forwards;
+	}
+	
+	.circle-4 {
+		// Furthest in circle (top, smallest) - slides out fourth
+		opacity: 1;
+		transform: translate(calc(-25vw + 42px - 33.16px - 0.9098px), calc(30vh - 1.69px - 0.4498px)) scale(0.8);
+		transform-origin: center;
+		animation: slideInCircle4 1s cubic-bezier(0.47, 0, 0.745, 0.715) 2.8s forwards;
+	}
+}
+.ann__landing_arrows_squares_small {
+	position: absolute;
+	bottom: 27vh;
+	right: 25vw;
+	z-index: 0; // Behind the center circles
+	opacity: 1;
+	@include media($phablet) {
+		bottom: 20vh;
+	}
+	@include media($laptop) {
+		bottom: 22vh;
+		right: calc(50% - 280px);
+	}
+	// Container stays at final position, no animation
+	
+	// Each square slides individually from center with staggered timing
+	.square-3 {
+		// Furthest out square (bottom-right, largest) - slides out first
+		opacity: 1;
+		transform: translate(calc(-25vw + 36px - 22.47px), calc(-30vh + 37px - 23.63px)) scale(0.8);
+		transform-origin: center;
+		animation: slideInSquare3 1s cubic-bezier(0.47, 0, 0.745, 0.715) 2.4s forwards;
+	}
+	
+	.square-2 {
+		// Middle square - slides out second
+		opacity: 1;
+		transform: translate(calc(-25vw + 36px - 11.88px), calc(-30vh + 37px - 11.86px)) scale(0.8);
+		transform-origin: center;
+		animation: slideInSquare2 1s cubic-bezier(0.47, 0, 0.745, 0.715) 2.6s forwards;
+	}
+	
+	.square-1 {
+		// Furthest in square (top-left, smallest) - slides out third
+		opacity: 1;
+		transform: translate(calc(-25vw + 36px), calc(-30vh + 37px)) scale(0.8);
+		transform-origin: center;
+		animation: slideInSquare1 1s cubic-bezier(0.47, 0, 0.745, 0.715) 2.8s forwards;
+	}
 }

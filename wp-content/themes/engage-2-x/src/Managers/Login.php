@@ -145,23 +145,24 @@ class Login {
 	}
 
 	/**
-	 * Add Google Analytics to Login page
+	 * Add Google Analytics 4 to Login page
 	 */
 	function enqueueScript() {
-	// Output JavaScript code to enqueue Google Analytics script on the login page
-	  ?>
-	  <script>
-		// ... Google Analytics script ...
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+		// Only output GA4 if Measurement ID is configured
+		if ( ! defined( 'GA4_MEASUREMENT_ID' ) || GA4_MEASUREMENT_ID === 'G-XXXXXXXXXX' ) {
+			return;
+		}
 
-		ga('create', 'UA-52471115-4', 'auto');
-		ga('send', 'pageview');
-	  </script>
-
-	  <?php
+		// Output Google Analytics 4 script for login page
+		?>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo esc_js( GA4_MEASUREMENT_ID ); ?>"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', '<?php echo esc_js( GA4_MEASUREMENT_ID ); ?>');
+		</script>
+		<?php
 	}
 	
 	// Add this method to the Login class

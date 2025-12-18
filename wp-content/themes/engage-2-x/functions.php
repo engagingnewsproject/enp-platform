@@ -11,6 +11,13 @@
 // Load the Composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
+// Google Analytics 4 Measurement ID
+// Find this in Google Analytics: Admin > Data Streams > [Your Web Stream] > Measurement ID
+// Format: G-XXXXXXXXXX
+if ( ! defined( 'GA4_MEASUREMENT_ID' ) ) {
+	define( 'GA4_MEASUREMENT_ID', 'G-XXXXXXXXXX' ); // TODO: Replace with your actual GA4 Measurement ID
+}
+
 // Load core theme functionality
 require_once __DIR__ . '/includes/core/timber.php';
 require_once __DIR__ . '/includes/core/theme.php';

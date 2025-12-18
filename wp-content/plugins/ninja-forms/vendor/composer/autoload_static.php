@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInitc5b062f4cf88695b64e9b0875a598eef
 {
     public static $prefixLengthsPsr4 = array (
-        'N' => 
+        'N' =>
         array (
             'NinjaForms\\NinjaForms\\' => 22,
             'NinjaForms\\Includes\\' => 20,
@@ -16,15 +16,15 @@ class ComposerStaticInitc5b062f4cf88695b64e9b0875a598eef
     );
 
     public static $prefixDirsPsr4 = array (
-        'NinjaForms\\NinjaForms\\' => 
+        'NinjaForms\\NinjaForms\\' =>
         array (
             0 => __DIR__ . '/../..' . '/',
         ),
-        'NinjaForms\\Includes\\' => 
+        'NinjaForms\\Includes\\' =>
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),
-        'NinjaForms\\Blocks\\' => 
+        'NinjaForms\\Blocks\\' =>
         array (
             0 => __DIR__ . '/../..' . '/blocks/views/includes',
         ),

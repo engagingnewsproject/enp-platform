@@ -14,7 +14,7 @@ use Automattic\Jetpack\Forms\Dashboard\Dashboard;
  */
 class Jetpack_Forms {
 
-	const PACKAGE_VERSION = '6.9.0';
+	const PACKAGE_VERSION = '6.21.2';
 
 	/**
 	 * Load the contact form module.
@@ -38,6 +38,9 @@ class Jetpack_Forms {
 
 		// Enforces the availability of block support controls in the UI for classic themes.
 		add_filter( 'wp_theme_json_data_default', array( '\Automattic\Jetpack\Forms\ContactForm\Contact_Form', 'add_theme_json_data_for_classic_themes' ) );
+
+		// Initialize abilities registration for WordPress Abilities API (WP 6.9+)
+		\Automattic\Jetpack\Forms\Abilities\Forms_Abilities::init();
 	}
 
 	/**
@@ -95,6 +98,20 @@ class Jetpack_Forms {
 	}
 
 	/**
+	 * Returns true if Hostinger Reach integration is enabled.
+	 *
+	 * @return boolean
+	 */
+	public static function is_hostinger_reach_enabled() {
+		/**
+		 * Enable Hostinger Reach integration.
+		 *
+		 * @param bool false Whether Hostinger Reach integration be enabled. Default is false.
+		 */
+		return apply_filters( 'jetpack_forms_hostinger_reach_enable', false );
+	}
+
+	/**
 	 * Returns true if the Integrations UI should be enabled.
 	 *
 	 * @return boolean
@@ -106,5 +123,19 @@ class Jetpack_Forms {
 		 * @param bool true Whether to enable the Integrations UI. Default true.
 		 */
 		return apply_filters( 'jetpack_forms_is_integrations_enabled', true );
+	}
+
+	/**
+	 * Returns true if webhooks are enabled.
+	 *
+	 * @return boolean
+	 */
+	public static function is_webhooks_enabled() {
+		/**
+		 * Whether to enable webhooks for Jetpack Forms.
+		 *
+		 * @param bool false Whether webhooks should be enabled. Default false.
+		 */
+		return apply_filters( 'jetpack_forms_webhooks_enabled', false );
 	}
 }
