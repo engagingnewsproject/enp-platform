@@ -56,24 +56,7 @@ $annual-desktop-max-width: 90em;
 		transform: rotate(200deg);
 	}
 }
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
-
-	to {
-		opacity: 1;
-	}
-}
-@keyframes slideIn {
-	from {
-		transform: translateY(24px);
-	}
-
-	to {
-		transform: translateY(0);
-	}
-}
+// fadeIn and slideIn are defined in global/_animations.scss
 @keyframes clipPathAnimation {
 	0% {
 		clip-path: polygon(25% 28%, 22% 32%, 72% 50%, 73% 100%, 0 100%, 0 0);
@@ -81,48 +64,6 @@ $annual-desktop-max-width: 90em;
 	100% {
 		clip-path: polygon(30% 20%, 45% 35%, 80% 50%, 70% 100%, 0 100%, 0 0);
 	}
-}
-@keyframes fadeInUp {
-	from {
-			opacity: 0;
-			transform: translateY(40px);
-	}
-	to {
-			opacity: 1;
-			transform: translateY(0);
-	}
-}
-@keyframes fadeInBackground {
-	from { opacity: 0; }
-	to { opacity: 1; }
-}
-@keyframes rotateCounter90 {
-	from { transform: rotate(45deg); }
-	to { transform: rotate(-90deg); }
-}
-@keyframes rotateCounter95 {
-	from { transform: rotate(50deg); }
-	to { transform: rotate(-110deg); }
-}
-@keyframes rotate85 {
-	from { transform: rotate(40deg); }
-	to { transform: rotate(200deg); }
-}
-@keyframes rotate81 {
-	from { transform: rotate(35deg); }
-	to { transform: rotate(200deg); }
-}
-@keyframes fillOrange {
-	0% { fill: transparent; }
-	100% { fill: rgb(248, 151, 31); } /* #F8971F */
-}
-@keyframes fillWhite {
-	0% { fill: transparent; }
-	100% { fill: rgb(255, 255, 255); } /* #FFFFFF */
-}
-@keyframes fillBurgundy {
-	0% { fill: transparent; }
-	100% { fill: rgb(190, 88, 39); } /* #BE5827 */
 }
 @keyframes pushInTopRight {
 	0% {
@@ -142,14 +83,6 @@ $annual-desktop-max-width: 90em;
 	100% {
 		opacity: 1;
 		transform: translate(0, 0);
-	}
-}
-@keyframes wipeBottomLeft {
-	0% {
-		clip-path: polygon(100% 100%, 100% 100%, 100% 0%, 100% 0%);
-	}
-	100% {
-		clip-path: polygon(100% 100%, 0% 100%, 0% 0%, 100% 0%);
 	}
 }
 @keyframes arrowFillOrange {
@@ -238,26 +171,6 @@ $annual-desktop-max-width: 90em;
 	}
 	100% {
 		stroke-dashoffset: 0;
-	}
-}
-@keyframes textTypeIn {
-	0% {
-		clip-path: inset(0 100% 0 0);
-		opacity: 0;
-	}
-	100% {
-		clip-path: inset(0 0 0 0);
-		opacity: 1;
-	}
-}
-@keyframes slideInCirclesSmall {
-	0% {
-		opacity: 0;
-		transform: translate(-50%, -50%) scale(0.8);
-	}
-	100% {
-		opacity: 1;
-		transform: translate(calc(-50% + 25vw), calc(-50% - 20vh)) scale(1);
 	}
 }
 @keyframes slideInSquare3 {
