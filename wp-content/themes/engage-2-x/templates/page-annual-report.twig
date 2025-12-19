@@ -112,7 +112,7 @@
 					{% endif %}
 					{# grid align #}
 					{% if main.change_alignment %}
-						{% set align_content = 'style="justify-items:' ~ align ~ '; text-align:' ~ align_text ~ '"' %}
+						{% set align_content = 'style="justify-items:' ~ align ~ '; text-align:' ~ align_text ~ '; align-items:' ~ align_text ~ '"' %}
 					{% endif %}
 					{# grid columns #}
 					{% set columns = 'grid_columns-' ~ main.grid_columns %}
@@ -124,12 +124,13 @@
 					{% endif %}
 				{# END logic #}
 				{# markup START #}
+				<!-- highlights -->
 				<section class="ann__sct ann__sct_grid wrapper--pad-xlg {% if main.background.background_image_parallax %}ann__sct_parallax{% endif %}" {{background_color}} {% if id %}id="{{ id }}"{% endif %}>
 					<div class="ann__width-full ann__sct">
 						{% if main.header_group.show_title %}
 							{% include "partial/section-header.twig" %}
 						{% endif %}
-						<div class="ann__grid grid ann__image-grid {{columns}} {{gap}}">
+						<div class="ann__grid grid ann__image-grid {% if deco_border %} ann_grid_deco_border{% endif %} {{columns}} {{gap}}">
 							{% for item in main.highlight %}
 								<div class="ann__grid_item {% if item.link %}item-linked{% endif %} {% if deco_border %}ann__grid_item-relative{% endif %} item-animate" {{align_content}}>
 									{% if item.link %}
@@ -390,437 +391,437 @@
 					{# background center image #}
 					{% if main.background_image %}
 						<div class="background_image-wrap">
-<img class="background_image fade-in-up-1" 
-     src="{{ get_image(main.background_image_src).src('2048x2048') }}" 
-     srcset="{{ get_image(main.background_image_src).srcset }}" 
-     sizes="{{ get_image(main.background_image_src).img_sizes }}" 
-     alt="{{ get_image(main.background_image_src).alt }}" 
-     loading="eager" />
-	 						</div>
-					{% endif %}
-					{# background bottom left image #}
-					{% if main.bottom_left_deco_graphic %}
-<img class="bottom_left_deco_graphic fade-in-up-1" 
-     src="{{ get_image(main.bottom_left_deco_graphic).src('medium') }}"
-     srcset="{{ get_image(main.bottom_left_deco_graphic).srcset }}"
-     sizes="{{ get_image(main.bottom_left_deco_graphic).img_sizes }}"
-     alt="{{ get_image(main.bottom_left_deco_graphic).alt }}"
-     loading="eager" />
-	 					{% endif %}
-				</footer>
-			{# PARALLAX #}
-      {% elseif main.acf_fc_layout == 'parallax' %}
-				{% if main.header_group.header %}
-					{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
-				{% endif %}
-        <section class="ann__sct ann__sct_parallax parallax-sct" {% if main.header_group.header %}id="{{ id }}"{% endif %}>
-          <div class="ann__sct_parallax__group">
-						{% if main.header_group.show_title %}
-							{% include "partial/section-header.twig" with {'width': 'full'} %}
-						{% endif %}
-						<div class="ann__sct_parallax__container">
-              {% if main.parallax_text %}
-                {% if main.parallax_bar %}
-                    <hr class="ann__sct_parallax-bar item-parallax-bar-scale" style="background-color:{{ main.parallax_bar }}">
-                {% endif %}
-                <div class="ann__wysiwyg-wrap container--xl item-animate">{{ main.parallax_text }}</div>
-                {% if main.parallax_bar %}
-                  <hr class="ann__sct_parallax-bar item-parallax-bar-scale" style="background-color:{{ main.parallax_bar }}"></hr>
-                {% endif %}
-              {% endif %}
-            </div>
-						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});{% endif %}"></div>
-						{% if main.overlay %}
-            	<div class="parallax-overlay" {% if main.overlay_color %}style="background-color: {{ main.overlay_color }}"{% endif %}></div>
-						{% endif %}
-          </div>
-          <script>
-						// Encapsulate each parallax instance by targeting its unique ID
-						(function() {
-								const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
+					<img class="background_image fade-in-up-1" 
+							src="{{ get_image(main.background_image_src).src('2048x2048') }}" 
+							srcset="{{ get_image(main.background_image_src).srcset }}" 
+							sizes="{{ get_image(main.background_image_src).img_sizes }}" 
+							alt="{{ get_image(main.background_image_src).alt }}" 
+							loading="eager" />
+												</div>
+										{% endif %}
+										{# background bottom left image #}
+										{% if main.bottom_left_deco_graphic %}
+					<img class="bottom_left_deco_graphic fade-in-up-1" 
+							src="{{ get_image(main.bottom_left_deco_graphic).src('medium') }}"
+							srcset="{{ get_image(main.bottom_left_deco_graphic).srcset }}"
+							sizes="{{ get_image(main.bottom_left_deco_graphic).img_sizes }}"
+							alt="{{ get_image(main.bottom_left_deco_graphic).alt }}"
+							loading="eager" />
+											{% endif %}
+									</footer>
+								{# PARALLAX #}
+								{% elseif main.acf_fc_layout == 'parallax' %}
+									{% if main.header_group.header %}
+										{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
+									{% endif %}
+									<section class="ann__sct ann__sct_parallax parallax-sct" {% if main.header_group.header %}id="{{ id }}"{% endif %}>
+										<div class="ann__sct_parallax__group">
+											{% if main.header_group.show_title %}
+												{% include "partial/section-header.twig" with {'width': 'full'} %}
+											{% endif %}
+											<div class="ann__sct_parallax__container">
+												{% if main.parallax_text %}
+													{% if main.parallax_bar %}
+															<hr class="ann__sct_parallax-bar item-parallax-bar-scale" style="background-color:{{ main.parallax_bar }}">
+													{% endif %}
+													<div class="ann__wysiwyg-wrap container--xl item-animate">{{ main.parallax_text }}</div>
+													{% if main.parallax_bar %}
+														<hr class="ann__sct_parallax-bar item-parallax-bar-scale" style="background-color:{{ main.parallax_bar }}"></hr>
+													{% endif %}
+												{% endif %}
+											</div>
+											<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="{% if main.parallax_image %}background-image:url({{ get_image(main.parallax_image).src }});{% endif %}"></div>
+											{% if main.overlay %}
+												<div class="parallax-overlay" {% if main.overlay_color %}style="background-color: {{ main.overlay_color }}"{% endif %}></div>
+											{% endif %}
+										</div>
+										<script>
+											// Encapsulate each parallax instance by targeting its unique ID
+											(function() {
+													const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
 
-								function calculateDistanceFromTop() {
-										const rect = parallaxLayer.getBoundingClientRect()
-										return rect.top + window.scrollY
-								}
+													function calculateDistanceFromTop() {
+															const rect = parallaxLayer.getBoundingClientRect()
+															return rect.top + window.scrollY
+													}
 
-								document.addEventListener('scroll', function () {
-									const scrollPosition = window.pageYOffset
-									const distanceFromTop = calculateDistanceFromTop()
+													document.addEventListener('scroll', function () {
+														const scrollPosition = window.pageYOffset
+														const distanceFromTop = calculateDistanceFromTop()
 
-									parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
-								})
-						})()
-          </script>
-        </section>
-			{# LANDING #}
-			{% elseif main.acf_fc_layout == 'landing' %}
-			{% if main.landing_title_position_vertically == 'top' %}{% endif %}
-			
-				<section class="ann__landing {% if main.landing_animation == 'arrows' %}ann__landing_arrows{% else %}ann__landing_background ann__sct_parallax{% endif %}" style="{% if main.background.background_color %}background-color:{{main.background.background_color}};{% endif %}">
-					{% if main.landing_animation == 'circles' %}
-						<div class="ann__landing_circle_container">
-							<svg class="ann__landing_circle_svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-								<path class="ann__landing_circle ann__landing_half_circle_dashed ann__landing_rotate_81" d="M 10,100 A 50,50 0 0,1 190,100" />
-								<path class="ann__landing_circle ann__landing_half_circle_blue ann__landing_rotate_counter_90" d="M 20,100 A 70,70 0 0,1 180,100" />
-								<path class="ann__landing_circle ann__landing_half_circle_orange ann__landing_rotate_counter_95" d="M 28,100 A 60,60 0 0,1 172,100" />
-								<path class="ann__landing_circle ann__landing_half_circle_yellow ann__landing_rotate_85" d="M 40,100 A 50,50 0 0,1 160,100" />
-							</svg>
-							<svg xmlns="http://www.w3.org/2000/svg" class="ann__landing_circle_logo" viewBox="0 0 330 200">
-								<g fill="none" fill-rule="evenodd">
-										<text class="ann__landing_circle_cme ann__landing_fade_in ann__landing_fade_in_delay_1" dominant-baseline="central";>
-												<tspan x="0" y="20" dominant-baseline="central">CENTER FOR MEDIA ENGAGEMENT</tspan>
-										</text>
-										<text class="ann__landing_circle_2023 ann__landing_fade_in ann__landing_fade_in_delay_2" dominant-baseline="hanging";>
-												<tspan x="0" y="60" dominant-baseline="hanging">{% if main.landing_header_year %}{{main.landing_header_year}}{% endif %}</tspan>
-										</text>
-								</g>
-							</svg>
-						</div>
-					{% endif %}
-					
-					{% if main.landing_animation == 'arrows' %}
-						<div class="ann__landing_arrows_layout_container">
-						
-							{# SVG wave top right#}
-							<svg class="ann__landing_arrows_wave_top_right" viewBox="0 5 180 225" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-									<title>wave-top-right</title>
-									<g id="wave-top-right" stroke="none" fill="none" fill-rule="evenodd">
-											<path class="wave-path" d="M0,0 L180,0 L180,225 C173.55,222.84 167.84,220.24 163.8,217.91 C149.58,209.69 138.09,197.49 130.98,183.37 C128.34,178.17 126.3,172.71 124.94,167.1 C120.48,148.78 122.84,129.01 114.98,111.73 C107.28,94.79 90.9,82.74 74.06,73.22 C66.62,69.01 58.93,65.12 51.41,61.02 C41.89,55.85 32.64,50.36 24.45,43.5 C11.31,32.51 1.1,16.88 0,0 Z" fill="#343F49"></path>
-									</g>
-							</svg>
-							
-							{# SVG wave bottom left#}
-							<svg class="ann__landing_arrows_wave_bottom_left" viewBox="0 0 74 164" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-								<title>wave-bottom-left</title>
-								<g id="wave-bottom-left" stroke="none" fill="none" fill-rule="evenodd">
-									<path class="wave-path" d="M0,164 L0,0 C2.55,1.27 5.17,2.4 7.8,3.42 C20.69,8.43 34.58,11.72 45.91,19.33 C51.16,22.85 55.58,27.12 59.23,31.92 C70.36,46.53 74,66.09 73,84.58 C72.92,85.93 72.82,87.27 72.69,88.61 C71.61,99.75 69.03,110.71 67.24,121.77 C67.1,122.65 66.96,123.53 66.83,124.41 C66.57,126.19 66.33,127.97 66.13,129.76 C64.85,141.07 65.09,152.88 68.99,163.55 L74,163.55 L74,164 Z" fill="#343F49"></path>
-								</g>
-							</svg>
-							
-							{# SVG arrows #}
-							<svg class="ann__landing_arrows_svg" width="100%" height="100%" viewBox="0 0 29 527" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-									<title>arrows</title>
-									<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-											<g id="Arrows" transform="translate(-163, -101)">
-													<g id="arrows" transform="translate(163.93, 101.69)">
-														<polygon id="Path" fill="#F8971F" points="13.96 0 7.92 9.33 1.87 18.67 13.96 18.67 26.06 18.67 20.01 9.33" class="svg-elem-1 ann__landing_arrows_svg-1"></polygon>
-														<polygon id="Path" fill="#FFFFFF" points="7.92 159.92 1.87 169.25 13.96 169.25 26.06 169.25 20.01 159.92 13.96 150.58" class="svg-elem-2 ann__landing_arrows_svg-2"></polygon>
-														<g id="Graphic" transform="translate(0, 151)" stroke="#BE5827">
-																<polygon id="Path" points="13.96 18.0266272 1.87 18.0266272 7.92 9.03144779 13.96 0.0266272189 20.01 9.03144779 26.06 18.0266272" class="svg-elem-3 ann__landing_arrows_svg-3"></polygon>
-														</g>
-														<polygon id="Path" fill="#BE5827" points="7.92 223.01 1.87 232.35 13.96 232.35 26.06 232.35 20.01 223.01 13.96 213.67" class="svg-elem-4 ann__landing_arrows_svg-4"></polygon>
-														<polygon id="Path" fill="#F8971F" points="7.92 298.43 1.87 307.77 13.96 307.77 26.06 307.77 20.01 298.43 13.96 289.09" class="svg-elem-5 ann__landing_arrows_svg-5"></polygon>
-														<polygon id="Path" fill="#F8971F" points="7.92 349.19 1.87 358.52 13.96 358.52 26.06 358.52 20.01 349.19 13.96 339.85" class="svg-elem-6 ann__landing_arrows_svg-6"></polygon>
-														<polygon id="Path" fill="#BE5827" points="7.92 516.89 1.87 526.23 13.96 526.23 26.06 526.23 20.01 516.89 13.96 507.55" class="svg-elem-7 ann__landing_arrows_svg-7"></polygon>
-														<polygon id="Path" fill="#BE5827" points="7.92 475.37 1.87 484.71 13.96 484.71 26.06 484.71 20.01 475.37 13.96 466.03" class="svg-elem-8 ann__landing_arrows_svg-8"></polygon>
+														parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
+													})
+											})()
+										</script>
+									</section>
+								{# LANDING #}
+								{% elseif main.acf_fc_layout == 'landing' %}
+								{% if main.landing_title_position_vertically == 'top' %}{% endif %}
+								
+									<section class="ann__landing {% if main.landing_animation == 'arrows' %}ann__landing_arrows{% else %}ann__landing_background ann__sct_parallax{% endif %}" style="{% if main.background.background_color %}background-color:{{main.background.background_color}};{% endif %}">
+										{% if main.landing_animation == 'circles' %}
+											<div class="ann__landing_circle_container">
+												<svg class="ann__landing_circle_svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+													<path class="ann__landing_circle ann__landing_half_circle_dashed ann__landing_rotate_81" d="M 10,100 A 50,50 0 0,1 190,100" />
+													<path class="ann__landing_circle ann__landing_half_circle_blue ann__landing_rotate_counter_90" d="M 20,100 A 70,70 0 0,1 180,100" />
+													<path class="ann__landing_circle ann__landing_half_circle_orange ann__landing_rotate_counter_95" d="M 28,100 A 60,60 0 0,1 172,100" />
+													<path class="ann__landing_circle ann__landing_half_circle_yellow ann__landing_rotate_85" d="M 40,100 A 50,50 0 0,1 160,100" />
+												</svg>
+												<svg xmlns="http://www.w3.org/2000/svg" class="ann__landing_circle_logo" viewBox="0 0 330 200">
+													<g fill="none" fill-rule="evenodd">
+															<text class="ann__landing_circle_cme ann__landing_fade_in ann__landing_fade_in_delay_1" dominant-baseline="central";>
+																	<tspan x="0" y="20" dominant-baseline="central">CENTER FOR MEDIA ENGAGEMENT</tspan>
+															</text>
+															<text class="ann__landing_circle_2023 ann__landing_fade_in ann__landing_fade_in_delay_2" dominant-baseline="hanging";>
+																	<tspan x="0" y="60" dominant-baseline="hanging">{% if main.landing_header_year %}{{main.landing_header_year}}{% endif %}</tspan>
+															</text>
 													</g>
-											</g>
-									</g>
-							</svg>
+												</svg>
+											</div>
+										{% endif %}
+										
+										{% if main.landing_animation == 'arrows' %}
+											<div class="ann__landing_arrows_layout_container">
+											
+												{# SVG wave top right#}
+												<svg class="ann__landing_arrows_wave_top_right" viewBox="0 5 180 225" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+														<title>wave-top-right</title>
+														<g id="wave-top-right" stroke="none" fill="none" fill-rule="evenodd">
+																<path class="wave-path" d="M0,0 L180,0 L180,225 C173.55,222.84 167.84,220.24 163.8,217.91 C149.58,209.69 138.09,197.49 130.98,183.37 C128.34,178.17 126.3,172.71 124.94,167.1 C120.48,148.78 122.84,129.01 114.98,111.73 C107.28,94.79 90.9,82.74 74.06,73.22 C66.62,69.01 58.93,65.12 51.41,61.02 C41.89,55.85 32.64,50.36 24.45,43.5 C11.31,32.51 1.1,16.88 0,0 Z" fill="#343F49"></path>
+														</g>
+												</svg>
+												
+												{# SVG wave bottom left#}
+												<svg class="ann__landing_arrows_wave_bottom_left" viewBox="0 0 74 164" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+													<title>wave-bottom-left</title>
+													<g id="wave-bottom-left" stroke="none" fill="none" fill-rule="evenodd">
+														<path class="wave-path" d="M0,164 L0,0 C2.55,1.27 5.17,2.4 7.8,3.42 C20.69,8.43 34.58,11.72 45.91,19.33 C51.16,22.85 55.58,27.12 59.23,31.92 C70.36,46.53 74,66.09 73,84.58 C72.92,85.93 72.82,87.27 72.69,88.61 C71.61,99.75 69.03,110.71 67.24,121.77 C67.1,122.65 66.96,123.53 66.83,124.41 C66.57,126.19 66.33,127.97 66.13,129.76 C64.85,141.07 65.09,152.88 68.99,163.55 L74,163.55 L74,164 Z" fill="#343F49"></path>
+													</g>
+												</svg>
+												
+												{# SVG arrows #}
+												<svg class="ann__landing_arrows_svg" width="100%" height="100%" viewBox="0 0 29 527" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+														<title>arrows</title>
+														<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+																<g id="Arrows" transform="translate(-163, -101)">
+																		<g id="arrows" transform="translate(163.93, 101.69)">
+																			<polygon id="Path" fill="#F8971F" points="13.96 0 7.92 9.33 1.87 18.67 13.96 18.67 26.06 18.67 20.01 9.33" class="svg-elem-1 ann__landing_arrows_svg-1"></polygon>
+																			<polygon id="Path" fill="#FFFFFF" points="7.92 159.92 1.87 169.25 13.96 169.25 26.06 169.25 20.01 159.92 13.96 150.58" class="svg-elem-2 ann__landing_arrows_svg-2"></polygon>
+																			<g id="Graphic" transform="translate(0, 151)" stroke="#BE5827">
+																					<polygon id="Path" points="13.96 18.0266272 1.87 18.0266272 7.92 9.03144779 13.96 0.0266272189 20.01 9.03144779 26.06 18.0266272" class="svg-elem-3 ann__landing_arrows_svg-3"></polygon>
+																			</g>
+																			<polygon id="Path" fill="#BE5827" points="7.92 223.01 1.87 232.35 13.96 232.35 26.06 232.35 20.01 223.01 13.96 213.67" class="svg-elem-4 ann__landing_arrows_svg-4"></polygon>
+																			<polygon id="Path" fill="#F8971F" points="7.92 298.43 1.87 307.77 13.96 307.77 26.06 307.77 20.01 298.43 13.96 289.09" class="svg-elem-5 ann__landing_arrows_svg-5"></polygon>
+																			<polygon id="Path" fill="#F8971F" points="7.92 349.19 1.87 358.52 13.96 358.52 26.06 358.52 20.01 349.19 13.96 339.85" class="svg-elem-6 ann__landing_arrows_svg-6"></polygon>
+																			<polygon id="Path" fill="#BE5827" points="7.92 516.89 1.87 526.23 13.96 526.23 26.06 526.23 20.01 516.89 13.96 507.55" class="svg-elem-7 ann__landing_arrows_svg-7"></polygon>
+																			<polygon id="Path" fill="#BE5827" points="7.92 475.37 1.87 484.71 13.96 484.71 26.06 484.71 20.01 475.37 13.96 466.03" class="svg-elem-8 ann__landing_arrows_svg-8"></polygon>
+																		</g>
+																</g>
+														</g>
+												</svg>
 
-							{# SVG circles small#}
-							<svg class="ann__landing_arrows_circles_small" width="42px" height="43px" viewBox="0 0 42 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-									<title>circles-small</title>
-									<g id="circles-small" stroke="none" fill="none" transform="translate(0.9098, 0.4498)" fill-rule="evenodd">
-											<path class="circle-1" d="M1.65016671,33.7501667 L2.01016671,34.1001667 C2.70016671,33.4001667 3.61016671,33.0501667 4.52016671,33.0501667 C5.43016671,33.0501667 6.30016671,33.3801667 6.98016671,34.0601667 C7.68016671,34.7501667 8.03016671,35.6601667 8.03016671,36.5701667 C8.03016671,37.4601667 7.70016671,38.3501667 7.02016671,39.0301667 C6.33016671,39.7301667 5.42016671,40.0801667 4.51016671,40.0801667 C3.60016671,40.0801667 2.73016671,39.7501667 2.05016671,39.0701667 C1.35016671,38.3801667 1.00016671,37.4701667 1.00016671,36.5601667 C1.00016671,35.6701667 1.33016671,34.7801667 2.01016671,34.1001667 L1.65016671,33.7501667 L1.29016671,33.4001667 C0.430166708,34.2801667 -0.00983329216,35.4201667 0.000166707842,36.5601667 C0.000166707842,37.7301667 0.450166708,38.9001667 1.35016671,39.7801667 C2.23016671,40.6401667 3.37016671,41.0801667 4.51016671,41.0701667 C5.68016671,41.0701667 6.85016671,40.6201667 7.73016671,39.7201667 C8.59016671,38.8401667 9.02016671,37.7001667 9.02016671,36.5601667 C9.02016671,35.4201667 8.57016671,34.2201667 7.67016671,33.3401667 C6.79016671,32.4801667 5.65016671,32.0401667 4.51016671,32.0501667 C3.34016671,32.0501667 2.17016671,32.5001667 1.29016671,33.4001667 L1.65016671,33.7501667 Z" id="Path-Copy-4" fill="#BF5700"></path>
-											<path class="circle-2" d="M12.1601667,23.0601667 C13.7101667,21.4801667 16.2601667,21.4601667 17.8401667,23.0101667 C19.4201667,24.5701667 19.4401667,27.1101667 17.8901667,28.6901667 C16.3401667,30.2701667 13.7901667,30.2901667 12.2101667,28.7401667 C10.6301667,27.1901667 10.6101667,24.6401667 12.1601667,23.0601667" id="Path-Copy-3" fill="#F8971F"></path>
-											<path class="circle-3" d="M22.6601667,12.3701667 L23.0201667,12.7201667 C23.7101667,12.0201667 24.6201667,11.6701667 25.5301667,11.6701667 C26.4401667,11.6701667 27.3101667,12.0001667 27.9901667,12.6801667 C28.6901667,13.3701667 29.0401667,14.2801667 29.0401667,15.1901667 C29.0401667,16.0801667 28.7101667,16.9701667 28.0301667,17.6501667 C27.3401667,18.3501667 26.4301667,18.7001667 25.5201667,18.7001667 C24.6301667,18.7001667 23.7401667,18.3701667 23.0601667,17.6901667 C22.3601667,17.0001667 22.0101667,16.0901667 22.0101667,15.1801667 C22.0101667,14.2701667 22.3401667,13.4001667 23.0201667,12.7201667 L22.6601667,12.3701667 L22.3001667,12.0201667 C21.4401667,12.9001667 21.0001667,14.0401667 21.0101667,15.1901667 C21.0101667,16.3601667 21.4601667,17.5301667 22.3601667,18.4101667 C23.2401667,19.2701667 24.3801667,19.7101667 25.5201667,19.7001667 C26.6901667,19.7001667 27.8601667,19.2501667 28.7401667,18.3501667 C29.6001667,17.4701667 30.0401667,16.3301667 30.0401667,15.1901667 C30.0401667,14.0501667 29.5901667,12.8501667 28.6901667,11.9701667 C27.8101667,11.1101667 26.6701667,10.6701667 25.5201667,10.6701667 C24.3501667,10.6701667 23.1801667,11.1201667 22.3001667,12.0201667 L22.6601667,12.3701667 Z" id="Path-Copy-2" fill="#BF5700"></path>
-											<path class="circle-4" d="M33.1601667,1.69016671 L33.5201667,2.04016671 C34.2101667,1.34016671 35.1201667,0.990166708 36.0301667,0.990166708 C36.9401667,0.990166708 37.8101667,1.32016671 38.4901667,2.00016671 C39.1901667,2.69016671 39.5401667,3.60016671 39.5401667,4.51016671 C39.5401667,5.40016671 39.2101667,6.29016671 38.5301667,6.97016671 C37.8401667,7.67016671 36.9301667,8.02016671 36.0201667,8.02016671 C35.1301667,8.02016671 34.2401667,7.69016671 33.5601667,7.01016671 C32.8601667,6.32016671 32.5101667,5.41016671 32.5101667,4.50016671 C32.5101667,3.59016671 32.8401667,2.72016671 33.5201667,2.04016671 L33.1601667,1.69016671 L32.8001667,1.34016671 C31.9401667,2.22016671 31.5101667,3.36016671 31.5101667,4.51016671 C31.5101667,5.68016671 31.9601667,6.85016671 32.8601667,7.73016671 C33.7401667,8.59016671 34.8801667,9.03016671 36.0301667,9.02016671 C37.2001667,9.02016671 38.3701667,8.57016671 39.2501667,7.67016671 C40.1101667,6.79016671 40.5401667,5.65016671 40.5401667,4.51016671 C40.5401667,3.37016671 40.0901667,2.17016671 39.1901667,1.29016671 C38.3101667,0.430166708 37.1701667,-0.00983329216 36.0201667,0.000166707842 C34.8501667,0.000166707842 33.6801667,0.450166708 32.8001667,1.35016671 L33.1601667,1.70016671 L33.1601667,1.69016671 Z" id="Path-Copy" fill="#F8971F"></path>
-									</g>
-							</svg>
-							
-							{# SVG squares small#}
-							<svg class="ann__landing_arrows_squares_small" width="36px" height="37px" viewBox="0 0 36 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-									<title>squares-small</title>
-									<g id="squares-small" stroke="none" fill="none" transform="translate(0.82, 0.26)" fill-rule="evenodd">
-											<rect class="square-1" id="Rectangle" fill="#BE5827" x="4.97379915e-14" y="1.63424829e-13" width="11.64" height="11.64"></rect>
-											<rect class="square-2" id="Rectangle" fill="#F8971F" x="11.88" y="11.86" width="11.64" height="11.64"></rect>
-											<rect class="square-3" id="Rectangle" fill="#BE5827" x="22.47" y="23.63" width="11.64" height="11.64"></rect>
-									</g>
-							</svg>
-							
-							{# SVG circles middle#}
-							<svg class="ann__landing_arrows_circles_middle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 373 374">
-								<defs>
-									<path id="a" d="M0 0h372.28v372.28H0V0Z"/>
-								</defs>
-								<g fill="none">
-									<path class="circle-outer" stroke="#BE5827" stroke-width="3" fill="none" d="M 185.97 6 A 181 181 0 1 1 185.97 368 A 181 181 0 1 1 185.97 6"/>
-									<path class="circle-middle-fill" fill="#F8971F" fill-rule="evenodd" d="M185.97 36.973c-83.295 0-150.817 67.522-150.817 150.817s67.522 150.817 150.817 150.817 150.817-67.522 150.817-150.817S269.265 36.973 185.97 36.973"/>
-									<path class="circle-middle-border" stroke="#BE5827" stroke-width="6" fill="none" d="M 185.97 36.973 A 150.817 150.817 0 1 1 185.97 338.607 A 150.817 150.817 0 1 1 185.97 36.973"/>
-									<path class="circle-sm-fill" fill="#F8971F" fill-rule="evenodd" d="M306.614 263.938c-28.88 0-52.285 23.415-52.285 52.285 0 28.87 23.415 52.285 52.285 52.285 28.87 0 52.285-23.405 52.285-52.285 0-28.88-23.415-52.285-52.285-52.285"/>
-									<path class="circle-sm-border" stroke="#BE5827" stroke-width="3" d="M306.614 263.938c-28.88 0-52.285 23.415-52.285 52.285 0 28.87 23.415 52.285 52.285 52.285 28.87 0 52.285-23.405 52.285-52.285 0-28.88-23.415-52.285-52.285-52.285"/>
-									<g class="circle-middle-year" fill="#FFF" fill-rule="nonzero">
-										<path d="M111.495 192.08c6.44-7.936 11.68-15.124 11.68-27.254 0-17.22-9.434-26.805-28.302-26.805-20.216 0-28.003 12.43-28.003 30.399v6.29h20.965v-8.087c0-6.14 1.198-11.231 7.038-11.231 5.69 0 6.888 4.043 6.888 9.284 0 8.985-5.091 15.424-10.332 22.013L66.87 217.837v15.723h55.856v-18.419h-29.95l18.719-23.06ZM188.07 181.298c0-27.104-8.535-43.277-30.548-43.277-22.013 0-30.548 16.173-30.548 43.277v10.183c0 27.104 8.535 43.277 30.548 43.277 22.013 0 30.549-16.173 30.549-43.277v-10.183Zm-38.484-11.081c0-8.386 1.497-14.376 7.936-14.376 6.44 0 7.937 5.99 7.937 14.376v32.345c0 8.386-1.498 14.376-7.937 14.376s-7.936-5.99-7.936-14.376v-32.345ZM236.494 192.08c6.439-7.936 11.68-15.124 11.68-27.254 0-17.22-9.434-26.805-28.302-26.805-20.216 0-28.003 12.43-28.003 30.399v6.29h20.965v-8.087c0-6.14 1.198-11.231 7.038-11.231 5.69 0 6.888 4.043 6.888 9.284 0 8.985-5.091 15.424-10.332 22.013l-24.559 31.148v15.723h55.856v-18.419h-29.95l18.719-23.06ZM251.973 192.53l19.467 1.647c1.198-4.343 2.845-7.488 8.086-7.488 5.84 0 8.086 4.343 8.086 15.125 0 10.931-2.246 15.424-8.236 15.424s-8.236-4.642-8.236-12.28v-4.642h-19.916v4.642c0 18.57 8.386 29.8 28.751 29.8 19.018 0 28.452-11.081 28.452-32.944 0-21.564-8.385-32.196-23.06-32.196-6.59 0-10.783 1.947-13.478 5.091.599-3.743 1.048-11.83 1.348-16.172h31.297v-19.318h-47.92c-.299 15.574-2.695 39.234-4.641 53.31Z"/>
-									</g>
-								</g>
-							</svg>
-							
-						</div>
-					{% endif %}
-					
-					<div class="ann__landing_header_wrap {% if main.landing_animation == 'arrows' %}ann__landing_header_wrap_arrows{% endif %}">
-						<div class="header-container">
-							{% if main.landing_header_top is defined and main.landing_header_top and main.landing_header_bottom is defined and main.landing_header_bottom %}
-								<div class="ann__landing_header_container ann__landing_fade_in_and_up_delay_1">
-									<h1 class="ann__landing_header">
-										<span class="ann__landing_header_top ann__landing_fade_in_and_up_delay_1">{{ main.landing_header_top }}</span>
-										<span class="ann__landing_header_bottom ann__landing_fade_in_and_up_delay_2">{{ main.landing_header_bottom }}</span>
-									</h1>
-								</div>
-							{% endif %}
+												{# SVG circles small#}
+												<svg class="ann__landing_arrows_circles_small" width="42px" height="43px" viewBox="0 0 42 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+														<title>circles-small</title>
+														<g id="circles-small" stroke="none" fill="none" transform="translate(0.9098, 0.4498)" fill-rule="evenodd">
+																<path class="circle-1" d="M1.65016671,33.7501667 L2.01016671,34.1001667 C2.70016671,33.4001667 3.61016671,33.0501667 4.52016671,33.0501667 C5.43016671,33.0501667 6.30016671,33.3801667 6.98016671,34.0601667 C7.68016671,34.7501667 8.03016671,35.6601667 8.03016671,36.5701667 C8.03016671,37.4601667 7.70016671,38.3501667 7.02016671,39.0301667 C6.33016671,39.7301667 5.42016671,40.0801667 4.51016671,40.0801667 C3.60016671,40.0801667 2.73016671,39.7501667 2.05016671,39.0701667 C1.35016671,38.3801667 1.00016671,37.4701667 1.00016671,36.5601667 C1.00016671,35.6701667 1.33016671,34.7801667 2.01016671,34.1001667 L1.65016671,33.7501667 L1.29016671,33.4001667 C0.430166708,34.2801667 -0.00983329216,35.4201667 0.000166707842,36.5601667 C0.000166707842,37.7301667 0.450166708,38.9001667 1.35016671,39.7801667 C2.23016671,40.6401667 3.37016671,41.0801667 4.51016671,41.0701667 C5.68016671,41.0701667 6.85016671,40.6201667 7.73016671,39.7201667 C8.59016671,38.8401667 9.02016671,37.7001667 9.02016671,36.5601667 C9.02016671,35.4201667 8.57016671,34.2201667 7.67016671,33.3401667 C6.79016671,32.4801667 5.65016671,32.0401667 4.51016671,32.0501667 C3.34016671,32.0501667 2.17016671,32.5001667 1.29016671,33.4001667 L1.65016671,33.7501667 Z" id="Path-Copy-4" fill="#BF5700"></path>
+																<path class="circle-2" d="M12.1601667,23.0601667 C13.7101667,21.4801667 16.2601667,21.4601667 17.8401667,23.0101667 C19.4201667,24.5701667 19.4401667,27.1101667 17.8901667,28.6901667 C16.3401667,30.2701667 13.7901667,30.2901667 12.2101667,28.7401667 C10.6301667,27.1901667 10.6101667,24.6401667 12.1601667,23.0601667" id="Path-Copy-3" fill="#F8971F"></path>
+																<path class="circle-3" d="M22.6601667,12.3701667 L23.0201667,12.7201667 C23.7101667,12.0201667 24.6201667,11.6701667 25.5301667,11.6701667 C26.4401667,11.6701667 27.3101667,12.0001667 27.9901667,12.6801667 C28.6901667,13.3701667 29.0401667,14.2801667 29.0401667,15.1901667 C29.0401667,16.0801667 28.7101667,16.9701667 28.0301667,17.6501667 C27.3401667,18.3501667 26.4301667,18.7001667 25.5201667,18.7001667 C24.6301667,18.7001667 23.7401667,18.3701667 23.0601667,17.6901667 C22.3601667,17.0001667 22.0101667,16.0901667 22.0101667,15.1801667 C22.0101667,14.2701667 22.3401667,13.4001667 23.0201667,12.7201667 L22.6601667,12.3701667 L22.3001667,12.0201667 C21.4401667,12.9001667 21.0001667,14.0401667 21.0101667,15.1901667 C21.0101667,16.3601667 21.4601667,17.5301667 22.3601667,18.4101667 C23.2401667,19.2701667 24.3801667,19.7101667 25.5201667,19.7001667 C26.6901667,19.7001667 27.8601667,19.2501667 28.7401667,18.3501667 C29.6001667,17.4701667 30.0401667,16.3301667 30.0401667,15.1901667 C30.0401667,14.0501667 29.5901667,12.8501667 28.6901667,11.9701667 C27.8101667,11.1101667 26.6701667,10.6701667 25.5201667,10.6701667 C24.3501667,10.6701667 23.1801667,11.1201667 22.3001667,12.0201667 L22.6601667,12.3701667 Z" id="Path-Copy-2" fill="#BF5700"></path>
+																<path class="circle-4" d="M33.1601667,1.69016671 L33.5201667,2.04016671 C34.2101667,1.34016671 35.1201667,0.990166708 36.0301667,0.990166708 C36.9401667,0.990166708 37.8101667,1.32016671 38.4901667,2.00016671 C39.1901667,2.69016671 39.5401667,3.60016671 39.5401667,4.51016671 C39.5401667,5.40016671 39.2101667,6.29016671 38.5301667,6.97016671 C37.8401667,7.67016671 36.9301667,8.02016671 36.0201667,8.02016671 C35.1301667,8.02016671 34.2401667,7.69016671 33.5601667,7.01016671 C32.8601667,6.32016671 32.5101667,5.41016671 32.5101667,4.50016671 C32.5101667,3.59016671 32.8401667,2.72016671 33.5201667,2.04016671 L33.1601667,1.69016671 L32.8001667,1.34016671 C31.9401667,2.22016671 31.5101667,3.36016671 31.5101667,4.51016671 C31.5101667,5.68016671 31.9601667,6.85016671 32.8601667,7.73016671 C33.7401667,8.59016671 34.8801667,9.03016671 36.0301667,9.02016671 C37.2001667,9.02016671 38.3701667,8.57016671 39.2501667,7.67016671 C40.1101667,6.79016671 40.5401667,5.65016671 40.5401667,4.51016671 C40.5401667,3.37016671 40.0901667,2.17016671 39.1901667,1.29016671 C38.3101667,0.430166708 37.1701667,-0.00983329216 36.0201667,0.000166707842 C34.8501667,0.000166707842 33.6801667,0.450166708 32.8001667,1.35016671 L33.1601667,1.70016671 L33.1601667,1.69016671 Z" id="Path-Copy" fill="#F8971F"></path>
+														</g>
+												</svg>
+												
+												{# SVG squares small#}
+												<svg class="ann__landing_arrows_squares_small" width="36px" height="37px" viewBox="0 0 36 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+														<title>squares-small</title>
+														<g id="squares-small" stroke="none" fill="none" transform="translate(0.82, 0.26)" fill-rule="evenodd">
+																<rect class="square-1" id="Rectangle" fill="#BE5827" x="4.97379915e-14" y="1.63424829e-13" width="11.64" height="11.64"></rect>
+																<rect class="square-2" id="Rectangle" fill="#F8971F" x="11.88" y="11.86" width="11.64" height="11.64"></rect>
+																<rect class="square-3" id="Rectangle" fill="#BE5827" x="22.47" y="23.63" width="11.64" height="11.64"></rect>
+														</g>
+												</svg>
+												
+												{# SVG circles middle#}
+												<svg class="ann__landing_arrows_circles_middle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 373 374">
+													<defs>
+														<path id="a" d="M0 0h372.28v372.28H0V0Z"/>
+													</defs>
+													<g fill="none">
+														<path class="circle-outer" stroke="#BE5827" stroke-width="3" fill="none" d="M 185.97 6 A 181 181 0 1 1 185.97 368 A 181 181 0 1 1 185.97 6"/>
+														<path class="circle-middle-fill" fill="#F8971F" fill-rule="evenodd" d="M185.97 36.973c-83.295 0-150.817 67.522-150.817 150.817s67.522 150.817 150.817 150.817 150.817-67.522 150.817-150.817S269.265 36.973 185.97 36.973"/>
+														<path class="circle-middle-border" stroke="#BE5827" stroke-width="6" fill="none" d="M 185.97 36.973 A 150.817 150.817 0 1 1 185.97 338.607 A 150.817 150.817 0 1 1 185.97 36.973"/>
+														<path class="circle-sm-fill" fill="#F8971F" fill-rule="evenodd" d="M306.614 263.938c-28.88 0-52.285 23.415-52.285 52.285 0 28.87 23.415 52.285 52.285 52.285 28.87 0 52.285-23.405 52.285-52.285 0-28.88-23.415-52.285-52.285-52.285"/>
+														<path class="circle-sm-border" stroke="#BE5827" stroke-width="3" d="M306.614 263.938c-28.88 0-52.285 23.415-52.285 52.285 0 28.87 23.415 52.285 52.285 52.285 28.87 0 52.285-23.405 52.285-52.285 0-28.88-23.415-52.285-52.285-52.285"/>
+														<g class="circle-middle-year" fill="#FFF" fill-rule="nonzero">
+															<path d="M111.495 192.08c6.44-7.936 11.68-15.124 11.68-27.254 0-17.22-9.434-26.805-28.302-26.805-20.216 0-28.003 12.43-28.003 30.399v6.29h20.965v-8.087c0-6.14 1.198-11.231 7.038-11.231 5.69 0 6.888 4.043 6.888 9.284 0 8.985-5.091 15.424-10.332 22.013L66.87 217.837v15.723h55.856v-18.419h-29.95l18.719-23.06ZM188.07 181.298c0-27.104-8.535-43.277-30.548-43.277-22.013 0-30.548 16.173-30.548 43.277v10.183c0 27.104 8.535 43.277 30.548 43.277 22.013 0 30.549-16.173 30.549-43.277v-10.183Zm-38.484-11.081c0-8.386 1.497-14.376 7.936-14.376 6.44 0 7.937 5.99 7.937 14.376v32.345c0 8.386-1.498 14.376-7.937 14.376s-7.936-5.99-7.936-14.376v-32.345ZM236.494 192.08c6.439-7.936 11.68-15.124 11.68-27.254 0-17.22-9.434-26.805-28.302-26.805-20.216 0-28.003 12.43-28.003 30.399v6.29h20.965v-8.087c0-6.14 1.198-11.231 7.038-11.231 5.69 0 6.888 4.043 6.888 9.284 0 8.985-5.091 15.424-10.332 22.013l-24.559 31.148v15.723h55.856v-18.419h-29.95l18.719-23.06ZM251.973 192.53l19.467 1.647c1.198-4.343 2.845-7.488 8.086-7.488 5.84 0 8.086 4.343 8.086 15.125 0 10.931-2.246 15.424-8.236 15.424s-8.236-4.642-8.236-12.28v-4.642h-19.916v4.642c0 18.57 8.386 29.8 28.751 29.8 19.018 0 28.452-11.081 28.452-32.944 0-21.564-8.385-32.196-23.06-32.196-6.59 0-10.783 1.947-13.478 5.091.599-3.743 1.048-11.83 1.348-16.172h31.297v-19.318h-47.92c-.299 15.574-2.695 39.234-4.641 53.31Z"/>
+														</g>
+													</g>
+												</svg>
+												
+											</div>
+										{% endif %}
+										
+										<div class="ann__landing_header_wrap {% if main.landing_animation == 'arrows' %}ann__landing_header_wrap_arrows{% endif %}">
+											<div class="header-container">
+												{% if main.landing_header_top is defined and main.landing_header_top and main.landing_header_bottom is defined and main.landing_header_bottom %}
+													<div class="ann__landing_header_container ann__landing_fade_in_and_up_delay_1">
+														<h1 class="ann__landing_header">
+															<span class="ann__landing_header_top ann__landing_fade_in_and_up_delay_1">{{ main.landing_header_top }}</span>
+															<span class="ann__landing_header_bottom ann__landing_fade_in_and_up_delay_2">{{ main.landing_header_bottom }}</span>
+														</h1>
+													</div>
+												{% endif %}
 
-							{% if main.landing_logo_image and main.landing_animation != 'arrows' %}
-								<img  src="{{ get_image(main.landing_logo_image).src('medium') }}"
-										srcset="{{ get_image(main.landing_logo_image).srcset }}"
-										sizes="{{ get_image(main.landing_logo_image).img_sizes }}"
-										alt="{{ get_image(main.landing_logo_image).alt }}"
-										class="ann__landing_logo ann__landing_fade_in_and_up_delay_3"
-										loading="eager" />
-							{% endif %}
-						</div>
+												{% if main.landing_logo_image and main.landing_animation != 'arrows' %}
+													<img  src="{{ get_image(main.landing_logo_image).src('medium') }}"
+															srcset="{{ get_image(main.landing_logo_image).srcset }}"
+															sizes="{{ get_image(main.landing_logo_image).img_sizes }}"
+															alt="{{ get_image(main.landing_logo_image).alt }}"
+															class="ann__landing_logo ann__landing_fade_in_and_up_delay_3"
+															loading="eager" />
+												{% endif %}
+											</div>
 
-						{% if main.button_text %}
-						{% set red = main.button_color.red ~ ', ' %}
-						{% set green = main.button_color.green ~ ', ' %}
-						{% set blue = main.button_color.blue %}
-						{% set alpha = main.button_color.alpha %}
-						{% set btn_color = red ~ green ~ blue %}
-							<div class="button-container">
-								{% if main.landing_logo_image and main.landing_animation == 'arrows' %}
-									<img  src="{{ get_image(main.landing_logo_image).src('medium') }}"
-											srcset="{{ get_image(main.landing_logo_image).srcset }}"
-											sizes="{{ get_image(main.landing_logo_image).img_sizes }}"
-											alt="{{ get_image(main.landing_logo_image).alt }}"
-											class="ann__landing_logo ann__landing_fade_in_and_up_delay_3"
-											loading="eager" />
-								{% endif %}
-								<a class="btn btn--ghost btn--ghost-square" style="border-color: rgba({{ btn_color }}, {{ alpha }}); color: rgba({{ btn_color }}, {{ alpha }});" href="{{ main.button_url }}" {% if main.button_external %}target="_blank"{% endif %}>{{ main.button_text }}</a>
-							</div>
-							<style>
-								.btn--ghost-square:hover {
-									background-color: rgba({{ btn_color}}, 0.1);
-								}
-							</style>
-						{% endif %}
-					</div>
-					{% if main.background.background_image %}
-						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background.background_image).src }});"></div>
-						{% if main.background.background_image_parallax %}
-							<script>
-								// Encapsulate each parallax instance by targeting its unique ID
-								(function() {
-										const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
+											{% if main.button_text %}
+											{% set red = main.button_color.red ~ ', ' %}
+											{% set green = main.button_color.green ~ ', ' %}
+											{% set blue = main.button_color.blue %}
+											{% set alpha = main.button_color.alpha %}
+											{% set btn_color = red ~ green ~ blue %}
+												<div class="button-container">
+													{% if main.landing_logo_image and main.landing_animation == 'arrows' %}
+														<img  src="{{ get_image(main.landing_logo_image).src('medium') }}"
+																srcset="{{ get_image(main.landing_logo_image).srcset }}"
+																sizes="{{ get_image(main.landing_logo_image).img_sizes }}"
+																alt="{{ get_image(main.landing_logo_image).alt }}"
+																class="ann__landing_logo ann__landing_fade_in_and_up_delay_3"
+																loading="eager" />
+													{% endif %}
+													<a class="btn btn--ghost btn--ghost-square" style="border-color: rgba({{ btn_color }}, {{ alpha }}); color: rgba({{ btn_color }}, {{ alpha }});" href="{{ main.button_url }}" {% if main.button_external %}target="_blank"{% endif %}>{{ main.button_text }}</a>
+												</div>
+												<style>
+													.btn--ghost-square:hover {
+														background-color: rgba({{ btn_color}}, 0.1);
+													}
+												</style>
+											{% endif %}
+										</div>
+										{% if main.background.background_image %}
+											<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background.background_image).src }});"></div>
+											{% if main.background.background_image_parallax %}
+												<script>
+													// Encapsulate each parallax instance by targeting its unique ID
+													(function() {
+															const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
 
-										function calculateDistanceFromTop() {
-												const rect = parallaxLayer.getBoundingClientRect()
-												return rect.top + window.scrollY
-										}
+															function calculateDistanceFromTop() {
+																	const rect = parallaxLayer.getBoundingClientRect()
+																	return rect.top + window.scrollY
+															}
 
-										document.addEventListener('scroll', function () {
-											const scrollPosition = window.pageYOffset
-											const distanceFromTop = calculateDistanceFromTop()
+															document.addEventListener('scroll', function () {
+																const scrollPosition = window.pageYOffset
+																const distanceFromTop = calculateDistanceFromTop()
 
-											parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
-										})
-								})()
-							</script>
-						{% endif %}
-					{% endif %}
-				</section>
-			{# WYSIWYG #}
-			{% elseif main.acf_fc_layout == 'wysiwyg' %}
-				{% set columns = main.grid_columns %}
-				{# section id #}
-				{% if main.header_group.header %}
-					{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
-				{% endif %}
-				<section class="ann__wysiwyg ann__sct wrapper--pad-xlg ann__sct_parallax {% if main.background.background_image %}ann__wysiwyg_bk-img{% endif %}" {% if main.background.background_color %}style="background-color: {{ main.background.background_color }}"{% endif %} {% if main.header_group.header %}id="{{ id }}"{% endif %}>
-					{% if main.header_group.show_title %}
-						{% include "partial/section-header.twig" with {'width': 'page'} %}
-					{% endif %}
-					<div class="ann__width-page">
-						<div {% if main.grid_columns > 1 %}class="columns"{% endif %}>
-							{% if main.column_1 %}
-								<div class="column {% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
-									{{main.column_1}}
-								</div>
-							{% endif %}
-							{% if main.grid_columns > 1 and main.column_2 %}
-								<div class="column {% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
-									{{main.column_2}}
-								</div>
-							{% endif %}
-							{% if main.grid_columns > 2 and main.column_3 %}
-								<div class="column {% if main.grid_columns > 2 %}column-{{ main.grid_columns }}{% endif %} item-animate">
-									{{main.column_3}}
-								</div>
-							{% endif %}
-						</div>
-						{% if main.add_quote %}
-							<div class="column-quote h1 item-animate">
-								{{main.quote}}
-							</div>
-						{% endif %}
-						
-						<div class="columns">
-							{% if main.column_4 %}
-								<div class="column {% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
-									{{main.column_4}}
-								</div>
-							{% endif %}
-							{% if main.grid_columns > 1 and main.column_5 %}
-								<div class="column {% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
-									{{main.column_5}}
-								</div>
-							{% endif %}
-							{% if main.grid_columns > 2 and main.column_6 %}
-								<div class="column {% if main.grid_columns > 2 %}column-{{ main.grid_columns }}{% endif %} item-animate">
-									{{main.column_6}}
-								</div>
-							{% endif %}
-						</div>
-						
-						{% if main.add_more_content %}
-							<div class="column item-animate">
-								{{main.more_content}}
-							</div>
-						{% endif %}
-					</div>
-					{% if main.background.background_image %}
-						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background.background_image).src }});"></div>
-						{% if main.background.background_image_parallax %}
-							<script>
-								// Encapsulate each parallax instance by targeting its unique ID
-								(function() {
-										const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
-
-										function calculateDistanceFromTop() {
-												const rect = parallaxLayer.getBoundingClientRect()
-												return rect.top + window.scrollY
-										}
-
-										document.addEventListener('scroll', function () {
-											const scrollPosition = window.pageYOffset
-											const distanceFromTop = calculateDistanceFromTop()
-
-											parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
-										})
-								})()
-							</script>
-						{% endif %}
-					{% endif %}
-				</section> 
-			{# Content table #}
-			{% elseif main.acf_fc_layout == 'content_table'%}
-				<section class="ann__content-table">
-					<div class="ann__content-table_container">
-						<div class="ann__content-table_container-top">
-							<h1 class="ann__content-table_header">
-								<span class="ann__content-table_header-top">Report</span>
-								<span class="ann__content-table_header-bottom">Content</span>
-							</h1>
-							<div class="ann__content-table_report-pages">
-							{% for page in main.content_table_pages %}
-								<div class="ann__content-table_report-page">
-									{% if page.page_number %}
-										<h2 class="ann__content-table_page-number">{{ page.page_number }}</h2>
+																parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
+															})
+													})()
+												</script>
+											{% endif %}
+										{% endif %}
+									</section>
+								{# WYSIWYG #}
+								{% elseif main.acf_fc_layout == 'wysiwyg' %}
+									{% set columns = main.grid_columns %}
+									{# section id #}
+									{% if main.header_group.header %}
+										{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
 									{% endif %}
-									{% if page.page_title %}
-										<h3 class="ann__content-table_page-title">{{ page.page_title }}</h3>
+									<section class="ann__wysiwyg ann__sct wrapper--pad-xlg ann__sct_parallax {% if main.background.background_image %}ann__wysiwyg_bk-img{% endif %}" {% if main.background.background_color %}style="background-color: {{ main.background.background_color }}"{% endif %} {% if main.header_group.header %}id="{{ id }}"{% endif %}>
+										{% if main.header_group.show_title %}
+											{% include "partial/section-header.twig" with {'width': 'page'} %}
+										{% endif %}
+										<div class="ann__width-page">
+											<div {% if main.grid_columns > 1 %}class="columns"{% endif %}>
+												{% if main.column_1 %}
+													<div class="column {% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+														{{main.column_1}}
+													</div>
+												{% endif %}
+												{% if main.grid_columns > 1 and main.column_2 %}
+													<div class="column {% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+														{{main.column_2}}
+													</div>
+												{% endif %}
+												{% if main.grid_columns > 2 and main.column_3 %}
+													<div class="column {% if main.grid_columns > 2 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+														{{main.column_3}}
+													</div>
+												{% endif %}
+											</div>
+											{% if main.add_quote %}
+												<div class="column-quote h1 item-animate">
+													{{main.quote}}
+												</div>
+											{% endif %}
+											
+											<div class="columns">
+												{% if main.column_4 %}
+													<div class="column {% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+														{{main.column_4}}
+													</div>
+												{% endif %}
+												{% if main.grid_columns > 1 and main.column_5 %}
+													<div class="column {% if main.grid_columns > 1 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+														{{main.column_5}}
+													</div>
+												{% endif %}
+												{% if main.grid_columns > 2 and main.column_6 %}
+													<div class="column {% if main.grid_columns > 2 %}column-{{ main.grid_columns }}{% endif %} item-animate">
+														{{main.column_6}}
+													</div>
+												{% endif %}
+											</div>
+											
+											{% if main.add_more_content %}
+												<div class="column item-animate">
+													{{main.more_content}}
+												</div>
+											{% endif %}
+										</div>
+										{% if main.background.background_image %}
+											<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background.background_image).src }});"></div>
+											{% if main.background.background_image_parallax %}
+												<script>
+													// Encapsulate each parallax instance by targeting its unique ID
+													(function() {
+															const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
+
+															function calculateDistanceFromTop() {
+																	const rect = parallaxLayer.getBoundingClientRect()
+																	return rect.top + window.scrollY
+															}
+
+															document.addEventListener('scroll', function () {
+																const scrollPosition = window.pageYOffset
+																const distanceFromTop = calculateDistanceFromTop()
+
+																parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
+															})
+													})()
+												</script>
+											{% endif %}
+										{% endif %}
+									</section> 
+								{# Content table #}
+								{% elseif main.acf_fc_layout == 'content_table'%}
+									<section class="ann__content-table">
+										<div class="ann__content-table_container">
+											<div class="ann__content-table_container-top">
+												<h1 class="ann__content-table_header">
+													<span class="ann__content-table_header-top">Report</span>
+													<span class="ann__content-table_header-bottom">Content</span>
+												</h1>
+												<div class="ann__content-table_report-pages">
+												{% for page in main.content_table_pages %}
+													<div class="ann__content-table_report-page">
+														{% if page.page_number %}
+															<h2 class="ann__content-table_page-number">{{ page.page_number }}</h2>
+														{% endif %}
+														{% if page.page_title %}
+															<h3 class="ann__content-table_page-title">{{ page.page_title }}</h3>
+														{% endif %}
+															<div class="ann__content-table_dots">....................</div>
+													</div>
+												{% endfor %}
+												</div>
+											</div>
+											<div class="ann__content-table_container-bottom">
+												<div class="ann__content-table_img-wrapper">
+													{% if main.content_table_image %}
+					<img src="{{ get_image(main.content_table_image).src('medium') }}" 
+								srcset="{{ get_image(main.content_table_image).srcset }}" 
+								sizes="{{ get_image(main.content_table_image).img_sizes }}" 
+								alt="{{ get_image(main.content_table_image).alt }}" 
+								class="ann__content-table_img"
+								loading="eager" />
+															{% endif %}
+												</div>
+											</div>
+										</div>
+									</section>
+								{# Research Initiatives #}
+								{% elseif main.acf_fc_layout == 'research_initiatives' %}
+									{# section id #}
+									{% if main.header_group.header %}
+										{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
 									{% endif %}
-										<div class="ann__content-table_dots">....................</div>
-								</div>
-							{% endfor %}
-							</div>
-						</div>
-						<div class="ann__content-table_container-bottom">
-							<div class="ann__content-table_img-wrapper">
-								{% if main.content_table_image %}
-<img src="{{ get_image(main.content_table_image).src('medium') }}" 
-	     srcset="{{ get_image(main.content_table_image).srcset }}" 
-	     sizes="{{ get_image(main.content_table_image).img_sizes }}" 
-	     alt="{{ get_image(main.content_table_image).alt }}" 
-	     class="ann__content-table_img"
-	     loading="eager" />
-		 								{% endif %}
-							</div>
-						</div>
-					</div>
-				</section>
-			{# Research Initiatives #}
-			{% elseif main.acf_fc_layout == 'research_initiatives' %}
-				{# section id #}
-				{% if main.header_group.header %}
-					{% set id = main.header_group.header | trim | replace({' ': '-'}) | lower %}
-				{% endif %}
-				<section class="ann__research-initiatives ann__sct_parallax" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %} {% if id %}id="{{ id }}"{% endif %}>
-					<div class="ann__research-initiatives_container ann__width-page">
-						{% if main.circle_image or main.header_group.show_title %}
-							<div class="ann__research-initiatives_container-top">
-								<div class="ann__research-initiatives_container-top-left item-animate">
-                                    {% if main.circle_image %}
-                                        <img src="{{ get_image(main.circle_image).src('thumbnail') }}"
-                                             srcset="{{ get_image(main.circle_image).srcset }}"
-                                             sizes="{{ get_image(main.circle_image).img_sizes }}"
-                                             alt="{{ get_image(main.circle_image).alt }}"
-                                             class="ann__research-initiatives_img"
-                                             loading="eager" />
-										<p class="ann__research-initiatives_container-top-left_text" style="color:{{ main.circle_text_color }}">{{ main.circle_text_content }}</p>
-									{% endif %}
-								</div>
-								{% if main.header_group.show_title %}
-									{% include "partial/section-header.twig" with {'width': 'page'} %}
-								{% endif %}
-							</div>
-						{% endif %}
-						<div class="ann__research-initiatives_container-bottom">
-						{% if main.body_content %}
-							<div class="ann__research-initiatives_container-bottom_text item-animate">
-								{{ main.body_content}}
-							</div>
-						{% endif %}
-						</div>
-					</div>
-					{% if main.background_image %}
-						<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background_image).src }});"></div>
-						{% if main.background_image_parallax %}
-							<script>
-								// Encapsulate each parallax instance by targeting its unique ID
-								(function() {
-										const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
+									<section class="ann__research-initiatives ann__sct_parallax" {% if main.background_color %}style="background-color: {{ main.background_color }}"{% endif %} {% if id %}id="{{ id }}"{% endif %}>
+										<div class="ann__research-initiatives_container ann__width-page">
+											{% if main.circle_image or main.header_group.show_title %}
+												<div class="ann__research-initiatives_container-top">
+													<div class="ann__research-initiatives_container-top-left item-animate">
+																							{% if main.circle_image %}
+																									<img src="{{ get_image(main.circle_image).src('thumbnail') }}"
+																											srcset="{{ get_image(main.circle_image).srcset }}"
+																											sizes="{{ get_image(main.circle_image).img_sizes }}"
+																											alt="{{ get_image(main.circle_image).alt }}"
+																											class="ann__research-initiatives_img"
+																											loading="eager" />
+															<p class="ann__research-initiatives_container-top-left_text" style="color:{{ main.circle_text_color }}">{{ main.circle_text_content }}</p>
+														{% endif %}
+													</div>
+													{% if main.header_group.show_title %}
+														{% include "partial/section-header.twig" with {'width': 'page'} %}
+													{% endif %}
+												</div>
+											{% endif %}
+											<div class="ann__research-initiatives_container-bottom">
+											{% if main.body_content %}
+												<div class="ann__research-initiatives_container-bottom_text item-animate">
+													{{ main.body_content}}
+												</div>
+											{% endif %}
+											</div>
+										</div>
+										{% if main.background_image %}
+											<div id="parallax-layer-{{ loop.index }}" class="ann__sct_parallax__layer--back" style="background-image:url({{ get_image(main.background_image).src }});"></div>
+											{% if main.background_image_parallax %}
+												<script>
+													// Encapsulate each parallax instance by targeting its unique ID
+													(function() {
+															const parallaxLayer = document.getElementById('parallax-layer-{{ loop.index }}')
 
-										function calculateDistanceFromTop() {
-												const rect = parallaxLayer.getBoundingClientRect()
-												return rect.top + window.scrollY
-										}
+															function calculateDistanceFromTop() {
+																	const rect = parallaxLayer.getBoundingClientRect()
+																	return rect.top + window.scrollY
+															}
 
-										document.addEventListener('scroll', function () {
-											const scrollPosition = window.pageYOffset
-											const distanceFromTop = calculateDistanceFromTop()
+															document.addEventListener('scroll', function () {
+																const scrollPosition = window.pageYOffset
+																const distanceFromTop = calculateDistanceFromTop()
 
-											parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
-										})
-								})()
-							</script>
-						{% endif %}
-					{% endif %}
-				</section>		
-			
-			{# OUTCOMES #}
-			{% elseif main.acf_fc_layout == 'outcomes' %}
-				<section class="ann__outcomes ann__sct wrapper--pad-xlg ann__sct_parallax" {% if main.background.background_color %}style="background-color: {{ main.background.background_color }}"{% endif %}>
-					<div class="ann__outcomes_container ann__width-page">
-						{% if main.header_group.show_title %}
-							{% include "partial/section-header.twig" with {'width': 'page'} %}
-						{% endif %}
-						<div class="ann__outcomes_container-bottom">
-					{% for item in main.outcome_items %}
-						<div class="ann__outcomes_item ann__outcomes_item-{% if item.item_direction %}row-reverse{% else %}row{% endif %} item-animate">
-							{% if item.outcome_image %}
-								<div class="ann__outcomes_item-left">
-<img src="{{ get_image(item.outcome_image).src('medium') }}"
+																parallaxLayer.style.transform = 'translateY(' + ((scrollPosition - distanceFromTop) * 0.5) + 'px)'
+															})
+													})()
+												</script>
+											{% endif %}
+										{% endif %}
+									</section>		
+								
+								{# OUTCOMES #}
+								{% elseif main.acf_fc_layout == 'outcomes' %}
+									<section class="ann__outcomes ann__sct wrapper--pad-xlg ann__sct_parallax" {% if main.background.background_color %}style="background-color: {{ main.background.background_color }}"{% endif %}>
+										<div class="ann__outcomes_container ann__width-page">
+											{% if main.header_group.show_title %}
+												{% include "partial/section-header.twig" with {'width': 'page'} %}
+											{% endif %}
+											<div class="ann__outcomes_container-bottom">
+										{% for item in main.outcome_items %}
+											<div class="ann__outcomes_item ann__outcomes_item-{% if item.item_direction %}row-reverse{% else %}row{% endif %} item-animate">
+												{% if item.outcome_image %}
+													<div class="ann__outcomes_item-left">
+					<img src="{{ get_image(item.outcome_image).src('medium') }}"
              srcset="{{ get_image(item.outcome_image).srcset }}"
              sizes="{{ get_image(item.outcome_image).img_sizes }}"
              alt="{{ get_image(item.outcome_image).alt }}"
