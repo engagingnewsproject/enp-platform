@@ -1,1 +1,4 @@
 
+[submodule "wp-content/plugins/enp-quiz"]
+	path = wp-content/plugins/enp-quiz
+	url = https://github.com/engagingnewsproject/engaging-quiz.git
