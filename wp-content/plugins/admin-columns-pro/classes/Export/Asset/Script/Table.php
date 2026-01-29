@@ -4,7 +4,6 @@ namespace ACP\Export\Asset\Script;
 
 use AC\Asset\Location;
 use AC\Asset\Script;
-use ACP\Export;
 
 final class Table extends Script
 {
@@ -12,29 +11,26 @@ final class Table extends Script
     public const NONCE_ACTION = 'acp_export_listscreen_export';
 
     /**
-     * @var Export\Strategy
-     */
-    private $strategy;
-
-    /**
      * @var array [ $column_name => $column_label, ... ]
      */
-    private $columns;
+    private array $columns;
 
-    private $show_button;
+    private bool $show_button;
+
+    private int $items_per_iteration;
 
     public function __construct(
         string $handle,
         Location $location,
-        Export\Strategy $strategy,
+        int $items_per_iteration,
         array $columns,
         bool $show_button
     ) {
         parent::__construct($handle, $location, ['jquery']);
 
-        $this->strategy = $strategy;
         $this->columns = $columns;
         $this->show_button = $show_button;
+        $this->items_per_iteration = $items_per_iteration;
     }
 
     public function register(): void
@@ -42,11 +38,10 @@ final class Table extends Script
         parent::register();
 
         $this->add_inline_variable('acp_export', [
-            'total_num_items' => $this->strategy->get_total_items() ?? 0,
-            'num_iterations'  => $this->strategy->get_num_items_per_iteration(),
-            'nonce'           => wp_create_nonce(self::NONCE_ACTION),
-            'columns'         => $this->columns,
-            'show_button'     => $this->show_button,
+            'num_iterations' => $this->items_per_iteration,
+            'nonce'          => wp_create_nonce(self::NONCE_ACTION),
+            'columns'        => $this->columns,
+            'show_button'    => $this->show_button,
         ]);
 
         wp_localize_script($this->get_handle(), 'acp_export_i18n', [

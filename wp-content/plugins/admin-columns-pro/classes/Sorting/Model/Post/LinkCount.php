@@ -12,7 +12,7 @@ use ACP\Sorting\Type\Order;
 class LinkCount implements QueryBindings
 {
 
-    private $domains;
+    private array $domains;
 
     public function __construct(array $domains)
     {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ACP\ListScreenRepository;
 
-use AC\Exception\MissingListScreenIdException;
 use AC\ListScreen;
 use AC\ListScreenCollection;
 use AC\ListScreenRepository\ListScreenRepositoryTrait;
@@ -13,62 +12,53 @@ use AC\OpCacheInvalidateTrait;
 use ACP\Exception\DecoderNotFoundException;
 use ACP\Exception\DirectoryNotWritableException;
 use ACP\Exception\FailedToCreateDirectoryException;
+use ACP\Exception\FailedToSaveConditionalFormattingException;
 use ACP\Exception\FailedToSaveSegmentException;
 use ACP\Exception\FileNotWritableException;
-use ACP\ListScreenPreferences;
-use ACP\Search\SegmentCollection;
-use ACP\Search\SegmentRepository;
 use ACP\Storage;
 use ACP\Storage\AbstractDecoderFactory;
-use ACP\Storage\Decoder\ListScreenDecoder;
 use ACP\Storage\Directory;
 use ACP\Storage\EncoderFactory;
 use ACP\Storage\Serializer;
 use DirectoryIterator;
 
-final class File implements ListScreenRepositoryWritable, SourceAware
+final class File implements ListScreenRepositoryWritable, SourceAware, DirectoryAware
 {
 
-    use SegmentTrait;
     use ListScreenRepositoryTrait;
     use FilteredListScreenRepositoryTrait;
     use OpCacheInvalidateTrait;
 
-    /**
-     * @var ListScreenCollection
-     */
-    private $list_screens;
+    private ?ListScreenCollection $list_screens = null;
 
-    /**
-     * @var SourceCollection
-     */
-    private $sources;
+    private ?SourceCollection $sources = null;
 
-    private $directory;
+    private Directory $directory;
 
-    private $decoder_factory;
+    private AbstractDecoderFactory $decoder_factory;
 
-    private $encoder_factory;
+    private EncoderFactory $encoder_factory;
 
-    private $serializer;
+    private Serializer $serializer;
+
+    private SegmentHandler $segment_handler;
+
+    private ConditionalFormatHandler $conditional_format_handler;
 
     public function __construct(
         Directory $directory,
         AbstractDecoderFactory $decoder_factory,
         EncoderFactory $encoder_factory,
         Serializer $serializer,
-        SegmentRepository\FileFactory $file_factory
+        SegmentHandler $segment_handler,
+        ConditionalFormatHandler $conditional_format_handler
     ) {
         $this->directory = $directory;
         $this->decoder_factory = $decoder_factory;
         $this->encoder_factory = $encoder_factory;
         $this->serializer = $serializer;
-        $this->segment_repository = $file_factory->create(
-            $directory,
-            $decoder_factory,
-            $encoder_factory,
-            $serializer
-        );
+        $this->segment_handler = $segment_handler;
+        $this->conditional_format_handler = $conditional_format_handler;
     }
 
     /**
@@ -76,6 +66,7 @@ final class File implements ListScreenRepositoryWritable, SourceAware
      * @throws DirectoryNotWritableException
      * @throws FailedToCreateDirectoryException
      * @throws FailedToSaveSegmentException
+     * @throws FailedToSaveConditionalFormattingException
      */
     public function save(ListScreen $list_screen): void
     {
@@ -85,10 +76,6 @@ final class File implements ListScreenRepositoryWritable, SourceAware
 
         if ( ! $this->directory->is_writable()) {
             throw new DirectoryNotWritableException($this->directory->get_path());
-        }
-
-        if ( ! $list_screen->has_id()) {
-            throw MissingListScreenIdException::from_saving_list_screen();
         }
 
         $encoder = $this->encoder_factory
@@ -108,16 +95,13 @@ final class File implements ListScreenRepositoryWritable, SourceAware
         );
 
         if ($result === false) {
-            throw FileNotWritableException::from_saving_list_screen($list_screen);
+            throw FileNotWritableException::for_file($file);
         }
 
         $this->opcache_invalidate($file);
 
-        $segments = $list_screen->get_preference(ListScreenPreferences::SHARED_SEGMENTS);
-
-        if ($segments instanceof SegmentCollection) {
-            $this->save_segments($segments, $list_screen->get_id());
-        }
+        $this->segment_handler->save($list_screen);
+        $this->conditional_format_handler->save($list_screen);
     }
 
     /**
@@ -125,23 +109,31 @@ final class File implements ListScreenRepositoryWritable, SourceAware
      */
     public function delete(ListScreen $list_screen): void
     {
+        $id = $list_screen->get_id();
+
         $this->parse_directory();
 
-        if ( ! $this->sources->contains($list_screen->get_id())) {
-            throw FileNotWritableException::from_removing_list_screen($list_screen);
+        if ( ! $this->sources->contains($id)) {
+            throw new FileNotWritableException(sprintf('Could not find %s.', $id));
         }
 
-        $path = $this->sources->get($list_screen->get_id());
+        $path = $this->sources->get($id);
 
         $this->opcache_invalidate($path);
 
         $result = unlink($path);
 
         if ($result === false) {
-            throw FileNotWritableException::from_removing_list_screen($list_screen);
+            throw FileNotWritableException::for_file($path);
         }
 
-        $this->segment_repository->delete_all($list_screen->get_id());
+        $this->segment_handler->delete($list_screen);
+        $this->conditional_format_handler->delete($list_screen);
+    }
+
+    public function get_directory(): Directory
+    {
+        return $this->directory;
     }
 
     protected function get_file_extension(): string
@@ -151,14 +143,18 @@ final class File implements ListScreenRepositoryWritable, SourceAware
 
     protected function find_all_from_source(): ListScreenCollection
     {
-        $this->parse_directory();
+        if (null === $this->list_screens) {
+            $this->parse_directory();
+        }
 
         return $this->list_screens;
     }
 
     public function get_sources(): SourceCollection
     {
-        $this->parse_directory();
+        if (null === $this->sources) {
+            $this->parse_directory();
+        }
 
         return $this->sources;
     }
@@ -186,17 +182,14 @@ final class File implements ListScreenRepositoryWritable, SourceAware
                 continue;
             }
 
-            if ( ! $decoder instanceof ListScreenDecoder || ! $decoder->has_list_screen()) {
+            if ( ! $decoder->has_list_screen()) {
                 continue;
             }
 
             $list_screen = $decoder->get_list_screen();
-            $list_screen->set_preference(
-                ListScreenPreferences::SHARED_SEGMENTS,
-                $this->segment_repository->find_all_shared(
-                    $list_screen->get_id()
-                )
-            );
+
+            $this->segment_handler->load($list_screen);
+            $this->conditional_format_handler->load($list_screen);
 
             $this->list_screens->add($list_screen);
             $this->sources->add($list_screen->get_id(), $file->getRealPath());

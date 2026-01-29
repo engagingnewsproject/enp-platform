@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace ACP\Sorting\Model\User;
 
 use ACP\Query\Bindings;
+use ACP\Query\SqlTrait;
 use ACP\Sorting\Model\QueryBindings;
 use ACP\Sorting\Model\SqlOrderByFactory;
-use ACP\Sorting\Model\SqlTrait;
 use ACP\Sorting\Type\ComputationType;
 use ACP\Sorting\Type\Order;
 

@@ -2,17 +2,20 @@
 
 namespace ACP\Search\Helper\Sql\Comparison;
 
+use ACP\Search\Helper\Sql\Statement;
 use ACP\Search\Value;
 
-class Contains extends Like {
+class Contains extends Like
+{
 
-	public function bind_value( Value $value ) {
-		$value = new Value(
-			$this->value_contains( $value->get_value() ),
-			$value->get_type()
-		);
+    public function bind_value(Value $value): Statement
+    {
+        $value = new Value(
+            $this->value_contains($value->get_value()),
+            $value->get_type()
+        );
 
-		return parent::bind_value( $value );
-	}
+        return parent::bind_value($value);
+    }
 
 }

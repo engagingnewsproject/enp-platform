@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\BP\Search\Profile;
 
 use AC;
@@ -11,26 +13,28 @@ use ACP\Search\Operators;
 use ACP\Search\Value;
 
 class Choice extends Search\Profile
-	implements Values {
+    implements Values
+{
 
-	/** @var array */
-	private $options;
+    private array $options;
 
-	public function __construct( $meta_key, $options ) {
-		$this->options = $options;
+    public function __construct($meta_key, $options)
+    {
+        $this->options = $options;
 
-		$operators = new Operators( [
-			Operators::EQ,
-			Operators::NEQ,
-			Operators::IS_EMPTY,
-			Operators::NOT_IS_EMPTY,
-		], false );
+        $operators = new Operators([
+            Operators::EQ,
+            Operators::NEQ,
+            Operators::IS_EMPTY,
+            Operators::NOT_IS_EMPTY,
+        ], false);
 
-		parent::__construct( $operators, $meta_key, Value::STRING );
-	}
+        parent::__construct($operators, $meta_key, Value::STRING);
+    }
 
-	public function get_values(): Options {
-		return AC\Helper\Select\Options::create_from_array( $this->options );
-	}
+    public function get_values(): Options
+    {
+        return AC\Helper\Select\Options::create_from_array($this->options);
+    }
 
 }

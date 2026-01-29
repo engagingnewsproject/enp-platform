@@ -1,47 +1,48 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF;
 
-interface FieldType {
+interface FieldType
+{
 
-	const TYPE_BUTTON_GROUP = 'button_group';
-	const TYPE_BOOLEAN = 'true_false';
-	const TYPE_CHECKBOX = 'checkbox';
-	const TYPE_CLONE = 'clone';
-	const TYPE_COLOR_PICKER = 'color_picker';
-	const TYPE_DATE_PICKER = 'date_picker';
-	const TYPE_DATE_TIME_PICKER = 'date_time_picker';
-	const TYPE_EMAIL = 'email';
-	const TYPE_FILE = 'file';
-	const TYPE_FLEXIBLE_CONTENT = 'flexible_content';
-	const TYPE_GOOGLE_MAP = 'google_map';
-	const TYPE_GROUP = 'group';
-	const TYPE_GALLERY = 'gallery';
-	const TYPE_IMAGE = 'image';
-	const TYPE_LINK = 'link';
-	const TYPE_NUMBER = 'number';
-	const TYPE_OEMBED = 'oembed';
-	const TYPE_PAGE_LINK = 'page_link';
-	const TYPE_PASSWORD = 'password';
-	const TYPE_POST = 'post_object';
-	const TYPE_RADIO = 'radio';
-	const TYPE_RANGE = 'range';
-	const TYPE_REPEATER = 'repeater';
-	const TYPE_RELATIONSHIP = 'relationship';
-	const TYPE_SELECT = 'select';
-	const TYPE_TAXONOMY = 'taxonomy';
-	const TYPE_TEXT = 'text';
-	const TYPE_TEXTAREA = 'textarea';
-	const TYPE_TIME_PICKER = 'time_picker';
-	const TYPE_URL = 'url';
-	const TYPE_USER = 'user';
-	const TYPE_WYSIWYG = 'wysiwyg';
-	const TYPE_TAB = 'tab';
-	const TYPE_MESSAGE = 'message';
-	const TYPE_SEPARATOR = 'separator';
-	const TYPE_OUTPUT = 'output';
+    public const TYPE_BUTTON_GROUP = 'button_group';
+    public const TYPE_BOOLEAN = 'true_false';
+    public const TYPE_CHECKBOX = 'checkbox';
+    public const TYPE_CLONE = 'clone';
+    public const TYPE_COLOR_PICKER = 'color_picker';
+    public const TYPE_DATE_PICKER = 'date_picker';
+    public const TYPE_DATE_TIME_PICKER = 'date_time_picker';
+    public const TYPE_EMAIL = 'email';
+    public const TYPE_FILE = 'file';
+    public const TYPE_FLEXIBLE_CONTENT = 'flexible_content';
+    public const TYPE_GOOGLE_MAP = 'google_map';
+    public const TYPE_GROUP = 'group';
+    public const TYPE_GALLERY = 'gallery';
+    public const TYPE_IMAGE = 'image';
+    public const TYPE_LINK = 'link';
+    public const TYPE_NUMBER = 'number';
+    public const TYPE_MESSAGE = 'message';
+    public const TYPE_OEMBED = 'oembed';
+    public const TYPE_PAGE_LINK = 'page_link';
+    public const TYPE_PASSWORD = 'password';
+    public const TYPE_POST = 'post_object';
+    public const TYPE_RADIO = 'radio';
+    public const TYPE_RANGE = 'range';
+    public const TYPE_REPEATER = 'repeater';
+    public const TYPE_RELATIONSHIP = 'relationship';
+    public const TYPE_SELECT = 'select';
+    public const TYPE_TAXONOMY = 'taxonomy';
+    public const TYPE_TAB = 'tab';
+    public const TYPE_TEXT = 'text';
+    public const TYPE_TEXTAREA = 'textarea';
+    public const TYPE_TIME_PICKER = 'time_picker';
+    public const TYPE_URL = 'url';
+    public const TYPE_USER = 'user';
+    public const TYPE_WYSIWYG = 'wysiwyg';
 
-	// 3rd party
-	const TYPE_IMAGE_CROP = 'image_crop';
+    // 3rd party
+    public const TYPE_IMAGE_CROP = 'image_crop';
 
 }

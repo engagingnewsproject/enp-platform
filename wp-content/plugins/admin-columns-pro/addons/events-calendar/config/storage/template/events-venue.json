@@ -5,6 +5,7 @@
             "title": "🏢 Event - Venue Information",
             "type": "tribe_events",
             "id": "653b865090e99",
+            "status": "inactive",
             "updated": 1698400765,
             "columns": {
                 "title": {

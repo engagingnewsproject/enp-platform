@@ -4,14 +4,16 @@ namespace ACP\Editing\View;
 
 use ACP\Editing\View;
 
-class Select extends View {
+class Select extends View
+{
 
-	use OptionsTrait;
+    use OptionsTrait;
 
-	public function __construct( array $options = [] ) {
-		parent::__construct( 'select' );
+    public function __construct(array $options = [])
+    {
+        parent::__construct('select');
 
-		$this->set_options( $options );
-	}
+        $this->set_options($options);
+    }
 
 }

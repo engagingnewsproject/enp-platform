@@ -16,7 +16,7 @@ class Roles implements QueryBindings
 
     use PostRequestTrait;
 
-    private $formatter;
+    private FormatValue\Roles $formatter;
 
     public function __construct()
     {

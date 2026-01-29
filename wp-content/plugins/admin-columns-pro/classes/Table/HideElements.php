@@ -5,69 +5,72 @@ namespace ACP\Table;
 use AC\ListScreen;
 use AC\Registerable;
 use ACP\Search;
-use ACP\Settings\ListScreen\HideOnScreen;
+use ACP\Settings\ListScreen\TableElement;
+use ACP\Sorting\BulkActions;
 
-final class HideElements implements Registerable {
+final class HideElements implements Registerable
+{
 
-	public function register(): void
+    public function register(): void
     {
-		add_action( 'ac/table_scripts', [ $this, 'hide_elements' ] );
-	}
+        add_action('ac/table_scripts', [$this, 'hide_elements']);
+    }
 
-	public function hide_elements( ListScreen $list_screen ) {
-		$hidden_elements = [];
+    public function hide_elements(ListScreen $list_screen)
+    {
+        $hidden_elements = [];
 
-		if ( ( new HideOnScreen\FilterMediaItem() )->is_hidden( $list_screen ) ) {
-			$hidden_elements[] = new HideElement\FilterMediaItems();
-		}
+        if ( ! (new TableElement\FilterMediaItem())->is_enabled($list_screen)) {
+            $hidden_elements[] = new HideElement\FilterMediaItems();
+        }
 
-		if ( ( new HideOnScreen\FilterPostDate() )->is_hidden( $list_screen ) ) {
-			$hidden_elements[] = new HideElement\FilterPostDate();
-		}
+        if ( ! (new TableElement\FilterPostDate())->is_enabled($list_screen)) {
+            $hidden_elements[] = new HideElement\FilterPostDate();
+        }
 
-		if ( ( new HideOnScreen\FilterPostFormat() )->is_hidden( $list_screen ) ) {
-			$hidden_elements[] = new HideElement\FilterPostFormats();
-		}
+        if ( ! (new TableElement\FilterPostFormat())->is_enabled($list_screen)) {
+            $hidden_elements[] = new HideElement\FilterPostFormats();
+        }
 
-		if ( ( new HideOnScreen\FilterCategory() )->is_hidden( $list_screen ) ) {
-			$hidden_elements[] = new HideElement\FilterPostCategories();
-		}
+        if ( ! (new TableElement\FilterCategory())->is_enabled($list_screen)) {
+            $hidden_elements[] = new HideElement\FilterPostCategories();
+        }
 
-		if ( ( new HideOnScreen\FilterCommentType() )->is_hidden( $list_screen ) ) {
-			$hidden_elements[] = new HideElement\FilterCommentTypes();
-		}
+        if ( ! (new TableElement\FilterCommentType())->is_enabled($list_screen)) {
+            $hidden_elements[] = new HideElement\FilterCommentTypes();
+        }
 
-		if ( ( new HideOnScreen\Search() )->is_hidden( $list_screen ) ) {
-			$hidden_elements[] = new HideElement\Search( $list_screen );
-		}
+        if ( ! (new TableElement\Search())->is_enabled($list_screen)) {
+            $hidden_elements[] = new HideElement\Search($list_screen->get_table_screen());
+        }
 
-		if ( ( new HideOnScreen\BulkActions() )->is_hidden( $list_screen ) ) {
-			$hidden_elements[] = new HideElement\BulkActions();
-		}
+        if ( ! (new TableElement\BulkActions())->is_enabled($list_screen)) {
+            $hidden_elements[] = new BulkActions();
+        }
 
-		if ( ( new HideOnScreen\RowActions() )->is_hidden( $list_screen ) ) {
-			$hidden_elements[] = new HideElement\RowActions( $list_screen );
-		}
+        if ( ! (new TableElement\RowActions())->is_enabled($list_screen)) {
+            $hidden_elements[] = new HideElement\RowActions($list_screen->get_table_screen());
+        }
 
-		if ( ( new HideOnScreen\SubMenu( '' ) )->is_hidden( $list_screen ) ) {
-			$hidden_elements[] = new HideElement\SubMenu();
-		}
+        if ( ! (new TableElement\SubMenu(''))->is_enabled($list_screen)) {
+            $hidden_elements[] = new HideElement\SubMenu();
+        }
 
-		$filters = new HideOnScreen\Filters();
+        $filters_enabled = (new TableElement\Filters())->is_enabled($list_screen);
 
-		if ( $filters->is_hidden( $list_screen ) ) {
-			$hidden_elements[] = new HideElement\Filters();
-		}
+        if ( ! $filters_enabled) {
+            $hidden_elements[] = new HideElement\Filters();
+        }
 
-		$smart_filters = new Search\Settings\HideOnScreen\SmartFilters();
+        $smart_filters_enabled = (new Search\Settings\TableElement\SmartFilters())->is_enabled($list_screen);
 
-		if ( $smart_filters->is_hidden( $list_screen ) && $filters->is_hidden( $list_screen ) ) {
-			$hidden_elements[] = new HideElement\ActionsBar();
-		}
+        if ( ! $smart_filters_enabled && ! $filters_enabled) {
+            $hidden_elements[] = new HideElement\ActionsBar();
+        }
 
-		foreach ( $hidden_elements as $hidden_element ) {
-			$hidden_element->hide();
-		}
-	}
+        foreach ($hidden_elements as $hidden_element) {
+            $hidden_element->hide();
+        }
+    }
 
 }

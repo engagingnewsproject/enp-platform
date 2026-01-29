@@ -1,37 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Field;
 
-interface NumberInput {
+interface NumberInput
+{
 
-	/**
-	 * @return bool
-	 */
-	public function has_step();
+    public function has_step(): bool;
 
-	/**
-	 * @return string
-	 */
-	public function get_step();
+    public function get_step(): string;
 
-	/**
-	 * @return bool
-	 */
-	public function has_min_value();
+    public function has_min_value(): bool;
 
-	/**
-	 * @return string
-	 */
-	public function get_min_value();
+    public function get_min_value(): string;
 
-	/**
-	 * @return bool
-	 */
-	public function has_max_value();
+    public function has_max_value(): bool;
 
-	/**
-	 * @return string
-	 */
-	public function get_max_value();
+    public function get_max_value(): string;
 
 }

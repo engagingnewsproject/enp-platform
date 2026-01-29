@@ -9,7 +9,7 @@ use InvalidArgumentException;
 class Order
 {
 
-    private $order;
+    private string $order;
 
     public function __construct(string $order)
     {

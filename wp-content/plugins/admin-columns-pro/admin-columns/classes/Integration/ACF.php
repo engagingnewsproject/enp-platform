@@ -2,9 +2,9 @@
 
 namespace AC\Integration;
 
-use AC\Integration;
-use AC\ListScreen;
 use AC\Screen;
+use AC\Type\Integration;
+use AC\Type\Url\External;
 use AC\Type\Url\Site;
 
 final class ACF extends Integration
@@ -24,6 +24,7 @@ final class ACF extends Integration
                     'codepress-admin-columns'
                 )
             ),
+            new External('https://www.advancedcustomfields.com'),
             new Site(Site::PAGE_ADDON_ACF)
         );
     }
@@ -35,19 +36,10 @@ final class ACF extends Integration
 
     public function show_notice(Screen $screen): bool
     {
-        return in_array(
-            $screen->get_id(),
-            [
-                'edit-acf-field-group',
-                'acf-field-group',
-            ],
-            true
-        );
-    }
-
-    public function show_placeholder(ListScreen $list_screen): bool
-    {
-        return true;
+        return in_array($screen->get_id(), [
+            'edit-acf-field-group',
+            'acf-field-group',
+        ]);
     }
 
 }

@@ -1,71 +1,60 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Helper\Price;
 
-class Rounding {
+class Rounding
+{
 
-	/**
-	 * @param float $price
-	 * @param int   $decimals
-	 *
-	 * @return float
-	 */
-	public function up( $price, $decimals = 0 ) {
-		$decimals = rtrim( $decimals, 0 );
-		if ( ! $decimals ) {
-			$decimals = 0;
-		}
+    public function up(float $price, int $decimals = 0): float
+    {
+        $decimals = rtrim((string)$decimals, '0');
 
-		$digits = strlen( $decimals );
-		$divider = pow( 10, $digits );
+        if ( ! $decimals) {
+            $decimals = 0;
+        }
 
-		$rounding = absint( $decimals );
-		$fraction = absint( $divider * ( $price - floor( $price ) ) );
+        $digits = strlen((string)$decimals);
+        $divider = pow(10, $digits);
 
-		if ( $fraction < $rounding ) {
-			return floor( $price ) + ( $rounding / $divider );
-		}
+        $rounding = absint($decimals);
+        $fraction = absint($divider * ($price - floor($price)));
 
-		return floor( $price ) + 1 + ( $rounding / $divider );
-	}
+        if ($fraction < $rounding) {
+            return floor($price) + ($rounding / $divider);
+        }
 
-	/**
-	 * @param float $price
-	 * @param int   $decimals
-	 *
-	 * @return float
-	 */
-	public function down( $price, $decimals = 0 ) {
-		if ( $this->price_digits_are_same( $price, $decimals ) ) {
-			return $price;
-		}
+        return floor($price) + 1 + ($rounding / $divider);
+    }
 
-		$decimals = rtrim( $decimals, 0 );
-		$digits = strlen( $decimals );
-		$divider = pow( 10, $digits );
+    public function down(float $price, int $decimals = 0): float
+    {
+        if ($this->price_digits_are_same($price, $decimals)) {
+            return $price;
+        }
 
-		$rounding = absint( $decimals );
-		$fraction = absint( $divider * ( $price - floor( $price ) ) );
+        $decimals = rtrim((string)$decimals, '0');
+        $digits = strlen($decimals);
+        $divider = pow(10, $digits);
 
-		if ( $fraction >= $rounding ) {
-			return floor( $price ) + ( $rounding / $divider );
-		}
+        $rounding = absint($decimals);
+        $fraction = absint($divider * ($price - floor($price)));
 
-		return floor( $price ) - 1 + ( $rounding / $divider );
-	}
+        if ($fraction >= $rounding) {
+            return floor($price) + ($rounding / $divider);
+        }
 
-	/**
-	 * @param float $price
-	 * @param int   $decimals
-	 *
-	 * @return bool
-	 */
-	private function price_digits_are_same( $price, $decimals ) {
-		$price_digits = explode( '.', $price );
-		$price_decimals = rtrim( $price_digits[1], 0 );
-		$decimals = rtrim( $decimals, 0 );
+        return floor($price) - 1 + ($rounding / $divider);
+    }
 
-		return $price_decimals === $decimals;
-	}
+    private function price_digits_are_same(float $price, int $decimals): bool
+    {
+        $price_digits = explode('.', (string)$price);
+        $price_decimals = rtrim($price_digits[1], '0');
+        $decimals = rtrim((string)$decimals, '0');
+
+        return $price_decimals === $decimals;
+    }
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\ShopOrder;
 
 use AC\Helper\Select\Options\Paginated;
@@ -76,7 +78,7 @@ class ProductTaxonomy extends Comparison
     /**
      * Get All orders IDs for a given product ID.
      *
-     * @param integer $product_id
+     * @param int $product_id
      *
      * @return array
      */

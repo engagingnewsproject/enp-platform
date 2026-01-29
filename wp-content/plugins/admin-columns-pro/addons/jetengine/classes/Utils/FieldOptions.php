@@ -1,26 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Utils;
 
-final class FieldOptions {
+final class FieldOptions
+{
 
-	/**
-	 * @param array $options
-	 *
-	 * @return array
-	 */
-	static function get_checked_options( $options ) {
-		if ( ! is_array( $options ) ) {
-			return [];
-		}
+    public static function get_checked_options(array $options): array
+    {
+        foreach ($options as $key => $selected) {
+            if ($selected !== 'true') {
+                unset($options[$key]);
+            }
+        }
 
-		foreach ( $options as $key => $selected ) {
-			if ( $selected !== 'true' ) {
-				unset( $options[ $key ] );
-			}
-		}
-
-		return array_keys( $options );
-	}
+        return array_keys($options);
+    }
 
 }

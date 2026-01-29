@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\ShopOrder;
 
 use ACP\Query\Bindings;
@@ -22,7 +24,7 @@ class Refunds extends Comparison
             ),
             null,
             new Labels([
-                Operators::IS_EMPTY => sprintf(
+                Operators::IS_EMPTY     => sprintf(
                     __('Without %s', 'codepress-admin-columns'),
                     __('Refunds', 'codepress-admin-columns')
                 ),

@@ -8,7 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'AC\\Vendor\\Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'AC\\Vendor\\PhpDocReader\\' => array($vendorDir . '/php-di/phpdoc-reader/src/PhpDocReader'),
-    'AC\\Vendor\\Opis\\Closure\\' => array($vendorDir . '/opis/closure/src'),
+    'AC\\Vendor\\Laravel\\SerializableClosure\\' => array($vendorDir . '/laravel/serializable-closure/src'),
     'AC\\Vendor\\Invoker\\' => array($vendorDir . '/php-di/invoker/src'),
     'AC\\Vendor\\DI\\' => array($vendorDir . '/php-di/php-di/src'),
     'AC\\' => array($baseDir . '/classes'),

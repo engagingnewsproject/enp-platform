@@ -1,33 +1,48 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\GravityForms\Editing\Storage\Entry;
 
 use ACA\GravityForms\Editing\Storage;
 use ACA\GravityForms\Field\Field;
-use ACA\GravityForms\Value\EntryValue;
 use GF_Field_MultiSelect;
+use GFAPI;
 
-class MultiSelect extends Storage\Entry {
+class MultiSelect extends Storage\Entry
+{
 
-	/**
-	 * @var Field
-	 */
-	private $field;
+    private Field $field;
 
-	public function __construct( Field $field ) {
-		parent::__construct( $field->get_id() );
+    public function __construct(Field $field)
+    {
+        parent::__construct($field->get_id());
 
-		$this->field = $field;
-	}
+        $this->field = $field;
+    }
 
-	public function get( int $id ) {
-		$entry_value = ( new EntryValue( $this->field ) )->get_value( $id );
+    public function get(int $id): array
+    {
+        $field_id = $this->field->get_id();
+        $entry_value = GFAPI::get_entry($id);
 
-		return ( new GF_Field_MultiSelect )->to_array( $entry_value );
-	}
+        if( is_wp_error( $entry_value ) ) {
+            return [];
+        }
 
-	public function update( int $id, $data ): bool {
-		return parent::update( $id, $data ? json_encode( $data ) : '' );
-	}
+        $value = $entry_value[$field_id] ?? '';
+
+        return (new GF_Field_MultiSelect())->to_array($value);
+    }
+
+    public function update(int $id, $data): bool
+    {
+        return parent::update(
+            $id,
+            $data
+                ? json_encode($data)
+                : ''
+        );
+    }
 
 }

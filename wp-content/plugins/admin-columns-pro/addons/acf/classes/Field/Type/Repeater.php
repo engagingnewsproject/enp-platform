@@ -1,23 +1,40 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Field\Type;
 
 use ACA\ACF\Field;
+use ACA\ACF\FieldFactory;
 
-class Repeater extends Field implements Field\Subfields {
+class Repeater extends Field implements Field\Subfields
+{
 
-	public function get_sub_fields() {
-		return isset( $this->settings['sub_fields'] ) && is_array( $this->settings['sub_fields'] )
-			? $this->settings['sub_fields']
-			: [];
-	}
+    private FieldFactory $field_factory;
 
-	public function get_sub_field( $key ) {
-		$fields = $this->get_sub_fields();
+    public function __construct(FieldFactory $field_factory, array $settings)
+    {
+        parent::__construct($settings);
 
-		return isset( $fields[ $key ] ) && is_array( isset( $fields[ $key ] ) )
-			? $fields[ $key ]
-			: null;
-	}
+        $this->field_factory = $field_factory;
+    }
+
+    public function get_sub_fields(): array
+    {
+        return isset($this->settings['sub_fields']) && is_array($this->settings['sub_fields'])
+            ? $this->settings['sub_fields']
+            : [];
+    }
+
+    public function get_sub_field($key): ?Field
+    {
+        foreach ($this->get_sub_fields() as $field) {
+            if ($field['key'] === $key) {
+                return $this->field_factory->create($field);
+            }
+        }
+
+        return null;
+    }
 
 }

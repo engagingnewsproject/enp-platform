@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Editing\Service\Relation;
 
 use AC\Helper\Select\Options\Paginated;
 use ACA\JetEngine\Editing;
 use ACP\Editing\Storage;
 use ACP\Helper\Select\Taxonomy\PaginatedFactory;
+use WP_Term;
 
 class Term extends Editing\Service\Relationship
 {
 
-    private $taxonomy;
+    private string $taxonomy;
 
     public function __construct(Storage $storage, bool $multiple, string $taxonomy)
     {
@@ -19,19 +22,23 @@ class Term extends Editing\Service\Relationship
         parent::__construct($storage, $multiple);
     }
 
-    public function get_value($id)
+    public function get_value(int $id): array
     {
         $value = [];
         $term_ids = parent::get_value($id);
 
         foreach ($term_ids as $term_id) {
-            $value[$term_id] = ac_helper()->taxonomy->get_term_display_name(get_term($term_id));
+            $term = get_term((int)$term_id);
+
+            if ($term instanceof WP_Term) {
+                $value[$term_id] = ac_helper()->taxonomy->get_term_display_name($term);
+            }
         }
 
         return $value;
     }
 
-    public function get_paginated_options(string $search, int $page, int $id = null): Paginated
+    public function get_paginated_options(string $search, int $page, ?int $id = null): Paginated
     {
         return (new PaginatedFactory())->create([
             'search'   => $search,

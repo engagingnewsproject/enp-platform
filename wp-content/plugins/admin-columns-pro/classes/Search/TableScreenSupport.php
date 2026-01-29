@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace ACP\Search;
 
-use AC\ListScreen;
+use AC;
 
 class TableScreenSupport
 {
 
-    public static function is_searchable(ListScreen $list_screen): bool
+    public static function is_searchable(AC\TableScreen $table_screen): bool
     {
-        return null !== TableScreenFactory::get_table_screen_reference($list_screen);
+        return null !== TableMarkupFactory::get_table_markup_reference($table_screen);
     }
 
 }

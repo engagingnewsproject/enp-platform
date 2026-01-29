@@ -2,21 +2,21 @@
 
 namespace ACP\ApplyFilter\CustomField;
 
-use AC\Column\CustomField;
+use AC\Column\Context;
 
 class StoredDateFormat
 {
 
-    private $column;
+    private Context $context;
 
-    public function __construct(CustomField $column)
+    public function __construct(Context $context)
     {
-        $this->column = $column;
+        $this->context = $context;
     }
 
     public function apply_filters(string $date_format): string
     {
-        return (string)apply_filters('acp/custom_field/stored_date_format', $date_format, $this->column);
+        return (string)apply_filters('ac/custom_field/stored_date_format', $date_format, $this->context);
     }
 
 }

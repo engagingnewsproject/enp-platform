@@ -20,7 +20,9 @@ class OrderMeta implements Storage
     {
         $order = wc_get_order($id);
 
-        return $order ? $order->get_meta($this->key) : false;
+        return $order
+            ? $order->get_meta($this->key)
+            : false;
     }
 
     public function update(int $id, $data): bool

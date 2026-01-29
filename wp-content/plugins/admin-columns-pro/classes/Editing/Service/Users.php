@@ -11,96 +11,106 @@ use ACP\Editing\Storage;
 use ACP\Editing\View;
 use InvalidArgumentException;
 
-class Users implements Service, PaginatedOptions {
+class Users implements Service, PaginatedOptions
+{
 
-	/**
-	 * @var Editing\View\AjaxSelect
-	 */
-	private $view;
+    private Editing\View\AjaxSelect $view;
 
-	/**
-	 * @var Storage
-	 */
-	protected $storage;
+    protected Storage $storage;
 
-	/**
-	 * @var PaginatedOptionsFactory
-	 */
-	private $options_factory;
+    private PaginatedOptionsFactory $options_factory;
 
-	public function __construct( Editing\View\AjaxSelect $view, Storage $storage, PaginatedOptionsFactory $options_factory ) {
-		$this->view = $view;
-		$this->storage = $storage;
-		$this->options_factory = $options_factory;
-	}
+    public function __construct(
+        Editing\View\AjaxSelect $view,
+        Storage $storage,
+        PaginatedOptionsFactory $options_factory
+    ) {
+        $this->view = $view;
+        $this->storage = $storage;
+        $this->options_factory = $options_factory;
+    }
 
-	public function get_view( string $context ): ?View {
-		$view = $this->view;
+    public function get_view(string $context): ?View
+    {
+        $view = $this->view;
 
-		if ( $context === self::CONTEXT_BULK ) {
-			$view->has_methods( true );
-		}
+        if ($context === self::CONTEXT_BULK) {
+            $view->has_methods(true);
+        }
 
-		return $view;
-	}
+        return $view;
+    }
 
-	public function get_value( int $id ) {
-		$ids = $this->get_user_ids( $id );
+    public function get_value(int $id)
+    {
+        $values = [];
 
-		return $ids
-			? array_filter( array_map( [ ac_helper()->user, 'get_display_name' ], array_combine( $ids, $ids ) ) )
-			: [];
-	}
+        foreach ($this->get_user_ids($id) as $user_id) {
+            $user = get_userdata($user_id);
 
-	/**
-	 * @param int $id
-	 *
-	 * @return int[]
-	 */
-	private function get_user_ids( int $id ) {
-		$ids = $this->storage->get( $id );
+            if ( ! $user) {
+                continue;
+            }
 
-		return $ids && is_array( $ids )
-			? array_map( 'intval', array_filter( $ids, 'is_numeric' ) )
-			: [];
-	}
+            $values[$user_id] = ac_helper()->user->get_formatted_name($user);
+        }
 
-	public function update( int $id, $data ): void {
-		$method = $data['method'] ?? null;
+        return $values;
+    }
 
-		if ( $method === null ) {
-			$this->storage->update( $id, $data && is_array( $data ) ? $this->sanitize_ids( $data ) : null );
+    /**
+     * @param int $id
+     *
+     * @return int[]
+     */
+    private function get_user_ids(int $id)
+    {
+        $ids = $this->storage->get($id);
 
-			return;
-		}
+        return $ids && is_array($ids)
+            ? array_map('intval', array_filter($ids, 'is_numeric'))
+            : [];
+    }
 
-		$ids = $data['value'] ?? null;
+    public function update(int $id, $data): void
+    {
+        $method = $data['method'] ?? null;
 
-		if ( ! is_array( $ids ) ) {
-			throw new InvalidArgumentException( 'Invalid value' );
-		}
+        if ($method === null) {
+            $this->storage->update($id, $data && is_array($data) ? $this->sanitize_ids($data) : null);
 
-		$ids = $this->sanitize_ids( $ids );
+            return;
+        }
 
-		switch ( $method ) {
-			case 'add':
-				$this->storage->update( $id, array_merge( $this->get_user_ids( $id ), $ids ) ?: null );
-				break;
-			case 'remove':
-				$this->storage->update( $id, array_diff( $this->get_user_ids( $id ), $ids ) ?: null );
-				break;
-			case 'replace':
-			default:
-				$this->storage->update( $id, $ids ?: null );
-		}
-	}
+        $ids = $data['value'] ?? null;
 
-	protected function sanitize_ids( array $ids ): array {
-		return array_map( 'intval', array_unique( array_filter( $ids ) ) );
-	}
+        if ( ! is_array($ids)) {
+            throw new InvalidArgumentException('Invalid value');
+        }
 
-	public function get_paginated_options( string $search, int $page, int $id = null ): Paginated {
-		return $this->options_factory->create( $search, $page, $id );
-	}
+        $ids = $this->sanitize_ids($ids);
+
+        switch ($method) {
+            case 'add':
+                $this->storage->update($id, array_merge($this->get_user_ids($id), $ids) ?: null);
+                break;
+            case 'remove':
+                $this->storage->update($id, array_diff($this->get_user_ids($id), $ids) ?: null);
+                break;
+            case 'replace':
+            default:
+                $this->storage->update($id, $ids ?: null);
+        }
+    }
+
+    protected function sanitize_ids(array $ids): array
+    {
+        return array_map('intval', array_unique(array_filter($ids)));
+    }
+
+    public function get_paginated_options(string $search, int $page, ?int $id = null): Paginated
+    {
+        return $this->options_factory->create($search, $page, $id);
+    }
 
 }

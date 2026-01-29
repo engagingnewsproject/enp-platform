@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Search;
 
 use AC\Meta\Query;
 use AC\Meta\QueryMetaFactory;
-use AC\MetaType;
-use ACA\JetEngine\Column\Meta;
+use AC\Type\TableScreenContext;
 use ACA\JetEngine\Field\Field;
 use ACA\JetEngine\Field\Type;
 use ACA\JetEngine\Search;
@@ -14,22 +15,16 @@ use ACP;
 final class ComparisonFactory
 {
 
-    protected function create_query(Meta $column): Query
+    protected function create_query(TableScreenContext $table_context, string $meta_key): Query
     {
         $factory = new QueryMetaFactory();
 
-        switch ($column->get_list_screen()->get_meta_type()) {
-            case MetaType::POST:
-                return $factory->create_with_post_type($column->get_meta_key(), $column->get_post_type());
-            default:
-                return $factory->create($column->get_meta_key(), $column->get_meta_key());
-        }
+        return $table_context->has_post_type()
+            ? $factory->create_with_post_type($meta_key, (string)$table_context->get_post_type())
+            : $factory->create($meta_key, $table_context->get_meta_type());
     }
 
-    /**
-     * @return ACP\Search\Comparison|false
-     */
-    public function create(Field $field, string $meta_type, Meta $column)
+    public function create(Field $field, TableScreenContext $table_context)
     {
         switch (true) {
             case $field instanceof Type\Number:
@@ -48,7 +43,10 @@ final class ComparisonFactory
                     ['true' => __('On', 'codepress-admin-columns'), 'false' => __('Off', 'codepress-admin-columns')]
                 );
             case $field instanceof Type\IconPicker:
-                return new ACP\Search\Comparison\Meta\SearchableText($field->get_name(), $this->create_query($column));
+                return new ACP\Search\Comparison\Meta\SearchableText(
+                    $field->get_name(),
+                    $this->create_query($table_context, $field->get_name())
+                );
 
             case $field instanceof Type\Checkbox:
                 return new Search\Comparison\Checkbox(
@@ -67,7 +65,7 @@ final class ComparisonFactory
 
                 return new ACP\Search\Comparison\Meta\Media(
                     $field->get_name(),
-                    $query_factory->create($field->get_name(), $meta_type)
+                    $query_factory->create($field->get_name(), $table_context->get_meta_type())
                 );
 
             case $field instanceof Type\Radio:
@@ -81,18 +79,20 @@ final class ComparisonFactory
             case $field instanceof Type\Date:
                 return $field->is_timestamp()
                     ? new ACP\Search\Comparison\Meta\DateTime\Timestamp(
-                        $field->get_name(), $this->create_query($column)
+                        $field->get_name(), $this->create_query($table_context, $field->get_name())
                     )
-                    : new ACP\Search\Comparison\Meta\Date($field->get_name(), $this->create_query($column));
+                    : new ACP\Search\Comparison\Meta\Date(
+                        $field->get_name(),
+                        $this->create_query($table_context, $field->get_name())
+                    );
 
             case $field instanceof Type\DateTime:
                 return $field->is_timestamp()
                     ? new ACP\Search\Comparison\Meta\DateTime\Timestamp(
-                        $field->get_name(), $this->create_query($column)
+                        $field->get_name(), $this->create_query($table_context, $field->get_name())
                     ) : null;
         }
 
-        return false;
+        return null;
     }
-
 }

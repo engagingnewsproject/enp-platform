@@ -16,7 +16,7 @@ class LastModifiedAuthor extends Comparison\Meta
     implements SearchableValues
 {
 
-    private $post_type;
+    private string $post_type;
 
     public function __construct(string $post_type)
     {

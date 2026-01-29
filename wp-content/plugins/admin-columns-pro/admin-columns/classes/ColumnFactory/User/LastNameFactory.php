@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AC\ColumnFactory\User;
+
+use AC;
+use AC\Column\BaseColumnFactory;
+use AC\FormatterCollection;
+use AC\Setting\Config;
+
+class LastNameFactory extends BaseColumnFactory
+{
+
+    public function get_label(): string
+    {
+        return __('Last Name', 'codepress-admin-columns');
+    }
+
+    public function get_column_type(): string
+    {
+        return 'column-last_name';
+    }
+
+    protected function get_formatters(Config $config): FormatterCollection
+    {
+        return parent::get_formatters($config)
+                     ->add(new AC\Formatter\User\Meta('last_name'));
+    }
+
+}

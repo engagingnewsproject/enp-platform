@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\YoastSeo\Search\Post;
 
 use AC;
@@ -12,10 +14,7 @@ class IsIndexed extends ACP\Search\Comparison\Meta
     implements ACP\Search\Comparison\Values
 {
 
-    /**
-     * @var int|null
-     */
-    private $null_value;
+    private ?int $null_value;
 
     public function __construct(string $meta_key, int $null_value = null)
     {

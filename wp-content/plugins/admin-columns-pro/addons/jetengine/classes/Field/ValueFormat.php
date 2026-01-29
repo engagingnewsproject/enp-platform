@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Field;
 
-interface ValueFormat {
+interface ValueFormat
+{
 
-	const FORMAT_ID = 'id';
-	const FORMAT_URL = 'url';
-	const FORMAT_BOTH = 'both';
+    public const FORMAT_ID = 'id';
+    public const FORMAT_URL = 'url';
+    public const FORMAT_BOTH = 'both';
 
-	/**
-	 * @return string
-	 */
-	public function get_value_format();
+    public function get_value_format(): string;
 
 }

@@ -11,28 +11,19 @@ use RuntimeException;
 class DateTime implements Service
 {
 
-    const FORMAT = 'Y-m-d H:i:s';
+    public const FORMAT = 'Y-m-d H:i:s';
 
-    /**
-     * @var View\DateTime
-     */
     private $view;
 
-    /**
-     * @var Storage
-     */
     private $storage;
 
-    /**
-     * @var string
-     */
     protected $date_format;
 
-    public function __construct(View\DateTime $view, Storage $storage, $date_format = self::FORMAT)
+    public function __construct(View\DateTime $view, Storage $storage, ?string $date_format = null)
     {
         $this->view = $view;
         $this->storage = $storage;
-        $this->date_format = (string)$date_format;
+        $this->date_format = $date_format ?? self::FORMAT;
     }
 
     public function get_view(string $context): ?View
@@ -44,7 +35,7 @@ class DateTime implements Service
     {
         if ($data) {
             $date_time = PhpDateTime::createFromFormat(self::FORMAT, $data);
-            
+
             if ( ! $date_time) {
                 throw new RuntimeException(__("Invalid date provided"));
             }

@@ -19,7 +19,7 @@ class Users implements PaginatedOptionsFactory
         $this->args = $args;
     }
 
-    public function create(string $search, int $page, int $id = null): Paginated
+    public function create(string $search, int $page, ?int $id = null): Paginated
     {
         $args = array_merge([
             'paged'  => $page,

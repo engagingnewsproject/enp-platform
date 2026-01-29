@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Sorting\User;
 
 use ACP\Query\Bindings;
@@ -16,7 +18,7 @@ class Ratings implements QueryBindings
      */
     private $sort_type;
 
-    public function __construct(string $sort_type = null)
+    public function __construct(?string $sort_type = null)
     {
         if (null === $sort_type) {
             $sort_type = 'COUNT';

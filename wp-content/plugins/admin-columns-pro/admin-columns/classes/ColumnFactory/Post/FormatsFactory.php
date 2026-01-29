@@ -1,0 +1,60 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AC\ColumnFactory\Post;
+
+use AC;
+use AC\Column\BaseColumnFactory;
+use AC\FormatterCollection;
+use AC\Setting\ComponentCollection;
+use AC\Setting\ComponentFactory\UseIcon;
+use AC\Setting\Config;
+use AC\Setting\DefaultSettingsBuilder;
+
+class FormatsFactory extends BaseColumnFactory
+{
+
+    private UseIcon $post_format_icon_factory;
+
+    public function __construct(
+        DefaultSettingsBuilder $default_settings_builder,
+        UseIcon $post_format_icon_factory
+    ) {
+        parent::__construct($default_settings_builder);
+
+        $this->post_format_icon_factory = $post_format_icon_factory;
+    }
+
+    public function get_column_type(): string
+    {
+        return 'column-post_formats';
+    }
+
+    public function get_label(): string
+    {
+        return __('Post Format', 'codepress-admin-columns');
+    }
+
+    protected function get_settings(Config $config): ComponentCollection
+    {
+        return new ComponentCollection([
+            $this->post_format_icon_factory->create($config),
+        ]);
+    }
+
+    protected function get_formatters(Config $config): FormatterCollection
+    {
+        $formatters = parent::get_formatters($config)
+                            ->prepend(new AC\Formatter\Post\PostFormat());
+
+        if ('on' === $config->get('use_icon')) {
+            $formatters->add(new AC\Formatter\Post\PostFormatIcon());
+        } else {
+            $formatters->add(new AC\Formatter\Post\PostFormatLabel());
+        }
+
+        return $formatters;
+    }
+
+}

@@ -4,62 +4,55 @@ declare(strict_types=1);
 
 namespace ACP\Service;
 
+use AC;
 use AC\Registerable;
-use ACP\AddonFactory;
-use ACP\Settings\General\IntegrationStatus;
+use AC\Vendor\Psr\Container\ContainerInterface;
+use ACP\AdminColumnsPro;
 
 final class Addon implements Registerable
 {
 
-    private $addons;
+    private array $addons;
 
-    private $addon_factory;
+    private AC\Storage\Repository\IntegrationStatus $status;
 
-    private $integration_status;
+    private ContainerInterface $container;
 
-    public function __construct(array $addons, AddonFactory $addon_factory, IntegrationStatus $integration_status)
-    {
+    private AdminColumnsPro $plugin;
+
+    public function __construct(
+        array $addons,
+        AC\Storage\Repository\IntegrationStatus $status,
+        AdminColumnsPro $plugin,
+        ContainerInterface $container
+    ) {
         $this->addons = $addons;
-        $this->addon_factory = $addon_factory;
-        $this->integration_status = $integration_status;
+        $this->status = $status;
+        $this->container = $container;
+        $this->plugin = $plugin;
     }
 
     public function register(): void
     {
-        $deactivate = [];
-
-        foreach ($this->addons as $addon) {
-            $filename = sprintf('%1$s%2$s/%1$s%2$s.php', 'ac-addon-', $addon);
-
-            if (is_plugin_active($filename)) {
-                $deactivate[] = $filename;
+        foreach ($this->addons as $key => $fqn) {
+            if ( ! $this->is_active($key)) {
+                continue;
             }
-        }
 
-        // Reload to prevent duplicate loading of functions and classes
-        if ($deactivate) {
-            deactivate_plugins($deactivate);
+            $addon = new $fqn(
+                $this->plugin->get_location()->with_suffix('addons/' . $key),
+                $this->container
+            );
 
-            $protocol = is_ssl() ? 'https' : 'http';
-            $url = $protocol . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
-            wp_redirect($url);
-            exit;
-        }
-
-        foreach ($this->addons as $addon) {
-            if ($this->is_active($addon)) {
-                $this->addon_factory->create($addon)
-                                    ->register();
-            }
+            $addon->register();
         }
     }
 
-    private function is_active(string $addon): bool
+    private function is_active(string $key): bool
     {
-        $is_active = $this->integration_status->is_active(sprintf('ac-addon-%s', $addon));
+        $is_active = $this->status->is_active(sprintf('ac-addon-%s', $key));
 
-        return apply_filters('acp/addon/' . $addon . '/active', $is_active);
+        return apply_filters('acp/addon/' . $key . '/active', $is_active);
     }
 
 }

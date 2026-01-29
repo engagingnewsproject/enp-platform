@@ -5,6 +5,7 @@
             "title": "🛒 Extended View",
             "type": "wc_order",
             "id": "654a2a04d8a9f",
+            "status": "inactive",
             "updated": 1699359863,
             "columns": {
                 "order_number": {

@@ -15,7 +15,7 @@ class Meta implements Service
 
     private $view;
 
-    public function __construct(string $meta_key, View $view = null)
+    public function __construct(string $meta_key, ?View $view = null)
     {
         $this->meta_key = $meta_key;
         $this->view = $view ?: new View\Text();

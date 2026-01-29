@@ -7,33 +7,34 @@ namespace ACP\Filtering\Service\Table;
 use AC;
 use AC\Asset;
 use AC\Registerable;
+use ACP\AdminColumnsPro;
+use ACP\Column;
 use ACP\Filtering\Asset\TableScriptFactory;
+use ACP\Filtering\DefaultFilters\Aggregate;
 use ACP\Filtering\OptionsFactory;
-use ACP\Filtering\Settings;
-use ACP\Search\ComparisonFactory;
-use ACP\Settings\ListScreen\HideOnScreen;
+use ACP\Settings\ListScreen\TableElement;
 
 class Scripts implements Registerable
 {
 
     private $location;
 
-    private $comparison_factory;
-
     private $options_factory;
 
     private $request;
 
+    private Aggregate $default_filters;
+
     public function __construct(
-        Asset\Location\Absolute $location,
-        ComparisonFactory $comparison_factory,
+        AdminColumnsPro $plugin,
         OptionsFactory $options_factory,
-        AC\Request $request
+        AC\Request $request,
+        Aggregate $default_filters
     ) {
-        $this->location = $location;
-        $this->comparison_factory = $comparison_factory;
+        $this->location = $plugin->get_location();
         $this->options_factory = $options_factory;
         $this->request = $request;
+        $this->default_filters = $default_filters;
     }
 
     public function register(): void
@@ -43,7 +44,9 @@ class Scripts implements Registerable
 
     public function scripts(AC\ListScreen $list_screen): void
     {
-        if ( ! $this->is_enabled($list_screen)) {
+        $default_filters = $this->default_filters->create($list_screen->get_table_screen());
+
+        if ( ! $this->is_enabled($list_screen) && ! $default_filters) {
             return;
         }
 
@@ -52,9 +55,9 @@ class Scripts implements Registerable
 
         $script = (new TableScriptFactory(
             $this->location,
-            $this->comparison_factory,
             $this->options_factory,
-            $this->request
+            $this->request,
+            $default_filters
         ))->create(
             $list_screen
         );
@@ -63,14 +66,18 @@ class Scripts implements Registerable
 
     private function is_enabled(AC\ListScreen $list_screen): bool
     {
-        $filters = new HideOnScreen\Filters();
+        $filters = new TableElement\Filters();
 
-        if ($filters->is_hidden($list_screen)) {
+        if ( ! $filters->is_enabled($list_screen)) {
             return false;
         }
 
         foreach ($list_screen->get_columns() as $column) {
-            $comparison = (new ComparisonFactory())->create($column);
+            if ( ! $column instanceof Column) {
+                continue;
+            }
+
+            $comparison = $column->search();
 
             if ( ! $comparison) {
                 continue;
@@ -78,7 +85,11 @@ class Scripts implements Registerable
 
             $setting = $column->get_setting('filter');
 
-            if ($setting instanceof Settings && $setting->is_active()) {
+            if ( ! $setting instanceof AC\Setting\Component) {
+                continue;
+            }
+
+            if ($setting->has_input() && $setting->get_input()->get_value() === 'on') {
                 return true;
             }
         }

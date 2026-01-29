@@ -2,12 +2,14 @@
 
 namespace ACP\Editing\View;
 
-trait MethodTrait {
+use ACP\Editing\View;
 
-	public function has_methods( $has_methods ) {
-		$this->set( 'has_methods', (bool) $has_methods );
+trait MethodTrait
+{
 
-		return $this;
-	}
+    public function has_methods(bool $has_methods): View
+    {
+        return $this->set('has_methods', $has_methods);
+    }
 
 }

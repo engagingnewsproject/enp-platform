@@ -9,7 +9,7 @@ use ACP\Type\SiteUrl;
 class ProductsUpdate extends Request
 {
 
-    public function __construct(SiteUrl $site_url, ActivationToken $activation_token = null)
+    public function __construct(SiteUrl $site_url, ?ActivationToken $activation_token = null)
     {
         $args = [
             'command'        => 'products_update',

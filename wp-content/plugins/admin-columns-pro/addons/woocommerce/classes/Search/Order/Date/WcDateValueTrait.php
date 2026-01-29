@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\Order\Date;
 
 use ACP\Search\Helper\DateValueFactory;

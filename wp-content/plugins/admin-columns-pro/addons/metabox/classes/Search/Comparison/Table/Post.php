@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\MetaBox\Search\Comparison\Table;
 
 use AC\Helper\Select\Options\Paginated;
@@ -12,27 +14,25 @@ use ACP\Search\Value;
 class Post extends TableStorage implements ACP\Search\Comparison\SearchableValues
 {
 
-    /**
-     * @var mixed
-     */
     private $post_type;
 
-    /**
-     * @var array
-     */
     private $query_args;
 
     public function __construct(
-        Operators $operators,
         string $table,
         string $column,
         array $post_type = [],
         array $query_args = []
     ) {
+        parent::__construct(new Operators([
+            Operators::EQ,
+            Operators::NEQ,
+            Operators::IS_EMPTY,
+            Operators::NOT_IS_EMPTY,
+        ]), $table, $column, Value::INT);
+
         $this->post_type = $post_type;
         $this->query_args = $query_args;
-
-        parent::__construct($operators, $table, $column, Value::INT);
     }
 
     public function format_label($value): string

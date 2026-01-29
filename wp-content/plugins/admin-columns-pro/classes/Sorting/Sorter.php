@@ -16,7 +16,7 @@ class Sorter
      *
      * @return int[]
      */
-    public function sort(array $values, DataType $data_type = null): array
+    public function sort(array $values, ?DataType $data_type = null): array
     {
         switch ((string)$data_type) {
             case DataType::NUMERIC :
@@ -55,7 +55,7 @@ class Sorter
      *
      * @return bool
      */
-    private function is_not_empty($value)
+    private function is_not_empty($value): bool
     {
         return $value || 0 === $value || '0' === $value;
     }

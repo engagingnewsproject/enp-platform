@@ -1,19 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\YoastSeo\Service;
 
 use AC;
+use AC\Asset\Location\Absolute;
 use AC\Registerable;
+use AC\Type\Group;
 
-final class ColumnGroups implements Registerable {
+final class ColumnGroups implements Registerable
+{
 
-	public function register(): void
+    private Absolute $location;
+
+    public function __construct(Absolute $location)
     {
-		add_action( 'ac/column_groups', [ $this, 'register_column_groups' ] );
-	}
+        $this->location = $location;
+    }
 
-	public function register_column_groups( AC\Groups $groups ) {
-		$groups->add( 'yoast-seo', 'Yoast SEO', 25 );
-	}
+    public function register(): void
+    {
+        add_action('ac/column/groups', [$this, 'register_column_groups']);
+    }
+
+    public function register_column_groups(AC\Type\Groups $groups): void
+    {
+        $groups->add(
+            new Group(
+                'yoast-seo', 'Yoast SEO', 25,
+                $this->location->with_suffix('/assets/images/yoast.svg')->get_url()
+            )
+        );
+    }
 
 }

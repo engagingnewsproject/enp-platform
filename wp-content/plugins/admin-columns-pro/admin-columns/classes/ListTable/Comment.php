@@ -8,23 +8,23 @@ use WP_Comments_List_Table;
 class Comment implements ListTable
 {
 
-    use WpListTableTrait;
+    private WP_Comments_List_Table $table;
 
     public function __construct(WP_Comments_List_Table $table)
     {
         $this->table = $table;
     }
 
-    public function get_column_value(string $column, $id): string
+    public function render_cell(string $column_id, $row_id): string
     {
         ob_start();
 
-        $method = 'column_' . $column;
+        $method = 'column_' . $column_id;
 
         if (method_exists($this->table, $method)) {
-            call_user_func([$this->table, $method], get_comment($id));
+            call_user_func([$this->table, $method], get_comment($row_id));
         } else {
-            $this->table->column_default(get_comment($id), $column);
+            $this->table->column_default(get_comment($row_id), $column_id);
         }
 
         return ob_get_clean();

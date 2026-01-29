@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\MetaBox\Search\Comparison\Table;
 
 use ACP\Search\Labels;
@@ -9,8 +11,27 @@ use ACP\Search\Value;
 class DateIso extends TableStorage
 {
 
-    public function __construct(Operators $operators, string $table, string $column)
+    public function __construct(string $table, string $column)
     {
+        $operators = new Operators([
+            Operators::EQ,
+            Operators::GT,
+            Operators::LT,
+            Operators::GTE,
+            Operators::LTE,
+            Operators::BETWEEN,
+            Operators::TODAY,
+            Operators::PAST,
+            Operators::FUTURE,
+            Operators::WITHIN_DAYS,
+            Operators::LT_DAYS_AGO,
+            Operators::GT_DAYS_AGO,
+            Operators::EQ_YEAR,
+            Operators::EQ_MONTH,
+            Operators::IS_EMPTY,
+            Operators::NOT_IS_EMPTY,
+        ]);
+
         parent::__construct($operators, $table, $column, Value::DATE, new Labels\Date());
     }
 

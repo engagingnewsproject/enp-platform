@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Search\Comparison;
 
 use AC\Helper\Select\Options\Paginated;
@@ -11,50 +13,59 @@ use ACP\Search\Comparison\SearchableValues;
 use ACP\Search\Operators;
 
 class User extends ACP\Search\Comparison\Meta
-	implements SearchableValues {
+    implements SearchableValues
+{
 
-	protected $query;
+    protected ?Query $query = null;
 
-	use ACP\Search\UserValuesTrait;
+    use ACP\Search\UserValuesTrait;
 
-	public function __construct( string $meta_key, Query $query ) {
-		$operators = new Operators( [
-			Operators::EQ,
-			Operators::NEQ,
-			Operators::CURRENT_USER,
-			Operators::IS_EMPTY,
-			Operators::NOT_IS_EMPTY,
-		] );
+    public function __construct(string $meta_key, ?Query $query = null)
+    {
+        $operators = new Operators([
+            Operators::EQ,
+            Operators::NEQ,
+            Operators::CURRENT_USER,
+            Operators::IS_EMPTY,
+            Operators::NOT_IS_EMPTY,
+        ]);
 
-		$this->query = $query;
+        $this->query = $query;
 
-		parent::__construct( $operators, $meta_key );
-	}
+        parent::__construct($operators, $meta_key);
+    }
 
-	protected function get_label_formatter(): UserName {
-		return new UserName();
-	}
+    protected function get_label_formatter(): UserName
+    {
+        return new UserName();
+    }
 
-	public function format_label( $value ): string {
-		$user = get_userdata( $value );
+    public function format_label($value): string
+    {
+        $user = get_userdata($value);
 
-		return $user
-			? $this->get_label_formatter()->format_label( $user )
-			: '';
-	}
+        return $user
+            ? $this->get_label_formatter()->format_label($user)
+            : '';
+    }
 
-	public function get_values( string $search, int $page ): Paginated {
-		$include = $page === 1 ? $this->get_used_user_ids() : [];
+    public function get_values(string $search, int $page): Paginated
+    {
+        $include = [];
+        if ($this->query) {
+            $include = $page === 1 ? $this->get_used_user_ids() : [];
+        }
 
-		return ( new PaginatedFactory() )->create( [
-			'include' => $include,
-			'paged'   => $page,
-			'search'  => $search,
-		], $this->get_label_formatter() );
-	}
+        return (new PaginatedFactory())->create([
+            'include' => $include,
+            'paged'   => $page,
+            'search'  => $search,
+        ], $this->get_label_formatter());
+    }
 
-	public function get_used_user_ids(): array {
-		return array_filter( $this->query->get(), 'is_numeric' );
-	}
+    public function get_used_user_ids(): array
+    {
+        return array_filter($this->query->get(), 'is_numeric');
+    }
 
 }

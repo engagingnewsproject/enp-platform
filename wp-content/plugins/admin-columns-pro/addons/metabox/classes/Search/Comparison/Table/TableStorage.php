@@ -1,37 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\MetaBox\Search\Comparison\Table;
 
 use ACP;
 use ACP\Query\Bindings;
 use ACP\Search\Helper\Sql\ComparisonFactory;
+use ACP\Search\Labels;
 use ACP\Search\Operators;
 use ACP\Search\Value;
 
 class TableStorage extends ACP\Search\Comparison
 {
 
-    /**
-     * @var string
-     */
     protected $table;
 
-    /**
-     * @var string
-     */
     protected $column;
 
     public function __construct(
         Operators $operators,
         string $table,
         string $column,
-        string $value_type = null,
-        ACP\Search\Labels $labels = null
+        ?string $value_type = null,
+        ?Labels $labels = null
     ) {
+        parent::__construct($operators, $value_type, $labels);
+
         $this->table = $table;
         $this->column = $column;
-
-        parent::__construct($operators, $value_type, $labels);
     }
 
     protected function create_query_bindings(string $operator, Value $value): Bindings

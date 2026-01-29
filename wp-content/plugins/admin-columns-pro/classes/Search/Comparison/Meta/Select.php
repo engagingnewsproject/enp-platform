@@ -8,23 +8,26 @@ use ACP\Search\Comparison\Values;
 use ACP\Search\Operators;
 
 class Select extends Comparison\Meta
-	implements Values {
+    implements Values
+{
 
-	private $choices;
+    private array $choices;
 
-	public function __construct( string $meta_key, array $choices ) {
-		parent::__construct( new Operators( [
-			Operators::EQ,
-			Operators::NEQ,
-			Operators::IS_EMPTY,
-			Operators::NOT_IS_EMPTY,
-		] ), $meta_key );
+    public function __construct(string $meta_key, array $choices)
+    {
+        parent::__construct(new Operators([
+            Operators::EQ,
+            Operators::NEQ,
+            Operators::IS_EMPTY,
+            Operators::NOT_IS_EMPTY,
+        ]), $meta_key);
 
-		$this->choices = $choices;
-	}
+        $this->choices = $choices;
+    }
 
-	public function get_values(): Options {
-		return Options::create_from_array( $this->choices );
-	}
+    public function get_values(): Options
+    {
+        return Options::create_from_array($this->choices);
+    }
 
 }

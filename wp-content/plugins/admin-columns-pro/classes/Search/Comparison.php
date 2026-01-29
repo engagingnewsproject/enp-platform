@@ -10,22 +10,13 @@ use LogicException;
 abstract class Comparison
 {
 
-    /**
-     * @var Operators
-     */
-    protected $operators;
+    protected Operators $operators;
 
-    /**
-     * @var string
-     */
-    protected $value_type;
+    protected string $value_type;
 
-    /**
-     * @var Labels
-     */
-    protected $labels;
+    protected Labels $labels;
 
-    public function __construct(Operators $operators, string $value_type = null, Labels $labels = null)
+    public function __construct(Operators $operators, ?string $value_type = null, ?Labels $labels = null)
     {
         if (null === $labels) {
             $labels = new Labels();
@@ -71,7 +62,9 @@ abstract class Comparison
         $labels = [];
 
         foreach ($this->get_operators() as $operator) {
-            $labels[$operator] = $this->labels->get_offset($operator);
+            $labels[(string)$operator] = $this->labels->has_offset((string)$operator)
+                ? $this->labels->get_offset((string)$operator)
+                : '';
         }
 
         return $labels;

@@ -2,18 +2,18 @@
 
 namespace ACP\QuickAdd\Controller;
 
-use AC\ListScreen;
 use AC\Response\Json;
+use AC\TableScreen;
 
 class JsonResponse extends Json
 {
 
-    public function create_from_list_screen(ListScreen $list_screen, int $id): JsonResponse
+    public function create_from_table_screen(TableScreen $table_screen, $id): JsonResponse
     {
         $this->set_parameter('id', $id);
 
-        if ($list_screen instanceof ListScreen\ListTable) {
-            $this->set_parameter('row', $list_screen->list_table()->render_row($id));
+        if ($table_screen instanceof TableScreen\ListTable) {
+            $this->set_parameter('row', $table_screen->list_table()->render_row($id));
         }
 
         return $this;

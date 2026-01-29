@@ -4,23 +4,34 @@ namespace ACP\Editing\View;
 
 use ACP\Editing\View;
 
-class AjaxSelect extends View {
+class AjaxSelect extends View
+{
 
-	use AjaxTrait,
-		TagsTrait,
-		MethodTrait,
-		MultipleTrait;
+    use AjaxTrait;
+    use MethodTrait;
+    use MultipleTrait;
+    use TagsTrait;
 
-	public function __construct() {
-		parent::__construct( 'select2_dropdown' );
+    public function __construct()
+    {
+        parent::__construct('select2_dropdown');
 
-		$this->set_ajax_populate( true );
-	}
+        $this->set_ajax_populate(true);
+        $this->set_store_values(false);
+    }
 
-	public function set_tags( $enable ) {
-		$this->set( 'tags', (bool) $enable );
+    public function set_tags(bool $enable_tags): AjaxSelect
+    {
+        $this->set('tags', $enable_tags);
 
-		return $this;
-	}
+        return $this;
+    }
+
+    public function set_store_values(bool $store_values): AjaxSelect
+    {
+        $this->set('store_values', $store_values);
+
+        return $this;
+    }
 
 }

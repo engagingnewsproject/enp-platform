@@ -12,7 +12,7 @@ use ACP\Sorting\Type\Order;
 class UserMeta implements ACP\Sorting\Model\QueryBindings
 {
 
-    private $meta_field;
+    private string $meta_field;
 
     public function __construct(string $meta_field)
     {

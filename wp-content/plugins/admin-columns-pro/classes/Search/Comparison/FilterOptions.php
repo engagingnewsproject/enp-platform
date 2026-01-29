@@ -4,11 +4,12 @@ namespace ACP\Search\Comparison;
 
 use AC;
 
-interface FilterOptions {
+interface FilterOptions
+{
 
-	/**
-	 * @return AC\Helper\Select\Options
-	 */
-	public function get_options();
+    /**
+     * @return AC\Helper\Select\Options
+     */
+    public function get_options();
 
 }

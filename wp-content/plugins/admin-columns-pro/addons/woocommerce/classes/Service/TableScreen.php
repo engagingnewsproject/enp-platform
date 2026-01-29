@@ -1,27 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Service;
 
 use AC;
 use AC\Asset\Location\Absolute;
 use AC\Registerable;
+use AC\Type\TableId;
+use ACA\WC;
 use ACA\WC\Asset\Script\Table;
-use ACA\WC\ListScreen;
-use ACA\WC\Settings\HideOnScreen\FilterOrderCustomer;
-use ACA\WC\Settings\HideOnScreen\FilterOrderDate;
-use ACA\WC\Settings\HideOnScreen\FilterOrderSubType;
-use ACA\WC\Settings\HideOnScreen\FilterProductCategory;
-use ACA\WC\Settings\HideOnScreen\FilterProductStockStatus;
-use ACA\WC\Settings\HideOnScreen\FilterProductType;
-use ACA\WC\Settings\HideOnScreen\FilterSubscriptionCustomer;
-use ACA\WC\Settings\HideOnScreen\FilterSubscriptionPayment;
-use ACA\WC\Settings\HideOnScreen\FilterSubscriptionProduct;
-use ACA\WC\TableScreen\HideOrderFilter;
-use ACA\WC\TableScreen\HideProductFilter;
-use ACA\WC\TableScreen\HideSubscriptionsFilter;
-use ACP\ListScreen\Taxonomy;
+use ACA\WC\Setting\TableElement\FilterOrderCustomer;
+use ACA\WC\Setting\TableElement\FilterOrderDate;
+use ACA\WC\Setting\TableElement\FilterOrderSubType;
+use ACA\WC\Setting\TableElement\FilterProductCategory;
+use ACA\WC\Setting\TableElement\FilterProductStockStatus;
+use ACA\WC\Setting\TableElement\FilterProductType;
+use ACA\WC\Setting\TableElement\FilterSubscriptionCustomer;
+use ACA\WC\Setting\TableElement\FilterSubscriptionPayment;
+use ACA\WC\Setting\TableElement\FilterSubscriptionProduct;
 use WC_Admin_List_Table_Orders;
-use WP_Post;
 
 final class TableScreen implements Registerable
 {
@@ -29,21 +27,27 @@ final class TableScreen implements Registerable
     /**
      * @var AC\ListScreen
      */
-    private $current_list_screen;
+    private $list_screen;
 
     private $location;
 
     private $use_product_variations;
 
-    public function __construct(Absolute $location, bool $use_product_variations)
-    {
+    private $list_keys_factory;
+
+    public function __construct(
+        WC\Admin\WcListKeysFactory $list_keys_factory,
+        Absolute $location,
+        bool $use_product_variations
+    ) {
         $this->location = $location;
         $this->use_product_variations = $use_product_variations;
+        $this->list_keys_factory = $list_keys_factory;
     }
 
     public function register(): void
     {
-        add_action('ac/table/list_screen', [$this, 'set_current_list_screen']);
+        add_action('ac/table/list_screen', [$this, 'set_list_screen']);
         add_action('ac/table_scripts', [$this, 'table_scripts']);
         add_action('ac/table_scripts/editing', [$this, 'table_scripts_editing']);
         add_action('admin_enqueue_scripts', [$this, 'product_scripts'], 100);
@@ -63,9 +67,12 @@ final class TableScreen implements Registerable
     {
         global $wc_list_table;
 
-        if ($wc_list_table instanceof WC_Admin_List_Table_Orders && (new FilterOrderCustomer())->is_hidden(
-                $list_screen
-            )) {
+        $table_screen = $list_screen->get_table_screen();
+
+        if (
+            $wc_list_table instanceof WC_Admin_List_Table_Orders &&
+            ! (new FilterOrderCustomer())->is_enabled($list_screen)
+        ) {
             remove_action('restrict_manage_posts', [$wc_list_table, 'restrict_manage_posts']);
         }
 
@@ -73,19 +80,14 @@ final class TableScreen implements Registerable
             new HideProductFilter($list_screen, new FilterProductType(), 'product_type'),
             new HideProductFilter($list_screen, new FilterProductCategory(), 'product_category'),
             new HideProductFilter($list_screen, new FilterProductStockStatus(), 'stock_status'),
-
-            new HideOrderFilter($list_screen, new FilterOrderDate()),
-            new HideOrderFilter($list_screen, new FilterOrderSubType()),
             new HideOrderFilter($list_screen, new FilterOrderCustomer()),
+            new HideOrderFilter($list_screen, new FilterOrderSubType()),
+            new HideOrderFilter($list_screen, new FilterOrderDate()),
         ];
 
-        if ($list_screen instanceof ListScreen\Subscriptions) {
+        if ($table_screen instanceof AC\PostType && $table_screen->get_post_type()->equals('shop_subscription')) {
             $services[] = new HideSubscriptionsFilter($list_screen, new FilterSubscriptionProduct());
             $services[] = new HideSubscriptionsFilter($list_screen, new FilterSubscriptionPayment());
-            $services[] = new HideSubscriptionsFilter($list_screen, new FilterSubscriptionCustomer());
-        }
-
-        if ($list_screen instanceof ListScreen\Order) {
             $services[] = new HideSubscriptionsFilter($list_screen, new FilterSubscriptionCustomer());
         }
 
@@ -94,47 +96,27 @@ final class TableScreen implements Registerable
         }
     }
 
-    /**
-     * @param AC\ListScreen $list_screen
-     */
-    public function set_current_list_screen($list_screen): void
+    public function set_list_screen(AC\ListScreen $list_screen): void
     {
-        if ( ! $list_screen) {
-            return;
+        $this->list_screen = $list_screen;
+    }
+
+    public function is_wc_table_screen(AC\TableScreen $table_screen): bool
+    {
+        foreach ($this->list_keys_factory->create() as $key) {
+            if ($key->equals($table_screen->get_id())) {
+                return true;
+            }
         }
 
-        $this->current_list_screen = $list_screen;
+        return false;
     }
 
-    public function get_current_list_screen()
+    public function table_scripts_editing(AC\ListScreen $list_screen): void
     {
-        return $this->current_list_screen;
-    }
+        $table_screen = $list_screen->get_table_screen();
 
-    /**
-     * @param AC\ListScreen $list_screen
-     *
-     * @return bool
-     */
-    private function is_wc_list_screen($list_screen)
-    {
-        return $list_screen instanceof ListScreen\ShopOrder ||
-               $list_screen instanceof ListScreen\Order ||
-               $list_screen instanceof ListScreen\ShopCoupon ||
-               $list_screen instanceof ListScreen\Product ||
-               $list_screen instanceof ListScreen\ProductVariation ||
-               $list_screen instanceof ListScreen\Subscriptions ||
-               $list_screen instanceof ListScreen\OrderSubscription ||
-               $list_screen instanceof AC\ListScreen\User ||
-               ($list_screen instanceof Taxonomy && $list_screen->get_taxonomy() === 'product_cat');
-    }
-
-    /**
-     * @param AC\ListScreen $list_screen
-     */
-    public function table_scripts_editing($list_screen)
-    {
-        if ( ! $this->is_wc_list_screen($list_screen)) {
+        if ( ! $this->is_wc_table_screen($table_screen)) {
             return;
         }
 
@@ -200,14 +182,16 @@ final class TableScreen implements Registerable
             ],
         ]);
 
-        if ($list_screen instanceof ListScreen\ProductVariation) {
+        $list_key = $table_screen->get_id();
+
+        if ($list_key->equals(new TableId('product_variation'))) {
             wp_localize_script('acp-editing-table', 'woocommerce_admin_meta_boxes', [
                 'calendar_image'         => WC()->plugin_url() . '/assets/images/calendar.png',
                 'currency_format_symbol' => get_woocommerce_currency_symbol(),
             ]);
         }
 
-        if ($list_screen instanceof ListScreen\Order || $list_screen instanceof ListScreen\OrderSubscription) {
+        if ($list_key->equals(new TableId('wc_order')) || $list_key->equals(new TableId('wc_order_subscription'))) {
             $script_orders = new AC\Asset\Script(
                 'aca-wc-table-orders',
                 $this->location->with_suffix('assets/js/table-orders.js')
@@ -218,7 +202,7 @@ final class TableScreen implements Registerable
 
     public function table_scripts(AC\ListScreen $list_screen): void
     {
-        if ( ! $this->is_wc_list_screen($list_screen)) {
+        if ( ! $this->is_wc_table_screen($list_screen->get_table_screen())) {
             return;
         }
 
@@ -229,11 +213,6 @@ final class TableScreen implements Registerable
         $script->enqueue();
     }
 
-    /**
-     * Single product scripts
-     *
-     * @param string $hook
-     */
     public function product_scripts($hook): void
     {
         global $post;
@@ -270,11 +249,6 @@ final class TableScreen implements Registerable
 
     /**
      * Add a quick action on the product overview which links to the product variations page.
-     *
-     * @param array   $actions
-     * @param WP_Post $post
-     *
-     * @return array
      */
     public function add_quick_action_variation($actions, $post)
     {
@@ -293,11 +267,6 @@ final class TableScreen implements Registerable
 
     /**
      * Display an icon on the product name column which links to the product variations page.
-     *
-     * @param string $column
-     * @param int    $post_id
-     *
-     * @see \WP_Posts_List_Table::column_default
      */
     public function add_quick_link_variation($column, $post_id)
     {
@@ -324,37 +293,44 @@ final class TableScreen implements Registerable
      */
     public function display_width_styles(): void
     {
-        if ( ! $this->current_list_screen instanceof ListScreen\ShopOrder) {
+        if ( ! $this->list_screen) {
+            return;
+        }
+
+        $table_screen = $this->list_screen->get_table_screen();
+
+        if ( ! $table_screen->get_id()->equals(new TableId('shop_order'))) {
             return;
         }
 
         $css_column_width = '';
 
-        foreach ($this->current_list_screen->get_columns() as $column) {
-            $setting = $column->get_setting('width');
+        foreach ($this->list_screen->get_columns() as $column) {
+            $width_setting = $column->get_setting('width');
+            $width_unit_setting = $column->get_setting('width_unit');
 
-            if ( ! $setting instanceof AC\Settings\Column\Width) {
-                continue;
+            if ( ! $width_setting instanceof AC\Setting\Component) {
+                return;
             }
 
-            $width = $setting->get_column_width();
+            $width = $width_setting->get_input()->get_value();
 
             if ($width) {
-                $css_width = $width->get_value() . $width->get_unit();
+                $css_width = $width . $width_unit_setting->get_input()->get_value();
             } else {
                 $css_width = 'auto';
             }
 
             $css_column_width .= sprintf(
                 '.ac-%s .wrap table th.column-%s { width: %s !important; }',
-                esc_attr($this->current_list_screen->get_key()),
-                esc_attr($column->get_name()),
+                esc_attr((string)$this->list_screen->get_table_id()),
+                esc_attr((string)$column->get_id()),
                 $css_width
             );
             $css_column_width .= sprintf(
                 'body.acp-overflow-table.ac-%s .wrap th.column-%s { min-width: %s !important; }',
-                esc_attr($this->current_list_screen->get_key()),
-                esc_attr($column->get_name()),
+                esc_attr((string)$this->list_screen->get_table_id()),
+                esc_attr((string)$column->get_id()),
                 $css_width
             );
         }

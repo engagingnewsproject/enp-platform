@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Nonce;
 
 use AC\Form\Nonce;
 
-class UpdateDeprecatedNonce extends Nonce {
+class UpdateDeprecatedNonce extends Nonce
+{
 
-	public function __construct() {
-		parent::__construct( 'acf-deprecated-columns-updater', '_acnonce' );
-	}
+    public function __construct()
+    {
+        parent::__construct('acf-deprecated-columns-updater', '_acnonce');
+    }
 }

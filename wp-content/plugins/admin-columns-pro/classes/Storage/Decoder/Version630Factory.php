@@ -4,23 +4,49 @@ declare(strict_types=1);
 
 namespace ACP\Storage\Decoder;
 
-use AC\ListScreenFactory;
+use AC\ColumnFactories\Aggregate;
+use AC\Plugin\Version;
+use AC\Storage\Repository\OriginalColumnsRepository;
+use AC\TableScreenFactory;
 use ACP\Storage\Decoder;
 use ACP\Storage\DecoderFactory;
 
-final class Version630Factory implements DecoderFactory
+class Version630Factory extends DecoderFactory
 {
 
-    private $list_screen_factory;
+    protected TableScreenFactory $table_screen_factory;
 
-    public function __construct(ListScreenFactory $list_screen_factory)
-    {
-        $this->list_screen_factory = $list_screen_factory;
+    protected Aggregate $column_factory;
+
+    protected OriginalColumnsRepository $original_columns_repository;
+
+    public function __construct(
+        VersionCompatibility $version_compatibility,
+        TableScreenFactory $table_screen_factory,
+        Aggregate $column_factory,
+        OriginalColumnsRepository $original_columns_repository
+    ) {
+        parent::__construct($version_compatibility);
+
+        $this->table_screen_factory = $table_screen_factory;
+        $this->column_factory = $column_factory;
+        $this->original_columns_repository = $original_columns_repository;
     }
 
-    public function create(array $encoded_data): Decoder
+    protected function get_version(): Version
     {
-        return new Version630($encoded_data, $this->list_screen_factory);
+        return new Version(Version630::VERSION);
+    }
+
+    protected function create_decoder(array $encoded_data): Decoder
+    {
+        return new Version630(
+            $encoded_data,
+            $this->version_compatibility,
+            $this->table_screen_factory,
+            $this->column_factory,
+            $this->original_columns_repository
+        );
     }
 
 }

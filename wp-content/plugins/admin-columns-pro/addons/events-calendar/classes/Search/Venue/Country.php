@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\EC\Search\Venue;
 
 use AC;
@@ -13,10 +15,7 @@ class Country extends Meta
     implements Values
 {
 
-    /**
-     * @var array
-     */
-    private $options;
+    private array $options;
 
     public function __construct(string $meta_key, array $options)
     {

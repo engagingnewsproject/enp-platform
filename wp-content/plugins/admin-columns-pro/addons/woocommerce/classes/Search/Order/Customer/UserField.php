@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\Order\Customer;
 
 use ACA\WC\Scheme\Orders;
@@ -15,7 +17,7 @@ class UserField extends ACP\Search\Comparison
 
     private $field;
 
-    public function __construct(string $field, Operators $operators = null, string $value_type = null)
+    public function __construct(string $field, ?Operators $operators = null, ?string $value_type = null)
     {
         $operators = $operators
             ?: new Operators([

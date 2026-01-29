@@ -5,74 +5,88 @@ namespace ACP\Admin\PageFactory;
 use AC;
 use AC\Admin\Page;
 use AC\Admin\PageFactoryInterface;
-use AC\Asset\Location;
-use AC\DefaultColumnsRepository;
-use AC\ListScreenRepository\Storage;
 use AC\Request;
+use AC\TableScreen;
+use AC\Type\ListScreenId;
 use ACP\Admin;
 use InvalidArgumentException;
 
 class Columns implements PageFactoryInterface
 {
 
-    private $location_core;
+    private AC\AdminColumns $plugin;
 
-    private $storage;
+    private AC\Admin\MenuListFactory $menu_list_factory;
 
-    private $menu_list_factory;
+    private Admin\MenuFactory $menu_factory;
 
-    private $menu_factory;
+    private AC\Admin\UninitializedScreens $uninitialized_screens;
 
-    private $list_screen_factory;
+    private AC\Table\TableScreenRepository $table_screen_repository;
 
-    private $list_keys_factory;
+    private AC\Storage\Repository\EditorFavorites $favorite_repository;
 
-    protected $list_screen_uninitialized;
+    private AC\ColumnGroups $column_groups;
+
+    private AC\Promo\PromoRepository $promos;
+
+    private AC\Integration\IntegrationRepository $integration_repository;
 
     public function __construct(
-        Location\Absolute $location_core,
-        Storage $storage,
+        AC\AdminColumns $plugin,
         Admin\MenuFactory $menu_factory,
-        AC\Admin\MenuListFactory\MenuFactory $menu_list_factory,
-        AC\ListScreenFactory\Aggregate $list_screen_factory,
-        AC\Table\ListKeysFactoryInterface $list_keys_factory,
-        AC\Admin\ListScreenUninitialized $list_screen_uninitialized
+        AC\Admin\MenuListFactory $menu_list_factory,
+        AC\Admin\UninitializedScreens $uninitialized_screens,
+        AC\Table\TableScreenRepository $table_screen_repository,
+        AC\Storage\Repository\EditorFavorites $favorite_repository,
+        AC\ColumnGroups $column_groups,
+        AC\Promo\PromoRepository $promos,
+        AC\Integration\IntegrationRepository $integration_repository
     ) {
-        $this->location_core = $location_core;
-        $this->storage = $storage;
+        $this->plugin = $plugin;
         $this->menu_factory = $menu_factory;
         $this->menu_list_factory = $menu_list_factory;
-        $this->list_screen_factory = $list_screen_factory;
-        $this->list_keys_factory = $list_keys_factory;
-        $this->list_screen_uninitialized = $list_screen_uninitialized;
+        $this->uninitialized_screens = $uninitialized_screens;
+        $this->table_screen_repository = $table_screen_repository;
+        $this->favorite_repository = $favorite_repository;
+        $this->column_groups = $column_groups;
+        $this->promos = $promos;
+        $this->integration_repository = $integration_repository;
     }
 
-    public function create()
+    public function create(): Page\Columns
     {
         $request = new Request();
 
         $request->add_middleware(
-            new AC\Controller\Middleware\ListScreenAdmin(
-                $this->storage,
-                new AC\Admin\Preference\ListScreen(),
-                $this->list_screen_factory,
-                $this->list_keys_factory
+            new Request\Middleware\TableScreenAdmin(
+                new AC\Admin\Preference\EditorPreference(),
+                $this->table_screen_repository->find_all_site()
             )
         );
 
-        $list_screen = $request->get('list_screen');
+        $table_screen = $request->get('table_screen');
 
-        if ( ! $list_screen) {
+        if ( ! $table_screen instanceof TableScreen) {
             throw new InvalidArgumentException('Invalid screen.');
         }
 
+        $list_id = ListScreenId::is_valid_id($request->get('layout_id'))
+            ? new ListScreenId($request->get('layout_id'))
+            : null;
+
         return new Page\Columns(
-            $this->location_core,
-            $list_screen,
-            new DefaultColumnsRepository(),
-            $this->list_screen_uninitialized->find_all_sites(),
-            new AC\Admin\Section\Partial\Menu($this->menu_list_factory),
-            new AC\Admin\View\Menu($this->menu_factory->create('columns'))
+            $this->plugin,
+            $this->uninitialized_screens->find_all_site(),
+            new AC\Admin\View\Menu($this->menu_factory->create('columns')),
+            $table_screen,
+            $this->menu_list_factory->create($this->table_screen_repository->find_all_site()),
+            $this->favorite_repository,
+            $this->table_screen_repository,
+            $this->column_groups,
+            $this->promos,
+            $this->integration_repository,
+            $list_id
         );
     }
 

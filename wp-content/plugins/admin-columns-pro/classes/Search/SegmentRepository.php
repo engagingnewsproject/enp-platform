@@ -12,24 +12,22 @@ use ACP\Search\Type\SegmentKey;
 interface SegmentRepository
 {
 
-    public function generate_key(): SegmentKey;
-
     public function find(SegmentKey $key): ?Segment;
 
     public function find_all(
-        ListScreenId $list_screen_id = null,
-        Sort $sort = null
+        ?ListScreenId $list_screen_id = null,
+        ?Sort $sort = null
     ): SegmentCollection;
 
     public function find_all_personal(
         int $user_id,
-        ListScreenId $list_screen_id = null,
-        Sort $sort = null
+        ?ListScreenId $list_screen_id = null,
+        ?Sort $sort = null
     ): SegmentCollection;
 
     public function find_all_shared(
-        ListScreenId $list_screen_id = null,
-        Sort $sort = null
+        ?ListScreenId $list_screen_id = null,
+        ?Sort $sort = null
     ): SegmentCollection;
 
 }

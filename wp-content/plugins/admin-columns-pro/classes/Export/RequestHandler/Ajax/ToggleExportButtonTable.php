@@ -7,9 +7,10 @@ namespace ACP\Export\RequestHandler\Ajax;
 use AC\Nonce;
 use AC\Request;
 use AC\RequestAjaxHandler;
+use AC\Type\TableId;
 use ACP\Export\UserPreference;
 
-class ToggleExportButtonTable implements RequestAjaxHandler
+final class ToggleExportButtonTable implements RequestAjaxHandler
 {
 
     private $preference;
@@ -35,9 +36,9 @@ class ToggleExportButtonTable implements RequestAjaxHandler
 
         $is_active = 'true' === $request->filter('value');
 
-        $this->preference->set(
-            $list_key,
-            (int)$is_active
+        $this->preference->set_status(
+            new TableId($list_key),
+            $is_active
         );
 
         wp_send_json_success();

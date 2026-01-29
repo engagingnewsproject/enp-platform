@@ -2,8 +2,8 @@
 
 namespace ACP\Service;
 
-use AC\Integration;
 use AC\Registerable;
+use AC\Type\Integration;
 
 class IntegrationStatus implements Registerable
 {

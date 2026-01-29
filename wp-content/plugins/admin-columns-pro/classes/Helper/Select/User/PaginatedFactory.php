@@ -12,8 +12,8 @@ class PaginatedFactory
 
     public function create(
         array $args,
-        LabelFormatter $formatter = null,
-        GroupFormatter $group_formatter = null
+        ?LabelFormatter $formatter = null,
+        ?GroupFormatter $group_formatter = null
     ): Paginated {
         if (null === $formatter) {
             $formatter = new LabelFormatter\UserName();

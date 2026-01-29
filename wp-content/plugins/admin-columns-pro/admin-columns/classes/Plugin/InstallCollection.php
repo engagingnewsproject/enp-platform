@@ -4,21 +4,22 @@ namespace AC\Plugin;
 
 use AC;
 
-final class InstallCollection extends AC\Iterator {
+final class InstallCollection extends AC\Collection
+{
 
-	public function __construct( array $data = [] ) {
-		array_map( [ $this, 'add' ], $data );
-	}
+    public function __construct(array $data = [])
+    {
+        array_map([$this, 'add'], $data);
+    }
 
-	protected function add( Install $install ): void {
-		$this->data[] = $install;
-	}
+    protected function add(Install $install): void
+    {
+        $this->data[] = $install;
+    }
 
-	/**
-	 * @return Install
-	 */
-	public function current() {
-		return parent::current();
-	}
+    public function current(): Install
+    {
+        return current($this->data);
+    }
 
 }

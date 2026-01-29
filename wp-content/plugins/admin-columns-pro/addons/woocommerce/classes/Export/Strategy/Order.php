@@ -1,49 +1,49 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Export\Strategy;
 
-use AC;
-use AC\ListTable;
-use ACA\WC\ListTable\Orders;
+use AC\Type\ValueCollection;
 use ACA\WC\Search\Query\OrderQueryController;
+use ACP\Export\Exporter\TableDataFactory;
+use ACP\Export\ResponseFactory;
 use ACP\Export\Strategy;
-use Automattic;
 use Automattic\WooCommerce\Internal\DataStores\Orders\OrdersTableQuery;
 
 class Order extends Strategy
 {
 
-    /**
-     * @var string
-     */
-    private $order_type;
+    private string $order_type;
 
-    public function __construct(AC\ListScreen $list_screen, $order_type = 'shop_order')
-    {
-        parent::__construct($list_screen);
+    private ResponseFactory $response_factory;
 
+    private TableDataFactory $table_data_factory;
+
+    public function __construct(
+        TableDataFactory $table_data_factory,
+        ResponseFactory $response_factory,
+        string $order_type = 'shop_order'
+    ) {
+        $this->table_data_factory = $table_data_factory;
+        $this->response_factory = $response_factory;
         $this->order_type = $order_type;
     }
 
-    public function get_total_items(): int
-    {
-        return $this->get_list_table()->get_total_items();
-    }
-
-    protected function ajax_export(): void
+    public function handle_export(): void
     {
         ob_start();
         add_filter('woocommerce_order_list_table_prepare_items_query_args', [$this, 'catch_posts'], 1000);
         add_filter('woocommerce_orders_table_query_clauses', [$this, 'alter_clauses'], 100, 3);
     }
 
-    public function alter_clauses($clauses, OrdersTableQuery $query, array $args): array
+    public function alter_clauses($clauses, OrdersTableQuery $query, $args): array
     {
         if ( ! OrderQueryController::is_main_query($args)) {
             return $clauses;
         }
 
-        $ids = $this->get_requested_ids();
+        $ids = $this->ids;
 
         if ($ids) {
             $column = $query->get_table_name('orders') . '.ID';
@@ -61,19 +61,26 @@ class Order extends Strategy
 
         $args['return'] = 'ids';
         $args['type'] = $this->order_type;
-        $args['page'] = $this->get_export_counter() + 1;
-        $args['limit'] = $this->get_num_items_per_iteration();
+        $args['page'] = $this->counter + 1;
+        $args['limit'] = $this->items_per_iteration;
 
         $orders = wc_get_orders($args);
 
-        $this->export($orders->orders);
-    }
+        if (is_object($orders)) {
+            $orders = $orders->orders;
+        }
 
-    protected function get_list_table(): ListTable
-    {
-        return new Orders(
-            wc_get_container()->get(Automattic\WooCommerce\Internal\Admin\Orders\ListTable::class)
+        $table_data = $this->table_data_factory->create(
+            $this->columns,
+            ValueCollection::from_ids(0, $orders),
+            0 === $this->counter
         );
+
+        $this->response_factory->create(
+            $table_data
+        );
+
+        exit;
     }
 
 }

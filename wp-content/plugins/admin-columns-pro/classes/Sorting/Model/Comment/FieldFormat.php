@@ -15,19 +15,19 @@ use ACP\Sorting\Type\Order;
 class FieldFormat implements QueryBindings
 {
 
-    protected $field;
+    protected string $field;
 
-    protected $formatter;
+    protected FormatValue $formatter;
 
-    protected $value_length;
+    protected ?int $value_length;
 
-    protected $data_type;
+    protected ?DataType $data_type;
 
     public function __construct(
         string $field,
         FormatValue $formatter,
-        DataType $data_type = null,
-        int $value_length = null
+        ?DataType $data_type = null,
+        ?int $value_length = null
     ) {
         $this->field = $field;
         $this->formatter = $formatter;

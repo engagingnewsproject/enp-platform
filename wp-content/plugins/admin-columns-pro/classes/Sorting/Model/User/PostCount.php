@@ -3,9 +3,9 @@
 namespace ACP\Sorting\Model\User;
 
 use ACP\Query\Bindings;
+use ACP\Query\SqlTrait;
 use ACP\Sorting\Model\QueryBindings;
 use ACP\Sorting\Model\SqlOrderByFactory;
-use ACP\Sorting\Model\SqlTrait;
 use ACP\Sorting\Type\ComputationType;
 use ACP\Sorting\Type\Order;
 
@@ -14,11 +14,11 @@ class PostCount implements QueryBindings
 
     use SqlTrait;
 
-    private $post_types;
+    private ?array $post_types;
 
-    private $post_status;
+    private ?array $post_status;
 
-    public function __construct(array $post_types = null, array $post_status = null)
+    public function __construct(?array $post_types = null, ?array $post_status = null)
     {
         $this->post_types = $post_types;
         $this->post_status = $post_status;

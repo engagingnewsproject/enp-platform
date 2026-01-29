@@ -10,9 +10,9 @@ use AC\MetaType;
 class MetaCountFactory
 {
 
-    public function create(string $meta_type, string $meta_key)
+    public function create(MetaType $meta_type, string $meta_key)
     {
-        switch ($meta_type) {
+        switch ((string)$meta_type) {
             case MetaType::POST :
                 return new Post\MetaCount($meta_key);
             case MetaType::USER :

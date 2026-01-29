@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace ACP\Sorting\Controller;
 
 use AC\ListScreen;
-use ACP\QueryFactory;
+use AC\Type\ColumnId;
+use ACP\Query\QueryRegistry;
 use ACP\Sorting\ModelFactory;
 use ACP\Sorting\Type\Order;
 
 class ManageQueryHandler
 {
 
-    private $list_screen;
+    private ListScreen $list_screen;
 
-    private $model_factory;
+    private ModelFactory $model_factory;
 
     public function __construct(ListScreen $list_screen, ModelFactory $model_factory)
     {
@@ -24,19 +25,21 @@ class ManageQueryHandler
 
     public function handle(): void
     {
-        $column_name = $_GET['orderby'] ?? null;
+        $column_name = $_GET['orderby'] ?? '';
 
-        if ( ! $column_name) {
+        if ( ! ColumnId::is_valid_id($column_name)) {
             return;
         }
 
-        $column = $this->list_screen->get_column_by_name($column_name);
+        $column = $this->list_screen->get_column(
+            new ColumnId($column_name)
+        );
 
         if ( ! $column) {
             return;
         }
 
-        $model = $this->model_factory->create_bindings($column);
+        $model = $this->model_factory->create($column, $this->list_screen->get_table_screen());
 
         if ( ! $model) {
             return;
@@ -44,8 +47,8 @@ class ManageQueryHandler
 
         $order = Order::create_by_string($_GET['order'] ?? '');
 
-        QueryFactory::create(
-            $this->list_screen->get_query_type(),
+        QueryRegistry::create(
+            $this->list_screen->get_table_screen(),
             [
                 $model->create_query_bindings($order),
             ]

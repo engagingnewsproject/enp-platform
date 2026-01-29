@@ -2,21 +2,13 @@
 
 namespace ACA\GravityForms;
 
-interface Field {
+interface Field
+{
 
-	/**
-	 * @return int
-	 */
-	public function get_form_id();
+    public function get_form_id(): int;
 
-	/**
-	 * @return string
-	 */
-	public function get_id();
+    public function get_id(): string;
 
-	/**
-	 * @return bool
-	 */
-	public function is_required();
+    public function is_required(): bool;
 
 }

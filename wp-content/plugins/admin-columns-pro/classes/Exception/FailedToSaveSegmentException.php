@@ -11,7 +11,7 @@ use RuntimeException;
 final class FailedToSaveSegmentException extends RuntimeException
 {
 
-    public function __construct(string $message = null)
+    public function __construct(?string $message = null)
     {
         if ($message === null) {
             $message = 'Failed to save segment.';

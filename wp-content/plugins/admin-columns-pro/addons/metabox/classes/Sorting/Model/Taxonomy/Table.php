@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\MetaBox\Sorting\Model\Taxonomy;
 
-use ACA\MetaBox\Sorting\TableOrderByFactory;
+use ACA\MetaBox\Sorting\ModelFactory\TableOrderByFactory;
 use ACP\Query\Bindings;
 use ACP\Sorting\Model\QueryBindings;
 use ACP\Sorting\Type\DataType;
@@ -17,7 +19,7 @@ class Table implements QueryBindings
 
     protected $data_type;
 
-    public function __construct(string $table_name, string $meta_key, DataType $data_type = null)
+    public function __construct(string $table_name, string $meta_key, ?DataType $data_type = null)
     {
         $this->table_name = $table_name;
         $this->meta_key = $meta_key;

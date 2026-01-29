@@ -8,7 +8,7 @@ use AC\Registerable;
 class View implements Registerable
 {
 
-    private $location;
+    private Absolute $location;
 
     public function __construct(Absolute $location)
     {

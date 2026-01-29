@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AC\ColumnFactory\User;
+
+use AC;
+use AC\Column\BaseColumnFactory;
+use AC\FormatterCollection;
+use AC\Setting\Config;
+
+class FirstNameFactory extends BaseColumnFactory
+{
+
+    public function get_label(): string
+    {
+        return __('First Name', 'codepress-admin-columns');
+    }
+
+    public function get_column_type(): string
+    {
+        return 'column-first_name';
+    }
+
+    protected function get_formatters(Config $config): FormatterCollection
+    {
+        return parent::get_formatters($config)
+                     ->add(new AC\Formatter\User\Property('first_name'));
+    }
+
+}

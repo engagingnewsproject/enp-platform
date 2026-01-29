@@ -4,13 +4,15 @@ namespace ACP\Editing\View;
 
 use ACP\Editing\View;
 
-class Media extends View {
+class Media extends View
+{
 
-	use AttachmentTypeTrait,
-		MultipleTrait;
+    use AttachmentTypeTrait;
+    use MultipleTrait;
 
-	public function __construct() {
-		parent::__construct( 'media' );
-	}
+    public function __construct()
+    {
+        parent::__construct('media');
+    }
 
 }

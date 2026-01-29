@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ACP\Table\ManageHeading;
+
+use AC;
+use AC\Table\ManageHeading\ScreenColumnsFactory;
+use ACP\TableScreen;
+
+class WpListTableFactory extends ScreenColumnsFactory
+{
+
+    public function can_create(AC\TableScreen $table_screen): bool
+    {
+        return $table_screen instanceof TableScreen\NetworkSite ||
+               $table_screen instanceof TableScreen\NetworkUser ||
+               $table_screen instanceof TableScreen\Taxonomy;
+    }
+
+}

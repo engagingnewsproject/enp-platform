@@ -6,21 +6,26 @@ use AC;
 use AC\ListScreenRepository\Storage;
 use AC\Request;
 use AC\Response;
+use AC\Type\ColumnId;
 use AC\Type\ListScreenId;
+use ACP\Column;
 use ACP\Editing\PaginatedOptions;
 use ACP\Editing\RemoteOptions;
 use ACP\Editing\RequestHandler;
 use ACP\Editing\Service;
-use ACP\Editing\ServiceFactory;
+use ACP\Editing\Strategy\AggregateFactory;
 
 class SelectValues implements RequestHandler
 {
 
-    private $storage;
+    private Storage $storage;
 
-    public function __construct(Storage $storage)
+    private AggregateFactory $aggregate_factory;
+
+    public function __construct(Storage $storage, AggregateFactory $aggregate_factory)
     {
         $this->storage = $storage;
+        $this->aggregate_factory = $aggregate_factory;
     }
 
     public function handle(Request $request)
@@ -33,27 +38,27 @@ class SelectValues implements RequestHandler
             $response->error();
         }
 
+        switch (true) {
+            case $service instanceof RemoteOptions:
+                $options = $service->get_remote_options(
+                    $request->filter('item_id', null, FILTER_VALIDATE_INT) ?: null
+                );
 
-		switch ( true ) {
-			case $service instanceof RemoteOptions:
-				$options = $service->get_remote_options(
-					$request->filter( 'item_id', null, FILTER_VALIDATE_INT ) ?: null
-				);
-
-				$select = new AC\Helper\Select\Response( $options, false );
-				break;
-			case $service instanceof PaginatedOptions:
-				$options = $service->get_paginated_options(
-					(string) $request->filter( 'searchterm' ),
-					(int) $request->filter( 'page', 1, FILTER_SANITIZE_NUMBER_INT ),
-					$request->filter( 'item_id', null, FILTER_VALIDATE_INT ) ?: null
-				);
-				$has_more = ! $options->is_last_page();
+                $select = new AC\Helper\Select\Response($options, false);
+                break;
+            case $service instanceof PaginatedOptions:
+                $options = $service->get_paginated_options(
+                    (string)$request->filter('searchterm'),
+                    (int)$request->filter('page', 1, FILTER_SANITIZE_NUMBER_INT),
+                    $request->filter('item_id', null, FILTER_VALIDATE_INT) ?: null
+                );
+                $has_more = ! $options->is_last_page();
 
                 $select = new AC\Helper\Select\Response($options, $has_more);
                 break;
             default:
                 $response->error();
+                exit;
         }
 
         $response
@@ -75,19 +80,21 @@ class SelectValues implements RequestHandler
             return null;
         }
 
-        $strategy = $list_screen->editing();
+        $strategy = $this->aggregate_factory->create(
+            $list_screen->get_table_screen()
+        );
 
         if ( ! $strategy) {
             return null;
         }
 
-        $column = $list_screen->get_column_by_name((string)$request->get('column'));
+        $column = $list_screen->get_column(new ColumnId((string)$request->get('column')));
 
-        if ( ! $column) {
+        if ( ! $column instanceof Column) {
             return null;
         }
 
-        return ServiceFactory::create($column);
+        return $column->editing();
     }
 
 }

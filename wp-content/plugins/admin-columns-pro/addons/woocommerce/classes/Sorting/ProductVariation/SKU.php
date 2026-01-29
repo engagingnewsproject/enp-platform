@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Sorting\ProductVariation;
 
 use ACP\Query\Bindings;

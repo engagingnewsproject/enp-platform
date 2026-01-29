@@ -11,9 +11,9 @@ use DateTime;
 class DateOptionsFactory
 {
 
-    private $meta_query;
+    private Query $meta_query;
 
-    private $date_format;
+    private string $date_format;
 
     public function __construct(Query $meta_query, string $date_format = 'Y-m-d')
     {

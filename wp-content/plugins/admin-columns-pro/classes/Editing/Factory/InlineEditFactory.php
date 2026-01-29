@@ -5,57 +5,51 @@ declare(strict_types=1);
 namespace ACP\Editing\Factory;
 
 use AC;
-use ACP\Editing\Editable;
-use ACP\Editing\HideOnScreen;
-use ACP\Editing\ListScreen;
+use AC\ColumnCollection;
+use ACP\Column;
 use ACP\Editing\Service;
-use ACP\Editing\ServiceFactory;
-use ACP\Editing\Settings;
+use ACP\Editing\Strategy\AggregateFactory;
+use ACP\Table\TableSupport;
 
 class InlineEditFactory
 {
 
-    private $list_screen;
+    private AggregateFactory $aggregate_factory;
 
-    public function __construct(AC\ListScreen $list_screen)
+    public function __construct(AggregateFactory $aggregate_factory)
     {
-        $this->list_screen = $list_screen;
+        $this->aggregate_factory = $aggregate_factory;
     }
 
-    /**
-     * @return AC\Column[]
-     */
-    public function create(): array
+    public function create(AC\ListScreen $list_screen): ColumnCollection
     {
-        return $this->is_list_screen_editable()
-            ? array_filter($this->list_screen->get_columns(), [$this, 'is_column_inline_editable'])
-            : [];
+        return $this->is_list_screen_editable($list_screen)
+            ? new ColumnCollection(
+                array_filter(iterator_to_array($list_screen->get_columns()), [$this, 'is_column_inline_editable'])
+            )
+            : new ColumnCollection();
     }
 
-    private function is_list_screen_editable(): bool
+    public function is_list_screen_editable(AC\ListScreen $list_screen): bool
     {
-        if ( ! $this->list_screen instanceof ListScreen || ! $this->list_screen->has_id()) {
+        $strategy = $this->aggregate_factory->create(
+            $list_screen->get_table_screen()
+        );
+
+        if ( ! $strategy || ! $strategy->user_can_edit()) {
             return false;
         }
 
-        $strategy = $this->list_screen->editing();
-
-        if ( ! $strategy->user_can_edit()) {
-            return false;
-        }
-
-        $option = new HideOnScreen\InlineEdit();
-
-        return ! $option->is_hidden($this->list_screen);
+        return TableSupport::is_inline_edit_enabled($list_screen);
     }
 
     public function is_column_inline_editable(AC\Column $column): bool
     {
-        if ( ! $column instanceof Editable) {
+        if ( ! $column instanceof Column) {
             return false;
         }
 
-        $service = ServiceFactory::create($column);
+        $service = $column->editing();
 
         if ( ! $service) {
             return false;
@@ -65,9 +59,13 @@ class InlineEditFactory
             return false;
         }
 
-        $setting = $column->get_setting(Settings::NAME);
+        $setting = $column->get_setting('edit');
 
-        return $setting instanceof Settings && $setting->is_active();
+        if ($setting === null) {
+            return false;
+        }
+
+        return 'on' === $setting->get_input()->get_value();
     }
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\EC\Search;
 
 use AC\Helper\Select\Options;
@@ -12,10 +14,7 @@ use ACP\Search\Value;
 class RelatedEvents extends Search\Comparison implements Search\Comparison\Values
 {
 
-    /**
-     * @var string
-     */
-    private $meta_key;
+    private string $meta_key;
 
     public function __construct($meta_key)
     {

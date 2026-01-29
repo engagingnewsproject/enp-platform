@@ -4,16 +4,18 @@ namespace ACP\Editing\View;
 
 use ACP\Editing\View;
 
-class ComputedNumber extends View {
+class ComputedNumber extends View
+{
 
-	use MinMaxTrait,
-		StepTrait;
+    use MinMaxTrait;
+    use StepTrait;
 
-	public function __construct() {
-		parent::__construct( 'number_extended' );
+    public function __construct()
+    {
+        parent::__construct('number_extended');
 
-		$this->set_step( 'any' )
-		     ->set_revisioning( false );
-	}
+        $this->set_step('any')
+             ->set_revisioning(false);
+    }
 
 }

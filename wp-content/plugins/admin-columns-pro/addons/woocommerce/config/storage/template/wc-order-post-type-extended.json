@@ -5,6 +5,7 @@
             "title": "🛒 Extended View",
             "type": "shop_order",
             "id": "654a2668b29f8",
+            "status": "inactive",
             "updated": 1699359140,
             "columns": {
                 "order_number": {

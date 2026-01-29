@@ -57,7 +57,7 @@ class SqlOrderByFactory
         string $field,
         array $values,
         string $order,
-        DataType $data_type = null
+        ?DataType $data_type = null
     ): string {
         if (null === $data_type) {
             $data_type = new DataType(DataType::STRING);
@@ -105,7 +105,7 @@ class SqlOrderByFactory
         }
     }
 
-    public static function create_with_concat(array $fields, string $order, CastType $cast_type = null): string
+    public static function create_with_concat(array $fields, string $order, ?CastType $cast_type = null): string
     {
         $field = sprintf('CONCAT(%s)', implode(', ', $fields));
         $args = [];

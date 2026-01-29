@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @global WC_Order_Item[] $items
+ * @global array $items
  */
 $items = $this->items;
 ?>
@@ -10,40 +10,39 @@ $items = $this->items;
 	<tr>
 		<th class="col-product"><?= __('Product', 'codepress-admin-columns') ?></th>
 		<th class="col-qty"><?= __('Quantity', 'codepress-admin-columns') ?></th>
-		<th class="col-total"><?= __('Tax', 'codepress-admin-columns') ?></th>
+		<th class="col-tax"><?= __('Tax', 'codepress-admin-columns') ?></th>
 		<th class="col-total"><?= __('Total', 'codepress-admin-columns') ?></th>
 	</tr>
 	</thead>
 	<tbody>
-    <?php
-    foreach ($this->items as $item) : ?>
+	<?php
+	foreach ($this->items as $item) : ?>
 		<tr>
 			<td class="col-product">
 				<div class="col-product__name">
-                    <?= $item['name'] ?>
+					<?= $item['name'] ?>
 
-                    <?php
-                    if ($item['sku']) : ?>
+					<?php
+					if ($item['sku']) : ?>
 						<span class="ac-badge"><?= $item['sku'] ?></span>
-                    <?php
-                    endif; ?>
+					<?php
+					endif; ?>
 				</div>
 				<div class="col-product__meta">
-                    <?= $item['meta'] ?>
+					<?= $item['meta'] ?>
 				</div>
-
 			</td>
 			<td class="col-qty">
-                <?= $item['qty'] ?>
+				<?= $item['qty'] ?>
 			</td>
 			<td class="col-tax">
-                <?= $item['tax'] ?>
+				<?= $item['tax'] ?>
 			</td>
 			<td class="col-total">
-                <?= $item['total'] ?>
+				<?= $item['total'] ?>
 			</td>
 		</tr>
-    <?php
-    endforeach; ?>
+	<?php
+	endforeach; ?>
 	</tbody>
 </table>

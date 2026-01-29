@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Sorting\ShopOrder;
 
 use ACP\Query\Bindings;

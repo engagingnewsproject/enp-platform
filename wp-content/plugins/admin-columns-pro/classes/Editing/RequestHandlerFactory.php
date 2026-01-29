@@ -7,31 +7,60 @@ use AC\Request;
 use AC\Type\ListScreenId;
 use ACP\Editing;
 
-class RequestHandlerFactory {
+class RequestHandlerFactory
+{
 
-	private $storage;
+    private Storage $storage;
 
-	public function __construct( Storage $storage ) {
-		$this->storage = $storage;
-	}
+    private Strategy\AggregateFactory $aggregate_factory;
 
-	public function create( Request $request ): ?RequestHandler {
-		switch ( $request->get( 'method' ) ) {
-			case 'bulk-deletable-rows' :
-				$list_screen = $this->storage->find( new ListScreenId( $request->get( 'layout' ) ) );
+    private BulkDelete\AggregateFactory $aggregate_factory_delete;
 
-				return $list_screen instanceof Editing\BulkDelete\ListScreen
-					? $list_screen->deletable()->get_query_request_handler()
-					: null;
-			case 'bulk-editable-rows' :
-				$list_screen = $this->storage->find( new ListScreenId( $request->get( 'layout' ) ) );
+    public function __construct(
+        Storage $storage,
+        Editing\Strategy\AggregateFactory $aggregate_factory,
+        Editing\BulkDelete\AggregateFactory $aggregate_factory_delete
+    ) {
+        $this->storage = $storage;
+        $this->aggregate_factory = $aggregate_factory;
+        $this->aggregate_factory_delete = $aggregate_factory_delete;
+    }
 
-				return $list_screen instanceof Editing\ListScreen
-					? $list_screen->editing()->get_query_request_handler()
-					: null;
-			default:
-				return null;
-		}
-	}
+    public function create(Request $request): ?RequestHandler
+    {
+        switch ($request->get('method')) {
+            case 'bulk-deletable-rows' :
+                $list_screen = $this->storage->find(new ListScreenId($request->get('layout')));
+
+                if ( ! $list_screen) {
+                    return null;
+                }
+
+                $strategy = $this->aggregate_factory_delete->create($list_screen->get_table_screen());
+
+                if ( ! $strategy) {
+                    return null;
+                }
+
+                return $strategy->get_query_request_handler();
+
+            case 'bulk-editable-rows' :
+                $list_screen = $this->storage->find(new ListScreenId($request->get('layout')));
+
+                if ( ! $list_screen) {
+                    return null;
+                }
+
+                $strategy = $this->aggregate_factory->create($list_screen->get_table_screen());
+
+                if ( ! $strategy) {
+                    return null;
+                }
+
+                return $strategy->get_query_request_handler();
+            default:
+                return null;
+        }
+    }
 
 }

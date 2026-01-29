@@ -16,10 +16,6 @@ class Author extends Field
     {
         $operators = new Operators([
             Operators::EQ,
-            Operators::CONTAINS,
-            Operators::NOT_CONTAINS,
-            Operators::BEGINS_WITH,
-            Operators::ENDS_WITH,
             Operators::CURRENT_USER,
         ]);
 

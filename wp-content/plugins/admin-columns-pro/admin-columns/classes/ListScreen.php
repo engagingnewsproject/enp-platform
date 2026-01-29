@@ -4,194 +4,65 @@ declare(strict_types=1);
 
 namespace AC;
 
+use AC\Type\ColumnId;
+use AC\Type\EditorUrlFactory;
 use AC\Type\ListScreenId;
+use AC\Type\ListScreenStatus;
+use AC\Type\TableId;
 use AC\Type\Uri;
-use AC\Type\Url;
+use ACP\ConditionalFormat\RulesCollection;
+use ACP\Search\SegmentCollection;
 use DateTime;
-use LogicException;
 use WP_User;
 
-abstract class ListScreen implements PostType
+final class ListScreen
 {
 
-    /**
-     * @var string
-     */
-    protected $key;
+    private ListScreenId $id;
 
-    /**
-     * The unique ID of the screen.
-     * @see   \WP_Screen::id
-     * @var string
-     */
-    protected $screen_id;
+    private string $title;
 
-    /**
-     * @var string
-     */
-    protected $label;
+    private TableScreen $table_screen;
 
-    /**
-     * @var string
-     */
-    protected $singular_label;
+    private ColumnIterator $columns;
 
-    /**
-     * Meta type of list screen; post, user, comment. Mostly used for fetching metadata.
-     * @var string
-     */
-    protected $meta_type;
+    private array $preferences;
 
-    /**
-     * Group slug. Used for menu.
-     * @var string
-     */
-    protected $group = '';
+    private ?DateTime $updated;
 
-    /**
-     * @var Column[]
-     */
-    private $columns;
+    private bool $read_only = false;
 
-    /**
-     * @var Column[]
-     */
-    private $column_types;
+    private ListScreenStatus $status;
 
-    /**
-     * @var ListScreenId
-     */
-    protected $id;
+    private ?SegmentCollection $segments;
 
-    /**
-     * @var array Column settings data
-     */
-    private $settings = [];
+    private ?RulesCollection $conditional_format;
 
-    /**
-     * @var array ListScreen settings data
-     */
-    private $preferences = [];
-
-    /**
-     * @var bool True when column settings can not be overwritten
-     */
-    private $read_only = false;
-
-    /**
-     * @var string
-     */
-    private $title;
-
-    /**
-     * @var DateTime
-     */
-    private $updated;
-
-    /**
-     * @var string
-     */
-    protected $query_type;
-
-    protected $post_type = '';
-
-    public function __construct(string $key, string $screen_id)
-    {
-        $this->key = $key;
-        $this->screen_id = $screen_id;
-    }
-
-    public function get_post_type(): string
-    {
-        return $this->post_type;
-    }
-
-    public function has_id(): bool
-    {
-        return null !== $this->id;
+    public function __construct(
+        ListScreenId $id,
+        string $title,
+        TableScreen $table_screen,
+        ?ColumnIterator $columns = null,
+        array $preferences = [],
+        ?ListScreenStatus $status = null,
+        ?DateTime $updated = null,
+        ?SegmentCollection $segments = null,
+        ?RulesCollection $conditional_format = null
+    ) {
+        $this->id = $id;
+        $this->title = $title;
+        $this->table_screen = $table_screen;
+        $this->columns = $columns ?? new ColumnCollection();
+        $this->preferences = $preferences;
+        $this->status = $status ?? new ListScreenStatus();
+        $this->updated = $updated ?? new DateTime();
+        $this->segments = $segments;
+        $this->conditional_format = $conditional_format;
     }
 
     public function get_id(): ListScreenId
     {
-        if ( ! $this->has_id()) {
-            throw new LogicException('ListScreen has no identity.');
-        }
-
         return $this->id;
-    }
-
-    abstract protected function register_column_types(): void;
-
-    /**
-     * Register column types from a list with (fully qualified) class names
-     *
-     * @param string[] $list
-     */
-    protected function register_column_types_from_list(array $list): void
-    {
-        foreach ($list as $column) {
-            $this->register_column_type(new $column());
-        }
-    }
-
-    public function get_heading_hookname(): string
-    {
-        return sprintf('manage_%s_columns', $this->get_screen_id());
-    }
-
-    public function get_key(): string
-    {
-        return $this->key;
-    }
-
-    public function get_label(): ?string
-    {
-        return $this->label;
-    }
-
-    public function get_singular_label(): ?string
-    {
-        return $this->singular_label ?: $this->label;
-    }
-
-    public function get_meta_type(): string
-    {
-        return $this->meta_type ?: '';
-    }
-
-    public function get_query_type(): string
-    {
-        return $this->query_type ?: $this->get_meta_type();
-    }
-
-    public function get_screen_id(): string
-    {
-        return $this->screen_id;
-    }
-
-    public function get_group(): string
-    {
-        return $this->group;
-    }
-
-    public function set_group(string $group): void
-    {
-        $this->group = $group;
-    }
-
-    public function get_title(): string
-    {
-        return $this->title;
-    }
-
-    public function set_title(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    public function get_storage_key(): string
-    {
-        return $this->key . $this->id;
     }
 
     public function set_id(ListScreenId $id): void
@@ -199,9 +70,78 @@ abstract class ListScreen implements PostType
         $this->id = $id;
     }
 
-    public function get_table_attr_id(): string
+    public function set_title(string $title): void
     {
-        return '#the-list';
+        $this->title = $title;
+    }
+
+    public function set_table_screen(TableScreen $table_screen): void
+    {
+        $this->table_screen = $table_screen;
+    }
+
+    public function get_title(): string
+    {
+        return $this->title;
+    }
+
+    public function get_column(ColumnId $id): ?Column
+    {
+        foreach ($this->columns as $column) {
+            if ($column->get_id()->equals($id)) {
+                return $column;
+            }
+        }
+
+        return null;
+    }
+
+    public function get_columns(): ColumnIterator
+    {
+        return $this->columns;
+    }
+
+    public function set_columns(ColumnCollection $columns): void
+    {
+        $this->columns = $columns;
+    }
+
+    public function get_preferences(): array
+    {
+        return $this->preferences;
+    }
+
+    public function set_segments(SegmentCollection $segments): void
+    {
+        $this->segments = $segments;
+    }
+
+    public function get_segments(): SegmentCollection
+    {
+        if ( ! $this->segments) {
+            $this->segments = new SegmentCollection();
+        }
+
+        return $this->segments;
+    }
+
+    public function set_conditional_format(RulesCollection $rules_collection): void
+    {
+        $this->conditional_format = $rules_collection;
+    }
+
+    public function get_conditional_format(): RulesCollection
+    {
+        if ( ! $this->conditional_format) {
+            $this->conditional_format = new RulesCollection();
+        }
+
+        return $this->conditional_format;
+    }
+
+    public function get_updated(): DateTime
+    {
+        return $this->updated;
     }
 
     public function is_read_only(): bool
@@ -214,228 +154,53 @@ abstract class ListScreen implements PostType
         $this->read_only = $read_only;
     }
 
-    public function set_updated(DateTime $updated): void
+    public function get_table_id(): TableId
     {
-        $this->updated = $updated;
+        return $this->table_screen->get_id();
     }
 
-    public function get_updated(): DateTime
+    public function get_label(): ?string
     {
-        return $this->updated ?: new DateTime();
+        return $this->table_screen->get_labels()->get_plural();
     }
 
-    abstract public function get_table_url(): Uri;
+    public function get_meta_type(): string
+    {
+        return $this->table_screen instanceof TableScreen\MetaType
+            ? (string)$this->table_screen->get_meta_type()
+            : '';
+    }
+
+    public function get_screen_id(): string
+    {
+        return $this->table_screen->get_screen_id();
+    }
+
+    public function get_post_type(): ?string
+    {
+        return $this->table_screen instanceof PostType
+            ? (string)$this->table_screen->get_post_type()
+            : null;
+    }
+
+    public function get_table_screen(): TableScreen
+    {
+        return $this->table_screen;
+    }
+
+    public function get_table_url(): Uri
+    {
+        return $this->table_screen->get_url()
+                                  ->with_arg('layout', (string)$this->id);
+    }
 
     public function get_editor_url(): Uri
     {
-        return new Url\EditorColumns($this->key, $this->id);
-    }
-
-    /**
-     * @return Column[]
-     */
-    public function get_columns(): array
-    {
-        if (null === $this->columns) {
-            $this->set_columns();
-        }
-
-        return $this->columns;
-    }
-
-    private function set_columns(): void
-    {
-        foreach ($this->get_settings() as $name => $data) {
-            // for backwards compatibility with the upcoming 7.0 release
-            if (empty($data['name'])) {
-                $data['name'] = $name;
-            }
-
-            $column = $this->create_column($data);
-
-            if ($column) {
-                $this->columns[$column->get_name()] = $column;
-            }
-        }
-
-        // Nothing stored. Use WP default columns.
-        if (null === $this->columns) {
-            foreach ($this->get_original_columns() as $type => $label) {
-                $column = $this->create_column(['type' => $type, 'original' => true]);
-
-                if ( ! $column) {
-                    continue;
-                }
-
-                $this->columns[$column->get_name()] = $column;
-            }
-        }
-
-        if (null === $this->columns) {
-            $this->columns = [];
-        }
-    }
-
-    /**
-     * @return Column[]
-     */
-    public function get_column_types(): array
-    {
-        if (null === $this->column_types) {
-            $this->set_column_types();
-        }
-
-        return $this->column_types;
-    }
-
-    private function set_column_types(): void
-    {
-        $this->column_types = [];
-
-        foreach ($this->get_original_columns() as $type => $label) {
-            // Ignore the mandatory checkbox column
-            if ('cb' === $type) {
-                continue;
-            }
-
-            $column = new Column();
-            $column->set_type($type)
-                   ->set_original(true);
-
-            $this->register_column_type($column);
-        }
-
-        // Load Custom columns
-        $this->register_column_types();
-
-        /**
-         * Register column types
-         *
-         * @param ListScreen $this
-         */
-        do_action('ac/column_types', $this);
-    }
-
-    public function get_column_by_name($name): ?Column
-    {
-        foreach ($this->get_columns() as $column) {
-            // Do not do a strict comparison. All column names are stored as strings, even integers.
-            if ($column->get_name() == $name) {
-                return $column;
-            }
-        }
-
-        return null;
-    }
-
-    public function get_column_by_type(string $type): ?Column
-    {
-        $column_types = $this->get_column_types();
-
-        return $column_types[$type] ?? null;
-    }
-
-    private function get_class_by_type(string $type): ?string
-    {
-        $column = $this->get_column_by_type($type);
-
-        return $column
-            ? get_class($column)
-            : null;
-    }
-
-    public function deregister_column_type(string $type): void
-    {
-        unset($this->column_types[$type]);
-    }
-
-    public function register_column_type(Column $column): void
-    {
-        if ( ! $column->get_type()) {
-            return;
-        }
-
-        $column->set_list_screen($this);
-
-        if ( ! $column->is_valid()) {
-            return;
-        }
-
-        // Skip the custom registered columns which are marked 'original' but are not available for this list screen
-        if ($column->is_original() && ! array_key_exists($column->get_type(), $this->get_original_columns())) {
-            return;
-        }
-
-        $this->column_types[$column->get_type()] = $column;
-    }
-
-    public function get_original_label(string $type): ?string
-    {
-        $columns = $this->get_original_columns();
-
-        $label = $columns[$type] ?? null;
-
-        return is_string($label)
-            ? $label
-            : null;
-    }
-
-    public function get_original_columns(): array
-    {
-        return (new DefaultColumnsRepository())->get($this->get_key());
-    }
-
-    private function is_original_column(string $type): bool
-    {
-        $column = $this->get_column_by_type($type);
-
-        return $column && $column->is_original();
-    }
-
-    public function create_column(array $settings): ?Column
-    {
-        if ( ! isset($settings['type'])) {
-            return null;
-        }
-
-        $class = $this->get_class_by_type((string)$settings['type']);
-
-        if ( ! $class) {
-            return null;
-        }
-
-        /**
-         * @var Column $column
-         */
-        $column = new $class();
-        $column->set_list_screen($this)
-               ->set_type($settings['type']);
-
-        if (isset($settings['name'])) {
-            $column->set_name($settings['name']);
-        }
-
-        // Mark as original
-        if ($this->is_original_column($settings['type'])) {
-            $column->set_original(true);
-            $column->set_name($settings['type']);
-        }
-
-        $column->set_options($settings);
-
-        do_action('ac/list_screen/column_created', $column, $this);
-
-        return $column;
-    }
-
-    public function set_settings(array $settings): void
-    {
-        $this->settings = $settings;
-    }
-
-    public function get_settings(): array
-    {
-        return $this->settings;
+        return EditorUrlFactory::create(
+            $this->get_table_id(),
+            $this->table_screen->is_network(),
+            $this->id
+        );
     }
 
     public function is_user_allowed(WP_User $user): bool
@@ -471,17 +236,7 @@ abstract class ListScreen implements PostType
 
     public function set_preferences(array $preferences): void
     {
-        $this->preferences = apply_filters('ac/list_screen/preferences', $preferences, $this);
-    }
-
-    public function set_preference(string $key, $value): void
-    {
-        $this->preferences[$key] = $value;
-    }
-
-    public function get_preferences(): array
-    {
-        return $this->preferences;
+        $this->preferences = $preferences;
     }
 
     public function get_preference(string $key)
@@ -489,14 +244,54 @@ abstract class ListScreen implements PostType
         return $this->preferences[$key] ?? null;
     }
 
-    /**
-     * @deprecated NEWVERSION
-     */
-    public function get_layout_id(): ?string
+    public function set_preference(string $key, $value): void
     {
+        $this->preferences[$key] = $value;
+    }
+
+    public function get_status(): ListScreenStatus
+    {
+        return $this->status;
+    }
+
+    public function set_status(ListScreenStatus $status): void
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @deprecated 7.0
+     */
+    public function get_singular_label(): string
+    {
+        _deprecated_function(__METHOD__, '7.0', 'AC\ListScreen::get_table()->get_labels->get_singular()');
+
+        return $this->table_screen->get_labels()->get_singular();
+    }
+
+    /**
+     * @deprecated 7.0
+     */
+    public function get_layout_id(): string
+    {
+        _deprecated_function(__METHOD__, '7.0', 'AC\ListScreen::get_id()');
+
         return (string)$this->id;
     }
 
+    /**
+     * @deprecated 7.0
+     */
+    public function get_column_by_name(string $name): ?Column
+    {
+        _deprecated_function(__METHOD__, '7.0', 'AC\ListScreen::get_column()');
+
+        return $this->get_column(new ColumnId($name));
+    }
+
+    /**
+     * @deprecated 7.0
+     */
     public function get_screen_link(): string
     {
         _deprecated_function(__METHOD__, '4.6.5', 'AC\ListScreen::get_table_url()');
@@ -504,6 +299,9 @@ abstract class ListScreen implements PostType
         return (string)$this->get_table_url();
     }
 
+    /**
+     * @deprecated 7.0
+     */
     public function get_edit_link(): string
     {
         _deprecated_function(__METHOD__, '4.6.5', 'AC\ListScreen::get_editor_url()');
@@ -511,34 +309,124 @@ abstract class ListScreen implements PostType
         return (string)$this->get_editor_url();
     }
 
+    /**
+     * @deprecated 7.0
+     */
     protected function set_meta_type(string $meta_type): void
     {
-        _deprecated_function(__METHOD__, '6.4');
+        _deprecated_function(__METHOD__, '7.0');
 
         $this->meta_type = $meta_type;
     }
 
+    /**
+     * @deprecated 7.0
+     */
     public function deregister_column(string $column_name): void
     {
-        _deprecated_function(__METHOD__, '6.4');
-
-        unset($this->columns[$column_name]);
+        _deprecated_function(__METHOD__, '7.0');
     }
 
+    /**
+     * @deprecated 7.0
+     */
     public function set_layout_id(string $layout_id): void
     {
-        _deprecated_function(__METHOD__, '6.4', 'AC\ListScreen::set_id()');
+        _deprecated_function(__METHOD__, '7.0', 'AC\ListScreen::set_id()');
 
         if (ListScreenId::is_valid_id($layout_id)) {
             $this->id = new ListScreenId($layout_id);
         }
     }
 
-    protected function set_label(string $label): void
+    /**
+     * @deprecated 7.0
+     */
+    protected function set_label(): void
     {
-        _deprecated_function(__METHOD__, '6.4');
+        _deprecated_function(__METHOD__, '7.0');
+    }
 
-        $this->label = $label;
+    /**
+     * @deprecated 7.0
+     */
+    protected function register_column_types_from_list(array $list): void
+    {
+        _deprecated_function(__METHOD__, '7.0', 'AC\TableScreen::set_column_type()');
+    }
+
+    /**
+     * @deprecated 7.0
+     */
+    public function deregister_column_type(): void
+    {
+        _deprecated_function(__METHOD__, '7.0');
+    }
+
+    /**
+     * @deprecated 7.0
+     */
+    public function register_column_type(Column $column): void
+    {
+        _deprecated_function(__METHOD__, '7.0', 'AC\TableScreen::set_column_type()');
+    }
+
+    /**
+     * @deprecated 7.0
+     */
+    public function get_original_columns(): array
+    {
+        _deprecated_function(__METHOD__, '7.0');
+
+        return [];
+    }
+
+    /**
+     * @deprecated 7.0
+     */
+    public function get_group(): string
+    {
+        _deprecated_function(__METHOD__, '7.0');
+
+        return '';
+    }
+
+    /**
+     * @deprecated 7.0
+     */
+
+    public function has_id(): bool
+    {
+        _deprecated_function(__METHOD__, '7.0');
+
+        return true;
+    }
+
+    /**
+     * @deprecated 7.0
+     */
+    public function get_storage_key(): string
+    {
+        _deprecated_function(__METHOD__, '7.0');
+
+        return $this->get_table_id() . $this->id;
+    }
+
+    /**
+     * @deprecated 7.0
+     */
+    public function get_settings(): array
+    {
+        _deprecated_function(__METHOD__, '7.0');
+
+        return [];
+    }
+
+    public function get_key(): TableId
+    {
+        _deprecated_function(__METHOD__, '7.0', 'AC\ListScreen::get_table_id()');
+
+        return $this->get_table_id();
     }
 
 }

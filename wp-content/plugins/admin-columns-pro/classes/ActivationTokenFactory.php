@@ -8,9 +8,9 @@ use ACP\Type\ActivationToken;
 class ActivationTokenFactory
 {
 
-    private $activation_key_storage;
+    private ActivationKeyStorage $activation_key_storage;
 
-    private $license_key_storage;
+    private LicenseKeyRepository $license_key_storage;
 
     public function __construct(ActivationKeyStorage $activation_key_storage, LicenseKeyRepository $license_key_storage)
     {

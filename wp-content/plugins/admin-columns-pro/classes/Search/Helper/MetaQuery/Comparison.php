@@ -7,11 +7,11 @@ use ACP\Search\Value;
 class Comparison
 {
 
-    protected $key;
+    protected string $key;
 
-    protected $operator;
+    protected string $operator;
 
-    protected $value;
+    protected Value $value;
 
     public function __construct(string $key, string $operator, Value $value)
     {

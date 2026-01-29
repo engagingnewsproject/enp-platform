@@ -1,12 +1,14 @@
 <?php
-declare( strict_types=1 );
+
+declare(strict_types=1);
 
 namespace ACA\WC\Helper\Select\Product;
 
 use WC_Product;
 
-interface GroupFormatter {
+interface GroupFormatter
+{
 
-	public function format( WC_Product $product ): string;
+    public function format(WC_Product $product): string;
 
 }

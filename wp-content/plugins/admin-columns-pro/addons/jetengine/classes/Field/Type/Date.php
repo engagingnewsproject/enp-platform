@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Field\Type;
 
 use ACA\JetEngine\Field\DefaultValue;
@@ -8,10 +10,11 @@ use ACA\JetEngine\Field\Field;
 use ACA\JetEngine\Field\TimeStamp;
 use ACA\JetEngine\Field\TimestampTrait;
 
-class Date extends Field implements TimeStamp, DefaultValue {
+final class Date extends Field implements TimeStamp, DefaultValue
+{
 
-	const TYPE = 'date';
+    public const TYPE = 'date';
 
-	use TimestampTrait,
-		DefaultValueTrait;
+    use DefaultValueTrait;
+    use TimestampTrait;
 }

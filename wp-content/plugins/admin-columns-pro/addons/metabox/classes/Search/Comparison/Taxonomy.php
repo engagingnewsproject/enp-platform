@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\MetaBox\Search\Comparison;
 
 use AC\Helper\Select\Options\Paginated;
@@ -12,18 +14,21 @@ use ACP\Search\Value;
 class Taxonomy extends ACP\Search\Comparison implements ACP\Search\Comparison\SearchableValues
 {
 
+    protected $taxonomy;
+
     public function __construct(array $taxonomy)
     {
-        $operators = new Operators([
-            Operators::EQ,
-            Operators::NEQ,
-            Operators::IS_EMPTY,
-            Operators::NOT_IS_EMPTY,
-        ]);
+        parent::__construct(
+            new Operators([
+                Operators::EQ,
+                Operators::NEQ,
+                Operators::IS_EMPTY,
+                Operators::NOT_IS_EMPTY,
+            ]),
+            Value::INT
+        );
 
         $this->taxonomy = $taxonomy;
-
-        parent::__construct($operators, Value::INT);
     }
 
     private function get_term_by_id($term_id)

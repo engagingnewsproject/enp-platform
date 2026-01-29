@@ -11,7 +11,7 @@ use AC\Type;
 final class ListScreenId implements Filter
 {
 
-    private $id;
+    private Type\ListScreenId $id;
 
     public function __construct(Type\ListScreenId $id)
     {
@@ -23,7 +23,7 @@ final class ListScreenId implements Filter
         $filtered = new ListScreenCollection();
 
         foreach ($list_screens as $list_screen) {
-            if ($list_screen->has_id() && $list_screen->get_id()->equals($this->id)) {
+            if ($list_screen->get_id()->equals($this->id)) {
                 $filtered->add($list_screen);
             }
         }

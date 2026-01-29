@@ -5,8 +5,8 @@ namespace ACP\Editing\RequestHandler;
 use AC;
 use AC\Request;
 use AC\Response;
-use ACP;
 use ACP\Editing\RequestHandler;
+use ACP\Helper\Select\User\PaginatedFactory;
 
 class DeleteUserSelectValues implements RequestHandler
 {
@@ -15,7 +15,7 @@ class DeleteUserSelectValues implements RequestHandler
     {
         $response = new Response\Json();
 
-        $options = (new ACP\Helper\Select\User\PaginatedFactory())->create([
+        $options = (new PaginatedFactory())->create([
             'number' => 200,
             'search' => (string)$request->get('searchterm', ''),
         ]);

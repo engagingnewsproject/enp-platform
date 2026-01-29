@@ -22,7 +22,7 @@ class PostType extends BasicStorage implements RemoteOptions
         return new View\RemoteSelect();
     }
 
-    public function get_remote_options(int $id = null): Options
+    public function get_remote_options(?int $id = null): Options
     {
         return (new Select\OptionsFactory\PostType())->create();
     }

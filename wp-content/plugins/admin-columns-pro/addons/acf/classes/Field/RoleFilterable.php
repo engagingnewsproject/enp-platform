@@ -1,17 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Field;
 
-interface RoleFilterable {
+interface RoleFilterable
+{
 
-	/**
-	 * @return array
-	 */
-	public function get_roles();
+    public function get_roles(): array;
 
-	/**
-	 * @return bool
-	 */
-	public function has_roles();
+    public function has_roles(): bool;
 
 }

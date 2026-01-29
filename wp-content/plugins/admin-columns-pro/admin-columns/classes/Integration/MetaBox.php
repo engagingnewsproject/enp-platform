@@ -2,9 +2,8 @@
 
 namespace AC\Integration;
 
-use AC\Integration;
-use AC\ListScreen;
 use AC\Screen;
+use AC\Type\Integration;
 use AC\Type\Url\Site;
 
 final class MetaBox extends Integration
@@ -30,6 +29,7 @@ final class MetaBox extends Integration
                     __('Meta Box', 'codepress-admin-columns')
                 )
             ),
+            null,
             new Site(Site::PAGE_ADDON_METABOX)
         );
     }
@@ -42,11 +42,6 @@ final class MetaBox extends Integration
     public function show_notice(Screen $screen): bool
     {
         return $screen->get_id() === 'edit-meta-box';
-    }
-
-    public function show_placeholder(ListScreen $list_screen): bool
-    {
-        return true;
     }
 
 }

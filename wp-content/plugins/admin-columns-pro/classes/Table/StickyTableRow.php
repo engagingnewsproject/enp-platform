@@ -34,14 +34,14 @@ class StickyTableRow implements AC\Registerable
         return $handler;
     }
 
-    public function preferences(): AC\Preferences\Site
+    public function preferences(): AC\Preferences\Preference
     {
-        return new AC\Preferences\Site('show_sticky_table_row');
+        return (new AC\Preferences\SiteFactory())->create('show_sticky_table_row');
     }
 
     public function is_sticky(string $storage_key): bool
     {
-        return (bool)apply_filters('acp/sticky_header/enable', (bool)$this->preferences()->get($storage_key));
+        return (bool)apply_filters('ac/sticky_header/enable', (bool)$this->preferences()->find($storage_key));
     }
 
     public function update_sticky_table(): void
@@ -60,10 +60,11 @@ class StickyTableRow implements AC\Registerable
             wp_send_json_error();
         }
 
-        $this->preferences()->set(
-            $list_screen->get_storage_key(),
+        $this->preferences()->save(
+            $list_screen->get_table_id() . $list_screen->get_id(),
             'true' === filter_input(INPUT_POST, 'value')
         );
+
         wp_send_json_success();
     }
 
@@ -71,7 +72,7 @@ class StickyTableRow implements AC\Registerable
     {
         $list_screen = $table->get_list_screen();
 
-        if ( ! $list_screen->get_settings()) {
+        if ( ! $list_screen) {
             return;
         }
 
@@ -79,7 +80,7 @@ class StickyTableRow implements AC\Registerable
             ->set_options([
                 'yes' => __('Sticky Headers', 'codepress-admin-columns'),
             ])
-            ->set_value($this->is_sticky($table->get_list_screen()->get_storage_key()) ? 'yes' : '');
+            ->set_value($this->is_sticky($list_screen->get_table_id() . $list_screen->get_id()) ? 'yes' : '');
 
         $table->register_screen_option($check_box);
     }

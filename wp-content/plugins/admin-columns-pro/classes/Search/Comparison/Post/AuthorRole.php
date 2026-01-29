@@ -25,7 +25,7 @@ class AuthorRole extends Comparison implements Values
     protected function create_query_bindings(string $operator, Value $value): Bindings
     {
         global $wpdb;
-        
+
         $bindings = new Bindings();
 
         $alias_user = $bindings->get_unique_alias('user');

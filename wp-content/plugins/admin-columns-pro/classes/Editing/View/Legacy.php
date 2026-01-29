@@ -4,12 +4,14 @@ namespace ACP\Editing\View;
 
 use ACP\Editing\View;
 
-class Legacy extends View {
+class Legacy extends View
+{
 
-	public function __construct( array $args ) {
-		parent::__construct( $args['type'] );
+    public function __construct(array $args)
+    {
+        parent::__construct($args['type']);
 
-		$this->args = $args;
-	}
+        $this->args = $args;
+    }
 
 }

@@ -4,23 +4,38 @@ namespace AC\ThirdParty\MediaLibraryAssistant;
 
 use AC;
 use AC\Registerable;
-use AC\Table\ListKeyCollection;
-use AC\Type\ListKey;
+use AC\Table\ManageValue\ListScreenServiceFactory;
+use AC\ThirdParty\MediaLibraryAssistant\TableScreen\ManageValueServiceFactory;
+use AC\Vendor\DI\Container;
 
-class MediaLibraryAssistant implements Registerable {
+class MediaLibraryAssistant implements Registerable
+{
 
-	public function register(): void
+    private Container $container;
+
+    public function __construct(Container $container)
     {
-		if ( ! defined( 'MLA_PLUGIN_PATH' ) ) {
-			return;
-		}
+        $this->container = $container;
+    }
 
-		AC\ListScreenFactory\Aggregate::add( new ListScreenFactory() );
-		add_action( 'ac/list_keys', [ $this, 'add_list_keys' ] );
-	}
+    public function register(): void
+    {
+        if ( ! defined('MLA_PLUGIN_PATH')) {
+            return;
+        }
 
-	public function add_list_keys( ListKeyCollection $list_keys ): void {
-		$list_keys->add( new ListKey( 'mla-media-assistant' ) );
-	}
+        AC\TableScreenFactory\Aggregate::add($this->container->get(TableScreenFactory::class));
+        AC\TableIdsFactory\Aggregate::add($this->container->get(TableIdsFactory::class));
+        AC\ColumnFactories\Aggregate::add($this->container->get(ColumnTypesFactory::class));
+
+        AC\Service\ManageValue::add(
+            $this->container->make(
+                ListScreenServiceFactory::class,
+                ['factory' => $this->container->get(ManageValueServiceFactory::class)]
+            )
+        );
+        AC\Service\ManageHeadings::add($this->container->get(TableScreen\ManageHeadings::class));
+        AC\Service\SaveHeadings::add($this->container->get(TableScreen\SaveHeadings::class));
+    }
 
 }

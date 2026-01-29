@@ -1,36 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\GravityForms\Field\Type;
 
 use ACA\GravityForms;
 use ACA\GravityForms\Field;
 use GF_Field;
 
-class Select extends GravityForms\Field\Field implements Field\Options, Field\Multiple {
+class Select extends GravityForms\Field\Field implements Field\Options, Field\Multiple
+{
 
-	/**
-	 * @var array
-	 */
-	private $choices;
+    private array $choices;
 
-	/**
-	 * @var bool
-	 */
-	private $multiple;
+    private bool $multiple;
 
-	public function __construct( $form_id, $field_id, GF_Field $gf_field, array $choices, $multiple ) {
-		parent::__construct( $form_id, $field_id, $gf_field );
+    public function __construct(int $form_id, string $field_id, GF_Field $gf_field, array $choices, bool $multiple)
+    {
+        parent::__construct($form_id, $field_id, $gf_field);
 
-		$this->choices = $choices;
-		$this->multiple = (bool) $multiple;
-	}
+        $this->choices = $choices;
+        $this->multiple = $multiple;
+    }
 
-	public function get_options() {
-		return $this->choices;
-	}
+    public function get_options(): array
+    {
+        return $this->choices;
+    }
 
-	public function is_multiple() {
-		return $this->multiple;
-	}
+    public function is_multiple(): bool
+    {
+        return $this->multiple;
+    }
 
 }

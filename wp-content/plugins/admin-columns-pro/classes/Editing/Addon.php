@@ -2,100 +2,52 @@
 
 namespace ACP\Editing;
 
-use AC;
 use AC\Asset\Location;
-use AC\ListScreenRepository\Storage;
 use AC\Registerable;
-use AC\Request;
-use ACP\Editing\Ajax\TableRowsFactory;
-use ACP\Editing\Factory\BulkEditFactory;
-use ACP\Editing\Factory\InlineEditFactory;
-use ACP\Settings\ListScreen\HideOnScreenCollection;
-use ACP\Type\HideOnScreen\Group;
+use AC\Services;
+use AC\Vendor\DI;
+use ACP\AdminColumnsPro;
+use ACP\Editing\Registerable\AdminTableElements;
+use ACP\Editing\Registerable\RequestHandlers;
+use ACP\Editing\Registerable\Scripts;
 
-class Addon implements Registerable {
+final class Addon implements Registerable
+{
 
-	/**
-	 * @var Storage
-	 */
-	private $storage;
+    private DI\Container $container;
 
-	/**
-	 * @var Location\Absolute
-	 */
-	private $location;
+    private Location\Absolute $location;
 
-	/**
-	 * @var Request
-	 */
-	private $request;
-
-	public function __construct( Storage $storage, Location\Absolute $location, Request $request ) {
-		$this->storage = $storage;
-		$this->location = $location;
-		$this->request = $request;
-	}
-
-	public function register(): void
+    public function __construct(DI\Container $container, AdminColumnsPro $plugin)
     {
-		add_action( 'ac/table/list_screen', [ $this, 'load_table' ] );
-		add_action( 'ac/table/list_screen', [ $this, 'handle_request_rows' ] );
-		add_action( 'ac/table/list_screen', [ $this, 'handle_request_query' ] );
-		add_action( 'ac/column/settings', [ $this, 'register_column_settings' ] );
-		add_action( 'acp/admin/settings/hide_on_screen', [ $this, 'add_hide_on_screen' ], 10, 2 );
-		add_action( 'wp_ajax_acp_editing_request', [ $this, 'ajax_edit_request' ] );
-	}
+        $this->container = $container;
+        $this->location = $plugin->get_location();
+    }
 
-	public function load_table( AC\ListScreen $list_screen ) {
-		$table = new TableScreen(
-			$list_screen,
-			$this->location,
-			new InlineEditFactory( $list_screen ),
-			new BulkEditFactory( $list_screen )
-		);
-		$table->register();
-	}
+    public function register(): void
+    {
+        Strategy\AggregateFactory::add($this->container->make(Strategy\PostFactory::class));
+        Strategy\AggregateFactory::add($this->container->make(Strategy\UserFactory::class));
+        Strategy\AggregateFactory::add($this->container->make(Strategy\SiteFactory::class));
+        Strategy\AggregateFactory::add($this->container->make(Strategy\CommentFactory::class));
+        Strategy\AggregateFactory::add($this->container->make(Strategy\TaxonomyFactory::class));
 
-	public function add_hide_on_screen( HideOnScreenCollection $collection, AC\ListScreen $list_screen ) {
-		if ( $list_screen instanceof ListScreen ) {
-			$collection->add( new HideOnScreen\InlineEdit(), new Group( Group::FEATURE ) )
-			           ->add( new HideOnScreen\BulkEdit(), new Group( Group::FEATURE ), 20 );
-		}
-		if ( $list_screen instanceof BulkDelete\ListScreen ) {
-			$collection->add( new HideOnScreen\BulkDelete(), new Group( Group::FEATURE ), 30 );
-		}
-	}
+        BulkDelete\AggregateFactory::add($this->container->make(BulkDelete\Deletable\PostFactory::class));
+        BulkDelete\AggregateFactory::add($this->container->make(BulkDelete\Deletable\UserFactory::class));
+        BulkDelete\AggregateFactory::add($this->container->make(BulkDelete\Deletable\CommentFactory::class));
+        BulkDelete\AggregateFactory::add($this->container->make(BulkDelete\Deletable\TaxonomyFactory::class));
 
-	public function handle_request_query() {
-		$factory = new RequestHandlerFactory( $this->storage );
+        $this->create_services()
+             ->register();
+    }
 
-		$request_handler = $factory->create( $this->request );
-
-		if ( $request_handler ) {
-			$request_handler->handle( $this->request );
-		}
-	}
-
-	public function ajax_edit_request() {
-		check_ajax_referer( 'ac-ajax' );
-
-		$factory = new RequestHandlerAjaxFactory( $this->storage );
-
-		$factory->create( $this->request )
-		        ->handle( $this->request );
-	}
-
-	public function handle_request_rows( AC\ListScreen $list_screen ) {
-		$table_rows = TableRowsFactory::create( $this->request, $list_screen );
-
-		if ( $table_rows && $table_rows->is_request() ) {
-			$table_rows->register();
-		}
-	}
-
-	public function register_column_settings( AC\Column $column ) {
-		( new ColumnInlineSettingsSetter() )->register( $column );
-		( new ColumnBulkSettingsSetter() )->register( $column );
-	}
+    private function create_services(): Services
+    {
+        return new Services([
+            $this->container->make(Scripts::class, ['location' => $this->location]),
+            $this->container->make(AdminTableElements::class),
+            $this->container->make(RequestHandlers::class),
+        ]);
+    }
 
 }

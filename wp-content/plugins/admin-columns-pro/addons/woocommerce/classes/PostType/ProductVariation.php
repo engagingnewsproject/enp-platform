@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\PostType;
 
 use AC\Asset\Location\Absolute;
@@ -11,9 +13,6 @@ class ProductVariation implements Registerable
 
     public const POST_TYPE = 'product_variation';
 
-    /**
-     * @var Absolute
-     */
     private $location;
 
     public function __construct(Absolute $location)

@@ -4,14 +4,16 @@ namespace ACP\Search\Comparison\Post;
 
 use ACP\Search\Comparison;
 
-abstract class Date extends Comparison\Date {
+abstract class Date extends Comparison\Date
+{
 
-	abstract protected function get_field(): string;
+    abstract protected function get_field(): string;
 
-	protected function get_column(): string {
-		global $wpdb;
+    protected function get_column(): string
+    {
+        global $wpdb;
 
-		return sprintf( '%s.%s', $wpdb->posts, $this->get_field() );
-	}
+        return sprintf('%s.%s', $wpdb->posts, $this->get_field());
+    }
 
 }

@@ -8,9 +8,6 @@ abstract class Mapping
     public const RESPONSE = 'response';
     public const REQUEST = 'request';
 
-    /**
-     * @var string
-     */
     protected $direction;
 
     /**
@@ -18,7 +15,7 @@ abstract class Mapping
      */
     protected $properties;
 
-    public function __construct(string $direction = null)
+    public function __construct(?string $direction = null)
     {
         if ($direction !== self::REQUEST) {
             $direction = self::RESPONSE;
@@ -51,7 +48,7 @@ abstract class Mapping
      *
      * @return false|string
      */
-    public function __get($key)
+    public function __get(string $key)
     {
         return $this->properties[$key] ?? false;
     }

@@ -4,51 +4,36 @@ namespace ACP\Search\Helper\TaxQuery;
 
 use ACP\Search\Value;
 
-class Comparison {
+class Comparison
+{
 
-	/**
-	 * @var string
-	 */
-	protected $taxonomy;
+    protected string $taxonomy;
 
-	/**
-	 * @var string
-	 */
-	protected $operator;
+    protected string $operator;
 
-	/**
-	 * @var string
-	 */
-	private $field;
+    private Value $terms;
 
-	/**
-	 * @var Value
-	 */
-	private $terms;
+    private string $field;
 
-	/**
-	 * @param string $taxonomy
-	 * @param string $operator
-	 * @param Value  $terms
-	 * @param string $field
-	 */
-	public function __construct( $taxonomy, $operator, Value $terms, $field = 'term_id' ) {
-		$this->taxonomy = $taxonomy;
-		$this->operator = $operator;
-		$this->terms = $terms;
-		$this->field = $field;
-	}
+    public function __construct(string $taxonomy, string $operator, Value $terms, string $field = 'term_id')
+    {
+        $this->taxonomy = $taxonomy;
+        $this->operator = $operator;
+        $this->terms = $terms;
+        $this->field = $field;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function get_expression() {
-		return [
-			'taxonomy' => $this->taxonomy,
-			'terms'    => $this->terms->get_value(),
-			'operator' => $this->operator,
-			'field'    => $this->field,
-		];
-	}
+    /**
+     * @return array
+     */
+    public function get_expression()
+    {
+        return [
+            'taxonomy' => $this->taxonomy,
+            'terms'    => [(int)$this->terms->get_value()],
+            'operator' => $this->operator,
+            'field'    => $this->field,
+        ];
+    }
 
 }

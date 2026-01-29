@@ -5,58 +5,61 @@ declare(strict_types=1);
 namespace ACP\Editing\Factory;
 
 use AC;
+use AC\ColumnCollection;
+use ACP\Column;
 use ACP\Editing\ApplyFilter\BulkEditActive;
-use ACP\Editing\Editable;
-use ACP\Editing\HideOnScreen;
-use ACP\Editing\ListScreen;
 use ACP\Editing\Service;
-use ACP\Editing\ServiceFactory;
-use ACP\Editing\Settings;
+use ACP\Editing\Strategy\AggregateFactory;
+use ACP\Editing\TableElement;
 
 class BulkEditFactory
 {
 
-    private $list_screen;
+    private AggregateFactory $aggregate_factory;
 
-    public function __construct(AC\ListScreen $list_screen)
-    {
-        $this->list_screen = $list_screen;
+    public function __construct(
+        AggregateFactory $aggregate_factory
+    ) {
+        $this->aggregate_factory = $aggregate_factory;
     }
 
-    /**
-     * @return AC\Column[]
-     */
-    public function create(): array
+    public function create(AC\ListScreen $list_screen): ColumnCollection
     {
-        return $this->is_list_screen_editable()
-            ? array_filter($this->list_screen->get_columns(), [$this, 'is_column_bulk_editable'])
-            : [];
+        $columns = new ColumnCollection();
+
+        if ( ! $this->is_list_screen_editable($list_screen)) {
+            return $columns;
+        }
+
+        foreach ($list_screen->get_columns() as $column) {
+            if ($this->is_column_bulk_editable($column, $list_screen)) {
+                $columns->add($column);
+            }
+        }
+
+        return $columns;
     }
 
-    private function is_list_screen_editable(): bool
+    private function is_list_screen_editable(AC\ListScreen $list_screen): bool
     {
-        if ( ! $this->list_screen instanceof ListScreen || ! $this->list_screen->has_id()) {
+        $strategy = $this->aggregate_factory->create(
+            $list_screen->get_table_screen()
+        );
+
+        if ( ! $strategy || ! $strategy->user_can_edit()) {
             return false;
         }
 
-        $strategy = $this->list_screen->editing();
-
-        if ( ! $strategy->user_can_edit()) {
-            return false;
-        }
-
-        $option = new HideOnScreen\BulkEdit();
-
-        return ! $option->is_hidden($this->list_screen);
+        return (new TableElement\BulkEdit())->is_enabled($list_screen);
     }
 
-    public function is_column_bulk_editable(AC\Column $column): bool
+    public function is_column_bulk_editable(AC\Column $column, AC\ListScreen $list_screen): bool
     {
-        if ( ! $column instanceof Editable) {
+        if ( ! $column instanceof Column) {
             return false;
         }
 
-        $service = ServiceFactory::create($column);
+        $service = $column->editing();
 
         if ( ! $service) {
             return false;
@@ -66,13 +69,20 @@ class BulkEditFactory
             return false;
         }
 
-        $setting = $column->get_setting(Settings\BulkEditing::NAME);
+        $component = $column->get_setting('bulk_edit');
 
-        if ( ! $setting instanceof Settings\BulkEditing) {
+        if ( ! $component) {
             return false;
         }
 
-        return (new BulkEditActive($column))->apply_filters($setting->is_active());
+        $filter = new BulkEditActive(
+            $column->get_context(),
+            $list_screen
+        );
+
+        return $filter->apply_filters(
+            $component->get_input()->get_value() === 'on'
+        );
     }
 
 }

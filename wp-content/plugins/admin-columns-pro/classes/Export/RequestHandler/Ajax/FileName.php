@@ -2,23 +2,20 @@
 
 namespace ACP\Export\RequestHandler\Ajax;
 
-use AC\ListScreenRepository;
+use AC\ListScreenRepository\Storage;
 use AC\Nonce;
 use AC\Request;
 use AC\RequestAjaxHandler;
 use AC\Type\ListScreenId;
 
-class FileName implements RequestAjaxHandler
+final class FileName implements RequestAjaxHandler
 {
 
-    /**
-     * @var ListScreenRepository
-     */
-    private $list_screen_repository;
+    private $storage;
 
-    public function __construct(ListScreenRepository $list_screen_repository)
+    public function __construct(Storage $storage)
     {
-        $this->list_screen_repository = $list_screen_repository;
+        $this->storage = $storage;
     }
 
     public function handle(): void
@@ -35,7 +32,7 @@ class FileName implements RequestAjaxHandler
             wp_send_json_error();
         }
 
-        $list_screen = $this->list_screen_repository->find(
+        $list_screen = $this->storage->find(
             new ListScreenId($id)
         );
 
@@ -45,7 +42,7 @@ class FileName implements RequestAjaxHandler
 
         // This hook allows you to change the default generated CSV filename.
         $file_name = apply_filters(
-            'acp/export/file_name',
+            'ac/export/file_name',
             (string)$request->filter('file_name', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS),
             $list_screen
         );

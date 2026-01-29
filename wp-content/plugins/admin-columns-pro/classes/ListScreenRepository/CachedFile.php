@@ -12,24 +12,19 @@ use ACP\Exception\DirectoryNotWritableException;
 use ACP\Exception\FailedToCreateDirectoryException;
 use ACP\Exception\FailedToSaveSegmentException;
 use ACP\Exception\FileNotWritableException;
+use ACP\Storage\Directory;
 
-final class CachedFile implements ListScreenRepositoryWritable, SourceAware
+final class CachedFile implements ListScreenRepositoryWritable, SourceAware, DirectoryAware
 {
 
     use ListScreenRepositoryTrait;
     use FilteredListScreenRepositoryTrait;
 
-    /**
-     * @var ListScreenCollection
-     */
-    private $list_screens;
+    private File $list_screen_repository;
 
-    /**
-     * @var SourceCollection
-     */
-    private $sources;
+    private ?SourceCollection $sources = null;
 
-    private $list_screen_repository;
+    private ?ListScreenCollection $list_screens = null;
 
     public function __construct(
         File $list_screen_repository
@@ -44,6 +39,11 @@ final class CachedFile implements ListScreenRepositoryWritable, SourceAware
         }
 
         return $this->list_screens;
+    }
+
+    public function get_directory(): Directory
+    {
+        return $this->list_screen_repository->get_directory();
     }
 
     /**

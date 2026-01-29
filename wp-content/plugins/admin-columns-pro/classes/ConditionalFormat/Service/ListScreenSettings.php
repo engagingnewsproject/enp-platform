@@ -1,34 +1,31 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ACP\ConditionalFormat\Service;
 
 use AC\Registerable;
-use ACP\ConditionalFormat\Settings\ListScreen\HideOnScreenFactory;
-use ACP\Settings\ListScreen\HideOnScreenCollection;
-use ACP\Type\HideOnScreen\Group;
+use ACP\ConditionalFormat\Settings\ListScreen\TableElementFactory;
+use ACP\Settings\ListScreen\TableElements;
 
 final class ListScreenSettings implements Registerable
 {
 
-    /**
-     * @var HideOnScreenFactory
-     */
-    private $hide_on_screen_factory;
+    private TableElementFactory $table_elements_factory;
 
-    public function __construct(HideOnScreenFactory $hide_on_screen_factory)
+    public function __construct(TableElementFactory $table_elements_factory)
     {
-        $this->hide_on_screen_factory = $hide_on_screen_factory;
+        $this->table_elements_factory = $table_elements_factory;
     }
 
     public function register(): void
     {
-        add_action('acp/admin/settings/hide_on_screen', [$this, 'add_hide_on_screen']);
+        add_action('ac/admin/settings/table_elements', [$this, 'add_table_elements']);
     }
 
-    public function add_hide_on_screen(HideOnScreenCollection $collection): void
+    public function add_table_elements(TableElements $collection): void
     {
-        $collection->add($this->hide_on_screen_factory->create(), new Group(Group::FEATURE), 55);
+        $collection->add($this->table_elements_factory->create(), 55);
     }
 
 }

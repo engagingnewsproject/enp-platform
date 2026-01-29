@@ -4,22 +4,24 @@ namespace ACP\Search\Comparison\User;
 
 use ACP\Search\Operators;
 
-class UserName extends UserField {
+class UserName extends UserField
+{
 
-	public function __construct() {
-		$operators = new Operators( [
-			Operators::EQ,
-			Operators::CONTAINS,
-			Operators::BEGINS_WITH,
-			Operators::ENDS_WITH,
-		] );
-
-		parent::__construct( $operators );
-	}
-
-	protected function get_field(): string
+    public function __construct()
     {
-		return 'user_login';
-	}
+        $operators = new Operators([
+            Operators::EQ,
+            Operators::CONTAINS,
+            Operators::BEGINS_WITH,
+            Operators::ENDS_WITH,
+        ]);
+
+        parent::__construct($operators);
+    }
+
+    protected function get_field(): string
+    {
+        return 'user_login';
+    }
 
 }

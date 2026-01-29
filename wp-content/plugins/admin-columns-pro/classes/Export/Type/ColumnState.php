@@ -1,35 +1,41 @@
 <?php
-declare( strict_types=1 );
+
+declare(strict_types=1);
 
 namespace ACP\Export\Type;
 
 use InvalidArgumentException;
 
-class ColumnState {
+final class ColumnState
+{
 
-	private $column_name;
+    private string $column_name;
 
-	private $active;
+    private bool $active;
 
-	public function __construct( string $column_name, bool $active ) {
-		$this->column_name = $column_name;
-		$this->active = $active;
+    public function __construct(string $column_name, bool $active)
+    {
+        $this->column_name = $column_name;
+        $this->active = $active;
 
-		$this->validate();
-	}
+        $this->validate();
+    }
 
-	private function validate(): void {
-		if ( '' === $this->column_name ) {
-			throw new InvalidArgumentException( 'Empty column name' );
-		}
-	}
+    private function validate(): void
+    {
+        if ('' === $this->column_name) {
+            throw new InvalidArgumentException('Empty column name');
+        }
+    }
 
-	public function get_column_name(): string {
-		return $this->column_name;
-	}
+    public function get_column_name(): string
+    {
+        return $this->column_name;
+    }
 
-	public function is_active(): bool {
-		return $this->active;
-	}
+    public function is_active(): bool
+    {
+        return $this->active;
+    }
 
 }

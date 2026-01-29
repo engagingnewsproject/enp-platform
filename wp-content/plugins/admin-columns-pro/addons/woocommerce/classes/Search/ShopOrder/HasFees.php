@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\ShopOrder;
 
 use ACP;
@@ -35,7 +37,7 @@ class HasFees extends Comparison
             ])
         );
     }
-    
+
     protected function create_query_bindings(string $operator, Value $value): Bindings
     {
         global $wpdb;

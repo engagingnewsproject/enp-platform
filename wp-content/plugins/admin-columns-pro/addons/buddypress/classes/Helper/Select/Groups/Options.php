@@ -1,35 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\BP\Helper\Select\Groups;
 
 use AC;
 use ACA\BP\Helper\Select\Groups\LabelFormatter\GroupName;
 use BP_Groups_Group;
 
-class Options extends AC\Helper\Select\Options {
+class Options extends AC\Helper\Select\Options
+{
 
-	private $labels = [];
+    private array $labels = [];
 
-	/**
-	 * @var LabelFormatter
-	 */
-	private $label_formatter;
+    private $label_formatter;
 
-	public function __construct( array $groups, $label_formatter = null  ) {
-		$this->label_formatter = $label_formatter ?: new GroupName();
+    public function __construct(array $groups, $label_formatter = null)
+    {
+        $this->label_formatter = $label_formatter ?: new GroupName();
 
-		array_map( [ $this, 'set_group' ], $groups );
+        array_map([$this, 'set_group'], $groups);
 
+        parent::__construct($this->get_options());
+    }
 
-		parent::__construct( $this->get_options() );
-	}
+    private function set_group(BP_Groups_Group $group): void
+    {
+        $this->labels[$group->id] = $this->label_formatter->format_label($group);
+    }
 
-	private function set_group( BP_Groups_Group $group ) {
-		$this->labels[ $group->id ] = $this->label_formatter->format_label( $group );
-	}
-
-	private function get_options() {
-		return self::create_from_array( $this->labels )->get_copy();
-	}
+    private function get_options(): array
+    {
+        return self::create_from_array($this->labels)->get_copy();
+    }
 
 }

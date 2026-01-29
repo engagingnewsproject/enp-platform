@@ -14,7 +14,7 @@ use ACP\Search\Value;
 class Date extends Meta implements RemoteValues
 {
 
-    private $value_factory;
+    private DateOptionsFactory $value_factory;
 
     public function __construct(string $meta_key, Query $query)
     {

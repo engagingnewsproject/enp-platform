@@ -1,43 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\GravityForms\Field;
 
 use ACA\GravityForms;
 use GF_Field;
+use GFAPI;
 
-class Field implements GravityForms\Field {
+class Field implements GravityForms\Field
+{
 
-	/**
-	 * @var int
-	 */
-	private $form_id;
+    private int $form_id;
 
-	/**
-	 * @var string
-	 */
-	private $field_id;
+    private string $field_id;
 
-	/**
-	 * @var GF_Field
-	 */
-	protected $gf_field;
+    protected GF_Field $gf_field;
 
-	public function __construct( $form_id, $field_id, GF_Field $gf_field ) {
-		$this->form_id = (int) $form_id;
-		$this->field_id = (string) $field_id;
-		$this->gf_field = $gf_field;
-	}
+    public function __construct(int $form_id, string $field_id, GF_Field $gf_field)
+    {
+        $this->form_id = $form_id;
+        $this->field_id = $field_id;
+        $this->gf_field = $gf_field;
+    }
 
-	public function get_form_id() {
-		return $this->form_id;
-	}
+    public function get_form_id(): int
+    {
+        return $this->form_id;
+    }
 
-	public function get_id() {
-		return $this->field_id;
-	}
+    public function get_id(): string
+    {
+        return $this->field_id;
+    }
 
-	public function is_required() {
-		return (bool) $this->gf_field->isRequired;
-	}
+    public function get_entry_value(int $id): string
+    {
+        return (string)(GFAPI::get_entry($id)[$this->field_id] ?? '');
+    }
+
+    public function is_required(): bool
+    {
+        return $this->gf_field->isRequired;
+    }
 
 }

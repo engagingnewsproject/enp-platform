@@ -4,37 +4,40 @@ namespace ACP\Editing\Storage\Post;
 
 use ACP\Editing\Storage;
 
-class Sticky implements Storage {
+class Sticky implements Storage
+{
 
-	/**
-	 * @var array
-	 */
-	private $stickies;
+    private ?array $stickies = null;
 
-	private function is_sticky( int $id ): bool {
-		if ( null === $this->stickies ) {
-			$this->stickies = get_option( 'sticky_posts' );
-		}
+    private function is_sticky(int $id): bool
+    {
+        if (null === $this->stickies) {
+            $stickies = get_option('sticky_posts', []) ?: [];
 
-		return in_array( $id, $this->stickies, true );
-	}
+            $this->stickies = array_map('intval', $stickies);
+        }
 
-	public function get( $id ) {
-		return $this->is_sticky( $id )
-			? 'yes'
-			: 'no';
-	}
+        return in_array($id, $this->stickies, true);
+    }
 
-	public function update( int $id, $data ): bool {
-		if ( 'yes' === $data ) {
-			stick_post( $id );
-		} else {
-			unstick_post( $id );
-		}
+    public function get(int $id): string
+    {
+        return $this->is_sticky($id)
+            ? 'yes'
+            : 'no';
+    }
 
-		wp_update_post( [ 'ID' => $id ] );
+    public function update(int $id, $data): bool
+    {
+        if ('yes' === $data) {
+            stick_post($id);
+        } else {
+            unstick_post($id);
+        }
 
-		return true;
-	}
+        wp_update_post(['ID' => $id]);
+
+        return true;
+    }
 
 }

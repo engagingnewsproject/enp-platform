@@ -1,0 +1,63 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ACA\WC\Sorting\Order;
+
+use ACP\Query\Bindings;
+use ACP\Sorting\Model\QueryBindings;
+use ACP\Sorting\Model\SqlOrderByFactory;
+use ACP\Sorting\Type\DataType;
+use ACP\Sorting\Type\Order;
+
+class OrderMetaMapping implements QueryBindings
+{
+
+    private string $meta_field;
+
+    private DataType $data_type;
+
+    private array $fields;
+
+    public function __construct(string $meta_field, array $fields, ?DataType $data_type = null)
+    {
+        $this->meta_field = $meta_field;
+        $this->data_type = $data_type ?: new DataType(DataType::STRING);
+        $this->fields = $fields;
+    }
+
+    public function create_query_bindings(Order $order): Bindings
+    {
+        global $wpdb;
+
+        $bindings = new Bindings();
+
+        if (DataType::DATETIME === $this->data_type->get_value()) {
+            $order = new Order('ASC' === (string)$order ? 'DESC' : 'ASC');
+        }
+
+        $alias = $bindings->get_unique_alias('wcs_meta');
+
+        $table_orders = $wpdb->prefix . 'wc_orders';
+        $table_addresses = $wpdb->prefix . 'wc_orders_meta';
+
+        $bindings->join(
+            $wpdb->prepare(
+                "LEFT JOIN $table_addresses AS $alias ON $alias.order_id = $table_orders.id AND $alias.meta_key = %s",
+                $this->meta_field
+            )
+        );
+
+        $bindings->order_by(
+            SqlOrderByFactory::create_with_field(
+                "$alias.meta_value",
+                $this->fields,
+                (string)$order,
+                $this->data_type
+            )
+        );
+
+        return $bindings;
+    }
+
+}

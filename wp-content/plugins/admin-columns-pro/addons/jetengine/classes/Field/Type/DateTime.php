@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Field\Type;
 
 use ACA\JetEngine\Field\Field;
 use ACA\JetEngine\Field\TimeStamp;
 use ACA\JetEngine\Field\TimestampTrait;
 
-class DateTime extends Field implements TimeStamp {
+final class DateTime extends Field implements TimeStamp
+{
 
-	const TYPE = 'datetime-local';
+    public const TYPE = 'datetime-local';
 
-	use TimestampTrait;
+    use TimestampTrait;
 }

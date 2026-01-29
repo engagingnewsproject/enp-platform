@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace ACP\Sorting\Model\User;
 
 use ACP\Query\Bindings;
+use ACP\Query\SqlTrait;
 use ACP\Sorting\Model\QueryBindings;
 use ACP\Sorting\Model\SqlOrderByFactory;
-use ACP\Sorting\Model\SqlTrait;
 use ACP\Sorting\Type\Order;
 
 class CommentCount implements QueryBindings
@@ -20,9 +20,9 @@ class CommentCount implements QueryBindings
     public const STATUS_TRASH = 'trash';
     public const STATUS_PENDING = '0';
 
-    private $status;
+    private array $status;
 
-    private $post_types;
+    private array $post_types;
 
     public function __construct(array $status = [], array $post_types = [])
     {

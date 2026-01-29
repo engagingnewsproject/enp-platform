@@ -1,22 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Service;
 
-use AC\ListScreen;
+use AC;
 use AC\Registerable;
-use ACA\WC\ListScreen\ShopOrder;
 
 class QuickAdd implements Registerable
 {
 
     public function register(): void
     {
-        add_filter('acp/quick_add/enable', [$this, 'disable_quick_add'], 10, 2);
+        add_filter('ac/quick_add/enable', [$this, 'disable_quick_add'], 10, 2);
     }
 
-    public function disable_quick_add(bool $enabled, ListScreen $list_screen): bool
+    public function disable_quick_add(bool $enabled, AC\TableScreen $table_screen): bool
     {
-        if ($list_screen instanceof ShopOrder) {
+        if ($table_screen instanceof AC\PostType && $table_screen->get_post_type()->equals('shop_order')) {
             return false;
         }
 

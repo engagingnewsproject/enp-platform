@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Search\Comparison\Relation;
 
 use AC\Helper\Select\Options\Paginated;

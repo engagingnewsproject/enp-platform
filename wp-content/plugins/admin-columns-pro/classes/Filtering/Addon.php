@@ -9,7 +9,7 @@ use AC\Vendor\Psr\Container\ContainerInterface;
 class Addon implements Registerable
 {
 
-    private $container;
+    private ContainerInterface $container;
 
     public function __construct(ContainerInterface $container)
     {
@@ -20,12 +20,14 @@ class Addon implements Registerable
     {
         $services = new Services();
 
+        DefaultFilters\Aggregate::add($this->container->get(DefaultFilters\Comment::class));
+        DefaultFilters\Aggregate::add($this->container->get(DefaultFilters\Post::class));
+        DefaultFilters\Aggregate::add($this->container->get(DefaultFilters\Media::class));
+
         $services_fqn = [
             Service\Table\FilterRequestHandler::class,
             Service\Table\FilterContainers::class,
             Service\Table\Scripts::class,
-            Service\Admin\Scripts::class,
-            Service\Admin\ColumnSettings::class,
         ];
 
         foreach ($services_fqn as $service) {

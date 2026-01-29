@@ -1,32 +1,35 @@
 <?php
-declare( strict_types=1 );
+
+declare(strict_types=1);
 
 namespace ACP\Export\ColumnRepository\Filter;
 
-use AC\Column;
+use AC;
+use AC\ColumnCollection;
+use AC\ColumnIterator;
 use AC\ColumnRepository\Filter;
-use ACP\Export\ApplyFilter;
-use ACP\Export\Exportable;
-use ACP\Export\Settings;
 
-class ExportableColumns implements Filter {
+class ExportableColumns implements Filter
+{
 
-	public function filter( array $columns ): array {
-		return array_filter( $columns, [ $this, 'is_exportable' ] );
-	}
+    public function filter(ColumnIterator $columns): ColumnCollection
+    {
+        return new ColumnCollection(
+            array_filter(
+                iterator_to_array($columns),
+                [
+                    $this,
+                    'is_exportable',
+                ]
+            )
+        );
+    }
 
-	private function is_exportable( Column $column ): bool {
-		if ( $column instanceof Exportable && ! $column->export() ) {
-			return false;
-		}
+    private function is_exportable(AC\Column $column): bool
+    {
+        $setting = $column->get_setting('export');
 
-		$setting = $column->get_setting( 'export' );
-
-		$is_exportable = $setting instanceof Settings\Column
-			? $setting->is_active()
-			: true;
-
-		return ( new ApplyFilter\ColumnActive( $column ) )->apply_filters( $is_exportable );
-	}
+        return $setting && 'on' === $setting->get_input()->get_value();
+    }
 
 }

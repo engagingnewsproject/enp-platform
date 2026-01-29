@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Editing\OrderSubscription;
 
 use ACP;
@@ -25,7 +27,7 @@ class Date implements ACP\Editing\Service
         return (new ACP\Editing\View\DateTime())->set_clear_button($this->clearable);
     }
 
-    public function get_value($id)
+    public function get_value(int $id)
     {
         return wcs_get_subscription($id)->get_date($this->date_key);
     }

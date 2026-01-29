@@ -2,6 +2,7 @@
 
 namespace ACP\Editing\BulkDelete\Deletable;
 
+use AC\Type\TaxonomySlug;
 use ACP\Editing\BulkDelete;
 use ACP\Editing\BulkDelete\Deletable;
 use ACP\Editing\RequestHandler;
@@ -11,14 +12,14 @@ class Taxonomy implements Deletable
 
     private $taxonomy;
 
-    public function __construct(string $taxonomy)
+    public function __construct(TaxonomySlug $taxonomy)
     {
         $this->taxonomy = $taxonomy;
     }
 
     public function get_delete_request_handler(): RequestHandler
     {
-        return new BulkDelete\RequestHandler\Taxonomy($this->taxonomy);
+        return new BulkDelete\RequestHandler\Taxonomy((string)$this->taxonomy);
     }
 
     public function user_can_delete(): bool

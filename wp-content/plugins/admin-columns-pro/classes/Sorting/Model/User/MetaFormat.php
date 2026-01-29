@@ -6,6 +6,7 @@ use ACP\Query\Bindings;
 use ACP\Sorting\FormatValue;
 use ACP\Sorting\Model\QueryBindings;
 use ACP\Sorting\Model\SqlOrderByFactory;
+use ACP\Sorting\Model\WarningAware;
 use ACP\Sorting\Sorter;
 use ACP\Sorting\Type\DataType;
 use ACP\Sorting\Type\Order;
@@ -14,16 +15,16 @@ use ACP\Sorting\Type\Order;
  * Sorts a user list table on a meta key. The meta value may contain mixed values, as long
  * as the supplied formatter can process them into a string.
  */
-class MetaFormat implements QueryBindings
+class MetaFormat implements QueryBindings, WarningAware
 {
 
-    private $meta_key;
+    private string $meta_key;
 
-    private $formatter;
+    private FormatValue $formatter;
 
-    protected $data_type;
+    protected DataType $data_type;
 
-    public function __construct(FormatValue $formatter, string $meta_key, DataType $data_type = null)
+    public function __construct(FormatValue $formatter, string $meta_key, ?DataType $data_type = null)
     {
         $this->formatter = $formatter;
         $this->meta_key = $meta_key;

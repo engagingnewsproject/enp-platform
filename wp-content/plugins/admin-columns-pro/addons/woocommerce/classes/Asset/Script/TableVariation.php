@@ -1,79 +1,85 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Asset\Script;
 
 use AC;
+use AC\Preferences\SiteFactory;
 
-class TableVariation extends AC\Asset\Script {
+class TableVariation extends AC\Asset\Script
+{
 
-	private const TABLE = 'product_variation';
+    private const TABLE = 'product_variation';
 
-	public function __construct( string $handle, AC\Asset\Location\Absolute $location ) {
-		parent::__construct( $handle, $location->with_suffix( 'assets/js/table-variation.js' ), [ 'jquery' ] );
-	}
+    public function __construct(string $handle, AC\Asset\Location\Absolute $location)
+    {
+        parent::__construct($handle, $location->with_suffix('assets/js/table-variation.js'), ['jquery']);
+    }
 
-	public function register(): void {
-		parent::register();
+    public function register(): void
+    {
+        parent::register();
 
-		wp_localize_script( $this->handle, 'aca_wc_table_variation', [
-			'button_back_label' => __( 'Back to products', 'codepress-admin-columns' ),
-			'button_back_link'  => $this->get_referer_link(),
-		] );
-	}
+        wp_localize_script($this->handle, 'aca_wc_table_variation', [
+            'button_back_label' => __('Back to products', 'codepress-admin-columns'),
+            'button_back_link'  => $this->get_referer_link(),
+        ]);
+    }
 
-	private function get_referer_link(): string {
-		$preference = new AC\Preferences\Site( 'referer' );
+    private function get_referer_link(): string
+    {
+        $preference = (new SiteFactory())->create('referer');
 
-		$referer = $this->check_referer( 'product' );
+        $referer = $this->check_referer('product');
 
-		if ( $referer ) {
-			$preference->set( self::TABLE, $referer );
-		} else if ( ! $this->check_referer( self::TABLE ) ) {
+        if ($referer) {
+            $preference->save(
+                self::TABLE,
+                $referer
+            );
+        } elseif ( ! $this->check_referer(self::TABLE)) {
+            // Remove preference link when referer is neither from product or product_variation
+            $preference->delete(self::TABLE);
+        }
 
-			// Remove preference link when referer is neither from product or product_variation
-			$preference->delete( self::TABLE );
-		}
+        $link = $preference->find(self::TABLE);
 
-		$link = $preference->get( self::TABLE );
+        if ( ! $link) {
+            $link = add_query_arg(['post_type' => 'product'], admin_url('edit.php'));
+        }
 
-		if ( ! $link ) {
-			$link = add_query_arg( [ 'post_type' => 'product' ], admin_url( 'edit.php' ) );
-		}
+        return $link;
+    }
 
-		return $link;
-	}
+    /**
+     * Checks if the referer came from another list table
+     */
+    private function check_referer(string $post_type): ?string
+    {
+        $referer = wp_get_referer();
 
-	/**
-	 * Checks if the referer came from another list table
-	 *
-	 * @param string $post_type
-	 *
-	 * @return false|string Return referer link
-	 */
-	private function check_referer( $post_type ) {
-		$referer = wp_get_referer();
+        if ( ! $referer) {
+            return null;
+        }
 
-		if ( ! $referer ) {
-			return false;
-		}
+        if (false === strpos($referer, admin_url('edit.php'))) {
+            return null;
+        }
 
-		if ( false === strpos( $referer, admin_url( 'edit.php' ) ) ) {
-			return false;
-		}
+        $parts = parse_url($referer);
 
-		$parts = parse_url( $referer );
+        if ( ! isset($parts['query'])) {
+            return null;
+        }
 
-		if ( ! isset( $parts['query'] ) ) {
-			return false;
-		}
+        parse_str($parts['query'], $query);
 
-		parse_str( $parts['query'], $query );
+        if ( ! isset($query['post_type']) || $post_type !== $query['post_type']) {
+            return null;
+        }
 
-		if ( ! isset( $query['post_type'] ) || $post_type !== $query['post_type'] ) {
-			return false;
-		}
-
-		return $referer;
-	}
+        return $referer;
+    }
 
 }

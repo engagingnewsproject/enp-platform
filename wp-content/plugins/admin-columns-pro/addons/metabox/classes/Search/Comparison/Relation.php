@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\MetaBox\Search\Comparison;
 
 use ACA\MetaBox\Entity;
@@ -24,12 +26,14 @@ abstract class Relation extends ACP\Search\Comparison implements SearchableValue
 
         parent::__construct(
             new Operators(
-                [Operators::EQ]
+                [
+                    Operators::EQ,
+                ]
             )
         );
     }
 
-    public function get_related_object_id($item)
+    public function get_related_object_id($item): int
     {
         switch ($item) {
             case $item instanceof WP_Post:
@@ -47,7 +51,7 @@ abstract class Relation extends ACP\Search\Comparison implements SearchableValue
      *
      * @return int[]
      */
-    private function pluck_ids(array $objects)
+    private function pluck_ids(array $objects): array
     {
         $ids = array_filter(array_unique(array_map([$this, 'get_related_object_id'], $objects)));
 

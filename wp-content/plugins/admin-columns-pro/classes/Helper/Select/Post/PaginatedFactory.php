@@ -12,8 +12,8 @@ class PaginatedFactory
 
     public function create(
         array $args,
-        LabelFormatter $label_formatter = null,
-        GroupFormatter $group_formatter = null
+        ?LabelFormatter $label_formatter = null,
+        ?GroupFormatter $group_formatter = null
     ): Paginated {
         if (null === $label_formatter) {
             $label_formatter = new LabelFormatter\PostTitle();
@@ -36,7 +36,7 @@ class PaginatedFactory
         );
     }
 
-    public function create_media(array $args, LabelFormatter $label_formatter = null): Paginated
+    public function create_media(array $args, ?LabelFormatter $label_formatter = null): Paginated
     {
         $args = array_merge($args, [
             'post_type'     => 'attachment',

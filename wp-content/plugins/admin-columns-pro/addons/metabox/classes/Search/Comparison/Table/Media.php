@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\MetaBox\Search\Comparison\Table;
 
 use AC\Helper\Select\Options\Paginated;
@@ -21,16 +23,21 @@ class Media extends TableStorage
     private $mime_type;
 
     public function __construct(
-        Operators $operators,
         string $table,
         string $column,
         array $mime_type = [],
-        string $value_type = null,
-        Labels $labels = null
+        ?string $value_type = null,
+        ?Labels $labels = null
     ) {
-        $this->mime_type = $mime_type;
+        $operators = new Operators([
+            Operators::EQ,
+            Operators::IS_EMPTY,
+            Operators::NOT_IS_EMPTY,
+        ]);
 
         parent::__construct($operators, $table, $column, $value_type, $labels);
+
+        $this->mime_type = $mime_type;
     }
 
     public function format_label($value): string

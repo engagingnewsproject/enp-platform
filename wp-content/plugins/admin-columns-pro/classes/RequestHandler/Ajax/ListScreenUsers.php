@@ -12,11 +12,18 @@ use ACP\Helper\Select\User\PaginatedFactory;
 class ListScreenUsers implements RequestAjaxHandler
 {
 
+    private Nonce\Ajax $nonce;
+
+    public function __construct(Nonce\Ajax $nonce)
+    {
+        $this->nonce = $nonce;
+    }
+
     public function handle(): void
     {
         $request = new Request();
 
-        if ( ! (new Nonce\Ajax())->verify($request)) {
+        if ( ! $this->nonce->verify($request)) {
             wp_send_json_error();
         }
 

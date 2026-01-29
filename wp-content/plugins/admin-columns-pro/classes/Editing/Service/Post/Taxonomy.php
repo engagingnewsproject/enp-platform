@@ -7,61 +7,59 @@ use ACP\Editing\PaginatedOptions;
 use ACP\Editing\Service;
 use ACP\Editing\Storage;
 use ACP\Editing\View;
+use ACP\Helper\Select\Taxonomy\PaginatedFactory;
 
-class Taxonomy implements Service, PaginatedOptions {
+class Taxonomy implements Service, PaginatedOptions
+{
 
-	/**
-	 * @var string
-	 */
-	protected $taxonomy;
+    protected string $taxonomy;
 
-	/**
-	 * @var bool
-	 */
-	private $enable_term_creation;
+    private bool $enable_term_creation;
 
-	/**
-	 * @var Storage\Post\Taxonomy
-	 */
-	private $storage;
+    private Storage\Post\Taxonomy $storage;
 
-	public function __construct( string $taxonomy, bool $enable_term_creation ) {
-		$this->taxonomy = $taxonomy;
-		$this->enable_term_creation = $enable_term_creation;
-		$this->storage = new Storage\Post\Taxonomy( $taxonomy, $enable_term_creation );
-	}
+    public function __construct(string $taxonomy, bool $enable_term_creation)
+    {
+        $this->taxonomy = $taxonomy;
+        $this->enable_term_creation = $enable_term_creation;
+        $this->storage = new Storage\Post\Taxonomy($taxonomy, $enable_term_creation);
+    }
 
-	public function get_value( int $id ) {
-		return $this->storage->get( $id );
-	}
+    public function get_value(int $id): array
+    {
+        return $this->storage->get($id);
+    }
 
-	public function update( int $id, $data ): void {
-		$this->storage->update( $id, $data );
-	}
+    public function update(int $id, $data): void
+    {
+        $this->storage->update($id, $data);
+    }
 
-	public function get_view( string $context ): ?View {
-		$view = new View\AjaxSelect();
+    public function get_view(string $context): ?View
+    {
+        $view = new View\AjaxSelect();
 
-		$view->set_multiple( 'post_format' !== $this->taxonomy )
-		     ->set_clear_button( true );
+        $view->set_multiple('post_format' !== $this->taxonomy)
+             ->set_clear_button(true);
 
-		if ( $this->enable_term_creation ) {
-			$view->set_tags( true );
-		}
+        if ($this->enable_term_creation) {
+            $view->set_tags(true);
+        }
 
-		if ( $context === self::CONTEXT_BULK ) {
-			$view->has_methods( true );
-		}
+        if ($context === self::CONTEXT_BULK) {
+            $view->has_methods(true);
+        }
 
-		return $view;
-	}
+        return $view;
+    }
 
-	public function get_paginated_options( string $search, int $page, int $id = null ): Paginated {
-		return ( new \ACP\Helper\Select\Taxonomy\PaginatedFactory() )->create( [
-			'search'   => $search,
-			'page'     => $page,
-			'taxonomy' => $this->taxonomy,
-		] );
-	}
+    public function get_paginated_options(string $search, int $page, ?int $id = null): Paginated
+    {
+        return (new PaginatedFactory())->create([
+            'search'   => $search,
+            'page'     => $page,
+            'taxonomy' => $this->taxonomy,
+        ]);
+    }
 
 }

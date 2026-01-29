@@ -4,21 +4,15 @@ declare(strict_types=1);
 
 namespace ACP\Plugin\Update;
 
-use AC\ListScreenRepository\Storage;
-use AC\ListScreenRepositoryWritable;
 use AC\Plugin\Update;
 use AC\Plugin\Version;
 
 class V6000 extends Update
 {
 
-    private $storage;
-
-    public function __construct(Storage $storage)
+    public function __construct()
     {
         parent::__construct(new Version('6.0'));
-
-        $this->storage = $storage;
     }
 
     public function apply_update(): void
@@ -26,41 +20,62 @@ class V6000 extends Update
         $this->apply_acf_update();
     }
 
+    /**
+     * Each ACF field is listed as a separate column. Previously there would be a single
+     * ACF column with an options to choose its field type.
+     */
     private function apply_acf_update(): void
     {
-        foreach ($this->storage->get_repositories() as $repository) {
-            if ( ! $repository->is_writable()) {
+        if ( ! function_exists('acf_get_field')) {
+            return;
+        }
+
+        global $wpdb;
+
+        $results = $wpdb->get_results("SELECT id, list_id, columns FROM {$wpdb->prefix}admin_columns");
+
+        if ( ! $results) {
+            return;
+        }
+
+        $updates = [];
+
+        foreach ($results as $view) {
+            if ( ! $view->columns) {
                 continue;
             }
 
-            $_repository = $repository->get_list_screen_repository();
+            $has_changed_columns = false;
+            $columns = unserialize($view->columns, ['allowed_classes' => false]);
+            $columns = array_values($columns);
 
-            foreach ($_repository->find_all() as $list_screen) {
-                $settings = $list_screen->get_settings();
-                $updated = false;
-
-                foreach ($settings as $column_name => $setting) {
-                    if ('column-acf_field' === $setting['type'] && function_exists('acf_get_field')) {
-                        $field = $setting['field'];
-                        $acf_field = acf_get_field($setting['field']);
-
-                        if ($acf_field && $acf_field['type'] === 'group' && isset($setting['sub_field'])) {
-                            $field = 'acfgroup__' . $field . '-' . $setting['sub_field'];
-                        }
-
-                        $setting['type'] = $field;
-
-                        $settings[$column_name] = $setting;
-                        $updated = true;
-                    }
+            foreach ($columns as $i => $column) {
+                if ($column['type'] !== 'column-acf_field') {
+                    continue;
                 }
 
-                if ($updated && $_repository instanceof ListScreenRepositoryWritable) {
-                    $list_screen->set_settings($settings);
+                $field_type = $column['field'];
 
-                    $_repository->save($list_screen);
+                $field = acf_get_field($field_type) ?: null;
+
+                // ACF field group
+                if ($field && $field['type'] === 'group' && isset($options['sub_field'])) {
+                    $field_type = 'acfgroup__' . $field_type . '-' . $options['sub_field'];
                 }
+
+                $column[$i]['type'] = $field_type;
+                $has_changed_columns = true;
             }
+
+            if ($has_changed_columns) {
+                $updates[$view->id] = serialize($columns);
+            }
+        }
+
+        foreach ($updates as $id => $columns) {
+            $wpdb->query(
+                $wpdb->prepare("UPDATE {$wpdb->prefix}admin_columns SET columns = %s WHERE ID = %d", $columns, $id)
+            );
         }
     }
 

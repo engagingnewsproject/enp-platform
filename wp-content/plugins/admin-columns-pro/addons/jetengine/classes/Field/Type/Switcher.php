@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Field\Type;
 
 use ACA\JetEngine\Field\Field;
 
-class Switcher extends Field {
+final class Switcher extends Field
+{
 
-	const TYPE = 'switcher';
+    public const TYPE = 'switcher';
 
 }

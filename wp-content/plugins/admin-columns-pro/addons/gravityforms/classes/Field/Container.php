@@ -1,21 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\GravityForms\Field;
 
 use ACA\GravityForms\Field;
 
-interface Container {
+interface Container
+{
 
-	/**
-	 * @return Field[]
-	 */
-	public function get_sub_fields();
+    /**
+     * @return array<Field>
+     */
+    public function get_sub_fields(): array;
 
-	/**
-	 * @param string $id
-	 *
-	 * @return Field
-	 */
-	public function get_sub_field( $id );
+    public function get_sub_field(string$id):?Field;
 
 }

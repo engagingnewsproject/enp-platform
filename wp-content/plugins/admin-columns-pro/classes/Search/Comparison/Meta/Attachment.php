@@ -16,11 +16,11 @@ class Attachment extends Meta
     implements Comparison\SearchableValues
 {
 
-    private $query;
+    private ?Query $query = null;
 
-    private $mime_type;
+    private ?string $mime_type;
 
-    public function __construct(string $meta_key, Query $query, string $mime_type = null)
+    public function __construct(string $meta_key, ?Query $query = null, ?string $mime_type = null)
     {
         $operators = new Operators([
             Operators::EQ,
@@ -55,7 +55,7 @@ class Attachment extends Meta
                 's'              => $search,
                 'paged'          => $page,
                 'post_mime_type' => $this->mime_type,
-                'post__in'       => $this->query->get(),
+                'post__in'       => $this->query ? $this->query->get() : [],
             ],
             $this->formatter()
         );

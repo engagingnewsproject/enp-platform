@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\BP\Sorting\User;
 
 use ACP\Query\Bindings;
@@ -11,7 +13,7 @@ use ACP\Sorting\Type\Order;
 class ActivityUpdates implements QueryBindings
 {
 
-    private $activity_type;
+    private string $activity_type;
 
     public function __construct(string $activity_type)
     {

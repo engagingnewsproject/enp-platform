@@ -5,6 +5,7 @@
             "title": "🛒 Customer View",
             "type": "wp-users",
             "id": "6542182b81449",
+            "status": "inactive",
             "updated": 1698832424,
             "columns": {
                 "username": {

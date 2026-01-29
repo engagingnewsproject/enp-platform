@@ -16,7 +16,7 @@
 
 	<?php if ( ! empty( $style['background_color'] ) || ! empty( $style['background'] ) ) : ?>
 	table tr td .<?= $class ?> {
-		padding: 2px 4px;
+		padding: 4px 6px;
 		-webkit-box-decoration-break: clone;
 		box-decoration-break: clone;
 		border-radius: 2px;
@@ -25,6 +25,7 @@
 	<?php endif; ?>
 
 
+	table tr td .<?= $class ?> a,
 	table tr td .<?= $class ?> > *,
 	table tr td .<?= $class ?> span.dashicons {
 		color: <?= esc_html( $style['color']??'' ) ?>;

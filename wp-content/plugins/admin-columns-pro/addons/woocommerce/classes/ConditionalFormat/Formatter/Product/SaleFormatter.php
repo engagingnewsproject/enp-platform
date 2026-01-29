@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace ACA\WC\ConditionalFormat\Formatter\Product;
 
-use AC\Column;
+use AC\Expression\ComparisonOperators;
 use ACP\ConditionalFormat\Formatter;
-use ACP\Expression\ComparisonOperators;
 
 class SaleFormatter implements Formatter
 {
@@ -16,7 +15,7 @@ class SaleFormatter implements Formatter
         return self::FLOAT;
     }
 
-    public function format(string $value, $id, Column $column, string $operator_group): string
+    public function format(string $value, $id, string $operator_group): string
     {
         if (ComparisonOperators::class === $operator_group) {
             return (string)get_post_meta($id, '_sale_price', true);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\Types\Search\Post;
 
 use AC\Helper\Select\Options\Paginated;
@@ -11,32 +13,21 @@ use ACP\Search\Operators;
 use ACP\Search\Value;
 use Toolset_Relationship_Definition_Repository;
 use Toolset_Relationship_Table_Name;
+use WP_Post;
 
 class Relationship extends ACP\Search\Comparison
     implements Comparison\SearchableValues
 {
 
-    /**
-     * @var string
-     */
     private $related_post_type;
 
-    /**
-     * @var string
-     */
     private $relationship;
 
-    /**
-     * @var string
-     */
     private $role;
 
-    /**
-     * @var string
-     */
     private $return_role;
 
-    public function __construct($relationship, $related_post_type, $role, $return_role)
+    public function __construct(string $relationship, string $related_post_type, string $role, string $return_role)
     {
         $this->relationship = $relationship;
         $this->role = $role;
@@ -46,7 +37,7 @@ class Relationship extends ACP\Search\Comparison
         parent::__construct($this->get_default_operators());
     }
 
-    protected function get_default_operators()
+    protected function get_default_operators(): Operators
     {
         return new Operators([
             Operators::EQ,
@@ -55,14 +46,13 @@ class Relationship extends ACP\Search\Comparison
         ]);
     }
 
-    /**
-     * @return int
-     */
-    private function get_relationship_id()
+    private function get_relationship_id(): int
     {
         $relationship = Toolset_Relationship_Definition_Repository::get_instance()->get_definition($this->relationship);
 
-        return $relationship ? $relationship->get_row_id() : 0;
+        return $relationship
+            ? $relationship->get_row_id()
+            : 0;
     }
 
     protected function create_query_bindings(string $operator, Value $value): Bindings
@@ -85,7 +75,7 @@ class Relationship extends ACP\Search\Comparison
         return $bindings->where(sprintf("{$wpdb->posts}.ID IN( '%s')", implode("','", array_map('esc_sql', $posts))));
     }
 
-    private function get_associated_bindings($operator)
+    private function get_associated_bindings(string $operator): Bindings
     {
         global $wpdb;
 
@@ -110,7 +100,7 @@ class Relationship extends ACP\Search\Comparison
     {
         $post = get_post($value);
 
-        return $post
+        return $post instanceof WP_Post
             ? (new ACP\Helper\Select\Post\LabelFormatter\PostTitle())->format_label($post)
             : $value;
     }

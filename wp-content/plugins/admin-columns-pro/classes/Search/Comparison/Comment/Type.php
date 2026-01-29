@@ -37,7 +37,7 @@ class Type extends Field
                 continue;
             }
 
-            $options[] = new AC\Helper\Select\Option($type, $type);
+            $options[] = new AC\Helper\Select\Option((string)$type, (string)$type);
         }
 
         return new AC\Helper\Select\Options($options);

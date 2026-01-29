@@ -4,17 +4,16 @@ namespace AC\Check;
 
 use AC\Ajax;
 use AC\Capabilities;
-use AC\Integration;
 use AC\Message\Notice\Dismissible;
 use AC\Preferences;
 use AC\Registerable;
 use AC\Screen;
+use AC\Type\Integration;
 
-final class AddonAvailable
-    implements Registerable
+final class AddonAvailable implements Registerable
 {
 
-    private $integration;
+    private Integration $integration;
 
     public function __construct(Integration $integration)
     {
@@ -24,7 +23,6 @@ final class AddonAvailable
     public function register(): void
     {
         add_action('ac/screen', [$this, 'display']);
-
         $this->get_ajax_handler()->register();
     }
 
@@ -38,15 +36,17 @@ final class AddonAvailable
         return $handler;
     }
 
-    private function get_preferences(): Preferences\User
+    private function get_preferences(): Preferences\Preference
     {
-        return new Preferences\User('check-addon-available-' . $this->integration->get_slug());
+        return (new Preferences\UserFactory())->create(
+            'check-addon-available-' . $this->integration->get_slug()
+        );
     }
 
     public function ajax_dismiss_notice(): void
     {
         $this->get_ajax_handler()->verify_request();
-        $this->get_preferences()->set('dismiss-notice', true);
+        $this->get_preferences()->save('dismiss-notice', true);
     }
 
     public function display(Screen $screen): void
@@ -54,7 +54,7 @@ final class AddonAvailable
         if (
             ! current_user_can(Capabilities::MANAGE)
             || ! $this->integration->show_notice($screen)
-            || $this->get_preferences()->get('dismiss-notice')
+            || $this->get_preferences()->find('dismiss-notice')
         ) {
             return;
         }
@@ -66,7 +66,7 @@ final class AddonAvailable
 
         $link = sprintf(
             '<a href="%s">%s</a>',
-            $this->integration->get_url(),
+            'https://www.admincolumns.com',
             __('Get Admin Columns Pro', 'codepress-admin-columns')
         );
         $message = sprintf('%s %s', $support_text, $link);

@@ -1,20 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine;
 
 use AC;
 use AC\Registerable;
 use AC\Services;
+use ACA\JetEngine\TableScreen\MenuGroupFactory;
 use ACP\Service\IntegrationStatus;
 
-class JetEngine implements Registerable
+final class JetEngine implements Registerable
 {
 
-    private $location;
+    private AC\Asset\Location\Absolute $location;
 
-    public function __construct(AC\Asset\Location\Absolute $location)
+    private AC\Vendor\DI\Container $container;
+
+    public function __construct(AC\Asset\Location\Absolute $location, AC\Vendor\DI\Container $container)
     {
         $this->location = $location;
+        $this->container = $container;
     }
 
     public function register(): void
@@ -23,17 +29,18 @@ class JetEngine implements Registerable
             return;
         }
 
+        AC\Admin\MenuGroupFactory\Aggregate::add(new MenuGroupFactory());
+
+        AC\ColumnFactories\Aggregate::add($this->container->get(ColumnFactories\MetaFactory::class));
+        AC\ColumnFactories\Aggregate::add($this->container->get(ColumnFactories\RelationFactory::class));
+
         $this->create_services()->register();
     }
 
     private function create_services(): Services
     {
         return new Services([
-            new Service\Admin($this->location),
-            new Service\ColumnInstantiate(),
-            new Service\ColumnGroups(),
-            new Service\RelationalColumns(),
-            new Service\MetaColumns(),
+            new Service\ColumnGroups($this->location),
             new IntegrationStatus('ac-addon-jetengine'),
         ]);
     }

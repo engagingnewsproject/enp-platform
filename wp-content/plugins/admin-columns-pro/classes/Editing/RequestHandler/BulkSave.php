@@ -2,15 +2,15 @@
 
 namespace ACP\Editing\RequestHandler;
 
-use AC\Column;
+use AC;
+use AC\ListScreen;
 use AC\ListScreenRepository\Storage;
 use AC\Request;
 use AC\Response;
+use AC\Type\ColumnId;
 use AC\Type\ListScreenId;
+use ACP;
 use ACP\Editing\ApplyFilter;
-use ACP\Editing\Editable;
-use ACP\Editing\ListScreen;
-use ACP\Editing\Model;
 use ACP\Editing\RequestHandler;
 use ACP\Editing\RequestHandler\Exception\InvalidUserPermissionException;
 use ACP\Editing\RequestHandler\Exception\NotEditableException;
@@ -26,11 +26,16 @@ class BulkSave implements RequestHandler
     private const SAVE_SUCCESS = 'success';
     private const SAVE_NOTICE = 'not_editable';
 
-    private $storage;
+    private Storage $storage;
 
-    public function __construct(Storage $storage)
-    {
+    private Strategy\AggregateFactory $aggregate_factory;
+
+    public function __construct(
+        Storage $storage,
+        Strategy\AggregateFactory $aggregate_factory
+    ) {
         $this->storage = $storage;
+        $this->aggregate_factory = $aggregate_factory;
     }
 
     public function handle(Request $request)
@@ -56,11 +61,9 @@ class BulkSave implements RequestHandler
             $response->error();
         }
 
-        if ( ! $list_screen instanceof ListScreen) {
-            $response->error();
-        }
-
-        $strategy = $list_screen->editing();
+        $strategy = $this->aggregate_factory->create(
+            $list_screen->get_table_screen()
+        );
 
         if ( ! $strategy) {
             $response->error();
@@ -70,9 +73,9 @@ class BulkSave implements RequestHandler
             $response->error();
         }
 
-        $column = $list_screen->get_column_by_name($request->get('column'));
+        $column = $list_screen->get_column(new ColumnId((string)$request->get('column')));
 
-        if ( ! $column instanceof Editable) {
+        if ( ! $column instanceof ACP\Column) {
             $response->error();
         }
 
@@ -88,7 +91,7 @@ class BulkSave implements RequestHandler
             $error = null;
 
             try {
-                $this->save($id, $form_data, $strategy, $service, $column);
+                $this->save($id, $form_data, $strategy, $service, $column, $list_screen);
                 $status = self::SAVE_SUCCESS;
             } catch (NotEditableException|InvalidUserPermissionException $e) {
                 $error = $e->getMessage();
@@ -111,17 +114,14 @@ class BulkSave implements RequestHandler
             ->success();
     }
 
-    /**
-     * @param int      $id
-     * @param mixed    $form_data
-     * @param Strategy $strategy
-     * @param Service  $service
-     * @param Column   $column
-     *
-     * @return void
-     */
-    private function save($id, $form_data, Strategy $strategy, Service $service, Column $column)
-    {
+    private function save(
+        $id,
+        $form_data,
+        Strategy $strategy,
+        Service $service,
+        AC\Column $column,
+        ListScreen $list_screen
+    ): void {
         $id = (int)$id;
 
         if ( ! $id) {
@@ -136,22 +136,24 @@ class BulkSave implements RequestHandler
             throw new NotEditableException($service->get_not_editable_reason($id));
         }
 
-        $filter = new ApplyFilter\SaveValue($id, $column);
+        $context = $column->get_context();
+
+        $filter = new ApplyFilter\SaveValue(
+            $id,
+            $column->get_context(),
+            $list_screen->get_table_screen(),
+            $list_screen->get_id()
+        );
         $form_data = $filter->apply_filters($form_data);
 
-        do_action('acp/editing/before_save', $column, $id, $form_data);
+        do_action('ac/editing/before_save', $context, $id, $form_data);
 
         $service->update(
             $id,
             $form_data
         );
 
-        // Legacy..
-        if ($service instanceof Model && $service->has_error()) {
-            throw new RuntimeException($service->get_error()->get_error_message());
-        }
-
-        do_action('acp/editing/saved', $column, $id, $form_data);
+        do_action('ac/editing/saved', $context, $id, $form_data, $list_screen);
     }
 
 }

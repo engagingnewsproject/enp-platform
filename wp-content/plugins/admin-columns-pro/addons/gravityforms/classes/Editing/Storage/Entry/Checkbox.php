@@ -1,67 +1,71 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\GravityForms\Editing\Storage\Entry;
 
 use ACA\GravityForms\Field\Field;
 use ACP\Editing\Storage;
 use GFAPI;
 
-class Checkbox implements Storage {
+class Checkbox implements Storage
+{
 
-	/**
-	 * @var Field
-	 */
-	private $field;
+    private Field $field;
 
-	public function __construct( Field $field ) {
-		$this->field = $field;
-	}
+    public function __construct(Field $field)
+    {
+        $this->field = $field;
+    }
 
-	public function get( int $id ) {
-		$entry = GFAPI::get_entry( $id );
+    public function get(int $id): array
+    {
+        $entry = GFAPI::get_entry($id);
 
-		if ( is_wp_error( $entry ) ) {
-			return [];
-		}
+        if (is_wp_error($entry)) {
+            return [];
+        }
 
-		$value = [];
+        $value = [];
 
-		foreach ( array_keys( $this->field->get_sub_fields() ) as $key ) {
-			if ( isset( $entry[ $key ] ) && $entry[ $key ] ) {
-				$value[] = $entry[ $key ];
-			}
-		}
+        foreach (array_keys($this->field->get_sub_fields()) as $key) {
+            if (isset($entry[$key]) && $entry[$key]) {
+                $value[] = $entry[$key];
+            }
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 
-	private function get_id_for_value( $value ): ?string {
-		foreach ( $this->field->get_sub_fields() as $key => $subfield ) {
-			if ( $subfield->get_value() === $value ) {
-				return (string) $key;
-			}
-		}
+    private function get_id_for_value($value): ?string
+    {
+        foreach ($this->field->get_sub_fields() as $key => $subfield) {
+            if ($subfield->get_value() === $value) {
+                return (string)$key;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	public function update( int $id, $data ): bool {
-		// First remove each value for each subfield
-		foreach ( array_keys( $this->field->get_sub_fields() ) as $key ) {
-			GFAPI::update_entry_field( $id, $key, '' );
-		}
+    public function update(int $id, $data): bool
+    {
+        // First remove each value for each subfield
+        foreach (array_keys($this->field->get_sub_fields()) as $key) {
+            GFAPI::update_entry_field($id, $key, '');
+        }
 
-		if ( ! empty( $data ) ) {
-			// Populate subfields if value exists
-			foreach ( $data as $item ) {
-				$field_id = $this->get_id_for_value( $item );
-				if ( $field_id ) {
-					GFAPI::update_entry_field( $id, $field_id, $item );
-				}
-			}
-		}
+        if ( ! empty($data)) {
+            // Populate subfields if value exists
+            foreach ($data as $item) {
+                $field_id = $this->get_id_for_value($item);
+                if ($field_id) {
+                    GFAPI::update_entry_field($id, $field_id, $item);
+                }
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 }

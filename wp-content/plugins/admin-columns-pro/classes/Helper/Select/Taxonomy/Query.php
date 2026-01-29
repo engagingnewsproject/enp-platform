@@ -11,10 +11,7 @@ class Query extends ArrayIterator
     implements Paginated
 {
 
-    /**
-     * @var WP_Term_Query
-     */
-    protected $query;
+    protected WP_Term_Query $query;
 
     public function __construct(array $args = [])
     {
@@ -25,7 +22,7 @@ class Query extends ArrayIterator
             'hide_empty' => 0,
             'taxonomy'   => null,
         ], $args);
- 
+
         // calculate offset
         $args['offset'] = ($args['page'] - 1) * $args['number'];
 

@@ -1,141 +1,95 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\Pods;
 
-use AC;
-use ACA\Pods\ConditionalFormatting\FormattableConfigFactory;
-use ACP;
-use ACP\ConditionalFormat\FormattableConfig;
+use AC\MetaType;
+use AC\Type\PostTypeSlug;
+use AC\Type\TaxonomySlug;
+use LogicException;
+use Pods\Whatsit;
+use Pods\Whatsit\Pod;
 
 class Field
-    implements ACP\Sorting\Sortable, ACP\Editing\Editable, ACP\Export\Exportable,
-               ACP\Search\Searchable, ACP\ConditionalFormat\Formattable
 {
 
-    /**
-     * @var Column
-     */
-    protected $column;
+    private $field;
 
-    public function __construct(Column $column)
+    private $pod;
+
+    public function __construct(Pod $pod, Whatsit\Field $field)
     {
-        $this->column = $column;
+        $this->field = $field;
+        $this->pod = $pod;
     }
 
-    public function editing()
+    public function get_meta_type(): MetaType
     {
-        return false;
+        switch ($this->pod->get_type()) {
+            case 'post_type':
+            case 'media':
+                return new MetaType(MetaType::POST);
+            case 'taxonomy':
+                return new MetaType(MetaType::TERM);
+            case 'user':
+                return new MetaType(MetaType::USER);
+            case 'comment':
+                return new MetaType(MetaType::COMMENT);
+            default:
+                throw new LogicException('Unknown meta type');
+        }
     }
 
-    public function sorting()
+    public function get_taxonomy(): ?TaxonomySlug
     {
-        return null;
+        return MetaType::TERM === (string)$this->get_meta_type()
+            ? new TaxonomySlug($this->pod->get_name())
+            : null;
     }
 
-    public function export()
+    public function get_post_type(): ?PostTypeSlug
     {
-        return new ACP\Export\Model\RawValue($this->column);
+        return MetaType::POST === (string)$this->get_meta_type()
+            ? new PostTypeSlug($this->pod->get_name())
+            : null;
     }
 
-    public function search()
+    public function get_field(): Whatsit\Field
     {
-        return (new Search\ComparisonFactory())->create($this, $this->column);
+        return $this->field;
     }
 
-    public function conditional_format(): ?FormattableConfig
+    public function get_pod(): Pod
     {
-        return (new FormattableConfigFactory())->create($this);
+        return $this->pod;
     }
 
-    /**
-     * @return AC\Settings\Column[]
-     */
-    public function get_dependent_settings()
+    public function get_label(): string
     {
-        return [];
+        return $this->get_field()->get_label();
     }
 
-    /**
-     * @return Column
-     */
-    protected function column()
+    public function get_type(): string
     {
-        return $this->column;
+        $type = $this->field->get_type();
+
+        switch ($type) {
+            case 'pick':
+                return $this->field->get_arg('pick_object', '');
+            default:
+                return $type;
+        }
     }
 
-    public function get_value($id)
+    public function get_name(): string
     {
-        return $this->column->get_formatted_value($this->get_raw_value($id));
+        return $this->field->get_name();
     }
 
-    /**
-     * @return string
-     */
-    public function get_pod()
+    public function get_arg(string $name, $default = null)
     {
-        return $this->get('pod');
-    }
-
-    /**
-     * @return string
-     */
-    public function get_field_name()
-    {
-        return $this->get_meta_key();
-    }
-
-    public function get_raw_value($id)
-    {
-        return pods_field_raw($this->get_pod(), $id, $this->get_field_name(), true);
-    }
-
-    public function get_meta_type()
-    {
-        return $this->column->get_meta_type();
-    }
-
-    /**
-     * Get the raw DB value
-     *
-     * @param int $id
-     *
-     * @return array|false
-     */
-    protected function get_db_value($id)
-    {
-        return (new Value\DbRaw($this->get_meta_key(), $this->get_meta_type()))->get_value($id);
-    }
-
-    public function get_separator()
-    {
-        return null;
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return mixed|false
-     */
-    public function get($key)
-    {
-        return $this->column->get_pod_field_option($key);
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return mixed|false
-     */
-    public function get_option($key)
-    {
-        $options = $this->get('options');
-
-        return isset($options[$key]) ? $options[$key] : false;
-    }
-
-    protected function get_meta_key()
-    {
-        return $this->column->get_meta_key();
+        return $this->field->get_arg($name, $default);
     }
 
 }

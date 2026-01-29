@@ -1,20 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACP\Search;
 
 use AC\TypedArrayIterator;
 
-final class Rules extends TypedArrayIterator {
+final class Rules extends TypedArrayIterator
+{
 
-	public function __construct( array $array ) {
-		parent::__construct( $array, __NAMESPACE__ . '\Rule' );
-	}
+    public function __construct(array $array)
+    {
+        parent::__construct($array, Rule::class);
+    }
 
-	/**
-	 * @return Rule
-	 */
-	public function current() {
-		return parent::current();
-	}
+    public function current(): Rule
+    {
+        return parent::current();
+    }
 
 }

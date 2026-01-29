@@ -9,11 +9,6 @@ use LogicException;
 abstract class Table
 {
 
-    public function get_timestamp_format(): string
-    {
-        return 'Y-m-d H:i:s';
-    }
-
     public function exists(): bool
     {
         global $wpdb;
@@ -23,11 +18,18 @@ abstract class Table
         return $wpdb->get_var($query) === $this->get_name();
     }
 
+    public function update(): void
+    {
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+        dbDelta($this->get_schema());
+    }
+
     public function create(): bool
     {
         global $wpdb;
 
-        if ( $this->exists()) {
+        if ($this->exists()) {
             throw new LogicException(sprintf('Table %s does already exist', $this->get_name()));
         }
 

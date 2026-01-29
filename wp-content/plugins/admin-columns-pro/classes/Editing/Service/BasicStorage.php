@@ -5,20 +5,24 @@ namespace ACP\Editing\Service;
 use ACP\Editing\Service;
 use ACP\Editing\Storage;
 
-abstract class BasicStorage implements Service {
+abstract class BasicStorage implements Service
+{
 
-	protected $storage;
+    protected Storage $storage;
 
-	public function __construct( Storage $storage ) {
-		$this->storage = $storage;
-	}
+    public function __construct(Storage $storage)
+    {
+        $this->storage = $storage;
+    }
 
-	public function update( int $id, $data ): void {
-		$this->storage->update( $id, $data );
-	}
+    public function update(int $id, $data): void
+    {
+        $this->storage->update($id, $data);
+    }
 
-	public function get_value( int $id ) {
-		return $this->storage->get( $id );
-	}
+    public function get_value(int $id)
+    {
+        return $this->storage->get($id);
+    }
 
 }

@@ -11,7 +11,7 @@ final class RulesRepositoryFactory
 
     public function create(ListScreenId $id): RulesRepository
     {
-        return new RulesRepository($id);
+        return new RulesRepository();
     }
 
 }

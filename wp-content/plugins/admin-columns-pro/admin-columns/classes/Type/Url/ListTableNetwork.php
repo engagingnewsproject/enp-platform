@@ -10,12 +10,12 @@ use AC\Type\Uri;
 class ListTableNetwork extends Uri
 {
 
-    public function __construct(string $path, ListScreenId $list_id = null)
+    public function __construct(string $path, ?ListScreenId $list_id = null)
     {
         parent::__construct(network_admin_url($path));
 
         if ($list_id) {
-            $this->add_arg('layout', (string)$list_id);
+            $this->add('layout', (string)$list_id);
         }
     }
 }

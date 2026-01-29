@@ -5,17 +5,10 @@ declare(strict_types=1);
 namespace ACP\Search\Storage\Table;
 
 use AC\Storage\Table;
+use ACP\Search\SegmentSchema;
 
 final class Segment extends Table
 {
-
-    public const ID = 'id';
-    public const KEY = 'key';
-    public const LIST_SCREEN_ID = 'list_screen_id';
-    public const USER_ID = 'user_id';
-    public const NAME = 'name';
-    public const URL_PARAMETERS = 'url_parameters';
-    public const DATE_CREATED = 'date_created';
 
     public function get_name(): string
     {
@@ -32,15 +25,15 @@ final class Segment extends Table
 
         return "
 			CREATE TABLE " . $this->get_name() . " (
-				`" . self::ID . "` bigint(20) unsigned NOT NULL auto_increment,
-				`" . self::KEY . "` char(13) NOT NULL,
-				`" . self::LIST_SCREEN_ID . "` varchar(20) NOT NULL default '',
-				`" . self::USER_ID . "` bigint(20),
-				`" . self::NAME . "` varchar(255) NOT NULL default '',
-				`" . self::URL_PARAMETERS . "` mediumtext,
-				`" . self::DATE_CREATED . "` datetime NOT NULL,
-				PRIMARY KEY (`" . self::ID . "`),
-				UNIQUE (`" . self::KEY . "`)
+				`id` bigint(20) unsigned NOT NULL auto_increment,
+				`" . SegmentSchema::KEY . "` varchar(36) NOT NULL,
+				`" . SegmentSchema::LIST_SCREEN_ID . "` varchar(36) NOT NULL default '',
+				`" . SegmentSchema::USER_ID . "` bigint(20),
+				`" . SegmentSchema::NAME . "` varchar(255) NOT NULL default '',
+				`" . SegmentSchema::URL_PARAMETERS . "` mediumtext,
+				`" . SegmentSchema::DATE_CREATED . "` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				PRIMARY KEY (`id`),
+				UNIQUE KEY `" . SegmentSchema::KEY . "` (`" . SegmentSchema::KEY . "`)
 			) $collate
 		";
     }

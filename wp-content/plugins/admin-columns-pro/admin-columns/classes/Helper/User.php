@@ -4,206 +4,111 @@ namespace AC\Helper;
 
 use WP_User;
 
-class User {
+class User
+{
 
-	/**
-	 * @param string $field
-	 * @param int    $user_id
-	 *
-	 * @return bool|string|array
-	 */
-	public function get_user_field( $field, $user_id ) {
-		$user = get_user_by( 'id', $user_id );
+    public function get_formatted_name(WP_User $user): ?string
+    {
+        return trim($user->first_name . ' ' . $user->last_name)
+            ?: $user->display_name
+                ?: $user->user_login;
+    }
 
-		return $user->{$field} ?? false;
-	}
+    /**
+     * @deprecated 7.0
+     */
+    public function get_translations_remote(): array
+    {
+        _deprecated_function(__METHOD__, '7.0', 'AC\Herlper\Translations::get_available_translations()');
 
-	/**
-	 * @param mixed $user
-	 *
-	 * @return false|WP_User
-	 */
-	public function get_user( $user ) {
-		if ( is_numeric( $user ) ) {
-			return get_userdata( $user );
-		}
+        return [];
+    }
 
-		return $user instanceof WP_User
-			? $user
-			: false;
-	}
+    /**
+     * @deprecated 7.0
+     */
+    public function get_display_name($user, ?string $format = null): ?string
+    {
+        _deprecated_function(__METHOD__, '7.0', 'get_fullname');
 
-	/**
-	 * @param array $role_names
-	 *
-	 * @return array
-	 */
-	public function translate_roles( $role_names ) {
-		$roles = [];
+        $user = get_userdata($user);
 
-		$wp_roles = wp_roles()->roles;
+        if ( ! $user) {
+            return null;
+        }
 
-		foreach ( (array) $role_names as $role ) {
-			if ( isset( $wp_roles[ $role ] ) ) {
-				$roles[ $role ] = translate_user_role( $wp_roles[ $role ]['name'] );
-			}
-		}
+        return $this->get_formatted_name($user);
+    }
 
-		return $roles;
-	}
+    /**
+     * @deprecated 7.0
+     */
+    public function get_user_field(string $field, int $user_id)
+    {
+        _deprecated_function(__METHOD__, '7.0');
 
-	/**
-	 * @param int|WP_User  $user
-	 * @param false|string $format WP_user var, 'first_last_name' or 'roles'
-	 *
-	 * @return false|string
-	 */
-	public function get_display_name( $user, $format = false ) {
-		$user = $this->get_user( $user );
+        return get_user_by('id', $user_id)->{$field} ?? null;
+    }
 
-		if ( ! $user ) {
-			return false;
-		}
+    /**
+     * @deprecated 7.0
+     */
+    public function get_user($user): ?WP_User
+    {
+        _deprecated_function(__METHOD__, '7.0', 'get_userdata');
 
-		if ( false === $format ) {
-			return $user->display_name;
-		}
+        if (is_numeric($user)) {
+            $user = get_userdata($user);
+        }
 
-		switch ( $format ) {
+        return $user instanceof WP_User
+            ? $user
+            : null;
+    }
 
-			case 'first_last_name' :
-			case 'full_name' :
-				$name_parts = [];
+    /**
+     * @deprecated 7.0
+     */
+    public function get_roles_names(array $names): array
+    {
+        _deprecated_function(__METHOD__, '7.0');
 
-				if ( $user->first_name ) {
-					$name_parts[] = $user->first_name;
-				}
-				if ( $user->last_name ) {
-					$name_parts[] = $user->last_name;
-				}
+        return [];
+    }
 
-				return $name_parts
-					? implode( ' ', $name_parts )
-					: false;
-			case 'roles' :
-				return ac_helper()->string->enumeration_list( $this->get_roles_names( $user->roles ), 'and' );
-			default :
-				return $user->{$format} ?? $user->display_name;
-		}
-	}
+    /**
+     * @deprecated 7.0
+     */
+    public function get_role_name(string $role): ?string
+    {
+        _deprecated_function(__METHOD__, '7.0');
 
-	/**
-	 * @param array $roles Role keys
-	 *
-	 * @return array Role nice names
-	 */
-	public function get_roles_names( $roles ) {
-		$role_names = [];
+        return $this->get_roles()[$role] ?? null;
+    }
 
-		foreach ( $roles as $role ) {
-			$name = $this->get_role_name( $role );
+    /**
+     * @deprecated 7.0
+     */
+    public function get_roles(): array
+    {
+        _deprecated_function(__METHOD__, '7.0', 'AC\Helper\UserRoles::find_all_roles');
 
-			if ( $name ) {
-				$role_names[ $role ] = $name;
-			}
-		}
+        $roles = [];
+        foreach (wp_roles()->roles as $k => $role) {
+            $roles[$k] = translate_user_role($role['name']);
+        }
 
-		return $role_names;
-	}
+        return $roles;
+    }
 
-	/**
-	 * @param string $role
-	 *
-	 * @return string
-	 */
-	public function get_role_name( $role ) {
-		$roles = $this->get_roles();
+    /**
+     * @deprecated 7.0
+     */
+    public function translate_roles(array $role_names): array
+    {
+        _deprecated_function(__METHOD__, '7.0', 'AC\Helper\UserRoles::find_all_roles');
 
-		if ( ! array_key_exists( $role, $roles ) ) {
-			return false;
-		}
-
-		return $roles[ $role ];
-	}
-
-	/**
-	 * @param int    $user_id
-	 * @param string $post_type
-	 *
-	 * @return string
-	 * @since 3.4.4
-	 */
-	public function get_postcount( $user_id, $post_type ) {
-		global $wpdb;
-		$sql = "
-			SELECT COUNT(ID)
-			FROM {$wpdb->posts}
-			WHERE post_status = 'publish'
-			AND post_author = %d
-			AND post_type = %s
-		";
-
-		return $wpdb->get_var( $wpdb->prepare( $sql, $user_id, $post_type ) );
-	}
-
-	/**
-	 * @return array Translatable roles
-	 */
-	public function get_roles() {
-		$roles = [];
-		foreach ( wp_roles()->roles as $k => $role ) {
-			$roles[ $k ] = translate_user_role( $role['name'] );
-		}
-
-		return $roles;
-	}
-
-	/**
-	 * @param array $roles
-	 *
-	 * @return array Role Names
-	 */
-	public function get_role_names( $roles ) {
-		$role_names = [];
-
-		$labels = $this->get_roles();
-
-		foreach ( $roles as $role ) {
-			if ( isset( $labels[ $role ] ) ) {
-				$role_names[ $role ] = $labels[ $role ];
-			}
-		}
-
-		return $role_names;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function get_ids() {
-		global $wpdb;
-
-		return $wpdb->get_col( "SELECT {$wpdb->users}.ID FROM {$wpdb->users}" );
-	}
-
-	/**
-	 * Fetches remote translations. Expires in 7 days.
-	 * @return array[]
-	 */
-	public function get_translations_remote() {
-		$translations = get_site_transient( 'ac_available_translations' );
-
-		if ( false !== $translations ) {
-			return $translations;
-		}
-
-		require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
-
-		$translations = wp_get_available_translations();
-
-		set_site_transient( 'ac_available_translations', wp_get_available_translations(), WEEK_IN_SECONDS );
-
-		return $translations;
-	}
+        return [];
+    }
 
 }

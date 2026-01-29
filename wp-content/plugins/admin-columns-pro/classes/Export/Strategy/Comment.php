@@ -2,26 +2,26 @@
 
 namespace ACP\Export\Strategy;
 
-use AC\ListScreen;
-use AC\ListTable;
-use AC\ListTableFactory;
+use AC\Type\ValueCollection;
+use ACP\Export\Exporter\TableDataFactory;
+use ACP\Export\ResponseFactory;
 use ACP\Export\Strategy;
 use WP_Comment_Query;
 
 class Comment extends Strategy
 {
 
-    public function __construct(ListScreen\Comment $list_screen)
+    private $table_data_factory;
+
+    private $response_factory;
+
+    public function __construct(TableDataFactory $table_data_factory, ResponseFactory $response_factory)
     {
-        parent::__construct($list_screen);
+        $this->table_data_factory = $table_data_factory;
+        $this->response_factory = $response_factory;
     }
 
-    protected function get_list_table(): ?ListTable
-    {
-        return (new ListTableFactory())->create_from_globals();
-    }
-
-    protected function ajax_export(): void
+    public function handle_export(): void
     {
         add_action('parse_comment_query', [$this, 'comments_query'], PHP_INT_MAX - 100);
     }
@@ -29,11 +29,6 @@ class Comment extends Strategy
     /**
      * Catch the comments query and run it with altered parameters for pagination. This should be
      * attached to the parse_comment_query hook when an AJAX request is sent
-     *
-     * @param $query
-     *
-     * @see   action:pre_get_posts
-     * @since 1.0
      */
     public function comments_query($query): void
     {
@@ -43,13 +38,13 @@ class Comment extends Strategy
 
         remove_action('parse_comment_query', [$this, __FUNCTION__], PHP_INT_MAX - 100);
 
-        $per_page = $this->get_num_items_per_iteration();
+        $per_page = $this->items_per_iteration;
 
-        $query->query_vars['offset'] = $this->get_export_counter() * $per_page;
+        $query->query_vars['offset'] = $this->counter * $per_page;
         $query->query_vars['number'] = $per_page;
         $query->query_vars['fields'] = 'ids';
 
-        $ids = $this->get_requested_ids();
+        $ids = $this->ids;
 
         if ($ids) {
             $query->query_vars['comment__in'] = isset($query->query_vars['comment__in'])
@@ -57,10 +52,16 @@ class Comment extends Strategy
                 : $ids;
         }
 
-        $modified_query = new WP_Comment_Query($query->query_vars);
-        $comments = $modified_query->get_comments();
+        $query = new WP_Comment_Query($query->query_vars);
 
-        $this->export($comments);
+        $this->response_factory->create(
+            $this->table_data_factory->create(
+                $this->columns,
+                ValueCollection::from_ids(0, $query->get_comments()),
+                0 === $this->counter
+            )
+        );
+        exit;
     }
 
 }

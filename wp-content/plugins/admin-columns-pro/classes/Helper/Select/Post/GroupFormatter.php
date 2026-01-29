@@ -1,12 +1,14 @@
 <?php
-declare( strict_types=1 );
+
+declare(strict_types=1);
 
 namespace ACP\Helper\Select\Post;
 
 use WP_Post;
 
-interface GroupFormatter {
+interface GroupFormatter
+{
 
-	public function format( WP_Post $post ): string;
+    public function format(WP_Post $post): string;
 
 }

@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\Order;
 
 use ACA\WC\Search;
 use ACP;
+use ACP\Search\Helper\Sql\ComparisonFactory;
 use ACP\Search\Operators;
 use ACP\Search\Value;
 
@@ -20,15 +23,15 @@ class UserAgent extends ACP\Search\Comparison
         );
     }
 
-    protected function create_query_bindings($operator, Value $value): ACP\Query\Bindings
+    protected function create_query_bindings(string $operator, Value $value): ACP\Query\Bindings
     {
         global $wpdb;
 
-        $bindings = new ACP\Search\Query\Bindings();
+        $bindings = new ACP\Query\Bindings();
         $order_table = $wpdb->prefix . 'wc_orders';
         $field = sprintf('%s.%s', $order_table, 'user_agent');
 
-        return $bindings->where(ACP\Search\Helper\Sql\ComparisonFactory::create($field, $operator, $value)());
+        return $bindings->where(ComparisonFactory::create($field, $operator, $value)());
     }
 
 }

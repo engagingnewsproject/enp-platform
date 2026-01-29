@@ -31,8 +31,8 @@ class Post extends Meta
         string $meta_key,
         array $post_types = [],
         array $terms = [],
-        Labels $labels = null,
-        Query $query = null
+        ?Labels $labels = null,
+        ?Query $query = null
     ) {
         $this->post_types = $post_types;
         $this->terms = $terms;

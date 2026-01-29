@@ -7,50 +7,49 @@ use AC\Asset\Location;
 use AC\ListScreenRepository\Storage;
 use AC\Registerable;
 use AC\Services;
-use ACP\Settings\ListScreen\HideOnScreenCollection;
-use ACP\Type\HideOnScreen\Group;
+use AC\Type\TableId;
+use ACP\AdminColumnsPro;
+use ACP\Search\Type\SegmentKeyGenerator;
+use ACP\Settings\ListScreen\TableElements;
 
 final class Addon implements Registerable
 {
 
     use DefaultSegmentTrait;
 
-    /**
-     * @var Storage
-     */
-    private $storage;
+    private Storage $storage;
 
-    private $location;
+    private Location\Absolute $location;
 
-    private $table_preference;
+    private Preferences\SmartFiltering $table_preference;
 
-    private $hide_smart_filters;
+    private Settings\TableElement\SmartFilters $table_element_smart_filters;
 
-    private $list_screen_factory;
+    private AC\Request $request;
 
-    private $request;
+    private SegmentKeyGenerator $segment_key_generator;
 
     public function __construct(
         Storage $storage,
-        Location\Absolute $location,
+        AdminColumnsPro $plugin,
         SegmentRepository\Database $segment_repository,
-        AC\ListScreenFactory $list_screen_factory,
-        AC\Request $request
+        AC\Request $request,
+        SegmentKeyGenerator $segment_key_generator
     ) {
         $this->storage = $storage;
-        $this->location = $location;
+        $this->location = $plugin->get_location();
         $this->segment_repository = $segment_repository;
-        $this->list_screen_factory = $list_screen_factory;
         $this->table_preference = new Preferences\SmartFiltering();
-        $this->hide_smart_filters = new Settings\HideOnScreen\SmartFilters();
+        $this->table_element_smart_filters = new Settings\TableElement\SmartFilters();
         $this->request = $request;
+        $this->segment_key_generator = $segment_key_generator;
     }
 
     private function is_active(AC\ListScreen $list_screen): bool
     {
         return (bool)apply_filters(
-            'acp/search/is_active',
-            $this->table_preference->is_active($list_screen),
+            'ac/search/enable',
+            $this->table_preference->is_active($list_screen->get_table_id()),
             $list_screen
         );
     }
@@ -62,23 +61,25 @@ final class Addon implements Registerable
                  ->add($this->get_column_settings());
         $services->register();
 
-        add_action('ac/table/list_screen', [$this, 'table_screen_request']);
-        add_action('wp_ajax_acp_search_comparison_request', [$this, 'comparison_request']);
-        add_action('wp_ajax_acp_enable_smart_filtering_button', [$this, 'update_smart_filtering_preference']);
-        add_action('acp/admin/settings/hide_on_screen', [$this, 'add_hide_on_screen'], 10, 2);
-        add_action('wp_ajax_acp_search_segment_request', [$this, 'segment_request']);
+        add_action('ac/table/list_screen', [$this, 'table_screen_request'], 10, 2);
+        add_action('ac/admin/settings/table_elements', [$this, 'add_table_elements'], 10, 2);
         add_action('ac/table/list_screen', [$this, 'request_setter']);
-        add_action('acp/list_screen/deleted', [$this, 'delete_segments_after_list_screen_deleted']);
+        add_action('ac/list_screen/deleted', [$this, 'delete_segments_after_list_screen_deleted']);
         add_action('deleted_user', [$this, 'delete_segments_after_user_deleted']);
+
+        add_action('wp_ajax_acp_search_comparison_request', [$this, 'comparison_request']);
+        add_action('wp_ajax_acp_search_segment_request', [$this, 'segment_request']);
+        add_action('wp_ajax_acp_enable_smart_filtering_button', [$this, 'update_smart_filtering_preference']);
     }
 
     public function update_smart_filtering_preference(): void
     {
         check_ajax_referer('ac-ajax');
 
-        $is_active = ('true' === filter_input(INPUT_POST, 'value')) ? 1 : 0;
-
-        (new Preferences\SmartFiltering())->set(filter_input(INPUT_POST, 'list_screen'), $is_active);
+        (new Preferences\SmartFiltering())->set_status(
+            new TableId((string)filter_input(INPUT_POST, 'list_screen')),
+            'true' === filter_input(INPUT_POST, 'value')
+        );
     }
 
     private function get_column_settings(): Settings
@@ -93,18 +94,18 @@ final class Addon implements Registerable
         return new TableScreenOptions(
             $this->location,
             $this->table_preference,
-            $this->hide_smart_filters
+            $this->table_element_smart_filters
         );
     }
 
-    public function add_hide_on_screen(HideOnScreenCollection $collection, AC\ListScreen $list_screen): void
+    public function add_table_elements(TableElements $collection, AC\TableScreen $table_screen): void
     {
-        if ( ! TableScreenFactory::get_table_screen_reference($list_screen)) {
+        if ( ! TableMarkupFactory::get_table_markup_reference($table_screen)) {
             return;
         }
 
-        $collection->add($this->hide_smart_filters, new Group(Group::FEATURE), 40)
-                   ->add(new Settings\HideOnScreen\SavedFilters(), new Group(Group::FEATURE), 41);
+        $collection->add($this->table_element_smart_filters, 40)
+                   ->add(new Settings\TableElement\SavedFilters(), 41);
     }
 
     public function comparison_request(): void
@@ -115,18 +116,16 @@ final class Addon implements Registerable
 
         $comparison = new RequestHandler\Comparison(
             $this->storage,
-            $request,
-            $this->list_screen_factory
+            $request
         );
 
         $comparison->dispatch($request->get('method'));
     }
 
-    public function table_screen_request(AC\ListScreen $list_screen): void
+    public function table_screen_request(AC\ListScreen $list_screen, AC\TableScreen $table_screen): void
     {
-        if ( ! $list_screen->has_id() ||
-             ! $this->is_active($list_screen) ||
-             ! TableScreenSupport::is_searchable($list_screen)) {
+        if ( ! $this->is_active($list_screen) ||
+             ! TableScreenSupport::is_searchable($table_screen)) {
             return;
         }
 
@@ -136,7 +135,7 @@ final class Addon implements Registerable
         $request_handler = new RequestHandler\Rules($list_screen);
         $request_handler->handle($this->request);
 
-        if ($this->hide_smart_filters->is_hidden($list_screen)) {
+        if ( ! $this->table_element_smart_filters->is_enabled($list_screen)) {
             return;
         }
 
@@ -151,13 +150,13 @@ final class Addon implements Registerable
             ),
         ];
 
-        $table_screen = TableScreenFactory::create(
-            $list_screen,
+        $table_markup = TableMarkupFactory::create(
+            $table_screen,
             $assets
         );
 
-        if ($table_screen) {
-            $table_screen->register();
+        if ($table_markup) {
+            $table_markup->register();
         }
     }
 
@@ -177,7 +176,8 @@ final class Addon implements Registerable
         $controller = new RequestHandler\Segment(
             $this->storage,
             $this->request,
-            $this->segment_repository
+            $this->segment_repository,
+            $this->segment_key_generator
         );
 
         $controller->dispatch($this->request->get('method'));

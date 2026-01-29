@@ -12,7 +12,7 @@ class EmptyValues
     public const ZERO = 0;
     public const LTE_ZERO = -1;
 
-    private $values;
+    private array $values;
 
     public function __construct(array $values)
     {

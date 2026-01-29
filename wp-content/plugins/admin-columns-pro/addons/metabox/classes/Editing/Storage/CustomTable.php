@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\MetaBox\Editing\Storage;
 
 use ACP;
@@ -9,41 +11,32 @@ use MetaBox\CustomTable\Storage;
 class CustomTable implements ACP\Editing\Storage
 {
 
-    /**
-     * @var Storage
-     */
-    private $storage;
+    private Storage $storage;
 
-    /**
-     * @var string
-     */
-    private $meta_key;
-
-    /**
-     * @var string
-     */
     private $table;
 
-    public function __construct(Storage $storage, $table, $meta_key)
+    private $field_id;
+
+    public function __construct(Storage $storage, string $field_id)
     {
         $this->storage = $storage;
-        $this->meta_key = $meta_key;
-        $this->table = $table;
+        $this->table = $storage->table;
+        $this->field_id = $field_id;
     }
 
     public function get(int $id)
     {
         $row = Cache::get($id, $this->table);
 
-        $value = isset($row[$this->meta_key]) ? $row[$this->meta_key] : false;
+        $value = $row[$this->field_id] ?? false;
 
         if ( ! $this->is_serialized($value)) {
             return $value;
         }
 
-        $unserialize = @unserialize($value, ['allowed_classes' => false]);
+        $data = @unserialize($value, ['allowed_classes' => false]);
 
-        return $unserialize !== false ? $unserialize : $value;
+        return $data !== false ? $data : $value;
     }
 
     private function is_serialized($value): bool
@@ -71,7 +64,7 @@ class CustomTable implements ACP\Editing\Storage
             $data = serialize($data);
         }
 
-        $row[$this->meta_key] = $data;
+        $row[$this->field_id] = $data;
 
         if ($this->storage->row_exists($id)) {
             $this->storage->update_row($id, $row);

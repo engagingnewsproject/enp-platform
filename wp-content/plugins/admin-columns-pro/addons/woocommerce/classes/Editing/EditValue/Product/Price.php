@@ -1,107 +1,74 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Editing\EditValue\Product;
 
-class Price {
+class Price
+{
 
-	/**
-	 * @var string
-	 */
-	private $type;
+    private string $type;
 
-	/**
-	 * @var string
-	 */
-	private $price_type;
+    private string $price_type;
 
-	/**
-	 * @var string
-	 */
-	private $price;
+    private float $price;
 
-	/**
-	 * @var string
-	 */
-	private $percentage;
+    private float $percentage;
 
-	/**
-	 * @var bool
-	 */
-	private $rounding;
+    private bool $rounding;
 
-	/**
-	 * @var string
-	 */
-	private $rounding_type;
+    private string $rounding_type = '';
 
-	/**
-	 * @var int
-	 */
-	private $rounding_decimals;
+    private int $rounding_decimals = 0;
 
-	/**
-	 * @param array $value
-	 */
-	public function __construct( $value ) {
-		$this->type = $value['type'];
-		$this->price_type = $value['price']['type'];
-		$this->price = $value['price']['value'];
-		$this->percentage = (float) $value['price']['value'];
-		$this->rounding = $value['rounding']['active'] === 'true';
+    public function __construct(array $value)
+    {
+        $this->type = (string)($value['type'] ?? '');
+        $this->price_type = (string)($value['price']['type'] ?? '');
+        $this->price = (float)($value['price']['value'] ?? 0);
 
-		if ( $this->rounding ) {
-			$this->rounding_type = $value['rounding']['type'];
-			$this->rounding_decimals = absint( $value['rounding']['decimals'] );
-		}
-	}
+        $this->percentage = (float)($value['price']['value'] ?? 0);
+        $this->rounding = $value['rounding']['active'] === 'true';
 
-	/**
-	 * @return string
-	 */
-	public function get_type() {
-		return $this->type;
-	}
+        if ($this->rounding) {
+            $this->rounding_type = (string)($value['rounding']['type'] ?? '');
+            $this->rounding_decimals = absint($value['rounding']['decimals']);
+        }
+    }
 
-	/**
-	 * @return string
-	 */
-	public function get_price_type() {
-		return $this->price_type;
-	}
+    public function get_type(): string
+    {
+        return $this->type;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function get_price() {
-		return $this->price;
-	}
+    public function get_price_type(): string
+    {
+        return $this->price_type;
+    }
 
-	/**
-	 * @return float
-	 */
-	public function get_percentage() {
-		return $this->percentage;
-	}
+    public function get_price(): float
+    {
+        return $this->price;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function is_rounded() {
-		return $this->rounding;
-	}
+    public function get_percentage(): float
+    {
+        return $this->percentage;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function get_rounding_type() {
-		return $this->rounding_type;
-	}
+    public function is_rounded(): bool
+    {
+        return $this->rounding;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function get_rounding_decimals() {
-		return $this->rounding_decimals;
-	}
+    public function get_rounding_type(): string
+    {
+        return $this->rounding_type;
+    }
+
+    public function get_rounding_decimals(): int
+    {
+        return $this->rounding_decimals;
+    }
 
 }

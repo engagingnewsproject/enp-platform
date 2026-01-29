@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Admin Columns - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2025-10-13 22:56:15+0000\n"
+"PO-Revision-Date: 2026-01-14 22:52:56+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -519,7 +519,7 @@ msgstr ""
 
 #: templates/admin/list-screen-settings-mockup.php:144
 msgid "Pre-applied Filters"
-msgstr ""
+msgstr "Vorgefertigte Filter"
 
 #: templates/admin/list-screen-settings-mockup.php:108
 #: templates/admin/page/settings-section-pro-cta.php:92
@@ -544,7 +544,7 @@ msgstr "Suchen"
 
 #: templates/admin/list-screen-settings-mockup.php:78
 msgid "Status (Quick Links)"
-msgstr ""
+msgstr "Status (Quick Links)"
 
 #: templates/admin/list-screen-settings-mockup.php:74
 msgid "Filters"
@@ -631,7 +631,7 @@ msgstr ""
 
 #: classes/Admin/Asset/Addons.php:22
 msgid "The Add-on %s is activated."
-msgstr ""
+msgstr "Das Add-on %s ist aktiviert."
 
 #: classes/Column/Media/Album.php:13
 msgid "Album"
@@ -1568,7 +1568,7 @@ msgstr "Dieser Text wird hinter dem Spaltenwert angezeigt."
 
 #: classes/Helper/Strings.php:381
 msgid " or "
-msgstr "oder"
+msgstr " oder "
 
 #: classes/Helper/Html.php:499
 msgid "Hide"
@@ -2106,7 +2106,7 @@ msgstr ""
 
 #: classes/Settings/Column/User.php:91 classes/Settings/Column/UserLink.php:88
 msgid "User Email"
-msgstr "user_email geändert."
+msgstr "Benutzer-E-Mail-Adresse"
 
 #: classes/Settings/Column/User.php:90
 msgid "User Login"
@@ -2239,7 +2239,7 @@ msgstr "Ping-Status"
 
 #: classes/Column/Post/Permalink.php:15
 msgid "Permalink"
-msgstr "Direktlink"
+msgstr "Permalink"
 
 #: classes/Column/Media/FullPath.php:15 classes/Column/Post/Path.php:15
 msgid "Path"

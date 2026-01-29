@@ -8,13 +8,16 @@ use AC;
 use AC\Asset\Location\Absolute;
 use AC\ListScreen;
 use AC\Request;
+use ACP;
 use ACP\Search\Asset\Script;
 use ACP\Search\Type\SegmentKey;
 
 class TableScriptFactory
 {
 
-    private $location;
+    use AC\Column\ColumnLabelTrait;
+
+    private Absolute $location;
 
     public function __construct(Absolute $location)
     {
@@ -24,7 +27,7 @@ class TableScriptFactory
     public function create(
         ListScreen $list_screen,
         Request $request,
-        SegmentKey $segment_key = null
+        ?SegmentKey $segment_key = null
     ): Script\Table {
         return new Script\Table(
             'aca-search-table',
@@ -36,31 +39,9 @@ class TableScriptFactory
         );
     }
 
-    /**
-     * Allow dashicons as label, all the rest is parsed by 'strip_tags'
-     */
-    private function sanitize_label(string $label): string
-    {
-        if (false === strpos($label, 'dashicons')) {
-            $label = strip_tags($label);
-        }
-
-        return trim($label);
-    }
-
     private function get_filter_label(AC\Column $column): string
     {
-        $label = $this->sanitize_label($column->get_custom_label());
-
-        if ( ! $label) {
-            $label = $this->sanitize_label($column->get_label());
-        }
-
-        if ( ! $label) {
-            $label = $column->get_type();
-        }
-
-        return $label;
+        return $this->get_column_label($column);
     }
 
     private function get_filters(ListScreen $list_screen): array
@@ -68,34 +49,39 @@ class TableScriptFactory
         $filters = [];
 
         foreach ($list_screen->get_columns() as $column) {
-            $setting = $column->get_setting('search');
-
-            if ( ! $setting instanceof Settings\Column) {
+            if ( ! $column instanceof ACP\Column) {
                 continue;
             }
 
-            $is_active = apply_filters_deprecated(
-                'acp/search/smart-filtering-active',
-                [$setting->is_active(), $setting],
-                '5.2',
-                'Smart filtering can be disabled using the UI.'
-            );
+            $setting = $column->get_setting('search');
+
+            if ( ! $setting) {
+                continue;
+            }
+
+            $is_active = $setting->get_input()->get_value() === 'on';
 
             if ( ! $is_active) {
                 continue;
             }
 
-            if ( ! $column instanceof Searchable || ! $column->search()) {
+            if ( ! $column->search()) {
                 continue;
             }
 
             $filter = new Middleware\Filter(
-                $column->get_name(),
+                (string)$column->get_id(),
                 $column->search(),
                 $this->get_filter_label($column)
             );
 
-            $filters[] = apply_filters('acp/search/filters', $filter(), $column);
+            $filters[] = apply_filters(
+                'ac/search/filters',
+                $filter(),
+                $column->get_context(),
+                $list_screen->get_table_screen(),
+                $list_screen->get_id()
+            );
         }
 
         return $filters;

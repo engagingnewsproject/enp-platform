@@ -25,7 +25,7 @@ final class TemplateFiles implements Registerable
     {
         $path = rtrim($path, '/');
 
-        return new self(glob($path . '/*.json') ?: []);
+        return new self(glob($path . '/*.json'));
     }
 
     public function register(): void

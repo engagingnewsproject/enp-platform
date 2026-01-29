@@ -2,31 +2,33 @@
 
 namespace AC\Plugin;
 
-use AC\Iterator;
+use AC\Collection;
 
-final class UpdateCollection extends Iterator {
+final class UpdateCollection extends Collection
+{
 
-	public function __construct( array $data = [] ) {
-		array_map( [ $this, 'add' ], $data );
+    public function __construct(array $data = [])
+    {
+        array_map([$this, 'add'], $data);
 
-		$this->sort_by_version();
-	}
+        $this->sort_by_version();
+    }
 
-	private function add( Update $update ) {
-		$this->data[] = $update;
-	}
+    private function add(Update $update): void
+    {
+        $this->data[] = $update;
+    }
 
-	private function sort_by_version() {
-		usort( $this->data, static function ( Update $a, Update $b ) {
-			return version_compare( $a->get_version(), $b->get_version() );
-		} );
-	}
+    private function sort_by_version(): void
+    {
+        usort($this->data, static function (Update $a, Update $b) {
+            return version_compare($a->get_version(), $b->get_version());
+        });
+    }
 
-	/**
-	 * @return Update
-	 */
-	public function current() {
-		return parent::current();
-	}
+    public function current(): Update
+    {
+        return current($this->data);
+    }
 
 }

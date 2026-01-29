@@ -4,6 +4,7 @@
         "list_screen": {
             "title": "📷 Images",
             "type": "wp-media",
+            "status": "inactive",
             "id": "654b88717a3d3",
             "updated": 1699449280,
             "columns": {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Sorting\ProductVariation;
 
 use ACP\Query\Bindings;
@@ -21,7 +23,7 @@ class SkuNaturalSort implements QueryBindings
             SqlOrderByFactory::create_with_ids(
                 "$wpdb->posts.ID",
                 $this->get_sorted_ids(),
-                $order
+                (string)$order
             )
         );
     }

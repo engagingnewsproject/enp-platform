@@ -2,10 +2,12 @@
 
 namespace ACP\Search\Helper\Sql\Comparison;
 
-class NotIn extends In {
+class NotIn extends In
+{
 
-	public function is_negated() {
-		return true;
-	}
+    public function is_negated(): bool
+    {
+        return true;
+    }
 
 }

@@ -1,63 +1,52 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine;
 
-use AC\ListScreen;
+use AC;
+use AC\PostType;
+use AC\Taxonomy;
 use ACA\JetEngine\Field\Field;
 use ACA\JetEngine\Utils\Api;
-use ACP;
 
 final class FieldRepository
 {
 
-    /**
-     * @var FieldFactory
-     */
-    private $field_factory;
+    private FieldFactory $field_factory;
 
-    /**
-     * @var ListScreen
-     */
-    private $list_screen;
-
-    public function __construct(ListScreen $list_screen)
+    public function __construct(FieldFactory $field_factory)
     {
-        $this->list_screen = $list_screen;
-        $this->field_factory = new FieldFactory();
+        $this->field_factory = $field_factory;
     }
 
-    public function find_by_column(Column\Meta $column): ?Field
+    public function find(string $field_name, AC\TableScreen $table_screen): ?Field
     {
-        $fields = $this->find_all();
-
-        if (empty($fields)) {
-            return null;
+        foreach ($this->find_all($table_screen) as $field) {
+            if ($field->get_name() === $field_name) {
+                return $field;
+            }
         }
 
-        $field = array_filter($fields, static function ($field) use ($column) {
-            return $field->get_name() === $column->get_type();
-        });
-
-        return empty($field) ? null : current($field);
+        return null;
     }
 
     /**
      * @return Field[]
      */
-    public function find_all(): array
+    public function find_all(AC\TableScreen $table_screen): array
     {
         switch (true) {
-            case $this->list_screen instanceof ListScreen\Post:
-            case $this->list_screen instanceof ListScreen\Media:
+            case $table_screen instanceof PostType:
                 return $this->map_meta_types(
-                    Api::MetaBox()->get_fields_for_context('post_type', $this->list_screen->get_post_type())
+                    Api::metaboxes()->get_fields_for_context('post_type', (string)$table_screen->get_post_type())
                 );
-            case $this->list_screen instanceof ACP\ListScreen\Taxonomy:
+            case $table_screen instanceof Taxonomy:
                 return $this->map_meta_types(
-                    Api::MetaBox()->get_fields_for_context('taxonomy', $this->list_screen->get_taxonomy())
+                    Api::metaboxes()->get_fields_for_context('taxonomy', (string)$table_screen->get_taxonomy())
                 );
-            case $this->list_screen instanceof ACP\ListScreen\User:
-                $fields = array_merge(...array_values(Api::MetaBox()->get_fields_for_context('user')));
+            case $table_screen instanceof AC\TableScreen\User:
+                $fields = array_merge(...array_values(Api::metaboxes()->get_fields_for_context('user')));
 
                 return $this->map_meta_types($fields);
         }

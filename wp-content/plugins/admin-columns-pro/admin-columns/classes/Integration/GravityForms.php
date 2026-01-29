@@ -2,10 +2,11 @@
 
 namespace AC\Integration;
 
-use AC\Integration;
-use AC\ListScreen;
 use AC\Screen;
+use AC\TableScreen;
+use AC\Type\Integration;
 use AC\Type\Url\Site;
+use ACA;
 
 final class GravityForms extends Integration
 {
@@ -30,6 +31,7 @@ final class GravityForms extends Integration
                     __('Gravity Forms', 'codepress-admin-columns')
                 )
             ),
+            null,
             new Site(Site::PAGE_ADDON_GRAVITYFORMS)
         );
     }
@@ -41,12 +43,12 @@ final class GravityForms extends Integration
 
     public function show_notice(Screen $screen): bool
     {
-        return 'forms_page_gf_entries' === $screen->get_id();
+        return 'toplevel_page_gf_edit_forms' === $screen->get_id();
     }
 
-    public function show_placeholder(ListScreen $list_screen): bool
+    public function show_placeholder(TableScreen $table_screen): bool
     {
-        return 'gravity_forms_entry' === $list_screen->get_meta_type();
+        return $table_screen instanceof ACA\GravityForms\TableScreen\Entry;
     }
 
 }

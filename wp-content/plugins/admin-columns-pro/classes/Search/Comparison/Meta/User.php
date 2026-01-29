@@ -15,10 +15,10 @@ class User extends Meta
 {
 
     use UserValuesTrait;
-    
+
     private $query;
 
-    public function __construct(string $meta_key, Query $query = null)
+    public function __construct(string $meta_key, ?Query $query = null)
     {
         $operators = new Operators([
             Operators::EQ,

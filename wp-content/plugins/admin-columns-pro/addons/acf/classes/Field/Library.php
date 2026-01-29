@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Field;
 
-interface Library {
+interface Library
+{
 
-	/**
-	 * @return bool
-	 */
-	public function is_upload_media_only();
+    public function is_upload_media_only(): bool;
 
 }

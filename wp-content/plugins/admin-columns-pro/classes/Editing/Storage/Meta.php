@@ -4,13 +4,14 @@ namespace ACP\Editing\Storage;
 
 use AC\MetaType;
 use ACP\Editing\Storage;
+use RuntimeException;
 
 class Meta implements Storage
 {
 
-    protected $meta_key;
+    protected string $meta_key;
 
-    private $meta_type;
+    private MetaType $meta_type;
 
     public function __construct(string $meta_key, MetaType $meta_type)
     {
@@ -25,7 +26,17 @@ class Meta implements Storage
 
     public function update(int $id, $data): bool
     {
-        return false !== update_metadata($this->meta_type->get(), $id, $this->meta_key, $data);
+        if ('' === $this->meta_key) {
+            throw new RuntimeException('Failed to update metadata. Custom field key is missing.');
+        }
+
+        $result = update_metadata($this->meta_type->get(), $id, $this->meta_key, $data);
+
+        if (false === $result) {
+            throw new RuntimeException('Failed to update metadata.');
+        }
+
+        return true;
     }
 
 }

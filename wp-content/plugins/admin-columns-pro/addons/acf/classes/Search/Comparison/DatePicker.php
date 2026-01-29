@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Search\Comparison;
 
 use AC\Helper\Select\Options;
-use AC\Meta\Query;
 use ACP;
 use ACP\Search\Comparison\Meta;
 use ACP\Search\Helper\Select\Meta\DateOptionsFactory;
@@ -13,9 +14,9 @@ use ACP\Search\Value;
 class DatePicker extends Meta implements ACP\Search\Comparison\RemoteValues
 {
 
-    private $value_factory;
+    private DateOptionsFactory $value_factory;
 
-    public function __construct(string $meta_key, Query $query)
+    public function __construct(string $meta_key, DateOptionsFactory $value_factory)
     {
         $operators = new Operators([
             Operators::EQ,
@@ -35,7 +36,7 @@ class DatePicker extends Meta implements ACP\Search\Comparison\RemoteValues
             Operators::NOT_IS_EMPTY,
         ]);
 
-        $this->value_factory = new DateOptionsFactory($query, 'Ymd');
+        $this->value_factory = $value_factory;
 
         parent::__construct($operators, $meta_key, Value::DATE, new ACP\Search\Labels\Date());
     }
@@ -64,11 +65,6 @@ class DatePicker extends Meta implements ACP\Search\Comparison\RemoteValues
 
         switch ($operator) {
             case Operators::EQ_YEAR:
-                return [
-                    'key'     => $this->get_meta_key(),
-                    'compare' => 'REGEXP',
-                    'value'   => '^' . $value->get_value(),
-                ];
             case Operators::EQ_MONTH:
                 return [
                     'key'     => $this->get_meta_key(),

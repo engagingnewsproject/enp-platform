@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Field\Type;
 
 use ACA\JetEngine\Field\DefaultValue;
@@ -8,10 +10,11 @@ use ACA\JetEngine\Field\Field;
 use ACA\JetEngine\Field\MaxLength;
 use ACA\JetEngine\Field\MaxLengthTrait;
 
-class Textarea extends Field implements MaxLength, DefaultValue {
+final class Textarea extends Field implements MaxLength, DefaultValue
+{
 
-	const TYPE = 'textarea';
+    public const TYPE = 'textarea';
 
-	use MaxLengthTrait,
-		DefaultValueTrait;
+    use DefaultValueTrait;
+    use MaxLengthTrait;
 }

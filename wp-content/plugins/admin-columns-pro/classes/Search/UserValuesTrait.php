@@ -3,6 +3,7 @@
 namespace ACP\Search;
 
 use AC\Helper\Select\Options\Paginated;
+use AC\Meta\Query;
 use ACP\Helper\Select\User\LabelFormatter\UserName;
 use ACP\Helper\Select\User\PaginatedFactory;
 
@@ -30,7 +31,7 @@ trait UserValuesTrait
             'search' => $search,
         ];
 
-        if ($this->query instanceof \AC\Meta\Query) {
+        if ($this->query instanceof Query) {
             $args['include'] = $this->query->get();
         }
 

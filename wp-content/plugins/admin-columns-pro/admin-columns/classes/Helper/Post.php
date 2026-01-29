@@ -7,17 +7,12 @@ use WP_Post;
 class Post
 {
 
-    public function exists($id): bool
-    {
-        return $this->get_raw_field('ID', $id) ? true : false;
-    }
-
     private function esc_sql_array($array): string
     {
         return sprintf("'%s'", implode("','", array_map('esc_sql', $array)));
     }
 
-    public function count_user_posts(int $user_id, array $post_types, array $post_stati): int
+    public function count_user_posts(int $user_id, ?array $post_types = null, ?array $post_stati = null): int
     {
         global $wpdb;
 
@@ -36,45 +31,9 @@ class Post
         return $wpdb->get_var($sql);
     }
 
-    /**
-     * @param int $post_id Post ID
-     * @param int $words
-     *
-     * @return string Post Excerpt.
-     * @since 1.0
-     */
-    public function excerpt($post_id, $words = 400)
-    {
-        global $post;
-
-        $save_post = $post;
-        $post = get_post($post_id);
-
-        setup_postdata($post);
-
-        $excerpt = get_the_excerpt();
-        $post = $save_post;
-
-        if ($post) {
-            setup_postdata($post);
-        }
-
-        return ac_helper()->string->trim_words($excerpt, $words);
-    }
-
-    /**
-     * @param string $field Field
-     * @param int    $id    Post ID
-     *
-     * @return string|false
-     */
-    public function get_raw_field($field, $id)
+    public function get_raw_field(string $field, int $id): ?string
     {
         global $wpdb;
-
-        if ( ! $id || ! is_numeric($id)) {
-            return false;
-        }
 
         $sql = "
 			SELECT " . $wpdb->_real_escape($field) . "
@@ -110,40 +69,33 @@ class Post
         return $title;
     }
 
-    /**
-     * @param WP_Post $post Post
-     *
-     * @return false|string Dash icon with tooltip
-     */
-    public function get_status_icon($post)
+    public function get_status_icon(WP_Post $post): ?string
     {
-        $icon = false;
-
         switch ($post->post_status) {
             case 'private' :
-                $icon = ac_helper()->html->tooltip(
+                return ac_helper()->html->tooltip(
                     ac_helper()->icon->dashicon(['icon' => 'hidden', 'class' => 'gray']),
                     __('Private')
                 );
-                break;
+
             case 'publish' :
-                $icon = ac_helper()->html->tooltip(
+                return ac_helper()->html->tooltip(
                     ac_helper()->icon->dashicon(['icon' => 'yes', 'class' => 'blue large']),
                     __('Published')
                 );
-                break;
+
             case 'draft' :
-                $icon = ac_helper()->html->tooltip(
+                return ac_helper()->html->tooltip(
                     ac_helper()->icon->dashicon(['icon' => 'edit', 'class' => 'green']),
                     __('Draft')
                 );
-                break;
+
             case 'pending' :
-                $icon = ac_helper()->html->tooltip(
+                return ac_helper()->html->tooltip(
                     ac_helper()->icon->dashicon(['icon' => 'backup', 'class' => 'orange']),
                     __('Pending for review')
                 );
-                break;
+
             case 'future' :
                 $icon = ac_helper()->html->tooltip(
                     ac_helper()->icon->dashicon(['icon' => 'clock']),
@@ -157,10 +109,11 @@ class Post
                         __('Missed schedule')
                     );
                 }
-                break;
-        }
 
-        return $icon;
+                return $icon;
+            default:
+                return null;
+        }
     }
 
 }

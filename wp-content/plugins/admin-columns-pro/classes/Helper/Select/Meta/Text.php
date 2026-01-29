@@ -16,7 +16,7 @@ class Text extends ArrayIterator
     {
         $data = $query->get();
 
-        parent::__construct( array_combine( $data, $data ) );
+        parent::__construct(array_combine($data, $data));
     }
 
     public function get_total_pages(): int

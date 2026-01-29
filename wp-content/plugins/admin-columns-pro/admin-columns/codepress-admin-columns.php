@@ -1,6 +1,9 @@
 <?php
 
 
+use AC\Loader;
+use AC\Vendor\DI\ContainerBuilder;
+
 if ( ! defined('ABSPATH')) {
     exit;
 }
@@ -10,24 +13,27 @@ if ( ! is_admin()) {
 }
 
 define('AC_FILE', __FILE__);
-define('AC_VERSION', '4.7.20');
+define('AC_VERSION', '7.0.6');
 
-require_once __DIR__ . '/classes/Dependencies.php';
+require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-add_action('after_setup_theme', function () {
-    $dependencies = new AC\Dependencies(plugin_basename(__FILE__), AC_VERSION);
-    $dependencies->requires_php('7.2');
+add_action('after_setup_theme', static function () {
+    require __DIR__ . '/vendor/autoload.php';
+    require __DIR__ . '/api.php';
 
-    if ($dependencies->has_missing()) {
-        return;
+    if ( ! defined('ACP_VERSION')) {
+        $container = (new ContainerBuilder())
+            ->addDefinitions(require __DIR__ . '/settings/container-definitions.php')
+            ->build();
+
+        new Loader($container);
     }
+}, 1);
 
-    require_once __DIR__ . '/vendor/autoload.php';
-    require_once __DIR__ . '/api.php';
-
+add_action('after_setup_theme', static function () {
     /**
      * For loading external resources, e.g. column settings.
      * Can be called from plugins and themes.
      */
-    do_action('ac/ready', AC());
-}, 1);
+    do_action('ac/ready');
+}, 2);

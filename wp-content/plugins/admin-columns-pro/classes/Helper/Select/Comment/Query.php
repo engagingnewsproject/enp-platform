@@ -7,14 +7,10 @@ use AC\ArrayIterator;
 use AC\Helper\Select\Paginated;
 use WP_Comment_Query;
 
-class Query extends ArrayIterator
-    implements Paginated
+class Query extends ArrayIterator implements Paginated
 {
 
-    /**
-     * @var WP_Comment_Query
-     */
-    protected $query;
+    protected WP_Comment_Query $query;
 
     public function __construct(array $args = [])
     {

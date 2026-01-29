@@ -1,41 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\Pods\Editing\Storage;
 
+use ACA\Pods;
 use ACA\Pods\Editing\Storage\Read\PodsRaw;
 use ACP;
 
-class Field implements ACP\Editing\Storage {
+class Field implements ACP\Editing\Storage
+{
 
-	/**
-	 * @var string
-	 */
-	protected $pod;
+    protected $read_storage;
 
-	/**
-	 * @var string
-	 */
-	protected $field_name;
+    protected $field;
 
-	/**
-	 * @var ReadStorage
-	 */
-	protected $read_storage;
+    public function __construct(Pods\Field $field, ?ReadStorage $read = null)
+    {
+        $this->field = $field;
+        $this->read_storage = $read ?: new PodsRaw($field->get_pod()->get_name(), $field->get_name());
+    }
 
-	public function __construct( $pod, $field_name, ReadStorage $read ) {
-		$this->pod = $pod;
-		$this->field_name = $field_name;
-		$this->read_storage = $read ?: new PodsRaw( $pod, $field_name );
-	}
+    public function get(int $id)
+    {
+        return $this->read_storage->get($id);
+    }
 
-	public function get( int $id ) {
-		return $this->read_storage->get( $id );
-	}
+    public function update(int $id, $data): bool
+    {
+        $pod = pods($this->field->get_pod(), $id, true);
 
-	public function update( int $id, $data ): bool {
-		$pod = pods( $this->pod, $id, true );
-
-		return false !== $pod->save( [ $this->field_name => $data ] );
-	}
+        return false !== $pod->save([$this->field->get_name() => $data]);
+    }
 
 }

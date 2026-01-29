@@ -11,11 +11,11 @@ use ACP\Sorting\Type\Order;
 class PostField implements QueryBindings
 {
 
-    protected $field;
+    protected string $field;
 
-    protected $data_type;
+    protected ?DataType $data_type;
 
-    public function __construct(string $field, DataType $data_type = null)
+    public function __construct(string $field, ?DataType $data_type = null)
     {
         $this->field = $field;
         $this->data_type = $data_type;

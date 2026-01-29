@@ -5,67 +5,74 @@ namespace ACP\Plugin\Update;
 use AC\Plugin\Update;
 use AC\Plugin\Version;
 
-class V5700 extends Update {
+class V5700 extends Update
+{
 
-	public function __construct() {
-		parent::__construct( new Version( '5.7' ) );
-	}
-
-	public function apply_update(): void
+    public function __construct()
     {
-		$this->update_subscription_details();
-		$this->update_permissions();
-		$this->clear_cache_api();
-	}
+        parent::__construct(new Version('5.7'));
+    }
 
-	protected function clear_cache_api() {
-		global $wpdb;
+    public function apply_update(): void
+    {
+        $this->update_subscription_details();
+        $this->update_permissions();
+        $this->clear_cache_api();
+    }
 
-		$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'ac_api_request_%'" );
-	}
+    protected function clear_cache_api()
+    {
+        global $wpdb;
 
-	private function update_permissions() {
-		$details = $this->get_option( 'acp_subscription_details' );
+        $wpdb->query("DELETE FROM $wpdb->options WHERE option_name LIKE 'ac_api_request_%'");
+    }
 
-		if ( ! $details ) {
-			return;
-		}
+    private function update_permissions()
+    {
+        $details = $this->get_option('acp_subscription_details');
 
-		$permissions = [ 'usage' ];
+        if ( ! $details) {
+            return;
+        }
 
-		$status = isset( $details['status'] )
-			? $details['status']
-			: null;
+        $permissions = ['usage'];
 
-		$subscription_key = defined( 'ACP_LICENCE' ) && ACP_LICENCE
-			? ACP_LICENCE
-			: $this->get_option( 'acp_subscription_key' );
+        $status = isset($details['status'])
+            ? $details['status']
+            : null;
 
-		if ( 'active' === $status && $this->get_option( 'acp_subscription_details_key' ) === $subscription_key ) {
-			$permissions[] = 'update';
-		}
+        $subscription_key = defined('ACP_LICENCE') && ACP_LICENCE
+            ? ACP_LICENCE
+            : $this->get_option('acp_subscription_key');
 
-		$this->update_option( '_acp_access_permissions', $permissions );
-	}
+        if ('active' === $status && $this->get_option('acp_subscription_details_key') === $subscription_key) {
+            $permissions[] = 'update';
+        }
 
-	private function update_subscription_details() {
-		$details = $this->get_option( 'acp_subscription_details' );
+        $this->update_option('_acp_access_permissions', $permissions);
+    }
 
-		if ( ! $details || ! is_array( $details ) ) {
-			return;
-		}
+    private function update_subscription_details()
+    {
+        $details = $this->get_option('acp_subscription_details');
 
-		$details['products'] = [];
+        if ( ! $details || ! is_array($details)) {
+            return;
+        }
 
-		$this->update_option( 'acp_subscription_details', $details );
-	}
+        $details['products'] = [];
 
-	protected function update_option( $name, $value ) {
-		update_option( $name, $value );
-	}
+        $this->update_option('acp_subscription_details', $details);
+    }
 
-	protected function get_option( $name ) {
-		return get_option( $name );
-	}
+    protected function update_option($name, $value)
+    {
+        update_option($name, $value);
+    }
+
+    protected function get_option($name)
+    {
+        return get_option($name);
+    }
 
 }

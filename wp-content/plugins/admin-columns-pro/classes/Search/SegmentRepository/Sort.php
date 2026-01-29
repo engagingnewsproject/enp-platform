@@ -17,7 +17,7 @@ abstract class Sort
      */
     private $reverse;
 
-    public function __construct(string $order = null)
+    public function __construct(?string $order = null)
     {
         if (null === $order) {
             $order = self::ASC;

@@ -1,42 +1,72 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Value;
 
-use ACA\JetEngine\Column\Meta;
-use ACA\JetEngine\Field\Field;
+use AC;
+use AC\FormatterCollection;
+use AC\Setting\Config;
+use ACA\JetEngine\Field;
 use ACA\JetEngine\Field\Type;
+use ACA\JetEngine\Value;
 
-class ValueFormatterFactory {
+class ValueFormatterFactory
+{
 
-	public function create( Meta $column, Field $field ): ValueFormatter {
+    public function create(Field\Field $field, FormatterCollection $formatters, Config $config): FormatterCollection
+    {
+        switch ($field->get_type()) {
+            case Type\Checkbox::TYPE:
+                if ($field instanceof Type\Checkbox) {
+                    $formatters->add(new Value\Formatter\Checkbox($field));
+                }
 
-		switch ( true ) {
-			case $field instanceof Type\DateTime:
-				return new Format\DateTime( $column, $field );
-			case $field instanceof Type\Date:
-				return new Format\Date( $column, $field );
-			case $field instanceof Type\Gallery:
-				return new Format\Gallery( $column, $field );
-			case $field instanceof Type\Checkbox:
-				return new Format\Checkbox( $column, $field );
-			case $field instanceof Type\ColorPicker:
-				return new Format\Color( $column, $field );
-			case $field instanceof Type\Media:
-				return new Format\Media( $column, $field );
-			case $field instanceof Type\Switcher:
-				return new Format\Switcher( $column, $field );
-			case $field instanceof Type\Posts:
-				return new Format\Posts( $column, $field );
-			case $field instanceof Type\Radio:
-				return new Format\Options( $column, $field );
-			case $field instanceof Type\Select:
-				return $field->is_multiple()
-					? new Format\MultipleOptions( $column, $field )
-					: new Format\Options( $column, $field );
-			default:
-				return new Format\DefaultFormatter( $column, $field );
-		}
+                break;
+            case Type\ColorPicker::TYPE:
+                $formatters->add(new AC\Formatter\Color());
 
-	}
+                break;
+            case Type\Switcher::TYPE:
+                $formatters->add(new AC\Formatter\YesNoIcon());
+
+                break;
+            case Type\Gallery::TYPE:
+                $formatters->prepend(new Value\Formatter\GalleryIds());
+                $formatters->add(new AC\Formatter\Collection\Separator(''));
+
+                break;
+            case Type\Date::TYPE:
+            case Type\DateTime::TYPE:
+                $formatters->prepend(new AC\Formatter\Date\Timestamp());
+
+                break;
+            case Type\Media::TYPE:
+                $formatters->add(new Value\Formatter\Media($field));
+
+                break;
+            case Type\Posts::TYPE:
+                $formatters->prepend(new Value\Formatter\PostIds());
+
+                break;
+
+            case Type\Radio::TYPE:
+                $options = $field instanceof Field\Options ? $field->get_options() : [];
+                $formatters->add(new Value\Formatter\Options($options));
+
+                break;
+            case Type\Select::TYPE:
+                $options = $field instanceof Field\Options ? $field->get_options() : [];
+                if ($field instanceof Field\Multiple && $field->is_multiple()) {
+                    $formatters->add(new Value\Formatter\MultipleOptions($options));
+                } else {
+                    $formatters->add(new Value\Formatter\Options($options));
+                }
+
+                break;
+        }
+
+        return $formatters;
+    }
 
 }

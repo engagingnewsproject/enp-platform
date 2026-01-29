@@ -1,66 +1,68 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Editing\Storage\Product;
 
 use ACA\WC\Editing\EditValue;
 use ACA\WC\Editing\StorageModel;
 use ACP\Editing\Storage;
+use RuntimeException;
 use WC_Product_Attribute;
 
-abstract class Attributes implements Storage {
+abstract class Attributes implements Storage
+{
 
-	/**
-	 * @var string
-	 */
-	protected $attribute;
+    protected $attribute;
 
-	public function __construct( string $attribute ) {
-		$this->attribute = $attribute;
-	}
+    public function __construct(string $attribute)
+    {
+        $this->attribute = $attribute;
+    }
 
-	/**
-	 * @return false|WC_Product_Attribute
-	 */
-	abstract protected function create_attribute();
+    abstract protected function create_attribute(): ?WC_Product_Attribute;
 
-	public function get( int $id ) {
-		$attribute = $this->get_attribute_object( $id );
+    public function get(int $id)
+    {
+        $attribute = $this->get_attribute_object($id);
 
-		return $attribute ? array_values( $attribute->get_options() ) : [];
-	}
+        return $attribute ? array_values($attribute->get_options()) : [];
+    }
 
-	public function update( int $id, $data ): bool {
-		$attribute = $this->get_attribute_object( $id );
+    public function update(int $id, $data): bool
+    {
+        $attribute = $this->get_attribute_object($id);
 
-		if ( ! $attribute ) {
-			$attribute = $this->create_attribute();
-		}
+        if ( ! $attribute) {
+            $attribute = $this->create_attribute();
+        }
 
-		if ( ! $attribute ) {
-			throw new \RuntimeException( __( 'Non existing attribute.', 'codepress-admin-columns' ) );
-		}
+        if ( ! $attribute) {
+            throw new RuntimeException(__('Non existing attribute.', 'codepress-admin-columns'));
+        }
 
-		$attribute->set_options( $data );
+        $attribute->set_options($data);
 
-		$product = wc_get_product( $id );
+        $product = wc_get_product($id);
 
-		$attributes = $product->get_attributes();
-		$attributes[] = $attribute;
+        $attributes = $product->get_attributes();
+        $attributes[] = $attribute;
 
-		$product->set_attributes( $attributes );
+        $product->set_attributes($attributes);
 
-		return $product->save() > 0;
-	}
+        return $product->save() > 0;
+    }
 
-	/**
-	 * @param int $id
-	 *
-	 * @return false|WC_Product_Attribute
-	 */
-	protected function get_attribute_object( $id ) {
-		$product = wc_get_product( $id );
-		$attributes = $product->get_attributes();
+    /**
+     * @param int $id
+     *
+     * @return false|WC_Product_Attribute
+     */
+    protected function get_attribute_object($id)
+    {
+        $product = wc_get_product($id);
+        $attributes = $product->get_attributes();
 
-		return $attributes[ $this->attribute ] ?? false;
-	}
+        return $attributes[$this->attribute] ?? false;
+    }
 }

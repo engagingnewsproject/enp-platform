@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Search\Comparison;
 
 use ACP;
@@ -64,7 +66,7 @@ abstract class Relation extends ACP\Search\Comparison implements SearchableValue
         }
     }
 
-    private function create_empty_bindings($operator)
+    private function create_empty_bindings($operator): Bindings
     {
         global $wpdb;
 

@@ -14,7 +14,7 @@ final class LicenseKey implements ActivationToken
 
     private $source;
 
-    public function __construct(string $key, string $source = null)
+    public function __construct(string $key, ?string $source = null)
     {
         if ( ! self::is_valid($key)) {
             throw new LogicException('Invalid license key.');

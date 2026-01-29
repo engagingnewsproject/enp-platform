@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace ACP\Search\SegmentRepository;
 
+use AC\DateFormats;
 use AC\Type\ListScreenId;
 use ACP\Exception\FailedToSaveSegmentException;
 use ACP\Search\Entity\Segment;
 use ACP\Search\SegmentCollection;
 use ACP\Search\SegmentRepositoryWritable;
+use ACP\Search\SegmentSchema;
 use ACP\Search\Storage;
 use ACP\Search\Type\SegmentKey;
 use DateTime;
@@ -16,9 +18,7 @@ use DateTime;
 final class Database implements SegmentRepositoryWritable
 {
 
-    use KeyGeneratorTrait;
-
-    private $table;
+    private Storage\Table\Segment $table;
 
     public function __construct(Storage\Table\Segment $table)
     {
@@ -32,7 +32,7 @@ final class Database implements SegmentRepositoryWritable
         $sql = "
 			SELECT *
 			FROM `" . $this->table->get_name() . "`
-			WHERE `" . $this->table::KEY . "` = %s
+			WHERE `" . SegmentSchema::KEY . "` = %s
 		";
 
         $result = $wpdb->get_row(
@@ -49,29 +49,29 @@ final class Database implements SegmentRepositoryWritable
 
     private function create_segment_from_row(array $row): Segment
     {
-        $user_id = $row[$this->table::USER_ID]
-            ? (int)$row[$this->table::USER_ID]
+        $user_id = $row[SegmentSchema::USER_ID]
+            ? (int)$row[SegmentSchema::USER_ID]
             : null;
 
         return new Segment(
-            new SegmentKey((string)$row[$this->table::KEY]),
-            $row[$this->table::NAME],
+            new SegmentKey((string)$row[SegmentSchema::KEY]),
+            $row[SegmentSchema::NAME],
             unserialize(
-                $row[$this->table::URL_PARAMETERS],
+                $row[SegmentSchema::URL_PARAMETERS],
                 [
                     'allowed_classes' => false,
                 ]
             ),
-            new ListScreenId($row[$this->table::LIST_SCREEN_ID]),
+            new ListScreenId($row[SegmentSchema::LIST_SCREEN_ID]),
             $user_id,
-            new DateTime($row[$this->table::DATE_CREATED])
+            new DateTime($row[SegmentSchema::DATE_CREATED])
         );
     }
 
     private function fetch_results(
-        ListScreenId $list_screen_id = null,
-        int $user_id = null,
-        Sort $sort = null
+        ?ListScreenId $list_screen_id = null,
+        ?int $user_id = null,
+        ?Sort $sort = null
     ): SegmentCollection {
         global $wpdb;
 
@@ -86,23 +86,23 @@ final class Database implements SegmentRepositoryWritable
 		";
 
         if ($list_screen_id) {
-            $sql .= $wpdb->prepare("\nAND `" . $this->table::LIST_SCREEN_ID . "` = %s", (string)$list_screen_id);
+            $sql .= $wpdb->prepare("\nAND `" . SegmentSchema::LIST_SCREEN_ID . "` = %s", (string)$list_screen_id);
         }
 
         if ($user_id !== null) {
-            $sql .= $wpdb->prepare("\nAND `" . $this->table::USER_ID . "` = %d", $user_id);
+            $sql .= $wpdb->prepare("\nAND `" . SegmentSchema::USER_ID . "` = %d", $user_id);
         }
 
         $rows = [];
 
         foreach ($wpdb->get_results($sql, ARRAY_A) as $row) {
-            $rows[$row[$this->table::KEY]] = $this->create_segment_from_row($row);
+            $rows[$row[SegmentSchema::KEY]] = $this->create_segment_from_row($row);
         }
 
         return $sort->sort(new SegmentCollection($rows));
     }
 
-    public function find_all(ListScreenId $list_screen_id = null, Sort $sort = null): SegmentCollection
+    public function find_all(?ListScreenId $list_screen_id = null, ?Sort $sort = null): SegmentCollection
     {
         return $this->fetch_results(
             $list_screen_id,
@@ -113,8 +113,8 @@ final class Database implements SegmentRepositoryWritable
 
     public function find_all_personal(
         int $user_id,
-        ListScreenId $list_screen_id = null,
-        Sort $sort = null
+        ?ListScreenId $list_screen_id = null,
+        ?Sort $sort = null
     ): SegmentCollection {
         return $this->fetch_results(
             $list_screen_id,
@@ -123,7 +123,7 @@ final class Database implements SegmentRepositoryWritable
         );
     }
 
-    public function find_all_shared(ListScreenId $list_screen_id = null, Sort $sort = null): SegmentCollection
+    public function find_all_shared(?ListScreenId $list_screen_id = null, ?Sort $sort = null): SegmentCollection
     {
         return $this->fetch_results(
             $list_screen_id,
@@ -143,15 +143,18 @@ final class Database implements SegmentRepositoryWritable
             throw FailedToSaveSegmentException::from_duplicate_key($segment->get_key());
         }
 
+        // Mark as modified
+        $segment = $segment->with_modified_now();
+
         $inserted = $wpdb->insert(
             $this->table->get_name(),
             [
-                $this->table::KEY => (string)$segment->get_key(),
-                $this->table::LIST_SCREEN_ID => (string)$segment->get_list_id(),
-                $this->table::USER_ID => $segment->has_user_id() ? $segment->get_user_id() : 0,
-                $this->table::NAME => $segment->get_name(),
-                $this->table::URL_PARAMETERS => serialize($segment->get_url_parameters()),
-                $this->table::DATE_CREATED => (new DateTime())->format($this->table->get_timestamp_format()),
+                SegmentSchema::KEY => (string)$segment->get_key(),
+                SegmentSchema::LIST_SCREEN_ID => (string)$segment->get_list_id(),
+                SegmentSchema::USER_ID => $segment->has_user_id() ? $segment->get_user_id() : 0,
+                SegmentSchema::NAME => $segment->get_name(),
+                SegmentSchema::URL_PARAMETERS => serialize($segment->get_url_parameters()),
+                SegmentSchema::DATE_CREATED => $segment->get_modified()->format(DateFormats::DATE_MYSQL_TIME),
             ],
             [
                 '%s',
@@ -175,7 +178,7 @@ final class Database implements SegmentRepositoryWritable
         $wpdb->delete(
             $this->table->get_name(),
             [
-                $this->table::KEY => (string)$key,
+                SegmentSchema::KEY => (string)$key,
             ],
             [
                 '%s',
@@ -190,7 +193,7 @@ final class Database implements SegmentRepositoryWritable
         $wpdb->delete(
             $this->table->get_name(),
             [
-                $this->table::LIST_SCREEN_ID => (string)$list_screen_id,
+                SegmentSchema::LIST_SCREEN_ID => (string)$list_screen_id,
             ],
             [
                 '%s',
@@ -205,8 +208,8 @@ final class Database implements SegmentRepositoryWritable
         $wpdb->delete(
             $this->table->get_name(),
             [
-                $this->table::LIST_SCREEN_ID => (string)$list_screen_id,
-                $this->table::USER_ID        => 0,
+                SegmentSchema::LIST_SCREEN_ID => (string)$list_screen_id,
+                SegmentSchema::USER_ID        => 0,
             ],
             [
                 '%s',

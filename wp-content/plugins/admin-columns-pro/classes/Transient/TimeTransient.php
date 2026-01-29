@@ -25,7 +25,7 @@ class TimeTransient implements Expirable
         $this->expiration_seconds = $expiration_seconds;
     }
 
-    public function is_expired(int $timestamp = null): bool
+    public function is_expired(?int $timestamp = null): bool
     {
         return $this->storage->is_expired($timestamp);
     }
@@ -35,9 +35,8 @@ class TimeTransient implements Expirable
         $this->storage->delete();
     }
 
-    public function save(): bool
+    public function save(): void
     {
-        // Always store timestamp before option data.
-        return $this->storage->save(time() + $this->expiration_seconds);
+        $this->storage->save(time() + $this->expiration_seconds);
     }
 }
