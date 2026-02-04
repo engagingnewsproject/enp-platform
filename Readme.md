@@ -46,16 +46,17 @@ Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/s
    cd yourSiteName/app/public/wp-content/themes/engage-2-x
    ```
 
-2. Check if you're using the correct Node version:
+2. Check Node and Yarn versions:
 
    ```bash
-   npm doctor
+   node -v
+   yarn -v
    ```
 
-3. Install npm dependencies:
+3. Install dependencies:
 
    ```bash
-   npm install
+   yarn
    ```
 
 4. Install Timber via Composer:
@@ -69,22 +70,10 @@ Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/s
 6. Run the development server:
 
    ```bash
-   npm run watch
-   ```
-
-   or
-
-   ```bash
    yarn watch
    ```
 
 7. Before pushing changes, compile assets for production:
-
-   ```bash
-   npm run prod
-   ```
-
-   or
 
    ```bash
    yarn prod
