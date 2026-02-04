@@ -17,7 +17,13 @@ trait GlossaryOptionsTrait
 
     public function get_glossary_options(): array
     {
-        $options = Api::glossaries_meta()->get_glossary_for_field((int)$this->settings['glossary_id']);
+        $options = Api::glossaries_meta()->get_glossary_for_field(
+            (int)($this->settings['glossary_id'] ?? 0)
+        );
+
+        if ( ! $options || ! is_array($options)) {
+            return [];
+        }
 
         return Mapping\Options::from_glossary_options($options);
     }

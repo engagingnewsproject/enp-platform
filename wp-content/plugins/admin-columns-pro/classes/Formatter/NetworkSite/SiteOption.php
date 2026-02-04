@@ -8,7 +8,7 @@ use AC\Type\Value;
 class SiteOption implements Formatter
 {
 
-    private $option_name;
+    private string $option_name;
 
     public function __construct(string $option_name)
     {
@@ -17,6 +17,11 @@ class SiteOption implements Formatter
 
     public function format(Value $value): Value
     {
-        return $value->with_value(ac_helper()->network->get_site_option($value->get_id(), $this->option_name));
+        return $value->with_value(
+            ac_helper()->network->get_site_option(
+                (int)$value->get_id(),
+                $this->option_name
+            )
+        );
     }
 }

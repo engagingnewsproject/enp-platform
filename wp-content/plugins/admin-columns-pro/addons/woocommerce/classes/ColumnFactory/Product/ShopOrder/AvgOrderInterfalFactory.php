@@ -21,7 +21,7 @@ class AvgOrderInterfalFactory extends ACP\Column\AdvancedColumnFactory
 
     use WooCommerceGroupTrait;
 
-    private $period;
+    private Period $period;
 
     public function __construct(
         FeatureSettingBuilderFactory $feature_settings_builder_factory,

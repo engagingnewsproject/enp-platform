@@ -7,10 +7,7 @@ use ACP\Sorting\FormatValue;
 class FileMeta implements FormatValue
 {
 
-    /**
-     * @var array
-     */
-    private $keys;
+    private array $keys;
 
     public function __construct(array $keys)
     {

@@ -11,7 +11,7 @@ use WC_Product;
 class TaxStatus extends ProductMethod
 {
 
-    private $mapping;
+    private array $mapping;
 
     public function __construct(array $mapping)
     {

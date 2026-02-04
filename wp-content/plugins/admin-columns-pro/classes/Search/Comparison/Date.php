@@ -46,13 +46,17 @@ abstract class Date extends Comparison
             case Operators::LTE :
                 return $this->create_comparison(
                     $operator,
-                    $value_factory->create_end_of_the_day($this->create_date($value->get_value()))
+                    $value_factory->create_end_of_the_day(
+                        $this->create_date((string)$value->get_value())
+                    )
                 );
             case Operators::LT :
             case Operators::GTE :
                 return $this->create_comparison(
                     $operator,
-                    $value_factory->create_start_of_the_day($this->create_date($value->get_value()))
+                    $value_factory->create_start_of_the_day(
+                        $this->create_date((string)$value->get_value())
+                    )
                 );
             case Operators::BETWEEN :
                 $dates = $value->get_value();
@@ -64,15 +68,15 @@ abstract class Date extends Comparison
                 return $this->create_comparison(
                     $operator,
                     $value_factory->create_range_full_day(
-                        $this->create_date($dates[0]),
-                        $this->create_date($dates[1]),
+                        $this->create_date((string)$dates[0]),
+                        $this->create_date((string)$dates[1]),
                     )
                 );
             case Operators::EQ :
                 return $this->create_comparison(
                     Operators::BETWEEN,
                     $value_factory->create_range_single_day(
-                        $this->create_date($value->get_value())
+                        $this->create_date((string)$value->get_value())
                     )
                 );
             default :

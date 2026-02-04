@@ -17,13 +17,17 @@ class Export implements Registerable
         add_filter('ac/export/render', [$this, 'strip_tags_value'], 10, 4);
     }
 
-    public function strip_tags_value(string $value, Context $context, string $row_id, AC\TableScreen $table_screen)
-    {
+    public function strip_tags_value(
+        string $value,
+        Context $context,
+        string $row_id,
+        AC\TableScreen $table_screen
+    ): string {
         if ( ! $table_screen instanceof AC\ThirdParty\MediaLibraryAssistant\TableScreen) {
             return $value;
         }
 
-        return strip_tags((string)$value);
+        return strip_tags($value);
     }
 
     /**

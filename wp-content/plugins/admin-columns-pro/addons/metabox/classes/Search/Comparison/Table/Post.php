@@ -14,9 +14,9 @@ use ACP\Search\Value;
 class Post extends TableStorage implements ACP\Search\Comparison\SearchableValues
 {
 
-    private $post_type;
+    private array $post_type;
 
-    private $query_args;
+    private array $query_args;
 
     public function __construct(
         string $table,

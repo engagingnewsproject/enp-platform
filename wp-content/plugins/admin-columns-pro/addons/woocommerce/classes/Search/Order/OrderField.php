@@ -15,7 +15,7 @@ use ACP\Search\Value;
 class OrderField extends ACP\Search\Comparison
 {
 
-    private $field;
+    private string $field;
 
     public function __construct(string $field, Operators $operators, ?string $value_type = null, ?Labels $labels = null)
     {

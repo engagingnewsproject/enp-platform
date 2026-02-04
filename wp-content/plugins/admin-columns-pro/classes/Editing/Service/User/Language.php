@@ -12,7 +12,7 @@ class Language extends BasicStorage
     /**
      * @var array
      */
-    private $options;
+    private array $options;
 
     public function __construct(array $options)
     {

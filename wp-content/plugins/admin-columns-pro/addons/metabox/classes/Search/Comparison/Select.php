@@ -11,7 +11,7 @@ class Select extends ACP\Search\Comparison\Meta
     implements ACP\Search\Comparison\Values
 {
 
-    private $choices;
+    private array $choices;
 
     public function __construct(string $meta_key, array $choices, ?string $value_type = null)
     {

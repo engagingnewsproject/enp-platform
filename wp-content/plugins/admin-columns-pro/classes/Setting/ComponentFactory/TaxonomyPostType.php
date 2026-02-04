@@ -9,13 +9,14 @@ use AC\Setting\ComponentFactory;
 use AC\Setting\Config;
 use AC\Setting\Control\Input;
 use AC\Setting\Control\OptionCollection;
+use AC\Type\TaxonomySlug;
 
 class TaxonomyPostType extends ComponentFactory\BaseComponentFactory
 {
 
-    private AC\Type\TaxonomySlug $taxonomy;
+    private TaxonomySlug $taxonomy;
 
-    public function __construct(AC\Type\TaxonomySlug $taxonomy)
+    public function __construct(TaxonomySlug $taxonomy)
     {
         $this->taxonomy = $taxonomy;
     }

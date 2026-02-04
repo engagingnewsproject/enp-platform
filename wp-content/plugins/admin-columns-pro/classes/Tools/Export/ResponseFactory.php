@@ -12,9 +12,9 @@ use ACP\Tools\Export\Response\File;
 final class ResponseFactory
 {
 
-    private $encoder_factory;
+    private EncoderFactory $encoder_factory;
 
-    private $json_serializer;
+    private JsonSerializer $json_serializer;
 
     public function __construct(
         EncoderFactory $encoder_factory,

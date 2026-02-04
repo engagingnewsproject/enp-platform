@@ -17,9 +17,9 @@ class PostParent extends PostField
     implements SearchableValues
 {
 
-    private $current_post_type;
+    private string $current_post_type;
 
-    private $searchable_post_types;
+    private array $searchable_post_types;
 
     public function __construct(string $current_post_type, array $searchable_post_types = [])
     {

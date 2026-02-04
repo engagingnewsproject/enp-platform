@@ -10,7 +10,7 @@ use WC_Product;
 class ProductType extends ProductMethod
 {
 
-    private $simple_types;
+    private array $simple_types;
 
     public function __construct(array $simple_types)
     {

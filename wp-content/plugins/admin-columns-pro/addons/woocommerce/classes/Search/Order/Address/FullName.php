@@ -17,7 +17,7 @@ class FullName extends ACP\Search\Comparison
 
     use Search\Order\OperatorMappingTrait;
 
-    private $address_type;
+    private AddressType $address_type;
 
     public function __construct(AddressType $address_type)
     {

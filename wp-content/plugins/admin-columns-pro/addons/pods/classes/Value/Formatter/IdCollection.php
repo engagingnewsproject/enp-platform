@@ -12,7 +12,7 @@ use AC\Type\ValueCollection;
 class IdCollection implements Formatter
 {
 
-    private $id_property;
+    private string $id_property;
 
     public function __construct(string $id_property = 'ID')
     {

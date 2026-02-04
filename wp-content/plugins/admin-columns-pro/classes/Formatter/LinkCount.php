@@ -41,11 +41,6 @@ class LinkCount implements AC\CollectionFormatter
         );
     }
 
-    private function remove_home_url_prefix(string $url): string
-    {
-        return str_replace(home_url(), '', $url);
-    }
-
     private function trim_tooltip_url(string $url): string
     {
         return ac_helper()->string->trim_characters($url, 26);

@@ -9,9 +9,9 @@ use ACP\Editing\View;
 class SerializedMeta implements Service, Editability
 {
 
-    private $storage;
+    private Storage $storage;
 
-    private $keys;
+    private array $keys;
 
     public function __construct(Storage $storage, array $keys)
     {

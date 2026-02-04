@@ -13,16 +13,16 @@ class OrderCount implements Formatter
 
     public function format(Value $value)
     {
-        $count = $this->get_count($value->get_id());
+        $count = $this->get_count((int)$value->get_id());
 
-        if ( ! $count) {
+        if ($count <= 0) {
             throw ValueNotFoundException::from_id($value->get_id());
         }
 
         return $value->with_value($count);
     }
 
-    private function get_count(int $post_id)
+    private function get_count(int $post_id): int
     {
         global $wpdb;
 
@@ -37,7 +37,9 @@ class OrderCount implements Formatter
             )
         );
 
-        return $num_orders;
+        return $num_orders
+            ? (int)$num_orders
+            : 0;
     }
 
 }

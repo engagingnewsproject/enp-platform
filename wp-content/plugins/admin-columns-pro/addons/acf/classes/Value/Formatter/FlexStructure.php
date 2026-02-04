@@ -28,7 +28,7 @@ class FlexStructure implements Formatter
         while (have_rows($this->field->get_meta_key(), $value->get_id())) {
             the_row();
             $title = $labels[get_row_layout()];
-            $acf_layout = $this->get_layout_by_name( (string)get_row_layout());
+            $acf_layout = $this->get_layout_by_name((string)get_row_layout());
 
             $title = apply_filters(
                 'acf/fields/flexible_content/layout_title',

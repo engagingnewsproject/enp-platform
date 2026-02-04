@@ -14,7 +14,7 @@ class PageTemplate extends Comparison\Meta
     /**
      * @var array Key is the template name, value is the filename of the template
      */
-    private $templates;
+    private array $templates;
 
     public function __construct(array $templates)
     {

@@ -10,7 +10,7 @@ use ACP\Search\Value;
 class ChildPages extends Comparison
 {
 
-    private $post_type;
+    private string $post_type;
 
     public function __construct(string $post_type)
     {

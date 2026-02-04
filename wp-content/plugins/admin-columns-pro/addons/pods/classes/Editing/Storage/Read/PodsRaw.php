@@ -9,9 +9,9 @@ use ACA\Pods\Editing\Storage\ReadStorage;
 class PodsRaw implements ReadStorage
 {
 
-    private $pod;
+    private string $pod;
 
-    private $field_name;
+    private string $field_name;
 
     public function __construct(string $pod, string $field_name)
     {

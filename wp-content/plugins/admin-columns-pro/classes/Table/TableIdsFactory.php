@@ -11,7 +11,7 @@ use AC\Type\TableIdCollection;
 class TableIdsFactory implements AC\TableIdsFactory
 {
 
-    private $taxonomy_repository;
+    private TaxonomyRepository $taxonomy_repository;
 
     public function __construct(TaxonomyRepository $taxonomy_repository)
     {

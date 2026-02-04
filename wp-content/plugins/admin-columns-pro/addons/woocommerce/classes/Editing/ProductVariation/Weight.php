@@ -22,8 +22,10 @@ class Weight implements ACP\Editing\Service
     public function get_view(string $context): ?View
     {
         $view = new ACP\Editing\View\Number();
+        $view->set_step('any');
+        $view->set_min(0);
 
-        return $view->set_step('any')->set_min(0);
+        return $view;
     }
 
     public function update(int $id, $data): void

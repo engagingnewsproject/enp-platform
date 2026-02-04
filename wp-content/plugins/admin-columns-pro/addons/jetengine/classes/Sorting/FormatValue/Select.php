@@ -9,7 +9,7 @@ use ACP\Sorting\FormatValue;
 class Select implements FormatValue
 {
 
-    private $options;
+    private array $options;
 
     public function __construct(array $options)
     {

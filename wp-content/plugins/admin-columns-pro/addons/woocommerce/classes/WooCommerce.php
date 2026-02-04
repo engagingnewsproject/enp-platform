@@ -168,7 +168,12 @@ final class WooCommerce implements Registerable
         AC\Value\ExtendedValueRegistry::add($this->container->make(ExtendedValue\User\Subscriptions::class));
         AC\Value\ExtendedValueRegistry::add($this->container->make(ExtendedValue\User\Orders::class));
 
-        ACP\Editing\BulkDelete\AggregateFactory::add($this->container->make(BulkDelete\Deletable\OrderFactory::class));
+        ACP\Editing\BulkDelete\AggregateFactory::add(
+            $this->container->make(BulkDelete\Deletable\OrderFactory::class)
+        );
+        ACP\Editing\BulkDelete\AggregateFactory::add(
+            $this->container->make(BulkDelete\Deletable\ProductFactory::class)
+        );
 
         AC\Service\ManageHeadings::add($this->container->get(ListTable\ManageHeading\OrderFactory::class));
         AC\Service\SaveHeadings::add($this->container->get(ListTable\SaveHeading\OrderFactory::class));

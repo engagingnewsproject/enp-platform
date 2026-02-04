@@ -56,7 +56,7 @@ final class FieldFactory
                     $form_id,
                     $field_id,
                     $gf_field,
-                    Utils\FormField::formatChoices($gf_field->offsetGet('choices')),
+                    (array)Utils\FormField::formatChoices($gf_field->offsetGet('choices')),
                     true
                 );
             case FieldTypes::SELECT:
@@ -64,7 +64,7 @@ final class FieldFactory
                     $form_id,
                     $field_id,
                     $gf_field,
-                    Utils\FormField::formatChoices($gf_field->offsetGet('choices')),
+                    (array)Utils\FormField::formatChoices($gf_field->offsetGet('choices')),
                     false
                 );
 

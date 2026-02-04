@@ -21,12 +21,7 @@ class V4101 extends Update
         $this->delete_deprecated_settings();
     }
 
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    private function validate_key($key)
+    private function validate_key($key): bool
     {
         if (empty($key)) {
             return false;
@@ -43,12 +38,7 @@ class V4101 extends Update
         return true;
     }
 
-    /**
-     * @param string $key
-     *
-     * @return array
-     */
-    private function get_meta($key)
+    private function get_meta($key): array
     {
         global $wpdb;
 

@@ -9,6 +9,7 @@ use AC\Setting\ComponentCollection;
 use AC\Setting\ComponentFactory;
 use AC\Setting\Config;
 use AC\Setting\DefaultSettingsBuilder;
+use AC\Type\PostTypeSlug;
 use AC\Type\TableScreenContext;
 use ACA\Pods\ColumnFactory\Field\MetaQueryTrait;
 use ACA\Pods\ColumnFactory\FieldFactory;
@@ -30,6 +31,8 @@ class TaxonomyFactory extends FieldFactory
     private ComponentFactory\TermProperty $term_property;
 
     private ComponentFactory\TermLink $term_link;
+
+    private ?PostTypeSlug $post_type;
 
     public function __construct(
         FeatureSettingBuilderFactory $feature_settings_builder_factory,

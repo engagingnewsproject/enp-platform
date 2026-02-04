@@ -12,9 +12,13 @@ class WebsiteLink implements Formatter
 
     public function format(Value $value)
     {
-        $email = get_post_meta($value->get_id(), '_OrganizerWebsite', true);
+        $email = get_post_meta((int)$value->get_id(), '_OrganizerWebsite', true);
 
-        return $email ? $value->with_value(sprintf('<a href="%s">%s</a>', $email, $value)) : $value;
+        return $email
+            ? $value->with_value(
+                sprintf('<a href="%s">%s</a>', $email, $value)
+            )
+            : $value;
     }
 
 }

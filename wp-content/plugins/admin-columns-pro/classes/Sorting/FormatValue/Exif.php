@@ -7,12 +7,9 @@ use ACP\Sorting\FormatValue;
 class Exif implements FormatValue
 {
 
-    /**
-     * @var string
-     */
-    private $field;
+    private string $field;
 
-    public function __construct($field)
+    public function __construct(string $field)
     {
         $this->field = $field;
     }

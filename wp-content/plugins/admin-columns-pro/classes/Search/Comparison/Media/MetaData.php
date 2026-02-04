@@ -9,19 +9,16 @@ use ACP\Search\Value;
 class MetaData extends Comparison\Meta
 {
 
-    /**
-     * @var string
-     */
-    private $sub_key;
+    private string $sub_key;
 
-    public function __construct($sub_key)
+    public function __construct(string $sub_key)
     {
         $operators = new Operators([
             Operators::EQ,
             Operators::CONTAINS,
         ]);
 
-        $this->sub_key = (string)$sub_key;
+        $this->sub_key = $sub_key;
 
         parent::__construct($operators, '_wp_attachment_metadata');
     }

@@ -44,7 +44,7 @@ class Period extends Comparison
 
     protected function create_query_bindings(string $operator, Value $value): Bindings
     {
-        $values = explode($this->get_delimiter(), $value->get_value());
+        $values = explode($this->get_delimiter(), (string)$value->get_value());
 
         $meta_query = [
             [

@@ -13,7 +13,7 @@ class ProductVariation implements Registerable
 
     public const POST_TYPE = 'product_variation';
 
-    private $location;
+    private Absolute $location;
 
     public function __construct(Absolute $location)
     {
@@ -49,12 +49,7 @@ class ProductVariation implements Registerable
         return $link;
     }
 
-    /**
-     * @param array $args
-     *
-     * @return array
-     */
-    public function enable_variation_list_table($args)
+    public function enable_variation_list_table($args): array
     {
         $args['show_ui'] = true;
         $args['show_in_menu'] = true;

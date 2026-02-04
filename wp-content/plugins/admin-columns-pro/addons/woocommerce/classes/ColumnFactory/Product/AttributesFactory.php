@@ -116,7 +116,7 @@ class AttributesFactory extends ACP\Column\AdvancedColumnFactory
             ]);
         }
 
-        // single atrribute export
+        // single attribute export
         return parent::get_export($config);
     }
 

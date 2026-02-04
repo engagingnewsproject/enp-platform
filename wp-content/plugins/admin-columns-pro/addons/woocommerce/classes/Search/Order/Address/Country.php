@@ -17,7 +17,7 @@ class Country extends ACP\Search\Comparison implements ACP\Search\Comparison\Val
 
     use Search\Order\OperatorMappingTrait;
 
-    private $address_type;
+    private AddressType $address_type;
 
     public function __construct(AddressType $address_type)
     {

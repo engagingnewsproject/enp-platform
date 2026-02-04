@@ -20,14 +20,14 @@ class V5700 extends Update
         $this->clear_cache_api();
     }
 
-    protected function clear_cache_api()
+    protected function clear_cache_api(): void
     {
         global $wpdb;
 
         $wpdb->query("DELETE FROM $wpdb->options WHERE option_name LIKE 'ac_api_request_%'");
     }
 
-    private function update_permissions()
+    private function update_permissions(): void
     {
         $details = $this->get_option('acp_subscription_details');
 
@@ -37,22 +37,24 @@ class V5700 extends Update
 
         $permissions = ['usage'];
 
-        $status = isset($details['status'])
-            ? $details['status']
-            : null;
+        $status = $details['status'] ?? null;
 
-        $subscription_key = defined('ACP_LICENCE') && ACP_LICENCE
-            ? ACP_LICENCE
+        $subscription_key = defined('ACP_LICENCE') && constant('ACP_LICENCE')
+            ? constant('ACP_LICENCE')
             : $this->get_option('acp_subscription_key');
 
-        if ('active' === $status && $this->get_option('acp_subscription_details_key') === $subscription_key) {
+        if (
+            $subscription_key
+            && 'active' === $status
+            && $this->get_option('acp_subscription_details_key') === $subscription_key
+        ) {
             $permissions[] = 'update';
         }
 
         $this->update_option('_acp_access_permissions', $permissions);
     }
 
-    private function update_subscription_details()
+    private function update_subscription_details(): void
     {
         $details = $this->get_option('acp_subscription_details');
 
@@ -65,7 +67,7 @@ class V5700 extends Update
         $this->update_option('acp_subscription_details', $details);
     }
 
-    protected function update_option($name, $value)
+    protected function update_option($name, $value): void
     {
         update_option($name, $value);
     }

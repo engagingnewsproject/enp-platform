@@ -5,11 +5,11 @@ namespace ACP\Search;
 abstract class Filter
 {
 
-    protected $name;
+    protected string $name;
 
-    protected $comparison;
+    protected Comparison $comparison;
 
-    protected $label;
+    protected string $label;
 
     public function __construct(string $name, Comparison $comparison, string $label)
     {

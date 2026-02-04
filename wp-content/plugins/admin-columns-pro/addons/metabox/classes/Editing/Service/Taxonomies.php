@@ -14,17 +14,11 @@ use ACP\Helper\Select\Taxonomy\PaginatedFactory;
 class Taxonomies implements ACP\Editing\Service, ACP\Editing\PaginatedOptions
 {
 
-    /**
-     * @var ACP\Service\Storage
-     */
-    private $storage;
+    private ACP\Editing\Storage $storage;
 
-    /**
-     * @var string|array
-     */
-    private $taxonomy;
+    private array $taxonomy;
 
-    public function __construct(ACP\Editing\Storage $storage, $taxonomy)
+    public function __construct(ACP\Editing\Storage $storage, array $taxonomy)
     {
         $this->storage = $storage;
         $this->taxonomy = $taxonomy;

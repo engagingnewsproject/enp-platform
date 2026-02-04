@@ -4,11 +4,12 @@ namespace ACP\Formatter\NetworkSite;
 
 use AC\Formatter;
 use AC\Type\Value;
+use WP_Theme;
 
 class Themes implements Formatter
 {
 
-    private $theme_status;
+    private string $theme_status;
 
     public function __construct(string $theme_status)
     {
@@ -41,7 +42,7 @@ class Themes implements Formatter
         foreach ($themes as $k => $theme) {
             $tooltip = [];
 
-            /* @var \WP_Theme $theme */
+            /* @var WP_Theme $theme */
             if ($theme->get_stylesheet() === $active_theme->get_stylesheet()) {
                 $tooltip[] = __('Active', 'codepress-admin-columns');
             }

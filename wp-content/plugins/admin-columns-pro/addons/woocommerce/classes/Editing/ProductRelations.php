@@ -18,7 +18,7 @@ abstract class ProductRelations implements Service, PaginatedOptions
 
     use PostTrait;
 
-    private $storage;
+    private Storage $storage;
 
     public function __construct(Storage $storage)
     {

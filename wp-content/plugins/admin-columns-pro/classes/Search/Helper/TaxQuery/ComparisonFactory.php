@@ -9,19 +9,15 @@ use LogicException;
 final class ComparisonFactory
 {
 
-    /**
-     * @param string $taxonomy
-     * @param string $operator
-     * @param Value  $terms
-     * @param string $field
-     *
-     * @return Comparison
-     */
-    public static function create($taxonomy, $operator, Value $terms, $field = 'term_id')
-    {
+    public static function create(
+        string $taxonomy,
+        string $operator,
+        Value $terms,
+        string $field = 'term_id'
+    ): Comparison {
         $operators = [
             Operators::EQ           => 'IN',
-            Operators::NEQ          => 'NOT IN',
+            Operators::NEQ => 'NOT IN',
             Operators::IS_EMPTY     => 'NOT EXISTS',
             Operators::NOT_IS_EMPTY => 'EXISTS',
         ];

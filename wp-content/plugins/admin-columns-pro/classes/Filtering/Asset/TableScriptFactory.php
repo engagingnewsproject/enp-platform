@@ -20,11 +20,11 @@ use ACP\Search\Value;
 final class TableScriptFactory
 {
 
-    private $location;
+    private Location $location;
 
-    private $options_factory;
+    private OptionsFactory $options_factory;
 
-    private $request;
+    private Request $request;
 
     private array $default_filters;
 
@@ -118,15 +118,15 @@ final class TableScriptFactory
     private function get_option_label(Comparison $comparison, $value): ?string
     {
         if ($value === Filtering\EmptyOptions::IS_EMPTY) {
-            return $comparison->get_labels()[Operators::IS_EMPTY];
+            return $comparison->get_labels()[Operators::IS_EMPTY] ?? (string)$value;
         }
 
         if ($value === Filtering\EmptyOptions::NOT_IS_EMPTY) {
-            return $comparison->get_labels()[Operators::NOT_IS_EMPTY] ?? $value;
+            return $comparison->get_labels()[Operators::NOT_IS_EMPTY] ?? (string)$value;
         }
 
         if ($comparison instanceof Comparison\RemoteValues && is_scalar($value)) {
-            return $comparison->format_label($value);
+            return $comparison->format_label((string)$value);
         }
 
         if ($comparison instanceof Comparison\SearchableValues) {

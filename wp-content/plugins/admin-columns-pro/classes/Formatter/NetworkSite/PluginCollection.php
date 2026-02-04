@@ -20,7 +20,9 @@ class PluginCollection implements Formatter
     {
         $active_plugins = new ValueCollection($value->get_id(), []);
 
-        $site_plugins = maybe_unserialize(ac_helper()->network->get_site_option($value->get_id(), 'active_plugins'));
+        $site_plugins = maybe_unserialize(
+            ac_helper()->network->get_site_option((int)$value->get_id(), 'active_plugins')
+        );
 
         foreach (get_plugins() as $basename => $plugin) {
             if ($this->include_active_for_network && is_plugin_active_for_network($basename)) {

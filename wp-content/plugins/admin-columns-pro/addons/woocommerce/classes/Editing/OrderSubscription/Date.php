@@ -12,9 +12,9 @@ use RuntimeException;
 class Date implements ACP\Editing\Service
 {
 
-    private $date_key;
+    private string $date_key;
 
-    private $clearable;
+    private bool $clearable;
 
     public function __construct(string $date_key, bool $clearable = false)
     {

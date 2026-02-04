@@ -41,7 +41,6 @@ final class FieldRepository
             return [];
         }
 
-        /** @noinspection PhpParamsInspection */
         $groups = wpcf_admin_get_groups_by_post_type((string)$table_screen->get_post_type());
         $group_fields = [];
 

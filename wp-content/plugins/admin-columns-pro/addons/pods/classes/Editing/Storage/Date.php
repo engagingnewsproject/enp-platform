@@ -9,7 +9,7 @@ use ACA\Pods;
 class Date extends Field
 {
 
-    private $date_format;
+    private string $date_format;
 
     public function __construct(Pods\Field $field, ReadStorage $read, string $date_format)
     {

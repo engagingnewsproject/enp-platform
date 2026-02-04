@@ -11,7 +11,7 @@ use AC\Registerable;
 final class Scripts implements Registerable
 {
 
-    private $location;
+    private Location\Absolute $location;
 
     public function __construct(Location\Absolute $location)
     {

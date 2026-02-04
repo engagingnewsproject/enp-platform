@@ -13,9 +13,9 @@ use ACA\Types\Field;
 class TypesRenderValue implements Formatter
 {
 
-    private $field;
+    private Field $field;
 
-    private $meta_type;
+    private MetaType $meta_type;
 
     public function __construct(MetaType $meta_type, Field $field)
     {

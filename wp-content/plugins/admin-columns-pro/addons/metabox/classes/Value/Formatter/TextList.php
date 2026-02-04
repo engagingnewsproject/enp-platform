@@ -10,7 +10,7 @@ use AC\Type\Value;
 class TextList implements AC\Formatter
 {
 
-    private $labels;
+    private array $labels;
 
     public function __construct(array $labels)
     {

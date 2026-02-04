@@ -11,7 +11,7 @@ use AC\Type\Value;
 class ProductsSold implements Formatter
 {
 
-    private $statuses;
+    private array $statuses;
 
     public function __construct(array $statuses = ['wc-completed'])
     {

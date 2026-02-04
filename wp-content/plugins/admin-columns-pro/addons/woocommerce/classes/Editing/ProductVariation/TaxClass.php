@@ -11,7 +11,7 @@ use ACP\Editing\View;
 class TaxClass implements ACP\Editing\Service
 {
 
-    private $tax_classes;
+    private array $tax_classes;
 
     public function __construct(array $tax_classes)
     {

@@ -19,9 +19,9 @@ use ACP\Setting\ComponentFactory\NetworkSite\SiteOptions;
 class OptionsFactory extends AdvancedColumnFactory
 {
 
-    private $site_options;
+    private SiteOptions $site_options;
 
-    private $before_after_factory;
+    private BeforeAfter $before_after_factory;
 
     public function __construct(
         FeatureSettingBuilderFactory $feature_settings_builder_factory,

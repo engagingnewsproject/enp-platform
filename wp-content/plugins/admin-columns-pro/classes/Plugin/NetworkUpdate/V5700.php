@@ -7,7 +7,7 @@ use ACP;
 class V5700 extends ACP\Plugin\Update\V5700
 {
 
-    protected function update_option($name, $value)
+    protected function update_option($name, $value): void
     {
         update_site_option($name, $value);
     }
@@ -17,7 +17,7 @@ class V5700 extends ACP\Plugin\Update\V5700
         return get_site_option($name);
     }
 
-    protected function clear_cache_api()
+    protected function clear_cache_api(): void
     {
         global $wpdb;
 

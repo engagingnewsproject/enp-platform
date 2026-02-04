@@ -11,11 +11,11 @@ use ACP\Admin\Page;
 class Addons implements PageFactoryInterface
 {
 
-    private $plugin;
+    private AC\AdminColumns $plugin;
 
-    private $integrations;
+    private IntegrationRepository $integrations;
 
-    private $menu_factory;
+    private MenuFactory $menu_factory;
 
     public function __construct(
         AC\AdminColumns $plugin,
@@ -27,7 +27,7 @@ class Addons implements PageFactoryInterface
         $this->menu_factory = $menu_factory;
     }
 
-    public function create()
+    public function create(): Page\Addons
     {
         return new Page\Addons(
             $this->plugin,

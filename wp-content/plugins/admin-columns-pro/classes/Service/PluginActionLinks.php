@@ -10,9 +10,9 @@ use ACP\AdminColumnsPro;
 class PluginActionLinks implements Registerable
 {
 
-    private $plugin;
+    private AdminColumnsPro $plugin;
 
-    private $permission_storage;
+    private PermissionsStorage $permission_storage;
 
     public function __construct(AdminColumnsPro $plugin, PermissionsStorage $permission_storage)
     {

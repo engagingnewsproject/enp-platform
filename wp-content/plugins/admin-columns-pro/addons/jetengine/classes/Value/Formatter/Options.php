@@ -11,7 +11,7 @@ use AC\Type\Value;
 class Options implements Formatter
 {
 
-    private $options;
+    private array $options;
 
     public function __construct(array $options)
     {

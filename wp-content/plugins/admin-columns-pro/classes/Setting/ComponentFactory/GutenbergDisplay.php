@@ -16,7 +16,7 @@ use ACP\Formatter\Post\ParsedGutenbergBlocks;
 class GutenbergDisplay extends AC\Setting\ComponentFactory\BaseComponentFactory
 {
 
-    private $number_of_items;
+    private AC\Setting\ComponentFactory\NumberOfItems $number_of_items;
 
     public function __construct(AC\Setting\ComponentFactory\NumberOfItems $number_of_items)
     {

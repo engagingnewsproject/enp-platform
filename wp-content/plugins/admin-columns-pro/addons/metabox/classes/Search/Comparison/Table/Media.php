@@ -20,7 +20,7 @@ class Media extends TableStorage
 
     use MultiMapTrait;
 
-    private $mime_type;
+    private array $mime_type;
 
     public function __construct(
         string $table,

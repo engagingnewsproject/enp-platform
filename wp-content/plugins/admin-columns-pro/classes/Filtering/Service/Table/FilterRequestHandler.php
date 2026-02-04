@@ -12,7 +12,7 @@ use ACP\Filtering\RequestHandler;
 class FilterRequestHandler implements Registerable
 {
 
-    private $request;
+    private Request $request;
 
     public function __construct(Request $request)
     {

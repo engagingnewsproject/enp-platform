@@ -6,9 +6,10 @@ namespace ACA\WC\Service;
 
 use AC;
 use AC\Asset\Location\Absolute;
+use AC\ListScreen;
 use AC\Registerable;
 use AC\Type\TableId;
-use ACA\WC;
+use ACA\WC\Admin\WcListKeysFactory;
 use ACA\WC\Asset\Script\Table;
 use ACA\WC\Setting\TableElement\FilterOrderCustomer;
 use ACA\WC\Setting\TableElement\FilterOrderDate;
@@ -24,19 +25,16 @@ use WC_Admin_List_Table_Orders;
 final class TableScreen implements Registerable
 {
 
-    /**
-     * @var AC\ListScreen
-     */
-    private $list_screen;
+    private Absolute $location;
 
-    private $location;
+    private bool $use_product_variations;
 
-    private $use_product_variations;
+    private WcListKeysFactory $list_keys_factory;
 
-    private $list_keys_factory;
+    private ?ListScreen $list_screen = null;
 
     public function __construct(
-        WC\Admin\WcListKeysFactory $list_keys_factory,
+        WcListKeysFactory $list_keys_factory,
         Absolute $location,
         bool $use_product_variations
     ) {
@@ -63,7 +61,7 @@ final class TableScreen implements Registerable
         add_action('ac/table_scripts', [$this, 'hide_filters']);
     }
 
-    public function hide_filters(AC\ListScreen $list_screen): void
+    public function hide_filters(ListScreen $list_screen): void
     {
         global $wc_list_table;
 
@@ -96,7 +94,7 @@ final class TableScreen implements Registerable
         }
     }
 
-    public function set_list_screen(AC\ListScreen $list_screen): void
+    public function set_list_screen(ListScreen $list_screen): void
     {
         $this->list_screen = $list_screen;
     }
@@ -112,7 +110,7 @@ final class TableScreen implements Registerable
         return false;
     }
 
-    public function table_scripts_editing(AC\ListScreen $list_screen): void
+    public function table_scripts_editing(ListScreen $list_screen): void
     {
         $table_screen = $list_screen->get_table_screen();
 
@@ -200,7 +198,7 @@ final class TableScreen implements Registerable
         }
     }
 
-    public function table_scripts(AC\ListScreen $list_screen): void
+    public function table_scripts(ListScreen $list_screen): void
     {
         if ( ! $this->is_wc_table_screen($list_screen->get_table_screen())) {
             return;

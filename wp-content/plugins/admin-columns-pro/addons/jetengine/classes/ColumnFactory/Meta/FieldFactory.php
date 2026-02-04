@@ -139,7 +139,7 @@ class FieldFactory extends ACP\Column\AdvancedColumnFactory
     protected function get_formatters(Config $config): FormatterCollection
     {
         $setting_formatters = $this->get_formatters_from_settings($this->get_settings($config));
-        $formatters = $this->value_formatter_factory->create($this->field, $setting_formatters, $config);
+        $formatters = $this->value_formatter_factory->create($this->field, $setting_formatters);
 
         $formatters->prepend($this->get_base_formatter());
         $formatters->add(Separator::create_from_config($config));

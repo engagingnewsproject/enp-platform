@@ -10,7 +10,7 @@ use WP_User;
 class Post implements Create
 {
 
-    protected $post_type;
+    protected string $post_type;
 
     public function __construct(string $post_type)
     {

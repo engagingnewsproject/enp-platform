@@ -11,7 +11,7 @@ abstract class TableMarkup implements Registerable
     /**
      * @var Enqueueable[]
      */
-    protected $assets;
+    protected array $assets;
 
     public function __construct(array $assets)
     {

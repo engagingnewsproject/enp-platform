@@ -10,7 +10,7 @@ use AC\Type\Value;
 class RenderShortcode implements AC\Formatter
 {
 
-    private $shortcode;
+    private string $shortcode;
 
     public function __construct(string $shortcode)
     {

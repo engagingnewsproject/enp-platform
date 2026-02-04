@@ -11,9 +11,9 @@ use ACP\QuickAdd\Table;
 class AjaxScreenOption implements Registerable
 {
 
-    private $storage;
+    private Storage $storage;
 
-    private $preference_button;
+    private Table\Preference\ShowButton $preference_button;
 
     public function __construct(Storage $storage, Table\Preference\ShowButton $preference_button)
     {

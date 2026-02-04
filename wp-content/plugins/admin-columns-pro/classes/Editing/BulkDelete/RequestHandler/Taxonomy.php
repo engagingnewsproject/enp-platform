@@ -9,7 +9,7 @@ use WP_Error;
 class Taxonomy extends RequestHandler
 {
 
-    private $taxonomy;
+    private string $taxonomy;
 
     public function __construct(string $taxonomy)
     {

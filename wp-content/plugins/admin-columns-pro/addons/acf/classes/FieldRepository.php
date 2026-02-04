@@ -69,7 +69,7 @@ class FieldRepository
         return $field_collection;
     }
 
-    private function extract_sub_fields($field): array
+    private function extract_sub_fields(array $field): array
     {
         switch ($field['type']) {
             case FieldType::TYPE_GROUP:
@@ -79,7 +79,9 @@ class FieldRepository
                 return (array)$field['sub_fields'];
 
             default:
-                return [$field];
+                return [
+                    $field,
+                ];
         }
     }
 
@@ -87,7 +89,17 @@ class FieldRepository
     {
         $fields = [];
 
+        $exclude = [
+            FieldType::TYPE_FLEXIBLE_CONTENT,
+            FieldType::TYPE_GROUP,
+            FieldType::TYPE_REPEATER,
+        ];
+
         foreach ($field['sub_fields'] as $sub_field) {
+            if (in_array($sub_field['type'], $exclude, true)) {
+                continue;
+            }
+
             $sub_field['_ac_type'] = 'group';
             $sub_field['_ac_group'] = $field;
 

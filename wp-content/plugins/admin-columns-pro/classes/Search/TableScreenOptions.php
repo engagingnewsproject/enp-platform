@@ -9,11 +9,11 @@ class TableScreenOptions implements AC\Registerable
 
     public const INPUT_NAME = 'acp_enable_smart_filtering_button';
 
-    private $preferences;
+    private Preferences\SmartFiltering $preferences;
 
-    private $table_element_smart_filters;
+    private Settings\TableElement\SmartFilters $table_element_smart_filters;
 
-    private $location;
+    private AC\Asset\Location\Absolute $location;
 
     public function __construct(
         AC\Asset\Location\Absolute $location,

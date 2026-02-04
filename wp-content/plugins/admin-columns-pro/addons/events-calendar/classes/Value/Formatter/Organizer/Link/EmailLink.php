@@ -12,9 +12,13 @@ class EmailLink implements Formatter
 
     public function format(Value $value)
     {
-        $email = get_post_meta($value->get_id(), '_OrganizerEmail', true);
+        $email = get_post_meta((int)$value->get_id(), '_OrganizerEmail', true);
 
-        return $email ? $value->with_value(sprintf('<a href="mailto:%s">%s</a>', $email, $value)) : $value;
+        return $email
+            ? $value->with_value(
+                sprintf('<a href="mailto:%s">%s</a>', $email, $value)
+            )
+            : $value;
     }
 
 }

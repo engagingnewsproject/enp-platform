@@ -19,7 +19,7 @@ class CastType
     public const DATETIME = 'DATETIME';
     public const BINARY = 'BINARY';
 
-    private $value;
+    private string $value;
 
     public function __construct(string $value)
     {

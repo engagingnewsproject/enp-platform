@@ -9,7 +9,7 @@ use AC\Type\ListScreenId;
 class StickyColumn implements AC\Registerable
 {
 
-    private $storage;
+    private Storage $storage;
 
     public function __construct(Storage $storage)
     {

@@ -17,7 +17,7 @@ use ACP\Settings;
 class PostCountFactory extends AdvancedColumnFactory
 {
 
-    private $post_type;
+    private ComponentFactory\NetworkSite\PostType $post_type;
 
     private ComponentFactory\NetworkSite\PostStatus $post_status;
 

@@ -78,7 +78,7 @@ final class OrderMetaFactory
                 return new ACP\Editing\Service\Post(
                     (new ACP\Editing\View\AjaxSelect())->set_clear_button(true),
                     new Editing\Storage\Order\OrderMeta($meta_key),
-                    new ACP\Editing\PaginatedOptions\Posts([])
+                    new ACP\Editing\PaginatedOptions\Posts()
                 );
             case FieldType::TYPE_USER:
                 return new ACP\Editing\Service\User(

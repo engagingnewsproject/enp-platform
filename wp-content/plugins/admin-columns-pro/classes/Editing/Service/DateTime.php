@@ -13,11 +13,11 @@ class DateTime implements Service
 
     public const FORMAT = 'Y-m-d H:i:s';
 
-    private $view;
+    private View\DateTime $view;
 
-    private $storage;
+    private Storage $storage;
 
-    protected $date_format;
+    protected string $date_format;
 
     public function __construct(View\DateTime $view, Storage $storage, ?string $date_format = null)
     {

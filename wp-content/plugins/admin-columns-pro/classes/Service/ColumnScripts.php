@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ACP\Service;
 
+use AC;
 use AC\Admin\Page\Columns;
 use AC\Asset\Style;
 use AC\Registerable;
@@ -13,9 +14,9 @@ use ACP\AdminColumnsPro;
 class ColumnScripts implements Registerable
 {
 
-    private $location;
+    private AC\Asset\Location $location;
 
-    private $settings_factory;
+    private ColumnSettingsFactory $settings_factory;
 
     public function __construct(AdminColumnsPro $plugin, ColumnSettingsFactory $settings_factory)
     {

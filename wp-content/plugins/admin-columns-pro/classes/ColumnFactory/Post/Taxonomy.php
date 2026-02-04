@@ -6,7 +6,6 @@ namespace ACP\ColumnFactory\Post;
 
 use AC;
 use AC\FormatterCollection;
-use AC\Setting\ConditionalComponentFactoryCollection;
 use AC\Setting\Config;
 use ACP;
 use ACP\Column\EnhancedColumnFactory;
@@ -28,32 +27,46 @@ class Taxonomy extends EnhancedColumnFactory
         Editing\Setting\ComponentFactory\InlineEditCreateTerms $inline_edit_factory
     ) {
         parent::__construct($column_factory, $feature_setting_builder_factory);
+
         $this->inline_edit_factory = $inline_edit_factory;
     }
 
-    protected function add_edit_component_factory(
-        ConditionalComponentFactoryCollection $factories,
-        Config $config
-    ): void {
-        $factories->add($this->inline_edit_factory);
+    protected function get_feature_settings_builder(Config $config): ACP\Column\FeatureSettingBuilder
+    {
+        return parent::get_feature_settings_builder($config)
+                     ->set_edit(
+                         $this->inline_edit_factory
+                     );
+    }
+
+    private function get_taxonomy_from_config(Config $config): string
+    {
+        return (string)$config->get('taxonomy', '');
     }
 
     protected function get_editing(Config $config): ?ACP\Editing\Service
     {
-        return new Editing\Service\Post\Taxonomy(
-            (string)$config->get('taxonomy', ''),
-            'on' === (string)$config->get('enable_term_creation', 'on'),
-        );
+        $taxonomy = $this->get_taxonomy_from_config($config);
+
+        return $taxonomy
+            ? new Editing\Service\Post\Taxonomy(
+                $taxonomy,
+                'on' === (string)$config->get('enable_term_creation', 'on'),
+            ) : null;
     }
 
     protected function get_search(Config $config): ?ACP\Search\Comparison
     {
-        return new Search\Comparison\Post\Taxonomy((string)$config->get('taxonomy', ''));
+        $taxonomy = $this->get_taxonomy_from_config($config);
+
+        return $taxonomy
+            ? new Search\Comparison\Post\Taxonomy($taxonomy)
+            : null;
     }
 
     protected function get_sorting(Config $config): ?Sorting\Model\QueryBindings
     {
-        return new Sorting\Model\Post\Taxonomy((string)$config->get('taxonomy', ''));
+        return new Sorting\Model\Post\Taxonomy($this->get_taxonomy_from_config($config));
     }
 
     protected function get_export(Config $config): ?FormatterCollection

@@ -13,7 +13,7 @@ use ACA\JetEngine\Field\Type\Repeater;
 class RepeaterField extends BaseComponentFactory
 {
 
-    private $field;
+    private Repeater $field;
 
     public function __construct(Repeater $field)
     {

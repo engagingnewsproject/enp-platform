@@ -14,9 +14,9 @@ use InvalidArgumentException;
 class OrderExtrema implements QueryBindings
 {
 
-    private $extrema;
+    private string $extrema;
 
-    private $status;
+    private array $status;
 
     public function __construct(string $extrema = 'min', array $status = ['wc-completed'])
     {

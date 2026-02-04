@@ -13,16 +13,13 @@ use ACP\Helper\Select\Post\PaginatedFactory;
 class PostParent extends BasicStorage implements PaginatedOptions
 {
 
-    /**
-     * @var string
-     */
-    private $post_type;
+    private string $post_type;
 
-    public function __construct($post_type)
+    public function __construct(string $post_type)
     {
         parent::__construct(new Storage\Post\Field('post_parent'));
 
-        $this->post_type = (string)$post_type;
+        $this->post_type = $post_type;
     }
 
     public function get_view(string $context): ?View

@@ -41,7 +41,7 @@ class Field implements GravityForms\Field
 
     public function is_required(): bool
     {
-        return $this->gf_field->isRequired;
+        return (bool)$this->gf_field->isRequired;
     }
 
 }

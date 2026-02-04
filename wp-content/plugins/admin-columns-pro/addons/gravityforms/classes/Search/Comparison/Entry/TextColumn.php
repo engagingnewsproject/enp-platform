@@ -13,7 +13,7 @@ use ACP\Search\Value;
 class TextColumn extends ACP\Search\Comparison
 {
 
-    private $column;
+    private string $column;
 
     public function __construct(string $column)
     {

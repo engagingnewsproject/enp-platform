@@ -7,7 +7,7 @@ use ACP\Sorting\FormatValue;
 class SerializedKey implements FormatValue
 {
 
-    private $key;
+    private string $key;
 
     public function __construct(string $key)
     {

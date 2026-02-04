@@ -74,8 +74,7 @@ class RatingFactory extends ACP\Column\AdvancedColumnFactory
             FormatCollectionFormatter::create(
                 [
                     new AverageRating(),
-                ],
-                ACP\ConditionalFormat\Formatter::FLOAT
+                ]
             )
         );
     }

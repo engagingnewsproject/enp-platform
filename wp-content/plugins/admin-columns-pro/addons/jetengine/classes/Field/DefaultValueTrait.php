@@ -9,7 +9,9 @@ trait DefaultValueTrait
 
     public function has_default_value(): bool
     {
-        return isset($this->settings['default_val']) && $this->settings['default_val'] !== '';
+        return isset($this->settings['default_val'])
+               && $this->settings['default_val'] !== ''
+               && is_scalar($this->settings['default_val']);
     }
 
     public function get_default_value(): ?string

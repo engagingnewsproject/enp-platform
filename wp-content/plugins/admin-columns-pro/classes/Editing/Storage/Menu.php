@@ -13,9 +13,9 @@ use WP_Post;
 abstract class Menu implements Storage
 {
 
-    protected $object_type;
+    protected string $object_type;
 
-    protected $item_type;
+    protected string $item_type;
 
     public function __construct(string $object_type, string $item_type)
     {

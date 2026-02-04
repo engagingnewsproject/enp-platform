@@ -10,14 +10,14 @@ use ACP\Editing\RequestHandler;
 class Taxonomy implements Deletable
 {
 
-    private $taxonomy;
+    private TaxonomySlug $taxonomy;
 
     public function __construct(TaxonomySlug $taxonomy)
     {
         $this->taxonomy = $taxonomy;
     }
 
-    public function get_delete_request_handler(): RequestHandler
+    public function get_delete_request_handler(): BulkDelete\RequestHandler\Taxonomy
     {
         return new BulkDelete\RequestHandler\Taxonomy((string)$this->taxonomy);
     }
@@ -27,7 +27,7 @@ class Taxonomy implements Deletable
         return current_user_can('manage_categories');
     }
 
-    public function get_query_request_handler(): RequestHandler
+    public function get_query_request_handler(): RequestHandler\Query\Taxonomy
     {
         return new RequestHandler\Query\Taxonomy();
     }

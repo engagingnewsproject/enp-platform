@@ -15,7 +15,7 @@ class Taxonomy extends Comparison
     implements Comparison\SearchableValues
 {
 
-    protected $taxonomy;
+    protected string $taxonomy;
 
     public function __construct(string $taxonomy)
     {

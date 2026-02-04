@@ -19,7 +19,7 @@ class LinkCount extends ACP\Column\AdvancedColumnFactory
 
     use ACP\ConditionalFormat\IntegerFormattableTrait;
 
-    private $link_count_type;
+    private ACP\Setting\ComponentFactory\LinkCountType $link_count_type;
 
     public function __construct(
         FeatureSettingBuilderFactory $feature_settings_builder_factory,

@@ -11,7 +11,7 @@ use DateTime;
 class GtDaysAgo extends Comparison
 {
 
-    public function __construct($column, Value $value)
+    public function __construct(string $column, Value $value)
     {
         parent::__construct($column, Operators::LT, $value);
     }

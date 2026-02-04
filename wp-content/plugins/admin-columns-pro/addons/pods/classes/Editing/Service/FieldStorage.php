@@ -10,7 +10,7 @@ use ACP\Editing\View;
 class FieldStorage extends Editing\Service\BasicStorage
 {
 
-    private $view;
+    private ?View $view;
 
     public function __construct(Editing\Storage $storage, ?View $view = null)
     {

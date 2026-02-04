@@ -20,7 +20,7 @@ class Name extends GravityForms\Field\Field implements GravityForms\Field\Contai
                     $this->get_form_id(),
                     $this->get_id(),
                     $this->gf_field,
-                    GravityForms\Utils\FormField::formatChoices($input['choices']),
+                    GravityForms\Utils\FormField::formatChoices($input['choices'] ?? []),
                     false
                 )
                 : new Input($this->get_form_id(), $this->get_id(), $this->gf_field);

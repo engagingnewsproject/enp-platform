@@ -13,9 +13,9 @@ use AC\Type\ValueCollection;
 class TypesIntermediaryRelatedPost implements Formatter
 {
 
-    private $type;
+    private string $type;
 
-    private $post_type;
+    private PostTypeSlug $post_type;
 
     public function __construct(PostTypeSlug $post_type, string $type)
     {

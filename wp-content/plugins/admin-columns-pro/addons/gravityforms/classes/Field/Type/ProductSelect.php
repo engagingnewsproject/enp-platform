@@ -15,11 +15,17 @@ class ProductSelect extends GravityForms\Field\Field implements GravityForms\Fie
         $options = [];
 
         foreach ($this->gf_field->offsetGet('choices') as $choice) {
-            $options[sprintf(
+            $key = sprintf(
                 '%s|%s',
                 $choice['value'],
                 GFCommon::to_number($choice['price'], GFCommon::get_currency())
-            )] = sprintf('%s (%s)', $choice['text'], $choice['price']);
+            );
+
+            $options[$key] = sprintf(
+                '%s (%s)',
+                $choice['text'] ?? '',
+                $choice['price'] ?? ''
+            );
         }
 
         return $options;

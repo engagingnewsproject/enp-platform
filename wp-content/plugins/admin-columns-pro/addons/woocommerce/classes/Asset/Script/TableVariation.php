@@ -39,7 +39,7 @@ class TableVariation extends AC\Asset\Script
                 $referer
             );
         } elseif ( ! $this->check_referer(self::TABLE)) {
-            // Remove preference link when referer is neither from product or product_variation
+            // Remove preference link when referer is neither from product nor product_variation
             $preference->delete(self::TABLE);
         }
 

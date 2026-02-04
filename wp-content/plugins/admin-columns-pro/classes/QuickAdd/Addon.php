@@ -13,11 +13,11 @@ use ACP\QuickAdd\Model\PostFactory;
 class Addon implements AC\Registerable
 {
 
-    private $storage;
+    private Storage $storage;
 
-    private $location;
+    private AC\Asset\Location $location;
 
-    private $request;
+    private AC\Request $request;
 
     public function __construct(Storage $storage, AdminColumnsPro $plugin, AC\Request $request)
     {

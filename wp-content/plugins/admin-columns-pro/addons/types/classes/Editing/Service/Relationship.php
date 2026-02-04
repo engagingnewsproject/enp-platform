@@ -13,7 +13,7 @@ class Relationship extends ACP\Editing\Service\BasicStorage
     implements ACP\Editing\PaginatedOptions
 {
 
-    protected $related_post_type;
+    protected string $related_post_type;
 
     public function __construct(ACP\Editing\Storage $storage, string $related_post_type)
     {

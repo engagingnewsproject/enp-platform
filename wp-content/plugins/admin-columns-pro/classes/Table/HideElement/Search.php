@@ -8,7 +8,7 @@ use ACP\Table\HideElement;
 class Search implements HideElement
 {
 
-    private $table_screen;
+    private TableScreen $table_screen;
 
     public function __construct(TableScreen $table_screen)
     {

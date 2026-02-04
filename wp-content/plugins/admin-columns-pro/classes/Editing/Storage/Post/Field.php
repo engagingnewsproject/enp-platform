@@ -8,7 +8,7 @@ use RuntimeException;
 class Field implements Storage
 {
 
-    private $field;
+    private string $field;
 
     public function __construct(string $field)
     {

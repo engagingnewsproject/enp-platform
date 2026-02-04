@@ -15,12 +15,9 @@ use ACP\Search\Value;
 class AttributeTaxonomy extends Comparison\Meta implements Comparison\SearchableValues
 {
 
-    /**
-     * @var string
-     */
-    protected $taxonomy;
+    protected string $taxonomy;
 
-    public function __construct($taxonomy)
+    public function __construct(string $taxonomy)
     {
         $operators = new Operators([
             Operators::EQ,
@@ -41,7 +38,9 @@ class AttributeTaxonomy extends Comparison\Meta implements Comparison\Searchable
     {
         $term = get_term($value);
 
-        return $term ? $this->get_label_formatter()->format_label($term) : $value;
+        return $term
+            ? $this->get_label_formatter()->format_label($term)
+            : $value;
     }
 
     public function get_values(string $search, int $page): Paginated
@@ -55,7 +54,7 @@ class AttributeTaxonomy extends Comparison\Meta implements Comparison\Searchable
 
     protected function create_query_bindings(string $operator, Value $value): Bindings
     {
-        $term = get_term($value->get_value());
+        $term = get_term((int)$value->get_value());
 
         return parent::create_query_bindings(
             $operator,

@@ -14,9 +14,9 @@ use ACA\JetEngine\Utils\FieldOptions;
 final class Checkbox implements Formatter
 {
 
-    private $options;
+    private array $options;
 
-    private $field;
+    private Field\Type\Checkbox $field;
 
     public function __construct(Field\Type\Checkbox $field)
     {

@@ -7,6 +7,7 @@ namespace ACA\WC\Value\Formatter\Product;
 use AC\Exception\ValueNotFoundException;
 use AC\Formatter;
 use AC\Type\Value;
+use WC_Coupon;
 
 class Coupons implements Formatter
 {
@@ -22,7 +23,18 @@ class Coupons implements Formatter
         $values = [];
 
         foreach ($coupons as $coupon_id) {
-            $values[] = ac_helper()->html->link(get_edit_post_link($coupon_id), get_the_title($coupon_id));
+            $coupon = new WC_Coupon($coupon_id);
+
+            if ($coupon->get_id() <= 0) {
+                continue;
+            }
+
+            $link = get_edit_post_link($coupon->get_id());
+            $code = $coupon->get_code();
+
+            $values[] = $link
+                ? ac_helper()->html->link($link, $code)
+                : $code;
         }
 
         return $value->with_value(
@@ -30,7 +42,7 @@ class Coupons implements Formatter
         );
     }
 
-    private function get_linked_coupons(int $id)
+    private function get_linked_coupons(int $id): array
     {
         global $wpdb;
 

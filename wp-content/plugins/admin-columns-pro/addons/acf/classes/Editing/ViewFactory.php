@@ -11,12 +11,12 @@ use ACA\ACF\Field;
 use ACA\ACF\FieldType;
 use ACP;
 use ACP\Editing\View;
-use Exception;
+use LogicException;
 
 class ViewFactory
 {
 
-    public function create(Field $field)
+    public function create(Field $field): View
     {
         $view = $this->create_view_type($field);
 
@@ -36,7 +36,7 @@ class ViewFactory
         return $view;
     }
 
-    private function create_view_type(Field $field)
+    private function create_view_type(Field $field): View
     {
         switch ($field->get_type()) {
             case FieldType::TYPE_BOOLEAN:
@@ -54,14 +54,14 @@ class ViewFactory
 
             case FieldType::TYPE_DATE_TIME_PICKER:
                 if ( ! $field instanceof Field\Date) {
-                    throw new Exception('Field must be of type ACA\ACF\Field\Date');
+                    throw new LogicException('Field must be of type ACA\ACF\Field\Date');
                 }
 
                 return (new View\DateTime())->set_week_start($field->get_first_day());
 
             case FieldType::TYPE_DATE_PICKER:
                 if ( ! $field instanceof Field\Date) {
-                    throw new Exception('Field must be of type ACA\ACF\Field\Date');
+                    throw new LogicException('Field must be of type ACA\ACF\Field\Date');
                 }
 
                 return (new View\Date())->set_week_start($field->get_first_day());
@@ -71,7 +71,7 @@ class ViewFactory
 
             case FieldType::TYPE_TEXTAREA:
                 if ( ! $field instanceof Field\Textarea) {
-                    throw new Exception('Field must be of type ACA\ACF\Field\Textarea');
+                    throw new LogicException('Field must be of type ACA\ACF\Field\Textarea');
                 }
 
                 $view = new View\TextArea();

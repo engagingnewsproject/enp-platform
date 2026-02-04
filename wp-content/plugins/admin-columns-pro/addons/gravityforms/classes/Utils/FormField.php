@@ -9,10 +9,8 @@ class FormField
 
     /**
      * @param mixed $choices
-     *
-     * @return array
      */
-    public static function formatChoices($choices)
+    public static function formatChoices($choices): array
     {
         if (empty($choices) || ! is_array($choices)) {
             return [];

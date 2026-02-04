@@ -395,16 +395,10 @@ class CustomFieldFactory extends ACP\Column\AdvancedColumnFactory
 
                 return new FormatterCollection($formatters);
             case FieldType::TYPE_IMAGE :
-                return new FormatterCollection([
-                    $this->get_meta_formatter($config),
-                    new AC\Formatter\ArrayToCollection(),
-                    new AC\Formatter\ImageUrl(),
-                ]);
             case FieldType::TYPE_MEDIA :
                 return new FormatterCollection([
                     $this->get_meta_formatter($config),
-                    new AC\Formatter\ArrayToCollection(),
-                    new AC\Formatter\ForeignId(),
+                    new AC\Formatter\ImageToCollection(),
                     new AC\Formatter\ImageUrl(),
                 ]);
             case FieldType::TYPE_BOOLEAN :

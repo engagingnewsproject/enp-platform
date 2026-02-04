@@ -53,11 +53,6 @@ class Post extends Query
 
     /**
      * Add precision parameters to DECIMAL query
-     *
-     * @param string   $where
-     * @param WP_Query $query
-     *
-     * @return string
      */
     public function cast_decimal_precision($where, WP_Query $query)
     {

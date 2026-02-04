@@ -8,7 +8,7 @@ use AC\Registerable;
 class PrimaryColumn implements Registerable
 {
 
-    private $list_screen;
+    private ?AC\ListScreen $list_screen = null;
 
     public function register(): void
     {

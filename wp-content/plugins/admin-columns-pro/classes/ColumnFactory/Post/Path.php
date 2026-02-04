@@ -17,7 +17,7 @@ class Path extends EnhancedColumnFactory
 
     use ACP\ConditionalFormat\ConditionalFormatTrait;
 
-    private $post_type;
+    private AC\Type\PostTypeSlug $post_type;
 
     public function __construct(
         AC\ColumnFactory\Post\PathFactory $column_factory,

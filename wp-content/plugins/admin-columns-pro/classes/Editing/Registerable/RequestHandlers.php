@@ -13,7 +13,7 @@ use ACP\Editing\RequestHandlerFactory;
 class RequestHandlers implements Registerable
 {
 
-    private $container;
+    private DI\Container $container;
 
     public function __construct(DI\Container $container)
     {

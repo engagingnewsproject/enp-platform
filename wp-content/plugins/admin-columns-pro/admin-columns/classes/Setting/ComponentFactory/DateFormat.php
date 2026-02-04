@@ -43,7 +43,7 @@ abstract class DateFormat extends BaseComponentFactory
 
     protected function get_label(Config $config): ?string
     {
-        return __('Date Format', 'codepress-admin-columns');
+        return __('Display Date Format', 'codepress-admin-columns');
     }
 
     protected function get_description(Config $config): ?string
@@ -108,7 +108,6 @@ abstract class DateFormat extends BaseComponentFactory
                 return new Formatter\Date\DateFormat(
                     $output_format,
                     $this->source_format,
-                    $this->output_timezone
                 );
         }
     }

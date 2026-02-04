@@ -31,9 +31,9 @@ class VenueDisplay extends BaseComponentFactory
     protected function get_input(Config $config): ?Input
     {
         return Input\OptionFactory::create_select(
-            'post',
+            'post_property_display',
             $this->get_display_options(),
-            $config->get('post', self::PROPERTY_TITLE)
+            $config->get('post_property_display', self::PROPERTY_TITLE)
         );
     }
 
@@ -56,7 +56,7 @@ class VenueDisplay extends BaseComponentFactory
 
     protected function add_formatters(Config $config, FormatterCollection $formatters): void
     {
-        switch ($config->get('post', self::PROPERTY_TITLE)) {
+        switch ($config->get('post_property_display', self::PROPERTY_TITLE)) {
             case self::PROPERTY_ADDRESS:
                 $formatters->add(new CallbackWithId('tribe_get_address'));
                 break;

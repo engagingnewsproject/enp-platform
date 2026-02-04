@@ -11,14 +11,14 @@ use ACP;
 class Field implements ACP\Editing\Storage
 {
 
-    protected $read_storage;
+    protected ReadStorage $read_storage;
 
-    protected $field;
+    protected Pods\Field $field;
 
     public function __construct(Pods\Field $field, ?ReadStorage $read = null)
     {
         $this->field = $field;
-        $this->read_storage = $read ?: new PodsRaw($field->get_pod()->get_name(), $field->get_name());
+        $this->read_storage = $read ?? new PodsRaw($field->get_pod()->get_name(), $field->get_name());
     }
 
     public function get(int $id)

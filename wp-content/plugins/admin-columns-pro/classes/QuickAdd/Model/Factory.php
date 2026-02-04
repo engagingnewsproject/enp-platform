@@ -10,7 +10,7 @@ class Factory
     /**
      * @var ModelFactory[]
      */
-    private static $factories = [];
+    private static array $factories = [];
 
     public static function add_factory(ModelFactory $factory)
     {

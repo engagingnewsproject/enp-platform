@@ -22,11 +22,11 @@ class TermParent extends ACP\Column\AdvancedColumnFactory
 
     use ACP\ConditionalFormat\ConditionalFormatTrait;
 
-    private $taxonomy;
+    private TaxonomySlug $taxonomy;
 
-    private $term_property;
+    private TermProperty $term_property;
 
-    private $term_link;
+    private TermLink $term_link;
 
     public function __construct(
         FeatureSettingBuilderFactory $feature_settings_builder_factory,

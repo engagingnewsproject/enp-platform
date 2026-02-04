@@ -12,7 +12,7 @@ use ACA\WC\Value\ExtendedValue;
 class OrderCount implements Formatter
 {
 
-    private $order_status;
+    private array $order_status;
 
     public function __construct(array $order_status = [])
     {
@@ -59,7 +59,7 @@ class OrderCount implements Formatter
             );
 
         if ($this->order_status) {
-            $link->with_params([
+            $link = $link->with_params([
                 'order_status' => $this->order_status,
             ]);
         }

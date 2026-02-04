@@ -13,9 +13,9 @@ use AC\Type\ValueCollection;
 class MetaCollection implements Formatter
 {
 
-    private $meta_type;
+    private MetaType $meta_type;
 
-    private $meta_key;
+    private string $meta_key;
 
     public function __construct(MetaType $meta_type, string $meta_key)
     {
@@ -40,7 +40,7 @@ class MetaCollection implements Formatter
         $collection = new ValueCollection($id);
 
         foreach (array_filter($values) as $item) {
-            $collection->add(new Value($id,$item));
+            $collection->add(new Value($id, $item));
         }
 
         return $collection;

@@ -14,7 +14,7 @@ class GeneralSettingsFactory
 
     public const HANDLE = 'acp-page-settings';
 
-    private $location;
+    private Asset\Location $location;
 
     private Option\LayoutStyle $layout_style;
 

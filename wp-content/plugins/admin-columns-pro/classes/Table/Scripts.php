@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ACP\Table;
 
+use AC;
 use AC\Asset\Style;
 use AC\ColumnSize;
 use AC\ListScreen;
@@ -16,13 +17,13 @@ use ACP\Asset\Script\Table;
 class Scripts implements Registerable
 {
 
-    private $location;
+    private AC\Asset\Location $location;
 
-    private $user_storage;
+    private ColumnSize\UserStorage $user_storage;
 
-    private $list_storage;
+    private ColumnSize\ListStorage $list_storage;
 
-    private $storage;
+    private Storage $storage;
 
     private GeneralOption $option_storage;
 

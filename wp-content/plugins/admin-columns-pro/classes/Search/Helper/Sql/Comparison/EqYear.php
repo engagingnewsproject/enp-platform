@@ -12,7 +12,7 @@ class EqYear extends Between
     {
         $value_factory = new DateValueFactory($value->get_type());
 
-        return parent::bind_value($value_factory->create_range_year($value->get_value()));
+        return parent::bind_value($value_factory->create_range_year((int)$value->get_value()));
     }
 
 }

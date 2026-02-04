@@ -15,7 +15,7 @@ use InvalidArgumentException;
 class ProductCategories implements Service, PaginatedOptions
 {
 
-    private $storage;
+    private Storage $storage;
 
     public function __construct(Storage $storage)
     {
@@ -36,7 +36,7 @@ class ProductCategories implements Service, PaginatedOptions
         return $view;
     }
 
-    public function get_value(int $id)
+    public function get_value(int $id): array
     {
         $values = [];
 
@@ -52,18 +52,16 @@ class ProductCategories implements Service, PaginatedOptions
     }
 
     /**
-     * @param array $term_ids
-     *
      * @return int[]
      */
-    private function sanitize_ids($term_ids): array
+    private function sanitize_ids(array $term_ids): array
     {
         return $term_ids
             ? array_map('intval', array_filter($term_ids, 'is_numeric'))
             : [];
     }
 
-    private function get_term_ids($id)
+    private function get_term_ids($id): array
     {
         $ids = $this->storage->get($id);
 
@@ -77,7 +75,7 @@ class ProductCategories implements Service, PaginatedOptions
         $method = $data['method'] ?? null;
 
         if ( ! $method) {
-            $this->storage->update($id, $this->sanitize_ids($data));
+            $this->storage->update($id, $this->sanitize_ids((array)$data));
 
             return;
         }

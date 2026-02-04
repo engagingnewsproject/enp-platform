@@ -92,6 +92,7 @@ class BeaverBuilder implements Registerable
     {
         return new Services([
             new Service\PostTypes(),
+            new Service\ColumnRenderTaxonomyFilter(),
         ]);
     }
 

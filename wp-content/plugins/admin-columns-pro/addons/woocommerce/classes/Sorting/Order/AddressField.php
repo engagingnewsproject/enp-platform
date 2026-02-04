@@ -14,9 +14,9 @@ use InvalidArgumentException;
 class AddressField implements QueryBindings
 {
 
-    private $address_field;
+    private string $address_field;
 
-    private $address_type;
+    private AddressType $address_type;
 
     public function __construct(string $address_field, AddressType $address_type)
     {

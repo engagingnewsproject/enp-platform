@@ -17,7 +17,7 @@ use ACA\Types\Field;
 final class TypesFieldFactory implements ColumnFactoryCollectionFactory
 {
 
-    private $container;
+    private Container $container;
 
     private ACA\Types\FieldRepository $field_repository;
 

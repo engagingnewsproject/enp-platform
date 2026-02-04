@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace ACA\ACF\ColumnFactories\WooCommerce;
 
 use AC;
+use AC\MetaType;
+use AC\Type\PostTypeSlug;
+use AC\Type\TableScreenContext;
 use AC\Vendor\DI\Container;
 use ACA\ACF;
 use ACA\ACF\FieldType;
@@ -22,9 +25,13 @@ class OrderFieldFactory
     public function create(ACF\Field $field): ?AC\Column\ColumnFactory
     {
         $arguments = [
-            'column_type' => $field->get_hash(),
-            'label'       => $field->get_label() ?: $field->get_meta_key(),
-            'field'       => $field,
+            'column_type'   => $field->get_hash(),
+            'label'         => $field->get_label() ?: $field->get_meta_key(),
+            'field'         => $field,
+            'table_context' => new TableScreenContext(
+                new MetaType(MetaType::POST),
+                new PostTypeSlug('shop_order')
+            ),
         ];
 
         if ($field->is_deferred_clone()) {

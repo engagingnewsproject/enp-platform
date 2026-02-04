@@ -24,7 +24,11 @@ class CouponCodes extends OrderMethod
 
         foreach ($coupons as $code) {
             $coupon = new WC_Coupon($code);
-            $used_coupons[] = ac_helper()->html->link(get_edit_post_link($coupon->get_id()), $code);
+            $link = get_edit_post_link($coupon->get_id());
+            
+            $used_coupons[] = $link
+                ? ac_helper()->html->link($link, $code)
+                : $code;
         }
 
         return $value->with_value(implode(' | ', $used_coupons));

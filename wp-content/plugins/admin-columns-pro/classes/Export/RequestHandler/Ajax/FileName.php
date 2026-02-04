@@ -11,7 +11,7 @@ use AC\Type\ListScreenId;
 final class FileName implements RequestAjaxHandler
 {
 
-    private $storage;
+    private Storage $storage;
 
     public function __construct(Storage $storage)
     {

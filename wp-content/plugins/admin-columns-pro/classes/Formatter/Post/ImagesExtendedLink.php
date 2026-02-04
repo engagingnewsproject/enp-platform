@@ -8,7 +8,7 @@ use AC\Type\Value;
 class ImagesExtendedLink implements AC\CollectionFormatter
 {
 
-    private $extended_value;
+    private AC\Value\Extended\ExtendedValue $extended_value;
 
     public function __construct(AC\Value\Extended\ExtendedValue $extended_value)
     {

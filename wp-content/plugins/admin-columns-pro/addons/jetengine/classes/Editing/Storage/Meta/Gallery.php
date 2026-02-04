@@ -12,7 +12,7 @@ use ACP;
 class Gallery extends ACP\Editing\Storage\Meta
 {
 
-    private $value_format;
+    private string $value_format;
 
     public function __construct(string $meta_key, MetaType $meta_type, string $value_format)
     {
@@ -29,25 +29,29 @@ class Gallery extends ACP\Editing\Storage\Meta
             return false;
         }
 
-        $values = explode(',', $value);
-
-        return array_map([$this, 'format_single_value'], $values);
-    }
-
-    private function format_single_value($value)
-    {
         switch ($this->value_format) {
-            case ValueFormat::FORMAT_URL:
-                $value = array_map([MediaId::class, 'from_url'], explode(',', $value));
-
-                break;
             case ValueFormat::FORMAT_BOTH:
-                $value = array_map([MediaId::class, 'from_array'], $value);
+                return array_map([MediaId::class, 'from_array'], (array)$value);
 
-                break;
+            case ValueFormat::FORMAT_URL:
+                $items = explode(',', (string)$value);
+
+                if ( ! $items) {
+                    return false;
+                }
+
+                $items = array_map([MediaId::class, 'from_url'], $items);
+
+                return array_filter($items, 'is_numeric');
+            default:
+                $items = explode(',', (string)$value);
+
+                if ( ! $items) {
+                    return false;
+                }
+
+                return array_filter($items);
         }
-
-        return $value;
     }
 
     public function update(int $id, $data): bool

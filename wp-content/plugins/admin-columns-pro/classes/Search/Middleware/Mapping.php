@@ -8,12 +8,9 @@ abstract class Mapping
     public const RESPONSE = 'response';
     public const REQUEST = 'request';
 
-    protected $direction;
+    protected string $direction;
 
-    /**
-     * @var array
-     */
-    protected $properties;
+    protected array $properties;
 
     public function __construct(?string $direction = null)
     {
@@ -41,16 +38,14 @@ abstract class Mapping
      */
     abstract protected function get_properties(): array;
 
-    /**
-     * Get a property
-     *
-     * @param string $key
-     *
-     * @return false|string
-     */
-    public function __get(string $key)
+    public function get(string $key): ?string
     {
-        return $this->properties[$key] ?? false;
+        return $this->properties[$key] ?? null;
+    }
+
+    public function __get(string $key): ?string
+    {
+        return $this->get($key);
     }
 
 }

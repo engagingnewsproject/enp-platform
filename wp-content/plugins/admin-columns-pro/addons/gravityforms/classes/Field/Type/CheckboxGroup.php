@@ -13,7 +13,7 @@ class CheckboxGroup extends GravityForms\Field\Field
 
     public function get_options(): array
     {
-        return GravityForms\Utils\FormField::formatChoices($this->gf_field->choices);
+        return (array)GravityForms\Utils\FormField::formatChoices($this->gf_field->choices);
     }
 
     /**
@@ -29,7 +29,7 @@ class CheckboxGroup extends GravityForms\Field\Field
                 $this->get_id(),
                 $this->gf_field,
                 (string)$this->gf_field->choices[$key]['value'],
-                $input['label']
+                $input['label'] ?? ''
             );
         }
 

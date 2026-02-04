@@ -12,7 +12,7 @@ use AC\Type\ValueCollection;
 class ProductTerms implements Formatter
 {
 
-    private $taxonomy_slug;
+    private TaxonomySlug $taxonomy_slug;
 
     public function __construct(TaxonomySlug $taxonomy_slug)
     {

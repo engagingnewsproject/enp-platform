@@ -13,14 +13,11 @@ class Options extends Select\Options
     /**
      * @var WP_Comment[]
      */
-    private $comments;
+    private array $comments = [];
 
-    /**
-     * @var array
-     */
-    private $labels = [];
+    private array $labels = [];
 
-    private $formatter;
+    private LabelFormatter $formatter;
 
     public function __construct(array $comments, LabelFormatter $formatter)
     {

@@ -10,12 +10,9 @@ use ACP;
 class Checkboxes extends ACP\Editing\Storage\Meta
 {
 
-    /**
-     * @var array
-     */
-    private $options;
+    private array $options;
 
-    public function __construct($meta_key, MetaType $meta_type, $options)
+    public function __construct(string $meta_key, MetaType $meta_type, array $options)
     {
         parent::__construct($meta_key, $meta_type);
 

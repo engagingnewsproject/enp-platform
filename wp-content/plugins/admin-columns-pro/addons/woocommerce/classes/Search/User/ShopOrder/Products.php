@@ -25,16 +25,13 @@ class Products extends Comparison
         parent::__construct($operators);
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function create_query_bindings($operator, Value $value): Bindings
     {
         global $wpdb;
 
         $bindings = new Bindings();
 
-        $user_ids = $this->get_user_ids_by_product($value->get_value());
+        $user_ids = $this->get_user_ids_by_product((int)$value->get_value());
 
         // Force no results
         if ( ! $user_ids) {
@@ -44,12 +41,7 @@ class Products extends Comparison
         return $bindings->where($wpdb->users . '.ID IN( ' . implode(',', $user_ids) . ')');
     }
 
-    /**
-     * @param int $product_id
-     *
-     * @return array
-     */
-    protected function get_user_ids_by_product($product_id)
+    protected function get_user_ids_by_product(int $product_id): array
     {
         global $wpdb;
 

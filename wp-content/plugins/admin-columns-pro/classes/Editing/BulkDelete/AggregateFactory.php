@@ -18,7 +18,7 @@ class AggregateFactory implements StrategyFactory
 
     public function create(TableScreen $table_screen): ?Deletable
     {
-        foreach (self::$factories as $factory) {
+        foreach (array_reverse(self::$factories) as $factory) {
             $strategy = $factory->create($table_screen);
 
             if ( ! $strategy) {

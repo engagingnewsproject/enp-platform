@@ -46,7 +46,7 @@ class ProductType extends Comparison implements Comparison\Values
                          ->where("$alias_pml.downloadable=1");
                 break;
             default :
-                $term = get_term_by('name', $value->get_value(), 'product_type');
+                $term = get_term_by('name', (string)$value->get_value(), 'product_type');
 
                 if ($term instanceof WP_Term) {
                     $bindings->join($join_tr)

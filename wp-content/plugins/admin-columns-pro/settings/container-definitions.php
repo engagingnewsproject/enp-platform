@@ -14,7 +14,6 @@ use AC\Vendor\Psr\Container\ContainerInterface;
 use ACA;
 use ACP\Access\PermissionChecker;
 use ACP\Access\Rule\LocalServer;
-use ACP\Admin\PageFactory\Help;
 use ACP\ConditionalFormat\RulesRepository;
 use ACP\ListScreenRepository\ConditionalFormatHandler;
 use ACP\ListScreenRepository\SegmentHandler;
@@ -131,8 +130,6 @@ return [
     TemplateFiles::class                             => static function (): TemplateFiles {
         return TemplateFiles::from_directory(__DIR__ . '/../config/storage/template');
     },
-    Help::class                                      => autowire()
-        ->constructorParameter(0, get(AdminColumnsPro::class)),
     AC\Service\PluginUpdate::class                   => autowire()
         ->constructorParameter(0, get(AC\AdminColumns::class))
         ->constructorParameter(1, new Site('upgrade-to-version-%s')),

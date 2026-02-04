@@ -98,13 +98,18 @@ class FieldFactory extends AcfFactory
 
     protected function get_formatters(Config $config): FormatterCollection
     {
-        return (new FormatterCollection([$this->get_base_formatter()]))->merge(
-            $this->formatter_factory->get_field_formatters(
-                $this->get_formatters_from_settings($this->get_settings($config)),
-                $this->field,
-                $config
-            )
+        $formatters = $this->get_formatters_from_settings(
+            $this->get_settings($config)
         );
+
+        $this->formatter_factory->add_field_formatters(
+            $formatters,
+            $this->field,
+            $config
+        );
+
+        return FormatterCollection::from_formatter($this->get_base_formatter())
+                                  ->merge($formatters);
     }
 
     protected function get_search(Config $config): ?ACP\Search\Comparison

@@ -16,7 +16,7 @@ class User extends Meta
 
     use UserValuesTrait;
 
-    private $query;
+    private ?Query $query;
 
     public function __construct(string $meta_key, ?Query $query = null)
     {

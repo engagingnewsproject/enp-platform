@@ -35,7 +35,7 @@ class GroupedProducts implements ACP\Editing\Service, ACP\Editing\Service\Editab
         return 'grouped' === wc_get_product($id)->get_type();
     }
 
-    public function get_value(int $id)
+    public function get_value(int $id): ?array
     {
         $product = wc_get_product($id);
 

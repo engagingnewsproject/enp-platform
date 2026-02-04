@@ -15,7 +15,7 @@ use ACP\Search\Value;
 class UserField extends ACP\Search\Comparison
 {
 
-    private $field;
+    private string $field;
 
     public function __construct(string $field, ?Operators $operators = null, ?string $value_type = null)
     {

@@ -7,6 +7,7 @@ namespace ACP\ColumnFactory\Post;
 use AC;
 use AC\FormatterCollection;
 use AC\Setting\Config;
+use AC\Type\PostTypeSlug;
 use ACP;
 use ACP\Column\EnhancedColumnFactory;
 use ACP\Column\FeatureSettingBuilderFactory;
@@ -15,12 +16,12 @@ use ACP\Search;
 class FeaturedImage extends EnhancedColumnFactory
 {
 
-    private $post_type;
+    private PostTypeSlug $post_type;
 
     public function __construct(
         AC\ColumnFactory\Post\FeaturedImageFactory $column_factory,
         FeatureSettingBuilderFactory $feature_setting_builder_factory,
-        AC\Type\PostTypeSlug $post_type
+        PostTypeSlug $post_type
     ) {
         parent::__construct($column_factory, $feature_setting_builder_factory);
 

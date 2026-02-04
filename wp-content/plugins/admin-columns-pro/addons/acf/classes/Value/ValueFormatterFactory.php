@@ -13,65 +13,68 @@ use AC\Setting\Config;
 use ACA\ACF\Field;
 use ACA\ACF\FieldType;
 use ACA\ACF\Value;
-use InvalidArgumentException;
 
 class ValueFormatterFactory
 {
 
-    public function get_field_formatters(
-        FormatterCollection $formatters,
-        Field $field,
-        Config $config
-    ): FormatterCollection {
+    public function add_field_formatters(FormatterCollection $formatters, Field $field, Config $config): void
+    {
         switch ($field->get_type()) {
             case FieldType::TYPE_COLOR_PICKER:
-                return $formatters->add(new AC\Formatter\Color());
-
+                $formatters->add(new AC\Formatter\Color());
+                break;
             case FieldType::TYPE_BOOLEAN:
-                return $formatters->add(new AC\Formatter\YesNoIcon());
+                $formatters->add(new AC\Formatter\YesNoIcon());
+                break;
             case FieldType::TYPE_SELECT:
             case FieldType::TYPE_RADIO:
             case FieldType::TYPE_CHECKBOX:
             case FieldType::TYPE_BUTTON_GROUP:
-                return $formatters
+                $formatters
                     ->add(new Value\Formatter\Choice($field instanceof Field\Choices ? $field->get_choices() : []))
                     ->add(Separator::create_from_config($config));
+                break;
             case FieldType::TYPE_LINK:
-                return $formatters->add(new Value\Formatter\Link());
+                $formatters->add(new Value\Formatter\Link());
+                break;
             case FieldType::TYPE_GOOGLE_MAP:
-                return $formatters->add(new Value\Formatter\Maps());
+                $formatters->add(new Value\Formatter\Maps());
+                break;
             case FieldType::TYPE_DATE_PICKER:
-                return $formatters->prepend(new Value\Formatter\AcfDate());
+                $formatters->prepend(new Value\Formatter\AcfDate());
+                break;
             case FieldType::TYPE_DATE_TIME_PICKER:
-                return $formatters->prepend(new AC\Formatter\Date\Timestamp());
+                $formatters->prepend(new AC\Formatter\Date\Timestamp());
+                break;
             case FieldType::TYPE_FILE:
-                return $formatters->prepend(new Value\Formatter\File());
+                $formatters->prepend(new Value\Formatter\File());
+                break;
             case FieldType::TYPE_FLEXIBLE_CONTENT:
-                if ( ! $field instanceof Field\Type\FlexibleContent) {
-                    throw new InvalidArgumentException('Field must be instance of Field\Type\FlexibleContent');
+                if ($field instanceof Field\Type\FlexibleContent) {
+                    $formatters->prepend(
+                        $config->get('flex_display') === 'structure'
+                            ? new Value\Formatter\FlexStructure($field)
+                            : new Value\Formatter\FlexCount($field)
+                    );
                 }
-
-                $formatter = $config->get('flex_display') === 'structure'
-                    ? new Value\Formatter\FlexStructure($field)
-                    : new Value\Formatter\FlexCount($field);
-
-                return $formatters->prepend($formatter);
-
+                break;
             case FieldType::TYPE_POST:
             case FieldType::TYPE_RELATIONSHIP:
             case FieldType::TYPE_TAXONOMY:
             case FieldType::TYPE_USER:
-                return $formatters->prepend(new Value\Formatter\RelationIdCollection())
-                                  ->add(Separator::create_from_config($config));
+                $formatters->prepend(new Value\Formatter\RelationIdCollection())
+                           ->add(Separator::create_from_config($config));
+                break;
             case FieldType::TYPE_GALLERY:
-                return $formatters->prepend(new Value\Formatter\RelationIdCollection())
-                                  ->add(new Separator('', (int)$config->get('number_of_items', 10)));
+                $formatters->prepend(new Value\Formatter\RelationIdCollection())
+                           ->add(new Separator('', (int)$config->get('number_of_items', 10)));
+                break;
             case FieldType::TYPE_PAGE_LINK:
-                return $formatters->prepend(new Value\Formatter\PageLink(new PostTitle(), new PostLink('edit_post')));
+                $formatters->prepend(new Value\Formatter\PageLink(new PostTitle(), new PostLink('edit_post')));
+                break;
             case FieldType::TYPE_WYSIWYG:
-                return $formatters->add(new AC\Formatter\StripTags());
-            default:
-                return $formatters;
+                $formatters->add(new AC\Formatter\StripTags());
+                break;
         }
     }
 

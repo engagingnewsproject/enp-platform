@@ -26,7 +26,7 @@ class OrderTotal implements Formatter
     {
         global $wpdb;
 
-        // TODO: Replace this query to retrieve the total order revenue incase the order_product_lookup table is not available
+        // TODO: Replace this query to retrieve the total order revenue in case the order_product_lookup table is not available
 
         $sql = $wpdb->prepare(
             "

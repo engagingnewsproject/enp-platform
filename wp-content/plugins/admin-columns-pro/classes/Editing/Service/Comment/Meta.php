@@ -11,7 +11,7 @@ use ACP\Editing\View;
 class Meta implements Service
 {
 
-    private $meta_key;
+    private string $meta_key;
 
     private $view;
 

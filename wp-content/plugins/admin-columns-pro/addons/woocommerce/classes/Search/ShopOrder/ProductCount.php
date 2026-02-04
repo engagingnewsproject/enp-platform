@@ -43,24 +43,24 @@ class ProductCount extends Comparison
         return $bindings->where($wpdb->posts . '.ID IN( ' . implode(',', $order_ids) . ')');
     }
 
-    private function get_filtered_order_ids($operator, Value $value)
+    private function get_filtered_order_ids(string $operator, Value $value): array
     {
         global $wpdb;
 
         switch ($operator) {
             case Operators::LT;
-                $having = sprintf('HAVING products < %d', $value->get_value());
+                $having = sprintf('HAVING products < %d', (int)$value->get_value());
                 break;
             case Operators::GT;
-                $having = sprintf('HAVING products > %d', $value->get_value());
+                $having = sprintf('HAVING products > %d', (int)$value->get_value());
                 break;
             case Operators::BETWEEN:
                 $values = $value->get_value();
-                $having = sprintf('HAVING products >= %d AND products <= %s', $values[0], $values[1]);
+                $having = sprintf('HAVING products >= %d AND products <= %s', (int)$values[0], (string)$values[1]);
 
                 break;
             default:
-                $having = sprintf('HAVING products = %d', $value->get_value());
+                $having = sprintf('HAVING products = %d', (int)$value->get_value());
         }
 
         $sql = "SELECT oi.order_id,SUM( oim.meta_value ) as products

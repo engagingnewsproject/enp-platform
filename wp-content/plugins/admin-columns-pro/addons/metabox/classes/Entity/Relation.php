@@ -30,7 +30,7 @@ class Relation
 
     public function get_id(): string
     {
-        return $this->relation->id;
+        return (string)$this->relation->id;
     }
 
     public function get_type(): string
@@ -58,7 +58,7 @@ class Relation
     public function get_title(): string
     {
         if ($this->relation->menu_title) {
-            return $this->relation->menu_title;
+            return (string)$this->relation->menu_title;
         }
 
         switch ($this->get_related_meta_type()) {
@@ -93,10 +93,6 @@ class Relation
             : $this->relation->menu_title;
     }
 
-    /**
-     * @return array
-     */
-
     public function get_related_field_settings(): array
     {
         return 'to' === $this->get_related_type()
@@ -107,7 +103,7 @@ class Relation
     public function get_related_ids($object_id): array
     {
         $ids = [];
-        $items = MB_Relationships_API::get_connected([
+        $items = (array)MB_Relationships_API::get_connected([
             'id'        => $this->get_id(),
             $this->type => $object_id,
         ]);
@@ -129,7 +125,8 @@ class Relation
 
     public function add_relation($from_id, $to_id): bool
     {
-        return MB_Relationships_API::add(
+        // Force the return value to be boolean (MB docs are not correct)
+        return (bool)MB_Relationships_API::add(
             $this->type === 'from' ? $from_id : $to_id,
             $this->type === 'from' ? $to_id : $from_id,
             $this->get_id()
@@ -138,7 +135,7 @@ class Relation
 
     public function delete_relation($from_id, $to_id): bool
     {
-        return MB_Relationships_API::delete(
+        return (bool)MB_Relationships_API::delete(
             $this->type === 'from' ? $from_id : $to_id,
             $this->type === 'from' ? $to_id : $from_id,
             $this->get_id()

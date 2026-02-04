@@ -17,9 +17,9 @@ use ACP\Service\IntegrationStatus;
 class YoastSeo implements Registerable
 {
 
-    private $location;
+    private AC\Asset\Location\Absolute $location;
 
-    private $container;
+    private DI\Container $container;
 
     public function __construct(AC\Asset\Location\Absolute $location, DI\Container $container)
     {

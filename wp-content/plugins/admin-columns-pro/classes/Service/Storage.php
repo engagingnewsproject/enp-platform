@@ -98,7 +98,7 @@ final class Storage implements Registerable
 
         $repositories[Types::FILE] = $file;
 
-        if ( ! $file->is_writable() || ! $this->storage->has_repository(Types::DATABASE)) {
+        if ( ! $file->is_writable() || ! $this->storage->has_repository(AC\ListScreenRepository\Types::DATABASE)) {
             return;
         }
 

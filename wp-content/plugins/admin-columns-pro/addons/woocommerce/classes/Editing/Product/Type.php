@@ -14,10 +14,7 @@ class Type implements Service, Service\Editability
 
     use ProductNotSupportedReasonTrait;
 
-    /**
-     * @var array
-     */
-    private $simple_product_types;
+    private array $simple_product_types;
 
     public function __construct(array $simple_product_types)
     {

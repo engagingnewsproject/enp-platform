@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace ACA\EC;
 
-/**
- * Class ACA_EC_API
- * Interface to the EC API that works across the free and pro version
- */
 class API
 {
 
@@ -32,38 +28,6 @@ class API
         }
 
         return $fields;
-    }
-
-    /**
-     * @param string $meta_key
-     *
-     * @return array
-     */
-    public static function get_field(string $meta_key)
-    {
-        $fields = self::get_additional_fields();
-
-        foreach ($fields as $field) {
-            if ($meta_key === $field->get_id()) {
-                return $field;
-            }
-        }
-
-        return [];
-    }
-
-    /**
-     * @return false|mixed
-     */
-    public static function get(string $meta_key, string $var)
-    {
-        $settings = self::get_field($meta_key);
-
-        if ( ! array_key_exists($var, $settings)) {
-            return false;
-        }
-
-        return $settings[$var];
     }
 
 }

@@ -13,7 +13,7 @@ use WC_Product_Attribute;
 abstract class Attributes implements Storage
 {
 
-    protected $attribute;
+    protected string $attribute;
 
     public function __construct(string $attribute)
     {
@@ -26,7 +26,9 @@ abstract class Attributes implements Storage
     {
         $attribute = $this->get_attribute_object($id);
 
-        return $attribute ? array_values($attribute->get_options()) : [];
+        return $attribute
+            ? array_values($attribute->get_options())
+            : [];
     }
 
     public function update(int $id, $data): bool
@@ -53,16 +55,22 @@ abstract class Attributes implements Storage
         return $product->save() > 0;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return false|WC_Product_Attribute
-     */
-    protected function get_attribute_object($id)
+    protected function get_attribute_object(int $id): ?WC_Product_Attribute
     {
         $product = wc_get_product($id);
-        $attributes = $product->get_attributes();
 
-        return $attributes[$this->attribute] ?? false;
+        if ( ! $product) {
+            return null;
+        }
+
+        $attributes = (array)$product->get_attributes();
+
+        $product_attribute = $attributes[$this->attribute] ?? null;
+
+        if ( ! $product_attribute instanceof WC_Product_Attribute) {
+            return null;
+        }
+
+        return $product_attribute;
     }
 }

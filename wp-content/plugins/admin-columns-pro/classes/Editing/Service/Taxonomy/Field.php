@@ -8,7 +8,7 @@ use ACP\Editing\Service\BasicStorage;
 abstract class Field extends BasicStorage
 {
 
-    public function __construct($taxonomy, $field)
+    public function __construct(string $taxonomy, string $field)
     {
         parent::__construct(new Editing\Storage\Taxonomy\Field($taxonomy, $field));
     }

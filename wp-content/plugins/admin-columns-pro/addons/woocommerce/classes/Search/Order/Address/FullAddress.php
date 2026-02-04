@@ -14,7 +14,7 @@ use ACP\Search\Value;
 class FullAddress extends ACP\Search\Comparison
 {
 
-    private $address_type;
+    private AddressType $address_type;
 
     public function __construct(AddressType $address_type)
     {

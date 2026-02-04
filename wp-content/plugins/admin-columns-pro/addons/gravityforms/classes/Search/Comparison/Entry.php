@@ -18,7 +18,7 @@ abstract class Entry extends Comparison
     /**
      * @var string
      */
-    protected $meta_key;
+    protected string $meta_key;
 
     public function __construct(
         string $meta_key,

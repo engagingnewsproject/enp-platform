@@ -14,9 +14,9 @@ use ACP\Sorting\Type\Order;
 class Stats implements QueryBindings
 {
 
-    private $field;
+    private string $field;
 
-    private $data_type;
+    private ?DataType $data_type;
 
     public function __construct(string $field, ?DataType $data_type = null)
     {

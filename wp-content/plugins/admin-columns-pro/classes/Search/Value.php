@@ -14,6 +14,9 @@ final class Value
 
     protected ?string $type;
 
+    /**
+     * @var mixed
+     */
     protected $value;
 
     public function __construct($value, ?string $type = null)

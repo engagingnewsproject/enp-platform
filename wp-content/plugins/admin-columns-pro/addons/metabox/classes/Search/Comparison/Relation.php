@@ -18,7 +18,7 @@ use WP_User;
 abstract class Relation extends ACP\Search\Comparison implements SearchableValues
 {
 
-    protected $relation;
+    protected Entity\Relation $relation;
 
     public function __construct(Entity\Relation $relation)
     {
@@ -65,7 +65,7 @@ abstract class Relation extends ACP\Search\Comparison implements SearchableValue
         $bindings = new Bindings();
         $type = $this->relation->get_related_type();
 
-        $results = MB_Relationships_API::get_connected([
+        $results = (array)MB_Relationships_API::get_connected([
             'id'  => $this->relation->get_id(),
             $type => $value->get_value(),
         ]);

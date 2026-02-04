@@ -11,9 +11,9 @@ use ACP\Search\Comparison;
 class ComparisonFactory
 {
 
-    private $table_storage_comparison_factory;
+    private TableStorageComparisonFactory $table_storage_comparison_factory;
 
-    private $meta_comparison_factory;
+    private MetaComparisonFactory $meta_comparison_factory;
 
     public function __construct(
         TableStorageComparisonFactory $table_storage_comparison_factory,

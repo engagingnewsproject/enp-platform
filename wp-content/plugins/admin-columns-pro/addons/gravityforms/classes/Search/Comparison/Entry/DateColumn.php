@@ -11,7 +11,7 @@ use ACP\Search\Value;
 class DateColumn extends ACP\Search\Comparison
 {
 
-    private $column;
+    private string $column;
 
     public function __construct(string $column)
     {

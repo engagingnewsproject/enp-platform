@@ -10,7 +10,7 @@ use WC_Order;
 class SubTotal extends OrderMethod
 {
 
-    private $display_value;
+    private bool $display_value;
 
     public function __construct(bool $display_value = true)
     {

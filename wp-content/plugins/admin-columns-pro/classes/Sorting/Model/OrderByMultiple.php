@@ -8,7 +8,7 @@ use ACP\Sorting\Type\Order;
 class OrderByMultiple implements QueryBindings
 {
 
-    private $columns;
+    private array $columns;
 
     public function __construct(array $columns)
     {

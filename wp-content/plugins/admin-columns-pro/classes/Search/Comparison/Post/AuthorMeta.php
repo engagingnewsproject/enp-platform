@@ -12,7 +12,7 @@ use ACP\Search\Value;
 class AuthorMeta extends Comparison
 {
 
-    private $meta_key;
+    private string $meta_key;
 
     public function __construct(string $meta_key)
     {

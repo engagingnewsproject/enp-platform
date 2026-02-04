@@ -14,7 +14,7 @@ abstract class OrderDate implements QueryBindings
 
     use SqlTrait;
 
-    private $status;
+    private array $status;
 
     public function __construct(array $status = ['wc-completed'])
     {

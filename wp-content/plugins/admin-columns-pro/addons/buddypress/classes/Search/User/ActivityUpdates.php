@@ -39,13 +39,13 @@ class ActivityUpdates extends Comparison
 
         switch ($operator) {
             case Operators::GT:
-                $having = $wpdb->prepare(' AND activities > %d', $q_value[0]);
+                $having = $wpdb->prepare(' AND activities > %d', (int)$q_value[0]);
                 break;
             case Operators::LT:
-                $having = $wpdb->prepare(' AND activities < %d', $q_value[0]);
+                $having = $wpdb->prepare(' AND activities < %d', (int)$q_value[0]);
                 break;
             case Operators::BETWEEN:
-                $having = $wpdb->prepare(' AND activities BETWEEN %d AND %d', $q_value[0], $q_value[1]);
+                $having = $wpdb->prepare(' AND activities BETWEEN %d AND %d', (int)$q_value[0], (int)$q_value[1]);
                 break;
         }
 

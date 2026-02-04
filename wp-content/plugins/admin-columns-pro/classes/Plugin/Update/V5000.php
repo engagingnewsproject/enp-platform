@@ -32,8 +32,8 @@ class V5000 extends Update
 
     private function migrate_license()
     {
-        $license_key_value = defined('ACP_LICENCE') && ACP_LICENCE
-            ? ACP_LICENCE
+        $license_key_value = defined('ACP_LICENCE') && constant('ACP_LICENCE')
+            ? constant('ACP_LICENCE')
             : (string)$this->get_license_option();
 
         if ( ! $license_key_value) {

@@ -44,7 +44,7 @@ class StockAmountFactory extends ACP\Column\AdvancedColumnFactory
 
     protected function get_sorting(Config $config): ?ACP\Sorting\Model\QueryBindings
     {
-        return new ACP\Sorting\Model\Post\Meta(self::META_KEY);
+        return new ACP\Sorting\Model\Post\Meta(self::META_KEY, ACP\Sorting\Type\DataType::create_numeric());
     }
 
     protected function get_search(Config $config): ?ACP\Search\Comparison

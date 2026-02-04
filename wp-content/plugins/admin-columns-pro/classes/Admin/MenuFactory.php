@@ -39,7 +39,7 @@ class MenuFactory extends AC\Admin\MenuFactory
             )
         );
 
-        $addons = $menu->get_item_by_slug(Page\Addons::NAME);
+        $addons = $menu->get_item_by_slug(AC\Admin\Page\Addons::NAME);
 
         if ($addons) {
             $menu->add_item(

@@ -10,7 +10,7 @@ use ACP\Search\Value;
 class Past extends Comparison
 {
 
-    public function __construct($column, Value $value)
+    public function __construct(string $column, Value $value)
     {
         parent::__construct($column, Operators::PAST, $value);
     }

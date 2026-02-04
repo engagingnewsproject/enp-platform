@@ -28,10 +28,10 @@ class LastPost extends EnhancedColumnFactory
 
     private function get_related_post_type(Config $config): string
     {
-        return $config->get('post_type', 'any');
+        return (string)$config->get('post_type', 'any');
     }
 
-    private function get_related_post_stati(Config $config): ?array
+    private function get_related_post_stati(Config $config): array
     {
         return (array)$config->get('post_status', []);
     }

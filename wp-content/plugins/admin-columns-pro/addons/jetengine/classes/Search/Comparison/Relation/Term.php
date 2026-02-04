@@ -12,7 +12,7 @@ use Jet_Engine\Relations\Relation as JetEngineRelation;
 class Term extends Relation
 {
 
-    private $taxonomy;
+    private string $taxonomy;
 
     public function __construct(JetEngineRelation $relation, bool $is_parent, string $taxonomy)
     {

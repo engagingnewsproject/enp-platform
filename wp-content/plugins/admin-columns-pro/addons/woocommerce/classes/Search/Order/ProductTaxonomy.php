@@ -17,7 +17,7 @@ use WP_Term;
 class ProductTaxonomy extends ACP\Search\Comparison implements ACP\Search\Comparison\SearchableValues
 {
 
-    private $taxonomy;
+    private string $taxonomy;
 
     public function __construct(string $taxonomy)
     {

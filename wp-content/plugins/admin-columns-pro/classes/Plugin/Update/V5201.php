@@ -44,7 +44,7 @@ class V5201 extends Update
                         $mapped_rules = [];
 
                         foreach ($data['rules'] as $rule) {
-                            $mapped_rules[] = $this->map_rule($rule);
+                            $mapped_rules[] = $this->map_rule((array)$rule);
                         }
 
                         $data['url_parameters']['ac-rules'] = json_encode([
@@ -80,18 +80,18 @@ class V5201 extends Update
         }
     }
 
-    private function map_rule($rule)
+    private function map_rule(array $rule): array
     {
         $rule_mapping = new Rule(Mapping::RESPONSE);
         $operator_mapping = new Mapping\Operator(Mapping::RESPONSE);
         $value_type = new Mapping\ValueType(Mapping::RESPONSE);
 
         return [
-            $rule_mapping->name        => $rule['name'],
-            $rule_mapping->operator    => $operator_mapping->{$rule['operator']},
-            $rule_mapping->value       => $rule['value'],
-            $rule_mapping->value_type  => $value_type->{$rule['value_type']},
-            $rule_mapping->value_label => $rule['value_label'],
+            $rule_mapping->get('name')        => $rule['name'],
+            $rule_mapping->get('operator')    => $operator_mapping->get($rule['operator']),
+            $rule_mapping->get('value')       => $rule['value'],
+            $rule_mapping->get('value_type')  => $value_type->get($rule['value_type']),
+            $rule_mapping->get('value_label') => $rule['value_label'],
         ];
     }
 

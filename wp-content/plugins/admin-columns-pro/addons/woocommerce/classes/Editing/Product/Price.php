@@ -23,9 +23,9 @@ class Price implements Service, Editability
     public const TYPE_SALE = 'sale';
     public const TYPE_REGULAR = 'regular';
 
-    private $default_type;
+    private string $default_type;
 
-    public function __construct($default_type = 'regular')
+    public function __construct(string $default_type = 'regular')
     {
         if ('regular' !== $default_type) {
             $default_type = 'sale';
@@ -34,7 +34,7 @@ class Price implements Service, Editability
         $this->default_type = $default_type;
     }
 
-    public function get_value(int $id)
+    public function get_value(int $id): array
     {
         $product = wc_get_product($id);
 

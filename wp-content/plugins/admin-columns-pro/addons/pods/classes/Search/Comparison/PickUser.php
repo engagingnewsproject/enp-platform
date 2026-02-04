@@ -16,9 +16,9 @@ class PickUser extends Meta
     implements SearchableValues
 {
 
-    private $roles;
+    private array $roles;
 
-    private $query;
+    private Query $query;
 
     public function __construct(string $meta_key, array $roles, Query $query, ?string $value_type = null)
     {

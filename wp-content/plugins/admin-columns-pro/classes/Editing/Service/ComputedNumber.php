@@ -13,7 +13,7 @@ class ComputedNumber implements Editing\Service
     private const ARG_COMPUTATION_TYPE = 'computation_type';
     private const ARG_ALLOW_NEGATIVE = 'allow_negative';
 
-    protected $storage;
+    protected Storage $storage;
 
     public function __construct(Storage $storage)
     {

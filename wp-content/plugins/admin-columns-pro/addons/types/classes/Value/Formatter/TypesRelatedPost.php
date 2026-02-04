@@ -12,9 +12,9 @@ use AC\Type\ValueCollection;
 class TypesRelatedPost implements Formatter
 {
 
-    private $relationship;
+    private string $relationship;
 
-    private $type;
+    private string $type;
 
     public function __construct(string $relationship, string $type)
     {

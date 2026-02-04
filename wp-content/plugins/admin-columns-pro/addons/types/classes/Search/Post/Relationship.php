@@ -19,13 +19,13 @@ class Relationship extends ACP\Search\Comparison
     implements Comparison\SearchableValues
 {
 
-    private $related_post_type;
+    private string $related_post_type;
 
-    private $relationship;
+    private string $relationship;
 
-    private $role;
+    private string $role;
 
-    private $return_role;
+    private string $return_role;
 
     public function __construct(string $relationship, string $related_post_type, string $role, string $return_role)
     {

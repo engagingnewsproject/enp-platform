@@ -53,9 +53,9 @@ class PostTypeFactory extends FieldFactory
         $this->post_link = $post_link;
     }
 
-    private function get_related_post_type(): ?string
+    private function get_related_post_type(): string
     {
-        return $this->field->get_field()->get_arg('pick_val', '');
+        return (string)$this->field->get_field()->get_arg('pick_val', '');
     }
 
     protected function get_settings(Config $config): ComponentCollection
@@ -73,14 +73,22 @@ class PostTypeFactory extends FieldFactory
     protected function get_editing(Config $config): ?ACP\Editing\Service
     {
         $args = [];
-        
+
         $status = $this->field->get_field()->get_arg('pick_post_status', '');
 
         if ($status) {
             $args['post_status'] = (array)$status;
         }
 
-        $paginated = new ACP\Editing\PaginatedOptions\Posts((array)$this->get_related_post_type(), $args);
+        $related_post_type = $this->get_related_post_type();
+
+        $paginated = new ACP\Editing\PaginatedOptions\Posts(
+            $related_post_type
+                ? [$related_post_type]
+                : [],
+            $args
+        );
+
         $storage = new Editing\Storage\Field(
             $this->field,
             new Editing\Storage\Read\DbRaw($this->field->get_name(), $this->field->get_meta_type())
@@ -115,7 +123,7 @@ class PostTypeFactory extends FieldFactory
     protected function get_search(Config $config): ?ACP\Search\Comparison
     {
         return new PickPost(
-            $this->field->get_name(),
+            (string)$this->field->get_name(),
             (array)$this->field->get_field()->get_arg('pick_val', ''),
             $this->get_query_meta($this->get_post_type())
         );

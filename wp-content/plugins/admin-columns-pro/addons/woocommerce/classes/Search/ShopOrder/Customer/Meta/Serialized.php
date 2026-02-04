@@ -11,12 +11,7 @@ abstract class Serialized extends Meta
     implements Values
 {
 
-    /**
-     * @param string $value
-     *
-     * @return array
-     */
-    protected function get_user_ids($value)
+    protected function get_user_ids(string $value): array
     {
         return get_users([
             'fields'         => 'ids',

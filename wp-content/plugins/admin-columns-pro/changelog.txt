@@ -1,5 +1,36 @@
 == Changelog ==
 
+= 7.0.9 =
+Release Date: February 4th, 2026
+
+* [Fixed] Various code optimizations and minor improvements, including stricter type handling.
+* [Fixed] Jetengine: Gallery field now works correctly with different value formats
+* [Fixed] Gravity Forms: we will explicitly cast the `GF_FIELD->isRequired()' result to a boolean
+* [Fixed] Gravity Forms: fixed an issue with products column
+* [Fixed] Added the missing bulk delete feature to the media list table
+* [Improved] Bulk deleting WooCommerce products will now also delete the lookup table contents related to a given product
+
+= 7.0.8 =
+Release Date: February 2nd, 2026
+
+* [Fixed] Filtering by Past and Future dates for ACF columns caused an error.
+* [Fixed] Fixed an error with the MetaBox relationship field not storing its relation (e.g. post) correctly
+* [Fixed] Resolved an issue where original WordPress default columns were stored incorrectly.
+* [Fixed] Fixed an issue where images in custom field columns did not always display correctly, depending on how they were stored.
+* [Added] Added support for the ACF date format for date custom fields.
+* [Added] Added a setting for image, media, post, and user custom fields to control the number of items displayed.
+* [Improved] Renamed and reordered the date format settings for custom field column to make the stored date format clearer (with an improved tooltip).
+
+= 7.0.7 =
+Release Date: January 30th, 2026
+
+* [Fixed] The ACF "flexible content" column gave a fatal error when used inside a ACF group field.
+* [Fixed] WooCommerce HPOS Unsupported Fields gave a fatal error on the table.
+* [Fixed] WooCommerce Coupon Code formatter gave an error for coupons that don't exist anymore
+* [Fixed] Beaver Builder add-on: the category column will link to the correct post-type when using the "filter by term" setting
+* [Improved] WooCommerce Stock Quantity now sorts better on numeric values.
+* [Added] The ACF group column has an "Edit field" link in the extra action section of the column setting
+
 = 7.0.6 =
 Release Date: January 28th, 2026
 

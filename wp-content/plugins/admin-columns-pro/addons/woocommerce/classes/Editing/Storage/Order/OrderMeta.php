@@ -9,7 +9,7 @@ use ACP\Editing\Storage;
 class OrderMeta implements Storage
 {
 
-    private $key;
+    private string $key;
 
     public function __construct(string $key)
     {

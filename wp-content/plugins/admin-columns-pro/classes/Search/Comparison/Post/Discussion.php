@@ -8,6 +8,7 @@ use ACP\Search\Comparison;
 use ACP\Search\Helper\Sql\ComparisonFactory;
 use ACP\Search\Operators;
 use ACP\Search\Value;
+use Exception;
 
 class Discussion extends Comparison implements Comparison\Values
 {
@@ -37,14 +38,15 @@ class Discussion extends Comparison implements Comparison\Values
                 $combination = ['open', 'closed'];
                 break;
             default:
-                throw new \Exception('Invalid discussion status.');
+                throw new Exception('Invalid discussion status.');
         }
 
-        $where_comments = $where = ComparisonFactory::create(
+        $where_comments = ComparisonFactory::create(
             $wpdb->posts . '.comment_status',
             Operators::EQ,
             new Value($combination[0])
         )->prepare();
+
         $where_ping = ComparisonFactory::create(
             $wpdb->posts . '.ping_status',
             Operators::EQ,

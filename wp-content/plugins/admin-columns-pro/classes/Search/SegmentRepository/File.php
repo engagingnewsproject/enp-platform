@@ -170,7 +170,7 @@ final class File implements SegmentRepositoryWritable
         $segments = $this->get_segments_from_file($file);
         $segments->add($segment);
 
-        $this->update_file($segments, $file, $segment->get_list_id());
+        $this->update_file($segments, $file);
     }
 
     private function find_segment_data_by_key(SegmentKey $key): ?array
@@ -196,7 +196,6 @@ final class File implements SegmentRepositoryWritable
         }
 
         $file = $segment_data['file'];
-        $list_id = $segment_data['list_id'];
 
         $segments = $this->get_segments_from_file($file);
         $segments->remove($key);
@@ -209,8 +208,7 @@ final class File implements SegmentRepositoryWritable
 
         $this->update_file(
             $segments,
-            $file,
-            $list_id
+            $file
         );
     }
 
@@ -259,7 +257,7 @@ final class File implements SegmentRepositoryWritable
     /**
      * @throws FileNotWritableException
      */
-    private function update_file(SegmentCollection $segments, string $file, ListScreenId $list_screen_id): void
+    private function update_file(SegmentCollection $segments, string $file): void
     {
         $encoded_data = $this->encoder_factory
             ->create()

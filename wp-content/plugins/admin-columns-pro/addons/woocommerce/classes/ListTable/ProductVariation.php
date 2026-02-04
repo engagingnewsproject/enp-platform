@@ -11,7 +11,7 @@ use WC_Product;
 use WC_Product_Variation;
 
 if ( ! class_exists('\WC_Admin_List_Table', false) && defined('WC_ABSPATH')) {
-    include_once(WC_ABSPATH . 'includes/admin/list-tables/abstract-class-wc-admin-list-table.php');
+    include_once(constant('WC_ABSPATH') . 'includes/admin/list-tables/abstract-class-wc-admin-list-table.php');
 }
 
 class ProductVariation extends WC_Admin_List_Table

@@ -15,9 +15,9 @@ use ACP\ConditionalFormat\ManageValue\RenderableServiceFactory;
 class Subscriptions implements Registerable
 {
 
-    private $use_hpos;
+    private bool $use_hpos;
 
-    private $container;
+    private DI\Container $container;
 
     public function __construct(bool $use_hpos, DI\Container $container)
     {

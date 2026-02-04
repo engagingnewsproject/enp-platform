@@ -118,7 +118,7 @@ class OrderDate extends ACP\Column\AdvancedColumnFactory
                 return new ACP\Search\Comparison\Post\Date\PostModified('shop_order');
 
             case 'paid':
-                new ACP\Search\Comparison\Meta\DateTime\Timestamp(
+                return new ACP\Search\Comparison\Meta\DateTime\Timestamp(
                     '_date_paid',
                     (new QueryMetaFactory())->create_with_post_type('_date_paid', 'shop_order')
                 );

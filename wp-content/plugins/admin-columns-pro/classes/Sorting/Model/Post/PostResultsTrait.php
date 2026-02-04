@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace ACP\Sorting\Model\Post;
 
+use ACP\Sorting\FormatValue;
+
 trait PostResultsTrait
 {
 
     use PostRequestTrait;
 
-    protected $db_columns;
+    protected array $db_columns = [];
 
-    protected $formatter;
+    protected ?FormatValue $formatter = null;
 
-    protected $max_value_length = 100;
+    protected ?int $max_value_length = 100;
 
-    protected $sort_numeric = false;
+    protected bool $sort_numeric = false;
 
     public function get_post_ids(): array
     {

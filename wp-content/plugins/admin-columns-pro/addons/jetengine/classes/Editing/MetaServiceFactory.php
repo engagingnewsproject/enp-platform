@@ -76,12 +76,12 @@ final class MetaServiceFactory
                     ? new Service\Meta\Posts(
                         $view,
                         $this->create_meta_storage($field, $meta_type),
-                        new ACP\Editing\PaginatedOptions\Posts($field->get_related_post_types())
+                        new ACP\Editing\PaginatedOptions\Posts($field->get_related_post_types() ?: [])
                     )
                     : new ACP\Editing\Service\Post(
                         $view,
                         $this->create_meta_storage($field, $meta_type),
-                        new ACP\Editing\PaginatedOptions\Posts($field->get_related_post_types())
+                        new ACP\Editing\PaginatedOptions\Posts($field->get_related_post_types() ?: [])
                     );
 
             default:

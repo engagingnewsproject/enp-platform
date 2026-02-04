@@ -16,12 +16,9 @@ class Product extends Comparison
 
     use Select\ProductAndVariationValuesTrait;
 
-    /**
-     * @var string
-     */
-    private $post_type;
+    private string $post_type;
 
-    public function __construct($post_type = 'shop_order')
+    public function __construct(string $post_type = 'shop_order')
     {
         $operators = new ACP\Search\Operators([
             ACP\Search\Operators::EQ,
@@ -35,18 +32,15 @@ class Product extends Comparison
 
     protected function create_query_bindings(string $operator, Value $value): Bindings
     {
-        return (new Bindings())->where($this->get_where($value->get_value(), $operator));
+        return (new Bindings())->where(
+            $this->get_where((int)$value->get_value(), $operator)
+        );
     }
 
-    /**
-     * @param int $product_id
-     *
-     * @return string
-     */
-    public function get_where($product_id, $operator)
+    public function get_where(int $product_id, string $operator): string
     {
         global $wpdb;
-        $orders = $this->get_orders_ids_by_product_id((int)$product_id);
+        $orders = $this->get_orders_ids_by_product_id($product_id);
 
         if (empty($orders)) {
             $orders = [0];
@@ -64,7 +58,7 @@ class Product extends Comparison
     {
         global $wpdb;
 
-        $results = $wpdb->get_col(
+        return $wpdb->get_col(
             $wpdb->prepare(
                 "
 	        SELECT order_items.order_id
@@ -80,8 +74,6 @@ class Product extends Comparison
                 $product_id
             )
         );
-
-        return $results;
     }
 
 }

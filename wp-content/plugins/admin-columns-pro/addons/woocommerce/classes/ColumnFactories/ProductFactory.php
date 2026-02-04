@@ -13,7 +13,7 @@ use ACA\WC\ColumnFactory;
 class ProductFactory extends AC\ColumnFactories\BaseFactory
 {
 
-    private $use_hpos;
+    private bool $use_hpos;
 
     private bool $use_analytics;
 

@@ -4,7 +4,6 @@ namespace ACP;
 
 use AC\Storage\OptionData;
 use AC\Storage\OptionDataFactory;
-use ACP\Type\Activation\Key;
 use ACP\Type\LicenseKey;
 
 class LicenseKeyRepository
@@ -19,24 +18,15 @@ class LicenseKeyRepository
 
     public function find(): ?LicenseKey
     {
-        $key = defined('ACP_LICENCE') && ACP_LICENCE
-            ? ACP_LICENCE
+        $key = defined('ACP_LICENCE') && constant('ACP_LICENCE')
+            ? constant('ACP_LICENCE')
             : $this->storage->get();
 
-        if ( ! Key::is_valid((string)$key)) {
+        if ( ! LicenseKey::is_valid((string)$key)) {
             return null;
         }
 
-        $source = $this->is_defined()
-            ? LicenseKey::SOURCE_CODE
-            : LicenseKey::SOURCE_DATABASE;
-
-        return new LicenseKey($key, $source);
-    }
-
-    private function is_defined(): bool
-    {
-        return defined('ACP_LICENCE') && ACP_LICENCE;
+        return new LicenseKey((string)$key);
     }
 
     public function delete(): void

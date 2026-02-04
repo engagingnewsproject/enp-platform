@@ -15,12 +15,14 @@ class FileNames implements AC\Formatter
         $files = $value->get_value();
 
         if (is_numeric($files)) {
-            return $value->with_value(wp_get_attachment_url($files));
+            return $value->with_value(
+                wp_get_attachment_url($files)
+            );
         }
 
         $results = [];
 
-        foreach ($files as $id => $file) {
+        foreach ($files as $file) {
             if (is_numeric($file)) {
                 $results[] = wp_get_attachment_url($file);
                 continue;
@@ -29,7 +31,11 @@ class FileNames implements AC\Formatter
             $results[] = $file['url'];
         }
 
-        return $value->with_value(implode(', ', $results));
+        $results = array_filter($results);
+
+        return $value->with_value(
+            implode(', ', $results)
+        );
     }
 
 }

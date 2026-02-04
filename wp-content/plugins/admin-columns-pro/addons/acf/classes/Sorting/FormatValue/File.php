@@ -11,7 +11,9 @@ class File implements FormatValue
 
     public function format_value($value)
     {
-        return basename(get_attached_file($value));
+        $file = get_attached_file($value);
+
+        return $file ? basename($file) : '';
     }
 
 }

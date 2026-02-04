@@ -6,7 +6,6 @@ use AC\Registerable;
 use ACP\AdminColumnsPro;
 use ACP\API\Request\ProductInformation;
 use ACP\ApiFactory;
-use WP_Error;
 
 /**
  * Show changelog when "click view details".
@@ -29,13 +28,6 @@ class ViewPluginDetails implements Registerable
         add_filter('plugins_api', [$this, 'get_plugin_information'], 10, 3);
     }
 
-    /**
-     * @param mixed  $result
-     * @param string $action
-     * @param object $args
-     *
-     * @return object|WP_Error
-     */
     public function get_plugin_information($result, $action, $args)
     {
         if ('plugin_information' !== $action) {

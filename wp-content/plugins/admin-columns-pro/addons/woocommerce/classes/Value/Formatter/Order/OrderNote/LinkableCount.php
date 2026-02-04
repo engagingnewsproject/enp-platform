@@ -13,11 +13,11 @@ use ACA\WC\Value\ExtendedValue\Order\Notes;
 class LinkableCount implements CollectionFormatter
 {
 
-    private $extended_value;
+    private Notes $extended_value;
 
-    private $note_type;
+    private string $note_type;
 
-    public function __construct(Notes $extended_value, $note_type = '')
+    public function __construct(Notes $extended_value, string $note_type = '')
     {
         $this->extended_value = $extended_value;
         $this->note_type = $note_type;

@@ -41,8 +41,9 @@ class Activity implements ListTable
     {
         ob_start();
 
-        /** @noinspection PhpParamsInspection */
-        $this->table->single_row($this->get_activity($id));
+        $this->table->single_row(
+            $this->get_activity($id)
+        );
 
         return ob_get_clean();
     }

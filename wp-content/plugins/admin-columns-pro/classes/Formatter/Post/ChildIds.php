@@ -3,7 +3,9 @@
 namespace ACP\Formatter\Post;
 
 use AC;
+use AC\Exception\ValueNotFoundException;
 use AC\Type\Value;
+use AC\Type\ValueCollection;
 
 class ChildIds implements AC\Formatter
 {
@@ -19,16 +21,16 @@ class ChildIds implements AC\Formatter
     {
         $post = get_post($value->get_id());
         if ( ! $post) {
-            throw AC\Exception\ValueNotFoundException::from_id($value->get_id());
+            throw ValueNotFoundException::from_id($value->get_id());
         }
 
         $children = $this->get_child_ids($value->get_id());
 
         if ( ! $children) {
-            throw AC\Exception\ValueNotFoundException::from_id($value->get_id());
+            throw ValueNotFoundException::from_id($value->get_id());
         }
 
-        return AC\Type\ValueCollection::from_ids($value->get_id(), $children);
+        return ValueCollection::from_ids($value->get_id(), $children);
     }
 
     private function get_child_ids(int $post_id): array

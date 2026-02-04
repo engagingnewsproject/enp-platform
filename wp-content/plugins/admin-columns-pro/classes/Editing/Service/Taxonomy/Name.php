@@ -7,7 +7,7 @@ use ACP\Editing\View;
 class Name extends Field
 {
 
-    public function __construct($taxonomy)
+    public function __construct(string $taxonomy)
     {
         parent::__construct($taxonomy, 'name');
     }

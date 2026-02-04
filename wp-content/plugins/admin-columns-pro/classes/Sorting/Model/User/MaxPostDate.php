@@ -16,11 +16,11 @@ class MaxPostDate implements QueryBindings
 
     use SqlTrait;
 
-    private $post_type;
+    private string $post_type;
 
-    private $post_stati;
+    private array $post_stati;
 
-    private $oldest_post;
+    private bool $oldest_post;
 
     public function __construct(string $post_type, array $post_stati = [], bool $oldest_post = false)
     {

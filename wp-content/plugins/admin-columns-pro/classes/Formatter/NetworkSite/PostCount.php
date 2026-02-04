@@ -8,9 +8,9 @@ use AC\Type\Value;
 class PostCount implements Formatter
 {
 
-    private $post_type;
+    private string $post_type;
 
-    private $post_status;
+    private string $post_status;
 
     public function __construct(string $post_type, string $post_status)
     {
@@ -22,7 +22,7 @@ class PostCount implements Formatter
     {
         global $wpdb;
 
-        $blog_id = $value->get_id();
+        $blog_id = (int)$value->get_id();
         $table = $wpdb->get_blog_prefix($blog_id) . 'posts';
         $post_status = $this->post_status;
 
@@ -58,13 +58,13 @@ class PostCount implements Formatter
                 $url = add_query_arg(['post_status' => $post_status], $url);
             }
 
-            $new_value = ac_helper()->html->link($url, $new_value);
+            $new_value = ac_helper()->html->link($url, (string)$new_value);
         }
 
         return $value->with_value($new_value);
     }
 
-    private function get_exludeded_post_statuses()
+    private function get_exludeded_post_statuses(): array
     {
         if ('without_trash' === $this->post_status) {
             return get_post_stati(['show_in_admin_all_list' => false]);

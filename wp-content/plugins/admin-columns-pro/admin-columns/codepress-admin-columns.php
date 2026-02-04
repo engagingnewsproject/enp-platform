@@ -13,7 +13,7 @@ if ( ! is_admin()) {
 }
 
 define('AC_FILE', __FILE__);
-define('AC_VERSION', '7.0.6');
+define('AC_VERSION', '7.0.9');
 
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 

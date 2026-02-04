@@ -10,7 +10,7 @@ use Jet_Engine\Relations\Relation;
 class RelationshipChildren implements ACP\Editing\Storage
 {
 
-    private $relation;
+    private Relation $relation;
 
     public function __construct(Relation $relation)
     {

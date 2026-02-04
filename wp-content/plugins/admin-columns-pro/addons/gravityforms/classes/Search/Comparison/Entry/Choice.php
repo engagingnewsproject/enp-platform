@@ -13,7 +13,7 @@ use ACP\Search\Value;
 class Choice extends Search\Comparison\Entry implements ACP\Search\Comparison\Values
 {
 
-    private $choices;
+    private array $choices;
 
     public function __construct(string $field, array $choices)
     {

@@ -11,9 +11,9 @@ use WP_Comment_Query;
 class Comment extends Strategy
 {
 
-    private $table_data_factory;
+    private TableDataFactory $table_data_factory;
 
-    private $response_factory;
+    private ResponseFactory $response_factory;
 
     public function __construct(TableDataFactory $table_data_factory, ResponseFactory $response_factory)
     {

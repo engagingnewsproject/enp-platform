@@ -28,11 +28,13 @@ class SeoPress implements Registerable
 
     private function check_version(): bool
     {
-        $version = defined('SEOPRESS_PRO_VERSION')
-            ? new Version(SEOPRESS_PRO_VERSION)
+        $version = defined('SEOPRESS_PRO_VERSION') && constant('SEOPRESS_PRO_VERSION')
+            ? new Version((string)constant('SEOPRESS_PRO_VERSION'))
             : null;
 
-        return $version && $version->is_valid() && $version->is_gte(new Version('8.9'));
+        return $version &&
+               $version->is_valid() &&
+               $version->is_gte(new Version('8.9'));
     }
 
     public function register(): void

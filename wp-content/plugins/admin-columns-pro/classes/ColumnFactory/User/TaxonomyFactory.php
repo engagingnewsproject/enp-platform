@@ -81,15 +81,28 @@ class TaxonomyFactory extends ACP\Column\AdvancedColumnFactory
 
     protected function get_editing(Config $config): ?ACP\Editing\Service
     {
-        return new Editing\Service\Post\Taxonomy(
-            (string)$config->get('taxonomy', ''),
-            'on' === (string)$config->get('enable_term_creation', 'on'),
-        );
+        $taxonomy = $this->get_taxonomy_from_config($config);
+
+        return $taxonomy
+            ? new Editing\Service\Post\Taxonomy(
+                $taxonomy,
+                'on' === (string)$config->get('enable_term_creation', 'on'),
+            )
+            : null;
+    }
+
+    private function get_taxonomy_from_config(Config $config): string
+    {
+        return (string)$config->get('taxonomy', '');
     }
 
     protected function get_search(Config $config): ?ACP\Search\Comparison
     {
-        return new Search\Comparison\User\Taxonomy((string)$config->get('taxonomy', ''));
+        $taxonomy = $this->get_taxonomy_from_config($config);
+
+        return $taxonomy
+            ? new Search\Comparison\User\Taxonomy($taxonomy)
+            : null;
     }
 
 }

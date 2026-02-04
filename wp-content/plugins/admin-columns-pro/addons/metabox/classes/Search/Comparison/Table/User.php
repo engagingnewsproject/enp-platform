@@ -14,7 +14,7 @@ class User extends TableStorage implements ACP\Search\Comparison\SearchableValue
 
     use UserValuesTrait;
 
-    protected $query_args;
+    protected array $query_args;
 
     public function __construct(
         string $table,

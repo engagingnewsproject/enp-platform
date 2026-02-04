@@ -11,7 +11,7 @@ use AC\Type\Value;
 class Ratings implements Formatter
 {
 
-    private $average;
+    private bool $average;
 
     public function __construct(bool $average)
     {

@@ -23,7 +23,7 @@ class PaidDateFactory extends ACP\Column\AdvancedColumnFactory
     use ACP\ConditionalFormat\FilteredHtmlFormatTrait;
     use WooCommerceGroupTrait;
 
-    private $date_format;
+    private DateFormat\Date $date_format;
 
     public function __construct(
         FeatureSettingBuilderFactory $feature_settings_builder_factory,

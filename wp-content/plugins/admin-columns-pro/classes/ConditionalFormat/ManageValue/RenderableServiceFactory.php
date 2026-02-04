@@ -44,7 +44,6 @@ class RenderableServiceFactory implements ManageValueServiceFactory
         if ($rules) {
             $factory = new TableRenderFactory(
                 $list_screen,
-                $factory,
                 $this->operators,
                 $rules
             );

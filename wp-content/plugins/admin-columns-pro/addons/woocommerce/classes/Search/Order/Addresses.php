@@ -14,9 +14,9 @@ use ACP\Search\Value;
 class Addresses extends Comparison
 {
 
-    private $field;
+    private string $field;
 
-    private $address_type;
+    private AddressType $address_type;
 
     public function __construct(string $field, AddressType $address_type)
     {

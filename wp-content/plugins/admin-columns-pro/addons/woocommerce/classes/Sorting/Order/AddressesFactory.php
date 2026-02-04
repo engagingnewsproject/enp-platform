@@ -9,7 +9,7 @@ use ACA\WC\Type\AddressType;
 class AddressesFactory
 {
 
-    private $type;
+    private AddressType $type;
 
     public function __construct(AddressType $type)
     {

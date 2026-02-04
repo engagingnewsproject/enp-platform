@@ -82,7 +82,9 @@ class CountryFactory extends ACP\Column\AdvancedColumnFactory
         if (null === $countries) {
             $wc_countries = WC()->countries;
 
-            $countries = $wc_countries ? $wc_countries->get_countries() : [];
+            $countries = $wc_countries
+                ? (array)$wc_countries->get_countries()
+                : [];
         }
 
         return $countries;

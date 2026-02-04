@@ -16,7 +16,7 @@ use Exception;
 final class SaveExportPreference implements RequestAjaxHandler
 {
 
-    private $state_repository;
+    private UserColumnStateRepository $state_repository;
 
     public function __construct(UserColumnStateRepository $column_state_repository)
     {

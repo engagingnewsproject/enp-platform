@@ -10,6 +10,9 @@ final class PermissionsStorage
 
     private OptionData $storage;
 
+    /**
+     * @var mixed
+     */
     private $data;
 
     public function __construct(OptionDataFactory $storage_factory)

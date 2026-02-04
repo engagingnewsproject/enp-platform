@@ -40,7 +40,7 @@ class MemberTypes extends Comparison
         global $wpdb;
         $bindings = new Bindings();
 
-        $member_type = get_term_by('slug', $value->get_value(), 'bp_member_type');
+        $member_type = get_term_by('slug', (string)$value->get_value(), 'bp_member_type');
 
         if ( ! $member_type) {
             return $bindings;

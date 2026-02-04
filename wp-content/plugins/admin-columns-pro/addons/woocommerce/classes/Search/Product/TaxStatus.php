@@ -15,7 +15,7 @@ class TaxStatus extends Comparison\Meta implements Comparison\Values
     /**
      * @var array
      */
-    private $statuses;
+    private array $statuses;
 
     public function __construct(array $statuses)
     {

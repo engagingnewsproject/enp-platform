@@ -12,11 +12,12 @@ use ACP\Helper\Select\Taxonomy\PaginatedFactory;
 use ACP\Search\Operators;
 use WP_Term;
 
+// TODO remove?
 class TaxonomyAdvanced extends ACP\Search\Comparison\Meta
     implements ACP\Search\Comparison\SearchableValues
 {
 
-    protected $taxonomy;
+    protected array $taxonomy;
 
     public function __construct(array $taxonomy, string $meta_key)
     {

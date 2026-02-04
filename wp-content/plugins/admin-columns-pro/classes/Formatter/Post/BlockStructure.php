@@ -8,7 +8,7 @@ use AC\Type\Value;
 class BlockStructure implements AC\Formatter
 {
 
-    private $limit;
+    private ?int $limit;
 
     public function __construct(?int $limit = null)
     {

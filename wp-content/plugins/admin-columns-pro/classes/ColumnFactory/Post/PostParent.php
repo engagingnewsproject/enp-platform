@@ -20,7 +20,7 @@ class PostParent extends EnhancedColumnFactory
 
     use ACP\ConditionalFormat\FilteredHtmlFormatTrait;
 
-    private $post_type;
+    private PostTypeSlug $post_type;
 
     public function __construct(
         AC\ColumnFactory\Post\ParentFactory $column_factory,

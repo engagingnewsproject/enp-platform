@@ -7,17 +7,11 @@ use WP_Error;
 class Response
 {
 
-    /**
-     * @var object
-     */
-    private $body;
+    private ?object $body = null;
 
-    /**
-     * @var WP_Error
-     */
-    private $error;
+    private ?WP_Error $error = null;
 
-    public function get_body()
+    public function get_body(): ?object
     {
         return $this->body;
     }

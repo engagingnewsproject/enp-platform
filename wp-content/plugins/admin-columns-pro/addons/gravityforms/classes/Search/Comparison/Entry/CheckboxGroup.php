@@ -15,12 +15,12 @@ use ACP\Search\Value;
 class CheckboxGroup extends Search\Comparison\Entry implements ACP\Search\Comparison\Values
 {
 
-    private $choices;
+    private array $choices;
 
     /**
      * @var Checkbox[]
      */
-    private $sub_fields;
+    private array $sub_fields;
 
     public function __construct(string $field, array $choices, array $sub_fields)
     {

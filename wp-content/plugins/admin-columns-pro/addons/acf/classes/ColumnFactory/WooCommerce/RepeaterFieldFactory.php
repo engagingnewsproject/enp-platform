@@ -74,22 +74,22 @@ class RepeaterFieldFactory extends ColumnFactory\AcfFactory
     {
         $separator = $separator ?? '<div class="ac-repeater-divider"></div>';
         $sub_field = $this->get_sub_field($config);
-        $formatters = new FormatterCollection([]);
 
-        if ($sub_field) {
-            $formatters->add($this->get_base_formatter($sub_field));
-
-            $aggregate = $this->formatter_factory->get_field_formatters(
-                $this->get_formatters_from_settings($this->get_settings($config)),
-                $sub_field,
-                $config
-            );
-
-            $formatters->add(new Aggregate($aggregate));
-            $formatters->add(new Separator($separator));
+        if ( ! $sub_field) {
+            return new FormatterCollection();
         }
 
-        return $formatters;
+        $formatters = $this->get_formatters_from_settings($this->get_settings($config));
+
+        $this->formatter_factory->add_field_formatters(
+            $formatters,
+            $sub_field,
+            $config
+        );
+
+        return FormatterCollection::from_formatter($this->get_base_formatter($sub_field))
+                                  ->add(new Aggregate($formatters))
+                                  ->add(new Separator($separator));
     }
 
     protected function get_formatters(Config $config): FormatterCollection

@@ -9,10 +9,7 @@ use ACP\Editing\View;
 class PageTemplate extends BasicStorage
 {
 
-    /**
-     * @var string
-     */
-    private $post_type;
+    private string $post_type;
 
     public function __construct(string $post_type)
     {

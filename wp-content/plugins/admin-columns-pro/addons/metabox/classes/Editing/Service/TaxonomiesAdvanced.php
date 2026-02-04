@@ -15,10 +15,7 @@ use WP_Term;
 class TaxonomiesAdvanced implements ACP\Editing\Service, PaginatedOptions
 {
 
-    /**
-     * @var ACP\Editing\Storage
-     */
-    private $storage;
+    private ACP\Editing\Storage $storage;
 
     /**
      * @var string|array

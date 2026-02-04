@@ -20,9 +20,9 @@ class PostRelation extends Relation
 
     use ConditionalFormat\ConditionalFormatTrait;
 
-    private $post_property;
+    private ComponentFactory\LinkablePostProperty $post_property;
 
-    private $post_link;
+    private ComponentFactory\PostLink $post_link;
 
     public function __construct(
         FeatureSettingBuilderFactory $feature_settings_builder_factory,

@@ -10,7 +10,7 @@ use LogicException;
 class Between extends Comparison
 {
 
-    public function __construct($column, Value $value)
+    public function __construct(string $column, Value $value)
     {
         parent::__construct($column, Operators::BETWEEN, $value);
     }

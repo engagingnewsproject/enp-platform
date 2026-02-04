@@ -11,7 +11,7 @@ use ACP\Editing\ApplyFilter;
 class Order implements ACP\Editing\RequestHandler
 {
 
-    private $request;
+    private Request $request;
 
     public function handle(Request $request)
     {

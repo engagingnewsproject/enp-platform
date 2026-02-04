@@ -9,7 +9,7 @@ use ACP\Editing\RequestHandler;
 class Comment implements Deletable
 {
 
-    public function get_delete_request_handler(): RequestHandler
+    public function get_delete_request_handler(): BulkDelete\RequestHandler\Comment
     {
         return new BulkDelete\RequestHandler\Comment();
     }
@@ -19,7 +19,7 @@ class Comment implements Deletable
         return current_user_can('moderate_comments');
     }
 
-    public function get_query_request_handler(): RequestHandler
+    public function get_query_request_handler(): RequestHandler\Query\Comment
     {
         return new RequestHandler\Query\Comment();
     }

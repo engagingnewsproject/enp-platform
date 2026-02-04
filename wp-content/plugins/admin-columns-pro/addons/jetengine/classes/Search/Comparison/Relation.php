@@ -10,14 +10,13 @@ use ACP\Search\Comparison\SearchableValues;
 use ACP\Search\Operators;
 use ACP\Search\Value;
 use Jet_Engine\Relations\Relation as JetEngineRelation;
-use Jet_Engine\Relations\Storage;
 
 abstract class Relation extends ACP\Search\Comparison implements SearchableValues
 {
 
-    private $relation;
+    private JetEngineRelation $relation;
 
-    private $is_parent;
+    private bool $is_parent;
 
     public function __construct(JetEngineRelation $relation, bool $is_parent)
     {
@@ -112,7 +111,6 @@ abstract class Relation extends ACP\Search\Comparison implements SearchableValue
         $query_arg = $this->is_parent ? 'child_object_id' : 'parent_object_id';
         $field = $this->is_parent ? 'parent_object_id' : 'child_object_id';
 
-        /** @var Storage\DB $db */
         $db = $this->relation->db;
 
         $results = $db->query([

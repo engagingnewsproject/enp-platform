@@ -9,16 +9,13 @@ use ACP\Editing\View;
 class Url extends BasicStorage
 {
 
-    /**
-     * @var string
-     */
-    private $placeholder;
+    private string $placeholder;
 
-    public function __construct($placeholder)
+    public function __construct(string $placeholder)
     {
         parent::__construct(new Storage\User\Field('user_url'));
 
-        $this->placeholder = (string)$placeholder;
+        $this->placeholder = $placeholder;
     }
 
     public function get_view(string $context): ?View

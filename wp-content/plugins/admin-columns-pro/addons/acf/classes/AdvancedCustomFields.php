@@ -83,6 +83,7 @@ final class AdvancedCustomFields implements Registerable
             Service\ColumnGroup::class,
             Service\EditingFix::class,
             Service\Scripts::class,
+            Service\DateSaveFormat::class,
         ];
 
         foreach ($class_names as $service) {

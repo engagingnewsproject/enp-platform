@@ -61,7 +61,7 @@ class TotalSales extends ACP\Column\AdvancedColumnFactory
 
     protected function get_search(Config $config): ?ACP\Search\Comparison
     {
-        return new Search\User\ShopOrder\TotalSales($config->get('order_status', []));
+        return new Search\User\ShopOrder\TotalSales((array)$config->get('order_status', []));
     }
 
 }

@@ -9,7 +9,7 @@ use AC\Type\TableId;
 trait TableTrait
 {
 
-    private $table_screen_factory;
+    private ?TableScreenFactory $table_screen_factory = null;
 
     protected function set_table_screen_factory(TableScreenFactory $table_screen_factory): void
     {

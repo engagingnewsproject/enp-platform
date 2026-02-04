@@ -6,10 +6,8 @@ namespace ACA\ACF\ColumnFactory\WooCommerce;
 
 use AC\Formatter;
 use AC\FormatterCollection;
-use AC\MetaType;
 use AC\Setting\Config;
 use AC\Setting\DefaultSettingsBuilder;
-use AC\Type\PostTypeSlug;
 use AC\Type\TableScreenContext;
 use ACA\ACF\ColumnFactory;
 use ACA\ACF\ConditionalFormatting;
@@ -40,7 +38,8 @@ class FieldFactory extends ColumnFactory\AcfFactory
         Field $field,
         FieldComponentFactory $component_factory,
         Value\ValueFormatterFactory $formatter_factory,
-        Editing\ServiceFactory $editing_factory
+        Editing\ServiceFactory $editing_factory,
+        TableScreenContext $table_context
     ) {
         parent::__construct(
             $feature_settings_builder_factory,
@@ -49,10 +48,7 @@ class FieldFactory extends ColumnFactory\AcfFactory
             $label,
             $field,
             $component_factory,
-            new TableScreenContext(
-                new MetaType(MetaType::POST),
-                new PostTypeSlug('shop_order')
-            )
+            $table_context
         );
 
         $this->formatter_factory = $formatter_factory;
@@ -69,13 +65,18 @@ class FieldFactory extends ColumnFactory\AcfFactory
 
     protected function get_formatters(Config $config): FormatterCollection
     {
-        return (new FormatterCollection([$this->get_base_formatter()]))->merge(
-            $this->formatter_factory->get_field_formatters(
-                $this->get_formatters_from_settings($this->get_settings($config)),
-                $this->field,
-                $config
-            )
+        $formatters = $this->get_formatters_from_settings(
+            $this->get_settings($config)
         );
+
+        $this->formatter_factory->add_field_formatters(
+            $formatters,
+            $this->field,
+            $config
+        );
+
+        return FormatterCollection::from_formatter($this->get_base_formatter())
+                                  ->merge($formatters);
     }
 
     protected function get_editing(Config $config): ?ACP\Editing\Service

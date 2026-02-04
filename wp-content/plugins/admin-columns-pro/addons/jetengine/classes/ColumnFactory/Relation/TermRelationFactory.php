@@ -17,9 +17,9 @@ use Jet_Engine\Relations\Relation as JetEngineRelation;
 class TermRelationFactory extends RelationFactory
 {
 
-    private $term_property;
+    private ComponentFactory\TermProperty $term_property;
 
-    private $term_link;
+    private ComponentFactory\TermLink $term_link;
 
     public function __construct(
         FeatureSettingBuilderFactory $feature_settings_builder_factory,

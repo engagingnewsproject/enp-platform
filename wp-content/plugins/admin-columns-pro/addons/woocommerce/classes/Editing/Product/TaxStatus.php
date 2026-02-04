@@ -12,12 +12,9 @@ use WC_Data_Exception;
 class TaxStatus implements ACP\Editing\Service
 {
 
-    /**
-     * @var array
-     */
-    private $statuses;
+    private array $statuses;
 
-    public function __construct($statuses)
+    public function __construct(array $statuses = [])
     {
         $this->statuses = $statuses;
     }

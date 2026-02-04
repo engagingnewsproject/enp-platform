@@ -12,9 +12,9 @@ use ACP\ActivationTokenFactory;
 class LicenseUpdate implements RequestAjaxHandler
 {
 
-    private $activation_token_factory;
+    private ActivationTokenFactory $activation_token_factory;
 
-    private $activation_updater;
+    private ActivationUpdater $activation_updater;
 
     public function __construct(ActivationTokenFactory $activation_token_factory, ActivationUpdater $activation_updater)
     {

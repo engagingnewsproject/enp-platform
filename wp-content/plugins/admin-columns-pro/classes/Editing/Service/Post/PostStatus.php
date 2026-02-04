@@ -10,15 +10,15 @@ use ACP\Editing\View;
 class PostStatus extends BasicStorage
 {
 
-    private $post_type;
+    private string $post_type;
 
-    private $filter_post_status;
+    private ApplyFilter\PostStatus $filter_post_status;
 
-    public function __construct($post_type, ApplyFilter\PostStatus $filter_post_status)
+    public function __construct(string $post_type, ApplyFilter\PostStatus $filter_post_status)
     {
         parent::__construct(new Storage\Post\Field('post_status'));
 
-        $this->post_type = (string)$post_type;
+        $this->post_type = $post_type;
         $this->filter_post_status = $filter_post_status;
     }
 

@@ -12,15 +12,9 @@ use WP_Term_Query;
 final class Taxonomy implements RequestHandler
 {
 
-    /**
-     * @var Request
-     */
-    private $request;
+    private AC\Ajax\Handler $handler;
 
-    /**
-     * @var AC\Ajax\Handler
-     */
-    private $handler;
+    private ?Request $request = null;
 
     public function __construct()
     {

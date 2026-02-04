@@ -13,7 +13,7 @@ use ACP\Export\UserPreference;
 final class ToggleExportButtonTable implements RequestAjaxHandler
 {
 
-    private $preference;
+    private UserPreference\ShowExportButton $preference;
 
     public function __construct()
     {

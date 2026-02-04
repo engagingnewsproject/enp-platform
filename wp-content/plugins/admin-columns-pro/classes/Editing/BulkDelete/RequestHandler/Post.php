@@ -10,7 +10,7 @@ use WP_Post_Type;
 class Post extends RequestHandler
 {
 
-    protected $post_type;
+    protected WP_Post_Type $post_type;
 
     public function __construct(WP_Post_Type $post_type)
     {

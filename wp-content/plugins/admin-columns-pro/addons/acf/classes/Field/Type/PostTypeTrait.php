@@ -15,7 +15,15 @@ trait PostTypeTrait
             return [];
         }
 
-        return (array)$post_type;
+        if (is_string($post_type)) {
+            return [$post_type];
+        }
+
+        if ( ! is_array($post_type)) {
+            return [];
+        }
+
+        return $post_type;
     }
 
 }

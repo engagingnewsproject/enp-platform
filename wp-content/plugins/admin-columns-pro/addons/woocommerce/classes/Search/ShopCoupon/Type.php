@@ -16,7 +16,7 @@ class Type extends Comparison\Meta
     /**
      * @var array [ $key => $label ]
      */
-    private $types;
+    private array $types;
 
     public function __construct(array $types)
     {

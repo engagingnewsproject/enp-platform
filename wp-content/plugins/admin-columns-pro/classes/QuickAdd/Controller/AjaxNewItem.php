@@ -16,9 +16,9 @@ use RuntimeException;
 class AjaxNewItem implements Registerable
 {
 
-    private $storage;
+    private Storage $storage;
 
-    protected $request;
+    protected Request $request;
 
     public function __construct(Storage $storage, Request $request)
     {

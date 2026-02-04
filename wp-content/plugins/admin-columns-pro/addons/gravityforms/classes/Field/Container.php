@@ -14,6 +14,6 @@ interface Container
      */
     public function get_sub_fields(): array;
 
-    public function get_sub_field(string$id):?Field;
+    public function get_sub_field(string $id): ?Field;
 
 }

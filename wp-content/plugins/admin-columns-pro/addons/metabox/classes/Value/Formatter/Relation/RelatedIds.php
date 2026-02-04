@@ -11,7 +11,7 @@ use ACA\MetaBox\Entity\Relation;
 class RelatedIds implements AC\Formatter
 {
 
-    private $relation;
+    private Relation $relation;
 
     public function __construct(Relation $relation)
     {

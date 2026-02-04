@@ -12,7 +12,7 @@ use ACP\Helper\Select\Post\PaginatedFactory;
 class Post extends Editing\Service\Relationship
 {
 
-    private $related_post_type;
+    private string $related_post_type;
 
     public function __construct(ACP\Editing\Storage $storage, bool $multiple, string $related_post_type)
     {

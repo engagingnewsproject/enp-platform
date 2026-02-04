@@ -12,7 +12,7 @@ class Menu implements Service
     /**
      * @var Storage\Menu
      */
-    private $storage;
+    private Storage\Menu $storage;
 
     public function __construct(Storage\Menu $storage)
     {

@@ -12,7 +12,7 @@ use DateTime;
 class AvgOrderInterval implements Formatter
 {
 
-    private $number_of_days;
+    private int $number_of_days;
 
     public function __construct(int $number_of_days)
     {

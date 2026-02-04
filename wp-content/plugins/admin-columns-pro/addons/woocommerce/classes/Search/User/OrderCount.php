@@ -13,10 +13,7 @@ use ACP\Search\Value;
 class OrderCount extends Comparison
 {
 
-    /**
-     * @var array
-     */
-    protected $status;
+    protected array $status;
 
     public function __construct(array $stati = [])
     {

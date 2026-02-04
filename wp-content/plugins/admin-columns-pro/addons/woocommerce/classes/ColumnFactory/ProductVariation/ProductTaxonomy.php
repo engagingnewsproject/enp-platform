@@ -60,7 +60,7 @@ class ProductTaxonomy extends ACP\Column\AdvancedColumnFactory
 
     protected function get_search(Config $config): ?ACP\Search\Comparison
     {
-        return new Search\ProductVariation\ProductTaxonomy($config->get('taxonomy', ''));
+        return new Search\ProductVariation\ProductTaxonomy((string)$config->get('taxonomy', ''));
     }
 
 }

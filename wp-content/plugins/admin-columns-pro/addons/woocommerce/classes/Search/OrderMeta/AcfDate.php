@@ -62,7 +62,7 @@ class AcfDate extends Meta
                 return [
                     'key'     => $this->get_meta_key(),
                     'compare' => 'LIKE',
-                    'value'   => str_replace('-', '', $value->get_value()),
+                    'value'   => str_replace('-', '', (string)$value->get_value()),
                 ];
             case Operators::FUTURE:
             case Operators::PAST:

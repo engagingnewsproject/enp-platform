@@ -12,7 +12,7 @@ use AC\Type\ValueCollection;
 class Repeater implements Formatter
 {
 
-    private $sub_key;
+    private string $sub_key;
 
     public function __construct(string $sub_key)
     {

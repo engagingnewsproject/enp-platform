@@ -29,7 +29,7 @@ class DisplayName extends EnhancedColumnFactory
     protected function get_feature_settings_builder(Config $config): FeatureSettingBuilder
     {
         return parent::get_feature_settings_builder($config)
-                     ->set_bulk_edit(null);
+                     ->set_bulk_edit();
     }
 
     protected function get_editing(Config $config): ?ACP\Editing\Service

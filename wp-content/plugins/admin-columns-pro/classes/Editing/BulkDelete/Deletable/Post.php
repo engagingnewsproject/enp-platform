@@ -10,7 +10,7 @@ use WP_Post_Type;
 class Post implements Deletable
 {
 
-    protected $post_type;
+    protected WP_Post_Type $post_type;
 
     public function __construct(WP_Post_Type $post_type)
     {
@@ -22,12 +22,12 @@ class Post implements Deletable
         return current_user_can($this->post_type->cap->delete_posts);
     }
 
-    public function get_delete_request_handler(): RequestHandler
+    public function get_delete_request_handler(): BulkDelete\RequestHandler\Post
     {
         return new BulkDelete\RequestHandler\Post($this->post_type);
     }
 
-    public function get_query_request_handler(): RequestHandler
+    public function get_query_request_handler(): RequestHandler\Query\Post
     {
         return new RequestHandler\Query\Post();
     }

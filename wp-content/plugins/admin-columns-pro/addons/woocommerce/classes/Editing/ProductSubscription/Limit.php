@@ -16,7 +16,7 @@ class Limit implements ACP\Editing\Service, ACP\Editing\Service\Editability
     use ProductSubscriptionEditableTrait;
     use ProductNotSupportedReasonTrait;
 
-    private $options;
+    private array $options;
 
     public function __construct(array $options)
     {

@@ -13,7 +13,7 @@ use Jet_Engine\Relations\Relation as JetEngineRelation;
 final class ChildIds implements Formatter
 {
 
-    private $relation;
+    private JetEngineRelation $relation;
 
     public function __construct(JetEngineRelation $relation)
     {

@@ -66,11 +66,6 @@ class WebsiteFactory extends ACP\Column\AdvancedColumnFactory
         return $formatters;
     }
 
-    protected function add_formatters(FormatterCollection $formatters): void
-    {
-        $formatters->add(new AC\Formatter\Post\Meta(self::META_KEY));
-    }
-
     protected function get_search(Config $config): ?ACP\Search\Comparison
     {
         return new ACP\Search\Comparison\Meta\Text(self::META_KEY);

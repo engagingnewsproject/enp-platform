@@ -14,14 +14,14 @@ use ACP\Helper\Select\Comment\PaginatedFactory;
 class PickComments implements ACP\Editing\Service, PaginatedOptions
 {
 
-    private $storage;
+    private Storage $storage;
 
-    private $multiple;
+    private bool $multiple;
 
-    public function __construct(Storage $storage, $multiple)
+    public function __construct(Storage $storage, bool $multiple)
     {
         $this->storage = $storage;
-        $this->multiple = (bool)$multiple;
+        $this->multiple = $multiple;
     }
 
     public function get_view(string $context): ?View

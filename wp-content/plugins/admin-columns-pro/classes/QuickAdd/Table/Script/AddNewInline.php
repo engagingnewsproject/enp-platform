@@ -11,7 +11,7 @@ class AddNewInline extends Script
     /**
      * @var string
      */
-    private $label;
+    private string $label;
 
     public function __construct(string $label, string $handle, ?Location $location = null, array $dependencies = [])
     {

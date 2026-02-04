@@ -86,7 +86,7 @@ class TableRender implements Formatter
                         sprintf(
                             '<div class="%s">%s</div>',
                             esc_attr($rule->get_format()),
-                            (string)$value
+                            $value
                         )
                     );
                 }

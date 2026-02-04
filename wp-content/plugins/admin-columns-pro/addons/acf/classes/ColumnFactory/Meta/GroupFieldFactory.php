@@ -6,6 +6,7 @@ namespace ACA\ACF\ColumnFactory\Meta;
 
 use AC\Formatter;
 use AC\FormatterCollection;
+use AC\Setting\ComponentCollection;
 use AC\Setting\Config;
 use AC\Setting\DefaultSettingsBuilder;
 use AC\Type\TableScreenContext;
@@ -16,6 +17,7 @@ use ACA\ACF\Export;
 use ACA\ACF\Field;
 use ACA\ACF\Search;
 use ACA\ACF\Service\ColumnGroup;
+use ACA\ACF\Setting\ComponentFactory\ExtraActions;
 use ACA\ACF\Setting\FieldComponentFactory;
 use ACA\ACF\Sorting;
 use ACA\ACF\Storage\GroupFieldStorage;
@@ -45,6 +47,8 @@ class GroupFieldFactory extends AcfFactory
 
     protected FieldComponentFactory $component_factory;
 
+    private ExtraActions $extra_actions;
+
     public function __construct(
         FeatureSettingBuilderFactory $feature_settings_builder_factory,
         DefaultSettingsBuilder $default_settings_builder,
@@ -58,7 +62,8 @@ class GroupFieldFactory extends AcfFactory
         Export\FormatterFactory $export_service_factory,
         Editing\ServiceFactory $editing_service_factory,
         Sorting\ModelFactory $sorting_model_factory,
-        FieldFormattableFactory $field_formattable_factory
+        FieldFormattableFactory $field_formattable_factory,
+        ExtraActions $extra_actions
     ) {
         parent::__construct(
             $feature_settings_builder_factory,
@@ -78,6 +83,13 @@ class GroupFieldFactory extends AcfFactory
         $this->formatter_factory = $formatter_factory;
         $this->sorting_model_factory = $sorting_model_factory;
         $this->field_formattable_factory = $field_formattable_factory;
+        $this->extra_actions = $extra_actions;
+    }
+
+    protected function get_settings(Config $config): ComponentCollection
+    {
+        return parent::get_settings($config)
+                     ->add($this->extra_actions->create($config), 40);
     }
 
     protected function get_group(): string
@@ -108,23 +120,18 @@ class GroupFieldFactory extends AcfFactory
 
     protected function get_formatters(Config $config): FormatterCollection
     {
-        return (new FormatterCollection([$this->get_base_formatter()]))
-            ->merge(
-                $this->formatter_factory->get_field_formatters(
-                    $this->get_formatters_from_settings($this->get_settings($config)),
-                    $this->group_sub_field->get_sub_field(),
-                    $config
-                )
-            );
-    }
-
-    protected function add_formatters(FormatterCollection $formatters, Config $config): void
-    {
-        $this->formatter_factory->get_field_formatters($formatters, $this->group_sub_field->get_sub_field(), $config);
-
-        $formatters->prepend(
-            $this->get_base_formatter()
+        $formatters = $this->get_formatters_from_settings(
+            $this->get_settings($config)
         );
+
+        $this->formatter_factory->add_field_formatters(
+            $formatters,
+            $this->group_sub_field->get_sub_field(),
+            $config
+        );
+
+        return FormatterCollection::from_formatter($this->get_base_formatter())
+                                  ->merge($formatters);
     }
 
     protected function get_sorting(Config $config): ?ACP\Sorting\Model\QueryBindings

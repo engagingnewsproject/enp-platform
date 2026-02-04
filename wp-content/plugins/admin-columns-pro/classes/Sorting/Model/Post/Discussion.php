@@ -19,20 +19,12 @@ class Discussion implements QueryBindings
         $bindings = new Bindings();
         $bindings->order_by(
             SqlOrderByFactory::create(
-                "CONCAT( $wpdb->posts.comment_status , $wpdb->posts.ping_status  )",
+                "CONCAT( $wpdb->posts.comment_status , $wpdb->posts.ping_status )",
                 (string)$order
             )
         );
 
         return $bindings;
-
-        return (new Bindings())->order_by(
-            SqlOrderByFactory::create_with_ids(
-                "$wpdb->posts.ID",
-                $this->get_sorted_ids(),
-                (string)$order
-            )
-        );
     }
 
 }

@@ -13,7 +13,7 @@ class ReviewsEnabled extends ProductMethod
     protected function get_product_value(WC_Product $product, Value $value): Value
     {
         return $value->with_value(
-            ac_helper()->icon->yes_or_no($product->get_reviews_allowed())
+            ac_helper()->icon->yes_or_no((bool)$product->get_reviews_allowed())
         );
     }
 

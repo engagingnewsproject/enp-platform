@@ -3,12 +3,12 @@
 namespace ACP\Asset\Script;
 
 use AC;
-use AC\Asset\Location;
+use AC\Asset\Location\Absolute;
 use AC\Asset\Script;
+use AC\Asset\Script\GlobalTranslationFactory;
 use AC\Asset\Script\Localize\Translation;
 use AC\Nonce\Ajax;
 use AC\Type\Url\EditorNetwork;
-use ACP\ActivationTokenFactory;
 use ACP\Type\Url\AccountFactory;
 use Plugin_Upgrader;
 
@@ -17,22 +17,11 @@ class LicenseManager extends Script
 
     private bool $network_activated;
 
-    private ActivationTokenFactory $token_factory;
-
     private AccountFactory $url_factory;
 
-    public function __construct(
-        Location\Absolute $location,
-        bool $network_activated,
-        AccountFactory $url_factory
-    ) {
-        parent::__construct(
-            'acp-license-manager',
-            $location,
-            [
-                Script\GlobalTranslationFactory::HANDLE,
-            ]
-        );
+    public function __construct(Absolute $location, bool $network_activated, AccountFactory $url_factory)
+    {
+        parent::__construct('acp-license-manager', $location, [GlobalTranslationFactory::HANDLE]);
 
         $this->network_activated = $network_activated;
         $this->url_factory = $url_factory;

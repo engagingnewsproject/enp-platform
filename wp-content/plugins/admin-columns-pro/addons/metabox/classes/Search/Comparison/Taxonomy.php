@@ -14,7 +14,7 @@ use ACP\Search\Value;
 class Taxonomy extends ACP\Search\Comparison implements ACP\Search\Comparison\SearchableValues
 {
 
-    protected $taxonomy;
+    protected array $taxonomy;
 
     public function __construct(array $taxonomy)
     {
@@ -31,7 +31,7 @@ class Taxonomy extends ACP\Search\Comparison implements ACP\Search\Comparison\Se
         $this->taxonomy = $taxonomy;
     }
 
-    private function get_term_by_id($term_id)
+    private function get_term_by_id(int $term_id)
     {
         global $wpdb;
 
@@ -40,7 +40,7 @@ class Taxonomy extends ACP\Search\Comparison implements ACP\Search\Comparison\Se
                 "
 			SELECT t.* 
 			FROM $wpdb->term_taxonomy AS t 
-			WHERE t.term_id = %s 
+			WHERE t.term_id = %d 
 			LIMIT 1"
                 ,
                 $term_id
@@ -89,7 +89,7 @@ class Taxonomy extends ACP\Search\Comparison implements ACP\Search\Comparison\Se
     protected function create_query_bindings(string $operator, ACP\Search\Value $value): Bindings
     {
         $bindings = new ACP\Query\Bindings\Post();
-        $term = $this->get_term_by_id($value->get_value());
+        $term = $this->get_term_by_id((int)$value->get_value());
 
         if ($term) {
             $tax_query = ACP\Search\Helper\TaxQuery\ComparisonFactory::create(

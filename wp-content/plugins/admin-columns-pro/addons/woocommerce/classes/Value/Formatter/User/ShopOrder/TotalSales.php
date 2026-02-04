@@ -12,7 +12,7 @@ use ACA\WC\Helper;
 class TotalSales implements Formatter
 {
 
-    private $statuses;
+    private array $statuses;
 
     public function __construct(array $statuses = [])
     {

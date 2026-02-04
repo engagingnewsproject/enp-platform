@@ -14,7 +14,7 @@ use ACA\GravityForms\TableScreen;
 class Scripts implements Registerable
 {
 
-    private $location;
+    private Absolute $location;
 
     public function __construct(Absolute $location)
     {

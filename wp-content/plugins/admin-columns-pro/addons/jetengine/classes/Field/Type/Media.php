@@ -14,7 +14,7 @@ final class Media extends Field implements ValueFormat
 
     public function get_value_format(): string
     {
-        return $this->settings['value_format'] ?? ValueFormat::FORMAT_ID;
+        return (string)($this->settings['value_format'] ?? ValueFormat::FORMAT_ID);
     }
 
 }

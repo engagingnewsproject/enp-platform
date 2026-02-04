@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ACP\Tools\Export\Response;
 
 use AC\ListScreenCollection;
-use ACP\Storage\Encoder;
 use ACP\Storage\EncoderFactory;
 use ACP\Storage\Serializer\JsonSerializer;
 use ACP\Tools\Export\Response;
@@ -44,10 +43,6 @@ final class File implements Response
 
         foreach ($this->list_screens as $list_screen) {
             $encoder = $this->encoder_factory->create();
-
-            if ( ! $encoder instanceof Encoder) {
-                continue;
-            }
 
             $output[] = $encoder->set_list_screen($list_screen)
                                 ->set_segments($list_screen->get_segments())

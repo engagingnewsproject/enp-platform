@@ -50,9 +50,7 @@ class FirstOrderFactory extends ACP\Column\AdvancedColumnFactory
 
     protected function get_formatters(Config $config): FormatterCollection
     {
-        $formatters = parent::get_formatters($config)->prepend(new Formatter\User\FirstOrder());
-
-        return $formatters;
+        return parent::get_formatters($config)->prepend(new Formatter\User\FirstOrder());
     }
 
     protected function get_sorting(Config $config): ?ACP\Sorting\Model\QueryBindings

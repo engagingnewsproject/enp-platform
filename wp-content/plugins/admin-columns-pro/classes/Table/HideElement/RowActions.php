@@ -9,7 +9,7 @@ use ACP\TableScreen;
 class RowActions implements HideElement
 {
 
-    private $table_screen;
+    private AC\TableScreen $table_screen;
 
     public function __construct(AC\TableScreen $table_screen)
     {

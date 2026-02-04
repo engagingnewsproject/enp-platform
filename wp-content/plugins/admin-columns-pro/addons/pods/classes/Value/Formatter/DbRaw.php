@@ -10,9 +10,9 @@ use AC\Type\Value;
 class DbRaw implements AC\Formatter
 {
 
-    private $meta_key;
+    private string $meta_key;
 
-    private $meta_type;
+    private AC\MetaType $meta_type;
 
     public function __construct(string $meta_key, AC\MetaType $meta_type)
     {

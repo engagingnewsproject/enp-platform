@@ -6,7 +6,6 @@ namespace ACA\JetEngine\Value;
 
 use AC;
 use AC\FormatterCollection;
-use AC\Setting\Config;
 use ACA\JetEngine\Field;
 use ACA\JetEngine\Field\Type;
 use ACA\JetEngine\Value;
@@ -14,7 +13,7 @@ use ACA\JetEngine\Value;
 class ValueFormatterFactory
 {
 
-    public function create(Field\Field $field, FormatterCollection $formatters, Config $config): FormatterCollection
+    public function create(Field\Field $field, FormatterCollection $formatters): FormatterCollection
     {
         switch ($field->get_type()) {
             case Type\Checkbox::TYPE:
@@ -32,7 +31,11 @@ class ValueFormatterFactory
 
                 break;
             case Type\Gallery::TYPE:
-                $formatters->prepend(new Value\Formatter\GalleryIds());
+                $format = $field instanceof Field\ValueFormat
+                    ? $field->get_value_format()
+                    : null;
+
+                $formatters->prepend(new Value\Formatter\GalleryIds($format));
                 $formatters->add(new AC\Formatter\Collection\Separator(''));
 
                 break;

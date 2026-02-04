@@ -9,9 +9,9 @@ use ACP\Access\PermissionsStorage;
 class Permissions implements Registerable
 {
 
-    private $permission_storage;
+    private PermissionsStorage $permission_storage;
 
-    private $permission_checker;
+    private PermissionChecker $permission_checker;
 
     public function __construct(PermissionsStorage $permission_storage, PermissionChecker $permission_checker)
     {

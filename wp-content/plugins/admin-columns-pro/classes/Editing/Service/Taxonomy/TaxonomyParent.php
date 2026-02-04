@@ -13,12 +13,9 @@ use ACP\Helper\Select\Taxonomy\PaginatedFactory;
 class TaxonomyParent extends BasicStorage implements PaginatedOptions
 {
 
-    /**
-     * @var string
-     */
-    private $taxonomy;
+    private string $taxonomy;
 
-    public function __construct($taxonomy)
+    public function __construct(string $taxonomy)
     {
         parent::__construct(new Storage\Taxonomy\TaxonomyParent($taxonomy));
 

@@ -17,11 +17,11 @@ class PickPost extends Meta
     implements SearchableValues
 {
 
-    private $post_type;
+    private array $post_type;
 
-    protected $query;
+    protected Query $query;
 
-    public function __construct($meta_key, array $post_type, Query $query, ?string $value_type = null)
+    public function __construct(string $meta_key, array $post_type, Query $query, ?string $value_type = null)
     {
         $this->post_type = $post_type;
         $this->query = $query;

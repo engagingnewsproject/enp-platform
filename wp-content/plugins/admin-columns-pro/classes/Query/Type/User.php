@@ -85,7 +85,6 @@ class User extends Query
             return;
         }
 
-        // Combineer met eventuele bestaande tax_query
         $existing = $query->get('tax_query') ?: [];
 
         $query->query_vars['tax_query'] = array_merge(

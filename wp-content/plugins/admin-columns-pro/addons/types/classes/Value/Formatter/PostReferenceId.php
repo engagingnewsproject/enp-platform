@@ -11,7 +11,7 @@ use AC\Type\ValueCollection;
 class PostReferenceId implements Formatter
 {
 
-    private $field_slug;
+    private string $field_slug;
 
     public function __construct(string $field_slug)
     {

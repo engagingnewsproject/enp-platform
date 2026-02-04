@@ -5,7 +5,7 @@ namespace ACP\API;
 class Request
 {
 
-    protected $args = [];
+    protected array $args = [];
 
     public function __construct(array $body)
     {

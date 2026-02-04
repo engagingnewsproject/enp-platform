@@ -13,7 +13,7 @@ use ACA\GravityForms\TableScreen;
 class Entry implements AC\Registerable
 {
 
-    private $notifications;
+    private WordPressNotifications $notifications;
 
     public function __construct(WordPressNotifications $notifications)
     {

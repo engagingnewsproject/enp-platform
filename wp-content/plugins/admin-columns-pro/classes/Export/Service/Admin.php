@@ -11,7 +11,7 @@ use ACP\Settings\ListScreen\TableElements;
 final class Admin implements Registerable
 {
 
-    private $strategy_factory;
+    private StrategyFactory $strategy_factory;
 
     public function __construct(StrategyFactory $strategy_factory)
     {

@@ -10,7 +10,7 @@ class BeginsWith extends Like
     public function bind_value(Value $value): self
     {
         $value = new Value(
-            $this->value_begins_with($value->get_value()),
+            $this->value_begins_with((string)$value->get_value()),
             $value->get_type()
         );
 

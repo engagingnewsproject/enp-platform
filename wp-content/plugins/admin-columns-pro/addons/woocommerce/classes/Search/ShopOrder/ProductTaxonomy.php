@@ -17,12 +17,9 @@ class ProductTaxonomy extends Comparison
     implements Comparison\SearchableValues
 {
 
-    /**
-     * @var string
-     */
-    private $taxonomy;
+    private string $taxonomy;
 
-    public function __construct($taxonomy)
+    public function __construct(string $taxonomy)
     {
         $this->taxonomy = $taxonomy;
 
@@ -37,17 +34,15 @@ class ProductTaxonomy extends Comparison
 
     protected function create_query_bindings(string $operator, Value $value): Bindings
     {
-        return (new Bindings())->where($this->get_where($value->get_value()));
+        return (new Bindings())->where(
+            $this->get_where((int)$value->get_value())
+        );
     }
 
-    /**
-     * @param int $product_id
-     *
-     * @return string
-     */
-    public function get_where($product_id)
+    public function get_where(int $product_id): string
     {
         global $wpdb;
+
         $orders = $this->get_orders_ids_by_product_cat($product_id);
 
         if (empty($orders)) {
@@ -77,12 +72,8 @@ class ProductTaxonomy extends Comparison
 
     /**
      * Get All orders IDs for a given product ID.
-     *
-     * @param int $product_id
-     *
-     * @return array
      */
-    protected function get_orders_ids_by_product_cat($term_id)
+    protected function get_orders_ids_by_product_cat(int $term_id): array
     {
         global $wpdb;
 

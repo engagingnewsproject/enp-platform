@@ -12,7 +12,7 @@ use WC_Product;
 class TaxClass extends ProductMethod
 {
 
-    private $display;
+    private bool $display;
 
     public function __construct(bool $display = true)
     {

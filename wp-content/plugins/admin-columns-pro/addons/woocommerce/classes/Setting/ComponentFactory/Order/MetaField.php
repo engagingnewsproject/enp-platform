@@ -14,7 +14,7 @@ use AC\Setting\Control\Input;
 class MetaField extends BaseComponentFactory
 {
 
-    private $field_type;
+    private FieldType $field_type;
 
     public function __construct(FieldType $field_type)
     {

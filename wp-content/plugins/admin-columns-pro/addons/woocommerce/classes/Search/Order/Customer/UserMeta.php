@@ -17,7 +17,7 @@ class UserMeta extends ACP\Search\Comparison
     /**
      * @var string
      */
-    private $meta_key;
+    private string $meta_key;
 
     public function __construct(string $meta_key)
     {

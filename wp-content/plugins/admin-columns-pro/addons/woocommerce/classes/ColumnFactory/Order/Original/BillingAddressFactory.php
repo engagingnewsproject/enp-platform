@@ -25,7 +25,7 @@ class BillingAddressFactory extends OriginalColumnFactory
     {
         return new FormatterCollection([
             new WC\Value\Formatter\Order\OrderAddress(WC\Type\AddressType::billing(), ''),
-            (new PregReplace())->replace_br(', '),
+            (new PregReplace())->replace_br(),
         ]);
     }
 

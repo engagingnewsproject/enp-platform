@@ -11,7 +11,7 @@ use ACP\Settings\ListScreen\TableElements;
 class Settings implements Registerable
 {
 
-    private $filter;
+    private Filter $filter;
 
     public function __construct(Filter $filter)
     {

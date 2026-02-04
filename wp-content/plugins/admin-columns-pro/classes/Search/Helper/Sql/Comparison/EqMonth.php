@@ -12,7 +12,7 @@ class EqMonth extends Between
     {
         $value_factory = new DateValueFactory($value->get_type());
 
-        return parent::bind_value($value_factory->create_range_month($value->get_value()));
+        return parent::bind_value($value_factory->create_range_month((string)$value->get_value()));
     }
 
 }

@@ -8,7 +8,7 @@ use AC\Type\Value;
 class SiteProperty implements Formatter
 {
 
-    private $property;
+    private string $property;
 
     public function __construct(string $property)
     {

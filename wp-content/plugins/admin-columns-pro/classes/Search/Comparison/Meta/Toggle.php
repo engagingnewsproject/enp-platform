@@ -11,7 +11,7 @@ class Toggle extends Comparison\Meta
     implements Values
 {
 
-    private $choices;
+    private array $choices;
 
     public function __construct(string $meta_key, array $choices)
     {

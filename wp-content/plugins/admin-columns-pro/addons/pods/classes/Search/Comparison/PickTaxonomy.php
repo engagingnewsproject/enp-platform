@@ -16,7 +16,7 @@ class PickTaxonomy extends Meta
     implements SearchableValues
 {
 
-    private $taxonomy;
+    private array $taxonomy;
 
     public function __construct(string $meta_key, array $taxonomy, ?string $value_type = null)
     {

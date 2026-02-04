@@ -14,7 +14,7 @@ class Visibility extends Comparison
     implements Comparison\Values
 {
 
-    private $visibility_options;
+    private array $visibility_options;
 
     public function __construct(array $visibility_options)
     {

@@ -9,16 +9,19 @@ final class MediaId
 
     public static function to_array($id): array
     {
-        return [
-            'url' => wp_get_attachment_url($id),
-            'id'  => $id,
-        ];
+        $url = wp_get_attachment_url((int)$id);
+
+        return $url
+            ? [
+                'url' => $url,
+                'id'  => (int)$id,
+            ] : [];
     }
 
-    public static function from_array($entry): ?array
+    public static function from_array($entry): ?int
     {
-        return is_array($entry) && isset($entry['id'])
-            ? $entry['id']
+        return is_array($entry) && isset($entry['id']) && is_scalar($entry['id'])
+            ? (int)$entry['id']
             : null;
     }
 

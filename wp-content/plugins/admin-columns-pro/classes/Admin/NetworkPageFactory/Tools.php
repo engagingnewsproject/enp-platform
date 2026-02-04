@@ -23,7 +23,7 @@ final class Tools implements PageFactoryInterface
         $this->menu_factory = $menu_factory;
     }
 
-    public function create()
+    public function create(): Page\Tools
     {
         return new Page\Tools(
             $this->plugin,

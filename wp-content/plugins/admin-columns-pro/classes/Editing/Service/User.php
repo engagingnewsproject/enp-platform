@@ -12,24 +12,10 @@ use ACP\Editing\View;
 class User implements Service, PaginatedOptions
 {
 
-    /**
-     * @var View\AjaxSelect
-     */
-    private $view;
+    private View\AjaxSelect $view;
 
-    /**
-     * @var Storage
-     */
-    protected $storage;
+    protected Storage $storage;
 
-    /**
-     * @var string[]
-     */
-    protected $roles;
-
-    /**
-     * @var PaginatedOptionsFactory
-     */
     protected $options_factory;
 
     public function __construct(
@@ -92,6 +78,13 @@ class User implements Service, PaginatedOptions
     public function get_paginated_options(string $search, int $page, ?int $id = null): Paginated
     {
         return $this->options_factory->create($search, $page, $id);
+    }
+
+    public function set_options_factory($options_factory)
+    {
+        $this->options_factory = $options_factory;
+
+        return $this;
     }
 
 }

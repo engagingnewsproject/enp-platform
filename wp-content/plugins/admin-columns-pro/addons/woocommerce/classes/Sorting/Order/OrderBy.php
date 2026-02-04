@@ -12,7 +12,7 @@ use ACP\Sorting\Type\Order;
 class OrderBy implements QueryBindings
 {
 
-    private $orderby_key;
+    private string $orderby_key;
 
     public function __construct(string $orderby_key)
     {

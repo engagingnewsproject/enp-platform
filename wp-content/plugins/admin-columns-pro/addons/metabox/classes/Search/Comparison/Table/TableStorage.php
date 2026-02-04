@@ -14,9 +14,9 @@ use ACP\Search\Value;
 class TableStorage extends ACP\Search\Comparison
 {
 
-    protected $table;
+    protected string $table;
 
-    protected $column;
+    protected string $column;
 
     public function __construct(
         Operators $operators,

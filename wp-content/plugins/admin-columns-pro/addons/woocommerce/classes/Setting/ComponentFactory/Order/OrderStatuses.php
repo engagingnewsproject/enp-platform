@@ -12,7 +12,7 @@ use AC\Setting\Control\OptionCollection;
 class OrderStatuses extends BaseComponentFactory
 {
 
-    private $default_statuses;
+    private array $default_statuses;
 
     public function __construct(array $default_statuses = [])
     {

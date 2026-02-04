@@ -11,9 +11,9 @@ use LogicException;
 class AddressField implements Storage
 {
 
-    private $address_type;
+    private AddressType $address_type;
 
-    private $address_property;
+    private string $address_property;
 
     public function __construct(AddressType $address_type, string $address_property)
     {

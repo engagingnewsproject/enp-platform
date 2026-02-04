@@ -21,7 +21,7 @@ class ProductTagFactory extends OriginalColumnFactory
 
     private const TAXONOMY = 'product_tag';
 
-    private $editing_terms_component;
+    private InlineEditCreateTerms $editing_terms_component;
 
     public function __construct(
         FeatureSettingBuilderFactory $feature_settings_builder_factory,

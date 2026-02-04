@@ -13,7 +13,7 @@ class PostFactory implements StrategyFactory
 
     public function create(TableScreen $table_screen): ?Deletable
     {
-        if ( ! $table_screen instanceof TableScreen\Post) {
+        if ( ! $table_screen instanceof TableScreen\Post && ! $table_screen instanceof TableScreen\Media) {
             return null;
         }
 

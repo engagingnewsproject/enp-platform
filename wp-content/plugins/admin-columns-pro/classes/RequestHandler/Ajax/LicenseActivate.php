@@ -105,12 +105,4 @@ class LicenseActivate implements RequestAjaxHandler
         wp_send_json_success($response->get('message'));
     }
 
-    private function send_error_response(string $message, array $permissions = []): void
-    {
-        wp_send_json_error([
-            'message'     => $message,
-            'permissions' => $permissions,
-        ]);
-    }
-
 }

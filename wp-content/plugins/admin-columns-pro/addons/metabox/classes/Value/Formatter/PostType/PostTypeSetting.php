@@ -10,7 +10,7 @@ use AC\Type\Value;
 class PostTypeSetting implements AC\Formatter
 {
 
-    private $key;
+    private string $key;
 
     public function __construct(string $key)
     {

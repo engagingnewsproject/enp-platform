@@ -11,13 +11,13 @@ use RWMB_Field;
 class Field implements ACP\Editing\Storage
 {
 
-    protected $meta_key;
+    protected string $meta_key;
 
-    protected $meta_type;
+    protected MetaType $meta_type;
 
-    protected $field_settings;
+    protected array $field_settings;
 
-    protected $single;
+    protected bool $single;
 
     public function __construct(string $meta_key, MetaType $meta_type, array $field_settings, bool $single = true)
     {

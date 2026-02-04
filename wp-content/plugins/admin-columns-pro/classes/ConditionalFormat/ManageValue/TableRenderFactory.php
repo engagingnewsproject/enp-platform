@@ -8,9 +8,9 @@ use AC;
 use AC\Formatter;
 use AC\Formatter\Aggregate;
 use AC\FormatterCollection;
+use AC\ListScreen;
 use AC\Type\ColumnId;
 use ACP;
-use ACP\ConditionalFormat\ActiveRulesResolver;
 use ACP\ConditionalFormat\Entity\Rules;
 use ACP\ConditionalFormat\Formatter\TableRender;
 use ACP\ConditionalFormat\Operators;
@@ -18,26 +18,20 @@ use ACP\ConditionalFormat\Operators;
 class TableRenderFactory extends AC\Table\ManageValue\TableRenderFactory
 {
 
-    private AC\ListScreen $list_screen;
-
-    private AC\Table\ManageValue\TableRenderFactory $factory;
+    private ListScreen $list_screen;
 
     private Operators $operators;
-
-    private ActiveRulesResolver $active_rules_resolver;
 
     private Rules $rules;
 
     public function __construct(
-        AC\ListScreen $list_screen,
-        AC\Table\ManageValue\TableRenderFactory $factory,
+        ListScreen $list_screen,
         Operators $operators,
         Rules $rules
     ) {
         parent::__construct($list_screen);
 
         $this->list_screen = $list_screen;
-        $this->factory = $factory;
         $this->operators = $operators;
         $this->rules = $rules;
     }

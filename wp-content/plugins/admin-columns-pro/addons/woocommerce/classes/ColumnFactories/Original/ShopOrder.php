@@ -16,9 +16,9 @@ class ShopOrder
     implements ColumnFactoryCollectionFactory
 {
 
-    private $container;
+    private Container $container;
 
-    private $original_columns_repository;
+    private OriginalColumnsRepository $original_columns_repository;
 
     public function __construct(Container $container, OriginalColumnsRepository $original_columns_repository)
     {

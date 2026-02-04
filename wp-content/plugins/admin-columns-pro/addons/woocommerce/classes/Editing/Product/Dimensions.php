@@ -32,7 +32,7 @@ class Dimensions implements Service, Editability
         );
     }
 
-    public function get_value(int $id)
+    public function get_value(int $id): ?object
     {
         $product = wc_get_product($id);
 

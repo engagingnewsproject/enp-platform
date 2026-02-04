@@ -15,11 +15,11 @@ use ACP\Helper\Select\Taxonomy\PaginatedFactory;
 class PickTaxonomy implements ACP\Editing\Service, PaginatedOptions
 {
 
-    private $storage;
+    private Storage $storage;
 
-    private $multiple;
+    private bool $multiple;
 
-    private $taxonomy;
+    private string $taxonomy;
 
     public function __construct(Storage $storage, bool $multiple, string $taxonomy)
     {

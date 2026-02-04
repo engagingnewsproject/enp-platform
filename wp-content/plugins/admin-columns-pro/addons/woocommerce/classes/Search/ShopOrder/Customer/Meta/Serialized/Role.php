@@ -11,19 +11,15 @@ use ACA\WC\Search\ShopOrder\Customer\Meta\Serialized;
 class Role extends Serialized
 {
 
-    /** @var array */
-    private $roles;
+    private array $roles;
 
-    public function __construct($roles)
+    public function __construct(array $roles)
     {
         $this->roles = $roles;
 
         parent::__construct('wp_capabilities');
     }
 
-    /**
-     * @return Options
-     */
     public function get_values(): Options
     {
         return AC\Helper\Select\Options::create_from_array($this->roles);

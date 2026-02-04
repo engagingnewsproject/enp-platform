@@ -11,10 +11,9 @@ use ACP\Search\Value;
 class Meta extends Comparison\Meta
 {
 
-    /** @var string */
-    protected $related_meta_key;
+    protected string $related_meta_key;
 
-    public function __construct($related_meta_key)
+    public function __construct(string $related_meta_key)
     {
         $operators = new Operators([
             Operators::EQ,
@@ -29,17 +28,12 @@ class Meta extends Comparison\Meta
     {
         return [
             'key'     => $this->get_meta_key(),
-            'value'   => $this->get_user_ids($value->get_value()),
+            'value'   => $this->get_user_ids((string)$value->get_value()),
             'compare' => 'IN',
         ];
     }
 
-    /**
-     * @param string $value
-     *
-     * @return array
-     */
-    protected function get_user_ids($value)
+    protected function get_user_ids(string $value): array
     {
         return get_users([
             'fields'         => 'ids',

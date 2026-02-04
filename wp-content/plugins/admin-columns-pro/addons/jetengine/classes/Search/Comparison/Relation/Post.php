@@ -13,7 +13,7 @@ use WP_Post;
 class Post extends Relation
 {
 
-    private $post_type;
+    private string $post_type;
 
     public function __construct(JetEngineRelation $relation, bool $is_parent, string $post_type)
     {

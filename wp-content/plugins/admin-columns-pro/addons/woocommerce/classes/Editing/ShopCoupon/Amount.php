@@ -13,12 +13,16 @@ class Amount implements ACP\Editing\Service
 
     public function get_view(string $context): ?View
     {
-        return (new ACP\Editing\View\Number())->set_min(0)->set_step('any');
+        $view = new ACP\Editing\View\Number();
+        $view->set_step('any');
+        $view->set_min(0);
+
+        return $view;
     }
 
-    public function get_value(int $id)
+    public function get_value(int $id): string
     {
-        return (new WC_Coupon($id))->get_amount();
+        return (string)(new WC_Coupon($id))->get_amount();
     }
 
     public function update(int $id, $data): void

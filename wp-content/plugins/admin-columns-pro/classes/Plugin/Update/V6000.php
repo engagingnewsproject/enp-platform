@@ -45,12 +45,24 @@ class V6000 extends Update
                 continue;
             }
 
-            $has_changed_columns = false;
             $columns = unserialize($view->columns, ['allowed_classes' => false]);
+
+            if ( ! $columns || ! is_array($columns)) {
+                continue;
+            }
+
+            $has_changed_columns = false;
+
             $columns = array_values($columns);
 
             foreach ($columns as $i => $column) {
-                if ($column['type'] !== 'column-acf_field') {
+                if ( ! $column || ! is_array($column)) {
+                    continue;
+                }
+
+                $type = $column['type'] ?? null;
+
+                if ($type !== 'column-acf_field') {
                     continue;
                 }
 

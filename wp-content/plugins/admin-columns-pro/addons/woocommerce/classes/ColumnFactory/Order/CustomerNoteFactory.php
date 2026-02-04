@@ -23,9 +23,9 @@ class CustomerNoteFactory extends ACP\Column\AdvancedColumnFactory
     use ACP\ConditionalFormat\ConditionalFormatTrait;
     use WooCommerceGroupTrait;
 
-    private $use_icon;
+    private UseIcon $use_icon;
 
-    private $string_limit;
+    private StringLimit $string_limit;
 
     public function __construct(
         FeatureSettingBuilderFactory $feature_settings_builder_factory,

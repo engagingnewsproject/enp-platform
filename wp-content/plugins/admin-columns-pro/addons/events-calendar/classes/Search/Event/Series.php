@@ -44,7 +44,7 @@ class Series extends Comparison implements SearchableValues
                 $bindings->where("$alias.event_id IS NULL");
                 break;
             case Operators::EQ:
-                $bindings->where($wpdb->prepare("$alias.series_post_id = %d", $value->get_value()));
+                $bindings->where($wpdb->prepare("$alias.series_post_id = %d", (int)$value->get_value()));
                 break;
         }
 

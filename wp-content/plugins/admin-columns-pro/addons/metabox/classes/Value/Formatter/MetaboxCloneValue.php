@@ -10,9 +10,9 @@ use AC\Type\Value;
 class MetaboxCloneValue implements AC\Formatter
 {
 
-    private $meta_type;
+    private AC\MetaType $meta_type;
 
-    private $field_id;
+    private string $field_id;
 
     public function __construct(AC\MetaType $meta_type, string $field_id)
     {

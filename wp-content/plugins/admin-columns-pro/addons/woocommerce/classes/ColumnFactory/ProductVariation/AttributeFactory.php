@@ -84,7 +84,7 @@ class AttributeFactory extends ACP\Column\AdvancedColumnFactory
         }
 
         if ($attribute->is_taxonomy()) {
-            return new Search\ProductVariation\AttributeTaxonomy($attribute->get_name());
+            return new Search\ProductVariation\AttributeTaxonomy((string)$attribute->get_name());
         }
 
         return new Search\ProductVariation\Attribute('attribute_' . $attribute->get_name());

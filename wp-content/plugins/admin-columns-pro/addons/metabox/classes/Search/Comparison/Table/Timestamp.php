@@ -39,7 +39,7 @@ class Timestamp extends TableStorage
     {
         $time = is_array($value->get_value())
             ? array_map([$this, 'to_time'], $value->get_value())
-            : $this->to_time($value->get_value());
+            : $this->to_time((string)$value->get_value());
 
         switch ($operator) {
             case Operators::EQ:
@@ -60,13 +60,8 @@ class Timestamp extends TableStorage
         return parent::get_subquery($operator, $value);
     }
 
-    /**
-     * @param string $value
-     *
-     * @return int
-     */
-    private function to_time($value)
+    private function to_time($value): int
     {
-        return (int)strtotime($value);
+        return (int)strtotime((string)$value);
     }
 }

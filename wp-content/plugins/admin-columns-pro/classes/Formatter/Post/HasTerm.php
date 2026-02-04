@@ -3,19 +3,20 @@
 namespace ACP\Formatter\Post;
 
 use AC;
+use AC\Type\TaxonomySlug;
 use AC\Type\Value;
 
 class HasTerm implements AC\Formatter
 {
 
-    private $term_id;
+    private TaxonomySlug $taxonomy;
 
-    private $taxonomy;
+    private int $term_id;
 
-    public function __construct(AC\Type\TaxonomySlug $taxonomy, int $term_id)
+    public function __construct(TaxonomySlug $taxonomy, int $term_id)
     {
-        $this->term_id = $term_id;
         $this->taxonomy = $taxonomy;
+        $this->term_id = $term_id;
     }
 
     public function format(Value $value)

@@ -11,7 +11,7 @@ class Contains extends Like
     public function bind_value(Value $value): Statement
     {
         $value = new Value(
-            $this->value_contains($value->get_value()),
+            $this->value_contains((string)$value->get_value()),
             $value->get_type()
         );
 

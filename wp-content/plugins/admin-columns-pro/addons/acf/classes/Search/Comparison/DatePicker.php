@@ -50,6 +50,8 @@ class DatePicker extends Meta implements ACP\Search\Comparison\RemoteValues
             case Operators::LT_DAYS_AGO:
             case Operators::WITHIN_DAYS:
             case Operators::TODAY:
+            case Operators::PAST:
+            case Operators::FUTURE:
                 return $value;
             default:
                 return new Value(
@@ -69,7 +71,7 @@ class DatePicker extends Meta implements ACP\Search\Comparison\RemoteValues
                 return [
                     'key'     => $this->get_meta_key(),
                     'compare' => 'LIKE',
-                    'value'   => str_replace('-', '', $value->get_value()),
+                    'value'   => str_replace('-', '', (string)$value->get_value()),
                 ];
             case Operators::FUTURE:
             case Operators::PAST:
@@ -96,7 +98,7 @@ class DatePicker extends Meta implements ACP\Search\Comparison\RemoteValues
                 $value[$key] = $this->format_date($item);
             }
         } else {
-            $value = date('Ymd', strtotime($value));
+            $value = date('Ymd', strtotime((string)$value));
         }
 
         return $value;

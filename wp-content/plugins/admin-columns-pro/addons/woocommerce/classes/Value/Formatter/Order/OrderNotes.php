@@ -12,11 +12,7 @@ use AC\Type\ValueCollection;
 class OrderNotes implements Formatter
 {
 
-    public const SYSTEM_NOTE = 'system';
-    public const PRIVATE_NOTE = 'private';
-    public const CUSTOMER_NOTE = 'customer';
-
-    private $type;
+    private ?string $type;
 
     public function __construct(?string $type = null)
     {

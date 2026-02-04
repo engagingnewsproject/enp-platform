@@ -12,7 +12,7 @@ use WC_Product;
 class CustomAttributes implements Formatter
 {
 
-    private $attribute;
+    private string $attribute;
 
     public function __construct(string $attribute)
     {

@@ -3,12 +3,13 @@
 namespace ACP\Formatter\Post;
 
 use AC;
+use AC\Exception\ValueNotFoundException;
 use AC\Type\Value;
 
 class ExtendedRevisionLink implements AC\Formatter
 {
 
-    private $extended_value;
+    private AC\Value\Extended\ExtendedValue $extended_value;
 
     public function __construct(AC\Value\Extended\ExtendedValue $extended_value)
     {
@@ -20,7 +21,7 @@ class ExtendedRevisionLink implements AC\Formatter
         $count = $value->get_value();
 
         if ( ! is_numeric($count)) {
-            throw AC\Exception\ValueNotFoundException::from_id($value->get_id());
+            throw ValueNotFoundException::from_id($value->get_id());
         }
 
         $label = sprintf(_n('%d revision', '%d revisions', $count, 'codepress-admin-columns'), $count);

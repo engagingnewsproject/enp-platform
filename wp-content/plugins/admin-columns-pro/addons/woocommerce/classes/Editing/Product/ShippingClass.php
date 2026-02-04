@@ -41,12 +41,12 @@ class ShippingClass implements Service, Editability
         return $product && $product->needs_shipping();
     }
 
-    public function get_value(int $id)
+    public function get_value(int $id): ?int
     {
         $product = wc_get_product($id);
 
         return $this->needs_shipping($id)
-            ? $product->get_shipping_class_id()
+            ? (int)$product->get_shipping_class_id()
             : null;
     }
 

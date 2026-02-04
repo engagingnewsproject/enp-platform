@@ -8,20 +8,14 @@ use RuntimeException;
 class Field implements Storage
 {
 
-    /**
-     * @var string
-     */
-    protected $taxonomy;
+    protected string $taxonomy;
 
-    /**
-     * @var string
-     */
-    protected $field;
+    protected string $field;
 
-    public function __construct($taxonomy, $field)
+    public function __construct(string $taxonomy, string $field)
     {
-        $this->taxonomy = (string)$taxonomy;
-        $this->field = (string)$field;
+        $this->taxonomy = $taxonomy;
+        $this->field = $field;
     }
 
     public function get(int $id)

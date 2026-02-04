@@ -21,17 +21,17 @@ class Field
 
     public function get_label(): string
     {
-        return $this->config['name'];
+        return (string)($this->config['name'] ?? '');
     }
 
     public function get_type(): string
     {
-        return $this->config['type'];
+        return (string)($this->config['type'] ?? '');
     }
 
-    public function get_meta_key(): ?string
+    public function get_meta_key(): string
     {
-        return $this->config['meta_key'] ?? null;
+        return (string)($this->config['meta_key'] ?? '');
     }
 
     public function is_repeatable(): bool

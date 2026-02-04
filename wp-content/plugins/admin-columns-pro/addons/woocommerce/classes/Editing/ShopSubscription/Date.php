@@ -12,9 +12,9 @@ use RuntimeException;
 class Date implements ACP\Editing\Service
 {
 
-    private $date_key;
+    private string $date_key;
 
-    private $meta_key;
+    private string $meta_key;
 
     public function __construct(string $date_key, string $meta_key)
     {

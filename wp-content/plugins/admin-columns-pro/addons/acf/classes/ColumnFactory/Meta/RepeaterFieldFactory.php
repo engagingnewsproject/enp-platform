@@ -94,24 +94,22 @@ class RepeaterFieldFactory extends AcfFactory
 
     protected function create_formatter(Config $config, ?string $separator = null): FormatterCollection
     {
-        $separator = $separator ?? '<div class="ac-repeater-divider"></div>';
         $sub_field = $this->get_sub_field($config);
 
         if ($sub_field) {
-            $formatters = FormatterCollection::from_formatter(
-                $this->get_base_formatter($sub_field)
+            $formatters = $this->get_formatters_from_settings(
+                $this->get_settings($config)
             );
 
-            $aggregate = $this->formatter_factory->get_field_formatters(
-                $this->get_formatters_from_settings($this->get_settings($config)),
+            $this->formatter_factory->add_field_formatters(
+                $formatters,
                 $sub_field,
                 $config
             );
 
-            $formatters->add(new Aggregate($aggregate));
-            $formatters->add(new Separator($separator));
-
-            return $formatters;
+            return FormatterCollection::from_formatter($this->get_base_formatter($sub_field))
+                                      ->add(new Aggregate($formatters))
+                                      ->add(new Separator($separator ?? '<div class="ac-repeater-divider"></div>'));
         }
 
         return FormatterCollection::from_formatter(
@@ -130,7 +128,7 @@ class RepeaterFieldFactory extends AcfFactory
 
         return $this->create_formatter($config, $delimiter)
                     ->with_formatter(new StripTags())
-                    ->with_formatter((new PregReplace())->replace_multiple_spaces(' '));
+                    ->with_formatter((new PregReplace())->replace_multiple_spaces());
     }
 
     protected function get_conditional_format(Config $config): ?ACP\ConditionalFormat\FormattableConfig

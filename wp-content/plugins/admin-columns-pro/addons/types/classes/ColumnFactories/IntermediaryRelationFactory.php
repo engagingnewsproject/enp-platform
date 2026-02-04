@@ -15,7 +15,7 @@ use ACA\Types\ColumnFactory;
 class IntermediaryRelationFactory implements AC\ColumnFactoryCollectionFactory
 {
 
-    private $container;
+    private Container $container;
 
     public function __construct(Container $container)
     {

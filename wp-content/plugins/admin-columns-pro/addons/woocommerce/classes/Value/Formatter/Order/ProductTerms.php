@@ -15,7 +15,7 @@ use WP_Term;
 class ProductTerms implements Formatter
 {
 
-    private $taxonomy_slug;
+    private TaxonomySlug $taxonomy_slug;
 
     public function __construct(TaxonomySlug $taxonomy_slug)
     {
@@ -26,7 +26,7 @@ class ProductTerms implements Formatter
     {
         $products = (new Products())->format($value);
 
-        if ( ! $products || ! $products instanceof ValueCollection) {
+        if ( ! $products instanceof ValueCollection) {
             throw ValueNotFoundException::from_id($value->get_id());
         }
 

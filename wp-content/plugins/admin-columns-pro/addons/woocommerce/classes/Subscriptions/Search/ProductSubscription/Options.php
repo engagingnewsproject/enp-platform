@@ -15,7 +15,7 @@ class Options extends Comparison\Meta
     /**
      * @var array
      */
-    private $options;
+    private array $options;
 
     public function __construct(string $meta_key, array $options)
     {

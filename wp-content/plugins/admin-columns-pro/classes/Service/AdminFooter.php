@@ -34,9 +34,9 @@ class AdminFooter implements Registerable
         add_filter('update_footer', [$this, 'render'], 11);
     }
 
-    public function render($html)
+    public function render($html): string
     {
-        global $current_screen;
+        // clear footer and replace with our custom footer text
 
         $urls = [
             sprintf(

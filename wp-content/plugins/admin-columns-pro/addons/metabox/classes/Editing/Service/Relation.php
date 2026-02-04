@@ -13,10 +13,7 @@ use InvalidArgumentException;
 abstract class Relation implements ACP\Editing\PaginatedOptions, ACP\Editing\Service
 {
 
-    /**
-     * @var Entity\Relation
-     */
-    protected $relation;
+    protected Entity\Relation $relation;
 
     public function __construct(Entity\Relation $relation)
     {

@@ -10,7 +10,7 @@ use AC\Setting\Config;
 class InlineEditContentType extends InlineEdit
 {
 
-    private $editable_type;
+    private EditableType $editable_type;
 
     public function __construct(EditableType $editable_type)
     {

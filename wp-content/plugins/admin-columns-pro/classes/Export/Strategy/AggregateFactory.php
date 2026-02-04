@@ -11,7 +11,7 @@ use ACP\Export\StrategyFactory;
 class AggregateFactory implements StrategyFactory
 {
 
-    private static $factories = [];
+    private static array $factories = [];
 
     public static function add(StrategyFactory $factory): void
     {

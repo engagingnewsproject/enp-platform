@@ -9,10 +9,7 @@ use ACP\Helper\Select\User\PaginatedFactory;
 class Users implements PaginatedOptionsFactory
 {
 
-    /**
-     * @var array
-     */
-    private $args;
+    private array $args;
 
     public function __construct(array $args = [])
     {

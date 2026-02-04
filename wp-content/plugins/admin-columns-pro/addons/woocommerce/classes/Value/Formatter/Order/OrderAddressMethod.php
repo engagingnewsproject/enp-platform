@@ -12,7 +12,7 @@ use LogicException;
 class OrderAddressMethod implements Formatter
 {
 
-    private $method;
+    private string $method;
 
     public function __construct(string $method)
     {

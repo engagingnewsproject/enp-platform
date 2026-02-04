@@ -17,7 +17,7 @@ use ACA\MetaBox\MetaboxFieldTypes;
 class GroupField extends BaseComponentFactory
 {
 
-    private $field;
+    private Group $field;
 
     public function __construct(Group $field)
     {

@@ -12,7 +12,7 @@ use WC_Product_Variation;
 class VariationAttribute extends ProductVariationMethod
 {
 
-    private $attribute;
+    private ProductAttribute $attribute;
 
     public function __construct(ProductAttribute $attribute)
     {

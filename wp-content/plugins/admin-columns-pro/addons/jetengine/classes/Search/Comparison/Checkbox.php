@@ -12,9 +12,9 @@ use ACP\Search\Value;
 class Checkbox extends ACP\Search\Comparison\Meta implements ACP\Search\Comparison\Values
 {
 
-    private $choices;
+    private array $choices;
 
-    private $value_is_array;
+    private bool $value_is_array;
 
     public function __construct(string $meta_key, array $choices, bool $value_is_array)
     {

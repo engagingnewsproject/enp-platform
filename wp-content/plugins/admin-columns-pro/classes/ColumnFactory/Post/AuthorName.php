@@ -160,6 +160,8 @@ class AuthorName extends ACP\Column\AdvancedColumnFactory
                     case FieldType::TYPE_TEXT :
                     case FieldType::TYPE_URL :
                         return new Search\Comparison\Post\AuthorMeta($config->get('field', ''));
+                    default:
+                        return null;
                 }
             default:
                 return null;

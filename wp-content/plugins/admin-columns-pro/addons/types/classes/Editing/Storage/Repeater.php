@@ -10,9 +10,9 @@ use ACP;
 class Repeater implements ACP\Editing\Storage
 {
 
-    private $meta_key;
+    private string $meta_key;
 
-    private $meta_type;
+    private MetaType $meta_type;
 
     public function __construct(string $meta_key, MetaType $meta_type)
     {

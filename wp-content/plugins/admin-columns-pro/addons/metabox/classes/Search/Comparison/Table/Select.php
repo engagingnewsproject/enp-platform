@@ -10,7 +10,7 @@ use ACP;
 class Select extends TableStorage implements ACP\Search\Comparison\Values
 {
 
-    protected $choices;
+    protected array $choices;
 
     public function __construct(string $table, string $column, array $choices)
     {

@@ -71,8 +71,7 @@ class Repeater extends FieldFactory
                 new Aggregate(
                     $this->value_formatter_factory->create(
                         $subfield,
-                        $this->get_formatters_from_settings($this->get_settings($config)),
-                        $config
+                        $this->get_formatters_from_settings($this->get_settings($config))
                     )
                 )
             );

@@ -30,7 +30,8 @@ class LastPurchaseDate extends ACP\Column\AdvancedColumnFactory
         ComponentFactory\DateFormat\Date $date_format
     ) {
         parent::__construct($feature_settings_builder_factory, $default_settings_builder);
-        $this->date_format = $date_format;
+
+        $this->date_format = $date_format->with_source_format('Y-m-d H:i:s');
     }
 
     protected function get_settings(Config $config): ComponentCollection
@@ -48,10 +49,14 @@ class LastPurchaseDate extends ACP\Column\AdvancedColumnFactory
         return 'column-last_purchase_date';
     }
 
-    protected function add_formatters(FormatterCollection $formatters, Config $config): void
+    protected function get_formatters(Config $config): FormatterCollection
     {
+        $formatters = parent::get_formatters($config);
+
         $formatters->prepend(new Formatter\Order\Date\CreatedDate());
         $formatters->prepend(new Formatter\Product\LastOrderId());
+
+        return $formatters;
     }
 
     protected function get_sorting(Config $config): ?ACP\Sorting\Model\QueryBindings

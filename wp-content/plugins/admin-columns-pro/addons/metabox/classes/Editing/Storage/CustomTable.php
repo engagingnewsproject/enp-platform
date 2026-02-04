@@ -13,14 +13,14 @@ class CustomTable implements ACP\Editing\Storage
 
     private Storage $storage;
 
-    private $table;
+    private string $table;
 
-    private $field_id;
+    private string $field_id;
 
     public function __construct(Storage $storage, string $field_id)
     {
         $this->storage = $storage;
-        $this->table = $storage->table;
+        $this->table = (string)$storage->table;
         $this->field_id = $field_id;
     }
 

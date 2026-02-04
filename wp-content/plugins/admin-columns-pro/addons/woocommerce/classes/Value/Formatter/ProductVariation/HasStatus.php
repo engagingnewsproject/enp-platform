@@ -10,7 +10,7 @@ use WC_Product_Variation;
 class HasStatus extends ProductVariationMethod
 {
 
-    private $status;
+    private string $status;
 
     public function __construct(string $status)
     {
@@ -19,7 +19,7 @@ class HasStatus extends ProductVariationMethod
 
     protected function get_product_variation_value(WC_Product_Variation $product_variation, Value $value): Value
     {
-        return $value->with_value($product_variation->get_status() == $this->status);
+        return $value->with_value((string)$product_variation->get_status() === $this->status);
     }
 
 }

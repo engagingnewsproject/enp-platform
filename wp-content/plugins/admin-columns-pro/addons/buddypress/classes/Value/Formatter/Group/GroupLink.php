@@ -32,7 +32,7 @@ class GroupLink implements Formatter
         }
 
         return $link
-            ? $value->with_value(ac_helper()->html->link($link, $value->get_value()))
+            ? $value->with_value(ac_helper()->html->link($link, (string)$value))
             : $value;
     }
 

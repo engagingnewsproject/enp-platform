@@ -17,7 +17,7 @@ class Menu extends EnhancedColumnFactory
 
     use ACP\ConditionalFormat\IntegerFormattableTrait;
 
-    private $menu_factory;
+    private AC\ColumnFactory\Post\MenuFactory $menu_factory;
 
     public function __construct(
         AC\ColumnFactory\Post\MenuFactory $column_factory,

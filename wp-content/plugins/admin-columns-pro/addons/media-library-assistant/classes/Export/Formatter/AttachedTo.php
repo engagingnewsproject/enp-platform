@@ -53,7 +53,7 @@ class AttachedTo implements Formatter
 
         $parent_title = $post->parent_title ?? null;
 
-        if ($post && $parent_title) {
+        if ($parent_title) {
             $parent_type = $post->parent_type ?? '';
             $parent_date = $post->parent_date ?? '';
             $parent_status = $post->parent_status ?? '';

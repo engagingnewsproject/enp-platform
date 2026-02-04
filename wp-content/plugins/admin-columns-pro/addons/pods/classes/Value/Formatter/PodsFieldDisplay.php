@@ -11,7 +11,7 @@ use ACA\Pods\Field;
 class PodsFieldDisplay implements Formatter
 {
 
-    private $field;
+    private Field $field;
 
     public function __construct(Field $field)
     {

@@ -12,8 +12,6 @@ use InvalidArgumentException;
 class FieldComponentFactory
 {
 
-    private ComponentFactory\DateFormat\Date $date_format;
-
     private ComponentFactory\StringLimit $string_limit;
 
     private ComponentFactory\NumberFormat $number_format;
@@ -33,7 +31,6 @@ class FieldComponentFactory
     private ComponentFactory\TermLink $term_link;
 
     public function __construct(
-        ComponentFactory\DateFormat\Date $date_format,
         ComponentFactory\StringLimit $string_limit,
         ComponentFactory\NumberFormat $number_format,
         ComponentFactory\LinkablePostProperty $post_property,
@@ -45,7 +42,6 @@ class FieldComponentFactory
         ComponentFactory\TermLink $term_link
 
     ) {
-        $this->date_format = $date_format;
         $this->string_limit = $string_limit;
         $this->number_format = $number_format;
         $this->post_property = $post_property;

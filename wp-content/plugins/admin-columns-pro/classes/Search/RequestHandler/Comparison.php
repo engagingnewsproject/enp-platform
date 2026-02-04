@@ -19,13 +19,12 @@ use DomainException;
 class Comparison extends Controller
 {
 
-    protected $list_screen;
-
-    private $storage;
+    private Storage $storage;
 
     public function __construct(Storage $storage, Request $request)
     {
         parent::__construct($request);
+
         $this->storage = $storage;
     }
 

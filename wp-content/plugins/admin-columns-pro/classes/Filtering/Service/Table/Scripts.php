@@ -17,11 +17,11 @@ use ACP\Settings\ListScreen\TableElement;
 class Scripts implements Registerable
 {
 
-    private $location;
+    private Asset\Location $location;
 
-    private $options_factory;
+    private OptionsFactory $options_factory;
 
-    private $request;
+    private AC\Request $request;
 
     private Aggregate $default_filters;
 

@@ -8,7 +8,7 @@ use ACP\Sorting\Type\Order;
 class MetaMapping extends Meta
 {
 
-    protected $fields;
+    protected array $fields;
 
     public function __construct(string $meta_key, array $fields)
     {

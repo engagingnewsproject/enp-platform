@@ -15,7 +15,7 @@ class Post extends Field\Field implements Field\Placeholder, Field\Multiple, Fie
 
     public function get_post_types(): array
     {
-        return (array)$this->settings['post_type'];
+        return (array)($this->settings['post_type'] ?? []);
     }
 
     public function is_parent(): bool

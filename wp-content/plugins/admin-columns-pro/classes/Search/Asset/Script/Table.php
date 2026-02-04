@@ -21,13 +21,13 @@ use ACP\Search\Type\SegmentKey;
 final class Table extends Script
 {
 
-    protected $filters;
+    protected array $filters;
 
-    protected $request;
+    protected Request $request;
 
-    protected $list_screen;
+    protected ListScreen $list_screen;
 
-    protected $segment_key;
+    protected ?SegmentKey $segment_key;
 
     public function __construct(
         string $handle,

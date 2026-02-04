@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ACP\Formatter\Media;
 
 use AC;
+use AC\Exception\ValueNotFoundException;
 use AC\Type\Value;
 
 class Orientation implements AC\Formatter
@@ -18,7 +19,7 @@ class Orientation implements AC\Formatter
         $height = $meta_data['height'] ?? null;
 
         if ( ! $width || ! $height) {
-            throw AC\Exception\ValueNotFoundException::from_id($value->get_id());
+            throw ValueNotFoundException::from_id($value->get_id());
         }
 
         if ($height === $width) {

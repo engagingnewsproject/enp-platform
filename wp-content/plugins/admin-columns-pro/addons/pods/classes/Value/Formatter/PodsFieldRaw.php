@@ -11,9 +11,9 @@ use ACA\Pods\Field;
 class PodsFieldRaw implements Formatter
 {
 
-    private $field;
+    private Field $field;
 
-    private $single;
+    private bool $single;
 
     public function __construct(Field $field, bool $single = true)
     {
@@ -23,13 +23,6 @@ class PodsFieldRaw implements Formatter
 
     public function format(Value $value)
     {
-        $test = pods_field_raw(
-            $this->field->get_pod()->get_name(),
-            $value->get_id(),
-            $this->field->get_name(),
-            $this->single
-        );
-
         return $value->with_value(
             pods_field_raw(
                 $this->field->get_pod()->get_name(),

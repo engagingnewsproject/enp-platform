@@ -9,7 +9,7 @@ use ACP\Editing\View;
 class Email extends BasicStorage
 {
 
-    private $placeholder;
+    private string $placeholder;
 
     public function __construct(string $placeholder)
     {

@@ -12,16 +12,13 @@ use ACP;
 class Media extends ACP\Editing\Storage\Meta
 {
 
-    /**
-     * @var string
-     */
-    private $value_format;
+    private string $value_format;
 
-    public function __construct($meta_key, MetaType $meta_type, $value_format)
+    public function __construct(string $meta_key, MetaType $meta_type, string $value_format)
     {
         parent::__construct($meta_key, $meta_type);
 
-        $this->value_format = (string)$value_format;
+        $this->value_format = $value_format;
     }
 
     public function get(int $id)

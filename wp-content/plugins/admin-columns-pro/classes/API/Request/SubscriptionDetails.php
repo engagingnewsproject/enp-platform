@@ -3,7 +3,6 @@
 namespace ACP\API\Request;
 
 use AC\Integration\IntegrationRepository;
-use AC\Type\Integration;
 use ACP\API\Request;
 use ACP\Type\ActivationToken;
 use ACP\Type\SiteUrl;
@@ -23,9 +22,6 @@ class SubscriptionDetails extends Request
 
         $args[$activation_token->get_type()] = $activation_token->get_token();
 
-        /**
-         * @var Integration $integration
-         */
         foreach ($repository->find_all_active() as $integration) {
             $args['meta'][$integration->get_slug()] = ACP_VERSION;
         }

@@ -11,9 +11,9 @@ use ACP;
 class Checkbox extends ACP\Editing\Storage\Meta
 {
 
-    private $choices;
+    private array $choices;
 
-    private $store_array;
+    private bool $store_array;
 
     public function __construct(string $meta_key, MetaType $meta_type, array $choices, bool $store_array = false)
     {

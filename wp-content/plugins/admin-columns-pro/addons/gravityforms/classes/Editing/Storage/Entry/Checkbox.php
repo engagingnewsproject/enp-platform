@@ -52,7 +52,7 @@ class Checkbox implements Storage
     {
         // First remove each value for each subfield
         foreach (array_keys($this->field->get_sub_fields()) as $key) {
-            GFAPI::update_entry_field($id, $key, '');
+            GFAPI::update_entry_field($id, (string)$key, '');
         }
 
         if ( ! empty($data)) {

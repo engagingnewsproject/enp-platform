@@ -13,13 +13,13 @@ use ACP\QuickAdd\Table\Checkbox\ShowButton;
 class Loader implements Registerable
 {
 
-    private $location;
+    private Location $location;
 
-    private $table_element;
+    private TableElement\QuickAdd $table_element;
 
-    private $preference;
+    private Preference\ShowButton $preference;
 
-    private $filter;
+    private Filter $filter;
 
     public function __construct(
         Location $location,

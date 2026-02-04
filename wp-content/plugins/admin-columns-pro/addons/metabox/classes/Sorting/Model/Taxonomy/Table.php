@@ -13,11 +13,11 @@ use ACP\Sorting\Type\Order;
 class Table implements QueryBindings
 {
 
-    protected $table_name;
+    protected string $table_name;
 
-    protected $meta_key;
+    protected string $meta_key;
 
-    protected $data_type;
+    protected ?DataType $data_type;
 
     public function __construct(string $table_name, string $meta_key, ?DataType $data_type = null)
     {

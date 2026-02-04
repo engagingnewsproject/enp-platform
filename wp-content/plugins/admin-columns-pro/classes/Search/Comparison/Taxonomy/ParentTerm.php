@@ -12,7 +12,7 @@ use ACP\Search\Value;
 class ParentTerm extends Comparison implements RemoteValues
 {
 
-    private $taxonomy;
+    private string $taxonomy;
 
     public function __construct(string $taxonomy)
     {

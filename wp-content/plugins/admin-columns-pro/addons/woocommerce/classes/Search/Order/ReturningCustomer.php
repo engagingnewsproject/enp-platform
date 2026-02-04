@@ -24,7 +24,7 @@ class ReturningCustomer extends ACP\Search\Comparison implements ACP\Search\Comp
         );
     }
 
-    protected function create_query_bindings($operator, Value $value): ACP\Query\Bindings
+    protected function create_query_bindings(string $operator, Value $value): ACP\Query\Bindings
     {
         global $wpdb;
 

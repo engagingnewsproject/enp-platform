@@ -8,11 +8,7 @@ use ACP\Search\Value;
 class NotEmpty extends MetaQuery\Comparison
 {
 
-    /**
-     * @param string $key
-     * @param Value  $value
-     */
-    public function __construct($key, Value $value)
+    public function __construct(string $key, Value $value)
     {
         $value = new Value(
             '',

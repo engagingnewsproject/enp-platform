@@ -13,7 +13,7 @@ use WC_Product;
 class TaxonomyAttributes implements Formatter
 {
 
-    private $taxonomy_slug;
+    private TaxonomySlug $taxonomy_slug;
 
     public function __construct(TaxonomySlug $taxonomy_slug)
     {

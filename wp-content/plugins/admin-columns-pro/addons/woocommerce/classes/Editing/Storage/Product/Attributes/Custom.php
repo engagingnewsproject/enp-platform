@@ -11,10 +11,7 @@ use WC_Product_Attribute;
 class Custom extends Storage\Product\Attributes
 {
 
-    /**
-     * @var array
-     */
-    private $custom_labels;
+    private array $custom_labels;
 
     public function __construct(string $attribute)
     {

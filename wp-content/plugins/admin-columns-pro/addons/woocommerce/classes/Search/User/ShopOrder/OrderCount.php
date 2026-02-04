@@ -12,10 +12,7 @@ use ACP\Search\Value;
 class OrderCount extends Comparison
 {
 
-    /**
-     * @var array
-     */
-    protected $status;
+    protected array $status;
 
     public function __construct(array $stati = [])
     {
@@ -46,18 +43,18 @@ class OrderCount extends Comparison
 
         switch ($operator) {
             case Operators::LT;
-                $having = sprintf('HAVING orders < %d', $value->get_value());
+                $having = sprintf('HAVING orders < %d', (int)$value->get_value());
                 break;
             case Operators::GT;
-                $having = sprintf('HAVING orders > %d', $value->get_value());
+                $having = sprintf('HAVING orders > %d', (int)$value->get_value());
                 break;
             case Operators::BETWEEN:
                 $values = $value->get_value();
-                $having = sprintf('HAVING orders >= %d AND orders <= %s', $values[0], $values[1]);
+                $having = sprintf('HAVING orders >= %d AND orders <= %s', (int)$values[0], (string)$values[1]);
 
                 break;
             default:
-                $having = sprintf('HAVING orders = %d', $value->get_value());
+                $having = sprintf('HAVING orders = %d', (int)$value->get_value());
         }
 
         $where = $this->status

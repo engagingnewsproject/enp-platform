@@ -51,7 +51,7 @@ class EventSeries implements ExtendedValue
 
         $events = tribe_get_events($args);
 
-        foreach ($events as &$event) {
+        foreach ($events as $event) {
             $event->admin_edit_link = get_edit_post_link($event->ID);
             $event->public_view_link = get_permalink($event->ID);
         }

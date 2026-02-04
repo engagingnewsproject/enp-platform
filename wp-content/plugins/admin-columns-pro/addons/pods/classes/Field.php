@@ -14,9 +14,9 @@ use Pods\Whatsit\Pod;
 class Field
 {
 
-    private $field;
+    private Whatsit\Field $field;
 
-    private $pod;
+    private Pod $pod;
 
     public function __construct(Pod $pod, Whatsit\Field $field)
     {
@@ -84,7 +84,7 @@ class Field
 
     public function get_name(): string
     {
-        return $this->field->get_name();
+        return (string)$this->field->get_name();
     }
 
     public function get_arg(string $name, $default = null)

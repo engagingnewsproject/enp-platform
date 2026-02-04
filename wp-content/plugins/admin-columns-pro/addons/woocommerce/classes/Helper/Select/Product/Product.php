@@ -14,15 +14,9 @@ class Product extends ArrayIterator
     implements Paginated
 {
 
-    /**
-     * @var WP_Query
-     */
-    protected $query;
+    protected WP_Query $query;
 
-    /**
-     * @var array
-     */
-    protected $search_fields = [];
+    protected array $search_fields = [];
 
     public function __construct(array $args = [])
     {

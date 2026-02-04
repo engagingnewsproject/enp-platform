@@ -13,9 +13,9 @@ use WC_Order;
 class OrderAddress implements Formatter
 {
 
-    private $type;
+    private AddressType $type;
 
-    private $property;
+    private string $property;
 
     public function __construct(AddressType $type, string $property)
     {

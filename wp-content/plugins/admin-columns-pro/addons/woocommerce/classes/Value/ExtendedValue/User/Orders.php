@@ -23,7 +23,9 @@ class Orders implements ExtendedValue
 
     public function render($id, array $params, Column $column, ListScreen $list_screen): string
     {
-        $orders = $this->get_orders($id, $params, 50);
+        $order_status = $params['order_status'] ?? [];
+
+        $orders = $this->get_orders($id, $order_status, 50);
 
         if (count($orders) < 1) {
             return __('No items', 'codepress-admin-columns');
@@ -79,8 +81,8 @@ class Orders implements ExtendedValue
             'limit'       => $limit ?? -1,
         ];
 
-        if ($this->order_status) {
-            $args['status'] = $this->order_status;
+        if ($order_status) {
+            $args['status'] = $order_status;
         }
 
         return wc_get_orders($args);

@@ -10,7 +10,7 @@ use AC\Type\Value;
 class Gravatar implements AC\Formatter
 {
 
-    private $size;
+    private ?int $size;
 
     public function __construct(?int $size = null)
     {

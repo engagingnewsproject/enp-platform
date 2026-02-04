@@ -10,9 +10,9 @@ use AC\Type\Value;
 class CheckboxToggleValue implements Formatter
 {
 
-    private $true_value;
+    private string $true_value;
 
-    private $false_value;
+    private string $false_value;
 
     public function __construct(string $true_value, string $false_value)
     {

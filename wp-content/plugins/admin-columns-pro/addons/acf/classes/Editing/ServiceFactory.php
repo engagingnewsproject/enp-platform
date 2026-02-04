@@ -12,6 +12,9 @@ use ACA\ACF\FieldType;
 use ACP;
 use ACP\Editing\PaginatedOptions;
 use ACP\Editing\Service;
+use ACP\Editing\Service\Basic;
+use ACP\Editing\Storage;
+use LogicException;
 
 class ServiceFactory
 {
@@ -23,10 +26,17 @@ class ServiceFactory
         $this->view_factory = $view_factory;
     }
 
-    public function create(
-        Field $field,
-        ?ACP\Editing\Storage $storage = null
-    ): ?Service {
+    private function create_view(Field $field): ?ACP\Editing\View
+    {
+        try {
+            return $this->view_factory->create($field);
+        } catch (LogicException $e) {
+            return null;
+        }
+    }
+
+    public function create(Field $field, Storage $storage): ?Service
+    {
         switch ($field->get_type()) {
             case FieldType::TYPE_BOOLEAN:
             case FieldType::TYPE_BUTTON_GROUP:
@@ -46,49 +56,79 @@ class ServiceFactory
             case FieldType::TYPE_OEMBED:
             case FieldType::TYPE_GALLERY:
             case FieldType::TYPE_WYSIWYG:
-                return new ACP\Editing\Service\Basic(
-                    $this->view_factory->create($field),
-                    $storage
-                );
+                $view = $this->create_view($field);
 
-            case FieldType::TYPE_COLOR_PICKER:
-                if ($field instanceof Field\Type\Color && $field->has_opacity()) {
+                if ( ! $view) {
                     return null;
                 }
 
-                return new ACP\Editing\Service\Basic(
-                    $this->view_factory->create($field),
-                    $storage
-                );
+                return new Basic($view, $storage);
+
+            case FieldType::TYPE_COLOR_PICKER:
+                if ( ! $field instanceof Field\Type\Color) {
+                    return null;
+                }
+
+                if ($field->has_opacity()) {
+                    return null;
+                }
+
+                $view = $this->create_view($field);
+
+                if ( ! $view) {
+                    return null;
+                }
+
+                return new Basic($view, $storage);
 
             case FieldType::TYPE_SELECT:
-                $view = $this->view_factory->create($field);
+                $view = $this->create_view($field);
+
+                if ( ! $view instanceof ACP\Editing\View\AdvancedSelect) {
+                    return null;
+                }
 
                 return $field instanceof Field\Multiple && $field->is_multiple()
                     ? new MultipleSelect($view, $storage)
-                    : new ACP\Editing\Service\Basic($view, $storage);
+                    : new Basic($view, $storage);
 
             case FieldType::TYPE_DATE_TIME_PICKER:
-                return new ACP\Editing\Service\DateTime(
-                    $this->view_factory->create($field),
-                    $storage
-                );
+                $view = $this->create_view($field);
+
+                if ( ! $view instanceof ACP\Editing\View\DateTime) {
+                    return null;
+                }
+
+                return new ACP\Editing\Service\DateTime($view, $storage);
 
             case FieldType::TYPE_DATE_PICKER:
+                $view = $this->create_view($field);
+
+                if ( ! $view instanceof ACP\Editing\View\Date) {
+                    return null;
+                }
+
                 return new ACP\Editing\Service\Date(
-                    $this->view_factory->create($field),
+                    $view,
                     $storage,
-                    $field instanceof Field\SaveFormat ? $field->get_save_format() : 'Ymd'
+                    $field instanceof Field\SaveFormat
+                        ? $field->get_save_format()
+                        : 'Ymd'
                 );
 
             case FieldType::TYPE_USER:
+                $view = $this->create_view($field);
+
+                if ( ! $view instanceof ACP\Editing\View\AjaxSelect) {
+                    return null;
+                }
+
                 $args = [];
 
                 if ($field instanceof Field\RoleFilterable && $field->has_roles()) {
                     $args['role__in'] = $field->get_roles();
                 }
 
-                $view = $this->view_factory->create($field);
                 $paginated = new PaginatedOptions\Users($args);
 
                 return $field instanceof Field\Multiple && $field->is_multiple()
@@ -96,30 +136,49 @@ class ServiceFactory
                     : new ACP\Editing\Service\User($view, $storage, $paginated);
 
             case FieldType::TYPE_RELATIONSHIP:
-                $tax_query = $field instanceof Field\TaxonomyFilterable
-                    ? $this->get_related_tax_query($field->get_taxonomies())
-                    : [];
+                $view = $this->create_view($field);
+
+                if ( ! $view instanceof ACP\Editing\View\AjaxSelect) {
+                    return null;
+                }
+
+                $args = [];
+
+                if ($field instanceof Field\TaxonomyFilterable) {
+                    $args['tax_query'] = $this->get_related_tax_query($field->get_taxonomies());
+                }
 
                 return new ACP\Editing\Service\Posts(
-                    $this->view_factory->create($field),
+                    $view,
                     $storage,
                     new PaginatedOptions\Posts(
-                        $field instanceof Field\PostTypeFilterable ? $field->get_post_types() : ['any'],
-                        ['tax_query' => $tax_query]
+                        $field instanceof Field\PostTypeFilterable
+                            ? $field->get_post_types()
+                            : ['any'],
+                        $args
                     )
                 );
 
             case FieldType::TYPE_POST:
             case FieldType::TYPE_PAGE_LINK:
-                $tax_query = $field instanceof Field\TaxonomyFilterable
-                    ? $this->get_related_tax_query($field->get_taxonomies())
-                    : [];
+                $view = $this->create_view($field);
+
+                if ( ! $view instanceof ACP\Editing\View\AjaxSelect) {
+                    return null;
+                }
+
+                $args = [];
+
+                if ($field instanceof Field\TaxonomyFilterable) {
+                    $args['tax_query'] = $this->get_related_tax_query($field->get_taxonomies());
+                }
 
                 $paginated = new PaginatedOptions\Posts(
-                    $field instanceof Field\PostTypeFilterable ? $field->get_post_types() : ['any'],
-                    ['tax_query' => $tax_query]
+                    $field instanceof Field\PostTypeFilterable
+                        ? $field->get_post_types()
+                        : ['any'],
+                    $args
                 );
-                $view = $this->view_factory->create($field);
 
                 return $field instanceof Field\Multiple && $field->is_multiple()
                     ? new ACP\Editing\Service\Posts($view, $storage, $paginated)
@@ -133,14 +192,17 @@ class ServiceFactory
                 return $field->is_multiple()
                     ? new Taxonomies($field->get_taxonomy(), $storage)
                     : new Taxonomy($field->get_taxonomy(), $storage);
-        }
 
-        return null;
+            default:
+                return null;
+        }
     }
 
     private function get_related_tax_query(array $terms): array
     {
-        $tax_query = ['relation' => 'OR'];
+        $tax_query = [
+            'relation' => 'OR',
+        ];
 
         foreach ($terms as $term) {
             $tax_query[] = [

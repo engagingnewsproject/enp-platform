@@ -10,7 +10,7 @@ use ACP\Search\Comparison\Meta\DateTime\ISO;
 class MetaFactory
 {
 
-    private $query_meta_factory;
+    private QueryMetaFactory $query_meta_factory;
 
     public function __construct()
     {
