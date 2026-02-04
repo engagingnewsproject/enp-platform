@@ -4,16 +4,18 @@ namespace ACP\Editing\View;
 
 use ACP\Editing\View;
 
-class Taxonomy extends View {
+class Taxonomy extends View
+{
 
-	use AjaxTrait,
-		MultipleTrait,
-		TagsTrait;
+    use AjaxTrait;
+    use MultipleTrait;
+    use TagsTrait;
 
-	public function __construct() {
-		parent::__construct( 'taxonomy' );
+    public function __construct()
+    {
+        parent::__construct('taxonomy');
 
-		$this->set_ajax_populate( true );
-	}
+        $this->set_ajax_populate(true);
+    }
 
 }

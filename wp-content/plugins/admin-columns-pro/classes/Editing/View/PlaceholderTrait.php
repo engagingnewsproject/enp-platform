@@ -2,12 +2,12 @@
 
 namespace ACP\Editing\View;
 
-trait PlaceholderTrait {
+trait PlaceholderTrait
+{
 
-	public function set_placeholder( $placeholder ) {
-		$this->set( 'placeholder', (string) $placeholder );
-
-		return $this;
-	}
+    public function set_placeholder(string $placeholder): self
+    {
+        return $this->set('placeholder', $placeholder);
+    }
 
 }

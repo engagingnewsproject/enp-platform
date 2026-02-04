@@ -7,12 +7,12 @@ use LogicException;
 final class RenewalMethod
 {
 
-    public const METHOD_AUTO = 'auto';
-    public const METHOD_MANUAL = 'manual';
+    private const METHOD_AUTO = 'auto';
+    private const METHOD_MANUAL = 'manual';
 
-    private $method;
+    private string $method;
 
-    public function __construct($method)
+    public function __construct(string $method)
     {
         if ( ! self::is_valid($method)) {
             throw new LogicException('Invalid renewal method.');
@@ -36,7 +36,7 @@ final class RenewalMethod
         return $this->method;
     }
 
-    public static function is_valid($method): bool
+    public static function is_valid(string $method): bool
     {
         return in_array($method, [self::METHOD_AUTO, self::METHOD_MANUAL], true);
     }

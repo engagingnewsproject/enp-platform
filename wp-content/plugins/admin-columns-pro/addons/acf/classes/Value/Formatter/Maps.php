@@ -1,40 +1,49 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Value\Formatter;
 
-use ACA\ACF\Value\Formatter;
+use AC\Exception\ValueNotFoundException;
+use AC\Formatter;
+use AC\Type\Value;
 
-class Maps extends Formatter {
+class Maps implements Formatter
+{
 
-	public function format( $maps_data, $id = null ) {
-		if ( ! $maps_data ) {
-			return $this->column->get_empty_char();
-		}
+    public function format(Value $value)
+    {
+        $maps_data = $value->get_value();
 
-		$url = $this->get_maps_url( $maps_data );
-		$label = $maps_data['address'] ?: 'Google Maps';
+        if ( ! $maps_data || ! is_array($maps_data)) {
+            throw ValueNotFoundException::from_id($value->get_id());
+        }
 
-		return sprintf( '<a href="%s" target="_blank">%s</a>', $url, $label );
-	}
+        $url = $this->get_maps_url($maps_data);
+        $label = $maps_data['address'] ?: 'Google Maps';
 
-	private function get_maps_url( $data ) {
-		$base = 'https://www.google.com/maps/search/?api=1';
+        return $value->with_value( sprintf('<a href="%s" target="_blank">%s</a>', $url, $label) );
+    }
 
-		$take_arguments = [ 'address', 'lat', 'lng' ];
-		$arguments = [];
-		foreach ( $take_arguments as $arg ) {
-			if ( isset( $data[ $arg ] ) ) {
-				$arguments[] = $data[ $arg ];
-			}
-		}
+    private function get_maps_url($data): string
+    {
+        $base = 'https://www.google.com/maps/search/?api=1';
 
-		return add_query_arg(
-			[
-				'query' => implode( ',', $arguments ),
-				'zoom'  => $data['zoom'] ?? 15,
-			],
-			$base
-		);
-	}
+        $take_arguments = ['address', 'lat', 'lng'];
+        $arguments = [];
+        foreach ($take_arguments as $arg) {
+            if (isset($data[$arg])) {
+                $arguments[] = $data[$arg];
+            }
+        }
+
+        return add_query_arg(
+            [
+                'query' => implode(',', $arguments),
+                'zoom'  => $data['zoom'] ?? 15,
+            ],
+            $base
+        );
+    }
 
 }

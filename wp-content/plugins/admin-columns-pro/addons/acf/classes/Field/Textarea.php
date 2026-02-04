@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Field;
 
-interface Textarea {
+interface Textarea
+{
 
-	/**
-	 * @return int
-	 */
-	public function get_rows();
+    public function get_rows(): ?int;
 
 }

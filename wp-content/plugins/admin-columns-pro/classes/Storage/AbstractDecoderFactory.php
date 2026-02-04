@@ -12,23 +12,24 @@ final class AbstractDecoderFactory
     /**
      * @var DecoderFactory[]
      */
-    private $decoder_factories = [];
+    private array $factories = [];
 
-    public function __construct(array $decoder_factories)
+    public function __construct(array $factories)
     {
-        array_map([$this, 'add_factory'], $decoder_factories);
+        foreach ($factories as $factory) {
+            $this->add($factory);
+        }
     }
 
-    private function add_factory(DecoderFactory $decoder_factory): void
+    private function add(DecoderFactory $factory): void
     {
-        $this->decoder_factories[] = $decoder_factory;
+        $this->factories[] = $factory;
     }
 
-    public function can_create( array $encoded_data ) : bool {
-        foreach ($this->decoder_factories as $decoder_factory) {
-            $decoder = $decoder_factory->create($encoded_data);
-
-            if ($decoder->has_required_version()) {
+    public function supports(array $encoded_data): bool
+    {
+        foreach ($this->factories as $factory) {
+            if ($factory->supports($encoded_data)) {
                 return true;
             }
         }
@@ -38,11 +39,9 @@ final class AbstractDecoderFactory
 
     public function create(array $encoded_data): Decoder
     {
-        foreach ($this->decoder_factories as $decoder_factory) {
-            $decoder = $decoder_factory->create($encoded_data);
-
-            if ($decoder->has_required_version()) {
-                return $decoder;
+        foreach ($this->factories as $factory) {
+            if ($factory->supports($encoded_data)) {
+                return $factory->create($encoded_data);
             }
         }
 

@@ -1,68 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\MetaBox\Editing;
 
-use AC\MetaType;
-use ACA\MetaBox\Column;
-use ACA\MetaBox\Editing\Storage\CustomTable;
-use ACA\MetaBox\Editing\Storage\Field;
-use ACA\MetaBox\Editing\Storage\TermField;
-use ACA\MetaBox\StorageAware;
+use AC\Type\TableScreenContext;
+use ACA\MetaBox\Field;
 use ACP;
 
 final class StorageFactory
 {
 
-    public function create(Column $column, $single = true): ACP\Editing\Storage
-    {
-        switch ($column->get_storage()) {
-            case StorageAware::CUSTOM_TABLE:
-                return $this->create_table_storage($column, $single);
-            case StorageAware::META_BOX:
-            default:
-                return $this->create_field_storage($column, $single);
+    public function create(
+        Field\Field $field,
+        TableScreenContext $table_context,
+        bool $single = true
+    ): ACP\Editing\Storage {
+        if ($field->is_table_storage()) {
+            return $this->create_table_storage($field);
         }
+
+        return $this->create_field_storage($field, $table_context, $single);
     }
 
-    public function create_table_storage(Column $column, $single): ACP\Editing\Storage
+    public function create_table_storage(Field\Field $field): ACP\Editing\Storage
     {
-        switch (true) {
-            case get_class($column) === Column\Taxonomies::class:
-            case get_class($column) === Column\Taxonomy::class:
-                return new TermField(
-                    $column->get_meta_key(),
-                    new MetaType($column->get_meta_type()),
-                    $column->get_field_settings(),
-                    $single
-                );
-            default:
-                return new CustomTable(
-                    $column->get_field_setting('storage'),
-                    $column->get_storage_table(),
-                    $column->get_meta_key()
-                );
-        }
+        return new Storage\CustomTable(
+            $field->get_table_storage(),
+            $field->get_id()
+        );
     }
 
-    private function create_field_storage(Column $column, $single)
-    {
-        switch (true) {
-            case get_class($column) === Column\Taxonomies::class:
-            case get_class($column) === Column\Taxonomy::class:
-                return new TermField(
-                    $column->get_meta_key(),
-                    new MetaType($column->get_meta_type()),
-                    $column->get_field_settings(),
-                    $single
-                );
-            default:
-                return new Field(
-                    $column->get_meta_key(),
-                    new MetaType($column->get_meta_type()),
-                    $column->get_field_settings(),
-                    $single
-                );
-        }
+    private function create_field_storage(
+        Field\Field $field,
+        TableScreenContext $table_screen_context,
+        bool $single
+    ): ACP\Editing\Storage {
+        return new Storage\Field(
+            $field->get_id(),
+            $table_screen_context->get_meta_type(),
+            $field->get_settings(),
+            $single
+        );
     }
 
 }

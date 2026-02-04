@@ -12,7 +12,7 @@ use ACP\Search\Value;
 class AuthorField extends Comparison
 {
 
-    private $field;
+    private string $field;
 
     public function __construct(string $field)
     {

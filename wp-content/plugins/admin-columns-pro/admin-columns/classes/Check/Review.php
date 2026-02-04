@@ -13,11 +13,10 @@ use AC\Screen;
 use AC\Type\Url\Documentation;
 use AC\Type\Url\UtmTags;
 
-class Review
-    implements Registerable
+final class Review implements Registerable
 {
 
-    private $location;
+    private Absolute $location;
 
     public function __construct(Absolute $location)
     {
@@ -41,11 +40,11 @@ class Review
             return;
         }
 
-        if ( ! $screen->is_admin_screen() && ! $screen->is_list_screen()) {
+        if ( ! $screen->is_admin_screen() && ! $screen->is_table_screen()) {
             return;
         }
 
-        if ($this->get_preferences()->get('dismiss-review')) {
+        if ($this->get_preferences()->find('dismiss-review')) {
             return;
         }
 
@@ -73,9 +72,9 @@ class Review
         return $handler;
     }
 
-    protected function get_preferences(): Preferences\User
+    protected function get_preferences(): Preferences\Preference
     {
-        return new Preferences\User('check-review');
+        return (new Preferences\UserFactory())->create('check-review');
     }
 
     protected function first_login_compare(): bool
@@ -89,12 +88,12 @@ class Review
      */
     protected function get_first_login(): int
     {
-        $timestamp = $this->get_preferences()->get('first-login-review');
+        $timestamp = $this->get_preferences()->find('first-login-review');
 
         if (empty($timestamp)) {
             $timestamp = time();
 
-            $this->get_preferences()->set('first-login-review', $timestamp);
+            $this->get_preferences()->save('first-login-review', $timestamp);
         }
 
         return $timestamp;
@@ -103,12 +102,12 @@ class Review
     public function ajax_dismiss_notice(): void
     {
         $this->get_ajax_handler()->verify_request();
-        $this->get_preferences()->set('dismiss-review', true);
+        $this->get_preferences()->save('dismiss-review', true);
     }
 
-    private function get_documentation_url(string $utm_medium): string
+    private function get_documentation_url(): string
     {
-        return (new UtmTags(new Documentation(), $utm_medium))->get_url();
+        return (new UtmTags(new Documentation(), 'review-notice'))->get_url();
     }
 
     protected function get_message(): string
@@ -153,7 +152,9 @@ class Review
                         'codepress-admin-columns'
                     ),
                     $product,
-                    '<a href="' . esc_url($this->get_documentation_url('review-notice')) . '" target="_blank">' . __(
+                    '<a href="' . esc_url(
+                        $this->get_documentation_url()
+                    ) . '" target="_blank">' . __(
                         'documentation page',
                         'codepress-admin-columns'
                     ) . '</a>'

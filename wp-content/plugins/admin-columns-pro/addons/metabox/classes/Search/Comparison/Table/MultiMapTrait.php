@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\MetaBox\Search\Comparison\Table;
 
 use ACP\Search\Operators;

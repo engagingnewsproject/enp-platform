@@ -11,15 +11,9 @@ class Query extends ArrayIterator
     implements Paginated
 {
 
-    /**
-     * @var WP_User_Query
-     */
-    protected $query;
+    protected WP_User_Query $query;
 
-    /**
-     * @var string
-     */
-    private $searchterm;
+    private string $searchterm;
 
     public function __construct(array $args = [])
     {
@@ -31,7 +25,7 @@ class Query extends ArrayIterator
             'search'         => null,
         ], $args);
 
-        $this->searchterm = $args['search'];
+        $this->searchterm = (string)($args['search'] ?? '');
 
         if ($args['search']) {
             $args['search'] = sprintf('*%s*', trim($args['search'], '*'));

@@ -12,9 +12,9 @@ const __dirname = path.dirname( __filename );
 const require = createRequire( import.meta.url );
 
 /**
- * Generate i18n function variants for @automattic/babel-plugin-replace-textdomain.
+ * Generate i18n function variants for `@automattic/babel-plugin-replace-textdomain`.
  *
- * The @wordpress/dataviews currently uses the i18n functions under a variety of aliases,
+ * The `@wordpress/dataviews` currently uses the i18n functions under a variety of aliases,
  * which makes it a pain to add the proper textdomain. This function generates an object
  * with the base function and 99 more variants as keys.
  *
@@ -58,16 +58,20 @@ export default {
 	},
 	module: {
 		rules: [
-			// Gutenberg packages' ESM builds don't fully specify their imports. Sigh.
-			// https://github.com/WordPress/gutenberg/issues/73362
-			{
-				test: /\/node_modules\/@wordpress\/.*\/build-module\/.*\.js$/,
-				resolve: { fullySpecified: false },
-			},
-
 			// Transpile JavaScript and TypeScript
 			jetpackWebpackConfig.TranspileRule( {
 				exclude: /node_modules\//,
+				babelOpts: {
+					configFile: false,
+					plugins: [
+						[
+							require.resolve( '@automattic/babel-plugin-replace-textdomain' ),
+							{
+								textdomain: 'jetpack-newsletter',
+							},
+						],
+					],
+				},
 			} ),
 
 			// Transpile @automattic/* in node_modules too.
@@ -76,7 +80,7 @@ export default {
 			} ),
 
 			/**
-			 * Transpile @wordpress/dataviews in node_modules too.
+			 * Transpile `@wordpress/dataviews` in node_modules too.
 			 *
 			 * @see https://github.com/Automattic/jetpack/issues/39907
 			 */

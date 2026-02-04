@@ -3,6 +3,7 @@
 namespace ACP\Sorting\UserPreference;
 
 use AC;
+use AC\Preferences\SiteFactory;
 use ACP\Sorting\Type;
 
 class SortType
@@ -11,40 +12,52 @@ class SortType
     private const OPTION_ORDER = 'order';
     private const OPTION_ORDERBY = 'orderby';
 
-    private $key;
+    private string $key;
 
-    private $storage;
+    private SiteFactory $storage_factory;
 
-    public function __construct(string $key)
+    public function __construct(string $key, SiteFactory $storage_factory)
     {
         $this->key = $key;
-        $this->storage = new AC\Preferences\Site('sorted_by');
+        $this->storage_factory = $storage_factory;
+    }
+
+    public static function create(AC\ListScreen $list_screen): self
+    {
+        return new self($list_screen->get_table_id() . $list_screen->get_id(), new SiteFactory());
+    }
+
+    private function storage(): AC\Preferences\Preference
+    {
+        return $this->storage_factory->create('sorted_by');
     }
 
     public function get(): ?Type\SortType
     {
-        $data = $this->storage->get($this->key);
+        $data = $this->storage()->find($this->key);
 
-        if (empty($data[self::OPTION_ORDERBY])) {
+        $order_by = $data[self::OPTION_ORDERBY] ?? null;
+
+        if ( ! Type\SortType::validate($order_by)) {
             return null;
         }
 
         return new Type\SortType(
-            (string)$data[self::OPTION_ORDERBY],
-            (string)$data[self::OPTION_ORDER]
+            $order_by,
+            'asc' !== $data[self::OPTION_ORDER]
         );
     }
 
-    public function delete(): bool
+    public function delete(): void
     {
-        return $this->storage->delete($this->key);
+        $this->storage()->delete($this->key);
     }
 
     public function save(Type\SortType $sort_type): void
     {
-        $this->storage->set($this->key, [
+        $this->storage()->save($this->key, [
             self::OPTION_ORDERBY => $sort_type->get_order_by(),
-            self::OPTION_ORDER   => $sort_type->get_order(),
+            self::OPTION_ORDER   => $sort_type->is_descending() ? 'desc' : 'asc',
         ]);
     }
 

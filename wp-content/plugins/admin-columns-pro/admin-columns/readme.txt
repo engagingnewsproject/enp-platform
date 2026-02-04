@@ -1,12 +1,11 @@
 === Admin Columns ===
-Contributors: codepress, tschutter, davidmosterd, dungengronovius, engelen
-Tags: admin, column, columns, table, tables
-Requires at least: 5.9
+Contributors: codepress, tschutter, davidmosterd, engelen, dungengronovius
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZDZRSYLQ4Z76J
+Tags: plugins, wordpress, admin, column, columns, custom columns, custom fields, image, dashboard, sortable, filters, posts, media, users, pages, posttypes, manage columns, wp-admin
+Requires at least: 4.7.1
 Tested up to: 6.9
-Requires PHP: 7.2
-Stable tag: 4.7.20
-License: GPLv2
-License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Requires PHP: 7.4
+Stable tag: 7.0.9
 
 Customise columns on the administration screens for post(types), pages, media, comments, links and users with an easy to use drag-and-drop interface.
 
@@ -203,22 +202,79 @@ You can find a list of the available actions and filters (and examples on how to
 2. Posts Screen with the customized sortable columns.
 3. Settings page for the Media Library columns.
 4. Media Screen with the customized sortable columns.
-5. Settings page for Users columns../ch
+5. Settings page for Users columns.
 6. Users Screen with the customized sortable columns.
 7. Settings page showing the different displaying types for custom field.
 8. Posts Screen with custom fields.
 
 == Changelog ==
 
-= 4.7.20 =
-Release Date: December 5th, 2025
+= 7.0.9 =
+Release Date: February 4th, 2026
 
-* [Fixed] Upgrade notice Fatal fix
+[Fixed] Various code optimizations and minor improvements, including stricter type handling.
 
-= 4.7.19 =
-Release Date: December 2nd, 2025
+= 7.0.8 =
+Release Date: February 2nd, 2026
 
-* [Added] Black friday promo
+* [Fixed] Resolved an issue where original WordPress default columns were stored incorrectly.
+* [Fixed] Fixed an issue where images in custom field columns did not always display correctly, depending on how they were stored.
+* [Added] Added a setting for image, media, post, and user custom fields to control the number of items displayed.
+* [Improved] Renamed and reordered the date format settings for custom field column to make the stored date format clearer (with an improved tooltip).
+
+= 7.0.7 =
+Release Date: January 30th, 2026
+
+* [Fixed] Fixed an error with the "Image Sizes" setting.
+
+= 7.0.6 =
+Release Date: January 28th, 2026
+
+* [Fixed] Prevented a fatal error when retrieving the total items count if $wp_list_table is not a WP_List_Table instance.
+* [Fixed] Fixed a WordPress VIP icon font issue.
+* [Improved] Optimized performance and memory usage when retrieving table views.
+* [Improved] The value rendering hook now also triggers when the value is empty.
+
+= 7.0.5 =
+Release Date: January 27th, 2026
+
+* [Improved] We added 'get_post_type' and 'get_meta_type' to the CustomFieldContext class
+* [Fixed] The `EditorColumns` URI was incorrectly added to the WP_Admin_Bar object which could cause an error
+
+= 7.0.4 =
+Release Date: January 21st, 2026
+
+* [Fixed] Fixed PHP 8.4 deprecation messages
+* [Fixed] User link setting did not work correctly and linked to the wrong page
+* [Updated] Context class for Hooks extended with method to retrieve all settings
+* [Updated] Database update: fix for possible incorrect column 'name' properties
+
+= 7.0.3 =
+Release Date: January 16th, 2026
+
+* [Fixed] Media Library in grid view would not load properly
+* [Updated] Changed namespace for formatter from `AC\Setting\Formatter` to `AC\Formatter`
+* [Updated] Changed namespace for context from `AC\Setting\Context` to `AC\Column\Context`
+
+= 7.0.2 =
+Release Date: January 14th, 2026
+
+* [Fixed] Error on the Media table when Grid view is active
+* [Fixed] Error in WPML string translations
+
+= 7.0.1 =
+Release Date: January 13th, 2026
+
+[Deprecated] Added a deprecated function `get_singular_label()` to the AC\ListScreen class
+[Deprecated] Added a deprecated function `set_text()` to the AC\Table\Button class
+
+= 7.0.0 =
+Release Date: January 12th, 2026
+
+* [Important] Version numbering jumped ahead to 7.0 to align with the Pro version.
+* [Breaking] Custom columns created for versions below 7.0 are no longer compatible and must be rewritten. (See upgrade path.)
+* [Breaking] Many hooks have been renamed or modified to fit the new architecture and to prevent fatal errors.
+* [Improved] Completely new design and interface for the settings pages.
 
 = 4.7.18 =
 Release Date: September 22nd, 2025
@@ -271,7 +327,6 @@ Release Date: November 5th, 2024
 
 * [Improved] Better edit term link with taxonomy as parameter
 
-
 = 4.7.8 =
 Release Date: October 1st, 2024
 
@@ -323,7 +378,6 @@ Release Date: December 6th, 2023
 = 4.6.9 =
 Release Date: October 2nd, 2023
 
-* [Fixed] Render values for Taxonomies fixed
 * [Fixed] URLs for Terms in Taxonomy columns were incorrect
 
 = 4.6.8 =

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Search\Comparison;
 
 use AC\Helper\Select\Options\Paginated;
@@ -10,41 +12,46 @@ use ACP\Search\Comparison\SearchableValues;
 use ACP\Search\Operators;
 
 class Taxonomy extends Meta
-	implements SearchableValues {
+    implements SearchableValues
+{
 
-	private $taxonomy;
+    private string $taxonomy;
 
-	public function __construct( string $meta_key, string $taxonomy ) {
-		$operators = new Operators( [
-			Operators::EQ,
-			Operators::NEQ,
-			Operators::IS_EMPTY,
-			Operators::NOT_IS_EMPTY,
-		] );
+    public function __construct(string $meta_key, string $taxonomy)
+    {
+        $operators = new Operators([
+            Operators::EQ,
+            Operators::NEQ,
+            Operators::IS_EMPTY,
+            Operators::NOT_IS_EMPTY,
+        ]);
 
-		$this->taxonomy = $taxonomy;
+        $this->taxonomy = $taxonomy;
 
-		parent::__construct( $operators, $meta_key );
-	}
+        parent::__construct($operators, $meta_key);
+    }
 
-	public function format_label( $value ): string {
-		$term = get_term( $value );
+    public function format_label($value): string
+    {
+        $term = get_term($value);
 
-		return $term
-			? $this->formatter()->format_label( $term )
-			: '';
-	}
+        return $term
+            ? $this->formatter()->format_label($term)
+            : '';
+    }
 
-	private function formatter(): LabelFormatter\TermName {
-		return new LabelFormatter\TermName();
-	}
+    private function formatter(): LabelFormatter\TermName
+    {
+        return new LabelFormatter\TermName();
+    }
 
-	public function get_values( string $search, int $page ): Paginated {
-		return ( new Select\Taxonomy\PaginatedFactory() )->create( [
-			'page'     => $page,
-			'search'   => $search,
-			'taxonomy' => $this->taxonomy,
-		], $this->formatter() );
-	}
+    public function get_values(string $search, int $page): Paginated
+    {
+        return (new Select\Taxonomy\PaginatedFactory())->create([
+            'page'     => $page,
+            'search'   => $search,
+            'taxonomy' => $this->taxonomy,
+        ], $this->formatter());
+    }
 
 }

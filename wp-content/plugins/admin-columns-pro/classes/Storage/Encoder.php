@@ -4,36 +4,36 @@ declare(strict_types=1);
 
 namespace ACP\Storage;
 
-use AC\ListScreen;
+use AC;
 use AC\Plugin\Version;
-use ACP\ListScreenPreferences;
+use ACP\ConditionalFormat;
+use ACP\ConditionalFormat\RulesCollection;
+use ACP\Search;
 use ACP\Search\SegmentCollection;
 
-final class Encoder
+final class Encoder extends AC\Storage\Encoder\BaseEncoder
 {
 
-    private $version;
+    public const CONDITIONAL_FORMAT = 'conditional_format';
+    public const SEGMENTS = 'segments';
 
-    /**
-     * @var ListScreen
-     */
-    private $list_screen;
+    private ?SegmentCollection $segments = null;
 
-    /**
-     * @var SegmentCollection
-     */
-    private $segments;
+    private ?RulesCollection $conditional_format = null;
 
-    public function __construct(Version $version)
-    {
-        $this->version = $version;
-    }
+    private Search\Encoder $segments_encoder;
 
-    public function set_list_screen(ListScreen $list_screen): self
-    {
-        $this->list_screen = $list_screen;
+    private ConditionalFormat\Encoder $conditional_format_encoder;
 
-        return $this;
+    public function __construct(
+        Version $version,
+        Search\Encoder $segments_encoder,
+        ConditionalFormat\Encoder $conditional_format_encoder
+    ) {
+        parent::__construct($version);
+
+        $this->segments_encoder = $segments_encoder;
+        $this->conditional_format_encoder = $conditional_format_encoder;
     }
 
     public function set_segments(SegmentCollection $segments): self
@@ -43,40 +43,24 @@ final class Encoder
         return $this;
     }
 
+    public function set_conditional_format(RulesCollection $rules): self
+    {
+        $this->conditional_format = $rules;
+
+        return $this;
+    }
+
     public function encode(): array
     {
-        $encoded_data = [
-            'version' => (string)$this->version,
-        ];
+        $encoded_data = parent::encode();
 
-        if ($this->list_screen instanceof ListScreen) {
-            $preferences = $this->list_screen->get_preferences();
+        $encoded_data[self::SEGMENTS] = $this->segments_encoder->encode(
+            $this->segments ?? new SegmentCollection()
+        );
 
-            unset($preferences[ListScreenPreferences::SHARED_SEGMENTS]);
-
-            $encoded_data['list_screen'] = [
-                'title'    => $this->list_screen->get_title(),
-                'type'     => $this->list_screen->get_key(),
-                'id'       => $this->list_screen->has_id() ? (string)$this->list_screen->get_id() : '',
-                'updated'  => $this->list_screen->get_updated()->getTimestamp(),
-                'columns'  => $this->list_screen->get_settings(),
-                'settings' => $preferences,
-            ];
-        }
-
-        if ($this->segments instanceof SegmentCollection && $this->segments->count()) {
-            $encoded_data['segments'] = [];
-
-            foreach ($this->segments as $segment) {
-                $encoded_data['segments'][] = [
-                    'key'            => (string)$segment->get_key(),
-                    'list_screen_id' => (string)$segment->get_list_id(),
-                    'name'           => $segment->get_name(),
-                    'url_parameters' => $segment->get_url_parameters(),
-                    'date_created'   => $segment->get_modified() ? $segment->get_modified()->format('U') : null,
-                ];
-            }
-        }
+        $encoded_data[self::CONDITIONAL_FORMAT] = $this->conditional_format_encoder->encode(
+            $this->conditional_format ?? new RulesCollection()
+        );
 
         return $encoded_data;
     }

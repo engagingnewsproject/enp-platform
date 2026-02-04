@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Field\Type;
 
 use ACA\ACF\Field;
 
-class Select extends Field implements Field\Multiple, Field\Choices {
+class Select extends Field implements Field\Multiple, Field\Choices
+{
 
-	use MultipleTrait;
-	use ChoicesTrait;
+    use MultipleTrait;
+    use ChoicesTrait;
 }

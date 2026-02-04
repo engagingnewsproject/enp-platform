@@ -4,13 +4,15 @@ namespace ACP\Editing\View;
 
 use ACP\Editing\View;
 
-class Email extends View implements Placeholder, MaxLength {
+class Email extends View implements Placeholder, MaxLength
+{
 
-	use MaxlengthTrait,
-		PlaceholderTrait;
+    use MaxlengthTrait;
+    use PlaceholderTrait;
 
-	public function __construct() {
-		parent::__construct( 'email' );
-	}
+    public function __construct()
+    {
+        parent::__construct('email');
+    }
 
 }

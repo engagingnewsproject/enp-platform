@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Editing\Product;
 
 use AC\Helper\Select\Option;
@@ -10,11 +12,13 @@ use ACP\Editing\View;
 class Featured implements Service
 {
 
-    public function get_value($id)
+    public function get_value(int $id): int
     {
         $product = wc_get_product($id);
 
-        return ($product && $product->is_featured()) ? 1 : 0;
+        return $product && $product->is_featured()
+            ? 1
+            : 0;
     }
 
     public function update(int $id, $data): void
@@ -29,8 +33,8 @@ class Featured implements Service
     {
         return new View\Toggle(
             new ToggleOptions(
-                new Option(1, __('Yes')),
-                new Option(0, __('No'))
+                new Option('1', __('Yes')),
+                new Option('0', __('No'))
             )
         );
     }

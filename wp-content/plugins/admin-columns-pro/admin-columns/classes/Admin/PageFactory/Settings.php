@@ -6,52 +6,28 @@ use AC;
 use AC\Admin\MenuFactoryInterface;
 use AC\Admin\Page;
 use AC\Admin\PageFactoryInterface;
-use AC\Admin\Section;
-use AC\Asset\Location;
 
 class Settings implements PageFactoryInterface
 {
 
-    protected $location;
+    protected AC\AdminColumns $plugin;
 
-    protected $menu_factory;
-
-    private $is_acp_active;
-
-    private $edit_button;
+    protected MenuFactoryInterface $menu_factory;
 
     public function __construct(
-        Location\Absolute $location,
-        MenuFactoryInterface $menu_factory,
-        bool $is_acp_active,
-        AC\Settings\General\EditButton $edit_button
+        AC\AdminColumns $plugin,
+        MenuFactoryInterface $menu_factory
     ) {
-        $this->location = $location;
+        $this->plugin = $plugin;
         $this->menu_factory = $menu_factory;
-        $this->is_acp_active = $is_acp_active;
-        $this->edit_button = $edit_button;
     }
 
     public function create(): Page\Settings
     {
-        $page = new Page\Settings(
+        return new Page\Settings(
             new AC\Admin\View\Menu($this->menu_factory->create('settings')),
-            $this->location
+            new AC\Admin\Asset\Script\SettingsFactory($this->plugin)
         );
-
-        $page
-            ->add_section(
-                new Section\General([
-                    new Section\Partial\ShowEditButton($this->edit_button),
-                ])
-            )
-            ->add_section(new Section\Restore(), 40);
-
-        if ( ! $this->is_acp_active) {
-            $page->add_section(new Section\ProCta(), 50);
-        }
-
-        return $page;
     }
 
 }

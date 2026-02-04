@@ -8,6 +8,7 @@ use AC\Column;
 use AC\ListScreenRepository\Storage;
 use AC\Plugin\Update;
 use AC\Plugin\Version;
+use AC\Type\ColumnId;
 use AC\Type\ListScreenId;
 use ACA;
 use DateTime;
@@ -15,7 +16,7 @@ use DateTime;
 final class V6400 extends Update
 {
 
-    private $storage;
+    private Storage $storage;
 
     public function __construct(Storage $storage)
     {
@@ -64,13 +65,13 @@ final class V6400 extends Update
         }
     }
 
-    private function update_user_filter(object $row): void
+    private function update_user_filter($row): void
     {
-        $parameters = unserialize($row->url_parameters);
+        $parameters = unserialize($row->url_parameters, ['allowed_classes' => false]);
 
         foreach ($this->get_columns_with_user_filter($row) as $column) {
             // remove segments that are no longer supported. e.g. filtering on a `user ID` where only a 'first name' is a valid input
-            unset($parameters['acp_filter'][$column->get_name()]);
+            unset($parameters['acp_filter'][(string)$column->get_id()]);
         }
 
         $this->update_url_parameters(
@@ -79,19 +80,17 @@ final class V6400 extends Update
         );
     }
 
-    private function contains_user_filter(object $row): bool
+    private function contains_user_filter($row): bool
     {
         return (bool)$this->get_columns_with_user_filter($row);
     }
 
     /**
-     * @param object $row
-     *
      * @return Column[]
      */
-    private function get_columns_with_user_filter(object $row): array
+    private function get_columns_with_user_filter($row): array
     {
-        $parameters = unserialize($row->url_parameters);
+        $parameters = unserialize($row->url_parameters, ['allowed_classes' => false]);
         $filters = $parameters['acp_filter'] ?? null;
 
         if ( ! $filters) {
@@ -111,7 +110,9 @@ final class V6400 extends Update
         $columns = [];
 
         foreach ($parameters['acp_filter'] as $column_name => $value) {
-            $column = $list_screen->get_column_by_name($column_name);
+            $column = $list_screen->get_column(
+                new ColumnId((string)$column_name)
+            );
 
             if ($column && $this->is_filter_by_user($column, $value)) {
                 $columns[] = $column;
@@ -127,13 +128,19 @@ final class V6400 extends Update
             return false;
         }
 
-        if ( ! in_array($column->get_name(), ['column-author_name', 'column-order_customer'], true)) {
+        if ( ! in_array($column->get_type(), ['column-author_name', 'column-order_customer'], true)) {
             return false;
         }
 
-        $author_as = $column->get_options()['display_author_as'] ?? null;
+        $setting = $column->get_setting('display_author_as');
 
-        if ( ! $author_as) {
+        if ( ! $setting) {
+            return false;
+        }
+
+        $author_as = $setting->get_input()->get_value();
+
+        if ( ! $author_as || ! is_string($author_as)) {
             return false;
         }
 
@@ -149,14 +156,14 @@ final class V6400 extends Update
         return in_array($author_as, $fields, true);
     }
 
-    private function update_date_type_daily(object $row): void
+    private function update_date_type_daily($row): void
     {
-        $parameters = unserialize($row->url_parameters);
+        $parameters = unserialize($row->url_parameters, ['allowed_classes' => false]);
 
         $column_names = $this->get_columns_date_type_daily($row);
 
         foreach ($parameters['acp_filter'] as $column_name => $value) {
-            if ( ! in_array($column_name, $column_names, true)) {
+            if ( ! in_array((string)$column_name, $column_names, true)) {
                 continue;
             }
 
@@ -170,14 +177,14 @@ final class V6400 extends Update
         );
     }
 
-    private function contains_date_type_daily(object $row): bool
+    private function contains_date_type_daily($row): bool
     {
         return (bool)$this->get_columns_date_type_daily($row);
     }
 
-    private function get_columns_date_type_daily(object $row): array
+    private function get_columns_date_type_daily($row): array
     {
-        $parameters = unserialize($row->url_parameters);
+        $parameters = unserialize($row->url_parameters, ['allowed_classes' => false]);
         $filters = $parameters['acp_filter'] ?? null;
 
         if ( ! $filters) {
@@ -197,14 +204,20 @@ final class V6400 extends Update
         $columns = [];
 
         foreach ($parameters['acp_filter'] as $column_name => $value) {
-            $column = $list_screen->get_column_by_name($column_name);
+            if ( ! ColumnId::is_valid_id((string)$column_name)) {
+                continue;
+            }
+
+            $column = $list_screen->get_column(
+                new ColumnId((string)$column_name)
+            );
 
             if ( ! $column) {
                 continue;
             }
 
             if ($this->is_filter_date_daily($column, $value)) {
-                $columns[] = $column->get_name();
+                $columns[] = (string)$column->get_id();
             }
         }
 
@@ -218,7 +231,7 @@ final class V6400 extends Update
             return false;
         }
 
-        $filter_format = $columns[$column->get_name()]['filter_format'] ?? null;
+        $filter_format = $columns[(string)$column->get_id()]['filter_format'] ?? null;
 
         // Key for `Daily` is an empty string
         if ('' === $filter_format) {
@@ -228,9 +241,9 @@ final class V6400 extends Update
         return false;
     }
 
-    private function contains_ranged_filter(object $row): bool
+    private function contains_ranged_filter($row): bool
     {
-        $parameters = unserialize($row->url_parameters);
+        $parameters = unserialize($row->url_parameters, ['allowed_classes' => false]);
 
         return isset($parameters['acp_filter-min'], $parameters['acp_filter-max']);
     }
@@ -250,9 +263,9 @@ final class V6400 extends Update
         );
     }
 
-    private function update_ranged_filter(object $row): void
+    private function update_ranged_filter($row): void
     {
-        $parameters = unserialize($row->url_parameters);
+        $parameters = unserialize($row->url_parameters, ['allowed_classes' => false]);
 
         // convert format from `acp_filter-min/max` format to `acp_filter`
         $filters = $parameters['acp_filter'];

@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Field;
 
-interface Multiple {
+interface Multiple
+{
 
-	/**
-	 * @return bool
-	 */
-	public function is_multiple();
+    public function is_multiple(): bool;
 
 }

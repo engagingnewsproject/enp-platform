@@ -1,25 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Editing\ShopCoupon;
 
 use ACP;
 use ACP\Editing\View;
 use WC_Coupon;
 
-class Amount implements ACP\Editing\Service {
+class Amount implements ACP\Editing\Service
+{
 
-	public function get_view( string $context ): ?View {
-		return ( new ACP\Editing\View\Number() )->set_min( 0 )->set_step( 'any' );
-	}
+    public function get_view(string $context): ?View
+    {
+        $view = new ACP\Editing\View\Number();
+        $view->set_step('any');
+        $view->set_min(0);
 
-	public function get_value( $id ) {
-		return ( new WC_Coupon( $id ) )->get_amount();
-	}
+        return $view;
+    }
 
-	public function update( int $id, $data ): void {
-		$coupon = new WC_Coupon( $id );
-		$coupon->set_amount( $data );
-		$coupon->save();
-	}
+    public function get_value(int $id): string
+    {
+        return (string)(new WC_Coupon($id))->get_amount();
+    }
+
+    public function update(int $id, $data): void
+    {
+        $coupon = new WC_Coupon($id);
+        $coupon->set_amount($data);
+        $coupon->save();
+    }
 
 }

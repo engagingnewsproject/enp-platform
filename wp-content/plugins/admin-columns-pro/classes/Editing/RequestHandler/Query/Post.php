@@ -12,10 +12,7 @@ use WP_Query;
 final class Post implements RequestHandler
 {
 
-    /**
-     * @var Request
-     */
-    private $request;
+    private Request $request;
 
     public function handle(Request $request)
     {
@@ -30,22 +27,16 @@ final class Post implements RequestHandler
         add_filter('the_posts', [$this, 'send'], 10, 2);
     }
 
-    /**
-     * @return int
-     */
-    private function get_rows_per_iteration()
+    private function get_rows_per_iteration(): int
     {
         return (new RowsPerIteration($this->request))->apply_filters(2000);
     }
 
-    /**
-     * @return int
-     */
-    protected function get_offset()
+    protected function get_offset(): int
     {
         $page = (int)$this->request->filter('ac_page', 1, FILTER_SANITIZE_NUMBER_INT);
 
-        return ($page - 1) * $this->get_rows_per_iteration();
+        return (int)(($page - 1) * $this->get_rows_per_iteration());
     }
 
     /**
@@ -66,10 +57,7 @@ final class Post implements RequestHandler
         $response->success();
     }
 
-    /**
-     * @param WP_Query $query
-     */
-    public function set_query_vars(WP_Query $query)
+    public function set_query_vars(WP_Query $query): void
     {
         if ( ! $query->is_main_query()) {
             return;

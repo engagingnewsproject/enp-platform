@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\EC\Search;
 
 use AC\Helper\Select\Options;
@@ -12,10 +14,7 @@ use ACP\Search\Value;
 class PastEvents extends Search\Comparison implements Search\Comparison\Values
 {
 
-    /**
-     * @var string
-     */
-    private $meta_key;
+    private string $meta_key;
 
     public function __construct($meta_key)
     {
@@ -57,21 +56,21 @@ class PastEvents extends Search\Comparison implements Search\Comparison\Values
     {
         global $wpdb;
 
-        $past_events = tribe_get_events([
+        $events = tribe_get_events([
             'end_date'       => date('Y-m-d H:i:s'),
             'posts_per_page' => -1,
         ]);
 
-        $past_event_ids = implode(',', array_map('absint', wp_list_pluck($past_events, 'ID')));
+        $event_ids = implode(',', array_map('absint', wp_list_pluck($events, 'ID')));
 
-        if (empty($past_event_ids)) {
+        if (empty($event_ids)) {
             return [];
         }
 
         $sql = $wpdb->prepare(
             "SELECT DISTINCT( meta_value )
 								FROM {$wpdb->postmeta}
-								WHERE meta_key = %s AND post_id IN ( " . $past_event_ids . ' )',
+								WHERE meta_key = %s AND post_id IN ( " . $event_ids . ' )',
             $this->meta_key
         );
 

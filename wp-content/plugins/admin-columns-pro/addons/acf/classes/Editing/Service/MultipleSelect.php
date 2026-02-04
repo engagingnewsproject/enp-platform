@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Editing\Service;
 
 use ACP\Editing;
@@ -8,63 +10,72 @@ use ACP\Editing\Storage;
 use ACP\Editing\View;
 use InvalidArgumentException;
 
-class MultipleSelect extends Service\Basic {
+class MultipleSelect extends Service\BasicStorage
+{
 
-	public function __construct( Editing\View\AdvancedSelect $view, Storage $storage ) {
-		parent::__construct( $view, $storage );
-	}
+    private View\AdvancedSelect $view;
 
-	public function get_view( string $context ): ?View {
-		$view = parent::get_view( $context );
+    public function __construct(Editing\View\AdvancedSelect $view, Storage $storage)
+    {
+        parent::__construct($storage);
 
-		if ( $view instanceof Editing\View\AdvancedSelect && $context === self::CONTEXT_BULK ) {
-			$view->has_methods( true );
-		}
+        $this->view = $view;
+    }
 
-		$view->set_multiple( true );
+    public function get_view(string $context): View
+    {
+        $view = $this->view;
 
-		return $view;
-	}
+        if ($context === self::CONTEXT_BULK) {
+            $view->has_methods(true);
+        }
 
-	private function get_current_values( $id ): array {
-		$values = $this->get_value( $id );
+        $view->set_multiple(true);
 
-		return $values && is_array( $values )
-			? $values
-			: [];
-	}
+        return $view;
+    }
 
-	public function update( int $id, $data ): void {
-		$method = $data['method'] ?? null;
+    private function get_current_values(int $id): array
+    {
+        $values = $this->get_value($id);
 
-		if ( null === $method ) {
-			$this->storage->update( $id, $data ?: false );
+        return $values && is_array($values)
+            ? $values
+            : [];
+    }
 
-			return;
-		}
+    public function update(int $id, $data): void
+    {
+        $method = $data['method'] ?? null;
 
-		$values = $data['value'] ?? [];
+        if (null === $method) {
+            $this->storage->update($id, $data ?: false);
 
-		if ( ! is_array( $values ) ) {
-			throw new InvalidArgumentException( 'Invalid value' );
-		}
+            return;
+        }
 
-		switch ( $method ) {
-			case 'add':
-				if ( $values ) {
-					$this->storage->update( $id, array_unique( array_merge( $this->get_current_values( $id ), $values ) ) );
-				}
-				break;
-			case 'remove':
-				$current = $this->get_current_values( $id );
+        $values = $data['value'] ?? [];
 
-				if ( $current && $values ) {
-					$this->storage->update( $id, array_diff( $current, $values ) );
-				}
-				break;
-			default:
-				$this->storage->update( $id, $values );
-		}
-	}
+        if ( ! is_array($values)) {
+            throw new InvalidArgumentException('Invalid value');
+        }
+
+        switch ($method) {
+            case 'add':
+                if ($values) {
+                    $this->storage->update($id, array_unique(array_merge($this->get_current_values($id), $values)));
+                }
+                break;
+            case 'remove':
+                $current = $this->get_current_values($id);
+
+                if ($current && $values) {
+                    $this->storage->update($id, array_diff($current, $values));
+                }
+                break;
+            default:
+                $this->storage->update($id, $values);
+        }
+    }
 
 }

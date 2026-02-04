@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\Order\Date;
 
 use ACP\Search\Helper\DateValueFactory;
@@ -10,7 +12,7 @@ use DateTime;
 trait WcDateValueTrait
 {
 
-    public function get_wc_formatted_date_comparison_value($operator, Value $value): string
+    public function get_wc_formatted_date_comparison_value(string $operator, Value $value): string
     {
         $date = new DateTime();
 
@@ -25,8 +27,9 @@ trait WcDateValueTrait
                 return '<' . $date->modify(sprintf('-%s days', $value->get_value()))->format('Y-m-d');
 
             case Operators::BETWEEN:
-                $value_range = is_array($value->get_value()) && count($value->get_value()) === 2 ? $value->get_value(
-                ) : [0, 0];
+                $value_range = is_array($value->get_value()) && count($value->get_value()) === 2
+                    ? $value->get_value()
+                    : [0, 0];
 
                 return $value_range[0] . '...' . $value_range[1];
 

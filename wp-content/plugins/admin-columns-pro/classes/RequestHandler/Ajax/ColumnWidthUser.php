@@ -6,6 +6,7 @@ use AC\ColumnSize;
 use AC\Nonce;
 use AC\Request;
 use AC\RequestAjaxHandler;
+use AC\Type\ColumnId;
 use AC\Type\ColumnWidth;
 use AC\Type\ListScreenId;
 use InvalidArgumentException;
@@ -14,21 +15,21 @@ use LogicException;
 class ColumnWidthUser implements RequestAjaxHandler
 {
 
-    /**
-     * @var ColumnSize\UserStorage
-     */
-    private $user_storage;
+    private ColumnSize\UserStorage $user_storage;
 
-    public function __construct(ColumnSize\UserStorage $user_storage)
+    private Nonce\Ajax $nonce;
+
+    public function __construct(ColumnSize\UserStorage $user_storage, Nonce\Ajax $nonce)
     {
         $this->user_storage = $user_storage;
+        $this->nonce = $nonce;
     }
 
     public function handle(): void
     {
         $request = new Request();
 
-        if ( ! (new Nonce\Ajax())->verify($request)) {
+        if ( ! $this->nonce->verify($request)) {
             wp_send_json_error();
         }
 
@@ -44,9 +45,11 @@ class ColumnWidthUser implements RequestAjaxHandler
             wp_send_json_error($e->getMessage());
         }
 
+        $column_id = new ColumnId((string)$request->get('column_name'));
+
         $this->user_storage->save(
             $id,
-            (string)$request->get('column_name'),
+            $column_id,
             $width
         );
 

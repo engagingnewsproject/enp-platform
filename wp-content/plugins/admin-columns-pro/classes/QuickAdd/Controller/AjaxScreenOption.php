@@ -11,9 +11,9 @@ use ACP\QuickAdd\Table;
 class AjaxScreenOption implements Registerable
 {
 
-    private $storage;
+    private Storage $storage;
 
-    private $preference_button;
+    private Table\Preference\ShowButton $preference_button;
 
     public function __construct(Storage $storage, Table\Preference\ShowButton $preference_button)
     {
@@ -45,7 +45,10 @@ class AjaxScreenOption implements Registerable
             exit;
         }
 
-        echo $this->preference_button->set($list_screen->get_key(), 'true' === filter_input(INPUT_POST, 'value'));
+        $this->preference_button->set_status(
+            $list_screen->get_table_id(),
+            'true' === filter_input(INPUT_POST, 'value')
+        );
         exit;
     }
 

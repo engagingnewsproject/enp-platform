@@ -1,25 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\Pods\Editing;
 
 use ACA\Pods\Editing;
 use ACA\Pods\Field;
+use ACA\Pods\FieldTypes;
 
-final class StorageFactory {
+final class StorageFactory
+{
 
-	public function create_by_field( Field $field ) {
-		switch ( true ) {
-			case $field instanceof Field\Date:
-			case $field instanceof Field\Datetime:
-				return new Editing\Storage\Date( $field->get_pod(), $field->get_field_name(), new Editing\Storage\Read\PodsRaw( $field->get_pod(), $field->get_field_name() ), $field->get_option( 'date_format' ) );
-
-			case $field instanceof Field\Pick\NavMenu:
-			case $field instanceof Field\Pick\PostFormat:
-				return new Editing\Storage\Field( $field->get_pod(), $field->get_field_name(), new Editing\Storage\Read\DbRaw( $field->get_field_name(), $field->get_meta_type() ) );
-			default:
-				return new Editing\Storage\Field( $field->get_pod(), $field->get_field_name(), new Editing\Storage\Read\PodsRaw( $field->get_pod(), $field->get_field_name() ) );
-		}
-
-	}
+    public function create_by_field(Field $field)
+    {
+        switch ($field->get_type()) {
+            case FieldTypes::DATE:
+            case FieldTypes::DATETIME:
+                return new Editing\Storage\Date(
+                    $field,
+                    new Editing\Storage\Read\PodsRaw($field->get_pod()->get_name(), $field->get_name()),
+                    $field->get_field()->get_arg('date_format', 'Y-m-d')
+                );
+            default:
+                return new Editing\Storage\Field(
+                    $field,
+                    new Editing\Storage\Read\PodsRaw($field->get_pod()->get_name(), $field->get_name())
+                );
+        }
+    }
 
 }

@@ -12,31 +12,19 @@ class SetupFactory
     public const SITE = 'site';
     public const NETWORK = 'network';
 
-    /**
-     * @var string
-     */
-    private $version_key;
+    private string $version_key;
 
-    /**
-     * @var Version
-     */
-    private $version;
+    private Version $version;
 
-    /**
-     * @var InstallCollection
-     */
-    protected $installers;
+    protected ?InstallCollection $installers;
 
-    /**
-     * @var UpdateCollection
-     */
-    protected $updates;
+    protected ?UpdateCollection $updates;
 
     public function __construct(
         string $version_key,
         Version $version,
-        InstallCollection $installers = null,
-        UpdateCollection $updates = null
+        ?InstallCollection $installers = null,
+        ?UpdateCollection $updates = null
     ) {
         $this->version_key = $version_key;
         $this->version = $version;
@@ -46,24 +34,21 @@ class SetupFactory
 
     public function create(string $type): Setup
     {
-        $installers = $this->installers ?: new InstallCollection();
-        $updates = $this->updates ?: new UpdateCollection();
-
         switch ($type) {
             case self::NETWORK:
                 return new Setup\Network(
                     new SiteOption($this->version_key),
                     $this->version,
-                    $installers,
-                    $updates
+                    $this->installers,
+                    $this->updates
                 );
 
             case self::SITE:
                 return new Setup\Site(
                     new Option($this->version_key),
                     $this->version,
-                    $installers,
-                    $updates
+                    $this->installers,
+                    $this->updates
                 );
 
             default:

@@ -2,29 +2,32 @@
 
 namespace ACP\Editing\View;
 
-class Menu extends AdvancedSelect {
+class Menu extends AdvancedSelect
+{
 
-	public function __construct() {
-		parent::__construct( $this->get_menus() );
+    public function __construct()
+    {
+        parent::__construct($this->get_menus());
 
-		$this->set_multiple( true )
-		     ->set_clear_button( true );
-	}
+        $this->set_multiple(true)
+             ->set_clear_button(true);
+    }
 
-	private function get_menus() {
-		$menus = wp_get_nav_menus();
+    private function get_menus(): array
+    {
+        $menus = wp_get_nav_menus();
 
-		if ( ! $menus || is_wp_error( $menus ) ) {
-			return [];
-		}
+        if ( ! $menus || is_wp_error($menus)) {
+            return [];
+        }
 
-		$options = [];
+        $options = [];
 
-		foreach ( $menus as $menu ) {
-			$options[ $menu->term_id ] = $menu->name;
-		}
+        foreach ($menus as $menu) {
+            $options[$menu->term_id] = $menu->name;
+        }
 
-		return $options;
-	}
+        return $options;
+    }
 
 }

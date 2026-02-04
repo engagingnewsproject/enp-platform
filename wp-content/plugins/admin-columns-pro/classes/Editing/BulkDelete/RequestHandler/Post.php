@@ -10,7 +10,7 @@ use WP_Post_Type;
 class Post extends RequestHandler
 {
 
-    protected $post_type;
+    protected WP_Post_Type $post_type;
 
     public function __construct(WP_Post_Type $post_type)
     {
@@ -91,12 +91,7 @@ class Post extends RequestHandler
             );
     }
 
-    /**
-     * @param int $id
-     *
-     * @return void
-     */
-    protected function validate_post_lock($id)
+    protected function validate_post_lock(int $id): void
     {
         $user_locked_post = wp_check_post_lock($id);
 

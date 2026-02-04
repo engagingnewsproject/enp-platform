@@ -1,36 +1,48 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Editing\Storage\Product\Attributes;
 
 use ACA\WC\Editing\Storage;
+use ACA\WC\Helper\Attributes;
 use WC_Product_Attribute;
 
-class Custom extends Storage\Product\Attributes {
+class Custom extends Storage\Product\Attributes
+{
 
-	/**
-	 * @var array
-	 */
-	private $custom_labels;
+    private array $custom_labels;
 
-	public function __construct( $attribute, $custom_labels ) {
-		parent::__construct( $attribute );
+    public function __construct(string $attribute)
+    {
+        parent::__construct($attribute);
 
-		$this->custom_labels = $custom_labels;
-	}
+        $this->custom_labels = $this->get_custom_labels();
+    }
 
-	protected function create_attribute() {
-		$labels = $this->custom_labels;
+    public function get_custom_labels(): array
+    {
+        $attributes = (new Attributes())->get_custom_attributes();
 
-		if ( ! isset( $labels[ $this->attribute ] ) ) {
-			return false;
-		}
+        return array_map(static function ($attribute) {
+            return $attribute['name'] ?? '';
+        }, $attributes);
+    }
 
-		$label = $labels[ $this->attribute ];
+    protected function create_attribute(): ?WC_Product_Attribute
+    {
+        $labels = $this->custom_labels;
 
-		$attribute = new WC_Product_Attribute();
-		$attribute->set_name( $label );
+        if ( ! isset($labels[$this->attribute])) {
+            return null;
+        }
 
-		return $attribute;
-	}
+        $label = $labels[$this->attribute];
+
+        $attribute = new WC_Product_Attribute();
+        $attribute->set_name($label);
+
+        return $attribute;
+    }
 
 }

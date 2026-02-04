@@ -6,27 +6,23 @@ use AC\Admin;
 use AC\Admin\MenuFactoryInterface;
 use AC\Admin\Page;
 use AC\Admin\PageFactoryInterface;
-use AC\Asset\Location;
+use AC\Deprecated\HookCollectionFactory;
 use AC\Deprecated\Hooks;
 
 class Help implements PageFactoryInterface
 {
 
-    protected $location;
+    protected MenuFactoryInterface $menu_factory;
 
-    protected $menu_factory;
-
-    public function __construct(Location\Absolute $location, MenuFactoryInterface $menu_factory)
+    public function __construct(MenuFactoryInterface $menu_factory)
     {
-        $this->location = $location;
         $this->menu_factory = $menu_factory;
     }
 
-    public function create()
+    public function create(): Page\Help
     {
         return new Page\Help(
-            new Hooks(),
-            $this->location,
+            new Hooks(new HookCollectionFactory()),
             new Admin\View\Menu($this->menu_factory->create('help'))
         );
     }

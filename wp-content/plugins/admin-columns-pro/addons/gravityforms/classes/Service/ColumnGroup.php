@@ -12,12 +12,12 @@ class ColumnGroup implements Registerable
 
     public function register(): void
     {
-        add_action('ac/column_groups', [$this, 'register_column_group']);
+        add_action('ac/column/groups', [$this, 'register_column_group']);
     }
 
-    public function register_column_group(AC\Groups $groups): void
+    public function register_column_group(AC\Type\Groups $groups): void
     {
-        $groups->add('gravity_forms', __('Gravity Forms', 'codepress-admin-columns'), 14);
+        $groups->add(new AC\Type\Group('gravity_forms', __('Gravity Forms', 'codepress-admin-columns'), 14));
     }
 
 }

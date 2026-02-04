@@ -13,14 +13,11 @@ class Options extends Select\Options
     /**
      * @var WP_Post_Type[]
      */
-    private $post_types;
+    private array $post_types;
 
-    /**
-     * @var array
-     */
-    private $labels = [];
+    private array $labels = [];
 
-    private $formatter;
+    private LabelFormatter $formatter;
 
     public function __construct(array $post_types, LabelFormatter $formatter)
     {

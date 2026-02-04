@@ -10,7 +10,7 @@ use WP_Error;
 class ApiActivateResponse implements Rule
 {
 
-    protected $response;
+    protected ACP\API\Response $response;
 
     public function __construct(ACP\API\Response $response)
     {
@@ -37,6 +37,12 @@ class ApiActivateResponse implements Rule
         return $permissions;
     }
 
+    /**
+     * @param WP_Error $error
+     *
+     * @return bool
+     * @see WP_Http
+     */
     private function has_http_error_code(WP_Error $error): bool
     {
         $http_error_codes = [

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC;
 
 use AC\Ajax;
@@ -24,8 +26,8 @@ final class Rounding implements Registerable
 
     public function ajax_send_feedback(): void
     {
-        $price = filter_input(INPUT_GET, 'price');
-        $decimals = filter_input(INPUT_GET, 'decimals');
+        $price = (float)filter_input(INPUT_GET, 'price');
+        $decimals = (int)filter_input(INPUT_GET, 'decimals');
 
         $rounding = new Helper\Price\Rounding();
 

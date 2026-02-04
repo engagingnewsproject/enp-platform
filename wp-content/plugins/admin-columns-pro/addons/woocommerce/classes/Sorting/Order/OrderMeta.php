@@ -14,11 +14,11 @@ use ACP\Sorting\Type\Order;
 class OrderMeta implements QueryBindings
 {
 
-    private $meta_field;
+    private string $meta_field;
 
-    private $data_type;
+    private DataType $data_type;
 
-    public function __construct(string $meta_field, DataType $data_type = null)
+    public function __construct(string $meta_field, ?DataType $data_type = null)
     {
         $this->meta_field = $meta_field;
         $this->data_type = $data_type ?: new DataType(DataType::STRING);

@@ -14,7 +14,7 @@ use RecursiveIteratorIterator;
 class V4301 extends Update
 {
 
-    private $plugin_dir;
+    private string $plugin_dir;
 
     public function __construct(string $plugin_dir)
     {

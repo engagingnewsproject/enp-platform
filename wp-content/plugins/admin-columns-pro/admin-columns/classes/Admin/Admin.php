@@ -2,7 +2,8 @@
 
 namespace AC\Admin;
 
-use AC\Asset\Location\Absolute;
+use AC;
+use AC\AdminColumns;
 use AC\Registerable;
 
 class Admin implements Registerable
@@ -10,16 +11,16 @@ class Admin implements Registerable
 
     public const NAME = 'codepress-admin-columns';
 
-    private $request_handler;
+    private RequestHandlerInterface $request_handler;
 
-    private $location;
+    private AC\Asset\Location $location;
 
-    private $scripts;
+    private AdminScripts $scripts;
 
-    public function __construct(RequestHandlerInterface $request_handler, Absolute $location, AdminScripts $scripts)
+    public function __construct(RequestHandlerInterface $request_handler, AdminColumns $plugin, AdminScripts $scripts)
     {
         $this->request_handler = $request_handler;
-        $this->location = $location;
+        $this->location = $plugin->get_location();
         $this->scripts = $scripts;
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\GravityForms\Search\Query;
 
 use ACP\Query;
@@ -8,28 +10,14 @@ use GFFormsModel;
 class Bindings extends Query\Bindings
 {
 
-    /**
-     * @return string
-     */
-    public function get_entry_meta_table_name()
+    private function get_entry_meta_table_name(): string
     {
         return GFFormsModel::get_entry_meta_table_name();
     }
 
-    /**
-     * @return string
-     */
-    public function get_entry_meta_table_name_alias()
+    public function get_entry_meta_table_name_alias(): string
     {
         return $this->get_unique_alias($this->get_entry_meta_table_name());
-    }
-
-    /**
-     * @return string
-     */
-    public function get_entry_table()
-    {
-        return GFFormsModel::get_entry_table_name();
     }
 
     public function join_entry_meta_table($join_alias, $meta_key, $join_type = null)

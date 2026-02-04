@@ -1,74 +1,55 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Editing\EditValue\Product;
 
-class SalePrice extends Price {
+class SalePrice extends Price
+{
 
-	/**
-	 * @var bool
-	 */
-	private $price_based_on_regular;
+    private bool $price_based_on_regular;
 
-	/**
-	 * @var bool
-	 */
-	private $scheduled;
+    private bool $scheduled;
 
-	/**
-	 * @var string
-	 */
-	private $schedule_from;
+    private string $schedule_from = '';
 
-	/**
-	 * @var string
-	 */
-	private $schedule_to;
+    private string $schedule_to = '';
 
-	/**
-	 * @param array $value
-	 */
-	public function __construct( $value ) {
-		parent::__construct( $value );
+    public function __construct(array $value)
+    {
+        parent::__construct($value);
 
-		$this->price_based_on_regular = $value['price']['based_on_regular'] === 'true';
-		$this->scheduled = $value['schedule']['active'] === 'true';
+        $this->price_based_on_regular = 'true' === $value['price']['based_on_regular'];
+        $this->scheduled = 'true' === $value['schedule']['active'];
 
-		if ( $this->scheduled ) {
-			$this->schedule_from = $value['schedule']['from'];
-			$this->schedule_to = $value['schedule']['to'];
+        if ($this->scheduled) {
+            $this->schedule_from = $value['schedule']['from'] ?? '';
+            $this->schedule_to = $value['schedule']['to'] ?? '';
 
-			if ( ! empty( $this->schedule_to ) ) {
-				$this->schedule_to = date( 'Y-m-d 23:59:59', strtotime( $this->schedule_to ) );
-			}
-		}
-	}
+            if ($this->schedule_to) {
+                $this->schedule_to = (string)date('Y-m-d 23:59:59', strtotime($this->schedule_to));
+            }
+        }
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function is_price_based_on_regular() {
-		return $this->price_based_on_regular;
-	}
+    public function is_price_based_on_regular(): bool
+    {
+        return $this->price_based_on_regular;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function is_scheduled() {
-		return $this->scheduled;
-	}
+    public function is_scheduled(): bool
+    {
+        return $this->scheduled;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function get_schedule_from() {
-		return $this->schedule_from;
-	}
+    public function get_schedule_from(): string
+    {
+        return $this->schedule_from;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function get_schedule_to() {
-		return $this->schedule_to;
-	}
+    public function get_schedule_to(): string
+    {
+        return $this->schedule_to;
+    }
 
 }

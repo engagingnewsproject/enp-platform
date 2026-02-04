@@ -2,29 +2,27 @@
 
 namespace ACP\Table\HideElement;
 
-use AC\ListScreen;
-use ACP\ListScreen\MSUser;
-use ACP\ListScreen\Taxonomy;
+use AC;
 use ACP\Table\HideElement;
+use ACP\TableScreen;
 
 class RowActions implements HideElement
 {
 
-    /**
-     * @var ListScreen
-     */
-    private $list_screen;
+    private AC\TableScreen $table_screen;
 
-    public function __construct(ListScreen $list_screen)
+    public function __construct(AC\TableScreen $table_screen)
     {
-        $this->list_screen = $list_screen;
+        $this->table_screen = $table_screen;
     }
 
-    public function hide()
+    public function hide(): void
     {
+        $table_screen = $this->table_screen;
+
         switch (true) {
-            case $this->list_screen instanceof ListScreen\Post :
-                if (is_post_type_hierarchical($this->list_screen->get_post_type())) {
+            case $table_screen instanceof AC\TableScreen\Post :
+                if (is_post_type_hierarchical((string)$table_screen->get_post_type())) {
                     add_filter('page_row_actions', '__return_empty_array', 10000);
 
                     break;
@@ -32,23 +30,23 @@ class RowActions implements HideElement
                 add_filter('post_row_actions', '__return_empty_array', 10000);
 
                 break;
-            case $this->list_screen instanceof ListScreen\Media :
+            case $table_screen instanceof AC\TableScreen\Media :
                 add_filter('media_row_actions', '__return_empty_array', 10000);
 
                 break;
-            case $this->list_screen instanceof MSUser :
+            case $table_screen instanceof TableScreen\NetworkUser :
                 add_filter('ms_user_row_actions', '__return_empty_array', 10000);
 
                 break;
-            case $this->list_screen instanceof ListScreen\User :
+            case $table_screen instanceof AC\TableScreen\User :
                 add_filter('user_row_actions', '__return_empty_array', 10000);
 
                 break;
-            case $this->list_screen instanceof Taxonomy :
-                add_filter($this->list_screen->get_taxonomy() . "_row_actions", '__return_empty_array', 10000);
+            case $table_screen instanceof TableScreen\Taxonomy :
+                add_filter($table_screen->get_taxonomy() . "_row_actions", '__return_empty_array', 10000);
 
                 break;
-            case $this->list_screen instanceof ListScreen\Comment :
+            case $table_screen instanceof AC\TableScreen\Comment :
                 add_filter('comment_row_actions', '__return_empty_array', 10000);
 
                 break;

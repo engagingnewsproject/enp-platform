@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\BP\Helper\Select\Groups;
 
 use AC\ArrayIterator;
@@ -9,21 +11,15 @@ use BP_Groups_Group;
 class Query extends ArrayIterator implements Paginated
 {
 
-    /**
-     * @var int
-     */
-    private $per_page;
+    private int $per_page;
 
-    /**
-     * @var array
-     */
-    protected $query;
+    protected array $query;
 
     public function __construct(array $args = [])
     {
         $args = array_merge([
             'type'        => 'alphabetical',
-            'per_page'    => 100,
+            'per_page'    => 20,
             'page'        => 1,
             'show_hidden' => true,
         ], $args);
@@ -44,7 +40,7 @@ class Query extends ArrayIterator implements Paginated
 
     public function get_page(): int
     {
-        return (int)filter_input(INPUT_GET, 'page');
+        return (int)filter_input(INPUT_POST, 'page');
     }
 
     public function is_last_page(): bool

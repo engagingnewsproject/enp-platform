@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Field;
 
-interface TimeStamp {
+interface TimeStamp
+{
 
-	/**
-	 * @return bool
-	 */
-	public function is_timestamp();
+    public function is_timestamp(): bool;
 
 }

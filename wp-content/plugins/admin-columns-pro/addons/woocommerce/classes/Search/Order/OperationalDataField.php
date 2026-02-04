@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\Order;
 
 use ACA\WC\Scheme\OrderOperationalData;
@@ -15,9 +17,9 @@ use ACP\Search\Value;
 class OperationalDataField extends ACP\Search\Comparison
 {
 
-    private $field;
+    private string $field;
 
-    public function __construct(string $field, Operators $operators, string $value_type = null, Labels $labels = null)
+    public function __construct(string $field, Operators $operators, ?string $value_type = null, ?Labels $labels = null)
     {
         parent::__construct($operators, $value_type, $labels);
 

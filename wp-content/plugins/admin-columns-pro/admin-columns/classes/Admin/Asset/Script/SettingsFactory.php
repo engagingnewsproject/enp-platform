@@ -2,37 +2,47 @@
 
 namespace AC\Admin\Asset\Script;
 
+use AC\AdminColumns;
 use AC\Asset\Location;
 use AC\Asset\Script;
 use AC\Asset\Script\Localize\Translation;
-use AC\Asset\ScriptFactory;
 use AC\Form\NonceFactory;
 
-final class SettingsFactory implements ScriptFactory
+final class SettingsFactory
 {
 
     public const HANDLE = 'ac-admin-page-settings';
 
-    /**
-     * @var Location\Absolute
-     */
-    private $location;
+    private Location $location;
 
-    public function __construct(Location\Absolute $location)
+    public function __construct(AdminColumns $plugins)
     {
-        $this->location = $location;
+        $this->location = $plugins->get_location();
     }
 
     public function create(): Script
     {
         $translations = [
-            'restore_settings' => __(
+            'settings'                     => __('Settings', 'codepress-admin-columns'),
+            'general_settings'             => __('General Settings', 'codepress-admin-columns'),
+            'general_settings_description' => __('These settings affect the list table.', 'codepress-admin-columns'),
+
+            'show_x_button' => __("Show %s button on table screen.", 'codepress-admin-columns'),
+            'edit_button'   => __('Edit columns', 'codepress-admin-columns'),
+
+            'restore_settings'             => __('Restore settings', 'codepress-admin-columns'),
+            'restore_settings_description' => __(
+                'Delete all column settings and restore the default settings.',
+                'codepress-admin-columns'
+            ),
+            'settings_saved_successful'    => __('Settings saved successfully.', 'codepress-admin-columns'),
+            'restore_settings_warning'     => __(
                 "Warning! ALL saved admin columns data will be deleted. This cannot be undone. 'OK' to delete, 'Cancel' to stop",
                 'codepress-admin-columns'
             ),
-        ];;
+        ];
 
-        $nonce = (new NonceFactory())->create_ajax();
+        $nonce = NonceFactory::create_ajax();
 
         $script = new Script(
             self::HANDLE,
@@ -41,8 +51,8 @@ final class SettingsFactory implements ScriptFactory
                 Script\GlobalTranslationFactory::HANDLE,
             ]
         );
-        $script->localize('AC_I18N', Translation::create($translations))
-               ->add_inline_variable('AC', [
+        $script->localize('ac_settings_i18n', Translation::create($translations))
+               ->add_inline_variable('ac_settings', [
                    $nonce->get_name() => $nonce->create(),
                ]);
 

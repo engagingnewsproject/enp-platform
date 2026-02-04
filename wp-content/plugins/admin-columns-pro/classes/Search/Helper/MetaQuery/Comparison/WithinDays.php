@@ -13,12 +13,13 @@ class WithinDays extends MetaQuery\Comparison
 
     public function __construct(string $key, Value $value)
     {
-        $date = new DateTime();
-        $date->modify(sprintf('+%s days', $value->get_value()));
-        $date->setTime(23, 59);
+        $end = new DateTime();
+        $end->modify(sprintf('+%s days', $value->get_value()))
+            ->setTime(23, 59, 59);
+
         $value_factory = new DateValueFactory($value->get_type());
 
-        parent::__construct($key, Operators::BETWEEN, $value_factory->create_range(new DateTime(), $date));
+        parent::__construct($key, Operators::BETWEEN, $value_factory->create_range(new DateTime(), $end));
     }
 
 }

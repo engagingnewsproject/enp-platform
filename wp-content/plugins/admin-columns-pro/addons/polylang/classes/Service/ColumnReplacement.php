@@ -1,35 +1,42 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\Polylang\Service;
 
-use AC;
+use AC\Column;
+use AC\ColumnCollection;
+use AC\ColumnIterator;
+use AC\ColumnNamesTrait;
 use AC\Registerable;
-use ACA\Polylang\Column;
+use AC\TableScreen;
+use ACA\Polylang\ColumnFactory\Language;
 
 class ColumnReplacement implements Registerable
 {
 
-    /**
-     * @var AC\ListScreen
-     */
-    private $list_screen;
+    use ColumnNamesTrait;
 
-    /**
-     * @var []
-     */
-    private $polylang_columns;
+    private array $polylang_columns;
 
-    public function __construct(AC\ListScreen $list_screen)
+    private TableScreen $table_screen;
+
+    private ColumnIterator $columns;
+
+    public function __construct(TableScreen $table_screen, ColumnIterator $columns)
     {
-        $this->list_screen = $list_screen;
+        $this->table_screen = $table_screen;
         $this->polylang_columns = [];
+        $this->columns = $columns;
     }
 
     public function register(): void
     {
-        add_filter($this->list_screen->get_heading_hookname(), [$this, 'set_dynamic_columns'], 199);
-        add_filter($this->list_screen->get_heading_hookname(), [$this, 're_add_dynamic_columns'], 201);
-        add_filter($this->list_screen->get_heading_hookname(), [$this, 'remove_placeholder_columns'], 202);
+        $screen_id = $this->table_screen->get_screen_id();
+
+        add_filter("manage_{$screen_id}_columns", [$this, 'set_dynamic_columns'], 199);
+        add_filter("manage_{$screen_id}_columns", [$this, 're_add_dynamic_columns'], 201);
+        add_filter("manage_{$screen_id}_columns", [$this, 'remove_placeholder_columns'], 202);
     }
 
     public function set_dynamic_columns($headings)
@@ -43,25 +50,27 @@ class ColumnReplacement implements Registerable
         return $headings;
     }
 
-    private function get_placeholder_column_key()
+    private function get_placeholder_column_name(): ?string
     {
-        $columns = $this->get_placeholder_columns();
+        $columns = $this->get_placeholder_column_names();
 
         return empty($columns) ? null : reset($columns);
     }
 
-    private function get_placeholder_columns()
+    private function get_placeholder_column_names(): array
     {
-        $columns = array_filter($this->list_screen->get_columns(), function ($column) {
-            return $column instanceof Column\Language;
-        });
+        $columns = new ColumnCollection(
+            array_filter(iterator_to_array($this->columns), static function (Column $column) {
+                return $column->get_type() === Language::COLUMN_TYPE;
+            })
+        );
 
-        return array_keys($columns);
+        return $this->get_column_names_from_collection($columns);
     }
 
     public function remove_placeholder_columns($headings)
     {
-        foreach ($this->get_placeholder_columns() as $key) {
+        foreach ($this->get_placeholder_column_names() as $key) {
             if (array_key_exists($key, $headings)) {
                 unset($headings[$key]);
             }
@@ -72,16 +81,18 @@ class ColumnReplacement implements Registerable
 
     public function re_add_dynamic_columns($headings)
     {
-        $replacement_key = $this->get_placeholder_column_key();
+        $replacement_key = $this->get_placeholder_column_name();
 
-        return $replacement_key ? $this->replace_placeholder_column($headings, $replacement_key) : $headings;
+        return $replacement_key
+            ? $this->replace_placeholder_column($headings, $replacement_key)
+            : $headings;
     }
 
     private function replace_placeholder_column($headings, $replacement_key)
     {
         foreach ($headings as $key => $label) {
             if ($replacement_key === $key) {
-                $index = array_search($replacement_key, array_keys($headings));
+                $index = array_search($replacement_key, array_keys($headings), true);
 
                 $headings = array_slice($headings, 0, $index, true) + $this->polylang_columns + array_slice(
                         $headings,

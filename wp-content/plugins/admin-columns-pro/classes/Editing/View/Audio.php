@@ -4,15 +4,17 @@ namespace ACP\Editing\View;
 
 use ACP\Editing\View;
 
-class Audio extends View {
+class Audio extends View
+{
 
-	use AttachmentTypeTrait,
-		MultipleTrait;
+    use AttachmentTypeTrait;
+    use MultipleTrait;
 
-	public function __construct() {
-		parent::__construct( 'media' );
+    public function __construct()
+    {
+        parent::__construct('media');
 
-		$this->set_attachment_type( 'audio' );
-	}
+        $this->set_attachment_type('audio');
+    }
 
 }

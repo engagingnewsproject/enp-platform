@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Field\Type;
 
 use ACA\JetEngine\Field\Field;
 
-class ColorPicker extends Field {
+final class ColorPicker extends Field
+{
 
-	const TYPE = 'colorpicker';
+    public const TYPE = 'colorpicker';
 
 }

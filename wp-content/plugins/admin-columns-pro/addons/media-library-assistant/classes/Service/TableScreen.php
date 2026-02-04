@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\MLA\Service;
 
+use AC;
 use AC\Asset\Location\Absolute;
 use AC\Asset\Script;
 use AC\ListScreen;
 use AC\Registerable;
-use ACA\MLA\ListScreen\MediaLibrary;
 
 class TableScreen implements Registerable
 {
 
-    private $location;
+    private Absolute $location;
 
     public function __construct(Absolute $location)
     {
@@ -23,9 +25,9 @@ class TableScreen implements Registerable
         add_action('ac/table_scripts', [$this, 'table_scripts'], 11);
     }
 
-    public function table_Scripts(ListScreen $list_screen)
+    public function table_scripts(ListScreen $list_screen)
     {
-        if ( ! $list_screen instanceof MediaLibrary) {
+        if ( ! $list_screen->get_table_screen() instanceof AC\ThirdParty\MediaLibraryAssistant\TableScreen) {
             return;
         }
 

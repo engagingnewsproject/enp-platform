@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Field;
 
-interface TaxonomyFilterable {
+interface TaxonomyFilterable
+{
 
-	public function get_taxonomies(): array;
+    public function get_taxonomies(): array;
 
 }

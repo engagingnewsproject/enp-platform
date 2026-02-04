@@ -1,21 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\Types\Editing\Storage;
 
 use ACP;
 
-class File extends ACP\Editing\Storage\Meta {
+class File extends ACP\Editing\Storage\Meta
+{
 
-	public function get( int $id ) {
-		$raw = parent::get( $id );
+    public function get(int $id)
+    {
+        $raw = parent::get($id);
 
-		return $raw ? attachment_url_to_postid( $raw ) : false;
-	}
+        return $raw ? attachment_url_to_postid($raw) : false;
+    }
 
-	public function update( int $id, $data ): bool {
-		$_value = is_numeric( $data ) ? wp_get_attachment_url( $data ) : $data;
+    public function update(int $id, $data): bool
+    {
+        $_value = is_numeric($data) ? wp_get_attachment_url($data) : $data;
 
-		return parent::update( $id, $_value );
-	}
+        return parent::update($id, $_value);
+    }
 
 }

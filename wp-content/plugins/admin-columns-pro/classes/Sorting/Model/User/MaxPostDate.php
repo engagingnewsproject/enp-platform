@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace ACP\Sorting\Model\User;
 
 use ACP\Query\Bindings;
+use ACP\Query\SqlTrait;
 use ACP\Sorting\Model\QueryBindings;
 use ACP\Sorting\Model\SqlOrderByFactory;
-use ACP\Sorting\Model\SqlTrait;
 use ACP\Sorting\Type\ComputationType;
 use ACP\Sorting\Type\Order;
 
@@ -16,11 +16,11 @@ class MaxPostDate implements QueryBindings
 
     use SqlTrait;
 
-    private $post_type;
+    private string $post_type;
 
-    private $post_stati;
+    private array $post_stati;
 
-    private $oldest_post;
+    private bool $oldest_post;
 
     public function __construct(string $post_type, array $post_stati = [], bool $oldest_post = false)
     {

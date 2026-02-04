@@ -9,7 +9,7 @@ use ACP\Search\Comparison;
 class CacheDuration
 {
 
-    private $comparison;
+    private Comparison $comparison;
 
     public function __construct(Comparison $comparison)
     {
@@ -18,7 +18,7 @@ class CacheDuration
 
     public function apply_filters(int $seconds): int
     {
-        return (int)apply_filters('acp/filtering/cache/seconds', $seconds, $this->comparison);
+        return (int)apply_filters('ac/filtering/cache/seconds', $seconds, $this->comparison);
     }
 
 }

@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Field;
 
-interface MaxLength {
+interface MaxLength
+{
 
-	/**
-	 * @return int
-	 */
-	public function get_maxlength();
+    public function get_max_length(): ?int;
 
 }

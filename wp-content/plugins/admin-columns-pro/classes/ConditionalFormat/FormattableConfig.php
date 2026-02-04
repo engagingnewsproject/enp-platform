@@ -7,18 +7,11 @@ use ACP\ConditionalFormat\Formatter\StringFormatter;
 final class FormattableConfig
 {
 
-    /**
-     * @var Formatter
-     */
-    private $formatter;
+    private Formatter $formatter;
 
-    public function __construct(Formatter $formatter = null)
+    public function __construct(?Formatter $formatter = null)
     {
-        if (null === $formatter) {
-            $formatter = new StringFormatter();
-        }
-
-        $this->formatter = $formatter;
+        $this->formatter = $formatter ?? new StringFormatter();
     }
 
     public function get_value_formatter(): Formatter

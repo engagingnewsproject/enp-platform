@@ -1,30 +1,40 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Mapping;
 
-final class MediaId {
+final class MediaId
+{
 
-	public static function to_array( $id ) {
-		return [
-			'url' => wp_get_attachment_url( $id ),
-			'id'  => $id,
-		];
-	}
+    public static function to_array($id): array
+    {
+        $url = wp_get_attachment_url((int)$id);
 
-	public static function from_array( $entry ) {
-		return is_array( $entry ) && isset( $entry['id'] )
-			? $entry['id']
-			: null;
-	}
+        return $url
+            ? [
+                'url' => $url,
+                'id'  => (int)$id,
+            ] : [];
+    }
 
-	public static function from_url( $url ) {
-		return $url
-			? attachment_url_to_postid( $url )
-			: null;
-	}
+    public static function from_array($entry): ?int
+    {
+        return is_array($entry) && isset($entry['id']) && is_scalar($entry['id'])
+            ? (int)$entry['id']
+            : null;
+    }
 
-	public static function to_url( $id ) {
-		return wp_get_attachment_url( $id );
-	}
+    public static function from_url($url): ?int
+    {
+        return $url
+            ? attachment_url_to_postid($url)
+            : null;
+    }
+
+    public static function to_url($id): ?string
+    {
+        return wp_get_attachment_url($id) ?: null;
+    }
 
 }

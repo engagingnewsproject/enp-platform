@@ -12,7 +12,7 @@ abstract class Query implements Registerable
     /**
      * @var Bindings[]
      */
-    protected $bindings;
+    protected array $bindings;
 
     /**
      * @param Bindings[] $bindings

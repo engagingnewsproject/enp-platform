@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\GravityForms\Search\Comparison\Entry;
 
 use ACA\GravityForms\Search\Query\Bindings;
@@ -23,7 +25,7 @@ class Starred extends ACP\Search\Comparison
     {
         $starred_value = $operator === ACP\Search\Operators::IS_EMPTY ? 0 : 1;
 
-        return (new Bindings)->where(sprintf('`is_starred` = %d', $starred_value));
+        return (new Bindings())->where(sprintf('`is_starred` = %d', $starred_value));
     }
 
 }

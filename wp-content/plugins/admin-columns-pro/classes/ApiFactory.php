@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace ACP;
 
-use AC\Entity\Plugin;
 use AC\Type\Url\Site;
 
 class ApiFactory
 {
 
-    private $plugin;
+    private AdminColumnsPro $plugin;
 
-    public function __construct(Plugin $plugin)
+    public function __construct(AdminColumnsPro $plugin)
     {
         $this->plugin = $plugin;
     }
@@ -20,7 +19,7 @@ class ApiFactory
     public function create(): API
     {
         $api = new API();
-        $api->set_url(Site::URL)
+        $api->set_url((string)new Site())
             ->set_proxy('https://api.admincolumns.com')
             ->set_request_meta($this->get_meta());
 

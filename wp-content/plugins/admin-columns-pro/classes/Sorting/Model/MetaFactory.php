@@ -11,9 +11,9 @@ use ACP\Sorting\Type\DataType;
 class MetaFactory
 {
 
-    public function create(string $meta_type, string $meta_key, DataType $data_type = null)
+    public function create(MetaType $meta_type, string $meta_key, ?DataType $data_type = null): ?QueryBindings
     {
-        switch ($meta_type) {
+        switch ((string)$meta_type) {
             case MetaType::POST :
                 return new Post\Meta($meta_key, $data_type);
             case MetaType::USER :

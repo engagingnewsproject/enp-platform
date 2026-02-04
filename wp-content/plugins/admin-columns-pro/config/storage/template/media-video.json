@@ -4,6 +4,7 @@
         "list_screen": {
             "title": "🎥 Video",
             "type": "wp-media",
+            "status": "inactive",
             "id": "65391f9b53959",
             "updated": 1698244321,
             "columns": {

@@ -5,20 +5,22 @@ declare(strict_types=1);
 namespace ACP\ConditionalFormat\ColumnRepository;
 
 use AC\Column;
+use AC\ColumnCollection;
+use AC\ColumnIterator;
 use AC\ColumnRepository\Filter;
-use ACP\ConditionalFormat\Formattable;
+use ACP;
 
 class FilterByConditionalFormat implements Filter
 {
 
-    public function filter(array $columns): array
+    public function filter(ColumnIterator $columns): ColumnCollection
     {
-        return array_filter($columns, [$this, 'is_valid']);
+        return new ColumnCollection(array_filter(iterator_to_array($columns), [$this, 'is_valid']));
     }
 
     private function is_valid(Column $column): bool
     {
-        return $column instanceof Formattable && $column->conditional_format();
+        return $column instanceof ACP\Column && $column->conditional_format();
     }
 
 }

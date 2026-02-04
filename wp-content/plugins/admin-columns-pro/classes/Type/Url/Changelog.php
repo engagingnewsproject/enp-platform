@@ -4,21 +4,26 @@ namespace ACP\Type\Url;
 
 use AC\Type;
 
-class Changelog implements Type\QueryAware
+class Changelog extends Type\Uri
 {
 
-    use Type\QueryAwareTrait;
-
-    public function __construct(bool $network, string $plugin_name)
+    public function __construct(string $url, string $plugin_name)
     {
-        $url = $network
-            ? network_admin_url('plugin-install.php')
-            : admin_url('plugin-install.php');
+        parent::__construct($url);
 
-        $this->set_url($url);
-        $this->add_one('tab', 'plugin-information');
-        $this->add_one('section', 'changelog');
-        $this->add_one('plugin', $plugin_name);
+        $this->add('tab', 'plugin-information');
+        $this->add('section', 'changelog');
+        $this->add('plugin', $plugin_name);
+    }
+
+    public static function create_network(string $plugin_name): self
+    {
+        return new self(network_admin_url('plugin-install.php'), $plugin_name);
+    }
+
+    public static function create_site(string $plugin_name): self
+    {
+        return new self(admin_url('plugin-install.php'), $plugin_name);
     }
 
 }

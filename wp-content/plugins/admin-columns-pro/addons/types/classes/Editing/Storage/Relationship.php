@@ -1,75 +1,74 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\Types\Editing\Storage;
 
-use AC;
-use ACA\Types;
 use ACP\Editing\Storage;
+use Toolset_Relationship_Definition;
 
-abstract class Relationship implements Storage {
+abstract class Relationship implements Storage
+{
 
-	/**
-	 * @var Types\Column\Post\Relationship
-	 */
-	private $column;
+    /**
+     * @var string
+     */
+    protected $relationship;
 
-	/**
-	 * @var string
-	 */
-	protected $relationship;
+    abstract protected function connect_post(int $source_id, int $connect_id);
 
-	abstract protected function connect_post( $source_id, $connect_id );
+    abstract protected function disconnect_post(int $source_id, int $connect_id);
 
-	abstract protected function disconnect_post( $source_id, $connect_id );
+    abstract protected function get_relation_type(): string;
 
-	public function __construct( Types\Column\Post\Relationship $column, $relationship ) {
-		$this->column = $column;
-		$this->relationship = $relationship;
-	}
+    public function __construct(Toolset_Relationship_Definition $relationship)
+    {
+        $this->relationship = $relationship;
+    }
 
-	private function get_ids( int $id ) {
-		$post_ids = $this->column->get_raw_value( $id );
+    private function get_ids(int $id): array
+    {
+        return toolset_get_related_posts(
+            $id,
+            $this->relationship->get_slug(),
+            $this->get_relation_type()
+        );
+    }
 
-		return $post_ids instanceof AC\Collection
-			? $post_ids->all()
-			: (array) $post_ids;
-	}
+    public function get(int $id): array
+    {
+        $values = [];
 
-	public function get( int $id ) {
-		$post_ids = $this->get_ids( $id );
-		$value = [];
+        foreach ($this->get_ids($id) as $post_id) {
+            $values[$post_id] = (string)get_post_field('post_title', (int)$post_id);
+        }
 
-		if ( $post_ids ) {
-			foreach ( $post_ids as $_id ) {
-				$value[ $_id ] = get_post_field( 'post_title', $_id );
-			}
-		}
+        return $values;
+    }
 
-		return $value;
-	}
+    public function update(int $id, $data): bool
+    {
+        $old_ids = $this->get_ids($id);
 
-	public function update( int $id, $data ): bool {
-		$old_ids = $this->get_ids( $id );
+        if ( ! $data) {
+            $data = [];
+        }
 
-		if ( ! $data ) {
-			$data = [];
-		}
+        foreach ($old_ids as $post_id) {
+            if ( ! in_array($post_id, $data)) {
+                $this->disconnect_post($id, (int)$post_id);
+            }
+        }
 
-		foreach ( $old_ids as $post_id ) {
-			if ( ! in_array( $post_id, $data ) ) {
-				$this->disconnect_post( $id, $post_id );
-			}
-		}
+        foreach ($data as $post_id) {
+            if (in_array($post_id, $old_ids)) {
+                continue;
+            }
 
-		foreach ( $data as $post_id ) {
-			if ( in_array( $post_id, $old_ids ) ) {
-				continue;
-			}
+            $this->connect_post($id, (int)$post_id);
+        }
 
-			$this->connect_post( $id, $post_id );
-		}
-
-		return true;
-	}
+        return true;
+    }
 
 }

@@ -2,22 +2,20 @@
 
 namespace ACP\Admin\NetworkPageFactory;
 
-use AC\Asset\Location;
-use AC\IntegrationRepository;
+use AC\AdminColumns;
+use AC\Integration\IntegrationRepository;
 use ACP\Admin;
 use ACP\Admin\MenuNetworkFactory;
-use ACP\Settings\General\IntegrationStatus;
 
-class Addons extends Admin\PageFactory\Addons
+final class Addons extends Admin\PageFactory\Addons
 {
 
     public function __construct(
-        Location\Absolute $location,
+        AdminColumns $plugin,
         IntegrationRepository $integrations,
-        MenuNetworkFactory $menu_factory,
-        IntegrationStatus $integration_status
+        MenuNetworkFactory $menu_factory
     ) {
-        parent::__construct($location, $integrations, $menu_factory, $integration_status);
+        parent::__construct($plugin, $integrations, $menu_factory);
     }
 
 }

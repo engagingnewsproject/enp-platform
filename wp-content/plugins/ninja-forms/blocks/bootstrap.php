@@ -342,6 +342,26 @@ add_action('rest_api_init', function () {
             // Check if the form is actually embedded in a submissions table block on this page
             if ($post_id) {
                 $post = get_post($post_id);
+                $is_public = is_post_publicly_viewable( $post );
+
+                // If post is public _and_ password-protected, but user hasn't provided a valid password
+                if( $is_public && post_password_required( $post ) ) {
+                    return new WP_Error(
+                        'unauthorized_form_access',
+                        __('You do not have permission to access this form via this page', 'ninja-forms'),
+                        array('status' => 403)
+                    );
+                }
+
+                // If post is private or just generally not public, and logged-in user cannot read it
+                if( ! $is_public && ! current_user_can( 'read_post', $post ) ) {
+                    return new WP_Error(
+                        'unauthorized_form_access',
+                        __('You do not have permission to access this form via this page', 'ninja-forms'),
+                        array('status' => 403)
+                    );
+                }
+
                 if ($post && has_blocks($post->post_content)) {
                     $blocks = parse_blocks($post->post_content);
                     $found_authorized_form = false;

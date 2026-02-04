@@ -1,11 +1,21 @@
-<?php declare( strict_types=1 );
+<?php
+
+declare(strict_types=1);
 
 namespace ACP\ConditionalFormat\Formatter;
 
-class FloatFormatter extends BaseFormatter {
+use ACP\ConditionalFormat;
 
-	public function __construct() {
-		parent::__construct( self::FLOAT );
-	}
+class FloatFormatter implements ConditionalFormat\Formatter
+{
 
+    public function get_type(): string
+    {
+        return self::FLOAT;
+    }
+
+    public function format(string $value, $id, string $operator_group): string
+    {
+        return $value;
+    }
 }

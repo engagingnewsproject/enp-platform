@@ -13,11 +13,11 @@ use ACP\Sorting\Type\Order;
 class CustomerField implements QueryBindings
 {
 
-    private $field;
+    private string $field;
 
-    protected $data_type;
+    protected DataType $data_type;
 
-    public function __construct(string $field, DataType $data_type = null)
+    public function __construct(string $field, ?DataType $data_type = null)
     {
         $this->field = $field;
         $this->data_type = $data_type ?: new DataType(DataType::STRING);

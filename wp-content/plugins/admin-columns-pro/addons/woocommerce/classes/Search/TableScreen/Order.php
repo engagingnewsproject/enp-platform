@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\TableScreen;
 
 use ACP\Search;
 
-class Order extends Search\TableScreen
+class Order extends Search\TableMarkup
 {
 
     public function register(): void

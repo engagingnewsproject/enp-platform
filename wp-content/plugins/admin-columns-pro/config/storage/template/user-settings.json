@@ -4,6 +4,7 @@
         "list_screen": {
             "title": "👤 User Settings",
             "type": "wp-users",
+            "status": "inactive",
             "id": "654b7ac2f334e",
             "updated": 1699447296,
             "columns": {

@@ -9,12 +9,9 @@ use ACP\Search\Value;
 class HasTerm extends Taxonomy
 {
 
-    /**
-     * @var int
-     */
-    protected $term_id;
+    protected int $term_id;
 
-    public function __construct($taxonomy, $term_id)
+    public function __construct(string $taxonomy, int $term_id)
     {
         $this->term_id = $term_id;
 
@@ -24,7 +21,6 @@ class HasTerm extends Taxonomy
     public function get_operators(): Operators
     {
         return new Operators([
-            Operators::IS_EMPTY,
             Operators::NOT_IS_EMPTY,
         ]);
     }

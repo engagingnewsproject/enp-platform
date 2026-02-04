@@ -46,16 +46,17 @@ Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/s
    cd yourSiteName/app/public/wp-content/themes/engage-2-x
    ```
 
-2. Check if you're using the correct Node version:
+2. Check Node and Yarn versions:
 
    ```bash
-   npm doctor
+   node -v
+   yarn -v
    ```
 
-3. Install npm dependencies:
+3. Install dependencies:
 
    ```bash
-   npm install
+   yarn
    ```
 
 4. Install Timber via Composer:
@@ -69,22 +70,10 @@ Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/s
 6. Run the development server:
 
    ```bash
-   npm run watch
-   ```
-
-   or
-
-   ```bash
    yarn watch
    ```
 
 7. Before pushing changes, compile assets for production:
-
-   ```bash
-   npm run prod
-   ```
-
-   or
 
    ```bash
    yarn prod
@@ -209,6 +198,30 @@ ACF field groups are automatically synced across environments via JSON files in 
 ### Hiding ACF Admin in Production:
 
 - The ACF admin is hidden on production and non-local environments by checking `WP_ENVIRONMENT_TYPE`. It is only visible in local environments.
+
+## WP-CLI updates
+
+**Local users:** Run WP-CLI from the Local app’s **Site Shell** (right‑click the site → “Open site shell” or equivalent). Commands run from your normal terminal can’t reach the database and will fail with “Error establishing a database connection.”
+
+Run the commands below from the WordPress root (e.g. `app/public` in your local site folder) or use `--path`:
+
+```bash
+wp core update
+wp plugin update --all
+wp theme update --all
+```
+
+To update a single plugin or theme: `wp plugin update <slug>` or `wp theme update <slug>`. List what’s outdated with `wp plugin list --status=update-available` and `wp theme list --status=update-available`.
+
+### Reverting a bad core update
+
+Before running `wp core update`, note your current version: `wp core version`. If the site breaks after updating, reinstall the previous version:
+
+```bash
+wp core update --version=6.4.2
+```
+
+Use the version number you noted (or the last known good release from [wordpress.org/support/wordpress-versions](https://wordpress.org/support/wordpress-versions/)).
 
 ## Additional Information
 

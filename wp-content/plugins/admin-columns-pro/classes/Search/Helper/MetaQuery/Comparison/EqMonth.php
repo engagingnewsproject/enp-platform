@@ -14,7 +14,7 @@ class EqMonth extends MetaQuery\Comparison
     {
         $value_factory = new DateValueFactory($value->get_type());
 
-        parent::__construct($key, Operators::BETWEEN, $value_factory->create_range_month($value->get_value()));
+        parent::__construct($key, Operators::BETWEEN, $value_factory->create_range_month((string)$value->get_value()));
     }
 
 }

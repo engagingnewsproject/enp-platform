@@ -5,12 +5,12 @@ namespace ACP\Access;
 final class PermissionChecker
 {
 
-    private $permissions_storage;
+    private PermissionsStorage $permissions_storage;
 
     /**
      * @var Rule[]
      */
-    private $rules;
+    private array $rules;
 
     public function __construct(PermissionsStorage $permissions_storage)
     {

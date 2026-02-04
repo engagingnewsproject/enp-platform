@@ -12,7 +12,7 @@ use ACP\Sorting\Type\Order;
 class OrderCount implements QueryBindings
 {
 
-    private $status;
+    private array $status;
 
     public function __construct(array $status = [])
     {

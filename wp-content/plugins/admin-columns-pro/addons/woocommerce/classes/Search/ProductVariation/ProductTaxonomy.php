@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\ProductVariation;
 
 use AC\Helper\Select\Options\Paginated;
@@ -13,12 +15,9 @@ class ProductTaxonomy extends Comparison
     implements Comparison\SearchableValues
 {
 
-    /**
-     * @var string
-     */
-    private $taxonomy;
+    private string $taxonomy;
 
-    public function __construct($taxonomy)
+    public function __construct(string $taxonomy)
     {
         $this->taxonomy = $taxonomy;
 
@@ -33,15 +32,12 @@ class ProductTaxonomy extends Comparison
 
     protected function create_query_bindings(string $operator, Value $value): Bindings
     {
-        return (new Bindings())->where($this->get_where($value->get_value()));
+        return (new Bindings())->where(
+            $this->get_where((int)$value->get_value())
+        );
     }
 
-    /**
-     * @param int $product_id
-     *
-     * @return string
-     */
-    public function get_where($product_id)
+    public function get_where(int $product_id): string
     {
         global $wpdb;
 

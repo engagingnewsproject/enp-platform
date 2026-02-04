@@ -1,43 +1,46 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\Types\Service;
 
 use AC;
-use ACA\Types\Column;
-use ACP;
+use AC\Asset\Location\Absolute;
+use AC\Type\Groups;
 
-final class Columns implements AC\Registerable {
+final class Columns implements AC\Registerable
+{
 
-	public function register(): void
+    private Absolute $location;
+
+    public function __construct(Absolute $location)
     {
-		add_action( 'ac/column_groups', [ $this, 'register_column_groups' ] );
-		add_action( 'acp/column_types', [ $this, 'register_columns' ] );
-	}
+        $this->location = $location;
+    }
 
-	public function register_columns( AC\ListScreen $list_screen ) {
+    public function register(): void
+    {
+        add_action('ac/column/groups', [$this, 'register_column_groups']);
+    }
 
-		switch ( true ) {
-
-			// Post and Media
-			case $list_screen instanceof AC\ListScreenPost :
-				$list_screen->register_column_type( new Column\Post );
-				$list_screen->register_column_type( new Column\Post\Intermediary() );
-				$list_screen->register_column_type( new Column\Post\Relationship() );
-
-				break;
-			case $list_screen instanceof AC\ListScreen\User :
-				$list_screen->register_column_type( new Column\User );
-
-				break;
-			case $list_screen instanceof ACP\ListScreen\Taxonomy :
-				$list_screen->register_column_type( new Column\Taxonomy );
-
-				break;
-		}
-	}
-
-	public function register_column_groups( AC\Groups $groups ) {
-		$groups->add( 'types', 'Toolset Types', 11 );
-	}
+    public function register_column_groups(Groups $groups): void
+    {
+        $groups->add(
+            new AC\Type\Group(
+                'types',
+                'Toolset Types',
+                14,
+                $this->location->with_suffix('/assets/images/toolset.svg')->get_url()
+            )
+        );
+        $groups->add(
+            new AC\Type\Group(
+                'types_relationship',
+                'Toolset Types Relations',
+                14,
+                $this->location->with_suffix('/assets/images/toolset.svg')->get_url()
+            )
+        );
+    }
 
 }

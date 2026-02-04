@@ -2,8 +2,8 @@
 
 namespace ACP\Editing\Storage\User;
 
+use AC;
 use ACP\Editing\Storage;
-use ACP\RolesFactory;
 use WP_User;
 
 class Role implements Storage
@@ -25,12 +25,12 @@ class Role implements Storage
             : false;
     }
 
-    private function get_editable_roles(): array
+    private function get_editable_roles(): AC\Type\UserRoles
     {
         static $editable_roles;
 
         if (null === $editable_roles) {
-            $editable_roles = (new RolesFactory())->create($this->allow_non_editable_roles);
+            $editable_roles = (new AC\Helper\UserRoles())->find_all($this->allow_non_editable_roles);
         }
 
         return $editable_roles;
@@ -38,7 +38,13 @@ class Role implements Storage
 
     private function is_editable_role(string $role): bool
     {
-        return in_array($role, $this->get_editable_roles(), true);
+        foreach ($this->get_editable_roles() as $editable_role) {
+            if ($role === $editable_role->get_name()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function is_not_editable_role(string $role): bool
@@ -106,7 +112,11 @@ class Role implements Storage
 
     private function add_roles(WP_User $user, array $roles): void
     {
-        array_map([$user, 'add_role'], $roles);
+        foreach ($roles as $role) {
+            if ( ! in_array($role, $user->roles, true)) {
+                $user->add_role($role);
+            }
+        }
     }
 
     private function safely_remove_roles(WP_User $user, array $roles): void

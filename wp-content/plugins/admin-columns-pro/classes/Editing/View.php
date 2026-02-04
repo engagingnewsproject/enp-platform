@@ -4,90 +4,74 @@ namespace ACP\Editing;
 
 use InvalidArgumentException;
 
-class View {
+class View
+{
 
-	/**
-	 * @var array
-	 */
-	protected $args;
+    protected array $args = [];
 
-	public function __construct( $type ) {
-		$this->set( 'type', (string) $type );
-	}
+    public function __construct(string $type)
+    {
+        $this->set('type', $type);
+    }
 
-	protected function set( $key, $value ) {
-		if ( ! $this->validate( $value ) ) {
-			throw new InvalidArgumentException( 'Invalid value.' );
-		}
+    protected function set($key, $value): self
+    {
+        if ( ! $this->validate($value)) {
+            throw new InvalidArgumentException('Invalid value.');
+        }
 
-		if ( is_array( $value ) ) {
-			$value = array_replace( (array) $this->get_arg( $key ), $value );
-		}
+        if (is_array($value)) {
+            $value = array_replace((array)$this->get_arg($key), $value);
+        }
 
-		$this->args[ $key ] = $value;
+        $this->args[$key] = $value;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function get_arg( $key ) {
-		return isset( $this->args[ $key ] )
-			? $this->args[ $key ]
-			: null;
-	}
+    public function get_arg($key)
+    {
+        return $this->args[$key] ?? null;
+    }
 
-	private function validate( $value ) {
-		return is_array( $value ) || is_scalar( $value );
-	}
+    private function validate($value): bool
+    {
+        return is_array($value) || is_scalar($value);
+    }
 
-	/**
-	 * @param bool $enable
-	 */
-	public function set_clear_button( $enable ) {
-		$this->set( 'clear_button', (bool) $enable );
+    public function set_clear_button(bool $enable): View
+    {
+        $this->set('clear_button', $enable);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param bool $required
-	 *
-	 * @return $this
-	 */
-	public function set_required( $required ) {
-		$this->set( 'required', (bool) $required );
+    public function set_required(bool $required): self
+    {
+        $this->set('required', $required);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param bool $enable
-	 *
-	 * @return $this
-	 */
-	public function set_revisioning( $enable ) {
-		$this->set( 'disable_revisioning', ! $enable );
+    public function set_revisioning(bool $enable): self
+    {
+        $this->set('disable_revisioning', ! $enable);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param string $selector
-	 *
-	 * @return $this
-	 */
-	public function set_js_selector( $selector ) {
-		$this->set( 'js', [
-			'selector' => (string) $selector,
-		] );
+    public function set_js_selector(string $selector): self
+    {
+        $this->set('js', [
+            'selector' => $selector,
+        ]);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function get_args() {
-		return $this->args;
-	}
+    public function get_args(): array
+    {
+        return $this->args;
+    }
 
 }

@@ -1,71 +1,76 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Sorting\ModelFactory;
 
-use AC;
-use ACA\ACF\Column;
+use AC\Setting\Component;
+use AC\Setting\ComponentFactory\UserProperty;
+use AC\Setting\Config;
+use AC\Type\TableScreenContext;
 use ACA\ACF\Field;
-use ACA\ACF\Sorting\SortingModelFactory;
 use ACP;
-use ACP\Sorting\Model\MetaRelatedUserFactory;
+use ACP\Sorting\Model\MetaFormatFactory;
+use ACP\Sorting\Model\RelatedMetaUserFactory;
 
-class User implements SortingModelFactory
+class User
 {
 
-    /**
-     * @var ACP\Sorting\Model\MetaFormatFactory
-     */
-    private $meta_format_factory;
+    private MetaFormatFactory $meta_format_factory;
 
     public function __construct()
     {
-        $this->meta_format_factory = new ACP\Sorting\Model\MetaFormatFactory();
+        $this->meta_format_factory = new MetaFormatFactory();
     }
 
-    public function create(Field $field, string $meta_key, Column $column)
+    public function create(Field $field, string $meta_key, TableScreenContext $table_context, Config $config)
     {
+        $setting = (new UserProperty())->create($config);
+
         return $field instanceof Field\Multiple && $field->is_multiple()
-            ? $this->create_multiple_relation_model($column, $meta_key)
-            : $this->create_single_relation_model($column, $meta_key);
+            ? $this->create_multiple_relation_model($table_context, $meta_key, $setting)
+            : $this->create_single_relation_model($table_context, $meta_key, $setting);
     }
 
-    private function create_single_relation_model(Column $column, $meta_key)
-    {
-        $setting = $column->get_setting(AC\Settings\Column\User::NAME);
-
-        $model = (new MetaRelatedUserFactory())->create(
-            $column->get_meta_type(),
-            (string)$setting->get_value(),
+    private function create_single_relation_model(
+        TableScreenContext $table_context,
+        string $meta_key,
+        Component $setting
+    ) {
+        $model = (new RelatedMetaUserFactory())->create(
+            $table_context->get_meta_type(),
+            $setting->get_input()->get_value(),
             $meta_key
         );
 
         return $model
             ?: $this->meta_format_factory->create(
-                $column->get_meta_type(),
+                $table_context->get_meta_type(),
                 $meta_key,
-                new ACP\Sorting\FormatValue\SettingFormatter($setting),
+                new ACP\Sorting\FormatValue\SettingFormatter($setting->get_formatters()),
                 null,
                 [
-                    'taxonomy'  => $column->get_taxonomy(),
-                    'post_type' => $column->get_post_type(),
+                    'post_type' => $table_context->has_post_type() ? (string)$table_context->get_post_type() : null,
+                    'taxonomy'  => $table_context->has_taxonomy() ? (string)$table_context->get_taxonomy() : null,
                 ]
             );
     }
 
-    private function create_multiple_relation_model(Column $column, $meta_key)
-    {
-        $setting = $column->get_setting(AC\Settings\Column\User::NAME);
-
+    private function create_multiple_relation_model(
+        TableScreenContext $table_context,
+        string $meta_key,
+        Component $setting
+    ) {
         return $this->meta_format_factory->create(
-            $column->get_meta_type(),
+            $table_context->get_meta_type(),
             $meta_key,
             new ACP\Sorting\FormatValue\SerializedSettingFormatter(
-                new ACP\Sorting\FormatValue\SettingFormatter($setting)
+                new ACP\Sorting\FormatValue\SettingFormatter($setting->get_formatters())
             ),
             null,
             [
-                'taxonomy'  => $column->get_taxonomy(),
-                'post_type' => $column->get_post_type(),
+                'post_type' => $table_context->has_post_type() ? (string)$table_context->get_post_type() : null,
+                'taxonomy'  => $table_context->has_taxonomy() ? (string)$table_context->get_taxonomy() : null,
             ]
         );
     }

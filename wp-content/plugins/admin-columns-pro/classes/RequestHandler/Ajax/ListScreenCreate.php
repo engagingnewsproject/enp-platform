@@ -6,45 +6,59 @@ namespace ACP\RequestHandler\Ajax;
 
 use AC;
 use AC\Capabilities;
+use AC\ListScreen;
 use AC\ListScreenRepository\Storage;
 use AC\Request;
 use AC\RequestAjaxHandler;
 use AC\Response;
-use AC\Storage\ListScreenOrder;
+use AC\Storage\Repository\ListScreenOrder;
+use AC\TableScreenFactory;
 use AC\Type\ListScreenId;
+use AC\Type\ListScreenIdGenerator;
+use AC\Type\ListScreenStatus;
+use AC\Type\TableId;
 use ACP\Admin\Encoder;
-use ACP\ListScreenFactory\PrototypeFactory;
-use ACP\ListScreenRepository\Template;
-use ACP\Search\SegmentRepository\KeyGeneratorTrait;
-use ACP\Storage\EncoderFactory;
+use ACP\ListScreenFactory;
+use ACP\ListScreenRepository\TemplateJsonFile;
+use RuntimeException;
 
-class ListScreenCreate implements RequestAjaxHandler
+final class ListScreenCreate implements RequestAjaxHandler
 {
 
-    use KeyGeneratorTrait;
+    private Storage $storage;
 
-    private $list_screen_factory;
+    private ListScreenOrder $order_storage;
 
-    private $storage;
+    private TableScreenFactory $table_screen_factory;
 
-    private $order_storage;
+    private AC\Nonce\Ajax $nonce;
 
-    private $template_repository;
+    private TemplateJsonFile $template_storage;
 
-    private $encoder_factory;
+    private AC\ColumnTypeRepository $type_repository;
+
+    private ListScreenFactory $list_screen_factory;
+
+    private ListScreenIdGenerator $list_screen_id_generator;
 
     public function __construct(
         Storage $storage,
-        PrototypeFactory $list_screen_factory,
-        Template $template_repository,
+        TableScreenFactory $table_screen_factory,
         ListScreenOrder $order_storage,
-        EncoderFactory $encoder
+        AC\Nonce\Ajax $nonce,
+        TemplateJsonFile $template_storage,
+        AC\ColumnTypeRepository $type_repository,
+        ListScreenFactory $list_screen_factory,
+        ListScreenIdGenerator $list_screen_id_generator
     ) {
-        $this->list_screen_factory = $list_screen_factory;
         $this->storage = $storage;
+        $this->table_screen_factory = $table_screen_factory;
         $this->order_storage = $order_storage;
-        $this->template_repository = $template_repository;
-        $this->encoder_factory = $encoder;
+        $this->nonce = $nonce;
+        $this->template_storage = $template_storage;
+        $this->type_repository = $type_repository;
+        $this->list_screen_factory = $list_screen_factory;
+        $this->list_screen_id_generator = $list_screen_id_generator;
     }
 
     public function handle(): void
@@ -56,57 +70,71 @@ class ListScreenCreate implements RequestAjaxHandler
         $request = new Request();
         $response = new Response\Json();
 
-        if ( ! (new AC\Nonce\Ajax())->verify($request)) {
+        if ( ! $this->nonce->verify($request)) {
             $response->error();
         }
 
-        $list_key = $request->get('list_key');
+        $list_key = new TableId($request->get('list_key'));
 
-        if ( ! $this->list_screen_factory->can_create($list_key)) {
+        if ( ! $this->table_screen_factory->can_create($list_key)) {
             return;
         }
 
-        $title = $request->get('title');
+        $table_screen = $this->table_screen_factory->create($list_key);
+
+        $title = trim($request->get('title'));
 
         if ( ! $title) {
             $response->set_message(__('Name can not be empty.', 'codepress-admin-columns'))
                      ->error();
         }
 
-        $list_id = $request->get('list_id');
+        $copy_list_id = $request->get('list_id');
 
-        // Create a Copy
-        if (ListScreenId::is_valid_id($list_id)) {
-            $list_id = new ListScreenId($list_id);
+        if (ListScreenId::is_valid_id($copy_list_id)) {
+            $copy_list_id = new ListScreenId($copy_list_id);
 
-            $list_screen_from = $this->template_repository->exists($list_id)
-                ? $this->template_repository->find($list_id)
-                : $this->storage->find($list_id);
+            $list_screen_source = $this->storage->find($copy_list_id);
 
-            if ( ! $list_screen_from) {
+            if ( ! $list_screen_source) {
+                $list_screen_source = $this->template_storage->find($copy_list_id);
+            }
+
+            if ( ! $list_screen_source) {
                 $response
                     ->set_message('Invalid list screen source.')
                     ->error();
             }
 
-            $list_screen = $this->list_screen_factory->create_from_list_screen(
-                $list_screen_from,
-                [
-                    'title' => $title,
-                ]
-            );
+            $list_screen = $this->list_screen_factory->duplicate($list_screen_source);
+            $list_screen->set_title($title);
+            $list_screen->set_table_screen($table_screen);
+            $list_screen->set_status(ListScreenStatus::create_active());
         } else {
-            $list_screen = $this->list_screen_factory->create(
-                $list_key,
-                [
-                    'list_id' => ListScreenId::generate()->get_id(),
-                    'title'   => $title,
-                ]
+            $list_screen = new ListScreen(
+                $this->list_screen_id_generator->generate(),
+                $title,
+                $table_screen,
+                $this->type_repository->find_all_by_original($table_screen)
             );
         }
 
-        $this->storage->save($list_screen);
-        $this->order_storage->add($list_screen->get_key(), (string)$list_screen->get_id());
+        do_action('ac/list_screen/before_create', $list_screen);
+
+        try {
+            $this->storage->save($list_screen);
+        } catch (RuntimeException $e) {
+            $response
+                ->set_message($e->getMessage())
+                ->error();
+        }
+
+        do_action('ac/list_screen/created', $list_screen);
+
+        $this->order_storage->add(
+            $list_screen->get_table_id(),
+            $list_screen->get_id()
+        );
 
         $response->set_parameters(
             (new Encoder($list_screen))->encode()

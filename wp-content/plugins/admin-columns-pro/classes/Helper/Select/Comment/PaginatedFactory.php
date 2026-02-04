@@ -11,7 +11,7 @@ use ACP\Helper\Select\Comment\LabelFormatter\CommentTitle;
 class PaginatedFactory
 {
 
-    public function create(array $args, LabelFormatter $formatter = null): Paginated
+    public function create(array $args, ?LabelFormatter $formatter = null): Paginated
     {
         if (null === $formatter) {
             $formatter = new CommentTitle();

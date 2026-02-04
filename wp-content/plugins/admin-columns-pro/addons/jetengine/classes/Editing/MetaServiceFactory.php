@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Editing;
 
 use AC\MetaType;
@@ -11,15 +13,12 @@ use ACP;
 final class MetaServiceFactory
 {
 
-    /**
-     * @return ACP\Editing\Service|false
-     */
-    public function create(Field $field, MetaType $meta_type)
+    public function create(Field $field, MetaType $meta_type): ?ACP\Editing\Service
     {
         $view = (new MetaViewFactory())->create($field);
 
         if ( ! $view) {
-            return false;
+            return null;
         }
 
         switch (true) {
@@ -35,6 +34,10 @@ final class MetaServiceFactory
                 );
 
             case $field instanceof Type\Date:
+                if ( ! $view instanceof ACP\Editing\View\Date) {
+                    return null;
+                }
+
                 return new ACP\Editing\Service\Date(
                     $view,
                     $this->create_meta_storage($field, $meta_type),
@@ -42,6 +45,10 @@ final class MetaServiceFactory
                 );
 
             case $field instanceof Type\DateTime:
+                if ( ! $view instanceof ACP\Editing\View\DateTime) {
+                    return null;
+                }
+
                 return new ACP\Editing\Service\DateTime(
                     $view,
                     $this->create_meta_storage($field, $meta_type),
@@ -61,16 +68,20 @@ final class MetaServiceFactory
                 );
 
             case $field instanceof Type\Posts:
+                if ( ! $view instanceof ACP\Editing\View\AjaxSelect) {
+                    return null;
+                }
+
                 return $field->is_multiple()
                     ? new Service\Meta\Posts(
                         $view,
                         $this->create_meta_storage($field, $meta_type),
-                        new ACP\Editing\PaginatedOptions\Posts($field->get_related_post_types())
+                        new ACP\Editing\PaginatedOptions\Posts($field->get_related_post_types() ?: [])
                     )
                     : new ACP\Editing\Service\Post(
                         $view,
                         $this->create_meta_storage($field, $meta_type),
-                        new ACP\Editing\PaginatedOptions\Posts($field->get_related_post_types())
+                        new ACP\Editing\PaginatedOptions\Posts($field->get_related_post_types() ?: [])
                     );
 
             default:

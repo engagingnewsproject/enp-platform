@@ -9,7 +9,7 @@ use LogicException;
 final class DecoderNotFoundException extends LogicException
 {
 
-    private $encoded_data;
+    private array $encoded_data;
 
     public function __construct(array $encoded_data, $code = 0)
     {

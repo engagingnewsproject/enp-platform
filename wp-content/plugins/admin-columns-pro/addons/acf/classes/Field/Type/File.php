@@ -1,31 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Field\Type;
 
 use ACA\ACF\Field;
 
-class File extends Field {
+class File extends Field implements Field\File
+{
 
-	/**
-	 * @return bool
-	 */
-	public function is_all_file_types_allowed() {
-		return isset( $this->settings['mime_types'] )
-			? strlen( $this->settings['mime_types'] ) === 0
-			: true;
-	}
+    public function get_mime_types(): array
+    {
+        $mime_types = $this->settings['mime_types'] ?? null;
 
-	/**
-	 * @return array
-	 */
-	public function get_allowed_file_types() {
-		if ( ! $this->is_all_file_types_allowed() ) {
-			return [];
-		}
+        if ($mime_types && is_string($mime_types)) {
+            return explode(',', $this->settings['mime_types']) ?: [];
+        }
 
-		return isset( $this->settings['mime_types'] )
-			? explode( ',', $this->settings['mime_types'] )
-			: [];
-	}
+        return [];
+    }
 
 }

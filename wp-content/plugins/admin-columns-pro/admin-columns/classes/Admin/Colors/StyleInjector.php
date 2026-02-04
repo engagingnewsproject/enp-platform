@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace AC\Admin\Colors;
@@ -6,7 +7,7 @@ namespace AC\Admin\Colors;
 final class StyleInjector
 {
 
-    private $color_reader;
+    private ColorReader $color_reader;
 
     public function __construct(ColorReader $color_reader)
     {

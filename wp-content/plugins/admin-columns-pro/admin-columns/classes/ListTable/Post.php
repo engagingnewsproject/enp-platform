@@ -8,33 +8,46 @@ use WP_Posts_List_Table;
 class Post implements ListTable
 {
 
-    use WpListTableTrait;
+    private WP_Posts_List_Table $table;
 
     public function __construct(WP_Posts_List_Table $table)
     {
         $this->table = $table;
     }
 
-    public function get_column_value(string $column, $id): string
+    public function render_cell(string $column_id, $row_id): string
     {
+        // populate globals
+        $global_post = get_post();
+        $post = get_post((int)$row_id);
+        setup_postdata($post);
+        $GLOBALS['post'] = $post;
+
         ob_start();
 
-        $method = 'column_' . $column;
-
-        if (method_exists($this->table, $method)) {
-            call_user_func([$this->table, $method], get_post($id));
+        if (method_exists($this->table, 'column_' . $column_id)) {
+            call_user_func([$this->table, 'column_' . $column_id], $post);
         } else {
-            $this->table->column_default(get_post($id), $column);
+            $this->table->column_default($post, $column_id);
         }
+
+        $GLOBALS['post'] = $global_post;
 
         return ob_get_clean();
     }
 
     public function render_row($id): string
     {
+        $post = get_post($id);
+
+        // Title for some columns can only be retrieved when post is set globally
+        if ( ! isset($GLOBALS['post'])) {
+            $GLOBALS['post'] = $post;
+        }
+
         ob_start();
 
-        $this->table->single_row(get_post($id));
+        $this->table->single_row($post);
 
         return ob_get_clean();
     }

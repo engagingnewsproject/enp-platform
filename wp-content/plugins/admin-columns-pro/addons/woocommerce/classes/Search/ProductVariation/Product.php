@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\ProductVariation;
 
 use AC\Helper\Select\Options\Paginated;
@@ -9,41 +11,46 @@ use ACP\Search\Comparison;
 use ACP\Search\Operators;
 
 class Product extends Comparison\Post\PostField
-	implements Comparison\SearchableValues {
+    implements Comparison\SearchableValues
+{
 
-	public function __construct() {
-		$operators = new Operators( [
-			Operators::EQ,
-		] );
+    public function __construct()
+    {
+        $operators = new Operators([
+            Operators::EQ,
+        ]);
 
-		parent::__construct( $operators );
-	}
+        parent::__construct($operators);
+    }
 
-	protected function get_field(): string {
-		return 'post_parent';
-	}
+    protected function get_field(): string
+    {
+        return 'post_parent';
+    }
 
-	public function format_label( $value ): string {
-		$post = get_post( $value );
+    public function format_label($value): string
+    {
+        $post = get_post($value);
 
-		return $post
-			? ( new PostTitle() )->format_label( $post )
-			: '';
-	}
+        return $post
+            ? (new PostTitle())->format_label($post)
+            : '';
+    }
 
-	public function get_values( string $search, int $page ): Paginated {
-		return ( new PaginatedFactory() )->create( [
-			's'         => $search,
-			'paged'     => $page,
-			'post_type' => 'product',
-			'tax_query' => [
-				[
-					'taxonomy' => 'product_type',
-					'field'    => 'name',
-					'terms'    => [ 'variable' ],
-				],
-			],
-		] );
-	}
+    public function get_values(string $search, int $page): Paginated
+    {
+        return (new PaginatedFactory())->create([
+            's'         => $search,
+            'paged'     => $page,
+            'post_type' => 'product',
+            'tax_query' => [
+                [
+                    'taxonomy' => 'product_type',
+                    'field'    => 'name',
+                    'terms'    => ['variable'],
+                ],
+            ],
+        ]);
+    }
 
 }

@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Field;
 
-interface Options {
+interface Options
+{
 
-	/**
-	 * @return array
-	 */
-	public function get_options();
+    public function get_options(): array;
 
 }

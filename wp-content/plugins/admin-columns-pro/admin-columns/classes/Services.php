@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace AC;
 
-class Services
+final class Services implements Registerable
 {
 
-    private $services;
+    private array $services;
 
     public function __construct(array $services = [])
     {
@@ -23,12 +23,9 @@ class Services
 
     public function register(): void
     {
-        array_map([$this, 'register_service'], $this->services);
-    }
-
-    private function register_service(Registerable $service): void
-    {
-        $service->register();
+        foreach ($this->services as $service) {
+            $service->register();
+        }
     }
 
 }

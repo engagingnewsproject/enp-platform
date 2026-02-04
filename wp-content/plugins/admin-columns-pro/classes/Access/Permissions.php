@@ -8,32 +8,28 @@ final class Permissions
     public const UPDATE = 'update';
     public const USAGE = 'usage';
 
-    private $permissions = [];
+    private array $permissions;
 
     public function __construct(array $permissions = [])
     {
-        array_map([$this, 'add'], $permissions);
-    }
-
-    private function add(string $permission): void
-    {
-        if ( ! in_array($permission, [self::USAGE, self::UPDATE], true)) {
-            return;
-        }
-
-        if (in_array($permission, $this->permissions, true)) {
-            return;
-        }
-
-        $this->permissions[] = $permission;
+        $this->permissions = $permissions;
     }
 
     public function with_permission(string $permission): self
     {
-        $permissions = new self($this->permissions);
-        $permissions->add($permission);
+        $permissions = $this->to_array();
+        $permissions[] = $permission;
 
-        return $permissions;
+        return new self($permissions);
+    }
+
+    public function to_array(): array
+    {
+        $permissions = array_unique($this->permissions);
+
+        return array_filter($permissions, static function ($permission): bool {
+            return in_array($permission, [self::USAGE, self::UPDATE], true);
+        });
     }
 
     public function has_permission(string $permission): bool
@@ -49,11 +45,6 @@ final class Permissions
     public function has_updates_permission(): bool
     {
         return $this->has_permission(self::UPDATE);
-    }
-
-    public function to_array(): array
-    {
-        return $this->permissions;
     }
 
 }

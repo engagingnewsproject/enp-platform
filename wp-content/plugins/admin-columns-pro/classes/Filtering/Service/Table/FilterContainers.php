@@ -6,19 +6,12 @@ namespace ACP\Filtering\Service\Table;
 
 use AC\ListScreen;
 use AC\Registerable;
-use ACP\Filtering\Settings;
+use AC\Setting\Component;
+use ACP\Column;
 use ACP\Filtering\TableScreenFactory;
-use ACP\Search\ComparisonFactory;
 
 class FilterContainers implements Registerable
 {
-
-    private $comparison_factory;
-
-    public function __construct(ComparisonFactory $comparison_factory)
-    {
-        $this->comparison_factory = $comparison_factory;
-    }
 
     public function register(): void
     {
@@ -28,21 +21,29 @@ class FilterContainers implements Registerable
     public function load(ListScreen $list_screen): void
     {
         foreach ($list_screen->get_columns() as $column) {
+            if ( ! $column instanceof Column) {
+                return;
+            }
+
             $setting = $column->get_setting('filter');
 
-            if ( ! $setting instanceof Settings || ! $setting->is_active()) {
+            if ( ! $setting instanceof Component) {
                 continue;
             }
 
-            $comparison = $this->comparison_factory->create($column);
+            if ( ! $setting->has_input() || $setting->get_input()->get_value() !== 'on') {
+                continue;
+            }
+
+            $comparison = $column->search();
 
             if ( ! $comparison) {
                 continue;
             }
 
             $table = (new TableScreenFactory())->create(
-                $list_screen,
-                $column->get_name()
+                $list_screen->get_table_screen(),
+                (string)$column->get_id()
             );
 
             if ( ! $table) {

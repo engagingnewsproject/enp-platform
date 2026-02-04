@@ -4,48 +4,47 @@ namespace ACP\Type\Activation;
 
 use LogicException;
 
-final class Status {
+final class Status
+{
 
-	const STATUS_ACTIVE = 'active';
-	const STATUS_CANCELLED = 'cancelled';
-	const STATUS_EXPIRED = 'expired';
+    private const STATUS_ACTIVE = 'active';
+    private const STATUS_CANCELLED = 'cancelled';
+    private const STATUS_EXPIRED = 'expired';
 
-	/**
-	 * @var string
-	 */
-	private $status;
+    private string $status;
 
-	public function __construct( $status ) {
-		if ( ! self::is_valid( $status ) ) {
-			throw new LogicException( 'Invalid status.' );
-		}
+    public function __construct(string $status)
+    {
+        if ( ! self::is_valid($status)) {
+            throw new LogicException('Invalid status.');
+        }
 
-		$this->status = $status;
-	}
+        $this->status = $status;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function get_value() {
-		return $this->status;
-	}
+    public function get_value(): string
+    {
+        return $this->status;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function is_active() {
-		return $this->status === self::STATUS_ACTIVE;
-	}
+    public function is_active(): bool
+    {
+        return $this->status === self::STATUS_ACTIVE;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function is_cancelled() {
-		return $this->status === self::STATUS_CANCELLED;
-	}
+    public function is_cancelled(): bool
+    {
+        return $this->status === self::STATUS_CANCELLED;
+    }
 
-	public static function is_valid( $status ) {
-		return in_array( $status, [ self::STATUS_ACTIVE, self::STATUS_CANCELLED, self::STATUS_EXPIRED ], true );
-	}
+    public static function is_valid($status): bool
+    {
+        return in_array($status, [self::STATUS_ACTIVE, self::STATUS_CANCELLED, self::STATUS_EXPIRED], true);
+    }
+
+    public function __toString(): string
+    {
+        return $this->status;
+    }
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\GravityForms\Search\Comparison\Entry;
 
 use AC\Helper\Select\Options;
@@ -13,15 +15,12 @@ use ACP\Search\Value;
 class CheckboxGroup extends Search\Comparison\Entry implements ACP\Search\Comparison\Values
 {
 
-    /**
-     * @var array
-     */
-    private $choices;
+    private array $choices;
 
     /**
      * @var Checkbox[]
      */
-    private $sub_fields;
+    private array $sub_fields;
 
     public function __construct(string $field, array $choices, array $sub_fields)
     {

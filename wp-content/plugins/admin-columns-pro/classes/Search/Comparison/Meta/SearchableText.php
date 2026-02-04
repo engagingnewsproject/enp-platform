@@ -13,7 +13,7 @@ use ACP\Search\Operators;
 class SearchableText extends Meta implements SearchableValues
 {
 
-    private $query;
+    private Query $query;
 
     public function __construct(string $meta_key, Query $query)
     {
@@ -43,7 +43,7 @@ class SearchableText extends Meta implements SearchableValues
         $this->query->limit(500);
 
         if ($search) {
-            $this->query->where('meta_value', 'LIKE', '%' . esc_sql( $search ) . '%');
+            $this->query->where('meta_value', 'LIKE', '%' . esc_sql($search) . '%');
         }
 
         $options = new ACP\Helper\Select\Meta\Text($this->query);

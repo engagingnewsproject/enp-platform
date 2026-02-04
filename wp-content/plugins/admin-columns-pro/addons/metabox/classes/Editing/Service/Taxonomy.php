@@ -1,52 +1,62 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\MetaBox\Editing\Service;
 
 use AC\Helper\Select\Options\Paginated;
 use ACA;
 use ACP;
+use ACP\Editing\Storage;
 use ACP\Editing\View;
 use ACP\Helper\Select\Taxonomy\PaginatedFactory;
+use WP_Term;
 
-class Taxonomy implements ACP\Editing\Service, ACP\Editing\PaginatedOptions {
+class Taxonomy implements ACP\Editing\Service, ACP\Editing\PaginatedOptions
+{
 
-	/**
-	 * @var string|array
-	 */
-	protected $taxonomy;
+    private Storage $storage;
 
-	/**
-	 * @var ACP\Editing\Storage
-	 */
-	private $storage;
+    private array $taxonomies;
 
-	public function __construct( ACP\Editing\Storage $storage, $taxonomy ) {
-		$this->storage = $storage;
-		$this->taxonomy = $taxonomy;
-	}
+    public function __construct(Storage $storage, array $taxonomies)
+    {
+        $this->storage = $storage;
+        $this->taxonomies = $taxonomies;
+    }
 
-	public function get_view( string $context ): ?View {
-		return new ACP\Editing\View\AjaxSelect();
-	}
+    public function get_view(string $context): ?View
+    {
+        return new ACP\Editing\View\AjaxSelect();
+    }
 
-	public function update( int $id, $data ): void {
-		$this->storage->update( $id, $data );
-	}
+    public function update(int $id, $data): void
+    {
+        $this->storage->update($id, $data);
+    }
 
-	public function get_value( $id ) {
-		$value = $this->storage->get( $id );
+    public function get_value(int $id)
+    {
+        $term_id = (int)$this->storage->get($id);
 
-		return $value
-			? [ $value => ac_helper()->taxonomy->get_term_display_name( get_term( $value ) ) ]
-			: false;
-	}
+        $term = $term_id
+            ? get_term($term_id)
+            : null;
 
-	public function get_paginated_options( string $search, int $page, int $id = null ): Paginated {
-		return ( new PaginatedFactory() )->create( [
-			'search'   => $search,
-			'page'     => $page,
-			'taxonomy' => $this->taxonomy,
-		] );
-	}
+        return $term instanceof WP_Term
+            ? [
+                (string)$term_id => ac_helper()->taxonomy->get_term_display_name($term),
+            ]
+            : false;
+    }
+
+    public function get_paginated_options(string $search, int $page, ?int $id = null): Paginated
+    {
+        return (new PaginatedFactory())->create([
+            'search'   => $search,
+            'page'     => $page,
+            'taxonomy' => $this->taxonomies,
+        ]);
+    }
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\BP\Editing\Service\User;
 
 use AC\Helper\Select\Option;
@@ -8,31 +10,37 @@ use ACP\Editing\Service;
 use ACP\Editing\View;
 use ACP\Editing\View\Toggle;
 
-class Status implements Service {
+class Status implements Service
+{
 
-	public function get_view( string $context ): ?View {
-		$options = new ToggleOptions(
-			new Option( 0, __( 'Active', 'buddypress' ) ),
-			new Option( 1, __( 'Spammer', 'buddypress' ) )
-		);
+    public function get_view(string $context): ?View
+    {
+        $options = new ToggleOptions(
+            new Option('0', __('Active', 'buddypress')),
+            new Option('1', __('Spammer', 'buddypress'))
+        );
 
-		return new Toggle( $options );
-	}
+        return new Toggle($options);
+    }
 
-	public function get_value( $id ) {
-		return ac_helper()->user->get_user_field( 'user_status', $id );
-	}
+    public function get_value(int $id): ?string
+    {
+        $user = get_userdata($id);
 
-	public function update( int $id, $data ): void {
-		global $wpdb;
+        return $user->user_status ?? null;
+    }
 
-		$wpdb->update(
-			$wpdb->users,
-			[ 'user_status' => $data ],
-			[ 'ID' => $id ]
-		);
+    public function update(int $id, $data): void
+    {
+        global $wpdb;
 
-		clean_user_cache( $id );
-	}
+        $wpdb->update(
+            $wpdb->users,
+            ['user_status' => $data],
+            ['ID' => $id]
+        );
+
+        clean_user_cache($id);
+    }
 
 }

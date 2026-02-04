@@ -11,29 +11,33 @@ use AC\Request;
 use AC\Response;
 use AC\Type\ListScreenId;
 use ACP\Controller;
-use ACP\ListScreenPreferences;
 use ACP\Search\Entity;
 use ACP\Search\SegmentCollection;
 use ACP\Search\SegmentRepository\Database;
 use ACP\Search\Type\SegmentKey;
+use ACP\Search\Type\SegmentKeyGenerator;
 use Exception;
 
 final class Segment extends Controller
 {
 
-    private $segment_repository;
+    private Database $segment_repository;
 
-    private $list_screen_repository;
+    private ListScreenRepository\Storage $list_screen_repository;
+
+    private SegmentKeyGenerator $segment_key_generator;
 
     public function __construct(
         ListScreenRepository\Storage $storage,
         Request $request,
-        Database $segment_repository
+        Database $segment_repository,
+        SegmentKeyGenerator $segment_key_generator
     ) {
         parent::__construct($request);
 
         $this->list_screen_repository = $storage;
         $this->segment_repository = $segment_repository;
+        $this->segment_key_generator = $segment_key_generator;
     }
 
     private function get_list_screen(): ?AC\ListScreen
@@ -51,10 +55,8 @@ final class Segment extends Controller
 
     private function get_segment_response(Entity\Segment $segment, AC\ListScreen $list_screen): array
     {
-        // Always force the layout to be the one that is stored in the segment itself
         $query_string = array_merge($segment->get_url_parameters(), [
             'ac-segment' => (string)$segment->get_key(),
-            'layout'     => (string)$list_screen->get_id(),
         ]);
 
         foreach ($query_string as $k => $v) {
@@ -86,16 +88,18 @@ final class Segment extends Controller
                 ->error();
         }
 
-        $user_segments = $this->segment_repository->find_all_personal(
+        $segments = $this->segment_repository->find_all_personal(
             get_current_user_id(),
             $list_screen->get_id()
         );
 
-        $shared_segments = $list_screen->get_preference(ListScreenPreferences::SHARED_SEGMENTS);
+        $shared_segments = $list_screen->get_segments();
 
-        $segments = new SegmentCollection(
-            array_merge(iterator_to_array($user_segments, false), iterator_to_array($shared_segments, false))
-        );
+        if ($shared_segments->count()) {
+            $segments = new SegmentCollection(
+                array_merge(iterator_to_array($segments, false), iterator_to_array($shared_segments, false))
+            );
+        }
 
         $segments = apply_filters(
             'acp/search/segments',
@@ -125,7 +129,7 @@ final class Segment extends Controller
                      ->error();
         }
 
-        $data = filter_var_array(
+        $data = (array)filter_var_array(
             $this->request->get_parameters()->all(),
             [
                 'name'                     => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
@@ -138,7 +142,7 @@ final class Segment extends Controller
         parse_str($data['query_string'], $url_parameters);
         parse_str($data['whitelisted_query_string'], $whitelisted_url_parameters);
 
-        foreach ($whitelisted_url_parameters as $whitelisted_url_parameter => $placeholder) {
+        foreach ($whitelisted_url_parameters as $whitelisted_url_parameter => $default) {
             if ( ! isset($url_parameters[$whitelisted_url_parameter])) {
                 continue;
             }
@@ -152,7 +156,7 @@ final class Segment extends Controller
             : get_current_user_id();
 
         $segment = new Entity\Segment(
-            $this->segment_repository->generate_key(),
+            $this->segment_key_generator->generate(),
             (string)$data['name'],
             $whitelisted_url_parameters,
             $list_screen->get_id(),
@@ -168,9 +172,10 @@ final class Segment extends Controller
                              ->error();
                 }
 
-                /** @var SegmentCollection $segments */
-                $segments = $list_screen->get_preference(ListScreenPreferences::SHARED_SEGMENTS);
+                $segments = $list_screen->get_segments();
                 $segments->add($segment);
+
+                $list_screen->set_segments($segments);
 
                 $this->list_screen_repository->save($list_screen);
             }
@@ -206,8 +211,11 @@ final class Segment extends Controller
                 $response->error();
             }
 
-            $segments = $list_screen->get_preference(ListScreenPreferences::SHARED_SEGMENTS);
-            $segments->remove($segment_key);
+            $segments = $list_screen->get_segments();
+
+            if ($segments->count()) {
+                $segments->remove($segment_key);
+            }
 
             $this->list_screen_repository->save($list_screen);
         } else {

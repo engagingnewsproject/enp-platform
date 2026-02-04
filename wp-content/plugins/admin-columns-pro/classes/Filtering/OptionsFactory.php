@@ -114,14 +114,14 @@ class OptionsFactory
         if ($comparison->get_operators()->search(Operators::IS_EMPTY)) {
             $options[] = new Option(
                 EmptyOptions::IS_EMPTY,
-                $comparison->get_labels()[Operators::IS_EMPTY]
+                (string)$comparison->get_labels()[Operators::IS_EMPTY]
             );
         }
 
         if ($comparison->get_operators()->search(Operators::NOT_IS_EMPTY)) {
             $options[] = new Option(
                 EmptyOptions::NOT_IS_EMPTY,
-                $comparison->get_labels()[Operators::NOT_IS_EMPTY]
+                (string)$comparison->get_labels()[Operators::NOT_IS_EMPTY]
             );
         }
 

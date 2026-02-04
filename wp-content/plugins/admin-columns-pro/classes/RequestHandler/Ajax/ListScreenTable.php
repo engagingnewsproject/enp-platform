@@ -8,42 +8,35 @@ use AC\Nonce;
 use AC\Request;
 use AC\RequestAjaxHandler;
 use AC\Storage;
+use AC\Type\ColumnId;
 use AC\Type\ListScreenId;
 use LogicException;
 
 class ListScreenTable implements RequestAjaxHandler
 {
 
-    /**
-     * @var Storage\ListColumnOrder
-     */
-    private $order_list_storage;
+    private Storage\Repository\ListColumnOrder $order_list_storage;
 
-    /**
-     * @var Storage\UserColumnOrder
-     */
-    private $order_user_storage;
+    private Storage\Repository\UserColumnOrder $order_user_storage;
 
-    /**
-     * @var ColumnSize\ListStorage
-     */
-    private $size_list_storage;
+    private ColumnSize\ListStorage $size_list_storage;
 
-    /**
-     * @var ColumnSize\UserStorage
-     */
-    private $size_user_storage;
+    private ColumnSize\UserStorage $size_user_storage;
+
+    private Nonce\Ajax $nonce;
 
     public function __construct(
-        Storage\ListColumnOrder $order_list_storage,
-        Storage\UserColumnOrder $order_user_storage,
+        Storage\Repository\ListColumnOrder $order_list_storage,
+        Storage\Repository\UserColumnOrder $order_user_storage,
         ColumnSize\ListStorage $size_list_storage,
-        ColumnSize\UserStorage $size_user_storage
+        ColumnSize\UserStorage $size_user_storage,
+        Nonce\Ajax $nonce
     ) {
         $this->order_list_storage = $order_list_storage;
         $this->order_user_storage = $order_user_storage;
         $this->size_list_storage = $size_list_storage;
         $this->size_user_storage = $size_user_storage;
+        $this->nonce = $nonce;
     }
 
     public function handle(): void
@@ -54,14 +47,14 @@ class ListScreenTable implements RequestAjaxHandler
 
         $request = new Request();
 
-        if ( ! (new Nonce\Ajax())->verify($request)) {
-            wp_send_json_error();
+        if ( ! $this->nonce->verify($request)) {
+            exit;
         }
 
         try {
             $id = new ListScreenId($request->get('list_id'));
         } catch (LogicException $e) {
-            wp_send_json_error();
+            exit;
         }
 
         $this->set_current_user_column_sizes_as_the_default($id);
@@ -79,7 +72,7 @@ class ListScreenTable implements RequestAjaxHandler
         }
 
         foreach ($sizes as $column_name => $width) {
-            $this->size_list_storage->save($id, (string)$column_name, $width);
+            $this->size_list_storage->save($id, new ColumnId((string)$column_name), $width);
         }
 
         $this->size_user_storage->delete_by_list_id($id);

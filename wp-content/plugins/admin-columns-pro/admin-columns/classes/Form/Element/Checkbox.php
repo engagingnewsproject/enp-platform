@@ -4,108 +4,118 @@ namespace AC\Form\Element;
 
 use AC\Form\Element;
 
-class Checkbox extends Element {
+class Checkbox extends Element
+{
 
-	/**
-	 * @var bool
-	 */
-	protected $vertical;
+    protected ?bool $vertical = null;
 
-	protected $multiple;
+    protected ?bool $multiple = null;
 
-	protected function get_type() {
-		return 'checkbox';
-	}
-
-	protected function get_classes() {
-		$classes = [
-			$this->get_type() . '-labels',
-		];
-
-		if ( $this->is_vertical() ) {
-			$classes[] = 'vertical';
-		}
-
-		return $classes;
-	}
-
-	public function render(): string
+    protected function get_type(): string
     {
-		$elements = $this->get_elements();
+        return 'checkbox';
+    }
 
-		if ( ! $elements ) {
-			return false;
-		}
+    protected function get_classes(): array
+    {
+        $classes = [
+            $this->get_type() . '-labels',
+        ];
 
-		$template = '<div class="%s">%s</div>';
+        if ($this->is_vertical()) {
+            $classes[] = 'vertical';
+        }
 
-		return sprintf( $template, implode( ' ', $this->get_classes() ), implode( "\n", $elements ) );
-	}
+        return $classes;
+    }
 
-	private function get_elements() {
-		if ( $this->is_multiple() ) {
-			$this->set_name( $this->get_name() . '[]' );
-		}
+    public function render(): string
+    {
+        $elements = $this->get_elements();
 
-		$options = $this->get_options();
+        if ( ! $elements) {
+            return false;
+        }
 
-		if ( empty( $options ) ) {
-			return null;
-		}
+        $template = '<div class="%s">%s</div>';
 
-		$elements = [];
+        return sprintf($template, implode(' ', $this->get_classes()), implode("\n", $elements));
+    }
 
-		$value = (array) $this->get_value();
+    private function get_elements(): ?array
+    {
+        if ($this->is_multiple()) {
+            $this->set_name($this->get_name() . '[]');
+        }
 
-		foreach ( $options as $key => $label ) {
-			$input = new Input( $this->get_name() );
+        $options = $this->get_options();
 
-			$input->set_value( $key )
-			      ->set_type( $this->get_type() )
-			      ->set_id( $this->get_id() . '-' . $key );
+        if (empty($options)) {
+            return null;
+        }
 
-			if ( in_array( $key, $value ) ) {
-				$input->set_attribute( 'checked', 'checked' );
-			}
+        $elements = [];
 
-			$attributes = $this->get_attributes();
+        $value = (array)$this->get_value();
 
-			$elements[] = sprintf( '<label %s>%s%s</label>', $this->get_attributes_as_string( $attributes ), $input->render(), $label );
-		}
+        foreach ($options as $key => $label) {
+            $input = new Input($this->get_name());
 
-		if ( $description = $this->render_description() ) {
-			$elements[] = $description;
-		}
+            $input->set_value($key)
+                  ->set_type($this->get_type())
+                  ->set_id($this->get_id() . '-' . $key);
 
-		return $elements;
-	}
+            if (in_array($key, $value)) {
+                $input->set_attribute('checked', 'checked');
+            }
 
-	public function set_multiple( $multiple ) {
-		$this->multiple = (bool) $multiple;
+            $attributes = $this->get_attributes();
 
-		return $this;
-	}
+            $elements[] = sprintf(
+                '<label %s>%s%s</label>',
+                $this->get_attributes_as_string($attributes),
+                $input->render(),
+                $label
+            );
+        }
 
-	public function is_multiple() {
-		if ( empty( $this->multiple ) ) {
-			return false;
-		}
+        if ($description = $this->render_description()) {
+            $elements[] = $description;
+        }
 
-		return $this->multiple;
-	}
+        return $elements;
+    }
 
-	public function set_vertical( $vertical ) {
-		$this->vertical = (bool) $vertical;
+    public function set_multiple(bool $multiple): self
+    {
+        $this->multiple = $multiple;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function is_vertical() {
-		if ( empty( $this->vertical ) ) {
-			return false;
-		}
+    public function is_multiple(): bool
+    {
+        if (empty($this->multiple)) {
+            return false;
+        }
 
-		return $this->vertical;
-	}
+        return $this->multiple;
+    }
+
+    public function set_vertical(bool $vertical)
+    {
+        $this->vertical = $vertical;
+
+        return $this;
+    }
+
+    public function is_vertical(): bool
+    {
+        if (empty($this->vertical)) {
+            return false;
+        }
+
+        return $this->vertical;
+    }
 
 }

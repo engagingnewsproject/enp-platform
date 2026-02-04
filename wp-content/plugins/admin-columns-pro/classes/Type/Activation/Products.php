@@ -2,22 +2,22 @@
 
 namespace ACP\Type\Activation;
 
-class Products {
+class Products
+{
 
-	/**
-	 * @var array e.g. `ac-addon-acf`
-	 */
-	private $product_slugs;
+    /**
+     * @var array e.g. `ac-addon-acf`
+     */
+    private array $product_slugs;
 
-	public function __construct( array $product_slugs ) {
-		$this->product_slugs = $product_slugs;
-	}
+    public function __construct(array $product_slugs)
+    {
+        $this->product_slugs = $product_slugs;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function get_value() {
-		return $this->product_slugs;
-	}
+    public function get_value(): array
+    {
+        return $this->product_slugs;
+    }
 
 }

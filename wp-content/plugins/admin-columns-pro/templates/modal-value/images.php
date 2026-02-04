@@ -21,7 +21,7 @@ $items = $this->items;
 					<a class="ac-image-button" download href="<?= $item['img_src'] ?>"><?= __('Download') ?></a>
 				</div>
 			</div>
-			<div class="ac-image-meta acu-p-2">
+			<div class="ac-image-meta">
 				<div class="acu-font-bold acu-mb-1"><?= $item['filename'] ?? '' ?></div>
 				<div class="acu-flex acu-gap-[20px]">
 					<span>

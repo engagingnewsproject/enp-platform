@@ -3,34 +3,28 @@
 namespace ACP\Sorting;
 
 use AC\Column;
+use AC\TableScreen;
+use ACP;
 use ACP\Sorting\Model\QueryBindings;
 
 class ModelFactory
 {
 
-    public function create_model(Column $column): ?AbstractModel
+    public function create(Column $column, TableScreen $table_screen): ?QueryBindings
     {
-        if ( ! $column instanceof Sortable) {
+        if ( ! $column instanceof ACP\Column) {
             return null;
         }
 
-        $model = apply_filters('acp/sorting/model', $column->sorting(), $column);
+        $bindings = apply_filters(
+            'ac/sorting/model',
+            $column->sorting(),
+            $column->get_context(),
+            $table_screen
+        );
 
-        return $model instanceof AbstractModel
-            ? $model
-            : null;
-    }
-
-    public function create_bindings(Column $column): ?QueryBindings
-    {
-        if ( ! $column instanceof Sortable) {
-            return null;
-        }
-
-        $model = apply_filters('acp/sorting/model', $column->sorting(), $column);
-
-        return $model instanceof QueryBindings
-            ? $model
+        return $bindings instanceof QueryBindings
+            ? $bindings
             : null;
     }
 

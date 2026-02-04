@@ -1,21 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\Order;
 
 use ACA\WC\Search;
 use ACP\Search\Operators;
 
-trait OperatorMappingTrait {
+trait OperatorMappingTrait
+{
 
-	protected function map_operator( $operator ) {
-		$mapping = [
-			Operators::CONTAINS     => 'LIKE',
-			Operators::NOT_CONTAINS => 'NOT LIKE',
-		];
+    protected function map_operator($operator)
+    {
+        $mapping = [
+            Operators::CONTAINS     => 'LIKE',
+            Operators::NOT_CONTAINS => 'NOT LIKE',
+        ];
 
-		return array_key_exists( $operator, $mapping )
-			? $mapping[ $operator ]
-			: $operator;
-	}
+        return array_key_exists($operator, $mapping)
+            ? $mapping[$operator]
+            : $operator;
+    }
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\Product;
 
 use ACP\Query\Bindings;
@@ -20,8 +22,8 @@ class ReviewsEnabled extends Comparison
         ]);
 
         $labels = new Labels([
-            Operators::NOT_IS_EMPTY   => __('Open'),
-            Operators::IS_EMPTY => __('Closed'),
+            Operators::NOT_IS_EMPTY => __('Open'),
+            Operators::IS_EMPTY     => __('Closed'),
         ]);
 
         parent::__construct($operators, null, $labels);

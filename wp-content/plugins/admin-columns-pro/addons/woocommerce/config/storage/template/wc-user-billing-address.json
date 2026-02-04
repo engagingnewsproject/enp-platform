@@ -5,6 +5,7 @@
             "title": "📫 Billing Information",
             "type": "wp-users",
             "id": "654b3b3eb6672",
+            "status": "inactive",
             "updated": 1699430156,
             "columns": {
                 "username": {

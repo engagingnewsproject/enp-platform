@@ -9,17 +9,14 @@ use ACP\Helper\Select\User\PaginatedFactory;
 class Users implements PaginatedOptionsFactory
 {
 
-    /**
-     * @var array
-     */
-    private $args;
+    private array $args;
 
     public function __construct(array $args = [])
     {
         $this->args = $args;
     }
 
-    public function create(string $search, int $page, int $id = null): Paginated
+    public function create(string $search, int $page, ?int $id = null): Paginated
     {
         $args = array_merge([
             'paged'  => $page,

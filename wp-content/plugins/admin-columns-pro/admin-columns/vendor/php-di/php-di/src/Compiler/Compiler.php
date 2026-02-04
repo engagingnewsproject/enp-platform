@@ -20,7 +20,7 @@ use AC\Vendor\DI\Proxy\ProxyFactory;
 use function dirname;
 use function file_put_contents;
 use InvalidArgumentException;
-use AC\Vendor\Opis\Closure\SerializableClosure;
+use AC\Vendor\Laravel\SerializableClosure\Support\ReflectionClosure;
 use function rename;
 use function sprintf;
 use function tempnam;
@@ -328,8 +328,7 @@ PHP;
      */
     private function compileClosure(\Closure $closure) : string
     {
-        $wrapper = new SerializableClosure($closure);
-        $reflector = $wrapper->getReflector();
+        $reflector = new ReflectionClosure($closure);
         if ($reflector->getUseVariables()) {
             throw new InvalidDefinition('Cannot compile closures which import variables using the `use` keyword');
         }

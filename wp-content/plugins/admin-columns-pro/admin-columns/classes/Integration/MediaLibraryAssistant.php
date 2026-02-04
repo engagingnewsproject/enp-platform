@@ -2,9 +2,8 @@
 
 namespace AC\Integration;
 
-use AC\Integration;
-use AC\ListScreen;
 use AC\Screen;
+use AC\Type\Integration;
 use AC\Type\Url\Site;
 
 final class MediaLibraryAssistant extends Integration
@@ -20,6 +19,7 @@ final class MediaLibraryAssistant extends Integration
                 'The Media Library Assistant plugin from David Lingren provides several enhancements for managing the Media Library.',
                 'codepress-admin-columns'
             ),
+            null,
             new Site(Site::PAGE_ADDONS)
         );
     }
@@ -30,11 +30,6 @@ final class MediaLibraryAssistant extends Integration
     }
 
     public function show_notice(Screen $screen): bool
-    {
-        return false;
-    }
-
-    public function show_placeholder(ListScreen $list_screen): bool
     {
         return false;
     }

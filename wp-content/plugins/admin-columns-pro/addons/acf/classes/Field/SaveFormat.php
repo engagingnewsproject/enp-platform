@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Field;
 
-interface SaveFormat {
+interface SaveFormat
+{
 
-	/**
-	 * @return string
-	 */
-	public function get_save_format();
+    public function get_save_format(): string;
 
 }

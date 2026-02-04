@@ -2,53 +2,35 @@
 
 namespace ACP\Search;
 
-final class Rule {
+final class Rule
+{
 
-	/**
-	 * @var string
-	 */
-	private $name;
+    private string $name;
 
-	/**
-	 * @var string
-	 */
-	private $operator;
+    private string $operator;
 
-	/**
-	 * @var Value
-	 */
-	private $value;
+    private Value $value;
 
-	/**
-	 * @param string $name
-	 * @param string $operator
-	 * @param Value  $value
-	 */
-	public function __construct( $name, $operator, Value $value ) {
-		$this->name = $name;
-		$this->operator = $operator;
-		$this->value = $value;
-	}
+    public function __construct(string $name, string $operator, Value $value)
+    {
+        $this->name = $name;
+        $this->operator = $operator;
+        $this->value = $value;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function get_name() {
-		return $this->name;
-	}
+    public function get_name(): string
+    {
+        return $this->name;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function get_operator() {
-		return $this->operator;
-	}
+    public function get_operator(): string
+    {
+        return $this->operator;
+    }
 
-	/**
-	 * @return Value
-	 */
-	public function get_value() {
-		return $this->value;
-	}
+    public function get_value(): Value
+    {
+        return $this->value;
+    }
 
 }

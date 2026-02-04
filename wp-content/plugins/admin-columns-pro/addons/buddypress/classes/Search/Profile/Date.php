@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\BP\Search\Profile;
 
 use AC\Helper\Select\Options;

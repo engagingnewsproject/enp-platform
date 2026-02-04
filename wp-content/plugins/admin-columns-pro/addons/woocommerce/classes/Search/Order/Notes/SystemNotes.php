@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\Order\Notes;
 
 use ACP\Query\Bindings;

@@ -13,7 +13,7 @@ use ACP\Sorting\Type\Order;
 class FullNameAddress implements QueryBindings
 {
 
-    private $address_type;
+    private AddressType $address_type;
 
     public function __construct(AddressType $address_type)
     {

@@ -4,50 +4,58 @@ declare(strict_types=1);
 
 namespace ACP\Storage\Decoder;
 
+use AC\ColumnIterator;
+use AC\ColumnIterator\ProxyColumnIterator;
+use AC\ColumnRepository\EncodedData;
 use AC\ListScreen;
-use AC\ListScreenFactory;
 use AC\Plugin\Version;
+use AC\Setting\ConfigCollection;
+use AC\TableScreen;
 use AC\Type\ListScreenId;
+use AC\Type\ListScreenStatus;
 use ACP\Exception\NonDecodableDataException;
-use ACP\ListScreenPreferences;
 use ACP\Search\Entity\Segment;
 use ACP\Search\SegmentCollection;
 use ACP\Search\Type\SegmentKey;
 use DateTime;
 
-final class Version630 extends BaseDecoder implements SegmentsDecoder, ListScreenDecoder
+class Version630 extends Version510 implements SegmentsDecoder
 {
 
-    private $list_screen_factory;
+    public const VERSION = '6.3';
+    public const SEGMENTS = 'segments';
 
-    public function __construct(array $encoded_data, ListScreenFactory $list_screen_factory)
+    protected function get_version(): Version
     {
-        parent::__construct($encoded_data);
-
-        $this->list_screen_factory = $list_screen_factory;
+        return new Version(self::VERSION);
     }
 
-    public function get_version(): Version
+    protected function extract_list_screen_id(array $encoded_data): string
     {
-        return new Version('6.3');
+        return $encoded_data['list_screen']['id'] ?? '';
+    }
+
+    protected function extract_table_id(array $encoded_data): string
+    {
+        return $encoded_data['list_screen']['type'] ?? '';
     }
 
     public function has_segments(): bool
     {
-        $segments = $this->encoded_data['segments'] ?? null;
+        $segments = $this->encoded_data[self::SEGMENTS] ?? null;
 
         return $segments && is_array($segments);
     }
 
     public function get_segments(): SegmentCollection
     {
-        if ( ! $this->has_required_version() || ! $this->has_segments()) {
+        if ( ! $this->has_segments()) {
             throw new NonDecodableDataException($this->encoded_data);
         }
 
         $segments = [];
 
-        foreach ($this->encoded_data['segments'] as $encoded_segment) {
+        foreach ($this->encoded_data[self::SEGMENTS] as $encoded_segment) {
             // Backwards compatibility for segments that have not stored their creation date
             $date_created = isset($encoded_segment['date_created'])
                 ? DateTime::createFromFormat('U', (string)$encoded_segment['date_created'])
@@ -66,42 +74,39 @@ final class Version630 extends BaseDecoder implements SegmentsDecoder, ListScree
         return new SegmentCollection($segments);
     }
 
-    public function has_list_screen(): bool
-    {
-        $type = $this->encoded_data['list_screen']['type'] ?? null;
-
-        if ( ! $type) {
-            return false;
-        }
-
-        if ( ! $this->list_screen_factory->can_create((string)$type)) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function get_list_screen(): ListScreen
     {
-        if ( ! $this->has_required_version() || ! $this->has_list_screen()) {
-            throw new NonDecodableDataException($this->encoded_data);
-        }
+        $this->assert_has_list_screen();
 
-        $preferences = $this->encoded_data['list_screen']['settings'] ?? [];
+        $data = $this->encoded_data['list_screen'];
+        $table_screen = $this->table_screen_factory->create($this->get_table_id());
+
+        $list_screen = new ListScreen(
+            $this->get_list_screen_id(),
+            $data['title'] ?? '',
+            $table_screen,
+            $this->create_column_iterator($table_screen, $data['columns'] ?? []),
+            $data['settings'] ?? [],
+            new ListScreenStatus($data['status'] ?? null),
+            DateTime::createFromFormat('U', (string)$data['updated'])
+        );
 
         if ($this->has_segments()) {
-            $preferences[ListScreenPreferences::SHARED_SEGMENTS] = $this->get_segments();
+            $list_screen->set_segments($this->get_segments());
         }
 
-        return $this->list_screen_factory->create(
-            $this->encoded_data['list_screen']['type'],
-            [
-                'list_id' => $this->encoded_data['list_screen']['id'],
-                'columns' => $this->encoded_data['list_screen']['columns'] ?? [],
-                'preferences' => $preferences,
-                'title' => $this->encoded_data['list_screen']['title'] ?? '',
-                'date' => DateTime::createFromFormat('U', (string)$this->encoded_data['list_screen']['updated']),
-            ]
+        return $list_screen;
+    }
+
+    private function create_column_iterator(TableScreen $table_screen, array $encoded_columns): ColumnIterator
+    {
+        return new ProxyColumnIterator(
+            new EncodedData(
+                $this->column_factory->create($table_screen),
+                ConfigCollection::create_from_array($encoded_columns),
+                $this->original_columns_repository,
+                $table_screen
+            )
         );
     }
 

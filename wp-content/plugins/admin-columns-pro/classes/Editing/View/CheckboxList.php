@@ -4,14 +4,16 @@ namespace ACP\Editing\View;
 
 use ACP\Editing\View;
 
-class CheckboxList extends View {
+class CheckboxList extends View
+{
 
-	use OptionsTrait;
+    use OptionsTrait;
 
-	public function __construct( array $options = [] ) {
-		parent::__construct( 'checklist' );
+    public function __construct(array $options = [])
+    {
+        parent::__construct('checklist');
 
-		$this->set_options( $options );
-	}
+        $this->set_options($options);
+    }
 
 }

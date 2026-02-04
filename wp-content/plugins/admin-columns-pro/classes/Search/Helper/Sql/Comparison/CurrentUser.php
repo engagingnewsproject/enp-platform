@@ -20,7 +20,7 @@ class CurrentUser extends Comparison
         return sprintf('%s = ?', $this->column);
     }
 
-    public function bind_value(Value $value)
+    public function bind_value(Value $value): self
     {
         return parent::bind_value((new UserValueFactory())->create_current_user());
     }

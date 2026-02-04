@@ -1,47 +1,84 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF;
 
-use http\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 
-class Field {
+class Field
+{
 
-	protected $settings;
+    protected array $settings;
 
-	public function __construct( array $settings ) {
-		$this->settings = $settings;
+    public function __construct(array $settings)
+    {
+        $this->settings = $settings;
 
-		$this->validate();
-	}
+        if ( ! self::validate($settings)) {
+            throw new InvalidArgumentException('Missing field argument.');
+        }
+    }
 
-	public function validate(): void {
-		if ( ! isset( $this->settings['label'], $this->settings['type'], $this->settings['name'], $this->settings['key'] ) ) {
-			throw new InvalidArgumentException( 'Missing field argument.' );
-		}
-	}
+    public static function validate(array $settings): bool
+    {
+        if ( ! isset($settings['label']) || ! is_string($settings['label'])) {
+            return false;
+        }
 
-	public function is_required(): bool {
-		return isset( $this->settings['required'] ) && $this->settings['required'];
-	}
+        if ( ! isset($settings['type']) || ! $settings['type'] || ! is_string($settings['type'])) {
+            return false;
+        }
 
-	public function get_settings(): array {
-		return $this->settings;
-	}
+        if ( ! isset($settings['name']) || ! $settings['name'] || ! is_string($settings['name'])) {
+            return false;
+        }
 
-	public function get_label() {
-		return $this->settings['label'];
-	}
+        if ( ! isset($settings['key']) || ! $settings['key'] || ! is_string($settings['key'])) {
+            return false;
+        }
 
-	public function get_type() {
-		return $this->settings['type'];
-	}
+        return true;
+    }
 
-	public function get_meta_key() {
-		return $this->settings['name'];
-	}
+    public function is_required(): bool
+    {
+        return isset($this->settings['required']) && $this->settings['required'];
+    }
 
-	public function get_hash() {
-		return $this->settings['key'];
-	}
+    public function get_settings(): array
+    {
+        return $this->settings;
+    }
+
+    public function get_label(): string
+    {
+        return (string)$this->settings['label'];
+    }
+
+    public function get_type(): string
+    {
+        return (string)$this->settings['type'];
+    }
+
+    public function get_meta_key(): string
+    {
+        return (string)$this->settings['name'];
+    }
+
+    public function get_hash(): string
+    {
+        return (string)$this->settings['key'];
+    }
+
+    public function is_clone(): bool
+    {
+        return isset($this->settings['_clone']);
+    }
+
+    public function is_deferred_clone(): bool
+    {
+        return isset($this->settings['ac_clone']);
+    }
 
 }

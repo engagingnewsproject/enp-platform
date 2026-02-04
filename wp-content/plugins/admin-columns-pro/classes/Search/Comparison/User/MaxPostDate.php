@@ -12,25 +12,13 @@ use ACP\Search\Value;
 class MaxPostDate extends Comparison
 {
 
-    /**
-     * @var string
-     */
-    private $post_type;
+    private string $post_type;
 
-    /**
-     * @var array
-     */
-    private $post_stati;
+    private array $post_stati;
 
-    /**
-     * @var bool
-     */
-    private $oldest_post;
+    private bool $oldest_post;
 
-    /**
-     * @param string $post_type ;
-     */
-    public function __construct($post_type, array $post_stati = [], $oldest_post = false)
+    public function __construct(string $post_type, array $post_stati = [], bool $oldest_post = false)
     {
         $operators = new Operators([
             Operators::BETWEEN,
@@ -48,7 +36,8 @@ class MaxPostDate extends Comparison
     protected function create_query_bindings(string $operator, Value $value): Bindings
     {
         global $wpdb;
-        $alias = uniqid('acs', false);
+
+        $alias = uniqid('acs');
         $comparison = ComparisonFactory::create("$alias.date", $operator, $value)->prepare();
 
         $min_or_max = $this->oldest_post

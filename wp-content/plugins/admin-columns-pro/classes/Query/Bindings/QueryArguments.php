@@ -7,7 +7,7 @@ use ACP;
 class QueryArguments extends ACP\Query\Bindings
 {
 
-    protected $query_arguments = [];
+    protected array $query_arguments = [];
 
     public function query_arguments(array $args): self
     {

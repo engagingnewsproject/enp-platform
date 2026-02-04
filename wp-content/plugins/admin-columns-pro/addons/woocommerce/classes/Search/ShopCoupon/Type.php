@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\ShopCoupon;
 
 use AC;
@@ -14,7 +16,7 @@ class Type extends Comparison\Meta
     /**
      * @var array [ $key => $label ]
      */
-    private $types;
+    private array $types;
 
     public function __construct(array $types)
     {

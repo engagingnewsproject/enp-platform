@@ -6,18 +6,19 @@ use AC;
 use AC\Capabilities;
 use AC\Request;
 use AC\RequestAjaxHandler;
+use AC\Type\TableId;
 
 class ListScreenOrder implements RequestAjaxHandler
 {
 
-    /**
-     * @var AC\Storage\ListScreenOrder
-     */
-    private $list_screen_order;
+    private AC\Storage\Repository\ListScreenOrder $list_screen_order;
 
-    public function __construct(AC\Storage\ListScreenOrder $order)
+    private AC\Nonce\Ajax $nonce;
+
+    public function __construct(AC\Storage\Repository\ListScreenOrder $order, AC\Nonce\Ajax $nonce)
     {
         $this->list_screen_order = $order;
+        $this->nonce = $nonce;
     }
 
     public function handle(): void
@@ -28,18 +29,23 @@ class ListScreenOrder implements RequestAjaxHandler
 
         $request = new Request();
 
-        if ( ! (new AC\Nonce\Ajax())->verify($request)) {
+        if ( ! $this->nonce->verify($request)) {
             wp_send_json_error();
         }
 
-        $list_screen_key = $request->get('list_screen');
-        $order = $request->filter('order', [], FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        $list_key = $request->get('list_key');
 
-        if ( ! $order || ! $list_screen_key) {
+        if ( ! TableId::validate($list_key)) {
             wp_send_json_error();
         }
 
-        $this->list_screen_order->set($list_screen_key, $order);
+        $order = json_decode($request->filter('order', ''));
+
+        if ( ! $order) {
+            wp_send_json_error();
+        }
+
+        $this->list_screen_order->set(new TableId($list_key), $order);
 
         wp_send_json_success();
     }

@@ -3,23 +3,24 @@
 namespace ACP\Sorting\Controller;
 
 use AC\Ajax;
-use AC\ListScreenFactory;
-use AC\ListScreenRepository\Storage;
+use AC\Preferences\SiteFactory;
 use AC\Registerable;
+use AC\TableScreenFactory;
 use AC\Type\ListScreenId;
+use AC\Type\TableId;
 use ACP\Sorting\UserPreference;
 
 class AjaxResetSorting implements Registerable
 {
 
-    private $storage;
+    private TableScreenFactory $table_screen_factory;
 
-    private $list_screen_factory;
+    private SiteFactory $storage_factory;
 
-    public function __construct(Storage $storage, ListScreenFactory $list_screen_factory)
+    public function __construct(TableScreenFactory $table_screen_factory, SiteFactory $storage_factory)
     {
-        $this->storage = $storage;
-        $this->list_screen_factory = $list_screen_factory;
+        $this->table_screen_factory = $table_screen_factory;
+        $this->storage_factory = $storage_factory;
     }
 
     public function register(): void
@@ -41,23 +42,27 @@ class AjaxResetSorting implements Registerable
     {
         $this->get_ajax_handler()->verify_request();
 
-        $list_screen = null;
-        $list_id = filter_input(INPUT_POST, 'layout');
-        $list_key = filter_input(INPUT_POST, 'list_screen');
+        $list_key = new TableId(filter_input(INPUT_POST, 'list_screen'));
+
+        if ( ! $this->table_screen_factory->can_create(new TableId(filter_input(INPUT_POST, 'list_screen')))) {
+            return;
+        }
+
+        $storage_key = (string)$list_key;
+        $list_id = (string)filter_input(INPUT_POST, 'layout');
 
         if (ListScreenId::is_valid_id($list_id)) {
-            $list_screen = $this->storage->find(new ListScreenId($list_id));
-        } elseif ($list_key && $this->list_screen_factory->can_create($list_key)) {
-            $list_screen = $this->list_screen_factory->create($list_key);
+            $storage_key .= $list_id;
         }
 
-        if ( ! $list_screen) {
-            wp_send_json_error();
-        }
+        $preference = new UserPreference\SortType(
+            $storage_key,
+            $this->storage_factory
+        );
 
-        $preference = new UserPreference\SortType($list_screen->get_storage_key());
+        $preference->delete();
 
-        wp_send_json_success($preference->delete());
+        wp_send_json_success();
     }
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Type;
 
 class ProductAttribute
@@ -7,7 +9,7 @@ class ProductAttribute
 
     private const TAXONOMY_PREFIX = 'pa_';
 
-    private $name;
+    private string $name;
 
     public function __construct(string $name)
     {

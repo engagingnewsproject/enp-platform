@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Editing\Product;
 
 use ACP;
@@ -13,7 +15,7 @@ class StockThreshold implements ACP\Editing\Service
         return new ACP\Editing\View\Number();
     }
 
-    public function get_value($id)
+    public function get_value(int $id)
     {
         $product = wc_get_product($id);
 

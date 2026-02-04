@@ -1,58 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\Pods\Service;
 
 use AC;
+use AC\Asset\Location\Absolute;
 use AC\Registerable;
-use ACA\Pods\Column;
-use ACP;
 
-final class Columns implements Registerable {
+final class Columns implements Registerable
+{
 
-	public function register(): void
+    private Absolute $location;
+
+    public function __construct(Absolute $location)
     {
-		add_action( 'ac/column_groups', [ $this, 'register_column_groups' ] );
-		add_action( 'acp/column_types', [ $this, 'add_columns' ] );
-	}
+        $this->location = $location;
+    }
 
-	/**
-	 * @param AC\Groups $groups
-	 */
-	public function register_column_groups( $groups ) {
-		$groups->add( 'pods', 'Pods', 11 );
+    public function register(): void
+    {
+        add_action('ac/column/groups', [$this, 'register_column_groups']);
+    }
 
-	}
-
-	/**
-	 * Add custom columns
-	 *
-	 * @param AC\ListScreen $list_screen
-	 */
-	public function add_columns( AC\ListScreen $list_screen ) {
-
-		switch ( true ) {
-
-			case $list_screen instanceof AC\ListScreen\Comment :
-				$list_screen->register_column_type( new Column\Comment );
-
-				break;
-			case $list_screen instanceof AC\ListScreen\Post :
-				$list_screen->register_column_type( new Column\Post );
-
-				break;
-			case $list_screen instanceof AC\ListScreen\Media :
-				$list_screen->register_column_type( new Column\Media );
-
-				break;
-			case $list_screen instanceof AC\ListScreen\User :
-				$list_screen->register_column_type( new Column\User );
-
-				break;
-			case $list_screen instanceof ACP\ListScreen\Taxonomy :
-				$list_screen->register_column_type( new Column\Taxonomy() );
-
-				break;
-		}
-	}
+    public function register_column_groups(AC\Type\Groups $groups): void
+    {
+        $groups->add(
+            new AC\Type\Group('pods', 'Pods', 14, $this->location->with_suffix('/assets/images/pods.svg')->get_url())
+        );
+    }
 
 }

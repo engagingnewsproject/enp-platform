@@ -7,10 +7,7 @@ namespace ACP\ListScreenRepository;
 use AC\ListScreenCollection;
 use AC\ListScreenRepository;
 use ACP\Exception\DecoderNotFoundException;
-use ACP\ListScreenPreferences;
-use ACP\Search\SegmentCollection;
 use ACP\Storage\AbstractDecoderFactory;
-use ACP\Storage\Decoder\ListScreenDecoder;
 use ACP\Storage\Decoder\SegmentsDecoder;
 use Closure;
 
@@ -20,12 +17,9 @@ final class Callback implements ListScreenRepository
     use ListScreenRepository\ListScreenRepositoryTrait;
     use FilteredListScreenRepositoryTrait;
 
-    private $decoder_factory;
+    private AbstractDecoderFactory $decoder_factory;
 
-    /**
-     * @var Closure
-     */
-    private $callback;
+    private Closure $callback;
 
     public function __construct(AbstractDecoderFactory $decoder_factory, callable $callback)
     {
@@ -45,17 +39,15 @@ final class Callback implements ListScreenRepository
                 continue;
             }
 
-            if ( ! $decoder instanceof ListScreenDecoder || ! $decoder->has_list_screen()) {
+            if ( ! $decoder->has_list_screen()) {
                 continue;
             }
 
             $list_screen = $decoder->get_list_screen();
 
-            $segments = $decoder instanceof SegmentsDecoder && $decoder->has_segments()
-                ? $decoder->get_segments()
-                : new SegmentCollection();
-
-            $list_screen->set_preference(ListScreenPreferences::SHARED_SEGMENTS, $segments);
+            if ($decoder instanceof SegmentsDecoder && $decoder->has_segments()) {
+                $list_screen->set_segments($decoder->get_segments());
+            }
 
             $collection->add($list_screen);
         }

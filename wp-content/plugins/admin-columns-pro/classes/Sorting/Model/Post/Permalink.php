@@ -15,7 +15,7 @@ class Permalink implements WarningAware, QueryBindings
 
     use PostRequestTrait;
 
-    private $post_type;
+    private string $post_type;
 
     public function __construct(string $post_type)
     {

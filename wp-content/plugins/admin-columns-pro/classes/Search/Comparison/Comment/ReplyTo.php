@@ -26,7 +26,7 @@ class ReplyTo extends Comparison implements SearchableValues
 
     protected function create_query_bindings(string $operator, Value $value): Bindings
     {
-        return (new Bindings\Comment())->parent($value->get_value());
+        return (new Bindings\Comment())->parent((int)$value->get_value());
     }
 
     private function formatter(): LabelFormatter\CommentTitle

@@ -18,21 +18,21 @@ class Post extends Meta
     implements SearchableValues
 {
 
-    protected $post_types;
+    protected array $post_types;
 
     /**
      * @var WP_Term[]
      */
-    protected $terms;
+    protected array $terms;
 
-    protected $query;
+    protected ?Query $query;
 
     public function __construct(
         string $meta_key,
         array $post_types = [],
         array $terms = [],
-        Labels $labels = null,
-        Query $query = null
+        ?Labels $labels = null,
+        ?Query $query = null
     ) {
         $this->post_types = $post_types;
         $this->terms = $terms;

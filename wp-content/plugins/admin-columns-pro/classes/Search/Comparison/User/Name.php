@@ -11,14 +11,8 @@ use ACP\Search\Value;
 class Name extends Comparison
 {
 
-    /**
-     * @var array
-     */
-    private $meta_keys;
+    private array $meta_keys;
 
-    /**
-     * @param array $meta_keys
-     */
     public function __construct(array $meta_keys)
     {
         $operators = new Operators([
@@ -42,7 +36,7 @@ class Name extends Comparison
         return $bindings;
     }
 
-    protected function get_meta_query($operator, Value $value)
+    protected function get_meta_query($operator, Value $value): array
     {
         $meta_query = [
             'relation' => 'OR',

@@ -2,17 +2,14 @@
 
 namespace ACP\QuickAdd;
 
-use AC\ListScreen;
+use AC\TableScreen;
 
-class Filter {
+class Filter
+{
 
-	/**
-	 * @param ListScreen $list_screen
-	 *
-	 * @return bool
-	 */
-	public function match( ListScreen $list_screen ) {
-		return (bool) apply_filters( 'acp/quick_add/enable', true, $list_screen );
-	}
+    public function match(TableScreen $table_screen): bool
+    {
+        return (bool)apply_filters('ac/quick_add/enable', true, $table_screen);
+    }
 
 }

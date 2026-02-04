@@ -2,10 +2,12 @@
 
 namespace ACP\Search\Helper\Sql\Comparison;
 
-class NotContains extends Contains {
+class NotContains extends Contains
+{
 
-	public function is_negated() {
-		return true;
-	}
+    public function is_negated(): bool
+    {
+        return true;
+    }
 
 }

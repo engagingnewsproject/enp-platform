@@ -15,7 +15,7 @@ final class Segment implements Middleware
 
     use DefaultSegmentTrait;
 
-    private $list_screen;
+    private AC\ListScreen $list_screen;
 
     public function __construct(AC\ListScreen $list_screen, SegmentRepository\Database $segment_repository)
     {

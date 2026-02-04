@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\Order;
 
 use ACA\WC\Helper\Select;
@@ -26,13 +28,15 @@ class ProductNonAnalytics extends Comparison
 
     protected function create_query_bindings(string $operator, Value $value): Bindings
     {
-        return (new Bindings())->where($this->get_where($value->get_value(), $operator));
+        return (new Bindings())->where(
+            $this->get_where((int)$value->get_value(), $operator)
+        );
     }
 
     public function get_where(int $product_id, string $operator): string
     {
         global $wpdb;
-        $orders = $this->get_orders_ids_by_product_id((int)$product_id);
+        $orders = $this->get_orders_ids_by_product_id($product_id);
 
         if (empty($orders)) {
             $orders = [0];
@@ -50,7 +54,7 @@ class ProductNonAnalytics extends Comparison
     {
         global $wpdb;
 
-        $results = $wpdb->get_col(
+        return $wpdb->get_col(
             $wpdb->prepare(
                 "
 	        SELECT DISTINCT(order_items.order_id)
@@ -63,8 +67,6 @@ class ProductNonAnalytics extends Comparison
                 $product_id
             )
         );
-
-        return $results;
     }
 
 }

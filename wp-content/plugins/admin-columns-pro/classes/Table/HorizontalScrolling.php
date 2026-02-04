@@ -6,20 +6,22 @@ use AC;
 use AC\Asset;
 use AC\ListScreen;
 use AC\ListScreenRepository\Storage;
+use AC\Preferences\SiteFactory;
 use AC\Registerable;
 use AC\Type\ListScreenId;
+use ACP\AdminColumnsPro;
 
 class HorizontalScrolling implements Registerable
 {
 
-    private $storage;
+    private Storage $storage;
 
-    private $location;
+    private Asset\Location\Absolute $location;
 
-    public function __construct(Storage $storage, Asset\Location\Absolute $location)
+    public function __construct(Storage $storage, AdminColumnsPro $plugin)
     {
         $this->storage = $storage;
-        $this->location = $location;
+        $this->location = $plugin->get_location();
     }
 
     public function register(): void
@@ -30,9 +32,9 @@ class HorizontalScrolling implements Registerable
         add_action('wp_ajax_acp_update_table_option_overflow', [$this, 'update_table_option_overflow']);
     }
 
-    public function preferences(): AC\Preferences\Site
+    public function preferences(): AC\Preferences\Preference
     {
-        return new AC\Preferences\Site('show_overflow_table');
+        return (new SiteFactory())->create('show_overflow_table');
     }
 
     public function update_table_option_overflow(): void
@@ -51,15 +53,18 @@ class HorizontalScrolling implements Registerable
             wp_send_json_error('Invalid list screen.');
         }
 
-        $this->preferences()->set($list_screen->get_storage_key(), 'true' === filter_input(INPUT_POST, 'value'));
+        $this->preferences()->save(
+            $list_screen->get_table_id() . $list_screen->get_id(),
+            'true' === filter_input(INPUT_POST, 'value')
+        );
 
         wp_send_json_success();
     }
 
     private function is_overflow_table(ListScreen $list_screen): bool
     {
-        $preference = $this->preferences()->get(
-            $list_screen->get_storage_key()
+        $preference = $this->preferences()->find(
+            $list_screen->get_table_id() . $list_screen->get_id()
         );
 
         // Load the list screen preference when user has not yet set their own preference.
@@ -67,19 +72,14 @@ class HorizontalScrolling implements Registerable
             $preference = 'on' === $list_screen->get_preference('horizontal_scrolling');
         }
 
-        return (bool)apply_filters('acp/horizontal_scrolling/enable', $preference, $list_screen);
-    }
-
-    public function delete_overflow_preference(ListScreen $list_screen): void
-    {
-        $this->preferences()->delete($list_screen->get_storage_key());
+        return (bool)apply_filters('ac/horizontal_scrolling/enable', $preference, $list_screen);
     }
 
     public function register_screen_option(AC\Table\Screen $table): void
     {
         $list_screen = $table->get_list_screen();
 
-        if ( ! $list_screen->get_settings()) {
+        if ( ! $list_screen) {
             return;
         }
 
@@ -95,7 +95,7 @@ class HorizontalScrolling implements Registerable
                   ->set_options([
                       'yes' => $label,
                   ])
-                  ->set_value($this->is_overflow_table($table->get_list_screen()) ? 'yes' : '');
+                  ->set_value($this->is_overflow_table($list_screen) ? 'yes' : '');
 
         $table->register_screen_option($check_box);
     }
@@ -122,15 +122,11 @@ class HorizontalScrolling implements Registerable
         ]);
     }
 
-    /**
-     * @param string          $classes
-     * @param AC\Table\Screen $table
-     *
-     * @return string
-     */
     public function add_horizontal_scrollable_class($classes, $table)
     {
-        if ($this->is_overflow_table($table->get_list_screen())) {
+        $list_screen = $table->get_list_screen();
+
+        if ($list_screen && $this->is_overflow_table($list_screen)) {
             $classes .= ' acp-overflow-table';
         }
 

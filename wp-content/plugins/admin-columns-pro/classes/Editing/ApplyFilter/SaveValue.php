@@ -2,29 +2,39 @@
 
 namespace ACP\Editing\ApplyFilter;
 
-use AC\Column;
+use AC\Column\Context;
+use AC\TableScreen;
+use AC\Type\ListScreenId;
 
 class SaveValue
 {
 
-    private $id;
+    private int $id;
 
-    private $column;
+    private Context $context;
 
-    public function __construct(int $id, Column $column)
+    private TableScreen $table_screen;
+
+    private ListScreenId $list_screen_id;
+
+    public function __construct(int $id, Context $context, TableScreen $table_screen, ListScreenId $list_screen_id)
     {
         $this->id = $id;
-        $this->column = $column;
+        $this->context = $context;
+        $this->table_screen = $table_screen;
+        $this->list_screen_id = $list_screen_id;
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return mixed
-     */
     public function apply_filters($value)
     {
-        return apply_filters('acp/editing/save_value', $value, $this->column, $this->id);
+        return apply_filters(
+            'ac/editing/save_value',
+            $value,
+            $this->context,
+            $this->id,
+            $this->table_screen,
+            $this->list_screen_id
+        );
     }
 
 }

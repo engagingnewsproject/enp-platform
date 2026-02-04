@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Sorting\User\ShopOrder;
 
 use ACP\Query\Bindings;
+use ACP\Query\SqlTrait;
 use ACP\Sorting\Model\QueryBindings;
-use ACP\Sorting\Model\SqlTrait;
 use ACP\Sorting\Type\Order;
 
 abstract class OrderDate implements QueryBindings
@@ -12,7 +14,7 @@ abstract class OrderDate implements QueryBindings
 
     use SqlTrait;
 
-    private $status;
+    private array $status;
 
     public function __construct(array $status = ['wc-completed'])
     {

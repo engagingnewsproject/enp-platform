@@ -8,6 +8,8 @@ use AC\ListScreen;
 use AC\ListScreenCollection;
 use AC\ListScreenRepository\Filter;
 use AC\Type\ListScreenId;
+use AC\Type\ListScreenStatus;
+use AC\Type\TableId;
 
 trait FilteredListScreenRepositoryTrait
 {
@@ -19,15 +21,21 @@ trait FilteredListScreenRepositoryTrait
         );
 
         return $list_screens->count()
-            ? $list_screens->get_first()
+            ? $list_screens->first()
             : null;
     }
 
-    protected function find_all_by_key_from_source(string $key): ListScreenCollection
-    {
-        return (new Filter\ListScreenKey($key))->filter(
+    protected function find_all_by_table_id_from_source(
+        TableId $id,
+        ?ListScreenStatus $type = null
+    ): ListScreenCollection {
+        $list_screens = (new Filter\TableScreenId($id))->filter(
             $this->find_all_from_source()
         );
+
+        return $type
+            ? (new Filter\ListScreenStatus($type))->filter($list_screens)
+            : $list_screens;
     }
 
     abstract protected function find_all_from_source(): ListScreenCollection;

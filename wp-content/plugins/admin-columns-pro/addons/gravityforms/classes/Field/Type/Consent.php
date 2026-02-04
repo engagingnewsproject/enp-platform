@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\GravityForms\Field\Type;
 
 use ACA\GravityForms\Field\Field;
 
-class Consent extends Field {
+class Consent extends Field
+{
 
-	public function get_consent_text() {
-		return $this->gf_field->offsetGet( 'checkboxLabel' );
-	}
+    public function get_consent_text()
+    {
+        return $this->gf_field->offsetGet('checkboxLabel');
+    }
 
 }

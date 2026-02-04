@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace ACP\ConditionalFormat\Formatter\Media;
 
-use AC\Column;
-use ACP\ConditionalFormat\Formatter;
-use ACP\Expression\ComparisonOperators;
+use AC\Expression\ComparisonOperators;
+use ACP\ConditionalFormat\Formatter\BaseFormatter;
 
-class FileSizeFormatter implements Formatter
+class FileSizeFormatter extends BaseFormatter
 {
 
-    public function get_type(): string
+    public function __construct()
     {
-        return self::INTEGER;
+        parent::__construct(self::FLOAT);
     }
 
-    public function format(string $value, $id, Column $column, string $operator_group): string
+    public function format(string $value, $id, string $operator_group): string
     {
         if (ComparisonOperators::class === $operator_group) {
             $value = '';
@@ -31,4 +30,5 @@ class FileSizeFormatter implements Formatter
 
         return $value;
     }
+
 }

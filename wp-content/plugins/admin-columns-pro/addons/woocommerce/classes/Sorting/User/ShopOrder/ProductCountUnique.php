@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Sorting\User\ShopOrder;
 
 use ACP\Query\Bindings;
+use ACP\Query\SqlTrait;
 use ACP\Sorting\Model\QueryBindings;
 use ACP\Sorting\Model\SqlOrderByFactory;
-use ACP\Sorting\Model\SqlTrait;
 use ACP\Sorting\Type\Order;
 
 class ProductCountUnique implements QueryBindings
@@ -13,9 +15,9 @@ class ProductCountUnique implements QueryBindings
 
     use SqlTrait;
 
-    private $status;
+    private ?array $status;
 
-    public function __construct(array $status = null)
+    public function __construct(?array $status = null)
     {
         if (null === $status) {
             $status = ['wc-completed'];

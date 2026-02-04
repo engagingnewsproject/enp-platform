@@ -1,10 +1,13 @@
 <?php
 
+use AC\Column;
 use AC\Container;
-use AC\Helper;
 use AC\ListScreen;
 use AC\ListScreenCollection;
+use AC\Plugin\Version;
+use AC\Type\ColumnId;
 use AC\Type\ListScreenId;
+use AC\Type\TableId;
 use AC\Type\Url;
 
 function ac_get_url(string $relative_file_path): string
@@ -18,7 +21,7 @@ if ( ! function_exists('AC')) {
         static $ac = null;
 
         if ($ac === null) {
-            $ac = new AC\AdminColumns();
+            $ac = new AC\AdminColumns(AC_FILE, new Version(AC_VERSION));
         }
 
         return $ac;
@@ -33,32 +36,45 @@ if ( ! function_exists('ac_helper')) {
 }
 
 /**
- * @since 4.0.0
+ * For usage @see https://docs.admincolumns.com/article/57-code-snippets
  */
 if ( ! function_exists('ac_get_list_screen')) {
     function ac_get_list_screen(string $id): ?ListScreen
     {
+        if ( ! did_action('wp_loaded')) {
+            throw new RuntimeException("Call after the `wp_loaded` hook.");
+        }
+
         return Container::get_storage()->find(new ListScreenId($id));
     }
 }
 
 /**
- * Usage: Load after or within the 'wp_loaded' action hook.
- * @since 4.0.0
+ * For usage @see https://docs.admincolumns.com/article/57-code-snippets
  */
 if ( ! function_exists('ac_get_list_screens')) {
-    function ac_get_list_screens(string $key): ListScreenCollection
+    function ac_get_list_screens(string $table_id): ListScreenCollection
     {
-        return Container::get_storage()->find_all_by_key($key);
+        if ( ! did_action('wp_loaded')) {
+            throw new RuntimeException("Call after the `wp_loaded` hook.");
+        }
+
+        return Container::get_storage()->find_all_by_table_id(
+            new TableId($table_id)
+        );
     }
 }
 
 /**
- * Usage: Load after or within the 'wp_loaded' action hook.
+ * For usage @see https://docs.admincolumns.com/article/57-code-snippets
  */
 if ( ! function_exists('ac_get_column')) {
-    function ac_get_column(string $column_name, string $list_screen_id): ?\AC\Column
+    function ac_get_column(string $column_name, string $list_screen_id): ?Column
     {
+        if ( ! did_action('wp_loaded')) {
+            throw new RuntimeException("Call after the `wp_loaded` hook.");
+        }
+
         try {
             $list_id = new ListScreenId($list_screen_id);
         } catch (Exception $e) {
@@ -71,20 +87,23 @@ if ( ! function_exists('ac_get_column')) {
             return null;
         }
 
-        $column = $list_screen->get_column_by_name($column_name);
-
-        return $column ?: null;
+        return $list_screen->get_column(new ColumnId($column_name));
     }
 }
 
 /**
- * Usage: Load after or within the 'wp_loaded' action hook.
- * @return AC\Column[]
- * @since 4.2
+ * For usage @see https://docs.admincolumns.com/article/57-code-snippets
  */
 if ( ! function_exists('ac_get_columns')) {
+    /**
+     * @return Column[]
+     */
     function ac_get_columns(string $list_screen_id): array
     {
+        if ( ! did_action('wp_loaded')) {
+            throw new RuntimeException("Call after the `wp_loaded` hook.");
+        }
+
         try {
             $list_id = new ListScreenId($list_screen_id);
         } catch (Exception $e) {
@@ -97,25 +116,32 @@ if ( ! function_exists('ac_get_columns')) {
             return [];
         }
 
-        return $list_screen->get_columns();
+        return iterator_to_array($list_screen->get_columns());
     }
 }
 
 if ( ! function_exists('ac_format_date')) {
-    function ac_format_date(string $format, int $timestamp = null, DateTimeZone $timezone = null): ?string
+    function ac_format_date(string $format, ?int $timestamp = null, ?DateTimeZone $timezone = null): ?string
     {
-        return (new Helper\Date())->format_date($format, $timestamp, $timezone) ?: null;
+        return wp_date($format, $timestamp, $timezone) ?: null;
     }
 }
 
-function ac_get_admin_url(string $slug = null): string
+if ( ! function_exists('ac_is_pro_active')) {
+    function ac_is_pro_active(): bool
+    {
+        return Container::is_pro();
+    }
+}
+
+function ac_get_admin_url(?string $slug = null): string
 {
     _deprecated_function(__METHOD__, '4.5', 'Url\Editor');
 
     return (new Url\Editor($slug))->get_url();
 }
 
-function ac_get_admin_network_url(string $slug = null): string
+function ac_get_admin_network_url(?string $slug = null): string
 {
     _deprecated_function(__METHOD__, '4.5', 'Url\EditorNetwork');
 
@@ -130,22 +156,22 @@ function ac_register_columns(): void
 function ac_get_site_utm_url(
     string $path,
     string $utm_medium,
-    string $utm_content = null,
-    string $utm_campaign = null
+    ?string $utm_content = null,
+    ?string $utm_campaign = null
 ): string {
     _deprecated_function(__METHOD__, '6.0', 'AC\Type\UrlUtmTags()');
 
     return (new Url\UtmTags(new Url\Site($path), $utm_medium, $utm_content, $utm_campaign))->get_url();
 }
 
-function ac_get_site_documentation_url(string $path = null): string
+function ac_get_site_documentation_url(?string $path = null): string
 {
     _deprecated_function(__METHOD__, '6.0', 'AC\Type\Url\Documentation()');
 
     return (new Url\Documentation($path))->get_url();
 }
 
-function ac_get_site_url(string $path = null): string
+function ac_get_site_url(?string $path = null): string
 {
     _deprecated_function(__METHOD__, '6.0', 'AC\Type\Url\Site()');
 
@@ -157,13 +183,6 @@ if ( ! function_exists('ac_load_columns')) {
     {
         _deprecated_function(__METHOD__, '4.1');
     }
-}
-
-function ac_is_pro_active(): bool
-{
-    _deprecated_function(__METHOD__, '6.0');
-
-    return defined('ACP_FILE');
 }
 
 

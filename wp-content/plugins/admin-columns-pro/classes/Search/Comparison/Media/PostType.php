@@ -40,7 +40,7 @@ class PostType extends Comparison
     {
         global $wpdb;
 
-        $sub_query = $wpdb->prepare("SELECT ID from $wpdb->posts WHERE post_type = %s", $value->get_value());
+        $sub_query = $wpdb->prepare("SELECT ID from $wpdb->posts WHERE post_type = %s", (string)$value->get_value());
 
         $bindings = new Bindings();
         $bindings->where("$wpdb->posts.post_parent IN($sub_query)");

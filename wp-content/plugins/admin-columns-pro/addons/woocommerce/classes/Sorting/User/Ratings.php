@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Sorting\User;
 
 use ACP\Query\Bindings;
@@ -11,18 +13,11 @@ use ACP\Sorting\Type\Order;
 class Ratings implements QueryBindings
 {
 
-    /**
-     * @var string 'AVG' or 'COUNT
-     */
-    private $sort_type;
+    private string $sort_type;
 
-    public function __construct(string $sort_type = null)
+    public function __construct(?string $sort_type = null)
     {
-        if (null === $sort_type) {
-            $sort_type = 'COUNT';
-        }
-
-        $this->sort_type = $sort_type;
+        $this->sort_type = $sort_type ?? 'COUNT'; // 'AVG' or 'COUNT'
     }
 
     public function create_query_bindings(Order $order): Bindings

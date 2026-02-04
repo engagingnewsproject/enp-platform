@@ -10,11 +10,7 @@ class In extends Comparison
     implements Negatable
 {
 
-    /**
-     * @param string $column
-     * @param Value  $value
-     */
-    public function __construct($column, Value $value)
+    public function __construct(string $column, Value $value)
     {
         $operator = 'IN';
 
@@ -30,12 +26,12 @@ class In extends Comparison
         return sprintf('%s %s (?)', $this->column, $this->operator);
     }
 
-    public function is_negated()
+    public function is_negated(): bool
     {
         return false;
     }
 
-    public function bind_value(Value $value)
+    public function bind_value(Value $value): self
     {
         if ( ! is_array($value->get_value())) {
             throw new LogicException('Value can only be an array.');
@@ -51,7 +47,7 @@ class In extends Comparison
         return $this;
     }
 
-    public function prepare()
+    public function prepare(): string
     {
         $this->statement = str_replace('?', implode(', ', array_fill(0, count($this->values), '?')), $this->statement);
 

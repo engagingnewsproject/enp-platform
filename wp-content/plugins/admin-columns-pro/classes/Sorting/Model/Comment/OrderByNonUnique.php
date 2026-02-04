@@ -9,7 +9,7 @@ use ACP\Sorting\Type\Order;
 class OrderByNonUnique implements QueryBindings
 {
 
-    private $order_by;
+    private string $order_by;
 
     public function __construct(string $orderby)
     {

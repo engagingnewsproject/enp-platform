@@ -14,7 +14,7 @@ class EqYear extends Comparison
     {
         $value_factory = new DateValueFactory($value->get_type());
 
-        parent::__construct($key, Operators::BETWEEN, $value_factory->create_range_year($value->get_value()));
+        parent::__construct($key, Operators::BETWEEN, $value_factory->create_range_year((int)$value->get_value()));
     }
 
 }

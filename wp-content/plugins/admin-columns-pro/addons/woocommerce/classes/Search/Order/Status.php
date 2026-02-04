@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\Order;
 
 use AC\Helper\Select\Options;
@@ -10,9 +12,9 @@ use ACP\Search\Operators;
 class Status extends OrderField implements ACP\Search\Comparison\Values
 {
 
-    private $options;
+    private array $options;
 
-    public function __construct(array $options = null)
+    public function __construct(?array $options = null)
     {
         parent::__construct(
             'status',

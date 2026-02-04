@@ -9,7 +9,7 @@ class DisplayName implements Storage
 
     public function get($id): string
     {
-        return (string)ac_helper()->user->get_user_field('display_name', $id);
+        return get_userdata($id)->display_name ?? '';
     }
 
     public function update(int $id, $data): bool

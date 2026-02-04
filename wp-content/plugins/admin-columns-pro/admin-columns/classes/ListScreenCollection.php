@@ -13,7 +13,7 @@ final class ListScreenCollection implements Iterator, Countable
     /**
      * @var ListScreen[]
      */
-    private $data = [];
+    private array $data = [];
 
     public function __construct(array $list_screens = [])
     {
@@ -45,9 +45,11 @@ final class ListScreenCollection implements Iterator, Countable
         return current($this->data);
     }
 
-    public function get_first(): ListScreen
+    public function first(): ?ListScreen
     {
-        return reset($this->data);
+        return $this->count()
+            ? $this->data[array_key_first($this->data)]
+            : null;
     }
 
     public function key(): string

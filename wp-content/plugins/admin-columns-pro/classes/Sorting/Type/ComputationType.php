@@ -19,7 +19,7 @@ class ComputationType
     public const ROUND = 'ROUND';
     public const SUM = 'SUM';
 
-    private $value;
+    private string $value;
 
     public function __construct(string $value)
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Editing;
 
 use AC\Helper\Select\Options\Paginated;
@@ -7,99 +9,106 @@ use ACP\Editing\PaginatedOptions;
 use ACP\Editing\Service;
 use ACP\Editing\Storage;
 use ACP\Editing\View;
+use ACP\Helper\Select\Taxonomy\PaginatedFactory;
 use InvalidArgumentException;
 
-class ProductCategories implements Service, PaginatedOptions {
+class ProductCategories implements Service, PaginatedOptions
+{
 
-	private $storage;
+    private Storage $storage;
 
-	public function __construct( Storage $storage ) {
-		$this->storage = $storage;
-	}
+    public function __construct(Storage $storage)
+    {
+        $this->storage = $storage;
+    }
 
-	public function get_view( string $context ): ?View {
-		$view = ( new View\AjaxSelect() )
-			->set_multiple( true )
-			->set_clear_button( true );
+    public function get_view(string $context): ?View
+    {
+        $view = (new View\AjaxSelect())
+            ->set_multiple(true)
+            ->set_clear_button(true);
 
-		if ( $context === self::CONTEXT_BULK ) {
-			$view->has_methods( true )
-			     ->set_revisioning( false );
-		}
+        if ($context === self::CONTEXT_BULK) {
+            $view->has_methods(true)
+                 ->set_revisioning(false);
+        }
 
-		return $view;
-	}
+        return $view;
+    }
 
-	public function get_value( $id ) {
-		$values = [];
+    public function get_value(int $id): array
+    {
+        $values = [];
 
-		foreach ( $this->storage->get( $id ) as $term_id ) {
-			$term = get_term( $term_id, 'product_cat' );
+        foreach ($this->storage->get($id) as $term_id) {
+            $term = get_term($term_id, 'product_cat');
 
-			if ( $term ) {
-				$values[ $term->term_id ] = htmlspecialchars_decode( $term->name ?: $term->term_id );
-			}
-		}
+            if ($term) {
+                $values[$term->term_id] = htmlspecialchars_decode($term->name ?: $term->term_id);
+            }
+        }
 
-		return $values;
-	}
+        return $values;
+    }
 
-	/**
-	 * @param array $term_ids
-	 *
-	 * @return int[]
-	 */
-	private function sanitize_ids( $term_ids ): array {
-		return $term_ids
-			? array_map( 'intval', array_filter( $term_ids, 'is_numeric' ) )
-			: [];
-	}
+    /**
+     * @return int[]
+     */
+    private function sanitize_ids(array $term_ids): array
+    {
+        return $term_ids
+            ? array_map('intval', array_filter($term_ids, 'is_numeric'))
+            : [];
+    }
 
-	private function get_term_ids( $id ) {
-		$ids = $this->storage->get( $id );
+    private function get_term_ids($id): array
+    {
+        $ids = $this->storage->get($id);
 
-		return $ids && is_array( $ids )
-			? $ids
-			: [];
-	}
+        return $ids && is_array($ids)
+            ? $ids
+            : [];
+    }
 
-	public function update( int $id, $data ): void {
-		$method = $data['method'] ?? null;
+    public function update(int $id, $data): void
+    {
+        $method = $data['method'] ?? null;
 
-		if ( ! $method ) {
-			$this->storage->update( $id, $this->sanitize_ids( $data ) );
+        if ( ! $method) {
+            $this->storage->update($id, $this->sanitize_ids((array)$data));
 
-			return;
-		}
+            return;
+        }
 
-		$term_ids = $data['value'] ?? [];
+        $term_ids = $data['value'] ?? [];
 
-		if ( ! is_array( $term_ids ) ) {
-			throw new InvalidArgumentException( 'Invalid value' );
-		}
+        if ( ! is_array($term_ids)) {
+            throw new InvalidArgumentException('Invalid value');
+        }
 
-		$term_ids = $this->sanitize_ids( $term_ids );
+        $term_ids = $this->sanitize_ids($term_ids);
 
-		switch ( $method ) {
-			case 'add':
-				$this->storage->update( $id, array_merge( $this->get_term_ids( $id ), $term_ids ) );
+        switch ($method) {
+            case 'add':
+                $this->storage->update($id, array_merge($this->get_term_ids($id), $term_ids));
 
-				break;
-			case 'remove':
-				$this->storage->update( $id, array_diff( $this->get_term_ids( $id ), $term_ids ) );
+                break;
+            case 'remove':
+                $this->storage->update($id, array_diff($this->get_term_ids($id), $term_ids));
 
-				break;
-			default:
-				$this->storage->update( $id, $term_ids );
-		}
-	}
+                break;
+            default:
+                $this->storage->update($id, $term_ids);
+        }
+    }
 
-	public function get_paginated_options( string $search, int $page, int $id = null ): Paginated {
-		return ( new \ACP\Helper\Select\Taxonomy\PaginatedFactory() )->create( [
-			'search'   => (string) $search,
-			'page'     => (int) $page,
-			'taxonomy' => 'product_cat',
-		] );
-	}
+    public function get_paginated_options(string $search, int $page, ?int $id = null): Paginated
+    {
+        return (new PaginatedFactory())->create([
+            'search'   => (string)$search,
+            'page'     => (int)$page,
+            'taxonomy' => 'product_cat',
+        ]);
+    }
 
 }

@@ -2,15 +2,11 @@
 
 namespace ACP\QuickAdd\Model;
 
-use AC\ListScreen;
+use AC\TableScreen;
 
-interface ModelFactory {
+interface ModelFactory
+{
 
-	/**
-	 * @param ListScreen $list_screen
-	 *
-	 * @return Create
-	 */
-	public function create( ListScreen $list_screen );
+    public function create(TableScreen $table_screen): ?Create;
 
 }

@@ -5,30 +5,36 @@ declare(strict_types=1);
 namespace ACP\Sorting\Service;
 
 use AC;
-use AC\ColumnRepository;
 use AC\Registerable;
+use AC\Services;
+use ACP\AdminColumnsPro;
+use ACP\ColumnRepository;
 use ACP\Sorting;
-use ACP\Sorting\ModelFactory;
-use ACP\Sorting\NativeSortableFactory;
-use ACP\Sorting\Settings\ListScreen\PreferredSort;
+use ACP\Sorting\Controller\ManageQueryHandlerFactory;
+use ACP\Sorting\Controller\RequestSetterHandler;
+use ACP\Sorting\TableScreen\ManageHeading\ScreenColumns;
 
 class Table implements Registerable
 {
 
-    private $location;
+    private AC\Asset\Location $location;
 
-    private $native_sortable_factory;
+    private ManageQueryHandlerFactory $manage_query_handler_factory;
 
-    private $model_factory;
+    private ColumnRepository $column_repository;
+
+    private RequestSetterHandler $request_setter_handler;
 
     public function __construct(
-        AC\Asset\Location\Absolute $location,
-        NativeSortableFactory $native_sortable_factory,
-        ModelFactory $model_factory
+        AdminColumnsPro $plugin,
+        ManageQueryHandlerFactory $manage_query_handler_factory,
+        ColumnRepository $column_repository,
+        RequestSetterHandler $request_setter_handler
     ) {
-        $this->location = $location;
-        $this->native_sortable_factory = $native_sortable_factory;
-        $this->model_factory = $model_factory;
+        $this->location = $plugin->get_location();
+        $this->manage_query_handler_factory = $manage_query_handler_factory;
+        $this->column_repository = $column_repository;
+        $this->request_setter_handler = $request_setter_handler;
     }
 
     public function register(): void
@@ -38,16 +44,22 @@ class Table implements Registerable
 
     public function init_table(AC\ListScreen $list_screen): void
     {
-        $table = new Sorting\Table\Screen(
-            $list_screen,
-            $this->location,
-            $this->native_sortable_factory->create($list_screen),
-            $this->model_factory,
-            new ColumnRepository($list_screen),
-            new PreferredSort($list_screen)
-        );
+        // this needs to come first, because it overwrites order preference
+        $this->request_setter_handler->handle($list_screen);
 
-        $table->register();
+        $this->manage_query_handler_factory->create($list_screen)
+                                           ->handle();
+
+        $services = new Services([
+            new Sorting\Service\AdminScripts($this->location, $list_screen),
+            new Sorting\Service\SaveSortingPreference($list_screen),
+            new ScreenColumns(
+                $list_screen->get_screen_id(),
+                $this->column_repository->find_all_with_sorting($list_screen)
+            ),
+        ]);
+
+        $services->register();
     }
 
 }

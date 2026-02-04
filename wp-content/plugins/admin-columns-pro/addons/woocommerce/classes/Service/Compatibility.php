@@ -7,15 +7,16 @@ namespace ACA\WC\Service;
 use AC\Entity\Plugin;
 use AC\Registerable;
 use ACA\WC\Features;
+use ACP\AdminColumnsPro;
 
 class Compatibility implements Registerable
 {
 
-    private $plugin;
+    private Plugin $plugin;
 
-    private $features;
+    private Features $features;
 
-    public function __construct(Plugin $plugin, Features $features)
+    public function __construct(AdminColumnsPro $plugin, Features $features)
     {
         $this->plugin = $plugin;
         $this->features = $features;

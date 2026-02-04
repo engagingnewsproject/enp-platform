@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\MetaBox\Search\Comparison;
 
 use ACA\MetaBox\Entity;
@@ -16,7 +18,7 @@ use WP_User;
 abstract class Relation extends ACP\Search\Comparison implements SearchableValues
 {
 
-    protected $relation;
+    protected Entity\Relation $relation;
 
     public function __construct(Entity\Relation $relation)
     {
@@ -24,12 +26,14 @@ abstract class Relation extends ACP\Search\Comparison implements SearchableValue
 
         parent::__construct(
             new Operators(
-                [Operators::EQ]
+                [
+                    Operators::EQ,
+                ]
             )
         );
     }
 
-    public function get_related_object_id($item)
+    public function get_related_object_id($item): int
     {
         switch ($item) {
             case $item instanceof WP_Post:
@@ -47,7 +51,7 @@ abstract class Relation extends ACP\Search\Comparison implements SearchableValue
      *
      * @return int[]
      */
-    private function pluck_ids(array $objects)
+    private function pluck_ids(array $objects): array
     {
         $ids = array_filter(array_unique(array_map([$this, 'get_related_object_id'], $objects)));
 
@@ -61,7 +65,7 @@ abstract class Relation extends ACP\Search\Comparison implements SearchableValue
         $bindings = new Bindings();
         $type = $this->relation->get_related_type();
 
-        $results = MB_Relationships_API::get_connected([
+        $results = (array)MB_Relationships_API::get_connected([
             'id'  => $this->relation->get_id(),
             $type => $value->get_value(),
         ]);

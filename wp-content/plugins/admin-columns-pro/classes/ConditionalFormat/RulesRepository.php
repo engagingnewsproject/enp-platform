@@ -5,103 +5,54 @@ declare(strict_types=1);
 namespace ACP\ConditionalFormat;
 
 use AC\Type\ListScreenId;
-use AC\Type\UserId;
-use ACP\ConditionalFormat\Entity\Rule;
+use ACP\ConditionalFormat\Entity\Rules;
+use ACP\ConditionalFormat\Type\Key;
+use ACP\Exception\FailedToSaveConditionalFormattingException;
 
-final class RulesRepository
+abstract class RulesRepository
 {
 
-    private const FORMAT = 'format';
-    private const FACT = 'fact';
-    private const OPERATOR = 'operator';
-    private const COLUMN_NAME = 'column_name';
+    // Retrieve
 
-    /**
-     * @var string
-     */
-    private $key;
-
-    public function __construct(ListScreenId $list_screen_id)
+    public function find(ListScreenId $list_screen_id, Key $key): ?Rules
     {
-        $this->key = 'ac_conditional_format_' . $list_screen_id;
+        return $this->fetch_results($list_screen_id, $key)
+                    ->first();
     }
 
-    public function find(UserId $id): RuleCollection
+    abstract public function find_all_shared(ListScreenId $list_screen_id): RulesCollection;
+
+    abstract public function find_all_personal(ListScreenId $list_screen_id, int $user_id): RulesCollection;
+
+    public function find_all(ListScreenId $list_screen_id): RulesCollection
     {
-        $rules = get_user_meta($id->get_value(), $this->key, true);
-
-        if ( ! is_array($rules)) {
-            $rules = [];
-        }
-
-        return $this->create_rules($rules);
-    }
-
-    public function find_by_column(UserId $id, string $column_name): RuleCollection
-    {
-        $rule_collection = new RuleCollection();
-
-        foreach ($this->find($id) as $rule) {
-            if ($column_name === $rule->get_column_name()) {
-                $rule_collection->add($rule);
-            }
-        }
-
-        return $rule_collection;
-    }
-
-    public function save(UserId $id, RuleCollection $rules): void
-    {
-        $encoded = [];
-
-        foreach ($rules as $rule) {
-            $encoded[] = [
-                self::COLUMN_NAME => $rule->get_column_name(),
-                self::FORMAT      => $rule->get_format(),
-                self::OPERATOR    => $rule->get_operator(),
-                self::FACT        => $rule->has_fact() ? $rule->get_fact() : null,
-            ];
-        }
-
-        update_user_meta($id->get_value(), $this->key, $encoded);
-    }
-
-    public function remove(UserId $id): void
-    {
-        delete_user_meta($id->get_value(), $this->key);
-    }
-
-    public function remove_for_all_users(): void
-    {
-        global $wpdb;
-
-        $wpdb->delete(
-            $wpdb->usermeta,
-            [
-                'meta_key' => $this->key,
-            ],
-            [
-                '%s',
-            ]
+        return $this->fetch_results(
+            $list_screen_id
         );
     }
 
-    private function create_rules(array $encoded_rules): RuleCollection
-    {
-        $rule_collection = new RuleCollection();
+    // Save
 
-        foreach ($encoded_rules as $encoded_rule) {
-            $rule = new Rule(
-                $encoded_rule[self::COLUMN_NAME],
-                $encoded_rule[self::FORMAT],
-                $encoded_rule[self::OPERATOR],
-                $encoded_rule[self::FACT] ?? null
-            );
+    /**
+     * @throws FailedToSaveConditionalFormattingException
+     */
+    abstract public function save(Rules $rules): void;
 
-            $rule_collection->add($rule);
-        }
+    // Delete
 
-        return $rule_collection;
-    }
+    abstract public function delete(ListScreenId $list_screen_id, Key $key): void;
+
+    abstract public function delete_all(ListScreenId $list_screen_id): void;
+
+    abstract public function delete_all_personal(ListScreenId $list_screen_id, int $user_id): void;
+
+    abstract public function delete_all_shared(ListScreenId $list_screen_id): void;
+
+    // Helpers
+
+    abstract protected function fetch_results(
+        ListScreenId $list_screen_id,
+        ?Key $key = null
+    ): RulesCollection;
 
 }

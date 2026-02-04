@@ -6,20 +6,19 @@ use ACP;
 use ACP\Access\Permissions;
 use ACP\Access\Rule;
 
-class ApiDeactivateResponse implements Rule {
+class ApiDeactivateResponse implements Rule
+{
 
-	/**
-	 * @var ACP\API\Response
-	 */
-	protected $response;
+    protected ACP\API\Response $response;
 
-	public function __construct( ACP\API\Response $response ) {
-		$this->response = $response;
-	}
-
-	public function get_permissions(): Permissions
+    public function __construct(ACP\API\Response $response)
     {
-		return new Permissions( $this->response->get( 'permissions' ) ?: [] );
-	}
+        $this->response = $response;
+    }
+
+    public function get_permissions(): Permissions
+    {
+        return new Permissions($this->response->get('permissions') ?: []);
+    }
 
 }

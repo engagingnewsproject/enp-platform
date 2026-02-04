@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\Order;
 
 use ACA\WC\Helper\Select;
@@ -35,7 +37,7 @@ class Product extends ACP\Search\Comparison implements ACP\Search\Comparison\Sea
         $product_id = (int)$value->get_value();
 
         $bindings->join(
-            "INNER JOIN {$wpdb->prefix}wc_order_product_lookup AS $alias ON {$wpdb->prefix}wc_orders.id $operator $alias.order_id"
+            "INNER JOIN {$wpdb->prefix}wc_order_product_lookup AS $alias ON {$wpdb->prefix}wc_orders.id {$operator} $alias.order_id"
         );
         $bindings->where(
             $wpdb->prepare("($alias.product_id = %d OR $alias.variation_id = %d)", $product_id, $product_id)

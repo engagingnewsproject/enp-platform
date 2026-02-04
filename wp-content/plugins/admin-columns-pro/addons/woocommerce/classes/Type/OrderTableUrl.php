@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace ACA\WC\Type;
 
-use AC\Type\ListScreenId;
-use AC\Type\Url\ListTable;
+use AC\Type\Uri;
 
-class OrderTableUrl extends ListTable
+class OrderTableUrl extends Uri
 {
 
-    public function __construct(ListScreenId $list_id = null)
+    public function __construct()
     {
-        parent::__construct('admin.php', $list_id);
+        parent::__construct((string)admin_url('admin.php'));
 
-        $this->add_arg('page', 'wc-orders');
+        $this->add('page', 'wc-orders');
     }
 }

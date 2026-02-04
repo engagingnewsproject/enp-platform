@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\WC\Search\Order\Customer;
 
 use ACA\WC\Search;
@@ -15,7 +17,7 @@ class UserMeta extends ACP\Search\Comparison
     /**
      * @var string
      */
-    private $meta_key;
+    private string $meta_key;
 
     public function __construct(string $meta_key)
     {

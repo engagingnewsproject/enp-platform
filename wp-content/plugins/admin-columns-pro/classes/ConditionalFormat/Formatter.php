@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace ACP\ConditionalFormat;
 
-use AC\Column;
-
 interface Formatter
 {
 
@@ -16,6 +14,6 @@ interface Formatter
 
     public function get_type(): string;
 
-    public function format(string $value, $id, Column $column, string $operator_group): string;
+    public function format(string $value, $id, string $operator_group): string;
 
 }

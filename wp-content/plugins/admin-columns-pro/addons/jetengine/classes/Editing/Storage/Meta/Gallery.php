@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\JetEngine\Editing\Storage\Meta;
 
 use AC\MetaType;
@@ -7,65 +9,71 @@ use ACA\JetEngine\Field\ValueFormat;
 use ACA\JetEngine\Mapping\MediaId;
 use ACP;
 
-class Gallery extends ACP\Editing\Storage\Meta {
+class Gallery extends ACP\Editing\Storage\Meta
+{
 
-	/**
-	 * @var string
-	 */
-	private $value_format;
+    private string $value_format;
 
-	public function __construct( $meta_key, MetaType $meta_type, $value_format ) {
-		parent::__construct( $meta_key, $meta_type );
+    public function __construct(string $meta_key, MetaType $meta_type, string $value_format)
+    {
+        parent::__construct($meta_key, $meta_type);
 
-		$this->value_format = (string) $value_format;
-	}
+        $this->value_format = $value_format;
+    }
 
-	public function get( int $id ) {
-		$value = parent::get( $id );
+    public function get(int $id)
+    {
+        $value = parent::get($id);
 
-		if ( empty( $value ) ) {
-			return false;
-		}
+        if (empty($value)) {
+            return false;
+        }
 
-		$values = explode( ',', $value );
+        switch ($this->value_format) {
+            case ValueFormat::FORMAT_BOTH:
+                return array_map([MediaId::class, 'from_array'], (array)$value);
 
-		return array_map( [ $this, 'format_single_value' ], $values );
-	}
+            case ValueFormat::FORMAT_URL:
+                $items = explode(',', (string)$value);
 
-	private function format_single_value( $value ) {
-		switch ( $this->value_format ) {
-			case ValueFormat::FORMAT_URL:
-				$value = array_map( [ MediaId::class, 'from_url' ], explode( ',', $value ) );
+                if ( ! $items) {
+                    return false;
+                }
 
-				break;
-			case ValueFormat::FORMAT_BOTH:
-				$value = array_map( [ MediaId::class, 'from_array' ], $value );
+                $items = array_map([MediaId::class, 'from_url'], $items);
 
-				break;
-		}
+                return array_filter($items, 'is_numeric');
+            default:
+                $items = explode(',', (string)$value);
 
-		return $value;
-	}
+                if ( ! $items) {
+                    return false;
+                }
 
-	public function update( int $id, $data ): bool {
-		if ( empty( $data ) ) {
-			return parent::update( $id, $data );
-		}
+                return array_filter($items);
+        }
+    }
 
-		switch ( $this->value_format ) {
-			case ValueFormat::FORMAT_URL:
-				$data = implode( ',', array_map( [ MediaId::class, 'to_url' ], $data ) );
+    public function update(int $id, $data): bool
+    {
+        if (empty($data)) {
+            return parent::update($id, $data);
+        }
 
-				break;
-			case ValueFormat::FORMAT_BOTH:
-				$data = array_map( [ MediaId::class, 'to_array' ], $data );
+        switch ($this->value_format) {
+            case ValueFormat::FORMAT_URL:
+                $data = implode(',', array_map([MediaId::class, 'to_url'], $data));
 
-				break;
-			default:
-				$data = implode( ',', $data );
-		}
+                break;
+            case ValueFormat::FORMAT_BOTH:
+                $data = array_map([MediaId::class, 'to_array'], $data);
 
-		return parent::update( $id, $data );
-	}
+                break;
+            default:
+                $data = implode(',', $data);
+        }
+
+        return parent::update($id, $data);
+    }
 
 }

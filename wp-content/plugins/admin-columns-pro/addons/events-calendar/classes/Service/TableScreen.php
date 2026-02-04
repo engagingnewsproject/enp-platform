@@ -1,50 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\EC\Service;
 
 use AC;
 use AC\Asset\Location;
 use AC\Asset\Style;
 use AC\Registerable;
-use ACA\EC\Column;
-use ACA\EC\ListScreen;
 use ACA\EC\Sorting;
+use ACP\Sorting\ModelFactory;
 use WP_Query;
 
 class TableScreen implements Registerable
 {
 
-    /**
-     * @var array
-     */
-    private $notices;
+    private array $notices;
 
-    /**
-     * @var array
-     */
-    private $filter_vars;
+    private array $filter_vars;
 
-    /**
-     * @var Location\Absolute
-     */
-    private $location;
+    private Location\Absolute $location;
 
-    public function __construct(Location\Absolute $location)
+    private ModelFactory $model_factory;
+
+    public function __construct(Location\Absolute $location, ModelFactory $model_factory)
     {
         $this->location = $location;
+        $this->model_factory = $model_factory;
     }
 
     public function register(): void
     {
         add_action('ac/table_scripts', [$this, 'table_scripts']);
-        add_action('ac/table/list_screen', [$this, 'add_events_filter_vars']);
+        add_action('ac/table/screen', [$this, 'add_events_filter_vars']);
         add_action('ac/table/list_screen', [$this, 'register_event_sorting_fix']);
         add_action('parse_query', [$this, 'parse_query'], 51);
     }
 
     public function table_scripts(AC\ListScreen $list_screen): void
     {
-        if ($list_screen->get_group() !== 'events-calendar') {
+        if ($this->is_events_table($list_screen->get_table_screen())) {
             return;
         }
 
@@ -52,9 +47,21 @@ class TableScreen implements Registerable
         $script->enqueue();
     }
 
-    /**
-     * @param WP_Query $query
-     */
+    private function is_events_table(AC\TableScreen $table_screen): bool
+    {
+        return $table_screen instanceof AC\PostType &&
+               in_array(
+                   (string)$table_screen->get_post_type(),
+                   [
+                       'tribe_organizer',
+                       'tribe_events',
+                       'tribe_event_series',
+                       'tribe_venue',
+                   ],
+                   true
+               );
+    }
+
     public function parse_query(WP_Query $query): void
     {
         if ('tribe_events' !== $query->get('post_type')) {
@@ -69,9 +76,9 @@ class TableScreen implements Registerable
         $query->tribe_is_event = false;
     }
 
-    public function add_events_filter_vars($list_screen): void
+    public function add_events_filter_vars(AC\TableScreen $table_screen): void
     {
-        if ( ! $list_screen instanceof ListScreen\Event) {
+        if ( ! $table_screen->get_id()->equals(new AC\Type\TableId('tribe_events'))) {
             return;
         }
 
@@ -162,9 +169,6 @@ class TableScreen implements Registerable
         add_action('pre_get_posts', [$this, 'events_query_callback']);
     }
 
-    /**
-     * @param WP_Query $wp_query
-     */
     public function events_query_callback(WP_Query $wp_query): void
     {
         if ( ! $wp_query->is_main_query()) {
@@ -190,30 +194,24 @@ class TableScreen implements Registerable
 
     private function filter_on_venue($value): void
     {
-        $column = new Column\Event\Venue();
-
         $this->filter_vars['meta_query'][] = [
-            'key'   => $column->get_meta_key(),
+            'key'   => '_EventVenueID',
             'value' => $value,
         ];
     }
 
     private function filter_on_organizer($value): void
     {
-        $column = new Column\Event\Organizer();
-
         $this->filter_vars['meta_query'][] = [
-            'key'   => $column->get_meta_key(),
+            'key'   => '_EventOrganizerID',
             'value' => $value,
         ];
     }
 
     private function filter_on_past_events(): void
     {
-        $column = new Column\Event\EndDate();
-
         $this->filter_vars['meta_query'][] = [
-            'key'     => $column->get_meta_key(),
+            'key'     => '_EventEndDate',
             'value'   => date('Y-m-d H:i'),
             'compare' => '<',
         ];
@@ -221,10 +219,8 @@ class TableScreen implements Registerable
 
     private function filter_on_future_events(): void
     {
-        $column = new Column\Event\StartDate();
-
         $this->filter_vars['meta_query'][] = [
-            'key'     => $column->get_meta_key(),
+            'key'     => '_EventStartDate',
             'value'   => date('Y-m-d H:i'),
             'compare' => '>',
         ];
@@ -232,8 +228,8 @@ class TableScreen implements Registerable
 
     public function register_event_sorting_fix(AC\ListScreen $list_screen): void
     {
-        if ($list_screen instanceof ListScreen\Event) {
-            $service = new Sorting\EventSortingFix($list_screen);
+        if ($list_screen->get_table_id()->equals(new AC\Type\TableId('tribe_events'))) {
+            $service = new Sorting\EventSortingFix($list_screen, $this->model_factory);
             $service->register();
         }
     }

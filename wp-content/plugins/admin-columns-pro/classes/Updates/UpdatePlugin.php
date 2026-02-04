@@ -2,9 +2,9 @@
 
 namespace ACP\Updates;
 
-use AC\Entity\Plugin;
 use AC\Plugin\Version;
 use AC\Registerable;
+use ACP\AdminColumnsPro;
 use ACP\Storage\PluginsDataFactory;
 use stdClass;
 
@@ -14,11 +14,11 @@ use stdClass;
 class UpdatePlugin implements Registerable
 {
 
-    private $plugin;
+    private AdminColumnsPro $plugin;
 
-    private $storage_factory;
+    private PluginsDataFactory $storage_factory;
 
-    public function __construct(Plugin $plugin, PluginsDataFactory $storage_factory)
+    public function __construct(AdminColumnsPro $plugin, PluginsDataFactory $storage_factory)
     {
         $this->plugin = $plugin;
         $this->storage_factory = $storage_factory;

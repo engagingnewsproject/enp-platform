@@ -9,23 +9,17 @@ use ACP\Helper\Select\Post\PaginatedFactory;
 class Posts implements PaginatedOptionsFactory
 {
 
-    /**
-     * @var string[]
-     */
-    private $post_types;
+    private array $post_types;
 
-    /**
-     * @var array
-     */
-    private $args;
+    private array $args;
 
-    public function __construct($post_types = null, array $args = [])
+    public function __construct(array $post_types = [], array $args = [])
     {
-        $this->post_types = empty($post_types) ? ['any'] : (array)$post_types;
+        $this->post_types = $post_types ?: ['any'];
         $this->args = $args;
     }
 
-    public function create(string $search, int $page, int $id = null): Paginated
+    public function create(string $search, int $page, ?int $id = null): Paginated
     {
         $args = array_merge([
             'paged'     => $page,

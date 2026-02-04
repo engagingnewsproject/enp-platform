@@ -4,13 +4,9 @@ namespace ACP\Editing\View;
 
 use ACP\Editing\View;
 
-interface MaxLength {
+interface MaxLength
+{
 
-	/**
-	 * @param int $max_length
-	 *
-	 * @return View
-	 */
-	public function set_max_length( $max_length );
+    public function set_max_length(int $max_length): View;
 
 }

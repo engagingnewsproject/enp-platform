@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\GravityForms\Editing\RequestHandler\Query;
 
 use AC\Request;
@@ -9,64 +11,66 @@ use ACP\Editing\RequestHandler;
 use ACP\Editing\Response\QueryRows;
 use GF_Entry_List_Table;
 
-class Entry implements RequestHandler {
+class Entry implements RequestHandler
+{
 
-	/**
-	 * @var GF_Entry_List_Table
-	 */
-	private $list_table;
+    private GF_Entry_List_Table $list_table;
 
-	/**
-	 * @var Request
-	 */
-	private $request;
+    private ?Request $request = null;
 
-	public function __construct( GF_Entry_List_Table $list_table ) {
-		$this->list_table = $list_table;
-	}
+    public function __construct(GF_Entry_List_Table $list_table)
+    {
+        $this->list_table = $list_table;
+    }
 
-	public function handle( Request $request ) {
-		$this->request = $request;
+    public function handle(Request $request)
+    {
+        $this->request = $request;
 
-		$this->register();
-	}
+        $this->register();
+    }
 
-	public function register() {
-		add_filter( 'gform_get_entries_args_entry_list', [ $this, 'set_query_vars' ] );
-		add_action( Hooks::get_load_form_entries(), [ $this, 'send' ] );
-	}
+    public function register()
+    {
+        add_filter('gform_get_entries_args_entry_list', [$this, 'set_query_vars']);
+        add_action(Hooks::get_load_form_entries(), [$this, 'send']);
+    }
 
-	/**
-	 * @return int
-	 */
-	private function get_rows_per_iteration() {
-		return ( new RowsPerIteration( $this->request ) )->apply_filters( 2000 );
-	}
+    /**
+     * @return int
+     */
+    private function get_rows_per_iteration()
+    {
+        return (new RowsPerIteration($this->request))->apply_filters(2000);
+    }
 
-	/**
-	 * @return int
-	 */
-	protected function get_offset() {
-		$page = (int) $this->request->filter( 'ac_page', 1, FILTER_SANITIZE_NUMBER_INT );
+    /**
+     * @return int
+     */
+    protected function get_offset()
+    {
+        $page = (int)$this->request->filter('ac_page', 1, FILTER_SANITIZE_NUMBER_INT);
 
-		return ( $page - 1 ) * $this->get_rows_per_iteration();
-	}
+        return ($page - 1) * $this->get_rows_per_iteration();
+    }
 
-	public function send() {
-		$this->list_table->prepare_items();
+    public function send()
+    {
+        $this->list_table->prepare_items();
 
-		$ids = wp_list_pluck( $this->list_table->items, 'id' );
+        $ids = wp_list_pluck($this->list_table->items, 'id');
 
-		$response = new QueryRows( $ids, $this->get_rows_per_iteration() );
-		$response->success();
-	}
+        $response = new QueryRows($ids, $this->get_rows_per_iteration());
+        $response->success();
+    }
 
-	public function set_query_vars( $args ) {
-		$args['paging'] = [
-			'offset'    => $this->get_offset(),
-			'page_size' => $this->get_rows_per_iteration(),
-		];
+    public function set_query_vars($args)
+    {
+        $args['paging'] = [
+            'offset'    => $this->get_offset(),
+            'page_size' => $this->get_rows_per_iteration(),
+        ];
 
-		return $args;
-	}
+        return $args;
+    }
 }

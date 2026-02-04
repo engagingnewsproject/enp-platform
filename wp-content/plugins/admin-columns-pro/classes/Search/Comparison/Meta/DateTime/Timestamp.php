@@ -14,7 +14,7 @@ use ACP\Search\Value;
 class Timestamp extends Meta implements RemoteValues
 {
 
-    private $value_factory;
+    private DateOptionsFactory $value_factory;
 
     public function __construct(string $meta_key, Query $query)
     {
@@ -101,11 +101,6 @@ class Timestamp extends Meta implements RemoteValues
         );
     }
 
-    /**
-     * @param string $value
-     *
-     * @return int
-     */
     private function to_time($value): int
     {
         return (int)strtotime($value);

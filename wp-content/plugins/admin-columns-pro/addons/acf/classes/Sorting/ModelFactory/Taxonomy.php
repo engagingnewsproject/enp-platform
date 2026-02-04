@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\ACF\Sorting\ModelFactory;
 
-use ACA\ACF\Column;
+use AC\Type\TableScreenContext;
 use ACA\ACF\Field;
 use ACA\ACF\Sorting;
 use ACP;
 
-class Taxonomy implements Sorting\SortingModelFactory
+class Taxonomy
 {
 
-    public function create(Field $field, string $meta_key, Column $column)
-    {
+    public function create(
+        Field $field,
+        string $meta_key,
+        TableScreenContext $table_context
+    ): ?ACP\Sorting\Model\QueryBindings {
         if ( ! $field instanceof Field\Type\Taxonomy) {
             return null;
         }
@@ -21,13 +26,13 @@ class Taxonomy implements Sorting\SortingModelFactory
         }
 
         return (new ACP\Sorting\Model\MetaFormatFactory())->create(
-            $column->get_meta_type(),
+            $table_context->get_meta_type(),
             $meta_key,
             new Sorting\FormatValue\Taxonomy(),
             null,
             [
-                'taxonomy' => $column->get_taxonomy(),
-                'post_type' => $column->get_post_type(),
+                'post_type' => $table_context->has_post_type() ? (string)$table_context->get_post_type() : null,
+                'taxonomy'  => $table_context->has_taxonomy() ? (string)$table_context->get_taxonomy() : null,
             ]
         );
     }

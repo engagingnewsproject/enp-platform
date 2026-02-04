@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AC\Storage;
 
-final class SiteOption implements KeyValuePair
+class SiteOption implements OptionData
 {
 
-    protected $key;
+    protected string $key;
 
     public function __construct(string $key)
     {
@@ -14,22 +16,19 @@ final class SiteOption implements KeyValuePair
 
     public function get()
     {
+        wp_cache_delete($this->key, 'site-options');
+
         return get_site_option($this->key);
     }
 
-    public function save($value): bool
+    public function save($value): void
     {
-        return update_site_option($this->key, $value);
+        update_site_option($this->key, $value);
     }
 
-    public function delete(): bool
+    public function delete(): void
     {
-        return delete_site_option($this->key);
-    }
-
-    public function exists(): bool
-    {
-        return false !== $this->get();
+        delete_site_option($this->key);
     }
 
 }

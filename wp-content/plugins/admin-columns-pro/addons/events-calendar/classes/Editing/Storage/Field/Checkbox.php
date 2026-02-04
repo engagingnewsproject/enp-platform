@@ -1,23 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\EC\Editing\Storage\Field;
 
 use ACP;
 
-class Checkbox extends ACP\Editing\Storage\Post\Meta {
+class Checkbox extends ACP\Editing\Storage\Post\Meta
+{
 
-	public function get( int $id ) {
-		$value = parent::get( $id );
+    public function get(int $id)
+    {
+        $value = parent::get($id);
 
-		return explode( '|', $value );
-	}
+        return explode('|', $value);
+    }
 
-	public function update( int $id, $data ): bool {
-		if ( is_array( $data ) ) {
-			$data = implode( '|', $data );
-		}
+    public function update(int $id, $data): bool
+    {
+        if (is_array($data)) {
+            $data = implode('|', $data);
+        }
 
-		return parent::update( $id, $data );
-	}
+        return parent::update($id, $data);
+    }
 
 }

@@ -15,7 +15,7 @@ class Fields implements QueryBindings
 
     use PostResultsTrait;
 
-    public function __construct(array $db_columns, FormatValue $formatter = null)
+    public function __construct(array $db_columns, ?FormatValue $formatter = null)
     {
         $this->db_columns = $db_columns;
         $this->formatter = $formatter;

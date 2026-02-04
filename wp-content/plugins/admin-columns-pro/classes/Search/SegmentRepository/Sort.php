@@ -12,12 +12,9 @@ abstract class Sort
     public const ASC = 'ASC';
     public const DESC = 'DESC';
 
-    /**
-     *
-     */
-    private $reverse;
+    private bool $reverse;
 
-    public function __construct(string $order = null)
+    public function __construct(?string $order = null)
     {
         if (null === $order) {
             $order = self::ASC;

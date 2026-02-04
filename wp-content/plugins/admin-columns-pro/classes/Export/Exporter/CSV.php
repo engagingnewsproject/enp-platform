@@ -2,65 +2,72 @@
 
 namespace ACP\Export\Exporter;
 
-use ACP\Export\Exporter;
+final class Csv
+{
 
-class CSV extends Exporter {
+    private array $rows;
 
-	/**
-	 * @param resource $fh
-	 */
-	public function export( $fh ) {
-		$delimiter = $this->get_delimiter();
-		$column_labels = $this->get_column_labels();
+    private array $headers;
 
-		if ( $column_labels ) {
-			// Writes UTF8 BOM for Excel support
-			fprintf( $fh, chr( 0xEF ) . chr( 0xBB ) . chr( 0xBF ) );
+    private string $delimiter;
 
-			fputcsv( $fh, $column_labels, $delimiter );
-		}
+    public function __construct(array $rows, array $headers = [], ?string $delimiter = null)
+    {
+        $this->rows = $rows;
+        $this->headers = $headers;
+        $this->delimiter = $delimiter ?? ',';
+    }
 
-		$data = $this->get_data();
+    public function get_contents(): string
+    {
+        $stream = fopen('php://memory', 'wb');
 
-		foreach ( $data as $item ) {
-			fputcsv( $fh, array_map( [ $this, 'format_output' ], $item ), $delimiter );
-		}
-	}
+        if ($this->headers) {
+            // Writes UTF8 BOM for Excel support
+            fprintf($stream, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
-	private function get_delimiter(): string {
-		/**
-		 * Filters the delimiter to use in exporting to the CSV file format
-		 *
-		 * @param string $delimiter Delimiter to use
-		 * @param CSV    $exporter  Exporter class instance
-		 */
-		return (string) apply_filters( 'ac/export/exporter_csv/delimiter', ',', $this );
-	}
+            fputcsv($stream, $this->headers, $this->delimiter);
+        }
 
-	/**
-	 * Format the output to a string. For scalars (integers, strings, etc.), it returns the input
-	 * value cast to a string. For arrays, it (deeply) applies this function to the array values
-	 * and returns them in a comma-separated string
-	 *
-	 * @param mixed $value Input value
-	 *
-	 * @return string Formatted value
-	 */
-	private function format_output( $value ): string {
-		if ( is_scalar( $value ) ) {
+        foreach ($this->rows as $row) {
+            fputcsv($stream, array_map([$this, 'format_output'], $row), $this->delimiter);
+        }
 
-			// convert HTML entities to symbols
-			$value = html_entity_decode( (string) $value, ENT_QUOTES, 'utf-8' );
+        $csv = stream_get_contents($stream, -1, 0);
 
-			// Remove newlines from value
-			return str_replace( PHP_EOL, ' ', (string) $value );
-		}
+        fclose($stream);
 
-		if ( is_array( $value ) ) {
-			return implode( ', ', array_map( [ $this, 'format_output' ], $value ) );
-		}
+        return (string)$csv;
+    }
 
-		return '';
-	}
+    public function count_rows(): int
+    {
+        return count($this->rows);
+    }
 
+    /**
+     * Format the output to a string. For scalars (integers, strings, etc.), it returns the input
+     * value cast to a string. For arrays, it (deeply) applies this function to the array values
+     * and returns them in a comma-separated string
+     *
+     * @param mixed $value Input value
+     *
+     * @return string Formatted value
+     */
+    private function format_output($value): string
+    {
+        if (is_scalar($value)) {
+            // convert HTML entities to symbols
+            $value = html_entity_decode((string)$value, ENT_QUOTES, 'utf-8');
+
+            // Remove newlines from value
+            return str_replace(PHP_EOL, ' ', (string)$value);
+        }
+
+        if (is_array($value)) {
+            return implode(', ', array_map([$this, 'format_output'], $value));
+        }
+
+        return '';
+    }
 }

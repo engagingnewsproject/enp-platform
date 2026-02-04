@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ACA\MetaBox\Entity;
 
+use AC\MetaType;
 use MB_Relationships_API;
 use MBR_Relationship;
 use WP_Post;
@@ -11,19 +14,13 @@ use WP_User;
 class Relation
 {
 
-    /**
-     * @var MBR_Relationship
-     */
-    private $relation;
+    private MBR_Relationship $relation;
 
-    /**
-     * @var string
-     */
-    private $type;
+    private string $type;
 
     /**
      * @param MBR_Relationship $relation
-     * @param 'from'|'to'      $relation
+     * @param 'from'|'to'      $type
      */
     public function __construct(MBR_Relationship $relation, string $type)
     {
@@ -31,37 +28,37 @@ class Relation
         $this->type = $type;
     }
 
-    public function get_id()
+    public function get_id(): string
     {
-        return $this->relation->id;
+        return (string)$this->relation->id;
     }
 
-    public function get_type()
+    public function get_type(): string
     {
         return $this->type;
     }
 
-    public function get_related_type()
+    public function get_related_type(): string
     {
         return $this->type === 'from'
             ? 'to'
             : 'from';
     }
 
-    public function get_meta_type()
+    public function get_meta_type(): string
     {
         return $this->relation->get_object_type($this->type);
     }
 
-    public function get_related_meta_type()
+    public function get_related_meta_type(): MetaType
     {
-        return $this->relation->get_object_type($this->get_related_type());
+        return new MetaType($this->relation->get_object_type($this->get_related_type()));
     }
 
-    public function get_title()
+    public function get_title(): string
     {
         if ($this->relation->menu_title) {
-            return $this->relation->menu_title;
+            return (string)$this->relation->menu_title;
         }
 
         switch ($this->get_related_meta_type()) {
@@ -96,26 +93,17 @@ class Relation
             : $this->relation->menu_title;
     }
 
-    /**
-     * @return array
-     */
-
-    public function get_related_field_settings()
+    public function get_related_field_settings(): array
     {
         return 'to' === $this->get_related_type()
             ? $this->relation->to['field']
             : $this->relation->from['field'];
     }
 
-    /**
-     * @param $object_id
-     *
-     * @return int[]
-     */
-    public function get_related_ids($object_id)
+    public function get_related_ids($object_id): array
     {
         $ids = [];
-        $items = MB_Relationships_API::get_connected([
+        $items = (array)MB_Relationships_API::get_connected([
             'id'        => $this->get_id(),
             $this->type => $object_id,
         ]);
@@ -135,18 +123,19 @@ class Relation
         return $ids;
     }
 
-    public function add_relation($from_id, $to_id)
+    public function add_relation($from_id, $to_id): bool
     {
-        return MB_Relationships_API::add(
+        // Force the return value to be boolean (MB docs are not correct)
+        return (bool)MB_Relationships_API::add(
             $this->type === 'from' ? $from_id : $to_id,
             $this->type === 'from' ? $to_id : $from_id,
             $this->get_id()
         );
     }
 
-    public function delete_relation($from_id, $to_id)
+    public function delete_relation($from_id, $to_id): bool
     {
-        return MB_Relationships_API::delete(
+        return (bool)MB_Relationships_API::delete(
             $this->type === 'from' ? $from_id : $to_id,
             $this->type === 'from' ? $to_id : $from_id,
             $this->get_id()

@@ -3,80 +3,137 @@
 namespace AC\ColumnSize;
 
 use AC;
-use AC\ListScreen;
+use AC\Column;
+use AC\Column\ColumnFactory;
+use AC\ColumnCollection;
+use AC\ColumnFactories\Aggregate;
+use AC\ColumnIterator;
 use AC\ListScreenRepository\Storage;
-use AC\ListScreenRepositoryWritable;
+use AC\Setting\Config;
+use AC\Type\ColumnId;
 use AC\Type\ColumnWidth;
 use AC\Type\ListScreenId;
+use InvalidArgumentException;
 
 class ListStorage
 {
 
-    /**
-     * @var ListScreenRepositoryWritable
-     */
-    private $list_screen_repository;
+    private Storage $storage;
 
-    public function __construct(Storage $list_screen_repository)
+    private Aggregate $column_factory;
+
+    private AC\Setting\ConfigFactory $config_factory;
+
+    public function __construct(Storage $storage, AC\Setting\ConfigFactory $config_factory, Aggregate $column_factory)
     {
-        $this->list_screen_repository = $list_screen_repository;
+        $this->storage = $storage;
+        $this->column_factory = $column_factory;
+        $this->config_factory = $config_factory;
     }
 
-    public function save(ListScreenId $list_id, string $column_name, ColumnWidth $column_width): void
+    private function get_column_factory($table_screen, $column_type): ?ColumnFactory
     {
-        $list_screen = $this->list_screen_repository->find($list_id);
+        foreach ($this->column_factory->create($table_screen) as $factory) {
+            if ($factory->get_column_type() === $column_type) {
+                return $factory;
+            }
+        }
+
+        return null;
+    }
+
+    public function save(ListScreenId $list_id, ColumnId $column_id, ColumnWidth $column_width): void
+    {
+        $list_screen = $this->storage->find($list_id);
 
         if ( ! $list_screen) {
             return;
         }
 
-        $settings = $list_screen->get_settings();
+        $column = $list_screen->get_column($column_id);
 
-        foreach ($settings as $_column_name => $setting) {
-            if ($_column_name !== $column_name) {
-                continue;
-            }
-
-            $settings[$_column_name]['width'] = (string)$column_width->get_value();
-            $settings[$_column_name]['width_unit'] = $column_width->get_unit();
+        if ( ! $column) {
+            return;
         }
 
-        $list_screen->set_settings($settings);
+        $factory = $this->get_column_factory($list_screen->get_table_screen(), $column->get_type());
 
-        $this->list_screen_repository->save($list_screen);
+        if ( ! $factory) {
+            return;
+        }
+
+        $config = $this->config_factory->create($column)->all();
+
+        $config['width'] = (string)$column_width->get_value();
+        $config['width_unit'] = $column_width->get_unit();
+
+        $column = $factory->create(new Config($config));
+        $columns = $this->modify_collection($list_screen->get_columns(), $column);
+
+        $list_screen->set_columns($columns);
+
+        $this->storage->save($list_screen);
+    }
+
+    private function modify_collection(ColumnIterator $collection, Column $column): ColumnCollection
+    {
+        $columns = iterator_to_array($collection);
+
+        foreach ($columns as $k => $_column) {
+            if ($_column->get_id()->equals($column->get_id())) {
+                $columns[$k] = $column;
+            }
+        }
+
+        return new ColumnCollection($columns);
+    }
+
+    public function get(AC\Column $column): ?ColumnWidth
+    {
+        return $this->create($column);
     }
 
     /**
-     * @param ListScreen $list_screen
-     *
      * @return ColumnWidth[]
      */
-    public function get_all(ListScreen $list_screen): array
+    public function get_all(ColumnIterator $columns): array
     {
         $results = [];
 
-        foreach ($list_screen->get_columns() as $column) {
-            $name = $column->get_name();
+        foreach ($columns as $column) {
+            $width = $this->create($column);
 
-            $results[$name] = $this->get($list_screen, $name);
+            if ($width) {
+                $results[(string)$column->get_id()] = $width;
+            }
         }
 
-        return array_filter($results);
+        return $results;
     }
 
-    public function get(ListScreen $list_screen, string $column_name): ?ColumnWidth
+    private function create(Column $column): ?ColumnWidth
     {
-        $column = $list_screen->get_column_by_name($column_name);
+        $width_setting = $column->get_setting('width');
 
-        if ( ! $column) {
+        if ( ! $width_setting) {
             return null;
         }
 
-        $setting = $column->get_setting('width');
+        $width = (int)$width_setting->get_input()->get_value();
 
-        return $setting instanceof AC\Settings\Column\Width
-            ? $setting->get_column_width()
-            : null;
+        if ($width < 1) {
+            return null;
+        }
+
+        $unit = (string)$column->get_setting('width_unit')->get_input()->get_value();
+
+        try {
+            $width = new ColumnWidth($unit, $width);
+        } catch (InvalidArgumentException $e) {
+            return null;
+        }
+
+        return $width;
     }
 
 }

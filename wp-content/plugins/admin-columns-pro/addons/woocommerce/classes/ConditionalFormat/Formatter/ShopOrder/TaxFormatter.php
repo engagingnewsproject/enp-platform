@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ACA\WC\ConditionalFormat\Formatter\ShopOrder;
 
-use AC\Column;
 use ACP\ConditionalFormat\Formatter;
 
 class TaxFormatter implements Formatter
@@ -15,7 +14,7 @@ class TaxFormatter implements Formatter
         return self::STRING;
     }
 
-    public function format(string $value, $id, Column $column, string $operator_group): string
+    public function format(string $value, $id, string $operator_group): string
     {
         $taxes = [];
 
