@@ -1,0 +1,42 @@
+{% extends "base.twig" %}
+
+{% if post.meta('show_header') == false %}
+	{% set show_header = ' sr-text' %}
+{% endif %}
+
+{% block content %}
+	<article class="article container container--lg post-type--{{ post.post_type }}" id="post--{{ post.ID }}">
+		<header class="article__header{{ show_header }}">
+			<h1 class="article__title">{{ post.title }}</h1>
+		</header>
+		<div class="article__content">
+			{% if post.content %}
+				{{ post.content }}
+			{% endif %}
+
+			{% if has_report %}
+				<p class="article__intro">Pages with Lighthouse accessibility score below 100 ({{ accessibility_report|length }} total).</p>
+				<div class="accessibility-report responsive-table-wrapper">
+					<table class="accessibility-report__table">
+						<thead>
+							<tr>
+								<th scope="col">URL</th>
+								<th scope="col">Score</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for row in accessibility_report %}
+								<tr>
+									<td><a href="{{ row.url }}" target="_blank" rel="noopener noreferrer">{{ row.url }}</a></td>
+									<td>{{ row.score }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			{% else %}
+				<p>No accessibility report yet. Run <code>yarn lighthouse-a11y</code> from the theme directory to generate the report.</p>
+			{% endif %}
+		</div>
+	</article>
+{% endblock %}
