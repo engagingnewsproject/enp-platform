@@ -130,5 +130,4 @@ phpunit.xml
 wp-content/themes/engage-2-x/.cursor/
 wp-content/themes/engage-2-x/.prettierignore
 wp-content/wp-defender-secrets.php
-wp-content/themes/engage-2-x/scripts/ssh/*
-wp-content/themes/engage-2-x/scripts/accessibility/reports/
+wp-content/themes/engage-2-x/scripts/accessibility/reports/lighthouse-a11y/*.json
