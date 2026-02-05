@@ -130,6 +130,9 @@
 .featured-img__img {
 	min-width: 100%;
 	cursor: pointer;
+	aspect-ratio: attr(width) / attr(height);
+  height: auto;
+  max-width: 100%;
 }
 // END base styles
 // // // // // //
