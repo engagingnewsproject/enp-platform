@@ -21,8 +21,10 @@
 	* @since    Timber 0.1
 	*/
 	use Engage\Models\Homepage;
+
 	$context = Timber::context();
-	
+	global $wp_query;
+
 	if(is_post_type_archive('tribe_events')) {
 		include 'archive.php';
 	}

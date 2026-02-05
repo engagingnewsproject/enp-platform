@@ -130,6 +130,9 @@
 .featured-img__img {
 	min-width: 100%;
 	cursor: pointer;
+	aspect-ratio: attr(width) / attr(height);
+  height: auto;
+  max-width: 100%;
 }
 // END base styles
 // // // // // //
@@ -259,6 +262,7 @@
 	}
 	&.article__content--research,
 	&.article__content--blogs,
+	&.article__content--post,
 	&.article__content--announcement {
 		grid-column: 1 / span 2;
 		@include media($phablet) {
