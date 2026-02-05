@@ -2,6 +2,8 @@
 
 Run Lighthouse **accessibility-only** audits for the live site. Outputs **one file** listing every page with an accessibility score **below 100**. Same checks as Chrome DevTools → Lighthouse → Accessibility.
 
+[Digital Accessibility Google Doc](https://docs.google.com/document/d/1oGWvoJpOrZs0ynZ4yfwPx4ZRtJ951-tITuuR4epBykY/edit?tab=t.0)
+
 ## Prerequisites
 
 - **Node 18+** (script uses native `fetch`)
@@ -20,7 +22,7 @@ SITE=https://mediaengagement.org yarn lighthouse-a11y
 
 The script writes a single CSV to **`scripts/accessibility/reports/lighthouse-a11y/accessibility-below-100.csv`** with columns `url` and `score` (0–100). Only pages with score &lt; 100 are included.
 
-**Pause and resume:** Progress is saved after each URL and when you press Ctrl+C. You can stop the run and start it again with the same command; already-audited URLs are skipped. Progress is stored in `scripts/accessibility/reports/lighthouse-a11y/progress.json` (same folder as the CSV). When every URL is done, that file is removed so the next run is fresh.
+**Pause and resume:** Progress is saved after each URL and when you press Ctrl+C. You can stop the run and start it again with the same command; already-audited URLs are skipped. Progress is stored in `scripts/accessibility/reports/lighthouse-a11y/progress.json`. When every URL is done, that file is **renamed** to `progress-YYYY-MM-DDTHH-mm-ss.json` (e.g. `progress-2026-02-04T14-30-00.json`) so you can keep a history of full runs. To start a completely new run from scratch, delete `progress.json` before running (optionally delete or keep old `progress-*.json` archives).
 
 ## How to run
 
@@ -63,11 +65,11 @@ yarn lighthouse-a11y --urls=scripts/accessibility/urls.txt
 | `urls.txt` | Optional. One URL per line; use with `--urls=scripts/accessibility/urls.txt`. |
 | `README.md` | This file. |
 
-## Output file
+## Output files
 
-- **Path:** `scripts/accessibility/reports/lighthouse-a11y/accessibility-below-100.csv` (inside this directory).
-- **Format:** CSV with headers `url,score`. One row per page with accessibility score below 100 (score is 0–100).
-- **Ignored by git:** `scripts/accessibility/reports/` is in the theme’s `.gitignore`, so the file is not committed.
+- **CSV report:** `scripts/accessibility/reports/lighthouse-a11y/accessibility-below-100.csv` — headers `url,score`, one row per page with score below 100 (0–100).
+- **Progress:** While running or after a partial run, `progress.json` holds completed URLs and below-100 list (used for resume). When a **full** run completes, it is renamed to `progress-YYYY-MM-DDTHH-mm-ss.json` so you can compare prior runs. Delete `progress.json` to start a fresh run.
+- **Ignored by git:** `scripts/accessibility/reports/` is in the project `.gitignore`, so these files are not committed.
 
 ## Troubleshooting
 

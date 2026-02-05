@@ -59,10 +59,16 @@ function saveProgress(completedUrls, below100) {
   );
 }
 
-/** Remove progress file (call when run completes fully). */
-function clearProgress() {
+/**
+ * Archive progress file when a full run completes. Renames progress.json to
+ * progress-YYYY-MM-DDTHH-mm-ss.json so prior runs can be reviewed. Next run will create a new progress.json.
+ */
+function archiveProgress() {
   const progressPath = path.join(REPORT_DIR, PROGRESS_FILENAME);
-  if (fs.existsSync(progressPath)) fs.unlinkSync(progressPath);
+  if (!fs.existsSync(progressPath)) return;
+  const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+  const archivePath = path.join(REPORT_DIR, `progress-${timestamp}.json`);
+  fs.renameSync(progressPath, archivePath);
 }
 
 /** Extract <loc> URLs from sitemap XML string. */
@@ -182,7 +188,7 @@ async function main() {
     const summaryPath = path.join(REPORT_DIR, SUMMARY_FILENAME);
     const csvRows = ['url,score', ...progress.below100.map(({ url, score }) => `"${url.replace(/"/g, '""')}",${score}`)];
     fs.writeFileSync(summaryPath, csvRows.join('\n'), 'utf8');
-    clearProgress();
+    archiveProgress();
     console.log('No URLs left to run (already complete). Summary written from progress.');
     console.log('Pages with accessibility score below 100:', progress.below100.length);
     console.log('Summary:', path.relative(process.cwd(), summaryPath));
@@ -244,7 +250,7 @@ async function main() {
   const summaryPath = path.join(REPORT_DIR, SUMMARY_FILENAME);
   const csvRows = ['url,score', ...below100.map(({ url, score }) => `"${url.replace(/"/g, '""')}",${score}`)];
   fs.writeFileSync(summaryPath, csvRows.join('\n'), 'utf8');
-  clearProgress();
+  archiveProgress();
 
   console.log('');
   console.log('Done. Pages with accessibility score below 100:', below100.length);
