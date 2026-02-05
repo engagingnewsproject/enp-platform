@@ -248,7 +248,36 @@ async function main() {
   }
 
   const summaryPath = path.join(REPORT_DIR, SUMMARY_FILENAME);
-  const csvRows = ['url,score', ...below100.map(({ url, score }) => `"${url.replace(/"/g, '""')}",${score}`)];
+  // Preserve "done" state from existing CSV (paths marked complete on the WP report page)
+  let completedPaths = new Set();
+  if (fs.existsSync(summaryPath)) {
+    const existing = fs.readFileSync(summaryPath, 'utf8').split('\n');
+    for (let i = 1; i < existing.length; i++) {
+      const line = existing[i];
+      const afterUrl = line.indexOf('",');
+      if (afterUrl === -1) continue;
+      const url = line.slice(1, afterUrl).replace(/""/g, '"');
+      const rest = line.slice(afterUrl + 2);
+      const parts = rest.split(',');
+      const done = parts.length >= 2 ? parts[1].trim() === '1' : false;
+      if (done) {
+        try {
+          completedPaths.add(new URL(url).pathname);
+        } catch (_) {}
+      }
+    }
+  }
+  const csvRows = [
+    'url,score,done',
+    ...below100.map(({ url, score }) => {
+      let pathname = '/';
+      try {
+        pathname = new URL(url).pathname;
+      } catch (_) {}
+      const done = completedPaths.has(pathname) ? 1 : 0;
+      return `"${url.replace(/"/g, '""')}",${score},${done}`;
+    }),
+  ];
   fs.writeFileSync(summaryPath, csvRows.join('\n'), 'utf8');
   archiveProgress();
 

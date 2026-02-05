@@ -15,6 +15,9 @@ $csv_path = get_stylesheet_directory() . '/scripts/accessibility/reports/lightho
 $context['accessibility_report'] = [];
 $context['has_report'] = false;
 
+$context['a11y_ajax_url'] = admin_url('admin-ajax.php');
+$context['a11y_nonce']   = wp_create_nonce('engage_a11y_report');
+
 if (is_readable($csv_path)) {
 	$rows = [];
 	$handle = fopen($csv_path, 'r');
@@ -22,9 +25,22 @@ if (is_readable($csv_path)) {
 		$header = fgetcsv($handle);
 		while (($row = fgetcsv($handle)) !== false) {
 			if (count($row) >= 2) {
+				$url = trim($row[0], '"');
+				$parsed = parse_url($url);
+				$path = isset($parsed['path']) ? $parsed['path'] : '/';
+				$rewritten = home_url($path);
+				if (!empty($parsed['query'])) {
+					$rewritten .= '?' . $parsed['query'];
+				}
+				if (!empty($parsed['fragment'])) {
+					$rewritten .= '#' . $parsed['fragment'];
+				}
+				$done = isset($row[2]) && (string) $row[2] === '1';
 				$rows[] = [
-					'url'   => $row[0],
-					'score' => (int) $row[1],
+					'url'       => $rewritten,
+					'path'      => $path,
+					'score'     => (int) $row[1],
+					'completed' => $done,
 				];
 			}
 		}

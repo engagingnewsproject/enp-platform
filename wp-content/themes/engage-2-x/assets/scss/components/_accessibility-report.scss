@@ -1,0 +1,86 @@
+// Accessibility report table (Lighthouse a11y results) — sortable columns
+
+.accessibility-report__table {
+	.accessibility-report__caption {
+		font-weight: 600;
+		padding-bottom: 0.5rem;
+		text-align: left;
+	}
+
+	.accessibility-report__th--sortable {
+		white-space: nowrap;
+	}
+
+	.accessibility-report__sort-btn {
+		appearance: none;
+		background: none;
+		border: 0;
+		color: inherit;
+		cursor: pointer;
+		font: inherit;
+		padding: 0.25rem 0.5rem;
+		text-align: left;
+		width: 100%;
+
+		&:hover,
+		&:focus {
+			text-decoration: underline;
+			outline: 2px solid currentColor;
+			outline-offset: 2px;
+		}
+
+		// Optional: sort-direction indicator (screen readers get aria-sort on parent th)
+		&::after {
+			content: " \2195"; // ↕ (up-down arrow) when unsorted
+			opacity: 0.5;
+			font-size: 0.85em;
+		}
+	}
+
+	th[aria-sort="ascending"] .accessibility-report__sort-btn::after {
+		content: " \2191"; // ↑
+		opacity: 1;
+	}
+
+	th[aria-sort="descending"] .accessibility-report__sort-btn::after {
+		content: " \2193"; // ↓
+		opacity: 1;
+	}
+
+	.accessibility-report__th--done {
+		width: 1%;
+		white-space: nowrap;
+	}
+
+	.accessibility-report__done-btn {
+		appearance: none;
+		background: #eee;
+		border: 1px solid #ccc;
+		border-radius: 3px;
+		cursor: pointer;
+		font-size: 0.875rem;
+		padding: 0.25rem 0.5rem;
+
+		&:hover:not(:disabled) {
+			background: #e0e0e0;
+		}
+
+		&:disabled {
+			opacity: 0.7;
+			cursor: wait;
+		}
+
+		&[data-completed="1"] {
+			background: #d4edda;
+			border-color: #c3e6cb;
+		}
+	}
+
+	.accessibility-report__row--completed {
+		opacity: 0.75;
+
+		a {
+			text-decoration: line-through;
+		}
+	}
+}

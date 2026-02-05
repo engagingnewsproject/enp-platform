@@ -67,9 +67,9 @@ yarn lighthouse-a11y --urls=scripts/accessibility/urls.txt
 
 ## Output files
 
-- **CSV report:** `scripts/accessibility/reports/lighthouse-a11y/accessibility-below-100.csv` — headers `url,score`, one row per page with score below 100 (0–100).
+- **CSV report:** `scripts/accessibility/reports/lighthouse-a11y/accessibility-below-100.csv` — headers `url,score,done`. One row per page with score below 100 (0–100). The `done` column (0 or 1) is set from the theme’s Accessibility Report page (“Mark complete”); the script preserves existing `done` values when it rewrites the CSV.
 - **Progress:** While running or after a partial run, `progress.json` holds completed URLs and below-100 list (used for resume). When a **full** run completes, it is renamed to `progress-YYYY-MM-DDTHH-mm-ss.json` so you can compare prior runs. Delete `progress.json` to start a fresh run.
-- **Ignored by git:** `scripts/accessibility/reports/` is in the project `.gitignore`, so these files are not committed.
+- **Ignored by git:** `scripts/accessibility/reports/` is in the project `.gitignore`, so these files are not committed (commit the CSV if you want the report and “done” state to deploy to live).
 
 ## Troubleshooting
 
