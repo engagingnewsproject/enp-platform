@@ -8,7 +8,7 @@
 		{% if archive.filters %}
 		
 			{# -- filter sidebar #}
-				<div class="archive__sidebar">
+				<div class="archive__sidebar" id="archiveSidebar">
 					{% include 'filters.twig' with { 
 						filters: archive.filters, 
 						postType: archive.postType.name 

@@ -36,10 +36,10 @@
 							<p>{{ item.content }}</p>
 							<p>
 								{% if item.plugin_button_1 != "" %}
-									<a class="btn btn--ghost btn--see-all" href="{{ item.plugin_button_1_url }}">{{ item.plugin_button_1 }}</a>
+									<a class="btn btn--ghost btn--see-all" href="{{ item.plugin_button_1_url }}" aria-label="{{ item.plugin_button_1 }} about {{ item.title }}">{{ item.plugin_button_1 }}</a>
 								{% endif %}
 								{% if item.plugin_button_2 != "" %}
-									<a class="btn btn--ghost btn--see-all" href="{{ item.plugin_button_2_url }}">{{ item.plugin_button_2 }}</a>
+									<a class="btn btn--ghost btn--see-all" href="{{ item.plugin_button_2_url }}" aria-label="{{ item.plugin_button_2 }} about {{ item.title }}">{{ item.plugin_button_2 }}</a>
 								{% endif %} 
 							</p>
 							<br>
@@ -67,4 +67,3 @@
 		</div>
 </article>
 {% endblock %}
-

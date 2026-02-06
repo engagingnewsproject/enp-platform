@@ -84,7 +84,7 @@
 				{% set content = mate.content | striptags | split(' ') | slice(0, 45) | join(' ') ~ ' ... ' %}
 				<p class="mate__bio">
 					{{ content }}
-					<a href="{{ mate.link }}">
+					<a href="{{ mate.link }}" aria-label="Read More about {{ mate.title }}">
 						<strong>
 							[Read More]
 						</strong>
