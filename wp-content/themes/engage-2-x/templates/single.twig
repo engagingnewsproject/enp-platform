@@ -32,13 +32,23 @@
 											</div>
 										</div>
 									{% elseif hasFeaturedImage and not hideFeaturedImage %}
+										{#
+											Featured image with intrinsic width/height for CLS (Core Web Vitals).
+											Dims resolution order: 1) WP attachment meta, 2) Timber file dimensions, 3) attachment_image_dimensions() helper.
+										#}
+										{% set img_meta = post.thumbnail.meta('_wp_attachment_metadata') %}
+										{% set dims = (img_meta and img_meta.width is defined and img_meta.height is defined) ? img_meta : (post.thumbnail.width and post.thumbnail.height ? {'width': post.thumbnail.width, 'height': post.thumbnail.height} : attachment_image_dimensions(post.thumbnail.id)) %}
+										{% set img_w = dims.width|default(null) %}
+										{% set img_h = dims.height|default(null) %}
 										<figure class="article__featured-img article__featured-img--{{ post.post_type }}">
 											<img class="featured-img__img flick"
 												src="{{ post.thumbnail.src('featured-image') }}"
 												srcset="{{ post.thumbnail.srcset }}"
 												sizes="{{ post.thumbnail.img_sizes }}"
 												alt="{{ post.thumbnail.alt }}"
-												loading="eager" />
+												{% if img_w and img_h %}width="{{ img_w }}" height="{{ img_h }}" {% endif %}
+												loading="eager" 
+												fetchpriority="high" />
 											{% if post.thumbnail.caption %}
 												<figcaption>{{ post.thumbnail.caption }}</figcaption>
 											{% endif %}

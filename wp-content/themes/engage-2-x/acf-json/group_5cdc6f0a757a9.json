@@ -9,7 +9,7 @@
             "aria-label": "",
             "type": "text",
             "instructions": "",
-            "required": 1,
+            "required": 0,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
@@ -17,11 +17,11 @@
                 "id": ""
             },
             "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 1,
             "placeholder": "",
             "prepend": "",
-            "append": "",
-            "formatting": "html",
-            "maxlength": ""
+            "append": ""
         }
     ],
     "location": [
@@ -42,5 +42,6 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1746216570
+    "display_title": "",
+    "modified": 1770299262
 }

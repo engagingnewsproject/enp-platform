@@ -1,0 +1,5 @@
+# One URL per line. Use this file with: yarn lighthouse-a11y --urls=scripts/accessibility/urls.txt
+# Lines starting with # are ignored. Leave empty to use sitemap (SITE=... yarn lighthouse-a11y).
+# Example:
+# https://mediaengagement.org/
+# https://mediaengagement.org/about/

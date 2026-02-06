@@ -55,12 +55,15 @@ class Theme
 
 		$this->cleanup();
 
+		// Ensure no-slash singular URLs redirect to canonical (trailing-slash) URL for consistent indexing (GSC).
+		add_action('template_redirect', [$this, 'redirectNoTrailingSlashToCanonical'], 1);
 
 		// Only add styles and scripts on the site, not in the admin panel
 		if (!is_admin()) {
 			add_action('wp_enqueue_scripts', [$this, 'enqueueStyles']);
 			add_action('wp_head', [$this, 'enqueueScripts']);
 			add_action('wp_head', [$this, 'preloadFirstSliderImage']);
+			add_action('wp_head', [$this, 'preloadFeaturedImage']);
 			// for removing styles
 			add_action('wp_print_styles', [$this, 'dequeueStyles'], 100);
 			// TODO Preload critical main navigation images
@@ -73,6 +76,9 @@ class Theme
 			});
 		} else {
 			add_action('admin_init', [$this, 'enqueueStylesEditor']);
+			add_action('admin_enqueue_scripts', [$this, 'dequeueFrontendScriptsInAdmin'], 999);
+			add_action('admin_enqueue_scripts', [$this, 'fixDlmXhrJqueryOrderInAdmin'], 20);
+			add_action('admin_enqueue_scripts', [$this, 'ensureNinjaFormsMarionetteDepsOnWidgets'], 1);
 			add_filter('manage_pages_columns', [$this, 'addTemplateColumn']);
 			add_action('manage_pages_custom_column', [$this, 'displayTemplateColumn'], 10, 2);
 			add_filter('manage_edit-page_sortable_columns', [$this, 'sortableTemplateColumn']);
@@ -246,20 +252,91 @@ class Theme
 		}
 	}
 
+	/**
+	 * Outputs a preload link for the current post's featured image in the head (single posts only).
+	 * Uses the same 'featured-image' size as single.twig for LCP/CLS.
+	 */
+	public function preloadFeaturedImage(): void
+	{
+		if (!is_single()) {
+			return;
+		}
+		$post = get_post();
+		if (!$post || !has_post_thumbnail($post)) {
+			return;
+		}
+		$post_type = $post->post_type;
+		if ($post_type === 'team' || $post_type === 'board') {
+			return;
+		}
+		$url = get_the_post_thumbnail_url($post->ID, 'featured-image');
+		if ($url) {
+			echo '<link rel="preload" as="image" href="' . esc_url($url) . '">' . "\n";
+		}
+	}
+
 	public function enqueueStyles()
 	{
 		if (!is_admin()) {
-			// Add preload for Google Fonts
+			// Load Google Fonts non-blocking (preload + onload); avoids render-blocking stylesheet.
 			add_action('wp_head', function () {
-				echo '<link rel="preload" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&display=swap" as="style" crossorigin="anonymous" onload="this.onload=null;this.rel=\'stylesheet\'">';
-				echo '<noscript><link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;700&display=swap" rel="stylesheet"></noscript>';
-			});
-			
-			wp_register_style('google_fonts', '//fonts.googleapis.com/css2?family=Anton&family=Libre+Franklin:wght@400;700&display=swap', array(), null, 'all');
-			wp_enqueue_style('google_fonts');
-			
+				$fonts_url = 'https://fonts.googleapis.com/css2?family=Anton&family=Libre+Franklin:wght@400;700&display=swap';
+				echo '<link rel="preload" href="' . esc_url($fonts_url) . '" as="style" crossorigin="anonymous" onload="this.onload=null;this.rel=\'stylesheet\'">';
+				echo '<noscript><link href="' . esc_url($fonts_url) . '" rel="stylesheet"></noscript>';
+			}, 1);
+
 			wp_enqueue_style('engage_css', mix('css/app.css'), false, null);
 		}
+	}
+
+	/**
+	 * Prevents theme frontend scripts from running in admin (avoids NavBar/getAttribute errors).
+	 * Priority 999 so we run after plugins that might have enqueued them (e.g. block widget preview).
+	 */
+	public function dequeueFrontendScriptsInAdmin(): void
+	{
+		wp_dequeue_script('engage/js');
+		wp_dequeue_script('homepage/js');
+	}
+
+	/**
+	 * On widgets screen, ensure Ninja Forms' Marionette dependency chain is enqueued first so nf-front-end
+	 * never runs before nf-front-end-deps (which defines Marionette). Runs at priority 1 so these are in the queue before blocks/plugins.
+	 */
+	public function ensureNinjaFormsMarionetteDepsOnWidgets(): void
+	{
+		$screen = get_current_screen();
+		if (!$screen || $screen->id !== 'widgets') {
+			return;
+		}
+		wp_enqueue_script('jquery');
+		wp_enqueue_script('backbone');
+		global $wp_scripts;
+		if (isset($wp_scripts->registered['nf-front-end-deps'])) {
+			wp_enqueue_script('nf-front-end-deps');
+		}
+	}
+
+	/**
+	 * Ensures Download Monitor's dlm-xhr script loads after jQuery in admin (fixes "jQuery is not defined").
+	 * The plugin registers it with jquery dependency but admin script order can still run it too early;
+	 * re-enqueue in head so it reliably follows jQuery.
+	 */
+	public function fixDlmXhrJqueryOrderInAdmin(): void
+	{
+		global $wp_scripts;
+		if (!isset($wp_scripts->registered['dlm-xhr'])) {
+			return;
+		}
+		$reg = $wp_scripts->registered['dlm-xhr'];
+		wp_dequeue_script('dlm-xhr');
+		wp_enqueue_script(
+			'dlm-xhr',
+			$reg->src,
+			array_merge($reg->deps, ['jquery']),
+			$reg->ver,
+			false
+		);
 	}
 
 	public function enqueueStylesEditor()
@@ -284,6 +361,12 @@ class Theme
 			wp_deregister_style('rank-math-toc-block-style');
 			wp_dequeue_style('classic-theme-styles');
 			wp_deregister_style('classic-theme-styles');
+			// Dashicons not needed on frontend when not logged in (admin bar uses it when logged in).
+			// Do not deregister: Ninja Forms' nf-display style lists dashicons as a dependency; WP 6.9+ errors if it's missing.
+			// Only dequeue when Ninja Forms isn't on the page so nf-display still gets its dependency when needed.
+			if (!is_user_logged_in() && !wp_style_is('nf-display', 'enqueued')) {
+				wp_dequeue_style('dashicons');
+			}
 		}
 	}
 
@@ -298,7 +381,9 @@ class Theme
 			wp_enqueue_script('comment-reply');
 		}
 
-		wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
+		// Use core's bundled jQuery (override commented out to test for regressions).
+		// wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
+		wp_enqueue_script('jquery');
 
 		// Homepage JS (if used)
 		if (is_front_page()) {
@@ -372,6 +457,43 @@ class Theme
 	{
 		$columns['template'] = 'template';
 		return $columns;
+	}
+
+	/**
+	 * Redirects singular post/page URLs without trailing slash to the canonical URL (with trailing slash).
+	 * Aligns the requested URL with the user-declared canonical so GSC does not report "Page with redirect"
+	 * for the no-slash variant. Runs early on template_redirect so the correct URL is indexed.
+	 */
+	public function redirectNoTrailingSlashToCanonical()
+	{
+		if (!is_singular() || is_admin()) {
+			return;
+		}
+		$request_path = isset($_SERVER['REQUEST_URI']) ? parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) : '';
+		if ($request_path === '' || $request_path === false || substr($request_path, -1) === '/') {
+			return;
+		}
+		$canonical_url = get_permalink(get_queried_object_id());
+		if (!$canonical_url) {
+			return;
+		}
+		$canonical_path = parse_url($canonical_url, PHP_URL_PATH);
+		if ($canonical_path === false) {
+			return;
+		}
+		// Same path when trailing slashes are normalized; canonical has slash, request does not → redirect.
+		if (rtrim($request_path, '/') !== rtrim($canonical_path, '/')) {
+			return;
+		}
+		if (substr($canonical_path, -1) !== '/') {
+			return;
+		}
+		$redirect = $canonical_url;
+		if (!empty($_SERVER['QUERY_STRING'])) {
+			$redirect .= (strpos($canonical_url, '?') !== false ? '&' : '?') . $_SERVER['QUERY_STRING'];
+		}
+		wp_redirect($redirect, 301);
+		exit;
 	}
 
 	public function cleanup()

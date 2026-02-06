@@ -30,6 +30,7 @@ require_once __DIR__ . '/includes/hooks/admin.php';
 require_once __DIR__ . '/includes/hooks/assets.php';
 require_once __DIR__ . '/includes/hooks/queries.php';
 require_once __DIR__ . '/includes/hooks/editor.php';
+require_once __DIR__ . '/includes/hooks/accessibility-report.php';
 // require_once __DIR__ . '/includes/hooks/import-export.php';
 
 // Load admin functionality

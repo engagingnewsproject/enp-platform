@@ -1,0 +1,116 @@
+{% extends "base.twig" %}
+
+{% if post.meta('show_header') == false %}
+	{% set show_header = ' sr-text' %}
+{% endif %}
+
+{% block content %}
+	<article class="article container container--lg post-type--{{ post.post_type }}" id="post--{{ post.ID }}">
+		<header class="article__header{{ show_header }}">
+			<h1 class="article__title">{{ post.title }}</h1>
+		</header>
+		<div class="article__content">
+			{% if post.content %}
+				{{ post.content }}
+			{% endif %}
+
+			{% if has_report %}
+				<p class="article__intro">Pages with Lighthouse accessibility score below 100 ({{ accessibility_report|length }} total).</p>
+				<div class="accessibility-report responsive-table-wrapper">
+					<table class="accessibility-report__table" id="accessibility-report-table">
+						<caption class="accessibility-report__caption">{{ accessibility_report|length }} page{{ accessibility_report|length != 1 ? 's' : '' }}</caption>
+						<thead>
+							<tr>
+								<th scope="col" class="accessibility-report__th accessibility-report__th--sortable" data-sort-type="text" data-sort-col="0" aria-sort="none">
+									<button type="button" class="accessibility-report__sort-btn">URL</button>
+								</th>
+								<th scope="col" class="accessibility-report__th accessibility-report__th--sortable" data-sort-type="numeric" data-sort-col="1" aria-sort="none">
+									<button type="button" class="accessibility-report__sort-btn">Score</button>
+								</th>
+								<th scope="col" class="accessibility-report__th accessibility-report__th--done">Done</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for row in accessibility_report %}
+								<tr class="accessibility-report__row{{ row.completed ? ' accessibility-report__row--completed' : '' }}" data-path="{{ row.path|e('html_attr') }}">
+									<td data-sort-value="{{ row.url }}"><a href="{{ row.url }}" target="_blank" rel="noopener noreferrer">{{ row.url }}</a></td>
+									<td data-sort-value="{{ row.score }}">{{ row.score }}</td>
+									<td class="accessibility-report__done-cell">
+										<button type="button" class="accessibility-report__done-btn" data-completed="{{ row.completed ? '1' : '0' }}" aria-pressed="{{ row.completed ? 'true' : 'false' }}">
+											{{ row.completed ? 'Undo' : 'Mark complete' }}
+										</button>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<script>
+				(function() {
+					var table = document.getElementById('accessibility-report-table');
+					if (!table) return;
+					var tbody = table.querySelector('tbody');
+					var headers = table.querySelectorAll('.accessibility-report__th--sortable');
+					headers.forEach(function(th) {
+						var btn = th.querySelector('button');
+						if (!btn) return;
+						btn.addEventListener('click', function() {
+							var col = parseInt(th.getAttribute('data-sort-col'), 10);
+							var type = th.getAttribute('data-sort-type') || 'text';
+							var dir = th.getAttribute('aria-sort') === 'ascending' ? 'descending' : 'ascending';
+							table.querySelectorAll('th[aria-sort]').forEach(function(h) { h.setAttribute('aria-sort', 'none'); });
+							th.setAttribute('aria-sort', dir);
+							var rows = [].slice.call(tbody.querySelectorAll('tr'));
+							rows.sort(function(a, b) {
+								var aVal = (a.children[col] && a.children[col].getAttribute('data-sort-value')) || (a.children[col] && a.children[col].textContent) || '';
+								var bVal = (b.children[col] && b.children[col].getAttribute('data-sort-value')) || (b.children[col] && b.children[col].textContent) || '';
+								if (type === 'numeric') {
+									aVal = Number(aVal);
+									bVal = Number(bVal);
+									return dir === 'ascending' ? aVal - bVal : bVal - aVal;
+								}
+								aVal = String(aVal).toLowerCase();
+								bVal = String(bVal).toLowerCase();
+								var cmp = aVal < bVal ? -1 : (aVal > bVal ? 1 : 0);
+								return dir === 'ascending' ? cmp : -cmp;
+							});
+							rows.forEach(function(r) { tbody.appendChild(r); });
+						});
+					});
+				})();
+				</script>
+				<script>
+				(function() {
+					var ajaxUrl = {{ a11y_ajax_url|json_encode|raw }};
+					var nonce = {{ a11y_nonce|json_encode|raw }};
+					document.getElementById('accessibility-report-table').addEventListener('click', function(e) {
+						var btn = e.target.closest('.accessibility-report__done-btn');
+						if (!btn) return;
+						var row = btn.closest('tr');
+						var path = row && row.getAttribute('data-path');
+						if (!path) return;
+						btn.disabled = true;
+						var formData = new FormData();
+						formData.append('action', 'engage_a11y_toggle_complete');
+						formData.append('nonce', nonce);
+						formData.append('path', path);
+						fetch(ajaxUrl, { method: 'POST', body: formData, credentials: 'same-origin' })
+							.then(function(r) { return r.json(); })
+							.then(function(data) {
+								if (data.success && data.data) {
+									row.classList.toggle('accessibility-report__row--completed', data.data.completed);
+									btn.setAttribute('data-completed', data.data.completed ? '1' : '0');
+									btn.setAttribute('aria-pressed', data.data.completed ? 'true' : 'false');
+									btn.textContent = data.data.completed ? 'Undo' : 'Mark complete';
+								}
+							})
+							.finally(function() { btn.disabled = false; });
+					});
+				})();
+				</script>
+			{% else %}
+				<p>No accessibility report yet. Run <code>yarn lighthouse-a11y</code> from the theme directory to generate the report.</p>
+			{% endif %}
+		</div>
+	</article>
+{% endblock %}
