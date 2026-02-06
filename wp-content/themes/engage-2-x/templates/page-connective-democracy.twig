@@ -54,7 +54,7 @@
 						{% for item in post.meta('custom_posts') %}
 							<div class="tile tile--has-img {{ twoColumns }} tile--vertical--journalism">
 
-								<div class="tile__img-wrap" tabindex="0" role="button">
+								<div class="tile__img-wrap">
 									<img src="{{ get_image(item.image).src('grid-large') }}" 
 										srcset="{{ get_image(item.image).srcset }}" 
 										sizes="{{ get_image(item.image).img_sizes }}" 
@@ -62,11 +62,11 @@
 										loading="eager"/>
 								</div>
 								<div class="tile__title-wrap">
-									<div class="tile__label">
+									<div class="tile__label" aria-hidden="true">
 										<div class="tile__bar"></div>
 									</div>
 									<h3 class="tile__title h3">{{ item.title }}</h3>
-									<p class="tile__date" tabindex="0">{{ item.date }}</p>
+									<p class="tile__date">{{ item.date }}</p>
 									<div class="tile__excerpt">{{ item.excerpt }}</div>
 								</div>
 								<a class="tile__link" href="{{ item.link }}" {% if item.link_in_blank %}target="_blank"{% endif %}>
@@ -90,18 +90,18 @@
 
 				{# featured video #}
 				{% if post.meta('video_section').featured_video %}
-					<iframe class="featured-video" src={{post.meta('video_section').featured_video}} frameborder="0" allowfullscreen></iframe>
+					<iframe class="featured-video" src={{post.meta('video_section').featured_video}} title="Featured video" frameborder="0" allowfullscreen></iframe>
 				{% endif %}
 
 				{# video grid #}
 				{% if post.meta('video_section').video_1 != blank %}
 					<div class="small-video-container">
-						<iframe class="small-video" src={{post.meta('video_section').video_1}} frameborder="0" allowfullscreen></iframe>
+						<iframe class="small-video" src={{post.meta('video_section').video_1}} title="Embedded video 1" frameborder="0" allowfullscreen></iframe>
 						{% if post.meta('video_section').video_2 != blank %}
-							<iframe class="small-video" src={{post.meta('video_section').video_2}} frameborder="0" allowfullscreen></iframe>
+							<iframe class="small-video" src={{post.meta('video_section').video_2}} title="Embedded video 2" frameborder="0" allowfullscreen></iframe>
 						{% endif %}
 						{% if post.meta('video_section').video_3 != blank %}
-							<iframe class="small-video" src={{post.meta('video_section').video_3}} frameborder="0" allowfullscreen></iframe>
+							<iframe class="small-video" src={{post.meta('video_section').video_3}} title="Embedded video 3" frameborder="0" allowfullscreen></iframe>
 						{% endif %}
 					</div>
 				{% endif %}

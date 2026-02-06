@@ -10,20 +10,38 @@ let navbarDropdown = document.querySelector("#navbarNavDropdown");
 
 // Only run when nav elements exist (skip in wp-admin etc.)
 if (navbarToggler && navbarDropdown) {
-  let navbarDropdownExpanded = navbarDropdown.getAttribute("aria-expanded");
+  const isMobileMenu = () => window.matchMedia("(max-width: 1199px)").matches;
+
+  const setMobileMenuState = (isOpen) => {
+    navbarDropdown.classList.toggle("show", isOpen);
+    navbarToggler.classList.toggle("is-open", isOpen);
+    navbarToggler.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    navbarDropdown.setAttribute("aria-hidden", isOpen ? "false" : "true");
+    if (isOpen) {
+      navbarDropdown.removeAttribute("inert");
+    } else {
+      navbarDropdown.setAttribute("inert", "");
+    }
+  };
+
+  const syncMenuState = () => {
+    if (!isMobileMenu()) {
+      navbarDropdown.removeAttribute("aria-hidden");
+      navbarDropdown.removeAttribute("inert");
+      navbarToggler.setAttribute("aria-expanded", "false");
+      return;
+    }
+    setMobileMenuState(navbarDropdown.classList.contains("show"));
+  };
+
+  syncMenuState();
+  window.addEventListener("resize", syncMenuState);
 
   // Mobile menu toggle
   navbarToggler.addEventListener("click", function () {
-    navbarDropdown.classList.toggle("show");
-    navbarToggler.classList.toggle("is-open");
-
-    if (navbarDropdownExpanded == "true") {
-      navbarDropdownExpanded = "false";
-    } else {
-      navbarDropdownExpanded = "true";
-    }
-
-    navbarToggler.setAttribute("aria-expanded", navbarDropdownExpanded);
+    if (!isMobileMenu()) return;
+    const isOpen = navbarDropdown.classList.contains("show");
+    setMobileMenuState(!isOpen);
   });
 
   /**
@@ -101,7 +119,7 @@ if (navbarToggler && navbarDropdown) {
    * Closes the mobile menu and resets its state
    */
   function closeMobileMenu() {
-    navbarDropdown.classList.remove("show");
-    navbarToggler.classList.remove("is-open");
+    if (!isMobileMenu()) return;
+    setMobileMenuState(false);
   }
 }

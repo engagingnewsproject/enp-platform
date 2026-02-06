@@ -79,7 +79,7 @@ Other tiles have a link to the post URL
 
 	{# Tile image #}
 	{% if tile_image %}
-		<div class="tile__img-wrap" role="button" aria-label="Open research article: {{ tile.title }}">
+		<div class="tile__img-wrap">
 			{% if tile.thumbnail %}
 				<img src="{{ tile.thumbnail.src('grid-large') }}" srcset="{{ tile.thumbnail.srcset }}" sizes="{{ tile.thumbnail.img_sizes }}" alt="{{ tile.thumbnail.alt }}" class="tile__img" loading="{{ loading }}"/>
 			{% else %}
@@ -121,9 +121,9 @@ Other tiles have a link to the post URL
 			</p>
 
 		{% else %}
-			<div class="tile__label">
+			<div class="tile__label" aria-hidden="true">
 				{# The following line is the old code here #}
-				{# {{ tile.vertical.name ? tile.vertical.name : tile.terms('verticals') | join(', ') }} #}<div class="tile__bar"> </div>
+				{# {{ tile.vertical.name ? tile.vertical.name : tile.terms('verticals') | join(', ') }} #}<div class="tile__bar"></div>
 			</div>
 			<h2 class="tile__title h3">
 				{{ tile.title|length > 50 ? tile.title|slice(0, 50) ~ "..." : tile.title}}
@@ -164,7 +164,7 @@ Other tiles have a link to the post URL
 	</div>
 
 	{# Tile link - now the only interactive element #}
-	<a class="tile__link" href="{{ tile_link }}" {% if tile_target_external %} target="_blank" rel="noopener" aria-label="{{ tile.title }} (opens in new tab)" {% else %} aria-label="{{ tile.title }}" {% endif %}>
+	<a class="tile__link" href="{{ tile_link }}" {% if tile_target_external %} target="_blank" rel="noopener" aria-label="{{ tile.title }} (opens in new tab)" {% endif %}>
 		<span class="sr-text">{{ tile.title }}</span>
 	</a>
 </div>
