@@ -49,14 +49,18 @@ class SubmissionsBuilder
 
         /**
          * Basic File Uploads support.
-         * 
+         *
          * Auto-detect a file uploads value, by format, as a serialized array.
          * @note using a preliminary `is_serialized()` check to determine
          *       if the value is from File Uploads, since we do not have
          *       access to the field information in this context.
+         *
+         * Security: Use allowed_classes => false to prevent PHP object instantiation
+         * which could lead to object injection attacks (CVE potential).
          */
         if (is_serialized($value)) {
-            $unserialized = unserialize($value);
+            // Safely unserialize with object instantiation disabled to prevent RCE
+            $unserialized = unserialize($value, ['allowed_classes' => false]);
             if (is_array($unserialized)) {
 
                 // This is the default value assuming it is a file upload

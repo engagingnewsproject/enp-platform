@@ -694,18 +694,19 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
 
      /**
      * Process fields merge tags for fields inside a repeater fieldset
-     * 
+     *
      * @param object $field The Repeater Fieldset
-     * 
+     *
+     * @since 3.14.1 Disabled merge tag processing on user-submitted values
+     *               to prevent unauthenticated information disclosure.
+     *               See: https://github.com/Saturday-Drive/ninja-forms/issues/7838
      */
     protected function process_repeater_fields_merge_tags( $field ){
-        //Compare the Repeater field passed calling the function with the array of fields values from the submission object
-        foreach( $this->_form_data['fields'][$field->get_id()]['value'] as $id => $data ){
-            //Check if field is a Repeater Field
-            if( Ninja_Forms()->fieldsetRepeater->isRepeaterFieldByFieldReference($id) && !empty($data['value']) && is_string($data['value']) ) {
-                //Merge tags in the Repeater Field Sub Fields values
-                $this->_form_data['fields'][$field->get_id()]['value'][$id]['value'] = apply_filters( 'ninja_forms_merge_tags', $data['value'] );
-            } 
-        }
+        // SECURITY FIX: Do not process merge tags on user-submitted data.
+        // Merge tags (e.g., {post_meta:KEY}) in user input could expose
+        // sensitive information to unauthenticated attackers.
+        // Merge tag resolution should only occur on admin-configured content
+        // (email templates, success messages, calculations), not on form submissions.
+        return;
     }
 }

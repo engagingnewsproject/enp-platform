@@ -65,10 +65,10 @@ final class NF_Actions_SuccessMessage extends SotAction implements InterfacesSot
 
             if ($ob) {
                 $data['debug']['console'][] = sprintf(esc_html__('Shortcodes should return and not echo, see: %s', 'ninja-forms'), 'https://codex.wordpress.org/Shortcode_API#Output');
-                $data['actions']['success_message'] .= $action_settings['success_msg'];
+                $data['actions']['success_message'] .= wp_kses_post($action_settings['success_msg']);
             } else {
                 $message = do_shortcode($action_settings['success_msg']);
-                $data['actions']['success_message'] .= wpautop($message);
+                $data['actions']['success_message'] .= wp_kses_post(wpautop($message));
             }
         }
 

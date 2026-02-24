@@ -72,7 +72,7 @@ abstract class NF_Abstracts_MergeTags
                 $subject['payment_total'] = substr_replace($subject['payment_total'], ':calc', -1, 0);
             }
 
-            if( 'email' == $subject['type'] ) {
+            if( 'email' == $subject['type'] || 'successmessage' == $subject['type'] ) {
                 $this->use_safe = true;
             } else {
                 $this->use_safe = false;

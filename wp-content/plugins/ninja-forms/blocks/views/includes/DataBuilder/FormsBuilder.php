@@ -19,10 +19,10 @@ class FormsBuilder {
     }
 
     protected function toArray( $form ) {
-        extract($form);
+        // Security: Use explicit array access instead of extract() to prevent variable overwriting attacks
         return [
-            'formID' => $id,
-            'formTitle' => $title,
+            'formID' => $form['id'] ?? null,
+            'formTitle' => $form['title'] ?? '',
         ];
     }
 }
