@@ -20,7 +20,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"ajv": "^8.17.1",
+		"ajv": "^8.18.0",
 		"es6-promise": "^4.2.8",
 		"flickity": "^3.0.0",
 		"imagemin": "^9.0.1",
