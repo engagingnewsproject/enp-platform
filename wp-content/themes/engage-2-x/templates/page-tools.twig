@@ -32,7 +32,7 @@
 							     srcset="{{ get_image(item.image).srcset }}"
 							     sizes="{{ get_image(item.image).img_sizes }}"
 							     alt="{{ item.title }}"
-							     loading="eager" />							<h4>{{ item.subtitle }}</h4>
+							     loading="eager" />							<h3>{{ item.subtitle }}</h3>
 							<p>{{ item.content }}</p>
 							<p>
 								{% if item.plugin_button_1 != "" %}
@@ -50,7 +50,7 @@
 
 				<aside class="newsletter-about widget">
 					<section class="sidebar-menu sidebar-menu__{{post.post_type}}">
-						<h4 class="sidebar-menu__title">Tools Menu</h4>
+						<h3 class="sidebar-menu__title">Tools Menu</h3>
 						<ul class="filters filters-- menu">
 							{% for item in post.meta('repeater') %}
 								<li class="filter__item filter__item--sub-item">

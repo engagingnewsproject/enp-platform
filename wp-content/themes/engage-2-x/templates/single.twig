@@ -26,7 +26,7 @@
 									{% if hasVideo %}
 										<div class="aspect-ratio-box">
 											<div class="aspect-ratio-box-inside">
-												<iframe class="article__video article__video--{{ post.post_type }}" src="{{ post.getVideoEmbedLink }}" frameborder="0" allowfullscreen="allowfullscreen">
+												<iframe class="article__video article__video--{{ post.post_type }}" src="{{ post.getVideoEmbedLink }}" frameborder="0" allowfullscreen="allowfullscreen" title="{{ post.title }} Video">
 													<span data-mce-type="bookmark" class="video mce_start">﻿</span>
 												</iframe>
 											</div>
