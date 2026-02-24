@@ -874,7 +874,9 @@ class NF_Display_Render
                 wp_enqueue_media();
             }
 
-            wp_enqueue_style( 'summernote',         $css_dir . 'summernote-lite.min.css'   , $ver );
+            wp_enqueue_style( 'quill-core',         $css_dir . 'quill.core.css'   , $ver );
+            wp_enqueue_style( 'quill-snow',         $css_dir . 'quill.snow.css'   , $ver );
+            wp_enqueue_style( 'quill-custom',       $css_dir . 'quill-custom.css' , $ver );
             wp_enqueue_style( 'codemirror',         $css_dir . 'codemirror.css'   , $ver );
             wp_enqueue_style( 'codemirror-monokai', $css_dir . 'monokai-theme.css', $ver );
             wp_enqueue_script('nf-front-end--rte', $js_dir . 'front-end--rte.min.js', array( 'jquery' ), $ver );

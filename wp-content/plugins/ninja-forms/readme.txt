@@ -4,7 +4,7 @@ Tags: forms, form builder, contact form, lead form, registration form
 
 Requires at least: 6.7
 Tested up to: 6.9
-Stable tag: 3.14.0
+Stable tag: 3.14.1
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -310,14 +310,45 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.14.0 (January 26, 2026) =
-* Features:*
-- Add support for Abilities API
+= 3.14.1 (2 February 2026) =
 
 *Bug Fixes:*
-- Prevent loading CDN font per GDPR rules
+
+- fix drawer close button not working after merge tag insertion
+- fix token visibility issue in submissions table block
+- remove tabindex from radio lists for accessibility compliance
+
+*Enhancements:*
+
+- replace Summernote with Quill.js for Rich Text Editor
+- improve star rating field accessibility sizing
+
+*Security Enhancements:*
+
+- protect against XSS in Success Message action
+- block merge tag injection in repeater field processing
+- harden blocks code against unauthorized access
 
 == Changelog ==
+= 3.14.1 (2 February 2026) =
+
+*Bug Fixes:*
+
+- fix drawer close button not working after merge tag insertion
+- fix token visibility issue in submissions table block
+- remove tabindex from radio lists for accessibility compliance
+
+*Enhancements:*
+
+- replace Summernote with Quill.js for Rich Text Editor
+- improve star rating field accessibility sizing
+
+*Security Enhancements:*
+
+- protect against XSS in Success Message action
+- block merge tag injection in repeater field processing
+- harden blocks code against unauthorized access
+
 = 3.14.0 (January 26, 2026) =
 * Features:*
 - Add support for Abilities API

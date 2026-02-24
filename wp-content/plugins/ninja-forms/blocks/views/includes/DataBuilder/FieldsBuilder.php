@@ -18,11 +18,11 @@ class FieldsBuilder {
     }
 
     protected function toArray( $field ) {
-        extract( $field );
+        // Security: Use explicit array access instead of extract() to prevent variable overwriting attacks
         return [
-            'id' => $id,
-            'label' => $label,
-            'type' => $type
+            'id' => $field['id'] ?? null,
+            'label' => $field['label'] ?? '',
+            'type' => $field['type'] ?? ''
         ];
     }
 }
