@@ -67,10 +67,10 @@
 										<strong>CASE STUDY: {{post.meta('case_study_title')|raw|striptags('<em>')}} </strong>
 									</h3>
 									{{dump(post)}}
-									<h4>
-										<strong><a href="{{ post.getReport }}" filename="{{ category.slug}} {{post.title}}"></use>Case Study PDF</a> | </strong>
+									<p>
+										<strong><a href="{{ post.getReport }}" filename="{{ category.slug}} {{post.title}}">Case Study PDF</a> | </strong>
 										<strong><a href="{{ category.link }}">Additional Case Studies</a></strong>
-									</h4>
+									</p>
 									<hr>
 									{% endif %}
 									{% endif %}

@@ -119,14 +119,14 @@
 		{# Checks if the getDirectors array has a length greater than 0, meaning there are directors assigned #}
 		{% if post.getDirectors | length > 0 %}
 			<section class="director-tease">
-				<h4 class="director-tease__title">Directors</h4>
+				<h2 class="director-tease__title">Directors</h2>
 				{% for director in post.getDirectors %}
 					{% include 'partial/teammate-tease.twig' with { mate: director } %}
 				{% endfor %}
 			</section>
 		{% endif %}
 		<section class="sidebar-menu sidebar-menu__{{post.post_type}}">
-			<h4 class="sidebar-menu__title">Menu</h4>
+			<h2 class="sidebar-menu__title">Menu</h2>
 			<ul class="filters filters--{{ post.category.slug }}-menu">
 				<li
 					class="filter__item filter__item-- filter__item--research filter__item--current-parent filter__item--top-item collapsable--max-tablet">
