@@ -15,8 +15,8 @@
 			<div class="article__wrapper container container--lg">
 				
 			<article class="article container container--lg post-type--{{post.post_type}}" id="post--{{post.ID}}">
-				<header class="article__header">
-					<h1 class="article__title">{{post.title}}</h1>
+				<header class="article__header sr-text">
+					<h2 class="article__title">{{post.title}}</h2>
 				</header>
 
 				<div class="article__content">
@@ -50,7 +50,7 @@
 
 				<aside class="newsletter-about widget">
 					<section class="sidebar-menu sidebar-menu__{{post.post_type}}">
-						<h3 class="sidebar-menu__title">Tools Menu</h3>
+						<h2 class="sidebar-menu__title">Tools Menu</h2>
 						<ul class="filters filters-- menu">
 							{% for item in post.meta('repeater') %}
 								<li class="filter__item filter__item--sub-item">
