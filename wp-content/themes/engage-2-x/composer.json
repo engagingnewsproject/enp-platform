@@ -26,7 +26,7 @@
     }
   },
   "require-dev": {
-    "automattic/wordbless": "^0.4.2",
+    "automattic/wordbless": "^0.6.0",
     "yoast/wp-test-utils": "^1.0"
   },
   "extra": {
