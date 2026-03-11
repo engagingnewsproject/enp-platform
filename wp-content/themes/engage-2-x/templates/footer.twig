@@ -1,7 +1,9 @@
 <div class="footer__container container">
-	<div class="footer__top">
-		{{ topFooterWidgets }}
-	</div>
+	{% if topFooterWidgets %}
+		<div class="footer__top">
+			{{ topFooterWidgets }}
+		</div>
+	{% endif %}
 	<div class="footer__footer grid grid--col-12 grid--gap-20">
 		<div class="widget__wrapper widget--left">
 			{{ leftFooterWidgets }}

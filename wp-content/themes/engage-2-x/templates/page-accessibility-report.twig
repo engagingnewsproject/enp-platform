@@ -21,12 +21,23 @@
 						<caption class="accessibility-report__caption">{{ accessibility_report|length }} page{{ accessibility_report|length != 1 ? 's' : '' }}</caption>
 						<thead>
 							<tr>
+								<th scope="col" colspan="5" class="accessibility-report__th accessibility-report__filter">
+									<label for="accessibility-report-filter" class="accessibility-report__filter-label">Filter by URL path</label>
+									<input type="search" id="accessibility-report-filter" class="accessibility-report__filter-input" placeholder="e.g. /event" aria-describedby="accessibility-report-filter-result" autocomplete="off">
+									<span id="accessibility-report-filter-result" class="accessibility-report__filter-result" aria-live="polite"></span>
+								</th>
+							</tr>
+							<tr>
 								<th scope="col" class="accessibility-report__th accessibility-report__th--sortable" data-sort-type="text" data-sort-col="0" aria-sort="none">
 									<button type="button" class="accessibility-report__sort-btn">URL</button>
 								</th>
-								<th scope="col" class="accessibility-report__th accessibility-report__th--sortable" data-sort-type="numeric" data-sort-col="1" aria-sort="none">
+								<th scope="col" class="accessibility-report__th accessibility-report__th--prod" title="Production link">
+									<span class="sr-text">Prod</span>
+								</th>
+								<th scope="col" class="accessibility-report__th accessibility-report__th--sortable" data-sort-type="numeric" data-sort-col="2" aria-sort="none">
 									<button type="button" class="accessibility-report__sort-btn">Score</button>
 								</th>
+								<th scope="col" class="accessibility-report__th accessibility-report__th--dev">Dev</th>
 								<th scope="col" class="accessibility-report__th accessibility-report__th--done">Done</th>
 							</tr>
 						</thead>
@@ -34,7 +45,16 @@
 							{% for row in accessibility_report %}
 								<tr class="accessibility-report__row{{ row.completed ? ' accessibility-report__row--completed' : '' }}" data-path="{{ row.path|e('html_attr') }}">
 									<td data-sort-value="{{ row.url }}"><a href="{{ row.url }}" target="_blank" rel="noopener noreferrer">{{ row.url }}</a></td>
+									<td class="accessibility-report__prod-cell">
+										<a href="{{ row.prod_url }}" target="_blank" rel="noopener noreferrer" class="accessibility-report__prod-link" title="View on production" aria-label="View {{ row.path }} on production">
+											<svg class="accessibility-report__prod-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+										</a>
+									</td>
 									<td data-sort-value="{{ row.score }}">{{ row.score }}</td>
+									<td class="accessibility-report__dev-cell">
+										<label for="accessibility-report-dev-{{ loop.index }}" class="sr-text">Assign developer for {{ row.path }}</label>
+										<input type="text" id="accessibility-report-dev-{{ loop.index }}" class="accessibility-report__dev-input" value="{{ row.dev|e('html_attr') }}" placeholder="Name" data-path="{{ row.path|e('html_attr') }}" maxlength="100">
+									</td>
 									<td class="accessibility-report__done-cell">
 										<button type="button" class="accessibility-report__done-btn" data-completed="{{ row.completed ? '1' : '0' }}" aria-pressed="{{ row.completed ? 'true' : 'false' }}">
 											{{ row.completed ? 'Undo' : 'Mark complete' }}
@@ -50,6 +70,27 @@
 					var table = document.getElementById('accessibility-report-table');
 					if (!table) return;
 					var tbody = table.querySelector('tbody');
+					var filterInput = document.getElementById('accessibility-report-filter');
+					var filterResult = document.getElementById('accessibility-report-filter-result');
+					var totalRows = tbody ? tbody.querySelectorAll('tr').length : 0;
+
+					// Filter rows by URL path (data-path contains search string, case-insensitive)
+					function filterByPath() {
+						var q = (filterInput && filterInput.value) ? filterInput.value.trim().toLowerCase() : '';
+						var rows = tbody ? tbody.querySelectorAll('tr') : [];
+						var visible = 0;
+						rows.forEach(function(row) {
+							var path = (row.getAttribute('data-path') || '').toLowerCase();
+							var show = !q || path.indexOf(q) !== -1;
+							row.style.display = show ? '' : 'none';
+							if (show) visible++;
+						});
+						if (filterResult) {
+							filterResult.textContent = q ? 'Showing ' + visible + ' of ' + totalRows : '';
+						}
+					}
+					if (filterInput) filterInput.addEventListener('input', filterByPath);
+
 					var headers = table.querySelectorAll('.accessibility-report__th--sortable');
 					headers.forEach(function(th) {
 						var btn = th.querySelector('button');
@@ -83,7 +124,8 @@
 				(function() {
 					var ajaxUrl = {{ a11y_ajax_url|json_encode|raw }};
 					var nonce = {{ a11y_nonce|json_encode|raw }};
-					document.getElementById('accessibility-report-table').addEventListener('click', function(e) {
+					var table = document.getElementById('accessibility-report-table');
+					table.addEventListener('click', function(e) {
 						var btn = e.target.closest('.accessibility-report__done-btn');
 						if (!btn) return;
 						var row = btn.closest('tr');
@@ -105,6 +147,22 @@
 								}
 							})
 							.finally(function() { btn.disabled = false; });
+					});
+
+					// Save dev assignment on blur
+					table.querySelectorAll('.accessibility-report__dev-input').forEach(function(input) {
+						input.addEventListener('blur', function() {
+							var path = input.getAttribute('data-path');
+							var dev = (input.value || '').trim();
+							if (!path) return;
+							var formData = new FormData();
+							formData.append('action', 'engage_a11y_set_dev');
+							formData.append('nonce', nonce);
+							formData.append('path', path);
+							formData.append('dev', dev);
+							fetch(ajaxUrl, { method: 'POST', body: formData, credentials: 'same-origin' })
+								.then(function(r) { return r.json(); });
+						});
 					});
 				})();
 				</script>

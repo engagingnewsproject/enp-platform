@@ -70,6 +70,17 @@ semesters.forEach(function (semester) {
       },
       false,
     );
+    title_element[0].addEventListener(
+      "keydown",
+      function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggleSemester(semester);
+          changeArrowDirection(semester);
+        }
+      },
+      false,
+    );
   }
 });
 

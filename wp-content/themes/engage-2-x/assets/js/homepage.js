@@ -58,7 +58,14 @@ function getFocusableElements(container) {
 
 function updateSlideFocusability() {
   document.querySelectorAll('.carousel-cell').forEach(cell => {
-    const isHidden = cell.getAttribute('aria-hidden') === 'true';
+    const isHidden = !cell.classList.contains('is-selected');
+    if (isHidden) {
+      cell.setAttribute('inert', '');
+    } else {
+      cell.removeAttribute('inert');
+    }
+    // Avoid aria-hidden on visible carousel content; rely on inert + tabindex instead.
+    cell.removeAttribute('aria-hidden');
     getFocusableElements(cell).forEach(el => {
       if (isHidden) {
         el.setAttribute('tabindex', '-1');

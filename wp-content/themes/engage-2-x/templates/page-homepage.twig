@@ -34,7 +34,7 @@ ACF group name: Homepage Detail
 						class="home-section__quiz--info description description-quiz">
 						<p>{{ quizInfo.description }}</p>
 						<div class="see-all-posts see-all-posts--quiz text-left">
-							<a class="btn btn--ghost btn--see-all" href="{{ quizInfo.button_link }}">{{ quizInfo.button_title }}</a>
+							<a class="btn btn--ghost btn--see-all" href="{{ quizInfo.button_link }}" aria-label="{{ quizInfo.button_title }} about {{ quizInfo.title }}">{{ quizInfo.button_title }}</a>
 						</div>
 					</div>
 					<div class="home-section__quiz--info pictures pictures-quiz">
@@ -88,7 +88,7 @@ ACF group name: Homepage Detail
 						<div class="home-section__button--info description description-button">
 							<p>{{ infoBlock.description }}</p>
 							<div class="see-all-posts see-all-posts--buttons text-left">
-								<a class="btn btn--ghost btn--see-all" href="{{ infoBlock.button_link }}">{{ infoBlock.button_title }}</a>
+								<a class="btn btn--ghost btn--see-all" href="{{ infoBlock.button_link }}" aria-label="{{ infoBlock.button_title }} about {{ infoBlock.title }}">{{ infoBlock.button_title }}</a>
 							</div>
 						</div>
 					</div>

@@ -186,7 +186,40 @@ async function main() {
 
   if (urlsToRun.length === 0) {
     const summaryPath = path.join(REPORT_DIR, SUMMARY_FILENAME);
-    const csvRows = ['url,score', ...progress.below100.map(({ url, score }) => `"${url.replace(/"/g, '""')}",${score}`)];
+    const completedPaths = new Set();
+    const devByPath = new Map();
+    if (fs.existsSync(summaryPath)) {
+      const existing = fs.readFileSync(summaryPath, 'utf8').split('\n');
+      for (let i = 1; i < existing.length; i++) {
+        const line = existing[i];
+        const afterUrl = line.indexOf('",');
+        if (afterUrl === -1) continue;
+        const url = line.slice(1, afterUrl).replace(/""/g, '"');
+        const rest = line.slice(afterUrl + 2);
+        const parts = rest.split(',');
+        const done = parts.length >= 2 ? parts[1].trim() === '1' : false;
+        let dev = parts.length >= 3 ? parts[2].trim() : '';
+        if (dev.startsWith('"') && dev.endsWith('"')) dev = dev.slice(1, -1).replace(/""/g, '"');
+        try {
+          const pathname = new URL(url).pathname;
+          if (done) completedPaths.add(pathname);
+          if (dev) devByPath.set(pathname, dev);
+        } catch (_) {}
+      }
+    }
+    const csvRows = [
+      'url,score,done,dev',
+      ...progress.below100.map(({ url, score }) => {
+        let pathname = '/';
+        try {
+          pathname = new URL(url).pathname;
+        } catch (_) {}
+        const done = completedPaths.has(pathname) ? 1 : 0;
+        const dev = devByPath.get(pathname) || '';
+        const devCell = dev ? `"${dev.replace(/"/g, '""')}"` : '""';
+        return `"${url.replace(/"/g, '""')}",${score},${done},${devCell}`;
+      }),
+    ];
     fs.writeFileSync(summaryPath, csvRows.join('\n'), 'utf8');
     archiveProgress();
     console.log('No URLs left to run (already complete). Summary written from progress.');
@@ -248,8 +281,9 @@ async function main() {
   }
 
   const summaryPath = path.join(REPORT_DIR, SUMMARY_FILENAME);
-  // Preserve "done" state from existing CSV (paths marked complete on the WP report page)
-  let completedPaths = new Set();
+  // Preserve "done" and "dev" from existing CSV (set on the WP report page)
+  const completedPaths = new Set();
+  const devByPath = new Map();
   if (fs.existsSync(summaryPath)) {
     const existing = fs.readFileSync(summaryPath, 'utf8').split('\n');
     for (let i = 1; i < existing.length; i++) {
@@ -260,22 +294,26 @@ async function main() {
       const rest = line.slice(afterUrl + 2);
       const parts = rest.split(',');
       const done = parts.length >= 2 ? parts[1].trim() === '1' : false;
-      if (done) {
-        try {
-          completedPaths.add(new URL(url).pathname);
-        } catch (_) {}
-      }
+      let dev = parts.length >= 3 ? parts[2].trim() : '';
+      if (dev.startsWith('"') && dev.endsWith('"')) dev = dev.slice(1, -1).replace(/""/g, '"');
+      try {
+        const pathname = new URL(url).pathname;
+        if (done) completedPaths.add(pathname);
+        if (dev) devByPath.set(pathname, dev);
+      } catch (_) {}
     }
   }
   const csvRows = [
-    'url,score,done',
+    'url,score,done,dev',
     ...below100.map(({ url, score }) => {
       let pathname = '/';
       try {
         pathname = new URL(url).pathname;
       } catch (_) {}
       const done = completedPaths.has(pathname) ? 1 : 0;
-      return `"${url.replace(/"/g, '""')}",${score},${done}`;
+      const dev = devByPath.get(pathname) || '';
+      const devCell = dev ? `"${dev.replace(/"/g, '""')}"` : '""';
+      return `"${url.replace(/"/g, '""')}",${score},${done},${devCell}`;
     }),
   ];
   fs.writeFileSync(summaryPath, csvRows.join('\n'), 'utf8');

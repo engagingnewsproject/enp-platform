@@ -18,6 +18,12 @@ class Token {
     /** @var int Token expiration time in seconds */
     const TOKEN_EXPIRATION = 900; // 15 minutes
 
+    /** @var int Maximum token length in bytes (security: prevent memory exhaustion DoS) */
+    const MAX_TOKEN_LENGTH = 8192; // 8KB is generous for typical tokens
+
+    /** @var int Maximum age past expiration for token refresh (security: limit refresh window) */
+    const MAX_REFRESH_AGE = 86400; // 24 hours - tokens older than this cannot be refreshed
+
     /**
      * @param string $privateKey
      */
@@ -53,6 +59,11 @@ class Token {
      * @return bool
      */
     public function validate( $token, $formId = null ) {
+        // Security: Validate token size before decoding to prevent memory exhaustion DoS
+        if ( ! is_string( $token ) || strlen( $token ) > self::MAX_TOKEN_LENGTH ) {
+            return false;
+        }
+
         // If the token is malformed, then list() may return an undefined index error.
         // Pad the exploded array to add missing indexes.
         // Limit explode to 3 parts to handle colons in payload JSON
@@ -85,6 +96,55 @@ class Token {
     }
 
     /**
+     * Validate token signature and structure without checking expiration.
+     * Used for token refresh - allows refreshing expired but authentic tokens.
+     *
+     * @param string $token
+     * @param int|null $formId Form ID to check access for (null to only validate signature)
+     *
+     * @return bool True if token signature is valid (regardless of expiration)
+     */
+    public function validateSignatureOnly( $token, $formId = null ) {
+        // Security: Validate token size before decoding to prevent memory exhaustion DoS
+        if ( ! is_string( $token ) || strlen( $token ) > self::MAX_TOKEN_LENGTH ) {
+            return false;
+        }
+
+        // If the token is malformed, then list() may return an undefined index error.
+        list( $hash, $publicKey, $payload ) = array_pad( explode( ':', base64_decode( $token ), 3 ), 3, false );
+
+        // Validate token structure and hash (signature check)
+        if ( ! $hash || ! $publicKey || ! $payload ) {
+            return false;
+        }
+
+        if ( ! hash_equals( $hash, $this->hash( $publicKey, $payload ) ) ) {
+            return false;
+        }
+
+        // Decode and validate payload structure
+        $data = json_decode( $payload, true );
+        if ( ! is_array( $data ) || ! isset( $data['formIds'] ) || ! isset( $data['exp'] ) ) {
+            return false;
+        }
+
+        // Security: Limit how old a token can be for refresh
+        // This prevents indefinite refresh of tokens from logs/browser history
+        if ( time() > $data['exp'] + self::MAX_REFRESH_AGE ) {
+            return false;
+        }
+
+        // If a specific form ID is requested, check authorization
+        if ( $formId !== null ) {
+            if ( ! in_array( intval( $formId ), $data['formIds'], true ) ) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Extract form IDs from a token without full validation.
      * Used for debugging/logging purposes only.
      *
@@ -93,6 +153,11 @@ class Token {
      * @return array|false Array of form IDs or false on failure
      */
     public function getFormIds( $token ) {
+        // Security: Validate token size before decoding to prevent memory exhaustion DoS
+        if ( ! is_string( $token ) || strlen( $token ) > self::MAX_TOKEN_LENGTH ) {
+            return false;
+        }
+
         // Limit explode to 3 parts to handle colons in payload JSON
         $parts = explode( ':', base64_decode( $token ), 3 );
 

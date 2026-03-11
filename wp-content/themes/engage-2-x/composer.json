@@ -17,7 +17,7 @@
   ],
   "require": {
     "timber/timber": "^2.0",
-    "hellonico/timber-dump-extension": "^1.0",
+    "hellonico/timber-dump-extension": "^2.0",
     "hellonico/twig-dump-extension": "^1.2"
   },
   "autoload": {
@@ -26,7 +26,7 @@
     }
   },
   "require-dev": {
-    "automattic/wordbless": "^0.4.2",
+    "automattic/wordbless": "^0.6.0",
     "yoast/wp-test-utils": "^1.0"
   },
   "extra": {

@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Path to the accessibility report CSV (theme-relative). Columns: url, score, done (0|1).
+ * Path to the accessibility report CSV (theme-relative). Columns: url, score, done (0|1), dev (optional).
  *
  * @return string
  */
@@ -57,11 +57,12 @@ function engage_a11y_ajax_toggle_complete(): void {
 				$row_path = isset($parsed['path']) ? $parsed['path'] : '/';
 			}
 			$done = (isset($row[2]) && (string) $row[2] === '1') ? 1 : 0;
+			$dev  = isset($row[3]) ? trim((string) $row[3]) : '';
 			if ($row_path === $path) {
 				$done = $done ? 0 : 1;
 				$now_completed = (bool) $done;
 			}
-			$rows[] = [$row[0], $row[1], $done];
+			$rows[] = [$row[0], $row[1], $done, $dev];
 		}
 	}
 	fclose($handle);
@@ -74,7 +75,7 @@ function engage_a11y_ajax_toggle_complete(): void {
 	if (!$out) {
 		wp_send_json_error(['message' => 'Could not write report file']);
 	}
-	fputcsv($out, ['url', 'score', 'done']);
+	fputcsv($out, ['url', 'score', 'done', 'dev']);
 	foreach ($rows as $row) {
 		fputcsv($out, $row);
 	}
@@ -87,3 +88,76 @@ function engage_a11y_ajax_toggle_complete(): void {
 }
 
 add_action('wp_ajax_engage_a11y_toggle_complete', 'engage_a11y_ajax_toggle_complete');
+
+/**
+ * AJAX handler: set dev (assignee) for a path by updating the CSV. Requires manage_options.
+ */
+function engage_a11y_ajax_set_dev(): void {
+	if (!check_ajax_referer('engage_a11y_report', 'nonce', false)) {
+		wp_send_json_error(['message' => 'Invalid nonce']);
+	}
+	if (!current_user_can('manage_options')) {
+		wp_send_json_error(['message' => 'Forbidden']);
+	}
+
+	$path = isset($_POST['path']) ? wp_unslash(sanitize_text_field($_POST['path'])) : '';
+	$dev  = isset($_POST['dev']) ? wp_unslash(sanitize_text_field($_POST['dev'])) : '';
+	if ($path === '') {
+		wp_send_json_error(['message' => 'Missing path']);
+	}
+
+	$csv_path = engage_a11y_get_csv_path();
+	if (!is_readable($csv_path)) {
+		wp_send_json_error(['message' => 'Report file not found']);
+	}
+	if (!is_writable($csv_path)) {
+		wp_send_json_error(['message' => 'Report file is not writable']);
+	}
+
+	$rows = [];
+	$handle = fopen($csv_path, 'r');
+	if (!$handle) {
+		wp_send_json_error(['message' => 'Could not read report file']);
+	}
+	$header = fgetcsv($handle);
+	$found = false;
+	while (($row = fgetcsv($handle)) !== false) {
+		if (count($row) >= 2) {
+			$row_url  = trim($row[0], '"');
+			$row_path = '';
+			if ($row_url !== '') {
+				$parsed   = parse_url($row_url);
+				$row_path = isset($parsed['path']) ? $parsed['path'] : '/';
+			}
+			$done = (isset($row[2]) && (string) $row[2] === '1') ? 1 : 0;
+			$row_dev = isset($row[3]) ? trim((string) $row[3]) : '';
+			if ($row_path === $path) {
+				$row_dev = $dev;
+				$found   = true;
+			}
+			$rows[] = [$row[0], $row[1], $done, $row_dev];
+		}
+	}
+	fclose($handle);
+
+	if (!$found) {
+		wp_send_json_error(['message' => 'Path not found in report']);
+	}
+
+	$out = fopen($csv_path, 'w');
+	if (!$out) {
+		wp_send_json_error(['message' => 'Could not write report file']);
+	}
+	fputcsv($out, ['url', 'score', 'done', 'dev']);
+	foreach ($rows as $row) {
+		fputcsv($out, $row);
+	}
+	fclose($out);
+
+	wp_send_json_success([
+		'dev'  => $dev,
+		'path' => $path,
+	]);
+}
+
+add_action('wp_ajax_engage_a11y_set_dev', 'engage_a11y_ajax_set_dev');

@@ -17,6 +17,8 @@ $context['has_report'] = false;
 
 $context['a11y_ajax_url'] = admin_url('admin-ajax.php');
 $context['a11y_nonce']   = wp_create_nonce('engage_a11y_report');
+/** Production base URL for "Prod" column links (replaces local origin). */
+$context['a11y_prod_base_url'] = 'https://mediaengagement.org';
 
 if (is_readable($csv_path)) {
 	$rows = [];
@@ -35,12 +37,22 @@ if (is_readable($csv_path)) {
 				if (!empty($parsed['fragment'])) {
 					$rewritten .= '#' . $parsed['fragment'];
 				}
+				$prod_url = $context['a11y_prod_base_url'] . $path;
+				if (!empty($parsed['query'])) {
+					$prod_url .= '?' . $parsed['query'];
+				}
+				if (!empty($parsed['fragment'])) {
+					$prod_url .= '#' . $parsed['fragment'];
+				}
 				$done = isset($row[2]) && (string) $row[2] === '1';
+				$dev  = isset($row[3]) ? trim((string) $row[3]) : '';
 				$rows[] = [
 					'url'       => $rewritten,
 					'path'      => $path,
+					'prod_url'  => $prod_url,
 					'score'     => (int) $row[1],
 					'completed' => $done,
+					'dev'       => $dev,
 				];
 			}
 		}

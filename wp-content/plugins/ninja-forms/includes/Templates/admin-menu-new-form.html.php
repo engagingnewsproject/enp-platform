@@ -1023,7 +1023,7 @@ Label Three
 </script>
 
 <script id="tmpl-nf-rte-link-dropdown" type="text/template">
-    <div class="summernote-link">
+    <div class="rte-link">
         URL
         <input type="url" class="widefat code link-url"> <br />
         Text

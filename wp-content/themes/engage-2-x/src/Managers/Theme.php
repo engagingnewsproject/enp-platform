@@ -1,7 +1,7 @@
 <?php
 /*
-* Kicks off site loading and adds in all resources
-*/
+ * Kicks off site loading and adds in all resources
+ */
 
 namespace Engage\Managers;
 
@@ -23,11 +23,11 @@ class Theme
 		add_theme_support('automatic-feed-links');
 		add_action('acf/init', [$this, 'addOptionsPage']);
 		/*
-		* Let WordPress manage the document title.
-		* By adding theme support, we declare that this theme does not use a
-		* hard-coded <title> tag in the document head, and expect WordPress to
-		* provide it for us.
-		*/
+		 * Let WordPress manage the document title.
+		 * By adding theme support, we declare that this theme does not use a
+		 * hard-coded <title> tag in the document head, and expect WordPress to
+		 * provide it for us.
+		 */
 		add_theme_support('title-tag');
 		add_filter('timber/context', [$this, 'addToContext']);
 		add_filter('body_class', [$this, 'bodyClass']);
@@ -44,7 +44,7 @@ class Theme
 		// Others not used
 		// add_image_size('featured-post', 510, 310, true); // use 'medium' instead
 		// add_image_size('small', 100, 0, false); // not used
-		
+
 		add_filter('intermediate_image_sizes_advanced', [$this, 'disable_large_wp_image_sizes']);
 		add_filter('big_image_size_threshold', '__return_false');
 		add_filter('image_size_names_choose', [$this, 'remove_image_size_options']);
@@ -83,7 +83,7 @@ class Theme
 			add_action('manage_pages_custom_column', [$this, 'displayTemplateColumn'], 10, 2);
 			add_filter('manage_edit-page_sortable_columns', [$this, 'sortableTemplateColumn']);
 		}
-		
+
 	}
 	/**
 	 * Disables WordPress's redundant image sizes while maintaining high quality options
@@ -91,7 +91,8 @@ class Theme
 	 * @param array $sizes Array of image sizes
 	 * @return array Modified array of image sizes
 	 */
-	public function disable_large_wp_image_sizes($sizes) {
+	public function disable_large_wp_image_sizes($sizes)
+	{
 		// Keep only the absolute minimum sizes we need
 		$allowed_sizes = [
 			'thumbnail',    // 150x150 - for admin thumbnails
@@ -99,14 +100,14 @@ class Theme
 			'carousel-image', // 1280x720 - for homepage slider
 			'grid-large'    // 404x240 - for grid layouts
 		];
-		
+
 		// Remove all sizes except our allowed ones
 		foreach ($sizes as $size => $settings) {
 			if (!in_array($size, $allowed_sizes)) {
 				unset($sizes[$size]);
 			}
 		}
-		
+
 		return $sizes;
 	}
 	/**
@@ -116,7 +117,8 @@ class Theme
 	 * @param array $sizes Array of image size options
 	 * @return array Modified array of image size options
 	 */
-	public function remove_image_size_options($sizes) {
+	public function remove_image_size_options($sizes)
+	{
 		unset($sizes['medium_large']);
 		unset($sizes['large']);
 		unset($sizes['1536x1536']);
@@ -128,85 +130,85 @@ class Theme
 	public function widgetsInit()
 	{
 		register_sidebar([
-			'name'          => __('Primary', 'sage'),
-			'id'            => 'sidebar-primary',
+			'name' => __('Primary', 'sage'),
+			'id' => 'sidebar-primary',
 			'before_widget' => '<section class="widget %1$s %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h3 class="widget__title">',
-			'after_title'   => '</h3>'
+			'after_widget' => '</section>',
+			'before_title' => '<h3 class="widget__title">',
+			'after_title' => '</h3>'
 		]);
 
 		register_sidebar([
-			'name'          => __('Research Sidebar', 'sage'),
-			'id'            => 'sidebar-research',
+			'name' => __('Research Sidebar', 'sage'),
+			'id' => 'sidebar-research',
 			'before_widget' => '<section class="widget %1$s %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h3 class="widget__title">',
-			'after_title'   => '</h3>'
+			'after_widget' => '</section>',
+			'before_title' => '<h3 class="widget__title">',
+			'after_title' => '</h3>'
 		]);
 
 		register_sidebar([
-			'name'          => __('Homepage Hero', 'sage'),
-			'id'            => 'sidebar-home',
+			'name' => __('Homepage Hero', 'sage'),
+			'id' => 'sidebar-home',
 			'before_widget' => '<section class="widget %1$s %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h3 class="widget__title">',
-			'after_title'   => '</h3>'
+			'after_widget' => '</section>',
+			'before_title' => '<h3 class="widget__title">',
+			'after_title' => '</h3>'
 		]);
 
 		register_sidebar([
-			'name'          => __('Top Footer', 'sage'),
-			'id'            => 'top-footer',
+			'name' => __('Top Footer', 'sage'),
+			'id' => 'top-footer',
 			'before_widget' => '<section class="widget %1$s %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h3 class="widget__title">',
-			'after_title'   => '</h3>'
+			'after_widget' => '</section>',
+			'before_title' => '<h3 class="widget__title">',
+			'after_title' => '</h3>'
 		]);
 
 		register_sidebar([
-			'name'          => __('Left Footer', 'sage'),
-			'id'            => 'left-footer',
+			'name' => __('Left Footer', 'sage'),
+			'id' => 'left-footer',
 			'before_widget' => '<section class="widget %1$s %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h3 class="widget__title">',
-			'after_title'   => '</h3>'
+			'after_widget' => '</section>',
+			'before_title' => '<h3 class="widget__title">',
+			'after_title' => '</h3>'
 		]);
 
 		register_sidebar([
-			'name'          => __('Center Footer', 'sage'),
-			'id'            => 'center-footer',
+			'name' => __('Center Footer', 'sage'),
+			'id' => 'center-footer',
 			'before_widget' => '<section class="widget %1$s %2$s">',
-			'after_widget'  => '</section>',
-			'before_title'  => '<h3 class="widget__title">',
-			'after_title'   => '</h3>'
+			'after_widget' => '</section>',
+			'before_title' => '<h3 class="widget__title">',
+			'after_title' => '</h3>'
 		]);
 
 		register_sidebar([
-			'name'          => __('Right Footer', 'sage'),
-			'id'            => 'right-footer',
+			'name' => __('Right Footer', 'sage'),
+			'id' => 'right-footer',
 			'before_widget' => '<nav class="widget %1$s %2$s" role="navigation" aria-label="Footer Navigation"><div class="menu-container" role="presentation">',
-			'after_widget'  => '</div></nav>',
-			'before_title'  => '<h3 class="widget__title" id="footer-nav-title">',
-			'after_title'   => '</h3>',
+			'after_widget' => '</div></nav>',
+			'before_title' => '<h3 class="widget__title" id="footer-nav-title">',
+			'after_title' => '</h3>',
 			'show_in_rest' => true,
 		]);
 
 		register_sidebar([
-			'name'          => 'Newsletter',
-			'id'            => 'newsletter',
+			'name' => 'Newsletter',
+			'id' => 'newsletter',
 			'before_widget' => '',
-			'after_widget'  => '',
-			'before_title'  => '<h4 class="widget__title">',
-			'after_title'   => '</h4>',
+			'after_widget' => '',
+			'before_title' => '<h2 class="widget__title">',
+			'after_title' => '</h2>',
 		]);
 
 		register_sidebar([
-			'name'          => __('MEI Sidebar', 'sage'),
-			'id'            => 'mei-sidebar',
+			'name' => __('MEI Sidebar', 'sage'),
+			'id' => 'mei-sidebar',
 			'before_widget' => '',
-			'after_widget'  => '',
-			'before_title'  => '<h3 class="widget__title">',
-			'after_title'   => '</h3>'
+			'after_widget' => '',
+			'before_title' => '<h3 class="widget__title">',
+			'after_title' => '</h3>'
 		]);
 	}
 
@@ -217,15 +219,15 @@ class Theme
 	{
 		acf_add_options_page(array(
 			'page_title' => 'Site Options',
-			'menu_slug'  => 'site-options',
-			'position'   => '',
-			'redirect'   => false,
-			'menu_icon'  => array(
-				'type'  => 'dashicons',
+			'menu_slug' => 'site-options',
+			'position' => '',
+			'redirect' => false,
+			'menu_icon' => array(
+				'type' => 'dashicons',
 				'value' => 'dashicons-admin-generic',
 			),
-			'autoload'   => true,
-			'icon_url'   => 'dashicons-admin-generic',
+			'autoload' => true,
+			'icon_url' => 'dashicons-admin-generic',
 		));
 	}
 
@@ -374,7 +376,7 @@ class Theme
 	{
 		$footer_defer = array(
 			'in_footer' => true,
-			'strategy'  => 'defer',
+			'strategy' => 'defer',
 		);
 
 		if (is_single() && comments_open() && get_option('thread_comments')) {
@@ -518,7 +520,8 @@ class Theme
 	}
 
 	// Limit srcset sizes to prevent too many variations
-	public function limit_srcset_sizes($sources, $size_array) {
+	public function limit_srcset_sizes($sources, $size_array)
+	{
 		// Only keep sources up to 2000px wide
 		foreach ($sources as $width => $source) {
 			if ($width > 2000) {
@@ -534,35 +537,36 @@ class Theme
 	 * @param array $args The menu arguments
 	 * @return array Modified menu arguments
 	 */
-	public function modifyNavMenuArgs($args) {
+	public function modifyNavMenuArgs($args)
+	{
 		// Only modify footer menu
 		if (strpos($args['menu_class'], 'menu-footer-menu') !== false) {
 			// Add ARIA attributes to the menu ul element
 			$args['container'] = 'div';
 			$args['container_class'] = 'menu-container';
 			$args['items_wrap'] = '<ul id="%1$s" class="%2$s" role="menu">%3$s</ul>';
-			
+
 			// Clean up menu item classes and add proper ARIA roles
-			add_filter('nav_menu_css_class', function($classes, $item, $args, $depth) {
+			add_filter('nav_menu_css_class', function ($classes, $item, $args, $depth) {
 				// Keep only essential classes
-				$essential_classes = array_filter($classes, function($class) {
+				$essential_classes = array_filter($classes, function ($class) {
 					return strpos($class, 'menu-item') === 0;
 				});
 				return array_merge(['menu-item'], $essential_classes);
 			}, 10, 4);
 
 			// Add role="menuitem" to li elements
-			add_filter('nav_menu_item_attributes', function($atts, $item, $args, $depth) {
+			add_filter('nav_menu_item_attributes', function ($atts, $item, $args, $depth) {
 				$atts['role'] = 'menuitem';
 				return $atts;
 			}, 10, 4);
 
 			// Clean up text nodes
-			add_filter('nav_menu_item_title', function($title, $item, $args, $depth) {
+			add_filter('nav_menu_item_title', function ($title, $item, $args, $depth) {
 				return trim($title);
 			}, 10, 4);
 		}
-		
+
 		return $args;
 	}
 
@@ -574,7 +578,8 @@ class Theme
 	 * @param array $instance The widget instance settings
 	 * @return string Modified HTML
 	 */
-	public function enhance_image_widget_accessibility($html, $instance) {
+	public function enhance_image_widget_accessibility($html, $instance)
+	{
 		// Add role="none" to figure element and ensure alt text is present
 		$html = preg_replace(
 			'/<figure class="([^"]*)"/',
@@ -592,7 +597,8 @@ class Theme
 	 * @param array  $block         The full block, including name and attributes
 	 * @return string Modified block content
 	 */
-	public function enhance_image_block_accessibility($block_content, $block) {
+	public function enhance_image_block_accessibility($block_content, $block)
+	{
 		if (strpos($block_content, '<figure') !== false) {
 			$block_content = preg_replace(
 				'/<figure([^>]*)>/',

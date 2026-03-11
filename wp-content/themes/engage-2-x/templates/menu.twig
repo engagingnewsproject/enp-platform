@@ -41,11 +41,13 @@
 					</a>
 				</div>
 				<div class="toggle__container">
-					<button class="filter__toggle" aria-controls="archiveSidebar" aria-expanded="false" aria-label="{{ options.sidebar_settings.mobile_filter_menu_title }}" style="display:none;">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="#333f48" width="20" height="20" aria-hidden="true">
-							<path d="M96 128c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 7 34.8L256 365.3V480c0 8.5 3.4 16.6 9.4 22.6l64 64c9.2 9.2 22.9 11.9 34.9 6.9S384 556.9 384 544V365.3l182.6-182.6c9.2-9.2 11.9-22.9 6.9-34.9S556.9 128 544 128H96z"/>
-						</svg>
-					</button>
+					{% if archive is defined and archive.filters %}
+						<button class="filter__toggle" aria-controls="archiveSidebar" aria-expanded="false" aria-label="{{ options.sidebar_settings.mobile_filter_menu_title }}" style="display:none;">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" fill="#333f48" width="20" height="20" aria-hidden="true">
+								<path d="M96 128c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 7 34.8L256 365.3V480c0 8.5 3.4 16.6 9.4 22.6l64 64c9.2 9.2 22.9 11.9 34.9 6.9S384 556.9 384 544V365.3l182.6-182.6c9.2-9.2 11.9-22.9 6.9-34.9S556.9 128 544 128H96z"/>
+							</svg>
+						</button>
+					{% endif %}
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 						{# <span class="navbar-toggler-icon"></span> #}
 						<span class="hamburger-bars"></span>
@@ -56,7 +58,7 @@
 			<div class="collapse navbar-collapse" id="navbarNavDropdown">
 				<ul class="menu__list navbar-nav">
 					{% for item in menu.items %}
-						<li class="menu__item nav-item {% if item.children %}dropdown{% endif %} {{ item.classes | join(' ') }}"{% if item.children %} tabindex="{{ 0 }}" {% endif %}>
+						<li class="menu__item nav-item {% if item.children %}dropdown{% endif %} {{ item.classes | join(' ') }}">
 							<a class="menu__link" target="{{ item.target }}" {% if item.link %} href="{{ item.link }}" {% endif %}{% if item.children %} aria-haspopup="true" aria-expanded="false" role="button"{% endif %}>
 								{{ item.title }}
 							</a>
@@ -64,7 +66,7 @@
 								<ul class="menu__sublist">
 									{% for child in item.children %}
 										<li class="menu__item menu__sublist-item {{ child.classes | join(' ') }} {{ child.children ? " has-nested-menu" }}">
-											<a tabindex="0" class="menu__link menu__sublist-link" target="{{ child.target }}" {% if child.link %} href="{{ child.link }}" {% endif %}>
+											<a class="menu__link menu__sublist-link" target="{{ child.target }}" {% if child.link %} href="{{ child.link }}" {% endif %}>
 												{{ child.title }}
 											</a>
 											{% if child.children %}
@@ -90,7 +92,7 @@
 		{% else %}
 			<ul class="menu__list">
 				{% for item in menu.items %}
-					<li {% if item.children %} tabindex="{{0}}" {% endif %} class="menu__item {{ item.classes | join(' ') }}">
+					<li class="menu__item {{ item.classes | join(' ') }}">
 						<a class="menu__link" target="{{ item.target }}" {% if item.link %}href="{{ item.link }}"{% endif %} {% if item.children %}aria-haspopup="true" aria-expanded="false"{% endif %} {% if item.classes[0] == "btn" %}style="color: {{ options.navigation_settings.link_color }}"{% endif %}>
 							{{ item.title }}
 						</a>
@@ -98,7 +100,7 @@
 							<ul class="menu__sublist {{ collapsable ? " collapsable" }}">
 								{% for child in item.children %}
 									<li class="menu__item menu__sublist-item {{ child.classes | join(' ') }} {{ child.children ? " has-nested-menu"}}">
-										<a tabindex="0" class="menu__link menu__sublist-link" target="{{ child.target }}" {% if child.link %} href="{{ child.link }}" {% endif %}>{{ child.title }}</a>
+										<a class="menu__link menu__sublist-link" target="{{ child.target }}" {% if child.link %} href="{{ child.link }}" {% endif %}>{{ child.title }}</a>
 										{% if child.children %}
 											<ul class="menu__sublist {{ collapsable ? " collapsable" }} nested">
 												{% for item in child.children %}
@@ -126,6 +128,5 @@
 
 
 {# if menu is main menu and has the aria-hidden attribute #}
-
 
 

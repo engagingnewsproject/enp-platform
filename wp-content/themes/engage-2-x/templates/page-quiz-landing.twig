@@ -24,7 +24,7 @@
 							{% if post.meta('features') %}
 								{% for col in post.meta('features') %}
 									<div class="tile" style="background-color: {{featCardBackground}};">
-										<h4 class="step-header" style="background-color: {{featCardTitleBackground}};">{{col.feature_subtitle}}</h4>
+										<h2 class="step-header" style="background-color: {{featCardTitleBackground}};">{{col.feature_subtitle}}</h2>
 										<p>{{col.feature_description}}</p>
 									</div>
 								{% endfor %}
@@ -38,7 +38,7 @@
 		<article id="tool-landing-page" class="quiz-creator-product-page">
 			<section class="quiz-creator-benefits steps">
 				<div class="inner-wrapper">
-					<h3 style="text-align: center;">{{post.meta('quiz_steps_header')}}</h3>
+					<h2 style="text-align: center;">{{post.meta('quiz_steps_header')}}</h2>
 					<p>&nbsp;</p>
 					{% set count = 0 %}
 					{% for step in post.meta('quiz_steps') %}
@@ -46,9 +46,9 @@
 							<div class="row">
 							{% endif %}
 							<div class="col-sm-4">
-								<h4 class="step-header">
+								<h3 class="step-header">
 									<strong>{{step.step_number}}</strong>
-								</h4>
+								</h3>
 								<p class="step-header">{{step.step_details}}</p>
 							</div>
 							{% set count = count + 1 %}
@@ -71,7 +71,7 @@
 						<div class="row">
 							<div class="col-md-8 col-md-offset-2 text-center">
 								<h2 class="headline">{{post.meta('additional_info_header')}}</h2>
-								<h4 class="subhead">{{post.meta('additional_info_subheader')}}</h4>
+								<h3 class="subhead">{{post.meta('additional_info_subheader')}}</h3>
 								<p>{{post.meta("additional_info_text")}}</p>
 								<p>
 									<a href={{post.meta("explore_research_link")}}>Explore Research</a>

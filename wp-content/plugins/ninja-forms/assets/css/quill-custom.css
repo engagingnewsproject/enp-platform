@@ -1,0 +1,166 @@
+/* Custom Quill toolbar button styling to match Summernote */
+.ql-toolbar.ql-snow {
+    border: 1px solid #ccc !important;
+    background-color: #f5f5f5 !important;
+    padding: 8px 5px !important;
+}
+
+.ql-container.ql-snow {
+    background-color: #fff !important;
+}
+
+.ql-editor {
+    background-color: #fff !important;
+    min-height: 200px !important;
+}
+
+/* Custom font sizes for headings and paragraph */
+.ql-editor p,
+.ql-editor .ql-size-normal {
+    font-size: 16px !important;
+}
+
+.ql-editor h1 {
+    font-size: 28px !important;
+}
+
+.ql-editor h2 {
+    font-size: 24px !important;
+}
+
+.ql-editor h3 {
+    font-size: 20px !important;
+}
+
+.ql-toolbar.ql-snow .ql-formats {
+    margin-right: 8px !important;
+}
+
+.ql-toolbar button {
+    border: 1px solid #ccc !important;
+    border-radius: 3px !important;
+    margin: 0 2px !important;
+    background-color: #fff !important;
+    padding: 3px 5px !important;
+    width: auto !important;
+    height: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+}
+
+.ql-toolbar button svg,
+.ql-toolbar button .dashicons {
+    display: block !important;
+    margin: auto !important;
+}
+
+.ql-toolbar button:hover {
+    background-color: #e6e6e6 !important;
+    border-color: #adadad !important;
+}
+
+.ql-toolbar button.ql-active {
+    background-color: #e0e0e0 !important;
+    border-color: #adadad !important;
+}
+
+.ql-toolbar .ql-picker {
+    border: 1px solid #ccc !important;
+    border-radius: 3px !important;
+    margin: 0 2px !important;
+    background-color: #fff !important;
+    height: auto !important;
+}
+
+.ql-toolbar .ql-picker-label {
+    border: none !important;
+    box-sizing: border-box !important;
+    text-align: left !important;
+}
+
+.ql-toolbar .ql-picker-label::before {
+    line-height: 26px !important;
+}
+
+.ql-toolbar .ql-picker-label svg {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    right: 4px !important;
+    margin-top: 0 !important;
+}
+
+.ql-toolbar .ql-picker-label:hover {
+    background-color: #e6e6e6 !important;
+}
+
+.ql-toolbar .ql-picker.ql-expanded .ql-picker-label {
+    border: none !important;
+}
+
+.ql-toolbar .ql-picker.ql-expanded {
+    z-index: 999999 !important;
+}
+
+.ql-toolbar .ql-picker-options {
+    z-index: 999999 !important;
+    position: absolute !important;
+}
+
+.ql-editor {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Align picker specific styling */
+.ql-toolbar .ql-picker.ql-align .ql-picker-label {
+    width: 28px !important;
+    height: 28px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.ql-toolbar .ql-picker.ql-align .ql-picker-label svg {
+    width: 18px !important;
+    height: 18px !important;
+    position: static !important;
+    transform: none !important;
+}
+
+.ql-toolbar .ql-picker.ql-align .ql-picker-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 4px !important;
+}
+
+.ql-toolbar .ql-picker.ql-align .ql-picker-item svg {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+/* Code View with CodeMirror styling */
+.code-view-wrapper {
+    border: 1px solid #ccc;
+    border-top: 0;
+    margin-top: -1px;
+}
+
+.code-view-wrapper .CodeMirror {
+    height: 200px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.code-view-wrapper .CodeMirror-gutters {
+    padding-right: 5px;
+}
+
+.code-view .ql-toolbar {
+    border-bottom: 0 !important;
+}
