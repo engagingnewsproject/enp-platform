@@ -33,7 +33,7 @@
 		"autoprefixer": "^10.4.27",
 		"browser-sync": "^3.0.2",
 		"browser-sync-webpack-plugin": "^2.3.0",
-		"cross-env": "^7.0.3",
+		"cross-env": "^10.1.0",
 		"cssnano": "^7.1.2",
 		"img-loader": "^4.0.0",
 		"laravel-mix": "^6.0.49",
