@@ -223,6 +223,21 @@ wp core update --version=6.4.2
 
 Use the version number you noted (or the last known good release from [wordpress.org/support/wordpress-versions](https://wordpress.org/support/wordpress-versions/)).
 
+## Cookiebot (consent) via Google Tag Manager
+
+Consent for **mediaengagement.org** is managed with **Cookiebot** loaded through **Google Tag Manager**, not the WordPress plugin.
+
+- **Cookiebot admin:** [https://admin.cookiebot.com/](https://admin.cookiebot.com/)
+- **Official GTM deployment guide:** [Google Tag Manager deployment (Cookiebot)](https://support.cookiebot.com/hc/en-us/articles/360003793854-Google-Tag-Manager-deployment)
+
+### Quick reference for developers
+
+1. **Templates ≠ tags** — Adding the *Cookiebot CMP* template under GTM **Templates** only makes the tag type available. You still create a real tag under **Tags** → **New** → Cookiebot CMP.
+2. **Trigger** — Fire the Cookiebot CMP tag on **`Consent Initialization - All Pages`**, not on a regular Page View trigger, so default consent is set before analytics/ads tags run.
+3. **Cookiebot ID** — Use the **Domain Group ID** from Cookiebot (Your Scripts / domain group settings) in the tag.
+4. **Other tags** — GA4, Google Ads, etc. should use GTM **Consent** settings (e.g. require `analytics_storage` / `ad_storage`) so they respect choices.
+5. **Testing** — Tag Assistant can show Cookiebot firing even when the banner does not appear: try incognito or clear Cookiebot/consent cookies; confirm the domain group includes the exact hostname (`www` vs non-`www`); check Cookiebot dialog/geo settings if the banner is still missing.
+
 ## Additional Information
 
 - [Timber Documentation](https://timber.github.io/docs/)
