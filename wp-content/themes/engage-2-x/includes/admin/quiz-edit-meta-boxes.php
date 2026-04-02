@@ -339,6 +339,9 @@ function engage_quiz_edit_render_questions_embeds_meta_box(WP_Post $post): void 
         )
     );
 
+    // Hide this site’s domain; only show external publishers.
+    $sites = engage_quiz_filter_external_embed_site_rows($sites);
+
     echo '<h4>' . esc_html__('Embed sites', 'engage') . '</h4>';
     if (empty($sites)) {
         echo '<p>' . esc_html__('No embed sites linked.', 'engage') . '</p>';

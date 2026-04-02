@@ -97,6 +97,7 @@ add_action('admin_init', function() {
              WHERE eq.quiz_id = %d",
             $quiz_id
         ));
+        $sites = engage_quiz_filter_external_embed_url_strings($sites);
         if (!empty($sites)) {
             update_post_meta($post_id, 'embed_sites', implode(', ', $sites));
         } else {
