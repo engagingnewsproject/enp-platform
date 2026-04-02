@@ -35,6 +35,7 @@ require_once __DIR__ . '/includes/hooks/accessibility-report.php';
 
 // Load admin functionality
 require_once __DIR__ . '/includes/admin/login-register.php';
+require_once __DIR__ . '/includes/admin/quiz-embed-site-helpers.php';
 require_once __DIR__ . '/includes/admin/manage-quizzes.php';
 require_once __DIR__ . '/includes/admin/quiz-edit-meta-boxes.php';
 require_once __DIR__ . '/includes/admin/users.php';
