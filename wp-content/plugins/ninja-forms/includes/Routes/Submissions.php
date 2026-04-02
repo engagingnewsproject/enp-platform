@@ -12,7 +12,7 @@ use NinjaForms\Includes\Factories\SubmissionFilterFactory;
 /**
  * Class NF_Routes_SubmissionsActions
  */
-final class NF_Routes_Submissions extends NF_Abstracts_Routes
+class NF_Routes_Submissions extends NF_Abstracts_Routes
 {
 
     /**
@@ -565,28 +565,50 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
             'fields'    => [],
             'fields_by_key' => [],
             'settings'=>$formSettings,
-            'form_id'=>$data->formID
+            'form_id'=>$data->formID,
+            'extra' => []
         ];
 
-        foreach($field_values as $index => $field_value){   
+        // Reconstruct field data and process each field through its type handler
+        foreach($field_values as $index => $field_value){
             $id = str_replace('_field_', '', $index);
             $model = Ninja_Forms()->form($data->formID)->get_field( $id );
             $settings = $model->get_settings();
+
+            // Get the RAW field value from post meta (not imploded)
+            // This preserves arrays for checkbox lists, etc.
+            $raw_value = get_post_meta($sub->get_id(), '_field_' . $id, TRUE);
+
+            // Use raw value if it exists, otherwise use the retrieved value
+            $field_value = $raw_value !== '' ? $raw_value : $field_value;
+
+            // Create field array with proper structure
+            $field = array(
+                'id' => $id,
+                'settings' => $settings
+            );
+
+            // Add value to both top level and settings
+            $field['value'] = $field_value;
+            $field['settings']['value'] = $field_value;
+
+            // Flatten the field array (merge settings to top level)
+            $field = array_merge( $field, $field['settings'] );
+
+            // Process the field through its type-specific handler
+            $this->process_retriggered_field( $field, $data_send );
+
+            // Store processed field data
             if($id === $index){
-                $data_send['fields_by_key'][$id] = $settings;
-                $data_send['fields_by_key'][$id]['settings'] = $settings;
-                $data_send['fields_by_key'][$id]['value'] = $field_value;
-                $data_send['fields_by_key'][$id]['settings']['value'] = $field_value;
+                $data_send['fields_by_key'][$id] = $field;
             } else {
-                $data_send['fields'][$id] = $settings;
-                $data_send['fields'][$id]['settings'] = $settings;
-                $data_send['fields'][$id]['value'] = $field_value;
-                $data_send['fields'][$id]['settings']['value'] = $field_value;
+                $data_send['fields'][$id] = $field;
+                $data_send['fields_by_key'][$field['key']] = $field;
             }
         }
-        
-        //Process Merge tags       
-        $action_settings = $this->process_merge_tags( $data->action_settings, $data->formID, $sub );
+
+        //Process Merge tags (calculations will be processed inside this method)
+        $action_settings = $this->process_merge_tags( $data->action_settings, $data->formID, $sub, $data_send, $formSettings );
         //Process Email Action
         $email_action = new NF_Actions_Email();
         $result = $email_action->process( (array) $action_settings, $data->formID, $data_send );
@@ -599,38 +621,141 @@ final class NF_Routes_Submissions extends NF_Abstracts_Routes
     }
 
     /**
-     * Process Merge tags for a given Value
-     * 
-     * @since 3.4.33
-     * 
-     * @return object of Email Action Model with merge tags settingsprocessed
-     * 
+     * Process a field through its type-specific handler
+     *
+     * Similar to process_field() in AJAX/Controllers/Submission.php
+     * but adapted for email retriggering context
+     *
+     * @since 3.7.0
+     * @param array $field_settings Field settings array
+     * @param array $form_data Form data array (for reference compatibility)
+     * @return void
      */
-    public function process_merge_tags( $data, $form_id, $sub) {
-        
+    protected function process_retriggered_field( $field_settings, &$form_data ) {
+        if( ! is_string( $field_settings['type'] ) ) return;
+
+        if( ! isset( Ninja_Forms()->fields[ $field_settings['type'] ] ) ) return;
+
+        $field_class = Ninja_Forms()->fields[ $field_settings['type'] ];
+
+        // If $field_class is not object or string, return without checking for method_exists
+        if(!is_object($field_class) && !is_string($field_class)){
+            return;
+        }
+
+        if( ! method_exists( $field_class, 'process' ) ) return;
+
+        if( $data = $field_class->process( $field_settings, $form_data )  ){
+            $form_data = $data;
+        }
+    }
+
+    /**
+     * Process Merge tags for a given Value
+     *
+     * @since 3.4.33
+     * @param object $data Action settings data
+     * @param int $form_id Form ID
+     * @param object $sub Submission object
+     * @param array $form_data Optional form data with processed fields
+     * @param array $formSettings Optional form settings (for calculation processing)
+     *
+     * @return object of Email Action Model with merge tags settingsprocessed
+     *
+     */
+    public function process_merge_tags( $data, $form_id, $sub, $form_data = null, $formSettings = null) {
+
+        // Get form settings for merge tag initialization
+        if( ! $formSettings ) {
+            $formSettings = Ninja_Forms()->form($form_id)->get_settings();
+        }
+
+        // Init Form Merge Tags
+        $form_merge_tags = Ninja_Forms()->merge_tags[ 'form' ];
+        $form_merge_tags->set_form_id( $form_id );
+        $form_merge_tags->set_form_title( $formSettings['title'] );
+
         // Init Field Merge Tags.
         $fields_merge_tag_object = Ninja_Forms()->merge_tags[ 'fields' ];
         $fields_merge_tag_object->set_form_id($form_id);
-            
+
+        // Init Calc Merge Tags
+        $calcs_merge_tags = Ninja_Forms()->merge_tags[ 'calcs' ];
+
         //Process Fields Merge Tags
-        $fields = Ninja_Forms()->form( $form_id )->get_fields();
-        $fields = new NF_Adapters_SubmissionsSubmission( $fields, $form_id, $sub );
-        foreach( $fields as $field ){
-            $fields_merge_tag_object->add_field( $field );
+        // If we have processed form data, use those fields directly (they're already processed)
+        if( $form_data && isset( $form_data['fields'] ) ) {
+            foreach( $form_data['fields'] as $field ){
+                $fields_merge_tag_object->add_field( $field );
+            }
+        } else {
+            // Fallback to adapter method (for backward compatibility)
+            $fields = Ninja_Forms()->form( $form_id )->get_fields();
+            $fields = new NF_Adapters_SubmissionsSubmission( $fields, $form_id, $sub );
+            foreach( $fields as $field ){
+                $fields_merge_tag_object->add_field( $field );
+            }
         }
         //Add All Fields merge tags
         $fields_merge_tag_object->include_all_fields_merge_tags();
         //include fields to the {all_fields_table} and {fields_table} mrerge tags
-        foreach( $fields as $field ){
-            $fields_merge_tag_object->add_field( $field );
+        if( $form_data && isset( $form_data['fields'] ) ) {
+            foreach( $form_data['fields'] as $field ){
+                $fields_merge_tag_object->add_field( $field );
+            }
+        } else {
+            // Fallback to adapter method
+            $fields = isset($fields) ? $fields : new NF_Adapters_SubmissionsSubmission( Ninja_Forms()->form( $form_id )->get_fields(), $form_id, $sub );
+            foreach( $fields as $field ){
+                $fields_merge_tag_object->add_field( $field );
+            }
         }
+
+        // Process calculations AFTER field merge tags are initialized
+        // This allows calculation equations to use field merge tags
+        if( $form_data && isset( $formSettings['calculations'] ) && !empty( $formSettings['calculations'] ) ) {
+            $form_data['extra']['calculations'] = [];
+
+            foreach( $formSettings['calculations'] as $calc ){
+                // Apply filter which replaces merge tags in the equation
+                $eq = apply_filters( 'ninja_forms_calc_setting', $calc['eq'] );
+
+                // Scrub unmerged tags (ie deleted/non-existent fields/calcs, etc).
+                $eq = preg_replace( '/{([a-zA-Z0-9]|:|_|-)*}/', 0, $eq);
+
+                // PHP doesn't evaluate empty strings to numbers. Check for decimal place string
+                $dec = ( isset( $calc['dec'] ) && '' != $calc['dec'] ) ? $calc['dec'] : 2;
+
+                // Initialize calc merge tags with processed equation
+                $calcs_merge_tags->set_merge_tags(
+                    $calc['name'],
+                    $eq,
+                    $dec,
+                    isset($formSettings['decimal_point']) ? $formSettings['decimal_point'] : '.',
+                    isset($formSettings['thousands_sep']) ? $formSettings['thousands_sep'] : ','
+                );
+
+                // Store calculation data
+                $form_data['extra']['calculations'][ $calc['name'] ] = array(
+                    'raw' => $calc['eq'],
+                    'parsed' => $eq,
+                    'value' => $calcs_merge_tags->get_formatted_calc_value(
+                        $calc['name'],
+                        $dec,
+                        isset($formSettings['decimal_point']) ? $formSettings['decimal_point'] : '.',
+                        isset($formSettings['thousands_sep']) ? $formSettings['thousands_sep'] : ','
+                    )
+                );
+            }
+        }
+
         //Loop through Action settings and apply merge tags
         $array_data = (array) $data;
         foreach( $array_data as $ind => $value ){
             if( !empty($value) && is_string($value) ){
                 //Merge tag
                 $data->$ind = apply_filters( 'ninja_forms_merge_tags', $value );
-            } 
+            }
         }
 
         return $data;

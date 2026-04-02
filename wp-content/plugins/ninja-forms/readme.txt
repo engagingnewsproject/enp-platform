@@ -4,7 +4,7 @@ Tags: forms, form builder, contact form, lead form, registration form
 
 Requires at least: 6.7
 Tested up to: 6.9
-Stable tag: 3.14.1
+Stable tag: 3.14.2
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -310,26 +310,41 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.14.1 (2 February 2026) =
+= 3.14.2 (04 March 2026) =
 
 *Bug Fixes:*
 
-- fix drawer close button not working after merge tag insertion
-- fix token visibility issue in submissions table block
-- remove tabindex from radio lists for accessibility compliance
-
-*Enhancements:*
-
-- replace Summernote with Quill.js for Rich Text Editor
-- improve star rating field accessibility sizing
+- fix missing payment data and blank CSV issues in submission exports
+- prevent premature deletion of submissions less than 24 hours old
+- checkbox merge tags now display custom values instead of 1/0
+- fix merge tag population when retriggering emails from Submissions page
+- decode HTML entities for Rich Text Editor fields in CSV exports
+- fix invalid date display in Dashboard for imported/duplicated forms
+- fix calculation merge tags with extra text in hidden fields
 
 *Security Enhancements:*
 
-- protect against XSS in Success Message action
-- block merge tag injection in repeater field processing
-- harden blocks code against unauthorized access
+- protect block token/refresh endpoint against unauthorized access
+- add capability check to render_callback for blocks
 
 == Changelog ==
+= 3.14.2 (04 March 2026) =
+
+*Bug Fixes:*
+
+- fix missing payment data and blank CSV issues in submission exports
+- prevent premature deletion of submissions less than 24 hours old
+- checkbox merge tags now display custom values instead of 1/0
+- fix merge tag population when retriggering emails from Submissions page
+- decode HTML entities for Rich Text Editor fields in CSV exports
+- fix invalid date display in Dashboard for imported/duplicated forms
+- fix calculation merge tags with extra text in hidden fields
+
+*Security Enhancements:*
+
+- protect block token/refresh endpoint against unauthorized access
+- add capability check to render_callback for blocks
+
 = 3.14.1 (2 February 2026) =
 
 *Bug Fixes:*

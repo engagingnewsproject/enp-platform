@@ -296,14 +296,16 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
         $insert_columns_types = array();
 
         foreach ( $this->forms_db_columns as $column_name => $setting_name ) {
-            // Make sure we don't try to set created_at to NULL.
-            if( 'created_at' === $column_name && (!isset($this->form[ 'settings' ][ $setting_name ]) || is_null( $this->form[ 'settings' ][ $setting_name ] ) ) ) continue;
-
             $formColumnName = null;
 
             if(isset($this->form[ 'settings' ][ $setting_name ])){
                 $formColumnName = $this->form[ 'settings' ][ $setting_name ];
-            }    
+            }
+
+            // If created_at is not set or is NULL, set it to the current timestamp
+            if( 'created_at' === $column_name && (is_null( $formColumnName ) || empty( $formColumnName )) ) {
+                $formColumnName = current_time( 'mysql' );
+            }
 
             $insert_columns[ $column_name ] = $formColumnName;
 

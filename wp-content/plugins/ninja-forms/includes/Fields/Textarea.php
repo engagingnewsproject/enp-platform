@@ -38,6 +38,20 @@ class NF_Fields_Textarea extends NF_Abstracts_Input
 
     public function filter_csv_value( $field_value, $field ) {
 
+        // Decode HTML entities for Rich Text Editor fields
+        // This ensures formatted text displays correctly in CSV exports
+        $textarea_rte = false;
+
+        if ( is_object( $field ) ) {
+            $textarea_rte = $field->get_setting( 'textarea_rte' );
+        } elseif ( is_array( $field ) && isset( $field['settings']['textarea_rte'] ) ) {
+            $textarea_rte = $field['settings']['textarea_rte'];
+        }
+
+        if ( $textarea_rte ) {
+            $field_value = html_entity_decode( $field_value, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+        }
+
         $field_value = WPN_Helper::maybe_escape_csv_column( $field_value );
 
         return $field_value;

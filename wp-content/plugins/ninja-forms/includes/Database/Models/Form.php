@@ -309,11 +309,11 @@ final class NF_Database_Models_Form extends NF_Abstracts_Model
         // Duplicate the Form Object.
         $wpdb->query( $wpdb->prepare(
             "
-                INSERT INTO {$wpdb->prefix}nf3_forms ( `title` )
-                SELECT CONCAT( `title`, ' - ', %s )
-                FROM {$wpdb->prefix}nf3_forms 
+                INSERT INTO {$wpdb->prefix}nf3_forms ( `title`, `created_at` )
+                SELECT CONCAT( `title`, ' - ', %s ), %s
+                FROM {$wpdb->prefix}nf3_forms
                 WHERE  id = %d;
-            ", esc_html__( 'copy', 'ninja-forms' ), $form_id
+            ", esc_html__( 'copy', 'ninja-forms' ), current_time( 'mysql' ), $form_id
         ) );
         $new_form_id = $wpdb->insert_id;
 

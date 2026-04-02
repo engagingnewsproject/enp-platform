@@ -42,6 +42,11 @@ class NF_Admin_Processes_ExportSubmissions extends NF_Abstracts_BatchProcess
     protected $csvObject;
 
     /**
+     * @var \NinjaForms\Includes\Handlers\SubmissionAggregateCsvExportAdapter
+     */
+    protected $submissionAdapter;
+
+    /**
      * Aggregated submission keys in output order
      *
      * @var array
@@ -95,6 +100,7 @@ class NF_Admin_Processes_ExportSubmissions extends NF_Abstracts_BatchProcess
         $submissionAggregateCsvAdapter = (new SubmissionAggregateFactory())->SubmissionAggregateCsvExportAdapter();
         $submissionAggregateCsvAdapter->submissionAggregate->filterSubmissions($params);
 
+        $this->submissionAdapter = $submissionAggregateCsvAdapter;
         $this->csvObject = (new NF_Exports_SubmissionCsvExport())->setUseAdminLabels(true)->setSubmissionAggregateCsvExportAdapter($submissionAggregateCsvAdapter);
         $this->indexedLookup = $this->csvObject->reverseSubmissionOrder();
 
@@ -115,13 +121,32 @@ class NF_Admin_Processes_ExportSubmissions extends NF_Abstracts_BatchProcess
         if (!$file = fopen($this->file_path, 'w')) {
             $this->add_error('write_failure', esc_html__('Unable to write file.', 'ninja-forms'), 'fatal');
             $this->batch_complete();
+            return;
         }
 
-        // Add headers to the file.
+        // Add headers to the file with extra columns from filter.
         // We can only do this outside of the process method under the assumption that a single form ID is provided.
         $labels = $this->csvObject->getLabels();
+
+        // Apply filter to get extra column headers (e.g., payment data columns)
+        $csv_array = [
+            0 => [0 => $labels], // Headers
+            1 => [0 => []] // Empty rows for header filter call
+        ];
+        $csv_array = apply_filters('nf_subs_csv_extra_values', $csv_array, [], $this->form);
+
+        // Defensive validation: ensure filter returned valid structure for headers
+        if (!is_array($csv_array) || !isset($csv_array[0][0]) || !is_array($csv_array[0][0])) {
+            error_log('Ninja Forms: nf_subs_csv_extra_values filter returned invalid data for headers');
+            $csv_array = [
+                0 => [0 => $labels],
+                1 => [0 => []]
+            ];
+        }
+        $filtered_labels = $csv_array[0][0];
+
         $glue = $this->enclosure . $this->delimiter . $this->enclosure;
-        $constructed = $this->enclosure . implode($glue, $labels) . $this->enclosure . $this->terminator;
+        $constructed = $this->enclosure . implode($glue, $filtered_labels) . $this->enclosure . $this->terminator;
         fwrite($file, $constructed);
         fclose($file);
     }
@@ -141,11 +166,11 @@ class NF_Admin_Processes_ExportSubmissions extends NF_Abstracts_BatchProcess
      * Function to loop over the batch.
      *
      * @since 3.5.0
-     * @return  void 
+     * @return  void
      */
     public function process()
     {
-        if($this->currentPosition >= $this->sub_count-1){
+        if($this->currentPosition >= $this->sub_count){
             $this->batch_complete();
             return;
         }
@@ -154,7 +179,6 @@ class NF_Admin_Processes_ExportSubmissions extends NF_Abstracts_BatchProcess
 
         // Continue looping until end
         $this->process();
-
     }
 
     /** 
@@ -166,40 +190,73 @@ class NF_Admin_Processes_ExportSubmissions extends NF_Abstracts_BatchProcess
         parent::batch_complete();
     }
 
-    public function writeBatch( ): void
+    public function writeBatch(): void
     {
-        if (!$file = fopen($this->file_path, 'a')) {
-            $this->add_error('write_failure', esc_html__('Unable to write file.', 'ninja-forms'), 'fatal');
-            $this->batch_complete();
-        }
+        // Collect this batch of rows and submission objects for filter
+        $batch_rows = [];
+        $batch_subs = [];
 
-        $glue = $this->enclosure . $this->delimiter . $this->enclosure;
-
-        // for each submission within the step
         for ($i = 0; $i < $this->subs_per_step; $i++) {
             if (!isset($this->indexedLookup[$this->currentPosition])) {
-                continue;
+                break;
             }
 
             $aggregatedKey = $this->indexedLookup[$this->currentPosition];
             $row = $this->csvObject->constructRow($aggregatedKey);
 
-            //Catch reference to an array or repeated fieldsets of repeater field to display each entry as a row
-            if( array_key_exists('repeater', $row) && is_array($row['repeater']) ){
-                foreach($row['repeater'] as $eachRow){
-                    $constructed = $this->enclosure . implode($glue, $eachRow) . $this->enclosure . $this->terminator;
-                    fwrite($file, $constructed);        
+            // Handle repeater fields - they create multiple rows
+            if (array_key_exists('repeater', $row) && is_array($row['repeater'])) {
+                foreach ($row['repeater'] as $eachRow) {
+                    $batch_rows[] = $eachRow;
                 }
-                $this->currentPosition++;
             } else {
-                $constructed = $this->enclosure . implode($glue, $row) . $this->enclosure . $this->terminator;
-                fwrite($file, $constructed);
-
-                $this->currentPosition++;
+                $batch_rows[] = $row;
             }
 
-            
+            // Get submission object for filter
+            $submissionId = $this->submissionAdapter
+                ->submissionAggregate
+                ->getSubmissionValuesByAggregatedKey($aggregatedKey)
+                ->getSubmissionRecordId();
+            $batch_subs[] = Ninja_Forms()->form()->get_sub($submissionId);
+
+            $this->currentPosition++;
         }
+
+        // Apply nf_subs_csv_extra_values filter to this batch
+        // Filter expects: $csv_array[0][0] = headers, $csv_array[1][0] = rows
+        $csv_array = [
+            0 => [0 => $this->csvObject->getLabels()], // Headers
+            1 => [0 => $batch_rows] // Batch rows
+        ];
+
+        $csv_array = apply_filters('nf_subs_csv_extra_values', $csv_array, $batch_subs, $this->form);
+
+        // Defensive validation: ensure filter returned valid structure for rows
+        if (!is_array($csv_array) || !isset($csv_array[1][0]) || !is_array($csv_array[1][0])) {
+            error_log('Ninja Forms: nf_subs_csv_extra_values filter returned invalid data for rows');
+            $csv_array = [
+                0 => [0 => $this->csvObject->getLabels()],
+                1 => [0 => $batch_rows]
+            ];
+        }
+
+        // Write filtered rows to file
+        $file = fopen($this->file_path, 'a');
+        if (!$file) {
+            $this->add_error('write_failure', esc_html__('Unable to write file.', 'ninja-forms'), 'fatal');
+            $this->batch_complete();
+            return;
+        }
+
+        $glue = $this->enclosure . $this->delimiter . $this->enclosure;
+
+        foreach ($csv_array[1][0] as $filtered_row) {
+            $constructed = $this->enclosure . implode($glue, $filtered_row) . $this->enclosure . $this->terminator;
+            fwrite($file, $constructed);
+        }
+
+        fclose($file);
     }
     /**
      * Method that encodes $this->response and sends the data to the front-end.
