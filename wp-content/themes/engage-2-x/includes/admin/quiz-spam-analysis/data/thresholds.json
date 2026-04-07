@@ -1,0 +1,30 @@
+{
+  "allowlist_domains": [
+    "utexas.edu",
+    "austin.utexas.edu",
+    "mediaengagement.org"
+  ],
+  "title_very_short_max_len": 3,
+  "title_low_readable_max_ratio": 0.55,
+  "email_burst_threshold": 4,
+  "zero_engagement_min_age_days": 1,
+  "rule_weights": {
+    "disposable_domain": 10,
+    "short_title": 2,
+    "low_readable_title": 2,
+    "published_no_embeds": 2,
+    "zero_engagement": 3,
+    "email_burst": 4
+  },
+  "weak_rules": ["short_title", "low_readable_title"],
+  "moderate_rules": ["published_no_embeds", "zero_engagement", "email_burst"],
+  "strong_rules": ["disposable_domain"],
+  "tier": {
+    "high_if_any_strong": true,
+    "high_if_weak_hits_at_least": 3,
+    "score_high": 12,
+    "medium_min_weak_and_moderate": true,
+    "score_medium": 5
+  },
+  "disposable_list_snapshot_note": "Refresh disposable_email_domains.txt from https://github.com/disposable-email-domains/disposable-email-domains/blob/main/disposable_email_blocklist.conf"
+}

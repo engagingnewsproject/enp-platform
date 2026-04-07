@@ -4,16 +4,37 @@
  */
 
 /**
- * Add Sync Quizzes button to the quiz list page
+ * Add Sync Quizzes and Analyse Quizzes actions on the quiz list (same capability as handlers: manage_options).
  */
 add_action('admin_notices', function() {
     $screen = get_current_screen();
-    if ($screen->id === 'edit-quiz') {
-        $url = add_query_arg('sync_quizzes', '1');
-        echo '<div class="wrap">
-            <a href="' . esc_url($url) . '" class="page-title-action page-title-action__sync-quizzes">Sync Quizzes</a>
-        </div>';
+    if (!$screen || $screen->id !== 'edit-quiz' || !current_user_can('manage_options')) {
+        return;
     }
+
+    $sync_url = add_query_arg(
+        array(
+            'post_type'    => 'quiz',
+            'sync_quizzes' => '1',
+        ),
+        admin_url('edit.php')
+    );
+
+    $analyze_url = wp_nonce_url(
+        add_query_arg(
+            array(
+                'post_type'                 => 'quiz',
+                'engage_analyze_quizzes'   => '1',
+            ),
+            admin_url('edit.php')
+        ),
+        'engage_analyze_quizzes'
+    );
+
+    echo '<div class="wrap engage-quiz-list-actions">';
+    echo '<a href="' . esc_url($sync_url) . '" class="page-title-action page-title-action__sync-quizzes">' . esc_html__('Sync Quizzes', 'engage') . '</a>';
+    echo '<a href="' . esc_url($analyze_url) . '" class="page-title-action page-title-action__analyse-quizzes">' . esc_html__('Analyse Quizzes', 'engage') . '</a>';
+    echo '</div>';
 });
 
 /**

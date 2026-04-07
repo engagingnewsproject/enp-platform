@@ -37,6 +37,10 @@ require_once __DIR__ . '/includes/hooks/accessibility-report.php';
 require_once __DIR__ . '/includes/admin/login-register.php';
 require_once __DIR__ . '/includes/admin/quiz-embed-site-helpers.php';
 require_once __DIR__ . '/includes/admin/manage-quizzes.php';
+// Quiz spam triage in wp-admin (Analyse Quizzes, risk columns, Embed Sites submenu). Loaded only in admin to avoid front-end overhead.
+if ( is_admin() ) {
+	require_once __DIR__ . '/includes/admin/quiz-spam-analysis/quiz-spam-admin.php';
+}
 require_once __DIR__ . '/includes/admin/quiz-edit-meta-boxes.php';
 require_once __DIR__ . '/includes/admin/users.php';
 // require_once __DIR__ . '/includes/admin/utilities-quizzes.php';

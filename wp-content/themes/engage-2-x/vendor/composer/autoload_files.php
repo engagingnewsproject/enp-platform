@@ -18,4 +18,5 @@ return array(
     '7d3b315c4f303f2fc14aca642a738e50' => $vendorDir . '/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php',
     '051bafe20e2674435a162870efa2d2a7' => $vendorDir . '/brain/monkey/inc/api.php',
     '37920fbd6eaeababa873d97ba1c5324c' => $vendorDir . '/hellonico/timber-dump-extension/functions.php',
+    '9363b659a3e48244c17eb3557d763ebc' => $baseDir . '/includes/admin/quiz-spam-analysis/compat-quiz-spam/legacy-functions.php',
 );

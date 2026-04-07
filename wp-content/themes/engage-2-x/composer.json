@@ -22,8 +22,13 @@
   },
   "autoload": {
     "psr-4": {
+      "Engage\\Admin\\QuizSpamAnalysis\\": "includes/admin/quiz-spam-analysis/",
+      "Engage\\QuizSpamAnalysis\\": "includes/admin/quiz-spam-analysis/compat-quiz-spam/",
       "Engage\\": "src/"
-    }
+    },
+    "files": [
+      "includes/admin/quiz-spam-analysis/compat-quiz-spam/legacy-functions.php"
+    ]
   },
   "require-dev": {
     "automattic/wordbless": "^0.6.0",

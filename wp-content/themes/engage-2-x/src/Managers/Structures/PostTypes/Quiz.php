@@ -25,6 +25,8 @@ class Quiz {
         // Add custom columns
         add_filter('manage_edit-quiz_columns', [$this, 'add_quiz_columns']);
         add_action('manage_quiz_posts_custom_column', [$this, 'populate_quiz_columns'], 10, 2);
+        add_filter('manage_edit-quiz_sortable_columns', [$this, 'sortable_quiz_columns']);
+        add_action('pre_get_posts', [$this, 'sort_quiz_list_by_meta']);
     }
 
     /**
@@ -85,13 +87,25 @@ class Quiz {
     }
 
     /**
-     * Hide "Add New" button on the list screen
+     * Hide "Add New" on the quiz list; allow Sync Quizzes and Analyse Quizzes (see page-title-action__* classes).
+     * Constrains the Embed Sites column so long URL lists scroll instead of stretching row height.
      */
     public function hide_add_new_button() {
         $screen = get_current_screen();
-        if ($screen->post_type === 'quiz') {
-            echo '<style>.page-title-action:not(.page-title-action__sync-quizzes) { display: none !important; }</style>';
+        if ( ! $screen || $screen->post_type !== 'quiz' ) {
+            return;
         }
+        // Keep Sync + Analyse Quizzes visible; hide default "Add New" and any other title actions.
+        echo '<style>
+            .page-title-action:not(.page-title-action__sync-quizzes):not(.page-title-action__analyse-quizzes) { display: none !important; }
+            .column-embed_sites .engage-quiz-embed-sites-cell {
+                max-height: 7.5em;
+                overflow: auto;
+                word-break: break-word;
+                font-size: 12px;
+                line-height: 1.35;
+            }
+        </style>';
     }
 
     /**
@@ -179,6 +193,45 @@ class Quiz {
     }
 
     /**
+     * Register sortable custom columns (values match post meta written by Sync Quizzes).
+     *
+     * @param string[] $columns Column slug => orderby key for WP_Query.
+     * @return string[]
+     */
+    public function sortable_quiz_columns($columns) {
+        $columns['quiz_owner'] = 'quiz_owner';
+        $columns['quiz_created_at'] = 'quiz_created_at';
+        $columns['quiz_views'] = 'quiz_views';
+        return $columns;
+    }
+
+    /**
+     * Map list-table sort clicks to meta orderby on the main Quizzes admin query.
+     *
+     * @param \WP_Query $query Main query on edit.php?post_type=quiz.
+     */
+    public function sort_quiz_list_by_meta($query) {
+        if (!is_admin() || !$query->is_main_query() || $query->get('post_type') !== 'quiz') {
+            return;
+        }
+        $orderby = $query->get('orderby');
+        if ('quiz_owner' === $orderby) {
+            $query->set('meta_key', 'quiz_owner');
+            $query->set('orderby', 'meta_value_num');
+            return;
+        }
+        if ('quiz_created_at' === $orderby) {
+            $query->set('meta_key', 'quiz_created_at');
+            $query->set('orderby', 'meta_value');
+            return;
+        }
+        if ('quiz_views' === $orderby) {
+            $query->set('meta_key', 'quiz_views');
+            $query->set('orderby', 'meta_value_num');
+        }
+    }
+
+    /**
      * Populate custom columns in the quiz list table
      */
     public function populate_quiz_columns($column, $post_id) {
@@ -249,7 +302,16 @@ class Quiz {
                             esc_html($site->embed_site_url)
                         );
                     }, $sites);
+                    $count = count($sites);
+                    echo '<div class="engage-quiz-embed-sites-cell" title="' . esc_attr(
+                        sprintf(
+                            /* translators: %d: number of embed site URLs in this cell. */
+                            _n('%d embed site', '%d embed sites', $count, 'engage'),
+                            $count
+                        )
+                    ) . '">';
                     echo implode('<br>', $urls);
+                    echo '</div>';
                 }
                 break;
         }
