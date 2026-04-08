@@ -6,10 +6,10 @@
 
 | File | Purpose |
 |------|---------|
-| `thresholds.json` | Rule weights, tier thresholds, `allowlist_domains` (core trusted hosts), burst threshold |
-| `trusted_domains.txt` | Extra trusted owner-email domains, merged with `allowlist_domains` (`#` comments allowed) |
-| `disposable_email_domains.txt` | Upstream disposable domains (one per line) |
-| `extra_risk_domains.txt` | Site-specific risky domains (`#` comments allowed) |
+| `thresholds.json` | Rule weights, tier thresholds, `allowlist_domains` (trusted embed hosts / registrable domains), burst threshold |
+| `trusted_domains.txt` | Extra trusted hosts merged with `allowlist_domains`—embed URLs under these are never flagged disposable (`#` comments allowed) |
+| `disposable_email_domains.txt` | Domains matched against **embed site URL hosts** (same list format as disposable email registrable domains) |
+| `extra_risk_domains.txt` | Site-specific risky embed hosts (`#` comments allowed) |
 
 Refresh disposable list to match the plugin inventory:
 

@@ -26,7 +26,7 @@ const ENGAGE_QUIZ_SPAM_MAX_INNER_BATCHES = 15;
 const ENGAGE_QUIZ_META_RISK_SCORE  = '_enp_quiz_risk_score';
 /** Post meta: low | medium | high for filters and sorting. */
 const ENGAGE_QUIZ_META_RISK_TIER   = '_enp_quiz_risk_tier';
-/** Post meta: JSON array of rule id strings (e.g. disposable_domain). */
+/** Post meta: JSON array of rule id strings (e.g. disposable_domain = risky embed site host). */
 const ENGAGE_QUIZ_META_RULE_HITS   = '_enp_quiz_rule_hits';
 /** Post meta: ISO 8601 timestamp of last successful analysis for this post. */
 const ENGAGE_QUIZ_META_ANALYZED_AT = '_enp_quiz_spam_analyzed_at';
@@ -34,11 +34,12 @@ const ENGAGE_QUIZ_META_ANALYZED_AT = '_enp_quiz_spam_analyzed_at';
 /**
  * Wires all actions and filters once; called at the bottom of this file after functions are defined.
  *
- * Technical: registers admin_notices (finished notice only), admin_init (priority 1), list-table filters, pre_get_posts, parse_query, submenu.
+ * Technical: registers admin_notices (finished + error), admin_init (priority 1), list-table filters, pre_get_posts, parse_query, submenu.
  * List action buttons live in manage-quizzes.php.
  */
 function engage_quiz_spam_admin_init(): void {
 	add_action( 'admin_notices', 'engage_quiz_spam_finished_notice' );
+	add_action( 'admin_notices', 'engage_quiz_spam_error_notice' );
 	add_action( 'admin_init', 'engage_quiz_spam_handle_analyze_request', 1 );
 	add_filter( 'manage_edit-quiz_columns', 'engage_quiz_spam_add_columns', 25 );
 	add_action( 'manage_quiz_posts_custom_column', 'engage_quiz_spam_column_content', 10, 2 );
@@ -47,13 +48,225 @@ function engage_quiz_spam_admin_init(): void {
 	add_action( 'restrict_manage_posts', 'engage_quiz_spam_restrict_posts' );
 	add_action( 'parse_query', 'engage_quiz_spam_parse_query' );
 	add_action( 'admin_menu', 'engage_quiz_spam_embed_sites_submenu' );
+	add_action( 'load-quiz_page_engage-quiz-embed-sites', 'engage_quiz_embed_sites_load_screen' );
+	add_filter( 'set_screen_option_embed_sites_per_page', 'engage_quiz_embed_sites_set_per_page_option', 10, 3 );
+}
+
+/**
+ * Layman: Registers “how many rows per page” for the Embed Sites screen so Screen Options works like other list tables.
+ */
+function engage_quiz_embed_sites_load_screen(): void {
+	add_screen_option(
+		'per_page',
+		array(
+			'label'   => __( 'Embed sites per page', 'engage' ),
+			'default' => 20,
+			'option'  => 'embed_sites_per_page',
+		)
+	);
+	add_action( 'admin_footer', 'engage_quiz_embed_sites_footer_search_enter_fix', 5 );
+}
+
+/**
+ * Layman: Pressing Enter in the URL search was the same as pressing the first submit button in the form—the bulk “Apply” control—so WordPress ran the bulk-action guard and showed “select at least one item” if Export (or any real bulk action) was selected.
+ *
+ * Technical: `common.js` listens for `submitter.name === 'bulk_action'`; HTML implicit submit uses the first submit button. Rebind Enter on `input[name="s"]` to programmatically activate `#search-submit` so `submitter` is the search control.
+ */
+function engage_quiz_embed_sites_footer_search_enter_fix(): void {
+	$screen = get_current_screen();
+	if ( ! $screen || 'quiz_page_engage-quiz-embed-sites' !== $screen->id ) {
+		return;
+	}
+	?>
+<script>
+(function () {
+	var form = document.getElementById( 'engage-embed-sites-filter' );
+	if ( ! form ) {
+		return;
+	}
+	var searchInput = form.querySelector( 'input[name="s"]' );
+	var searchBtn   = document.getElementById( 'search-submit' );
+	if ( searchInput && searchBtn ) {
+		searchInput.addEventListener( 'keydown', function ( e ) {
+			if ( e.key !== 'Enter' ) {
+				return;
+			}
+			e.preventDefault();
+			searchBtn.click();
+		} );
+	}
+})();
+</script>
+	<?php
+}
+
+/**
+ * Layman: Saves the per-page choice from Screen Options into user meta (same rules as core lists: 1–999).
+ *
+ * @param mixed                 $_screen_option Prior value from the filter chain (unused).
+ * @param string                $_option        Option name (unused; always embed_sites_per_page).
+ * @param int|string            $value          Submitted value.
+ * @return int|false           Integer to save, or false to abort.
+ */
+function engage_quiz_embed_sites_set_per_page_option( $_screen_option, $_option, $value ) {
+	$v = (int) $value;
+	if ( $v < 1 || $v > 999 ) {
+		return false;
+	}
+	return $v;
+}
+
+/**
+ * Layman: User-specific key for progress data while a long “Analyse Quizzes” run is in flight.
+ *
+ * @return string Transient name for this user’s progress snapshot.
+ */
+function engage_quiz_spam_progress_transient_key(): string {
+	return 'engage_qs_spam_prog_' . get_current_user_id();
+}
+
+/**
+ * Layman: User-specific key for a one-shot error message after analysis fails mid-run.
+ *
+ * @return string Transient name for the error text.
+ */
+function engage_quiz_spam_error_transient_key(): string {
+	return 'engage_qs_spam_err_' . get_current_user_id();
+}
+
+/**
+ * Layman: Counts how many quiz posts exist that have ENP sync meta (same pool the analyzer walks).
+ *
+ * Technical: WP_Query with meta _enp_quiz_id EXISTS; uses found_posts.
+ */
+function engage_quiz_spam_count_synced_quiz_posts(): int {
+	$q = new WP_Query(
+		array(
+			'post_type'      => 'quiz',
+			'post_status'    => 'any',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'meta_query'     => array(
+				array(
+					'key'     => '_enp_quiz_id',
+					'compare' => 'EXISTS',
+				),
+			),
+		)
+	);
+
+	return (int) $q->found_posts;
+}
+
+/**
+ * Layman: Reads total quiz count stored when the run started (for progress labels). Falls back to 0 if missing.
+ *
+ * @return int Total posts from transient, or 0.
+ */
+function engage_quiz_spam_get_progress_total(): int {
+	$data = get_transient( engage_quiz_spam_progress_transient_key() );
+	if ( ! is_array( $data ) || ! isset( $data['total'] ) ) {
+		return 0;
+	}
+
+	return max( 0, (int) $data['total'] );
+}
+
+/**
+ * Layman: Sends a small HTML page so the browser shows “still working” between batch redirects instead of a blank load.
+ *
+ * Technical: 200 response, nocache_headers, optional meta refresh as fallback if JS is off; $is_starting=true for the first hop after clicking Analyse.
+ *
+ * @param int    $processed    Number of list positions advanced (next query offset).
+ * @param string $continue_url Absolute URL for the next batch (must already pass wp_nonce_url).
+ * @param int    $total        Denominator for progress; at least 1 for bar math.
+ * @param bool   $is_starting  True on the initial “0 of N” screen before the first heavy batch.
+ */
+function engage_quiz_spam_render_analyze_progress_page( int $processed, string $continue_url, int $total, bool $is_starting = false ): void {
+	nocache_headers();
+	header( 'Content-Type: text/html; charset=' . get_bloginfo( 'charset' ) );
+
+	$total_for_bar = max( 1, $total );
+	$pct           = min( 100, (int) round( 100 * min( $processed, $total_for_bar ) / $total_for_bar ) );
+	$esc_url       = esc_url( $continue_url, array( 'http', 'https' ) );
+	$json_url      = wp_json_encode( $continue_url, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT );
+
+	if ( $is_starting ) {
+		/* translators: %d: total quiz posts to analyze */
+		$line = sprintf( __( 'Starting analysis… up to %d quiz posts will be scored.', 'engage' ), $total );
+	} else {
+		/* translators: 1: processed count, 2: total quiz posts */
+		$line = sprintf( __( 'Analyzing quizzes… %1$d of %2$d processed so far.', 'engage' ), min( $processed, $total_for_bar ), $total_for_bar );
+	}
+
+	$hint     = __( 'This page will reload automatically to continue. You can leave this tab open until it finishes.', 'engage' );
+	$esc_line = esc_html( $line );
+	$esc_hint = esc_html( $hint );
+
+	$html_lang = str_replace( '_', '-', get_locale() );
+	echo '<!DOCTYPE html><html lang="' . esc_attr( $html_lang ) . '"><head>';
+	echo '<meta charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+	echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
+	echo '<meta http-equiv="refresh" content="3;url=' . esc_attr( $esc_url ) . '">';
+	echo '<title>' . esc_html__( 'Quiz analysis in progress', 'engage' ) . '</title>';
+	echo '<style>body{margin:40px auto;max-width:520px;font:14px/1.5-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f0f0f1;color:#1d2327}a{color:#2271b1}.bar{height:10px;background:#c3c4c7;border-radius:3px;overflow:hidden;margin:16px 0}.bar>span{display:block;height:100%;background:#2271b1;width:' . (int) $pct . '%;transition:width .2s}</style>';
+	echo '</head><body>';
+	echo '<h1>' . esc_html__( 'Quiz spam analysis', 'engage' ) . '</h1>';
+	echo '<p>' . $esc_line . '</p>';
+	echo '<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' . (int) $pct . '"><span></span></div>';
+	echo '<p style="color:#50575e;font-size:13px">' . $esc_hint . '</p>';
+	echo '<p><a href="' . $esc_url . '">' . esc_html__( 'Continue now if this page does not advance.', 'engage' ) . '</a></p>';
+	echo '<script>window.location.replace(' . $json_url . ');</script>';
+	echo '</body></html>';
+}
+
+/**
+ * Layman: Aborts a run, shows an error on the quiz list, and drops progress state.
+ *
+ * @param string $message Human-readable message for the notice.
+ */
+function engage_quiz_spam_abort_analyze_with_error( string $message ): void {
+	delete_transient( engage_quiz_spam_progress_transient_key() );
+	set_transient( engage_quiz_spam_error_transient_key(), $message, 300 );
+	wp_safe_redirect(
+		add_query_arg(
+			array(
+				'post_type'           => 'quiz',
+				'engage_spam_error' => '1',
+			),
+			admin_url( 'edit.php' )
+		)
+	);
+	exit;
+}
+
+/**
+ * Admin notice when engage_spam_error=1 is present after a failed analysis hop.
+ */
+function engage_quiz_spam_error_notice(): void {
+	if ( ! isset( $_GET['engage_spam_error'] ) || '1' !== $_GET['engage_spam_error'] ) {
+		return;
+	}
+	$screen = get_current_screen();
+	if ( ! $screen || 'edit-quiz' !== $screen->id || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	$msg = get_transient( engage_quiz_spam_error_transient_key() );
+	delete_transient( engage_quiz_spam_error_transient_key() );
+	if ( ! is_string( $msg ) || '' === $msg ) {
+		$msg = __( 'Quiz analysis stopped due to an error. Check the server error log or try again.', 'engage' );
+	}
+	printf(
+		'<div class="notice notice-error is-dismissible"><p>%s</p></div>',
+		esc_html( $msg )
+	);
 }
 
 /**
  * Scores quiz posts in batches of ENGAGE_QUIZ_SPAM_CHUNK, up to ENGAGE_QUIZ_SPAM_MAX_INNER_BATCHES per HTTP request, then redirects.
  *
- * Technical: GET engage_analyze_quizzes=1 starts; engage_spam_continue=1 + spam_off=N continues; check_admin_referer( engage_analyze_quizzes ).
- * Inner batching cuts redirect storms (admin_init runs before HTML, so many quick redirects felt like a dead click).
+ * Technical: GET engage_analyze_quizzes=1 starts (stores total, shows first progress page → continue); engage_spam_continue=1 + spam_off=N runs batches; check_admin_referer( engage_analyze_quizzes ).
+ * Between hops, engage_quiz_spam_render_analyze_progress_page provides visible feedback instead of silent redirects.
  */
 function engage_quiz_spam_handle_analyze_request(): void {
 	if ( ! is_admin() ) {
@@ -71,78 +284,121 @@ function engage_quiz_spam_handle_analyze_request(): void {
 
 	global $wpdb;
 
+	if ( $start ) {
+		$total = engage_quiz_spam_count_synced_quiz_posts();
+		set_transient(
+			engage_quiz_spam_progress_transient_key(),
+			array( 'total' => $total ),
+			HOUR_IN_SECONDS
+		);
+		if ( 0 === $total ) {
+			wp_safe_redirect(
+				add_query_arg(
+					array(
+						'post_type'              => 'quiz',
+						'engage_spam_finished' => '1',
+						'analyzed'               => '0',
+					),
+					admin_url( 'edit.php' )
+				)
+			);
+			exit;
+		}
+		$continue_url = wp_nonce_url(
+			add_query_arg(
+				array(
+					'post_type'            => 'quiz',
+					'engage_spam_continue' => '1',
+					'spam_off'             => 0,
+				),
+				admin_url( 'edit.php' )
+			),
+			'engage_analyze_quizzes'
+		);
+		engage_quiz_spam_render_analyze_progress_page( 0, $continue_url, $total, true );
+		exit;
+	}
+
 	$offset = 0;
-	if ( $continue && isset( $_GET['spam_off'] ) ) {
+	if ( isset( $_GET['spam_off'] ) ) {
 		$offset = max( 0, (int) $_GET['spam_off'] );
+	}
+
+	$progress_total = engage_quiz_spam_get_progress_total();
+	if ( $progress_total <= 0 ) {
+		$progress_total = engage_quiz_spam_count_synced_quiz_posts();
+		set_transient(
+			engage_quiz_spam_progress_transient_key(),
+			array( 'total' => $progress_total ),
+			HOUR_IN_SECONDS
+		);
 	}
 
 	try {
 		$analyzer = new QuizSpamAnalyzer( QuizSpamAnalyzer::default_data_dir() );
+		$context  = engage_quiz_spam_build_context( $wpdb );
 	} catch ( \Throwable $e ) {
-		wp_die( esc_html( $e->getMessage() ) );
+		engage_quiz_spam_abort_analyze_with_error( $e->getMessage() );
 	}
-
-	$context = engage_quiz_spam_build_context( $wpdb );
 
 	$ref            = new \DateTimeImmutable( 'now', wp_timezone() );
 	$current_offset = $offset;
-	$inner_batches  = 0;
 	$last_full      = false;
-	$last_batch     = 0;
 
-	for ( $b = 0; $b < ENGAGE_QUIZ_SPAM_MAX_INNER_BATCHES; $b++ ) {
-		$post_ids = get_posts(
-			array(
-				'post_type'      => 'quiz',
-				'post_status'    => 'any',
-				'posts_per_page' => ENGAGE_QUIZ_SPAM_CHUNK,
-				'offset'         => $current_offset,
-				'fields'         => 'ids',
-				'orderby'        => 'ID',
-				'order'          => 'ASC',
-				'meta_query'     => array(
-					array(
-						'key'     => '_enp_quiz_id',
-						'compare' => 'EXISTS',
+	try {
+		for ( $b = 0; $b < ENGAGE_QUIZ_SPAM_MAX_INNER_BATCHES; $b++ ) {
+			$post_ids = get_posts(
+				array(
+					'post_type'      => 'quiz',
+					'post_status'    => 'any',
+					'posts_per_page' => ENGAGE_QUIZ_SPAM_CHUNK,
+					'offset'         => $current_offset,
+					'fields'         => 'ids',
+					'orderby'        => 'ID',
+					'order'          => 'ASC',
+					'meta_query'     => array(
+						array(
+							'key'     => '_enp_quiz_id',
+							'compare' => 'EXISTS',
+						),
 					),
-				),
-			)
-		);
+				)
+			);
 
-		$batch_count = count( $post_ids );
-		if ( 0 === $batch_count ) {
-			$last_full  = false;
-			$last_batch = 0;
-			break;
-		}
-
-		foreach ( $post_ids as $post_id ) {
-			$quiz_id = (int) get_post_meta( $post_id, '_enp_quiz_id', true );
-			if ( $quiz_id <= 0 ) {
-				continue;
+			$batch_count = count( $post_ids );
+			if ( 0 === $batch_count ) {
+				$last_full = false;
+				break;
 			}
-			if ( ! isset( $context['quiz_rows'][ $quiz_id ] ) ) {
-				continue;
+
+			foreach ( $post_ids as $post_id ) {
+				$quiz_id = (int) get_post_meta( $post_id, '_enp_quiz_id', true );
+				if ( $quiz_id <= 0 ) {
+					continue;
+				}
+				if ( ! isset( $context['quiz_rows'][ $quiz_id ] ) ) {
+					continue;
+				}
+				$row   = $context['quiz_rows'][ $quiz_id ];
+				$out   = $analyzer->analyze_row( $row, $context['email_day_counts'], $ref );
+				$stamp = $ref->format( 'c' );
+
+				update_post_meta( $post_id, ENGAGE_QUIZ_META_RISK_SCORE, (string) $out['risk_score'] );
+				update_post_meta( $post_id, ENGAGE_QUIZ_META_RISK_TIER, $out['risk_tier'] );
+				update_post_meta( $post_id, ENGAGE_QUIZ_META_RULE_HITS, wp_json_encode( $out['rule_hits'] ) );
+				update_post_meta( $post_id, ENGAGE_QUIZ_META_ANALYZED_AT, $stamp );
 			}
-			$row   = $context['quiz_rows'][ $quiz_id ];
-			$out   = $analyzer->analyze_row( $row, $context['email_day_counts'], $ref );
-			$stamp = $ref->format( 'c' );
 
-			update_post_meta( $post_id, ENGAGE_QUIZ_META_RISK_SCORE, (string) $out['risk_score'] );
-			update_post_meta( $post_id, ENGAGE_QUIZ_META_RISK_TIER, $out['risk_tier'] );
-			update_post_meta( $post_id, ENGAGE_QUIZ_META_RULE_HITS, wp_json_encode( $out['rule_hits'] ) );
-			update_post_meta( $post_id, ENGAGE_QUIZ_META_ANALYZED_AT, $stamp );
+			$current_offset += $batch_count;
+
+			if ( $batch_count < ENGAGE_QUIZ_SPAM_CHUNK ) {
+				$last_full = false;
+				break;
+			}
+			$last_full = true;
 		}
-
-		$current_offset += $batch_count;
-		$inner_batches++;
-		$last_batch = $batch_count;
-
-		if ( $batch_count < ENGAGE_QUIZ_SPAM_CHUNK ) {
-			$last_full = false;
-			break;
-		}
-		$last_full = true;
+	} catch ( \Throwable $e ) {
+		engage_quiz_spam_abort_analyze_with_error( $e->getMessage() );
 	}
 
 	$next = $current_offset;
@@ -151,18 +407,19 @@ function engage_quiz_spam_handle_analyze_request(): void {
 		$continue_url = wp_nonce_url(
 			add_query_arg(
 				array(
-					'post_type'              => 'quiz',
-					'engage_spam_continue'   => '1',
-					'spam_off'                 => $next,
+					'post_type'            => 'quiz',
+					'engage_spam_continue' => '1',
+					'spam_off'               => $next,
 				),
 				admin_url( 'edit.php' )
 			),
 			'engage_analyze_quizzes'
 		);
-		wp_safe_redirect( $continue_url );
+		engage_quiz_spam_render_analyze_progress_page( $next, $continue_url, $progress_total, false );
 		exit;
 	}
 
+	delete_transient( engage_quiz_spam_progress_transient_key() );
 	wp_safe_redirect(
 		add_query_arg(
 			array(
@@ -191,13 +448,35 @@ function engage_quiz_spam_build_context( \wpdb $wpdb ): array {
 		$rows = array();
 	}
 
-	$embed_table = $wpdb->prefix . 'enp_embed_quiz';
-	$embed_sql   = "SELECT quiz_id, COUNT(*) AS c FROM `{$embed_table}` GROUP BY quiz_id";
-	$embed_rows  = $wpdb->get_results( $embed_sql, ARRAY_A );
-	$embed_map   = array();
+	$embed_table      = $wpdb->prefix . 'enp_embed_quiz';
+	$embed_site_table = $wpdb->prefix . 'enp_embed_site';
+	$embed_sql        = "SELECT quiz_id, COUNT(*) AS c FROM `{$embed_table}` GROUP BY quiz_id";
+	$embed_rows       = $wpdb->get_results( $embed_sql, ARRAY_A );
+	$embed_map        = array();
 	if ( is_array( $embed_rows ) ) {
 		foreach ( $embed_rows as $er ) {
 			$embed_map[ (int) $er['quiz_id'] ] = (int) $er['c'];
+		}
+	}
+
+	$embed_urls_by_quiz = array();
+	$pair_sql           = "
+		SELECT eq.quiz_id, s.embed_site_url
+		FROM `{$embed_table}` eq
+		INNER JOIN `{$embed_site_table}` s ON eq.embed_site_id = s.embed_site_id
+	";
+	$url_pairs = $wpdb->get_results( $pair_sql, ARRAY_A );
+	if ( is_array( $url_pairs ) ) {
+		foreach ( $url_pairs as $pair ) {
+			$qid = isset( $pair['quiz_id'] ) ? (int) $pair['quiz_id'] : 0;
+			$url = isset( $pair['embed_site_url'] ) ? trim( (string) $pair['embed_site_url'] ) : '';
+			if ( $qid <= 0 || '' === $url ) {
+				continue;
+			}
+			if ( ! isset( $embed_urls_by_quiz[ $qid ] ) ) {
+				$embed_urls_by_quiz[ $qid ] = array();
+			}
+			$embed_urls_by_quiz[ $qid ][ $url ] = true;
 		}
 	}
 
@@ -227,6 +506,10 @@ function engage_quiz_spam_build_context( \wpdb $wpdb ): array {
 			continue;
 		}
 		$oid = isset( $r['quiz_owner'] ) ? (int) $r['quiz_owner'] : 0;
+		$url_lines = array();
+		if ( isset( $embed_urls_by_quiz[ $qid ] ) && is_array( $embed_urls_by_quiz[ $qid ] ) ) {
+			$url_lines = array_keys( $embed_urls_by_quiz[ $qid ] );
+		}
 		$quiz_rows[ $qid ] = array(
 			'quiz_title'        => isset( $r['quiz_title'] ) ? (string) $r['quiz_title'] : '',
 			'quiz_status'       => isset( $r['quiz_status'] ) ? (string) $r['quiz_status'] : '',
@@ -237,6 +520,7 @@ function engage_quiz_spam_build_context( \wpdb $wpdb ): array {
 			'quiz_is_deleted'   => isset( $r['quiz_is_deleted'] ) ? (string) $r['quiz_is_deleted'] : '0',
 			'owner_email'       => $oid > 0 ? ( $owner_emails[ $oid ] ?? '' ) : '',
 			'embed_row_count'   => (string) ( $embed_map[ $qid ] ?? 0 ),
+			'embed_site_urls'   => implode( "\n", $url_lines ),
 		);
 	}
 
@@ -437,11 +721,30 @@ function engage_quiz_render_embed_sites_page(): void {
 	}
 
 	echo '<div class="wrap">';
-	echo '<h1>' . esc_html__( 'Embed Sites', 'engage' ) . '</h1>';
+	echo '<h1 class="wp-heading-inline">' . esc_html__( 'Embed Sites', 'engage' ) . '</h1>';
+	echo '<hr class="wp-header-end" />';
+
+	if ( isset( $_GET['engage_embed_export'] ) && 'none' === $_GET['engage_embed_export'] ) {
+		wp_admin_notice(
+			__( 'Select at least one embed site to export.', 'engage' ),
+			array(
+				'type' => 'warning',
+			)
+		);
+	}
 
 	$table = new Engage_Embed_Sites_List_Table();
 	$table->prepare_items();
+
+	$table->views();
+
+	echo '<form id="engage-embed-sites-filter" method="get">';
+	echo '<input type="hidden" name="post_type" value="quiz" />';
+	echo '<input type="hidden" name="page" value="engage-quiz-embed-sites" />';
+
 	$table->display();
+
+	echo '</form>';
 	echo '</div>';
 }
 

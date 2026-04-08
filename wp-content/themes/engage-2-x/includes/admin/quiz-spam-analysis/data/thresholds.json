@@ -26,5 +26,5 @@
     "medium_min_weak_and_moderate": true,
     "score_medium": 5
   },
-  "disposable_list_snapshot_note": "Refresh disposable_email_domains.txt from https://github.com/disposable-email-domains/disposable-email-domains/blob/main/disposable_email_blocklist.conf"
+  "disposable_list_snapshot_note": "Domains in disposable_email_domains.txt / extra_risk_domains.txt are matched against third-party embed_site_url hosts for each quiz (not owner email). Refresh list from https://github.com/disposable-email-domains/disposable-email-domains/blob/main/disposable_email_blocklist.conf"
 }

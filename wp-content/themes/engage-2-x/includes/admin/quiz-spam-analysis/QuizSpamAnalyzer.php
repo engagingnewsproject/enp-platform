@@ -1,9 +1,9 @@
 <?php
 /**
- * Turns quiz metadata (title, owner email, views, embeds, etc.) into a simple risk score and tier.
+ * Turns quiz metadata (title, views, embed sites, owner email for burst rule, etc.) into a risk score and tier.
  *
  * This is the PHP version of the offline “Phase 1” script in the ENP quiz plugin’s LOCAL folder;
- * rules and weights live in JSON and text files next to this code.
+ * rules and weights live in JSON and text files next to this code. Disposable-domain matching uses embed URLs.
  *
  * @package Engage\Admin\QuizSpamAnalysis
  */
@@ -11,9 +11,10 @@
 namespace Engage\Admin\QuizSpamAnalysis;
 
 /**
- * Reads config and disposable-email lists from disk, then scores one quiz “row” at a time.
+ * Reads config and disposable-domain lists from disk, then scores one quiz “row” at a time.
  *
- * It does not read question text—only the same fields you would see in a quiz export CSV.
+ * Disposable / extra-risk domains are matched against **third-party embed site URLs** for the quiz
+ * (ENP embed_site rows), not the WordPress owner email. It does not read question text.
  */
 class QuizSpamAnalyzer {
 
@@ -206,6 +207,42 @@ class QuizSpamAnalyzer {
 	}
 
 	/**
+	 * Host part of a stored embed_site_url for blocklist checks (scheme added when missing).
+	 */
+	public static function host_from_embed_url( string $url ): string {
+		$url = trim( $url );
+		if ( '' === $url ) {
+			return '';
+		}
+		if ( ! preg_match( '#^[a-z][a-z0-9+.-]*://#i', $url ) ) {
+			$url = 'http://' . ltrim( $url, '/' );
+		}
+		$host = \wp_parse_url( $url, PHP_URL_HOST );
+		if ( ! is_string( $host ) || '' === $host ) {
+			return '';
+		}
+		return strtolower( (string) preg_replace( '#^www\.#i', '', $host ) );
+	}
+
+	/**
+	 * Hostname plus a naive registrable suffix (last two labels) for lists keyed by eTLD+1-style domains.
+	 *
+	 * @return string[] Unique candidates, lowercase.
+	 */
+	public static function candidate_domains_for_disposable( string $host ): array {
+		$host = strtolower( trim( $host ) );
+		if ( '' === $host ) {
+			return array();
+		}
+		$out   = array( $host );
+		$parts = explode( '.', $host );
+		if ( count( $parts ) >= 2 ) {
+			$out[] = $parts[ count( $parts ) - 2 ] . '.' . $parts[ count( $parts ) - 1 ];
+		}
+		return array_values( array_unique( $out ) );
+	}
+
+	/**
 	 * Returns true if the domain should never be flagged as disposable (your org, partners, etc.).
 	 *
 	 * Matches exact host or subdomains (e.g. news.utexas.edu vs utexas.edu).
@@ -262,7 +299,7 @@ class QuizSpamAnalyzer {
 	/**
 	 * Runs all rules on one quiz and returns points, tier, and which rules fired (for the admin table).
 	 *
-	 * @param array<string, string> $row              Associative row matching export column names (string values).
+	 * @param array<string, string> $row              Row must include embed_site_urls (newline-separated embed URLs), embed_row_count, owner_email (for burst only), and quiz_* fields.
 	 * @param array<string, int>    $email_day_counts Output of build_email_day_counts(); keys email|Y-m-d.
 	 * @param \DateTimeInterface    $reference_dt     Current time used to decide “old enough” for zero-engagement rule.
 	 * @return array{risk_score: int, risk_tier: string, rule_hits: array<int, string>}
@@ -281,7 +318,6 @@ class QuizSpamAnalyzer {
 		$low_read  = (float) ( $this->cfg['title_low_readable_max_ratio'] ?? 0.55 );
 
 		$email     = trim( (string) ( $row['owner_email'] ?? '' ) );
-		$domain    = self::owner_email_domain( $email );
 		$allowlist = $this->allowlist_domains;
 
 		$deleted  = self::safe_int( $row['quiz_is_deleted'] ?? '0', 0 );
@@ -303,8 +339,35 @@ class QuizSpamAnalyzer {
 			: 0;
 		$burst_threshold = (int) ( $this->cfg['email_burst_threshold'] ?? 4 );
 
-		if ( '' !== $domain && ! self::is_domain_allowlisted( $domain, $allowlist ) ) {
-			if ( isset( $this->disposable_domains[ $domain ] ) ) {
+		$embed_blob = trim( (string) ( $row['embed_site_urls'] ?? '' ) );
+		if ( '' !== $embed_blob ) {
+			$lines            = preg_split( '/\r\n|\r|\n/', $embed_blob );
+			$disposable_found = false;
+			if ( is_array( $lines ) ) {
+				foreach ( $lines as $line ) {
+					$line = trim( (string) $line );
+					if ( '' === $line ) {
+						continue;
+					}
+					if ( function_exists( 'engage_quiz_is_local_embed_url' ) && engage_quiz_is_local_embed_url( $line ) ) {
+						continue;
+					}
+					$host = self::host_from_embed_url( $line );
+					if ( '' === $host || self::is_domain_allowlisted( $host, $allowlist ) ) {
+						continue;
+					}
+					foreach ( self::candidate_domains_for_disposable( $host ) as $cand ) {
+						if ( '' === $cand || self::is_domain_allowlisted( $cand, $allowlist ) ) {
+							continue;
+						}
+						if ( isset( $this->disposable_domains[ $cand ] ) ) {
+							$disposable_found = true;
+							break 2;
+						}
+					}
+				}
+			}
+			if ( $disposable_found ) {
 				$hits[] = 'disposable_domain';
 				$score += (int) ( $weights['disposable_domain'] ?? 0 );
 			}
@@ -354,7 +417,7 @@ class QuizSpamAnalyzer {
 	/**
 	 * Buckets the quiz into low / medium / high for sorting and filters in wp-admin.
 	 *
-	 * Combines total score with “strong” rules (e.g. disposable email) per thresholds.json tier section.
+	 * Combines total score with “strong” rules (e.g. disposable embed host) per thresholds.json tier section.
 	 *
 	 * @param array<int, string> $hits Rule ids that fired, in order.
 	 * @param int                $score Weighted sum from rule_weights.
