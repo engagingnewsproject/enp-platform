@@ -31,9 +31,21 @@ add_action('admin_notices', function() {
         'engage_analyze_quizzes'
     );
 
+    $export_disposable_url = wp_nonce_url(
+        add_query_arg(
+            array(
+                'post_type'                        => 'quiz',
+                'engage_export_spam_embed_quizzes' => '1',
+            ),
+            admin_url('edit.php')
+        ),
+        'engage_export_spam_embed_quizzes'
+    );
+
     echo '<div class="wrap engage-quiz-list-actions">';
     echo '<a href="' . esc_url($sync_url) . '" class="page-title-action page-title-action__sync-quizzes">' . esc_html__('Sync Quizzes', 'engage') . '</a>';
     echo '<a href="' . esc_url($analyze_url) . '" class="page-title-action page-title-action__analyse-quizzes">' . esc_html__('Analyse Quizzes', 'engage') . '</a>';
+    echo '<a href="' . esc_url($export_disposable_url) . '" class="page-title-action page-title-action__export-disposable-embeds">' . esc_html__('Export quizzes (disposable embeds)', 'engage') . '</a>';
     echo '</div>';
 });
 

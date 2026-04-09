@@ -302,7 +302,7 @@ class QuizSpamAnalyzer {
 	 * @param array<string, string> $row              Row must include embed_site_urls (newline-separated embed URLs), embed_row_count, owner_email (for burst only), and quiz_* fields.
 	 * @param array<string, int>    $email_day_counts Output of build_email_day_counts(); keys email|Y-m-d.
 	 * @param \DateTimeInterface    $reference_dt     Current time used to decide “old enough” for zero-engagement rule.
-	 * @return array{risk_score: int, risk_tier: string, rule_hits: array<int, string>}
+	 * @return array{risk_score: int, risk_tier: string, rule_hits: array<int, string>, spam_embed_matches: array<int, array{url: string, host: string, matched_domain: string}>}
 	 */
 	public function analyze_row( array $row, array $email_day_counts, \DateTimeInterface $reference_dt ): array {
 		$hits  = array();
@@ -340,9 +340,10 @@ class QuizSpamAnalyzer {
 		$burst_threshold = (int) ( $this->cfg['email_burst_threshold'] ?? 4 );
 
 		$embed_blob = trim( (string) ( $row['embed_site_urls'] ?? '' ) );
+		$spam_embed_matches = array();
 		if ( '' !== $embed_blob ) {
-			$lines            = preg_split( '/\r\n|\r|\n/', $embed_blob );
-			$disposable_found = false;
+			$lines = preg_split( '/\r\n|\r|\n/', $embed_blob );
+			$dedupe = array();
 			if ( is_array( $lines ) ) {
 				foreach ( $lines as $line ) {
 					$line = trim( (string) $line );
@@ -361,13 +362,21 @@ class QuizSpamAnalyzer {
 							continue;
 						}
 						if ( isset( $this->disposable_domains[ $cand ] ) ) {
-							$disposable_found = true;
-							break 2;
+							$key = $line . "\0" . $cand;
+							if ( isset( $dedupe[ $key ] ) ) {
+								continue;
+							}
+							$dedupe[ $key ]           = true;
+							$spam_embed_matches[]     = array(
+								'url'             => $line,
+								'host'            => $host,
+								'matched_domain'  => $cand,
+							);
 						}
 					}
 				}
 			}
-			if ( $disposable_found ) {
+			if ( count( $spam_embed_matches ) > 0 ) {
 				$hits[] = 'disposable_domain';
 				$score += (int) ( $weights['disposable_domain'] ?? 0 );
 			}
@@ -408,9 +417,10 @@ class QuizSpamAnalyzer {
 		$tier = $this->compute_tier( $hits, $score );
 
 		return array(
-			'risk_score' => $score,
-			'risk_tier'  => $tier,
-			'rule_hits'  => $hits,
+			'risk_score'         => $score,
+			'risk_tier'          => $tier,
+			'rule_hits'          => $hits,
+			'spam_embed_matches' => $spam_embed_matches,
 		);
 	}
 

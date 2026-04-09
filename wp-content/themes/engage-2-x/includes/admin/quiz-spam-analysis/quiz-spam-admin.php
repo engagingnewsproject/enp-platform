@@ -30,6 +30,8 @@ const ENGAGE_QUIZ_META_RISK_TIER   = '_enp_quiz_risk_tier';
 const ENGAGE_QUIZ_META_RULE_HITS   = '_enp_quiz_rule_hits';
 /** Post meta: ISO 8601 timestamp of last successful analysis for this post. */
 const ENGAGE_QUIZ_META_ANALYZED_AT = '_enp_quiz_spam_analyzed_at';
+/** Post meta: JSON array of disposable/extra-risk embed hits (url, host, matched_domain); absent when none. */
+const ENGAGE_QUIZ_META_SPAM_EMBED_MATCHES = '_enp_quiz_spam_embed_matches';
 
 /**
  * Wires all actions and filters once; called at the bottom of this file after functions are defined.
@@ -41,6 +43,7 @@ function engage_quiz_spam_admin_init(): void {
 	add_action( 'admin_notices', 'engage_quiz_spam_finished_notice' );
 	add_action( 'admin_notices', 'engage_quiz_spam_error_notice' );
 	add_action( 'admin_init', 'engage_quiz_spam_handle_analyze_request', 1 );
+	add_action( 'admin_init', 'engage_quiz_spam_handle_export_disposable_embeds', 1 );
 	add_filter( 'manage_edit-quiz_columns', 'engage_quiz_spam_add_columns', 25 );
 	add_action( 'manage_quiz_posts_custom_column', 'engage_quiz_spam_column_content', 10, 2 );
 	add_filter( 'manage_edit-quiz_sortable_columns', 'engage_quiz_spam_sortable_columns' );
@@ -387,6 +390,12 @@ function engage_quiz_spam_handle_analyze_request(): void {
 				update_post_meta( $post_id, ENGAGE_QUIZ_META_RISK_TIER, $out['risk_tier'] );
 				update_post_meta( $post_id, ENGAGE_QUIZ_META_RULE_HITS, wp_json_encode( $out['rule_hits'] ) );
 				update_post_meta( $post_id, ENGAGE_QUIZ_META_ANALYZED_AT, $stamp );
+				$matches = isset( $out['spam_embed_matches'] ) && is_array( $out['spam_embed_matches'] ) ? $out['spam_embed_matches'] : array();
+				if ( count( $matches ) > 0 ) {
+					update_post_meta( $post_id, ENGAGE_QUIZ_META_SPAM_EMBED_MATCHES, wp_json_encode( $matches ) );
+				} else {
+					delete_post_meta( $post_id, ENGAGE_QUIZ_META_SPAM_EMBED_MATCHES );
+				}
 			}
 
 			$current_offset += $batch_count;
@@ -430,6 +439,130 @@ function engage_quiz_spam_handle_analyze_request(): void {
 			admin_url( 'edit.php' )
 		)
 	);
+	exit;
+}
+
+/**
+ * Streams a CSV of quizzes whose embed hosts matched disposable/extra-risk lists (meta written during analysis).
+ *
+ * Layman: Use this after “Analyse Quizzes” to download a spreadsheet of affected quizzes and which URLs matched.
+ * Technical: GET engage_export_spam_embed_quizzes=1 on edit.php?post_type=quiz; check_admin_referer( engage_export_spam_embed_quizzes ); WP_Query meta EXISTS on ENGAGE_QUIZ_META_SPAM_EMBED_MATCHES.
+ */
+function engage_quiz_spam_handle_export_disposable_embeds(): void {
+	if ( ! is_admin() ) {
+		return;
+	}
+	if ( ! isset( $_GET['engage_export_spam_embed_quizzes'] ) || '1' !== $_GET['engage_export_spam_embed_quizzes'] ) {
+		return;
+	}
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- check_admin_referer below.
+	if ( ! isset( $_GET['post_type'] ) || 'quiz' !== sanitize_key( wp_unslash( $_GET['post_type'] ) ) ) {
+		return;
+	}
+	global $pagenow;
+	if ( 'edit.php' !== $pagenow ) {
+		return;
+	}
+	check_admin_referer( 'engage_export_spam_embed_quizzes' );
+
+	$query = new \WP_Query(
+		array(
+			'post_type'      => 'quiz',
+			'post_status'    => 'any',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+			'orderby'        => 'ID',
+			'order'          => 'ASC',
+			'meta_query'     => array(
+				array(
+					'key'     => ENGAGE_QUIZ_META_SPAM_EMBED_MATCHES,
+					'compare' => 'EXISTS',
+				),
+			),
+			'no_found_rows'  => true,
+		)
+	);
+
+	nocache_headers();
+	header( 'Content-Type: text/csv; charset=utf-8' );
+	header( 'Content-Disposition: attachment; filename=quiz-disposable-embeds-' . gmdate( 'Y-m-d' ) . '.csv' );
+
+	$out = fopen( 'php://output', 'w' );
+	if ( false === $out ) {
+		exit;
+	}
+
+	fputcsv(
+		$out,
+		array(
+			'wp_post_id',
+			'enp_quiz_id',
+			'quiz_title',
+			'matched_domains',
+			'matched_hosts',
+			'matched_embed_urls',
+			'risk_tier',
+			'risk_score',
+			'analyzed_at',
+		)
+	);
+
+	foreach ( $query->posts as $post_id ) {
+		$post_id = (int) $post_id;
+		$enp_id  = (int) get_post_meta( $post_id, '_enp_quiz_id', true );
+		$title   = get_the_title( $post_id );
+
+		$raw_matches = get_post_meta( $post_id, ENGAGE_QUIZ_META_SPAM_EMBED_MATCHES, true );
+		$matches     = is_string( $raw_matches ) ? json_decode( $raw_matches, true ) : array();
+		if ( ! is_array( $matches ) ) {
+			$matches = array();
+		}
+
+		$domains = array();
+		$hosts   = array();
+		$urls    = array();
+		foreach ( $matches as $m ) {
+			if ( ! is_array( $m ) ) {
+				continue;
+			}
+			$d = isset( $m['matched_domain'] ) ? (string) $m['matched_domain'] : '';
+			$h = isset( $m['host'] ) ? (string) $m['host'] : '';
+			$u = isset( $m['url'] ) ? (string) $m['url'] : '';
+			if ( '' !== $d && ! in_array( $d, $domains, true ) ) {
+				$domains[] = $d;
+			}
+			if ( '' !== $h && ! in_array( $h, $hosts, true ) ) {
+				$hosts[] = $h;
+			}
+			if ( '' !== $u && ! in_array( $u, $urls, true ) ) {
+				$urls[] = $u;
+			}
+		}
+
+		$tier     = (string) get_post_meta( $post_id, ENGAGE_QUIZ_META_RISK_TIER, true );
+		$score    = (string) get_post_meta( $post_id, ENGAGE_QUIZ_META_RISK_SCORE, true );
+		$analyzed = (string) get_post_meta( $post_id, ENGAGE_QUIZ_META_ANALYZED_AT, true );
+
+		fputcsv(
+			$out,
+			array(
+				(string) $post_id,
+				(string) $enp_id,
+				$title,
+				implode( '; ', $domains ),
+				implode( '; ', $hosts ),
+				implode( '; ', $urls ),
+				$tier,
+				$score,
+				$analyzed,
+			)
+		);
+	}
+
+	fclose( $out );
 	exit;
 }
 
