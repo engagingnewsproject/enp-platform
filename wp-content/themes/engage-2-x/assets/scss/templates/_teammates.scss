@@ -194,18 +194,9 @@
 	width: max-content;
 }
 
-@supports not (display: grid) {
-	.mate {
-		flex-flow: column wrap;
-		margin-bottom: $spacer;
-	}
-}
-
-@supports (display: grid) {
-	.mate {
-		margin: 15px;
-		text-align: center;
-	}
+.mate {
+	margin: 15px;
+	text-align: center;
 }
 
 .category_title {

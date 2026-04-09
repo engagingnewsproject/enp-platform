@@ -3,9 +3,7 @@
   @include media($phablet) {
     .hero .container {
       display: flex;
-      @supports (display: grid) {
-        grid-template-columns: 50% 50%;
-      }
+      grid-template-columns: 50% 50%;
     }
   }
 

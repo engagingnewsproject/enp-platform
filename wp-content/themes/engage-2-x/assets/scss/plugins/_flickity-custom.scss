@@ -70,10 +70,8 @@
     float: left;
   }
 
-  @supports (display: flex) {
-    @include media($laptop) {
-      flex: 0 0 48%;
-    }
+  @include media($laptop) {
+    flex: 0 0 48%;
   }
 }
 
@@ -81,11 +79,7 @@
 .hero__1 {
   position: relative;
 
-  @supports not (display: flex) {
-    @include media($laptop) {
-      padding-right: 3em;
-    }
-  }
+
 }
 
 // arrows top right corner
