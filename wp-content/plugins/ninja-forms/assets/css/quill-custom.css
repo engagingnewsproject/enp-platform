@@ -12,6 +12,8 @@
 .ql-editor {
     background-color: #fff !important;
     min-height: 200px !important;
+    max-height: 500px !important;
+    overflow-y: auto !important;
 }
 
 /* Custom font sizes for headings and paragraph */
@@ -43,12 +45,11 @@
     background-color: #fff !important;
     padding: 3px 5px !important;
     width: auto !important;
-    height: auto !important;
+    height: 28px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     min-width: 28px !important;
-    min-height: 28px !important;
 }
 
 .ql-toolbar button svg,
@@ -72,7 +73,8 @@
     border-radius: 3px !important;
     margin: 0 2px !important;
     background-color: #fff !important;
-    height: auto !important;
+    height: 28px !important;
+    overflow: visible !important;
 }
 
 .ql-toolbar .ql-picker-label {
@@ -163,4 +165,201 @@
 
 .code-view .ql-toolbar {
     border-bottom: 0 !important;
+}
+
+/* Table Grid Picker */
+.nf-table-picker {
+    position: absolute;
+    z-index: 999999;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 8px;
+    margin-top: 2px;
+}
+
+.nf-table-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 18px);
+    grid-template-rows: repeat(10, 18px);
+    gap: 2px;
+    width: 98px;
+    height: 98px;
+    overflow: hidden;
+    transition: width 0.15s ease, height 0.15s ease;
+}
+
+.nf-table-grid:hover {
+    width: 198px;
+    height: 198px;
+}
+
+.nf-table-cell {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    background: #f9f9f9;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.nf-table-cell:hover,
+.nf-table-cell.highlight {
+    background-color: #0073aa;
+    border-color: #0073aa;
+}
+
+.nf-table-label {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    margin-top: 6px;
+    line-height: 1;
+}
+
+/* Table Context Menu */
+.nf-table-context-menu {
+    position: fixed;
+    z-index: 999999;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 4px 0;
+    min-width: 180px;
+}
+
+.nf-table-context-item {
+    padding: 6px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #333;
+}
+
+.nf-table-context-item:hover {
+    background-color: #0073aa;
+    color: #fff;
+}
+
+.nf-table-context-separator {
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 4px 0;
+}
+
+/* Table Cell Styling in Editor */
+.ql-editor table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 8px 0;
+}
+
+.ql-editor table td {
+    border: 1px solid #ccc;
+    padding: 6px 8px;
+    min-width: 40px;
+    min-height: 24px;
+    vertical-align: top;
+}
+
+/* Legacy Summernote Table Notice */
+.nf-legacy-table-notice {
+    background: #fff8e5;
+    border: 1px solid #f0c36d;
+    border-top: none;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #6d5116;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nf-legacy-table-text {
+    flex: 1;
+}
+
+.nf-convert-table-btn {
+    background: #0073aa;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.nf-convert-table-btn:hover {
+    background: #005a87;
+}
+
+.nf-dismiss-notice {
+    background: none;
+    border: none;
+    color: #6d5116;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 4px;
+    line-height: 1;
+}
+
+.nf-dismiss-notice:hover {
+    color: #3c2a05;
+}
+
+/* Code view auto-switch notice */
+.nf-code-view-notice {
+    background-color: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 3px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #856404;
+}
+
+.nf-code-view-notice .nf-dismiss-notice {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #856404;
+    padding: 0 4px;
+}
+
+/* Keyboard focus styles — only visible for keyboard navigation, not mouse clicks */
+.ql-toolbar button:focus-visible {
+    outline: 2px solid #0073aa !important;
+    outline-offset: 1px !important;
+}
+
+.nf-table-cell:focus-visible {
+    outline: 2px solid #fff !important;
+    outline-offset: -2px !important;
+    background-color: #005a87 !important;
+    border-color: #005a87 !important;
+}
+
+.nf-table-context-item:focus-visible {
+    outline: none !important;
+    background-color: #0073aa;
+    color: #fff;
+}
+
+.nf-dismiss-notice:focus-visible,
+.nf-convert-table-btn:focus-visible {
+    outline: 2px solid #0073aa !important;
+    outline-offset: 1px !important;
+}
+
+.nf-link-dropdown input:focus-visible,
+.nf-link-dropdown button:focus-visible {
+    outline: 2px solid #0073aa !important;
+    outline-offset: 1px !important;
 }
