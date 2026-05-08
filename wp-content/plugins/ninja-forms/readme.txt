@@ -4,7 +4,7 @@ Tags: forms, form builder, contact form, lead form, registration form
 
 Requires at least: 6.7
 Tested up to: 6.9
-Stable tag: 3.14.2
+Stable tag: 3.14.3
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -310,24 +310,41 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.14.2 (04 March 2026) =
+= 3.14.3 (29 April 2026) =
 
 *Bug Fixes:*
 
-- fix missing payment data and blank CSV issues in submission exports
-- prevent premature deletion of submissions less than 24 hours old
-- checkbox merge tags now display custom values instead of 1/0
-- fix merge tag population when retriggering emails from Submissions page
-- decode HTML entities for Rich Text Editor fields in CSV exports
-- fix invalid date display in Dashboard for imported/duplicated forms
-- fix calculation merge tags with extra text in hidden fields
+- fix Quill.js Rich Text Editor table functionality not working properly
+- fix HTML being sanitized/stripped when saving Quill.js RTE content
+- fix Quill.js CSS conflicts with certain add-ons
+- fix ESC key removing HTML content from success messages with calculations
+- fix PHP warning for undefined array key "payment_total_type"
+- fix radio and checkbox field alignment for RTL languages
 
-*Security Enhancements:*
+*Enhancements:*
 
-- protect block token/refresh endpoint against unauthorized access
-- add capability check to render_callback for blocks
+- improve color contrast for form names on dashboard to meet WCAG 2.2 AA standards
+- improve color contrast for "Add New" button on dashboard to meet WCAG AA standards
+- add ARIA attributes, keyboard navigation, and focus styles to Quill.js RTE
 
 == Changelog ==
+= 3.14.3 (29 April 2026) =
+
+*Bug Fixes:*
+
+- fix Quill.js Rich Text Editor table functionality not working properly
+- fix HTML being sanitized/stripped when saving Quill.js RTE content
+- fix Quill.js CSS conflicts with certain add-ons
+- fix ESC key removing HTML content from success messages with calculations
+- fix PHP warning for undefined array key "payment_total_type"
+- fix radio and checkbox field alignment for RTL languages
+
+*Enhancements:*
+
+- improve color contrast for form names on dashboard to meet WCAG 2.2 AA standards
+- improve color contrast for "Add New" button on dashboard to meet WCAG AA standards
+- add ARIA attributes, keyboard navigation, and focus styles to Quill.js RTE
+
 = 3.14.2 (04 March 2026) =
 
 *Bug Fixes:*

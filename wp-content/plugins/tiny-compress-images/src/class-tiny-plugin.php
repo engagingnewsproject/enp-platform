@@ -40,6 +40,7 @@ class Tiny_Plugin extends Tiny_WP_Base {
 	public function __construct() {
 		parent::__construct();
 		$this->settings = new Tiny_Settings();
+		new Tiny_Conversion( $this->settings );
 	}
 
 	public function set_compressor( $compressor ) {
@@ -72,7 +73,6 @@ class Tiny_Plugin extends Tiny_WP_Base {
 			dirname( plugin_basename( __FILE__ ) ) . '/languages'
 		);
 
-		new Tiny_Picture( $this->settings, ABSPATH, array( get_site_url() ) );
 		$this->tiny_compatibility();
 	}
 
@@ -861,18 +861,6 @@ class Tiny_Plugin extends Tiny_WP_Base {
 		$tiny_image->delete_converted_image();
 	}
 
-	public static function request_review() {
-		$review_url    =
-			'https://wordpress.org/support/plugin/tiny-compress-images/reviews/#new-post';
-		$review_block  = esc_html__( 'Enjoying TinyPNG?', 'tiny-compress-images' );
-		$review_block .= ' ';
-		$review_block .= sprintf(
-			'<a href="%s" target="_blank">%s</a>',
-			esc_url( $review_url ),
-			esc_html__( 'Write a review', 'tiny-compress-images' )
-		);
-		return $review_block;
-	}
 
 	public function mark_image_as_compressed() {
 		$response = $this->validate_ajax_attachment_request();
