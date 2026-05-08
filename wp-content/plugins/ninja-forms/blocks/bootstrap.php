@@ -56,6 +56,24 @@ add_action('init', function () {
         'editor_script' => 'ninja-forms/submissions-table/block',
         'render_callback' => function ($attributes, $content) {
             if (isset($attributes['formID']) && $attributes['formID']) {
+
+                // SECURITY: For non-published posts (draft previews, pending review, etc.),
+                // require submission-viewing capability before issuing a token.
+                // This prevents Contributor/Author users from obtaining tokens by adding
+                // a submissions-table block to a draft post and previewing it.
+                // Published pages intentionally issue tokens to all viewers (admin chose to
+                // display submissions publicly by placing the block on a published page).
+                $current_post = get_post();
+                if ( $current_post && 'publish' !== $current_post->post_status ) {
+                    $views_capability = apply_filters(
+                        'ninja_forms_views_token_capability',
+                        apply_filters( 'ninja_forms_admin_submissions_capabilities', 'manage_options' )
+                    );
+                    if ( ! current_user_can( $views_capability ) ) {
+                        return '';
+                    }
+                }
+
                 wp_enqueue_script('ninja-forms/submissions-table/render');
 
                 // Generate a token bound to THIS specific form ID only

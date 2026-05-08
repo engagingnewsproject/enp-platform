@@ -236,6 +236,9 @@ class Quiz {
 					$quiz_id
                 ));
 
+                // Omit this WordPress host so on-site embeds are not listed as “external” sites.
+                $sites = \engage_quiz_filter_external_embed_site_rows($sites);
+
                 if (empty($sites)) {
                     echo '—';
                 } else {

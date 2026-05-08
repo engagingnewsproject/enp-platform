@@ -62,6 +62,8 @@ add_action('admin_init', function() {
                      WHERE eq.quiz_id = %d",
                     $quiz->quiz_id
                 ));
+                // Exclude pages on this WordPress host so synced meta matches list UI.
+                $sites = engage_quiz_filter_external_embed_url_strings($sites);
                 if (!empty($sites)) {
                     update_post_meta($post_id, 'embed_sites', implode(', ', $sites));
                 } else {

@@ -133,9 +133,6 @@
 		@include media($phablet) {
 			align-content: stretch;
 			justify-content: flex-start;
-			@supports not (display: grid) {
-				margin: 0.5em;
-			}
 		}
 		@include media($tablet) {
 			flex: 1 1 45%;
@@ -154,18 +151,14 @@
 			@include media("max", $tablet) {
 				max-height: 300px;
 			}
-			@supports (display: grid) {
-				grid-column: 1/6;
-				@include media($tablet) {
-					margin-right: 0;
-				}
+			grid-column: 1/6;
+			@include media($tablet) {
+				margin-right: 0;
 			}
 		}
 		.title-wrap {
 			padding: 1em;
-			@supports (display: grid) {
-				grid-column: 6/12;
-			}
+			grid-column: 6/12;
 		}
 		.tile__img {
 			width: 100%;
