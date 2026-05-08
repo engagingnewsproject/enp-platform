@@ -18,6 +18,10 @@ mix
   .js("assets/js/homepage.js", "js")
   .sass("assets/scss/app.scss", "css")
   .sass("assets/scss/editor-style.scss", "css") // Editor styles (includes admin styles)
+  .sass(
+    "assets/scss/flickity-inline.scss",
+    "css/flickity-inline.css"
+  )
   .version()
   .browserSync({
     proxy: proxyUrl,
@@ -37,4 +41,10 @@ mix
 
   mix.options({
     processCssUrls: false, // Disable processing of URLs in CSS
-  })
+  });
+
+mix.after(() => {
+  const injectPath = require.resolve("./scripts/inject-flickity-inline-css.js");
+  delete require.cache[injectPath];
+  require(injectPath)();
+});

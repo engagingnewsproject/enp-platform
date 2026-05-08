@@ -6,7 +6,8 @@ const carousel = new Flickity('.carousel-main', {
   wrapAround: true,
   contain: true,
 	lazyLoad: true,
-  ariaLabel: 'Carousel Navigation'
+  ariaLabel: 'Carousel Navigation',
+  adaptiveHeight: true
 })
 
 // Enhance accessibility of navigation buttons
