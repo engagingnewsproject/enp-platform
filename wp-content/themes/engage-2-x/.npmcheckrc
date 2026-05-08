@@ -4,7 +4,6 @@
 			"popper.js", 
 			"jquery", 
 			"scss-tokenizer",
-			"sass-loader", 
 			"postcss-cli",
 			"resolve-url-loader",
 			"prettier-plugin-twig-melody",

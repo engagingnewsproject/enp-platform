@@ -42,10 +42,9 @@
 		"prettier": "^3.1.1",
 		"resolve-url-loader": "^5.0.0",
 		"sass": "^1.98.0",
-		"sass-loader": "^16.0.7",
 		"webpack": "^5.105.4",
 		"webpack-cli": "^4.9.1",
-		"lighthouse": "^13.0.3"
+		"lighthouse": "^12.8.2"
 	},
 	"resolutions": {
 		"qs": "^6.11.2",
