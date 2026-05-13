@@ -30,7 +30,7 @@
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^31.8.0",
-		"autoprefixer": "^10.4.27",
+		"autoprefixer": "^10.5.0",
 		"browser-sync": "^3.0.2",
 		"browser-sync-webpack-plugin": "^2.3.0",
 		"cross-env": "^10.1.0",
