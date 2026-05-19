@@ -29,6 +29,198 @@
             "bidirectional_target": []
         },
         {
+            "key": "field_6a0c8b0f8713f",
+            "label": "Solidarity Journalism Videos",
+            "name": "solidarity_journalism_videos",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "Drag to set order. All videos in this category appear automatically; new ones are added at the top until you reorder.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "press"
+            ],
+            "post_status": "",
+            "taxonomy": [
+                "press-categories:solidarity-journalism-video"
+            ],
+            "filters": [
+                "search"
+            ],
+            "return_format": "object",
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "elements": "",
+            "bidirectional": 0,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_6a0c9779b6160",
+            "label": "Solidarity Journalism Additional Resources",
+            "name": "solidarity_journalism_additional_resources",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "Drag to set order. All videos in this category appear automatically; new ones are added at the top until you reorder.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "press"
+            ],
+            "post_status": "",
+            "taxonomy": [
+                "press-categories:additional-resources"
+            ],
+            "filters": [
+                "search"
+            ],
+            "return_format": "object",
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "elements": "",
+            "bidirectional": 0,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_6a0c99071464f",
+            "label": "Examples of Solidarity Reporting",
+            "name": "examples_of_solidarity_reporting",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "Drag to set order. All videos in this category appear automatically; new ones are added at the top until you reorder.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "press"
+            ],
+            "post_status": "",
+            "taxonomy": [
+                "press-categories:solidarity-reporting"
+            ],
+            "filters": [
+                "search"
+            ],
+            "return_format": "object",
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "elements": "",
+            "bidirectional": 0,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_6a0c9c53a1315",
+            "label": "Climate Change Articles",
+            "name": "climate_change_articles",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "Drag to set order. All videos in this category appear automatically; new ones are added at the top until you reorder.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "press"
+            ],
+            "post_status": "",
+            "taxonomy": [
+                "press-categories:climate-change"
+            ],
+            "filters": [
+                "search"
+            ],
+            "return_format": "object",
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "elements": "",
+            "bidirectional": 0,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_6a0c9e0787f40",
+            "label": "Dangerous Solidarity Additional Resources",
+            "name": "dangerous_solidarity_additional_resources",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "Drag to set order. All videos in this category appear automatically; new ones are added at the top until you reorder.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "press"
+            ],
+            "post_status": "",
+            "taxonomy": [
+                "press-categories:dangerous-solidarity-additional-resources"
+            ],
+            "filters": [
+                "search"
+            ],
+            "return_format": "object",
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "elements": "",
+            "bidirectional": 0,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_6a0c9f34f7f1b",
+            "label": "Stronger Together: Safety in Networks",
+            "name": "stronger_together_safety_in_networks",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "Drag to set order. All videos in this category appear automatically; new ones are added at the top until you reorder.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "press"
+            ],
+            "post_status": "",
+            "taxonomy": [
+                "press-categories:stronger-together"
+            ],
+            "filters": [
+                "search"
+            ],
+            "return_format": "object",
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "elements": "",
+            "bidirectional": 0,
+            "bidirectional_target": []
+        },
+        {
             "key": "field_6643e259a1c5a",
             "label": "Above",
             "name": "above",
@@ -87,5 +279,8 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1746218630
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1779212454
 }
