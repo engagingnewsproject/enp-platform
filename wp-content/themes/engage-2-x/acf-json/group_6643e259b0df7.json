@@ -34,7 +34,7 @@
             "name": "solidarity_journalism_videos",
             "aria-label": "",
             "type": "relationship",
-            "instructions": "Drag to set order. All posts in this category appear automatically; new ones are added at the top until you reorder.",
+            "instructions": "Drag to set order. Listed posts appear first; other posts in this category follow below, sorted by publication date (newest first).",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -66,7 +66,7 @@
             "name": "solidarity_journalism_additional_resources",
             "aria-label": "",
             "type": "relationship",
-            "instructions": "Drag to set order. All posts in this category appear automatically; new ones are added at the top until you reorder.",
+            "instructions": "Drag to set order. Listed posts appear first; other posts in this category follow below, sorted by publication date (newest first).",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -98,7 +98,7 @@
             "name": "examples_of_solidarity_reporting",
             "aria-label": "",
             "type": "relationship",
-            "instructions": "Drag to set order. All posts in this category appear automatically; new ones are added at the top until you reorder.",
+            "instructions": "Drag to set order. Listed posts appear first; other posts in this category follow below, sorted by publication date (newest first).",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -130,7 +130,7 @@
             "name": "climate_change_articles",
             "aria-label": "",
             "type": "relationship",
-            "instructions": "Drag to set order. All posts in this category appear automatically; new ones are added at the top until you reorder.",
+            "instructions": "Drag to set order. Listed posts appear first; other posts in this category follow below, sorted by publication date (newest first).",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -162,7 +162,7 @@
             "name": "dangerous_solidarity_additional_resources",
             "aria-label": "",
             "type": "relationship",
-            "instructions": "Drag to set order. All posts in this category appear automatically; new ones are added at the top until you reorder.",
+            "instructions": "Drag to set order. Listed posts appear first; other posts in this category follow below, sorted by publication date (newest first).",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -194,7 +194,7 @@
             "name": "stronger_together_safety_in_networks",
             "aria-label": "",
             "type": "relationship",
-            "instructions": "Drag to set order. All posts in this category appear automatically; new ones are added at the top until you reorder.",
+            "instructions": "Drag to set order. Listed posts appear first; other posts in this category follow below, sorted by publication date (newest first).",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {

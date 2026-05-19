@@ -207,9 +207,8 @@ class PressPage extends Post
      * Builds the final list order for a Press page.
      *
      * Category membership decides which posts appear. When editors have set a
-     * manual order, those posts follow drag order. Any other posts in the category
-     * are placed first, newest publication date first, so new items show up
-     * without editing the page.
+     * manual order, those posts appear first in drag order. Any other posts in
+     * the category follow below, newest publication date first.
      *
      * @param WP_Post[] $posts All posts from the selected categories.
      * @param WP_Post[]|array<int>|null|false $manual_order Posts from the ACF
@@ -238,14 +237,14 @@ class PressPage extends Post
 
         $remaining = self::sortByPublicationDate(array_values($posts_by_id));
 
-        return array_merge($remaining, $ordered);
+        return array_merge($ordered, $remaining);
     }
 
     /**
      * Sorts press posts by publication date, newest first.
      *
-     * Used as the default on generic Press pages and for posts that are not yet
-     * in the manual order list. Falls back to WordPress post date, then title.
+     * Used as the default on generic Press pages and for posts not in the manual
+     * order list (they appear after curated items). Falls back to post date, then title.
      *
      * @param WP_Post[] $posts
      * @return WP_Post[]
