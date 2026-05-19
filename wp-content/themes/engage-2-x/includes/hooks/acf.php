@@ -94,4 +94,123 @@ if (is_plugin_active('advanced-custom-fields-pro/acf.php')) {
         }
         return $show_admin;
     });
+
+    /**
+     * Formats the press article publication date meta (Ymd) for display.
+     *
+     * @param int $post_id Press post ID.
+     */
+    function engage_press_format_publication_date_meta(int $post_id): string
+    {
+        $raw_date = get_field('press_article_publication_date', $post_id);
+        if (!is_string($raw_date) || strlen($raw_date) < 8) {
+            return '';
+        }
+
+        $timestamp = strtotime(
+            substr($raw_date, 0, 4) . '-' .
+            substr($raw_date, 4, 2) . '-' .
+            substr($raw_date, 6, 2) . ' 12:00:00'
+        );
+
+        return $timestamp ? wp_date('F j, Y', $timestamp) : '';
+    }
+
+    /**
+     * Returns the date label shown next to each press title in the relationship picker.
+     *
+     * Uses "other" text when set; otherwise the publication date field; otherwise the
+     * WordPress publish date so editors still see a date when other text is blank.
+     *
+     * @param int $post_id Press post ID.
+     * @return string Display label, or empty string when none is set.
+     */
+    function engage_press_relationship_result_label(int $post_id): string
+    {
+        if (get_field('press_article_publication_date_other', $post_id)) {
+            $other = get_field('press_article_publication_date_other_txt', $post_id);
+            if (is_string($other) && $other !== '') {
+                return $other;
+            }
+        }
+
+        $publication_date = engage_press_format_publication_date_meta($post_id);
+        if ($publication_date !== '') {
+            return $publication_date;
+        }
+
+        $post = get_post($post_id);
+        if ($post instanceof \WP_Post && $post->post_date) {
+            $timestamp = strtotime($post->post_date);
+            if ($timestamp) {
+                return wp_date('F j, Y', $timestamp);
+            }
+        }
+
+        return '';
+    }
+
+    // Each Press page gets its own order field; hide the others (shared field group).
+    // Hook by field key — acf/prepare_field runs after $field['name'] is set to the key.
+    foreach (\Engage\Models\PressPage::getManualOrderFieldKeyMap() as $field_key => $field_name) {
+        add_filter("acf/prepare_field/key={$field_key}", function ($field) use ($field_name) {
+            if (!is_array($field)) {
+                return $field;
+            }
+
+            $page_id = \Engage\Models\PressPage::getEditorPageId();
+            if ($page_id === 0 || get_post_type($page_id) !== 'page') {
+                return false;
+            }
+
+            if (!\Engage\Models\PressPage::shouldShowManualOrderField($field_name, $page_id)) {
+                return false;
+            }
+
+            $field['wrapper']['class'] = trim(($field['wrapper']['class'] ?? '') . ' acf-press-manual-order');
+
+            return $field;
+        });
+    }
+
+    // Date / "other" label beside titles in all manual-order relationship pickers.
+    add_filter('acf/fields/relationship/result', function ($title, $post, $field, $post_id) {
+        $field_name = is_array($field)
+            ? \Engage\Models\PressPage::resolveManualOrderFieldName($field)
+            : null;
+
+        if ($field_name === null) {
+            return $title;
+        }
+
+        if (!($post instanceof \WP_Post) || $post->post_type !== 'press') {
+            return $title;
+        }
+
+        $label = engage_press_relationship_result_label((int) $post->ID);
+        if ($label === '') {
+            return $title;
+        }
+
+        return $title . '<span class="acf-relationship-press-meta"> — ' . esc_html($label) . '</span>';
+    }, 10, 4);
+
+    // Press manual-order relationship fields: date suffix + taller pick lists.
+    add_action('acf/input/admin_enqueue_scripts', function () {
+        if (!function_exists('get_current_screen')) {
+            return;
+        }
+
+        $screen = get_current_screen();
+        if (!$screen || $screen->base !== 'post' || $screen->post_type !== 'page') {
+            return;
+        }
+
+        wp_add_inline_style(
+            'acf-input',
+            '.acf-relationship .acf-relationship-press-meta{color:#646970;font-weight:400;}'
+            // ACF sets .acf-relationship .list { height: 160px } — override the scrollable lists.
+            . '.acf-press-manual-order .acf-relationship .list{height:20rem!important;}'
+        );
+    });
 } 
