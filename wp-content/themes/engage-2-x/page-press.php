@@ -2,52 +2,28 @@
 /**
  * Template Name: Press
  * Description: A Page Template for Press
+ *
+ * Lists press posts by categories selected in ACF. Some Press pages also support
+ * manual drag order via a page-specific relationship field (see PressPage).
  */
 
+use Engage\Models\PressPage;
 use Timber\Timber;
 
 $context = Timber::context();
 $post    = $context['post'];
 
-// Get the term objects from ACF field
-$terms = get_field('posts'); // This will return term objects since that's selected in ACF
+$terms = get_field('posts');
 
-// Get posts from those terms if terms exist
 if ($terms && !empty($terms)) {
-    // Extract term IDs from term objects
-    $term_ids = array_map(function($term) {
+    $term_ids = array_map(static function ($term) {
         return $term->term_id;
     }, $terms);
 
-    $press_posts = get_posts([
-        'post_type' => 'press',
-        'numberposts' => -1,
-        'meta_query' => [
-            'relation' => 'OR',
-            [
-                'key' => 'press_article_publication_date',
-                'compare' => 'EXISTS',
-                'type' => 'DATE'
-            ],
-            [
-                'key' => 'press_article_publication_date',
-                'compare' => 'NOT EXISTS'
-            ]
-        ],
-        'orderby' => [
-            'press_article_publication_date' => 'DESC',
-            'press_article_publisher' => 'ASC'
-        ],
-        'tax_query' => [
-            [
-                'taxonomy' => 'press-categories',
-                'field'    => 'term_id',
-                'terms'    => $term_ids
-            ]
-        ]
-    ]);
+    $press_posts = PressPage::getPostsByTermIds($term_ids);
 
-    // Convert to Timber posts
+    $press_posts = PressPage::orderPressPosts($press_posts, PressPage::getManualOrder($post->ID));
+
     $context['press_posts'] = Timber::get_posts($press_posts);
 } else {
     $context['press_posts'] = [];

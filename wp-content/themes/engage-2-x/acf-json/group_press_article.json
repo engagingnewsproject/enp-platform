@@ -48,7 +48,8 @@
             "display_format": "F j, Y",
             "return_format": "Ymd",
             "first_day": 1,
-            "allow_in_bindings": 1
+            "allow_in_bindings": 1,
+            "default_to_current_date": 0
         },
         {
             "key": "field_67e2c13f8e229",
@@ -137,5 +138,8 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1746603709
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1779206899
 }
