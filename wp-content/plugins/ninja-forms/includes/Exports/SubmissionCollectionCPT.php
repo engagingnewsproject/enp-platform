@@ -160,7 +160,7 @@ final class NF_Exports_SubmissionCollectionCPT implements SubmissionCollectionIn
      * 
      * @param bool $isUnread
      */
-    public function setIsUnreadParameter(bool $isUnread=null)/* :SubmissionCollectionInterface */ {
+    public function setIsUnreadParameter(?bool $isUnread=null)/* :SubmissionCollectionInterface */ {
         $this->isUnread = $isUnread;
 
         return $this;
@@ -171,7 +171,7 @@ final class NF_Exports_SubmissionCollectionCPT implements SubmissionCollectionIn
      * 
      * @param bool $previouslyExported
      */
-    public function setPreviouslyExportedParameter(bool $previouslyExported=null)/* :SubmissionCollectionInterface */ {
+    public function setPreviouslyExportedParameter(?bool $previouslyExported=null)/* :SubmissionCollectionInterface */ {
         $this->previouslyExported = $previouslyExported;
 
         return $this;
@@ -544,7 +544,7 @@ final class NF_Exports_SubmissionCollectionCPT implements SubmissionCollectionIn
      * 
      * @param array $hidden
      */
-    public function setHiddenFieldTypes(array $hidden=null)/*: SubmissionCollectionInterface*/ {
+    public function setHiddenFieldTypes(?array $hidden=null)/*: SubmissionCollectionInterface*/ {
         $this->hiddenFieldTypes = $hidden;
 
         return $this;

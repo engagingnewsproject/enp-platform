@@ -697,6 +697,12 @@ class WPN_Helper
         if( 0 < strlen($value ) ) {
             $first_char = substr( $value, 0, 1 );
             if( in_array( $first_char, array( '=', '@', '+', '-' ) ) ) {
+                // For values starting with +, check if it's a valid international phone number
+                // Pattern: + followed by digit, then optional digits/spaces/parentheses/dots/hyphens
+                if( '+' === $first_char && preg_match( '/^\+[0-9][0-9\s().\-]*$/', $value ) ) {
+                    // Valid international phone number - do not escape
+                    return $value;
+                }
                 $value = "'" . $value;
             }
         }

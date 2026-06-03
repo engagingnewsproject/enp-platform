@@ -138,7 +138,7 @@ class NF_Exports_SubmissionCollectionFilterParameters {
      * @param bool $isUnread
      * @return NF_Exports_SubmissionCollectionFilterParameters
      */
-    public function setIsUnread(bool $isUnread=null) {
+    public function setIsUnread(?bool $isUnread=null) {
         $this->isUnread = $isUnread;
         return $this;
     }
@@ -149,7 +149,7 @@ class NF_Exports_SubmissionCollectionFilterParameters {
      * @param boolean $previouslyExported
      * @return NF_Exports_SubmissionCollectionFilterParameters
      */
-    public function setPreviouslyExported(bool $previouslyExported=null) {
+    public function setPreviouslyExported(?bool $previouslyExported=null) {
         $this->previouslyExported = $previouslyExported;
         return $this;
     }
@@ -160,7 +160,7 @@ class NF_Exports_SubmissionCollectionFilterParameters {
      * @param int $maxReturnCount
      * @return NF_Exports_SubmissionCollectionFilterParameters
      */
-    public function setMaxReturnCount(int $maxReturnCount=null) {
+    public function setMaxReturnCount(?int $maxReturnCount=null) {
         $this->maxReturnCount = $maxReturnCount;
         return $this;
     }
@@ -171,7 +171,7 @@ class NF_Exports_SubmissionCollectionFilterParameters {
      * @param bool $useAdminLabels
      * @return NF_Exports_SubmissionCollectionFilterParameters
      */
-    public function setUseAdminLabels(bool $useAdminLabels=null) {
+    public function setUseAdminLabels(?bool $useAdminLabels=null) {
         $this->useAdminLabels = $useAdminLabels;
         return $this;
     }
@@ -182,7 +182,7 @@ class NF_Exports_SubmissionCollectionFilterParameters {
      * @param array $hiddenFieldTypes
      * @return NF_Exports_SubmissionCollectionFilterParameters
      */
-    public function setHiddenFieldTypes(array $hiddenFieldTypes=null) {
+    public function setHiddenFieldTypes(?array $hiddenFieldTypes=null) {
         $this->hiddenFieldTypes = $hiddenFieldTypes;
         return $this;
     }

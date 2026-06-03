@@ -523,7 +523,10 @@ class SubmissionAggregateCsvExportAdapter
 
         $filtered = apply_filters('nf_subs_export_pre_value', $rawValue, $fieldId);
         $filtered = apply_filters('ninja_forms_subs_export_pre_value', $filtered, $fieldId, $formId);
-        $filtered = apply_filters('ninja_forms_subs_export_field_value_' . $fieldType, $filtered, $nfField);  
+        $filtered = apply_filters('ninja_forms_subs_export_field_value_' . $fieldType, $filtered, $nfField);
+
+        // Decode HTML entities stored in database before CSV output (Issue #4003)
+        $filtered = \WPN_Helper::html_entity_decode($filtered, ENT_QUOTES | ENT_HTML5);
 
         return $filtered;
     }

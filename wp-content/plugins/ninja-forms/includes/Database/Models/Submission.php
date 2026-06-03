@@ -185,15 +185,15 @@ class NF_Database_Models_Submission
     {
         // Bypass existing method if fieldset repeater
         if(Ninja_Forms()->fieldsetRepeater->isRepeaterFieldByFieldReference($field_ref) ){
-            
+
             $parsedField = Ninja_Forms()->fieldsetRepeater
                     ->parseFieldsetFieldReference($field_ref);
-            
+
             $return = $this->get_field_value_for_fieldset_child($parsedField['fieldId'], $parsedField['fieldsetFieldId']);
-            
+
             return $return;
         }
-        
+
         $field_id = ( is_numeric( $field_ref ) ) ? $field_ref : $this->get_field_id_by_key( $field_ref );
 
         $field = '_field_' . $field_id;

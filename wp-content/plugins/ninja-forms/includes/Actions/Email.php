@@ -9,7 +9,7 @@ if (! defined('ABSPATH')) exit; //@codeCoverageIgnore
 /**
  * Class NF_Action_Email
  */
-final class NF_Actions_Email extends SotAction implements InterfacesSotAction
+class NF_Actions_Email extends SotAction implements InterfacesSotAction
 {
     use SotGetActionProperties;
 
@@ -299,7 +299,7 @@ final class NF_Actions_Email extends SotAction implements InterfacesSotAction
         return $recipient;
     }
 
-    private function _create_csv($fields, $form_id = 0)
+    protected function _create_csv($fields, $form_id = 0)
     {
         $csv_array = array();
 
@@ -327,7 +327,7 @@ final class NF_Actions_Email extends SotAction implements InterfacesSotAction
             if (! isset($field['label'])) continue;
             if (in_array($field['type'], $ignore)) continue;
 
-            $label = ('' != $field['admin_label']) ? $field['admin_label'] : $field['label'];
+            $label = (isset($field['admin_label']) && '' != $field['admin_label']) ? $field['admin_label'] : $field['label'];
             // Escape labels.
             $label = WPN_Helper::maybe_escape_csv_column($label);
 
@@ -360,6 +360,13 @@ final class NF_Actions_Email extends SotAction implements InterfacesSotAction
                                 $field_value = WPN_Helper::stripslashes($field_value);
                             }
 
+                            // Handle array values (e.g., checkbox selections within repeaters)
+                            if (is_array($field_value)) {
+                                $field_value = implode(',', array_map(function ($v) {
+                                    return is_array($v) ? implode(',', $v) : $v;
+                                }, $field_value));
+                            }
+
                             $value .= $field_model['label'] . "#" . $index_found . " : " . $field_value . " \n";
                         };
                     }
@@ -376,7 +383,15 @@ final class NF_Actions_Email extends SotAction implements InterfacesSotAction
                     $value = '';
                 }
                 if (is_array($value)) {
-                    $value = implode(',', $value);
+                    // Handle nested arrays (e.g., repeater fields without 'fields' metadata)
+                    $value = implode(',', array_map(function ($v) {
+                        if (is_array($v)) {
+                            return implode(',', array_map(function ($inner) {
+                                return is_array($inner) ? implode(',', $inner) : $inner;
+                            }, $v));
+                        }
+                        return $v;
+                    }, $value));
                 }
             }
 

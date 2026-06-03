@@ -216,18 +216,38 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
             $newColumnValues = $columnValues;
             $repeaterValuesArray = [];
             unset($newColumnValues['repeater']);
-            $row = array_merge($row, $newColumnValues);
-            //Extract Repeater rows
+            
+            // FIX Issue #6863 and #6589: Store base row separately to prevent value carryover
+            $baseRow = array_merge($row, $newColumnValues);
+            
+            // Get all repeater field keys for initialization
+            $allRepeaterFieldKeys = array_keys($columnValues['repeater']);
+            
+            //Extract Repeater rows and find max repetition count
+            $maxRepetitions = 0;
             foreach($columnValues['repeater'] as $repeaterFieldID => $repeaterFieldsetRowValue){
+                $maxRepetitions = max($maxRepetitions, count($repeaterFieldsetRowValue));
                 foreach($repeaterFieldsetRowValue as $index => $fieldsetValue){
                     $repeaterValuesArray[$index][$repeaterFieldID] = $fieldsetValue; 
                 }
             }
+            
             //insert global row data in repeater rows
-            foreach($repeaterValuesArray as $rowIncludingRepeaterData){
-                $row = array_merge($row, $rowIncludingRepeaterData);
-                $strippedRows["repeater"][] = WPN_Helper::stripslashes($row);
-            } 
+            // FIX: Create fresh row each iteration from baseRow to prevent value carryover
+            for($i = 0; $i < $maxRepetitions; $i++){
+                // Start with fresh copy of base row each iteration
+                $currentRow = $baseRow;
+                
+                // Add repeater values for this index
+                // FIX Issue #6589: Use empty string for missing repeater values instead of carrying over
+                foreach($allRepeaterFieldKeys as $repeaterFieldKey){
+                    $currentRow[$repeaterFieldKey] = isset($repeaterValuesArray[$i][$repeaterFieldKey]) 
+                        ? $repeaterValuesArray[$i][$repeaterFieldKey] 
+                        : '';
+                }
+                
+                $strippedRows["repeater"][] = WPN_Helper::stripslashes($currentRow);
+            }
 
             return $strippedRows;
 
@@ -349,7 +369,7 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
      * @param string $dateFormat
      * @return SubmissionCsvExportInterface
      */
-    public function setDateFormat(string $dateFormat = null): SubmissionCsvExportInterface
+    public function setDateFormat(?string $dateFormat = null): SubmissionCsvExportInterface
     {
         if(!empty($dateFormat)) {
             //Set new date format
