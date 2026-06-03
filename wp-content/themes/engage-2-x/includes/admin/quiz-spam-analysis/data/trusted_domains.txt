@@ -1,0 +1,5 @@
+# Trusted owner-email domains (hostname after @). Never flagged disposable; subdomains match (e.g. news.example.com).
+# One domain per line; lines starting with # are ignored.
+vernonmorningstar.com
+nanaimobulletin.com
+yukon-news.com

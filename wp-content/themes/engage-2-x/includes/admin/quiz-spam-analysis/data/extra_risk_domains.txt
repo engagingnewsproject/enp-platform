@@ -1,0 +1,6 @@
+# Extra throwaway or suspicious email domains for YOUR site (part after @), one per line.
+# Add domains here when you spot spam signups that are not in disposable_email_domains.txt.
+# Lines starting with # are ignored.
+1secmail.com
+sata.lyvix.org
+quantumnest.lat
