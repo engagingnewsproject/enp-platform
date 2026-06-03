@@ -319,7 +319,12 @@ class NF_Admin_Processes_ExportSubmissions extends NF_Abstracts_BatchProcess
         }
 
         $file_path = trailingslashit($upload_dir['basedir']) . 'ninja-forms-tmp/' . $filename . '.' . $this->format;
-        $this->fileUrl = trailingslashit($upload_dir['baseurl']) . 'ninja-forms-tmp/' . $filename . '.' . $this->format;
+        // Fix mixed content: ensure download URL uses same protocol as current request (Issue #6287)
+        $uploadUrl = $upload_dir['baseurl'];
+        if (is_ssl()) {
+            $uploadUrl = set_url_scheme($uploadUrl, 'https');
+        }
+        $this->fileUrl = trailingslashit($uploadUrl) . 'ninja-forms-tmp/' . $filename . '.' . $this->format;
         return $file_path;
     }
 

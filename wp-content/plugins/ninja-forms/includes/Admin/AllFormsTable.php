@@ -191,6 +191,10 @@ class NF_Admin_AllFormsTable extends WP_List_Table
     function column_title( $item )
     {
         $title = $item[ 'title' ];
+        // Issue #7876: Provide fallback for blank form names to ensure accessibility
+        if ( empty( trim( $title ?? '' ) ) ) {
+            $title = sprintf( esc_html__( 'Untitled Form #%d', 'ninja-forms' ), $item['id'] );
+        }
         $edit_url = add_query_arg( 'form_id', $item[ 'id' ], admin_url( 'admin.php?page=ninja-forms') );
         $delete_url = add_query_arg( array( 'action' => 'delete', 'id' => $item[ 'id' ], '_wpnonce' => wp_create_nonce( 'nf_delete_form' )));
         $duplicate_url = add_query_arg( array( 'action' => 'duplicate', 'id' => $item[ 'id' ], '_wpnonce' => wp_create_nonce( 'nf_duplicate_form' )));

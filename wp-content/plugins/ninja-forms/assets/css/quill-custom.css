@@ -363,3 +363,30 @@
     outline: 2px solid #0073aa !important;
     outline-offset: 1px !important;
 }
+
+/* Blot Formatter - Image Resize Handles (#7879) */
+.ql-container {
+    overflow: visible !important;
+}
+
+.blot-formatter__overlay {
+    z-index: 999 !important;
+}
+
+.blot-formatter__resize-handle {
+    z-index: 1000 !important;
+}
+
+.blot-formatter__toolbar {
+    z-index: 1001 !important;
+}
+
+/* Ensure the setting wrapper allows overflow for resize handles */
+.nf-setting-wrap .setting {
+    overflow: visible !important;
+}
+
+/* Prevent drawer from clipping the formatter when active */
+#nf-drawer .nf-setting-wrap:has(.blot-formatter__overlay) {
+    overflow: visible !important;
+}

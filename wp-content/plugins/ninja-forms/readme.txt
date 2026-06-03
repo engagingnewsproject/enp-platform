@@ -4,7 +4,7 @@ Tags: forms, form builder, contact form, lead form, registration form
 
 Requires at least: 6.7
 Tested up to: 6.9
-Stable tag: 3.14.3
+Stable tag: 3.14.5
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -310,24 +310,44 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.14.3 (29 April 2026) =
+= 3.14.5 (19 May 2026) =
 
 *Bug Fixes:*
 
-- fix Quill.js Rich Text Editor table functionality not working properly
-- fix HTML being sanitized/stripped when saving Quill.js RTE content
-- fix Quill.js CSS conflicts with certain add-ons
-- fix ESC key removing HTML content from success messages with calculations
-- fix PHP warning for undefined array key "payment_total_type"
-- fix radio and checkbox field alignment for RTL languages
-
-*Enhancements:*
-
-- improve color contrast for form names on dashboard to meet WCAG 2.2 AA standards
-- improve color contrast for "Add New" button on dashboard to meet WCAG AA standards
-- add ARIA attributes, keyboard navigation, and focus styles to Quill.js RTE
+- fix Rich Text Editor content displaying as raw HTML in submissions modal
+- fix HTML entity decoding in Rich Text Editor fields
+- fix Quill Rich Text Editor inline text alignment not being preserved
+- fix unordered list content being stripped in Quill Rich Text Editor
+- fix ordered list items getting unwanted markup injected in Quill Rich Text Editor
+- limit telemetry to admin only
 
 == Changelog ==
+= 3.14.5 (19 May 2026) =
+
+*Bug Fixes:*
+
+- fix Rich Text Editor content displaying as raw HTML in submissions modal
+- fix HTML entity decoding in Rich Text Editor fields
+- fix Quill Rich Text Editor inline text alignment not being preserved
+- fix unordered list content being stripped in Quill Rich Text Editor
+- fix ordered list items getting unwanted markup injected in Quill Rich Text Editor
+- limit telemetry to admin only
+
+= 3.14.4 (11 May 2026) =
+
+*Bug Fixes:*
+
+- fix repeater field data showing as "Array" in email CSV attachments
+- fix mixed content blocking CSV downloads
+- fix CSV export with multiple repeater fields
+- fix repeater fieldset data misalignment in CSV exports
+- fix phone numbers with plus sign getting apostrophe prefix in CSV
+- fix decimal precision loss in number fields
+- fix form title showing blank for accessibility compliance
+- fix Quill Rich Text Editor placeholder initialization
+- fix merge tags with spaces in names not being recognized
+- fix PHP 8.4 nullable type deprecation warnings
+
 = 3.14.3 (29 April 2026) =
 
 *Bug Fixes:*

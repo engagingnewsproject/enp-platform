@@ -18,7 +18,7 @@
 * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 class Tiny_Plugin extends Tiny_WP_Base {
-	const VERSION         = '3.6.8';
+	const VERSION         = '3.6.14';
 	const MEDIA_COLUMN    = self::NAME;
 	const DATETIME_FORMAT = 'Y-m-d G:i:s';
 
@@ -861,6 +861,14 @@ class Tiny_Plugin extends Tiny_WP_Base {
 		$tiny_image->delete_converted_image();
 	}
 
+	/**
+	 * Runs on uninstall
+	 *
+	 * @return void
+	 */
+	public static function uninstall() {
+		Tiny_Apache_Rewrite::uninstall_rules();
+	}
 
 	public function mark_image_as_compressed() {
 		$response = $this->validate_ajax_attachment_request();

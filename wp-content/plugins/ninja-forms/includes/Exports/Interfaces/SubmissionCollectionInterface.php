@@ -48,14 +48,14 @@ interface NF_Exports_Interfaces_SubmissionCollectionInterface {
      * 
      * @param bool $isUnread
      */
-    public function setIsUnreadParameter(bool $isUnread=null)/* :NF_Exports_Interfaces_SubmissionCollectionInterface */;
+    public function setIsUnreadParameter(?bool $isUnread=null)/* :NF_Exports_Interfaces_SubmissionCollectionInterface */;
 
     /**
      * Set parameter to filter submissions by `previouslyExported` = true or false
      * 
      * @param bool $previouslyExported
      */
-    public function setPreviouslyExportedParameter(bool $previouslyExported=null)/* :NF_Exports_Interfaces_SubmissionCollectionInterface */;
+    public function setPreviouslyExportedParameter(?bool $previouslyExported=null)/* :NF_Exports_Interfaces_SubmissionCollectionInterface */;
 
     /**
      * Set max number of submissions to return in a request

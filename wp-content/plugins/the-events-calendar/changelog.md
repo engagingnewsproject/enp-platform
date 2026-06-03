@@ -1,5 +1,25 @@
 # Changelog
 
+### [6.16.3] 2026-05-28
+
+* Fix - Ensure no past Event dates are shown in the Title meta tag on Events archive and single views. [TEC-5759]
+* Fix - Resolved an issue where the category legend superpowers filter would not apply in a day with multiple events from different categories. [ECP-2016]
+* Language - 1 new strings added, 65 updated, 1 fuzzied, and 4 obsoleted.
+
+### [6.16.2] 2026-05-14
+
+* Tweak - Update Harbor to 1.2.0, removing the Liquid Web Products page when there are no premium plugins present.
+
+### [6.16.1] 2026-05-12
+
+* Tweak - Update Harbor to version 1.1.0 to remove the top level Liquid Web page added to the dashboard.
+
+### [6.16.0] 2026-05-11
+
+* Feature - Integrate with Nexcess Licensing and Portal.
+* Tweak - Added filters: `tec_events_aggregator_harbor_took_over`
+* Tweak - Updated branding references from StellarWP to Nexcess.
+
 ### [6.15.20] 2026-04-08
 
 * Fix - Make SSR respect AJAX pagination so direct page URLs no longer return 404s. [TEC-5754]
