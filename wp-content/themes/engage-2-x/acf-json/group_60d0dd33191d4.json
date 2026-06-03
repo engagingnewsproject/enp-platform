@@ -212,7 +212,8 @@
                     "display_format": "F j, Y",
                     "return_format": "F j, Y",
                     "first_day": 1,
-                    "parent_repeater": "field_6216b2efd1aa3"
+                    "parent_repeater": "field_6216b2efd1aa3",
+                    "default_to_current_date": 0
                 },
                 {
                     "key": "field_6216b363d1aa7",
@@ -524,5 +525,8 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1746745751
+    "display_title": "",
+    "allow_ai_access": false,
+    "ai_description": "",
+    "modified": 1779206899
 }

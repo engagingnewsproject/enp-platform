@@ -19,7 +19,7 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
 
     protected $_test_value = 0;
 
-    protected $_settings =  array( 'checkbox_default_value', 'checkbox_values', 'checked_calc_value', 'unchecked_calc_value' );
+    protected $_settings =  array( 'checkbox_default_value', 'checkbox_values', 'checked_value', 'unchecked_value', 'checked_calc_value', 'unchecked_calc_value' );
 
     protected $_settings_exclude = array( 'default', 'placeholder', 'input_limit_set' );
 
@@ -40,6 +40,8 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
         add_filter( 'ninja_forms_merge_tag_value_' . $this->_name, array( $this, 'filter_merge_tag_value' ), 10, 2 );
         add_filter( 'ninja_forms_merge_tag_calc_value_' . $this->_name, array( $this, 'filter_merge_tag_value_calc' ), 10, 2 );
         add_filter( 'ninja_forms_subs_export_field_value_' . $this->_type, array( $this, 'export_value' ), 10, 2 );
+        add_filter( 'ninja_forms_localize_field_' . $this->_name, array( $this, 'localize_field' ) );
+        add_filter( 'ninja_forms_localize_field_' . $this->_name . '_preview', array( $this, 'localize_field' ) );
     }
 
     /**
@@ -112,10 +114,27 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
      */
     public function filter_merge_tag_value( $value, $field )
     {
-        // If value is true, return checked value setting.
-        if( $field[ 'settings' ][ 'value' ] ) return $field[ 'settings' ][ 'checked_value' ];
-        // Else return unchecked value setting.
-        return $field[ 'settings' ][ 'unchecked_value' ];
+        $default_checked = esc_html__( 'Checked', 'ninja-forms' );
+        $default_unchecked = esc_html__( 'Unchecked', 'ninja-forms' );
+
+        // Check for display values first, fall back to calc values
+        if( $value ) {
+            // Checkbox is checked
+            if ( isset( $field[ 'settings' ][ 'checked_value' ] ) && ! empty( $field[ 'settings' ][ 'checked_value' ] ) && $field[ 'settings' ][ 'checked_value' ] !== $default_checked ) {
+                return $field[ 'settings' ][ 'checked_value' ];
+            } elseif ( isset( $field[ 'settings' ][ 'checked_calc_value' ] ) && $field[ 'settings' ][ 'checked_calc_value' ] !== '' ) {
+                return $field[ 'settings' ][ 'checked_calc_value' ];
+            }
+            return $default_checked;
+        } else {
+            // Checkbox is unchecked
+            if ( isset( $field[ 'settings' ][ 'unchecked_value' ] ) && ! empty( $field[ 'settings' ][ 'unchecked_value' ] ) && $field[ 'settings' ][ 'unchecked_value' ] !== $default_unchecked ) {
+                return $field[ 'settings' ][ 'unchecked_value' ];
+            } elseif ( isset( $field[ 'settings' ][ 'unchecked_calc_value' ] ) && $field[ 'settings' ][ 'unchecked_calc_value' ] !== '' ) {
+                return $field[ 'settings' ][ 'unchecked_calc_value' ];
+            }
+            return $default_unchecked;
+        }
     }
 
     /**
@@ -130,7 +149,7 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
     public function filter_merge_tag_value_calc( $value, $field )
     {
         // If checkbox is checked (using same logic as filter_merge_tag_value)...
-        if ( ! empty( $field[ 'settings' ][ 'value' ] ) ) {
+        if ( ! empty( $value ) ) {
             // ...return the checked calc value of the field model.
             return $field[ 'checked_calc_value' ];
         } else {
@@ -180,5 +199,41 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
         } elseif ( 0 == $value ) {
             return esc_html__( 'unchecked', 'ninja-forms' );
         }
+    }
+
+    /**
+     * Localize Field
+     * Pass checkbox display values to JavaScript for front-end merge tag replacement.
+     * Exposes resolved checked/unchecked values at the top level so
+     * fieldModel.get('checked_value') works in JavaScript.
+     *
+     * @since 3.14.2
+     *
+     * @param array $field
+     * @return array
+     */
+    public function localize_field( $field )
+    {
+        $default_checked = esc_html__( 'Checked', 'ninja-forms' );
+        $default_unchecked = esc_html__( 'Unchecked', 'ninja-forms' );
+
+        // Check for display values first, fall back to calc values if not set
+        if ( isset( $field['settings']['checked_value'] ) && ! empty( $field['settings']['checked_value'] ) && $field['settings']['checked_value'] !== $default_checked ) {
+            $field['checked_value'] = $field['settings']['checked_value'];
+        } elseif ( isset( $field['settings']['checked_calc_value'] ) && $field['settings']['checked_calc_value'] !== '' ) {
+            $field['checked_value'] = $field['settings']['checked_calc_value'];
+        } else {
+            $field['checked_value'] = $default_checked;
+        }
+
+        if ( isset( $field['settings']['unchecked_value'] ) && ! empty( $field['settings']['unchecked_value'] ) && $field['settings']['unchecked_value'] !== $default_unchecked ) {
+            $field['unchecked_value'] = $field['settings']['unchecked_value'];
+        } elseif ( isset( $field['settings']['unchecked_calc_value'] ) && $field['settings']['unchecked_calc_value'] !== '' ) {
+            $field['unchecked_value'] = $field['settings']['unchecked_calc_value'];
+        } else {
+            $field['unchecked_value'] = $default_unchecked;
+        }
+
+        return $field;
     }
 }

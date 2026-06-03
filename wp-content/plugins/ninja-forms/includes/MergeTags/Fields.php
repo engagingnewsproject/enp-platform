@@ -231,7 +231,7 @@ class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
 
         $list_fields_types = array('listcheckbox', 'listmultiselect', 'listradio', 'listselect');
 
-        if (is_array($field['value']) && $field['type'] !== "repeater") $field['value'] = implode(',', $field['value']);
+        if (is_array($field['value']) && $field['type'] !== "repeater" && $field['type'] !== 'file_upload') $field['value'] = implode(',', $field['value']);
 
         $field['value'] = $this->stripShortcodesMaybeFieldset($field_id,$field['value']);
 

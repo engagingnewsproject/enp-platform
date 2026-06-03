@@ -42,55 +42,28 @@
 			@include media($tablet) {
 				@include flex-width(25%);
 			}
-			@supports (display: grid) {
-				grid-template-rows: max-content max-content max-content 1fr;
-			}
+			grid-template-rows: max-content max-content max-content 1fr;
 			.emoji {
 				font-size: xx-large;
 			}
 		}
 	}
 }
-@supports not (display: flex) {
-	.quiz-creator-benefits {
-		padding: 0;
-		.tile-stats {
-			clear: right;
-			.tile {
-				@include media($phablet) {
-					width: 23%;
-					float: left;
-					margin-right: $spacer-sm;
-				}
-			}
+.quiz-creator-benefits {
+	padding: 0;
+	.tile-stats {
+		display: flex;
+		flex-flow: column wrap;
+		justify-content: center;
+		grid-template-columns: 25% 25% 25% 25%;
+		@include media($phablet) {
+			flex-flow: row nowrap;
+			justify-content: space-between;
 		}
-	}
-}
-
-@supports (display: flex) {
-	.quiz-creator-benefits {
-		padding: 0;
-		.tile-stats {
-			display: flex;
-			flex-flow: column wrap;
-			justify-content: center;
+		.tile {
 			@include media($phablet) {
-				flex-flow: row nowrap;
-				justify-content: space-between;
+				@include flex-width(22%);
 			}
-			.tile {
-				@include media($phablet) {
-					@include flex-width(22%);
-				}
-			}
-		}
-	}
-}
-
-@supports (display: grid) {
-	.quiz-creator-benefits {
-		.tile-stats {
-			grid-template-columns: 25% 25% 25% 25%;
 		}
 	}
 }

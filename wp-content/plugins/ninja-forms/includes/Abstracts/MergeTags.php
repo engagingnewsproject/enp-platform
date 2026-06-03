@@ -65,6 +65,7 @@ abstract class NF_Abstracts_MergeTags
         if( is_array($subject) && isset($subject['objectType']) && 'Action' == $subject['objectType'] ) {
             // Make sure that payment totals use calc values.
             if( isset($subject['payment_total'])
+                && isset($subject['payment_total_type'])
                 && $subject['payment_total_type'] == 'field'
                 && ! is_numeric($subject['payment_total'])
                 && ! strpos($subject['payment_total'], ':calc}') )

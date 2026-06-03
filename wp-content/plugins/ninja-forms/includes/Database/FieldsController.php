@@ -144,7 +144,12 @@ class NF_Database_FieldsController
 
                     //Sanitize string settings if disallow_unfiltered_html is true
                     if(is_string($field_data[ 'settings' ][ $setting_name ]) && WPN_Helper::maybe_disallow_unfiltered_html_for_sanitization()) {
-                        $field_data[ 'settings' ][ $setting_name ] = WPN_Helper::sanitize_string_setting_value($setting_name, $field_data[ 'settings' ][ $setting_name ]);
+                        $field_type = isset($field_data['settings']['type']) ? $field_data['settings']['type'] : '';
+                        if ($setting_name === 'default' && in_array($field_type, ['html', 'note', 'textarea'])) {
+                            $field_data[ 'settings' ][ $setting_name ] = wp_kses_post($field_data[ 'settings' ][ $setting_name ]);
+                        } else {
+                            $field_data[ 'settings' ][ $setting_name ] = WPN_Helper::sanitize_string_setting_value($setting_name, $field_data[ 'settings' ][ $setting_name ]);
+                        }
                     }
 
                     $value = $field_data[ 'settings' ][ $setting_name ];
@@ -215,7 +220,12 @@ class NF_Database_FieldsController
 
                 //Sanitize string settings if disallow_unfiltered_html is true
                 if(is_string($value) && WPN_Helper::maybe_disallow_unfiltered_html_for_sanitization()){
-                    $field_data[ 'settings' ][$key] = WPN_Helper::sanitize_string_setting_value($key, $value);
+                    $field_type = isset($field_data['settings']['type']) ? $field_data['settings']['type'] : '';
+                    if ($key === 'default' && in_array($field_type, ['html', 'note', 'textarea'])) {
+                        $field_data[ 'settings' ][$key] = wp_kses_post($value);
+                    } else {
+                        $field_data[ 'settings' ][$key] = WPN_Helper::sanitize_string_setting_value($key, $value);
+                    }
                 }
 
                 // we don't need object type or domain stored in the db

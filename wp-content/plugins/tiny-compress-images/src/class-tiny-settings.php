@@ -29,7 +29,7 @@ class Tiny_Settings extends Tiny_WP_Base {
 
 	public function __construct() {
 		parent::__construct();
-		$this->notices = new Tiny_Notices();
+		$this->notices = new Tiny_Notices( $this );
 		new Tiny_Diagnostics( $this );
 	}
 
@@ -420,6 +420,15 @@ class Tiny_Settings extends Tiny_WP_Base {
 		return array( 'image/avif', 'image/webp' );
 	}
 
+	/**
+	 * Retrieve the image delivery method.
+	 *
+	 * @return string The delivery method: 'picture' or 'htaccess'. Default is 'picture'.
+	 */
+	public function get_conversion_delivery_method() {
+		return self::get_convert_format_option( 'delivery_method', 'picture' );
+	}
+
 	private function setup_incomplete_checks() {
 		if ( ! $this->get_api_key() ) {
 			$this->notices->api_key_missing_notice();
@@ -652,85 +661,6 @@ class Tiny_Settings extends Tiny_WP_Base {
 		echo '</p>';
 	}
 
-	public function render_resize() {
-		$strong = array(
-			'strong' => array(),
-		);
-
-		echo '<div class="tiny-resize-unavailable" style="display: none">';
-		esc_html_e(
-			'Enable compression of the original image size for more options.',
-			'tiny-compress-images'
-		);
-		echo '</div>';
-
-		$id      = self::get_prefixed_name( 'resize_original_enabled' );
-		$name    = self::get_prefixed_name( 'resize_original[enabled]' );
-		$checked = ( $this->get_resize_enabled() ? ' checked="checked"' : '' );
-
-		$label = esc_html__(
-			'Resize the original image',
-			'tiny-compress-images'
-		);
-
-		echo '<div class="tiny-resize-available">';
-		echo '<input  type="checkbox" id="' . $id . '" name="' . $name .
-			'" value="on" ' . $checked . '/>';
-		echo '<label for="' . $id . '">' . $label . '</label><br>';
-
-			echo '<div class="tiny-resize-available tiny-resize-resolution">';
-		echo '<span>';
-			echo wp_kses(
-				__(
-					// phpcs:ignore Generic.Files.LineLength
-					'<strong>Save space</strong> by setting a maximum width and height for all images uploaded.',
-					'tiny-compress-images'
-				),
-				$strong
-			);
-		echo '<br>';
-			echo wp_kses(
-				__(
-					// phpcs:ignore Generic.Files.LineLength
-					'Resizing takes <strong>1 additional compression</strong> for each image that is larger.',
-					'tiny-compress-images'
-				),
-				$strong
-			);
-		echo '</span>';
-		echo '<div class="tiny-resize-inputs">';
-		printf( '%s: ', esc_html__( 'Max Width', 'tiny-compress-images' ) );
-		$this->render_resize_input( 'width' );
-		printf( '%s: ', esc_html__( 'Max Height', 'tiny-compress-images' ) );
-		$this->render_resize_input( 'height' );
-		echo '</div></div></div>';
-
-		$this->render_preserve_input(
-			'creation',
-			esc_html__(
-				'Preserve creation date and time in the original image',
-				'tiny-compress-images'
-			)
-		);
-
-		$this->render_preserve_input(
-			'copyright',
-			esc_html__(
-				'Preserve copyright information in the original image',
-				'tiny-compress-images'
-			)
-		);
-
-		$this->render_preserve_input(
-			'location',
-			esc_html__(
-				'Preserve GPS location in the original image',
-				'tiny-compress-images'
-			) . ' ' .
-				esc_html__( '(JPEG only)', 'tiny-compress-images' )
-		);
-	}
-
 	public function render_compression_timing_radiobutton(
 		$name,
 		$label,
@@ -767,25 +697,23 @@ class Tiny_Settings extends Tiny_WP_Base {
 	}
 
 	public function render_preserve_input( $name, $description ) {
-		echo '<p class="tiny-preserve">';
-		$id      = sprintf( self::get_prefixed_name( 'preserve_data_%s' ), $name );
-		$field   = sprintf( self::get_prefixed_name( 'preserve_data[%s]' ), $name );
-		$checked = ( $this->get_preserve_enabled( $name ) ? ' checked="checked"' : '' );
-		$label   = esc_html( $description, 'tiny-compress-images' );
-		echo '<input type="checkbox" id="' . $id . '" name="' . $field .
-			'" value="on" ' . $checked . '/>';
-		echo '<label for="' . $id . '">' . $label . '</label>';
-		echo '<br>';
-		echo '</p>';
+		$data = array(
+			'id'      => sprintf( self::get_prefixed_name( 'preserve_data_%s' ), $name ),
+			'field'   => sprintf( self::get_prefixed_name( 'preserve_data[%s]' ), $name ),
+			'checked' => $this->get_preserve_enabled( $name ),
+			'label'   => $description,
+		);
+		include plugin_dir_path( __FILE__ ) . 'views/settings-original-image-preserve.php';
 	}
 
 	public function render_resize_input( $name ) {
-		$id       = sprintf( self::get_prefixed_name( 'resize_original_%s' ), $name );
-		$field    = sprintf( self::get_prefixed_name( 'resize_original[%s]' ), $name );
 		$settings = get_option( self::get_prefixed_name( 'resize_original' ) );
-		$value    = isset( $settings[ $name ] ) ? $settings[ $name ] : '2048';
-		echo '<input type="number" id="' . $id . '" name="' . $field .
-			'" value="' . $value . '" size="5" />';
+		$data     = array(
+			'id'    => sprintf( self::get_prefixed_name( 'resize_original_%s' ), $name ),
+			'field' => sprintf( self::get_prefixed_name( 'resize_original[%s]' ), $name ),
+			'value' => isset( $settings[ $name ] ) ? $settings[ $name ] : '2048',
+		);
+		include plugin_dir_path( __FILE__ ) . 'views/settings-original-image-original.php';
 	}
 
 	public function get_compression_count() {
@@ -1013,93 +941,58 @@ class Tiny_Settings extends Tiny_WP_Base {
 
 
 	public function render_format_conversion() {
-		echo '<div class="conversion-options">';
-
-		$convertopts_convert         = self::get_prefixed_name( 'convert_format[convert]' );
-		$convertopts_convert_id      = self::get_prefixed_name( 'conversion_convert' );
-		$convertopts_convert_checked = $this->get_conversion_enabled() ?
-			' checked="checked"' : '';
-
-		echo '<p class="tiny-check">';
-		echo '<input type="checkbox" id="' . $convertopts_convert_id . '" ';
-		echo 'name="' . $convertopts_convert . '" ';
-		echo 'value="on"' . $convertopts_convert_checked . '/>';
-		echo '<label for="' . $convertopts_convert_id . '">' .
-			esc_html__( 'Generate optimized image formats', 'tiny-compress-images' ) .
-			'</label>';
-		echo '</p>';
-
-		$convertopts_convert_to_name             =
-			self::get_prefixed_name( 'convert_format[convert_to]' );
-		$convertopts_convert_subfields_classname =
-		self::get_prefixed_name( 'convert_fields' );
-		$convertopts_convert_to_id               = self::get_prefixed_name( 'convert_convert_to' );
-		$convertopts_convert_value               =
-			self::get_convert_format_option( 'convert_to', 'smallest' );
-		$convertopts_convert_disabled            =
-			self::get_conversion_enabled() ? '' : ' disabled="disabled"';
-		echo sprintf(
-			'<fieldset class="%s" id="%s" %s>',
-			$convertopts_convert_subfields_classname,
-			$convertopts_convert_to_id,
-			$convertopts_convert_disabled
-		);
-		echo '<h4>' . __( 'Conversion output', 'tiny-compress-images' ) . '</h4>';
-		self::render_convert_to_radiobutton(
-			$convertopts_convert_to_name,
-			sprintf( self::get_prefixed_name( 'convert_convert_to_%s' ), 'smallest' ),
-			'smallest',
-			$convertopts_convert_value,
-			__( 'Convert to smallest file type (Recommended)', 'tiny-compress-images' ),
-			__(
-				'We will calculate what is the best format for your image.',
-				'tiny-compress-images'
-			)
-		);
-		self::render_convert_to_radiobutton(
-			$convertopts_convert_to_name,
-			sprintf( self::get_prefixed_name( 'convert_convert_to_%s' ), 'webp' ),
-			'webp',
-			$convertopts_convert_value,
-			__( 'Convert to WebP', 'tiny-compress-images' ),
-			__(
-				'WebP balances a small file size with good visual quality, 
-				supporting transparency and animation.',
-				'tiny-compress-images'
-			)
-		);
-		self::render_convert_to_radiobutton(
-			$convertopts_convert_to_name,
-			sprintf( self::get_prefixed_name( 'convert_convert_to_%s' ), 'avif' ),
-			'avif',
-			$convertopts_convert_value,
-			__( 'Convert to AVIF', 'tiny-compress-images' ),
-			__(
-				'AVIF delivers even better compression and image quality than WebP.
-			 Browser support is not as good as WebP.',
-				'tiny-compress-images'
-			)
-		);
-		echo '</fieldset>';
-		echo '</div>';
+		include __DIR__ . '/views/settings-conversion.php';
 	}
 
-	private static function render_convert_to_radiobutton(
-		$name,
-		$id,
-		$value,
-		$current,
+	private static function render_radiobutton(
+		$group_name,
+		$option_id,
+		$option_value,
+		$current_value,
 		$label,
 		$descr
 	) {
-		$checked = ( $current === $value ? ' checked="checked"' : '' );
+		$checked = ( $current_value === $option_value ? ' checked="checked"' : '' );
 		echo '<p class="tiny-radio">';
-		echo '<input type="radio" id="' . $id . '" name="' . $name .
-			'" value="' . $value . '" ' . $checked . '/>';
-		echo '<label for="' . $id . '">' . $label;
-		echo '<span>' . $descr . '</span>';
+		echo '<input type="radio" data-testid="' . esc_attr( $option_id ) . '" ';
+		echo 'id="' . esc_attr( $option_id ) . '" name="' . $group_name .
+			'" value="' . esc_attr( $option_value ) . '" ' . $checked . '/>';
+		echo '<label for="' . esc_attr( $option_id ) . '">' . esc_html( $label );
+		echo '<span>' . esc_html( $descr ) . '</span>';
 		echo '</label>';
 		echo '</p>';
+	}
+
+
+	/**
+	 * @return bool true if apache with mod_rewrite loaded
+	 */
+	private static function can_render_delivery_method() {
+		global $is_apache;
+		if ( ! $is_apache ) {
+			return false;
+		}
+
+		if (
+			! function_exists( 'apache_mod_loaded' ) ||
+			! function_exists( 'apache_get_modules' )
+		) {
+			return false;
+		}
+
+		$modules = apache_get_modules();
+		return in_array( 'mod_rewrite', $modules, true );
+	}
+
+	/**
+	 * If possible, render the delivery method settings view.
+	 */
+	public function render_delivery_method() {
+		if ( ! self::can_render_delivery_method() ) {
+			return;
+		}
+
+		include __DIR__ . '/views/settings-conversion-delivery.php';
 	}
 
 	private static function get_convert_format_option( $option, $default_value ) {

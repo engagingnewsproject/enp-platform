@@ -126,7 +126,7 @@ class NF_Admin_Processes_ExpiredSubmissionCleanup extends NF_Abstracts_BatchProc
         $sub = Ninja_Forms()->form( $form_id )->get_subs();
         foreach( $sub as $sub_model ) {
             // Get the sub date and change it to a UNIX time stamp.
-            $sub_timestamp = strtotime( $sub_model->get_sub_date( 'Y-m-d') );
+            $sub_timestamp = strtotime( $sub_model->get_sub_date( 'Y-m-d H:i:s') );
             // Compare our timestamps and any expired subs to the array.
             if( $sub_timestamp <= $deletion_timestamp ) {
                 $expired_subs[] = $sub_model->get_id();
