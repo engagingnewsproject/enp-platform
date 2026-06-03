@@ -87,7 +87,7 @@ class Quiz {
     }
 
     /**
-     * Hide "Add New" on the quiz list; allow Sync Quizzes and Analyse Quizzes (see page-title-action__* classes).
+     * Hide "Add New" on the quiz list; allow Sync, Analyse, and Export (disposable embeds) title actions.
      * Constrains the Embed Sites column so long URL lists scroll instead of stretching row height.
      */
     public function hide_add_new_button() {
@@ -95,9 +95,9 @@ class Quiz {
         if ( ! $screen || $screen->post_type !== 'quiz' ) {
             return;
         }
-        // Keep Sync + Analyse Quizzes visible; hide default "Add New" and any other title actions.
+        // Keep custom quiz list actions visible; hide default "Add New" and any other title actions.
         echo '<style>
-            .page-title-action:not(.page-title-action__sync-quizzes):not(.page-title-action__analyse-quizzes) { display: none !important; }
+            .page-title-action:not(.page-title-action__sync-quizzes):not(.page-title-action__analyse-quizzes):not(.page-title-action__export-disposable-embeds) { display: none !important; }
             .column-embed_sites .engage-quiz-embed-sites-cell {
                 max-height: 7.5em;
                 overflow: auto;
