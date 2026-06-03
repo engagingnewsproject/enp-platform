@@ -1,10 +1,5 @@
-/*! Flickity v3.0.0
- * LINK: https://flickity.metafizzy.co
- * Flickity custom styling
- These styles have been moved to the templates/html-header.twig file for performance reasons
- Make your changes in this file, run `yarn prod`, open dist/css/app.css and scroll to the bottom to 
- copy the minified code & paste into templates/html-header.twig
----------------------------------------------- */
+// Our custom Flickity carousel overrides (v3). Source: https://flickity.metafizzy.co
+// Edit here → flickity-inline.scss → dist/css/flickity-inline.css → html-header.twig (inject script on yarn dev/prod).
 
 .carousel-cell {
   width: 100%;
@@ -32,7 +27,7 @@
   }
 
   @include media($tablet) {
-    max-height: 400px;
+    max-height: unset;
   }
 }
 
@@ -96,7 +91,7 @@
   }
 
   @include media($laptop) {
-    transform: translateY(-5px);
+    transform: translateY(-20px);
     padding: 0;
     width: 35px;
     height: 35px;
@@ -136,9 +131,9 @@
     height: auto;
     width: auto;
 
-    @include media($laptop) {
-      height: 300px;
-    }
+    // @include media($laptop) {
+    //   height: 300px;
+    // }
   }
 
   p {
@@ -177,7 +172,7 @@
 }
 
 .flickity-page-dots {
-  bottom: 0;
+  bottom: -25px;
 }
 
 // position dots up a bit

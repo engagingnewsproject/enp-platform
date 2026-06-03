@@ -151,9 +151,14 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
     {
         if(isset($data[ 'fields' ]) && is_array($data[ 'fields' ])){
             foreach($data[ 'fields' ] as $field_index => $field_settings_array){
+                $import_field_type = isset($field_settings_array['type']) ? $field_settings_array['type'] : '';
                 foreach($field_settings_array as $field_setting_key => $field_setting_value){
                     if(is_string($field_setting_value)){
-                        $data[ 'fields' ][$field_index][ $field_setting_key ] = WPN_Helper::sanitize_string_setting_value($field_setting_key, $field_setting_value);
+                        if ($field_setting_key === 'default' && in_array($import_field_type, ['html', 'note', 'textarea'])) {
+                            $data[ 'fields' ][$field_index][ $field_setting_key ] = wp_kses_post($field_setting_value);
+                        } else {
+                            $data[ 'fields' ][$field_index][ $field_setting_key ] = WPN_Helper::sanitize_string_setting_value($field_setting_key, $field_setting_value);
+                        }
                     }
                 }
             }
@@ -536,7 +541,12 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
 
                 $meta_value = maybe_serialize( $meta_value );
                 if(is_string($meta_value)){
-                    $meta_value = WPN_Helper::sanitize_string_setting_value($meta_key, $meta_value);
+                    $import_meta_field_type = isset($field_meta['type']) ? $field_meta['type'] : '';
+                    if ($meta_key === 'default' && in_array($import_meta_field_type, ['html', 'note', 'textarea'])) {
+                        $meta_value = wp_kses_post($meta_value);
+                    } else {
+                        $meta_value = WPN_Helper::sanitize_string_setting_value($meta_key, $meta_value);
+                    }
                 }
 
                 $this->_db->escape_by_ref( $meta_value );
@@ -706,7 +716,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
 
                     // Convert Tokenizer
                     $token = 'field_' . $field_id;
-                    if( ! is_array( $value ) ) {
+                    if( is_string( $value ) ) {
                         if (FALSE !== strpos($value, $token)) {
                             $value = str_replace($token, '{field:' . $field_key . '}', $value);
                         }
@@ -714,7 +724,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
 
                     // Convert Shortcodes
                     $shortcode = "[ninja_forms_field id=$field_id]";
-                    if( ! is_array( $value ) ) {
+                    if( is_string( $value ) ) {
                         if ( FALSE !== strpos( $value, $shortcode ) ) {
                             $value = str_replace( $shortcode, '{field:' . $field_key . '}', $value );
                         }
@@ -723,13 +733,13 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
 
                 //Checks for the nf_sub_seq_num short code and replaces it with the submission sequence merge tag
                 $sub_seq = '[nf_sub_seq_num]';
-                if( ! is_array( $value ) ) {
+                if( is_string( $value ) ) {
                     if( FALSE !== strpos( $value, $sub_seq ) ){
                         $value = str_replace( $sub_seq, '{submission:sequence}', $value );
                     }
                 }
 
-                if( ! is_array( $value ) ) {
+                if( is_string( $value ) ) {
                     if (FALSE !== strpos($value, '[ninja_forms_all_fields]')) {
                         $value = str_replace('[ninja_forms_all_fields]', '{field:all_fields}', $value);
                     }

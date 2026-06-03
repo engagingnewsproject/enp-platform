@@ -62,4 +62,6 @@
 // Plugins
 @import "plugins/ninja";
 @import "plugins/events";
-// @import "plugins/flickity-custom";
+// Flickity carousel overrides live only in flickity-inline.scss → dist/css/flickity-inline.css,
+// injected into templates/html-header.twig by scripts/inject-flickity-inline-css.js (after Mix).
+// Do not import plugins/flickity-custom here or those rules ship twice (main CSS + inline).

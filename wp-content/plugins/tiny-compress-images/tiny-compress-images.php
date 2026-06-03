@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TinyPNG - JPEG, PNG & WebP image compression
  * Description: Speed up your website. Optimize your JPEG, PNG, and WebP images automatically with TinyPNG.
- * Version: 3.6.12
+ * Version: 3.6.13
  * Author: TinyPNG
  * Author URI: https://tinypng.com
  * Text Domain: tiny-compress-images
@@ -24,7 +24,9 @@ require dirname( __FILE__ ) . '/src/class-tiny-settings.php';
 require dirname( __FILE__ ) . '/src/class-tiny-plugin.php';
 require dirname( __FILE__ ) . '/src/class-tiny-notices.php';
 require dirname( __FILE__ ) . '/src/class-tiny-cli.php';
+require dirname( __FILE__ ) . '/src/class-tiny-conversion.php';
 require dirname( __FILE__ ) . '/src/class-tiny-picture.php';
+require dirname( __FILE__ ) . '/src/class-tiny-apache-rewrite.php';
 require dirname( __FILE__ ) . '/src/compatibility/wpml/class-tiny-wpml.php';
 require dirname( __FILE__ ) . '/src/compatibility/as3cf/class-tiny-as3cf.php';
 require dirname( __FILE__ ) . '/src/compatibility/woocommerce/class-tiny-woocommerce.php';

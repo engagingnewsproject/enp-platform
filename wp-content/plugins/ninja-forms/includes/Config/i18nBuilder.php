@@ -8,6 +8,18 @@ return apply_filters( 'ninja_forms_i18n_builder', array(
     'fieldsProductsQuantity' 		=> esc_html__( 'Quantity:', 'ninja-forms' ),
     'fieldsTermsAdd' 				=> esc_html__( 'Add', 'ninja-forms' ),
     'fieldsTextareaOpenNewWindow' 	=> esc_html__( 'Open in new window', 'ninja-forms' ),
+    'tableInsertRowAbove'           => esc_html__( 'Insert Row Above', 'ninja-forms' ),
+    'tableInsertRowBelow'           => esc_html__( 'Insert Row Below', 'ninja-forms' ),
+    'tableInsertColumnLeft'         => esc_html__( 'Insert Column Left', 'ninja-forms' ),
+    'tableInsertColumnRight'        => esc_html__( 'Insert Column Right', 'ninja-forms' ),
+    'tableDeleteRow'                => esc_html__( 'Delete Row', 'ninja-forms' ),
+    'tableDeleteColumn'             => esc_html__( 'Delete Column', 'ninja-forms' ),
+    'tableDeleteTable'              => esc_html__( 'Delete Table', 'ninja-forms' ),
+    'tableLegacyNotice'             => esc_html__( 'This content has tables in the old editor format. Custom styles are preserved on the frontend until converted. Editing will update to the new format.', 'ninja-forms' ),
+    'tableLegacyConvert'            => esc_html__( 'Convert Now', 'ninja-forms' ),
+    'tableInsertTable'              => esc_html__( 'Insert Table', 'ninja-forms' ),
+    'dismiss'                       => esc_html__( 'Dismiss', 'ninja-forms' ),
+    'insertLink'                    => esc_html__( 'Insert Link', 'ninja-forms' ),
     'formHoneypot' 					=> esc_html__( 'If you are a human seeing this field, please leave it empty.', 'ninja-forms' ),
     'available'						=> esc_html__( 'Available', 'ninja-forms' ),
     'installed'						=> esc_html__( 'Installed', 'ninja-forms' ),
@@ -93,5 +105,6 @@ return apply_filters( 'ninja_forms_i18n_builder', array(
     'notificationsActionNicename' => esc_html__( 'Send SMS Form Notifications', 'ninja-forms' ),
     'miscActionNicename' => esc_html__( 'Integrate with 1000+ More Services', 'ninja-forms' ),
     'htmlDetectedError' => esc_html__('HTML classes only allow - _ and alphanumeric characters.', 'ninja-forms'),
-    'titleLabelsErrorMessage'   => esc_html__('This character is forbidden. Title and labels must not contain / " < > ` characters.', 'ninja-forms')
+    'titleLabelsErrorMessage'   => esc_html__('This character is forbidden. Title and labels must not contain / " < > ` characters.', 'ninja-forms'),
+    'quillCodeViewAutoSwitch'   => esc_html__( 'This content contains HTML that the visual editor cannot fully display. It has been opened in code view to preserve your formatting.', 'ninja-forms' )
 ));

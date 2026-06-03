@@ -749,7 +749,7 @@ final class NF_Database_Models_Form extends NF_Abstracts_Model
 
                     // Convert Tokenizer
                     $token = 'field_' . $field_id;
-                    if( ! is_array( $value ) ) {
+                    if( is_string( $value ) ) {
                         if (FALSE !== strpos($value, $token)) {
                             $value = str_replace($token, '{field:' . $field_key . '}', $value);
                         }
@@ -757,7 +757,7 @@ final class NF_Database_Models_Form extends NF_Abstracts_Model
 
                     // Convert Shortcodes
                     $shortcode = "[ninja_forms_field id=$field_id]";
-                    if( ! is_array( $value ) ) {
+                    if( is_string( $value ) ) {
                         if ( FALSE !== strpos( $value, $shortcode ) ) {
                             $value = str_replace( $shortcode, '{field:' . $field_key . '}', $value );
                         }
@@ -766,13 +766,13 @@ final class NF_Database_Models_Form extends NF_Abstracts_Model
 
                 //Checks for the nf_sub_seq_num short code and replaces it with the submission sequence merge tag
                 $sub_seq = '[nf_sub_seq_num]';
-                if( ! is_array( $value ) ) {
+                if( is_string( $value ) ) {
                     if( FALSE !== strpos( $value, $sub_seq ) ){
                         $value = str_replace( $sub_seq, '{submission:sequence}', $value );
                     }
                 }
 
-                if( ! is_array( $value ) ) {
+                if( is_string( $value ) ) {
                     if (FALSE !== strpos($value, '[ninja_forms_all_fields]')) {
                         $value = str_replace('[ninja_forms_all_fields]', '{field:all_fields}', $value);
                     }
