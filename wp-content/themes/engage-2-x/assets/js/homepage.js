@@ -1,14 +1,45 @@
 import Flickity from 'flickity'
+import debounce from 'lodash.debounce'
 
 // Initialize Flickity
 const carousel = new Flickity('.carousel-main', {
-  // Flickity options
   wrapAround: true,
   contain: true,
-	lazyLoad: true,
+  lazyLoad: true,
   ariaLabel: 'Carousel Navigation',
-  adaptiveHeight: true
+  adaptiveHeight: true,
+  cellAlign: 'left',
 })
+
+// Recalculate slide positions after layout shifts (async CSS, fonts, lazy images).
+function relayoutCarousel() {
+  const index = carousel.selectedIndex
+  carousel.resize()
+  carousel.select(index, false, true)
+}
+
+const relayoutCarouselDebounced = debounce(relayoutCarousel, 100)
+
+window.addEventListener('load', relayoutCarousel)
+
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(relayoutCarousel)
+}
+
+carousel.on('lazyLoad', relayoutCarouselDebounced)
+
+const carouselEl = document.querySelector('.carousel-main')
+if (carouselEl) {
+  carouselEl.addEventListener(
+    'load',
+    (event) => {
+      if (event.target.matches('.carousel-cell-image')) {
+        relayoutCarouselDebounced()
+      }
+    },
+    true
+  )
+}
 
 // Enhance accessibility of navigation buttons
 function enhanceButtonAccessibility() {
