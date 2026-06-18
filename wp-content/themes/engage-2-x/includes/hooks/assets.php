@@ -53,8 +53,8 @@ add_filter('style_loader_tag', function ($tag, $handle, $href) {
         return $tag;
     }
 
+    // Keep plugin/block styles async; main theme CSS must load synchronously to avoid FOUC.
     $async_styles = [
-        'engage_css',       // Theme main CSS
         'nf-display',
         'wp-block-library',
     ];
