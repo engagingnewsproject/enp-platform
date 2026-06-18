@@ -1,0 +1,28 @@
+<?php
+
+declare(strict_types=1);
+
+namespace AC\Formatter\Post;
+
+use AC\Formatter;
+use AC\Helper;
+use AC\Type\Value;
+
+class PostFormatIcon implements Formatter
+{
+
+    public function format(Value $value): Value
+    {
+        return $value->get_value()
+            ? $value->with_value(
+                Helper\Html::create()->tooltip(
+                    '<span class="ac-post-state-format post-state-format post-format-icon post-format-' . esc_attr(
+                        $value->get_value()
+                    ) . '"></span>',
+                    get_post_format_string($value->get_value())
+                )
+            )
+            : $value->with_value(false);
+    }
+
+}

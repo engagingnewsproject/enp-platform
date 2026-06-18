@@ -150,11 +150,21 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
     {
         // If checkbox is checked (using same logic as filter_merge_tag_value)...
         if ( ! empty( $value ) ) {
-            // ...return the checked calc value of the field model.
-            return $field[ 'checked_calc_value' ];
+            // Return checked calc value with defensive fallback for different field structures
+            if ( isset( $field['checked_calc_value'] ) ) {
+                return $field['checked_calc_value'];
+            } elseif ( isset( $field['settings']['checked_calc_value'] ) ) {
+                return $field['settings']['checked_calc_value'];
+            }
+            return 1; // Default calc value for checked
         } else {
-            // ...else return the unchecked calc value of the field model.
-            return $field[ 'unchecked_calc_value' ];
+            // Return unchecked calc value with defensive fallback
+            if ( isset( $field['unchecked_calc_value'] ) ) {
+                return $field['unchecked_calc_value'];
+            } elseif ( isset( $field['settings']['unchecked_calc_value'] ) ) {
+                return $field['settings']['unchecked_calc_value'];
+            }
+            return 0; // Default calc value for unchecked
         }
     }
 

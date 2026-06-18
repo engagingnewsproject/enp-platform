@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>events</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="events" fill-rule="nonzero">
+            <rect id="BG" fill="#6666C3" x="0" y="0" width="20" height="20" rx="2"></rect>
+            <g id="rank-math-logo" transform="translate(2, 4)" fill="#FFFFFF">
+                <g id="Group" transform="translate(0, 6)">
+                    <polygon id="Path" points="16 0 13.3590361 0.120967742 13.8216867 0.877016129 9.42650602 3.82056452 5.06987952 1.90524194 0 4.11290323 0.346987952 5 5.06024096 2.94354839 9.51325301 4.89919355 14.313253 1.69354839 14.7759036 2.45967742"></polygon>
+                </g>
+                <path d="M2,7.51345029 L5.29502262,6.22222222 L5.45429864,6.2877193 L5.45429864,4.45380117 L2,4.45380117 L2,7.51345029 Z M9.54570136,0 L9.54570136,7.89707602 L9.80452489,8 L13,6.08187135 L13,0 L9.54570136,0 Z M5.77285068,6.40935673 L9.22714932,7.7754386 L9.22714932,2.22690058 L5.77285068,2.22690058 L5.77285068,6.40935673 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

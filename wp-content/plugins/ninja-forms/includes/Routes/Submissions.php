@@ -632,7 +632,7 @@ class NF_Routes_Submissions extends NF_Abstracts_Routes
      * @return void
      */
     protected function process_retriggered_field( $field_settings, &$form_data ) {
-        if( ! is_string( $field_settings['type'] ) ) return;
+        if( ! isset( $field_settings['type'] ) || ! is_string( $field_settings['type'] ) ) return;
 
         if( ! isset( Ninja_Forms()->fields[ $field_settings['type'] ] ) ) return;
 

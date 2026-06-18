@@ -1,0 +1,54 @@
+<?php
+
+namespace AC\ListTable;
+
+use AC\ListTable;
+use WP_MS_Users_List_Table;
+
+class NetworkUser implements ListTable
+{
+
+    private WP_MS_Users_List_Table $table;
+
+    public function __construct(WP_MS_Users_List_Table $table)
+    {
+        $this->table = $table;
+    }
+
+    public function render_cell(string $column_id, $row_id): string
+    {
+        $user = get_userdata($row_id);
+
+        if ( ! $user) {
+            return '';
+        }
+
+        ob_start();
+
+        $method = 'column_' . $column_id;
+
+        if (method_exists($this->table, $method)) {
+            call_user_func([$this->table, $method], $user);
+        } else {
+            $this->table->column_default($user, $column_id);
+        }
+
+        return ob_get_clean();
+    }
+
+    public function render_row($id): string
+    {
+        $user = get_userdata($id);
+
+        if ( ! $user) {
+            return '';
+        }
+
+        ob_start();
+
+        $this->table->single_row($user);
+
+        return ob_get_clean();
+    }
+
+}

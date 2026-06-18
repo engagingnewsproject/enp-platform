@@ -1,0 +1,4451 @@
+# Copyright (C) 2026 Admin Columns Pro
+# This file is distributed under the same license as the Admin Columns Pro package.
+# Translators:
+# Jakub Machala <jakub.machala@znackarna.cz>, 2021
+msgid ""
+msgstr ""
+"Project-Id-Version: Admin Columns Pro\n"
+"POT-Creation-Date: 2026-03-30 08:02+0000\n"
+"PO-Revision-Date: 2014-05-22 15:53+0000\n"
+"Last-Translator: Jakub Machala <jakub.machala@znackarna.cz>, 2021\n"
+"Language-Team: Czech (Czech Republic) (http://app.transifex.com/codepress/admin-columns-pro/language/cs_CZ/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: cs_CZ\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: admin-columns-pro/classes/API.php:107
+msgid "The Admin Columns Server was unreachable."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Encoder.php47,
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php117,
+#: admin-columns-pro/classes/ColumnFactory/User/Roles.php27,
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/SubMenu/CommentStatus.php12,
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/SubMenu/Roles.php:12
+msgid "Roles"
+msgstr "Role"
+
+#: admin-columns-pro/classes/Admin/Encoder.php59,
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:119
+msgid "Users"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Encoder.php56,
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php118,
+#: admin-columns-pro/addons/buddypress/classes/ColumnFactory/Activity/UserFactory.php:40
+msgid "User"
+msgstr "Uživatel"
+
+#: admin-columns-pro/classes/Admin/MenuFactory.php:37
+msgid "Tools"
+msgstr "Nástroje"
+
+#: admin-columns-pro/classes/Admin/MenuFactory.php57,
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:49
+msgid "License"
+msgstr ""
+
+#: admin-columns-pro/classes/Check/Activation.php154,
+#: admin-columns-pro/classes/Check/LockedSettings.php:86
+msgid "You can find your license key on your %s."
+msgstr "Licenční klíč najdete na svém %s."
+
+#: admin-columns-pro/classes/Check/Activation.php158,
+#: admin-columns-pro/classes/Check/LockedSettings.php:90
+msgid "account page"
+msgstr "stránka účtu"
+
+#: admin-columns-pro/classes/Check/Beta.php:56
+msgid "You are using a beta version of %s."
+msgstr "Používáte beta verzi aplikace %s."
+
+#: admin-columns-pro/classes/Check/Beta.php:58
+msgid "If you have feedback or have found a bug, please %s."
+msgstr "Pokud máte zpětnou vazbu nebo jste našli chybu, %s."
+
+#: admin-columns-pro/classes/Check/Beta.php:61
+msgid "leave us a message"
+msgstr "zanechte nám zprávu"
+
+#: admin-columns-pro/classes/Check/Expired.php:143
+msgid ""
+"Your Admin Columns Pro license has expired on %s. To receive updates, renew "
+"your license on the %s."
+msgstr "Platnost licence Admin Columns Pro vypršela v %s. Chcete-li dostávat aktualizace, obnovte licenci na %s."
+
+#: admin-columns-pro/classes/Check/Expired.php:148
+msgid "My Account Page"
+msgstr "Stránka můj účet"
+
+#: admin-columns-pro/classes/Check/LockedSettings.php:100
+msgid "activating %s"
+msgstr ""
+
+#: admin-columns-pro/classes/Check/LockedSettings.php:104
+msgid "To start using Admin Columns Pro, fill in your license key below."
+msgstr ""
+
+#: admin-columns-pro/classes/Check/Renewal.php:220
+msgid "Renew your license"
+msgstr "Obnovit licenci"
+
+#: admin-columns-pro/classes/Check/Renewal.php:226
+msgid ""
+"Your Admin Columns Pro license will expire in %s. In order get access to new"
+" features and receive security updates, please %s before %s."
+msgstr "Platnost licence Admin Columns Pro vyprší v %s. Chcete-li získat přístup k novým funkcím a přijímat aktualizace zabezpečení, %s před %s."
+
+#: admin-columns-pro/classes/ColumnFactory/CustomFieldFactory.php83,
+#: admin-columns-pro/classes/Setting/ComponentFactory/UserProperty.php:32
+msgid "Custom Field"
+msgstr "Uživatelské pole"
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:65
+msgctxt "operator"
+msgid "Contains"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:69
+msgctxt "operator"
+msgid "Does Not Contain"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:73
+msgctxt "operator"
+msgid "Starts With"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:77
+msgctxt "operator"
+msgid "Ends With"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:83
+msgctxt "operator"
+msgid "Equals"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:87
+msgctxt "operator"
+msgid "Not Equals"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:91
+msgctxt "operator"
+msgid "Less Than"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:95
+msgctxt "operator"
+msgid "Less Than or Equal"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:99
+msgctxt "operator"
+msgid "Greater Than"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:103
+msgctxt "operator"
+msgid "Greater Than or Equal"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:108
+msgctxt "operator"
+msgid "Between"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:113
+msgctxt "operator"
+msgid "Not Between"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:119
+msgctxt "operator"
+msgid "Date is"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:123
+msgctxt "operator"
+msgid "Date is After"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:127
+msgctxt "operator"
+msgid "Date is Before"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:131
+msgctxt "operator"
+msgid "Date Between"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:136
+msgctxt "operator"
+msgid "Past"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:141
+msgctxt "operator"
+msgid "Today"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:146
+msgctxt "operator"
+msgid "Future"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:150
+msgctxt "operator"
+msgid "Within … days"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:154
+msgctxt "operator"
+msgid "More than … days ago"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Operators.php:158
+msgctxt "operator"
+msgid "Less than … days ago"
+msgstr ""
+
+#: admin-columns-pro/classes/Exception/InvalidImportFileException.php16,
+#: admin-columns-pro/classes/RequestHandler/Ajax/ListScreenImportUpload.php:54
+msgid "Uploaded file does not have a %s extension."
+msgstr "Nahraný soubor nemá příponu %s."
+
+#: admin-columns-pro/classes/Filtering/OptionsFactory.php:95
+msgid "Values"
+msgstr ""
+
+#: admin-columns-pro/classes/Filtering/OptionsFactory.php:129
+msgid "Logic"
+msgstr ""
+
+#: admin-columns-pro/classes/Search/Labels.php:13
+msgid "is"
+msgstr "je"
+
+#: admin-columns-pro/classes/Search/Labels.php:14
+msgid "is not"
+msgstr "není"
+
+#: admin-columns-pro/classes/Search/Labels.php:15
+msgid "is larger than"
+msgstr "je větší než"
+
+#: admin-columns-pro/classes/Search/Labels.php:16
+msgid "is larger or equal than"
+msgstr "je větší nebo rovno"
+
+#: admin-columns-pro/classes/Search/Labels.php:17
+msgid "is smaller than"
+msgstr "je menší než"
+
+#: admin-columns-pro/classes/Search/Labels.php:18
+msgid "is smaller or equal than"
+msgstr "je menší nebo rovno"
+
+#: admin-columns-pro/classes/Search/Labels.php19,
+#: admin-columns-pro/classes/Search/Comparison/Meta/Posts.php:30
+msgid "contains"
+msgstr "obsahuje"
+
+#: admin-columns-pro/classes/Search/Labels.php20,
+#: admin-columns-pro/classes/Search/Comparison/Meta/Posts.php:31
+msgid "does not contain"
+msgstr "neobsahuje"
+
+#: admin-columns-pro/classes/Search/Labels.php:21
+msgid "starts with"
+msgstr "začíná s"
+
+#: admin-columns-pro/classes/Search/Labels.php:22
+msgid "ends with"
+msgstr "končí s"
+
+#: admin-columns-pro/classes/Search/Labels.php:23
+msgid "in"
+msgstr "v"
+
+#: admin-columns-pro/classes/Search/Labels.php:24
+msgid "not in"
+msgstr "není v"
+
+#: admin-columns-pro/classes/Search/Labels.php:25
+msgid "between"
+msgstr "mezi"
+
+#: admin-columns-pro/classes/Search/Labels.php:26
+msgid "is not set"
+msgstr "není nastaven"
+
+#: admin-columns-pro/classes/Search/Labels.php:27
+msgid "is set"
+msgstr "je nastaven"
+
+#: admin-columns-pro/classes/Search/Labels.php:28
+msgid "is current user"
+msgstr ""
+
+#: admin-columns-pro/classes/Search/TableScreenOptions.php:58
+msgid "Smart Filtering"
+msgstr "Chytré filtrování"
+
+#: admin-columns-pro/classes/Service/AdminFooter.php45,
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:99
+msgid "Documentation"
+msgstr ""
+
+#: admin-columns-pro/classes/Service/AdminFooter.php:50
+msgid "Support"
+msgstr ""
+
+#: admin-columns-pro/classes/Service/AdminFooter.php:55
+msgid "Admin Columns Pro"
+msgstr ""
+
+#: admin-columns-pro/classes/Service/PluginActionLinks.php63,
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:89
+msgid "Settings"
+msgstr "Nastavení"
+
+#: admin-columns-pro/classes/Service/PluginNotice.php:31
+msgid ""
+"This integration add-on is no longer required by %s and can be safely "
+"removed."
+msgstr ""
+
+#: admin-columns-pro/classes/Table/HorizontalScrolling.php:89
+msgid "Horizontal Scrolling"
+msgstr "Horizontální scrollování"
+
+#: admin-columns-pro/classes/Table/HorizontalScrolling.php:92
+msgid "hold down SHIFT key"
+msgstr "podržte klávesu SHIFT"
+
+#: admin-columns-pro/classes/Table/StickyColumn.php:81
+msgid "Sticky Column"
+msgstr ""
+
+#: admin-columns-pro/classes/Table/StickyTableRow.php:81
+msgid "Sticky Headers"
+msgstr ""
+
+#: admin-columns-pro/classes/Tools/ImportHandler.php:98
+msgid "copy"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:52
+msgid "List Screen ID"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:53
+msgid "List Screen Source"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php54,
+#: admin-columns-pro/classes/RequestHandler/Ajax/ExportableListTables.php:101
+msgid "Database"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php55,
+#: admin-columns-pro/classes/Formatter/NetworkSite/Themes.php:48
+msgid "Active"
+msgstr "Aktivní"
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php56,
+#: admin-columns-pro/classes/Tools/Encode/ListScreenEncoder.php:72
+msgid "and"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php57,
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:86
+msgid "Preview"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php58,
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php72,
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:85
+msgid "Delete"
+msgstr "Smazat"
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:59
+msgid "excluded"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:60
+msgid "included"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:61
+msgctxt "x out of x"
+msgid "out of"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:62
+msgid "Select / Deselect All"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php63,
+#: admin-columns-pro/classes/Export/TableElement/Export.php13,
+#: admin-columns-pro/classes/Export/Asset/Script/Table.php:49
+msgid "Export"
+msgstr "Exportovat"
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:64
+msgid "Export column settings to a JSON file."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:68
+msgid ""
+"Select the column settings you would like to export. Export to a .json file "
+"which you can then import to another Admin Columns installation."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:72
+msgid "Export Selected"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:73
+msgid "items selected for export"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:74
+msgid "item selected for export"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php76,
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:82
+msgid "List Table"
+msgstr "Tabulka seznamu"
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php77,
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php85,
+#: admin-columns-pro/classes/ColumnFactory/NetworkSite/BlogNameFactory.php23,
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php136,
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/VenueDisplay.php:47
+msgid "Name"
+msgstr "Název"
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php78,
+#: admin-columns-pro/classes/Search/Settings/TableElement/SavedFilters.php:14
+msgid "Saved Filters"
+msgstr "Uložené filtry"
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:79
+msgid "Source"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php80,
+#: admin-columns-pro/classes/ColumnFactory/Media/Description.php14,
+#: admin-columns-pro/classes/ColumnFactory/Taxonomy/Description.php45,
+#: admin-columns-pro/addons/metabox/classes/ColumnFactory/PostType/Description.php30,
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/Post/Description.php29,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopCoupon/Description.php:51
+msgid "Description"
+msgstr "Popis"
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php82,
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/Search.php:12
+msgid "Search"
+msgstr "Hledat"
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:83
+msgid "No results found"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:84
+msgid "Import"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:85
+msgid "Import File"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:86
+msgid "column"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:87
+msgid "columns"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:88
+msgid "saved filter"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:89
+msgid "saved filters"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:90
+msgid "Import a JSON file with column settings."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php94,
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php79,
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:106
+msgid "Templates"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php95,
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:107
+msgid ""
+"A Template is a predefined column configuration that you can load to quickly"
+" set up your list table. Use it as a starting point and customize it as "
+"needed."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:99
+msgid "File is read only."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:100
+msgid "File Location"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:101
+msgid ""
+"Warning! The template will be deleted. This cannot be undone. 'OK' to "
+"delete, 'Cancel' to stop"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:105
+msgid ""
+"Pre-defined table views containing column settings that can be used as a "
+"template."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:109
+msgid "Advanced File Storage"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:111
+msgid "Set multiple folders on your file system using %s."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:115
+msgid "the advanced setup"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:118
+msgid "The file storage directory is set to:"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:122
+msgid "File Storage"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:123
+msgid "Set a folder on your file system using the simple setup."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:127
+msgid ""
+"Store column settings on the file system in PHP files instead of the "
+"database."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:131
+msgid "File Storage Directories"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:133
+msgid "You can %s from the database to file storage."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:136
+msgid "migrate your column settings"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:139
+msgctxt "1 file"
+msgid "file"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:140
+msgctxt "x files"
+msgid "files"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:141
+msgid ""
+"Stores column settings, views, and templates as PHP files in your project. "
+"Ideal for version control, deployment, and maintaining consistency across "
+"environments."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:145
+msgid ""
+"Specific column settings are stored on different locations on your file "
+"system."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:149
+msgid "Source ID"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:150
+msgid "Export and Import"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:151
+msgid "Enable File Storage"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:153
+msgid "Enable file storage and select a folder on your file system using %s."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:160
+msgid "the simple setup"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:163
+msgid "File Directories"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:164
+msgid "File Directory"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:165
+msgid "Set the storage directory to a folder on your file system."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:169
+msgid "The directory contains %s with column settings."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:174
+msgid "The directory is %s."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:177
+msgid "read only"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php180,
+#: admin-columns-pro/classes/Asset/Script/Table.php84,
+#: admin-columns-pro/classes/Asset/Script/Table.php93,
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:190
+msgid "Are you sure?"
+msgstr "Jste si jisti?"
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:181
+msgid "Migrate to File Storage"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:182
+msgid "Migrate all column settings from the database to your file system."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:186
+msgid "Run Migration"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php187,
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php:138
+msgid "Save"
+msgstr "Uložit"
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:190
+msgid "Show all"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/Page/Tools.php:191
+msgid "%d items"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php43,
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php108,
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:113
+msgid "Add"
+msgstr "Přidat"
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:44
+msgid "+ Add View"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php45,
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php77,
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php105,
+#: admin-columns-pro/classes/Export/Asset/Script/Table.php61,
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php:137
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:46
+msgid "Select settings from an existing view or template"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:50
+msgid "Copy Table View"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:51
+msgid "Create a copy of the table view."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:55
+msgid "Select the destination for this table view"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:59
+msgid "Create"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:61
+msgid "Create a new view for the %s list table."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:64
+msgid "Create table view"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:65
+msgid "Create template"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:66
+msgid "Create a re-usable template for this table view."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:70
+msgid "current"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:71
+msgid "Default columns"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:73
+msgid "Delete view"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:74
+msgid ""
+"Warning! The %s columns data will be deleted. This cannot be undone. 'OK' to"
+" delete, 'Cancel' to stop"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:78
+msgid "Enter Name"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php80,
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:95
+msgid "Table Views"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php81,
+#: admin-columns-pro/addons/polylang/classes/ColumnFactory/Language.php20,
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php139,
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php152,
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php:153
+msgid "Instructions"
+msgstr "Instrukce"
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:83
+msgid "Make a copy"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:84
+msgid "Manage Views"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:87
+msgid "Read Only"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:88
+msgctxt "table views"
+msgid "show all"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:90
+msgid "Modify the appearance of the list table"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:94
+msgid "Table View"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:96
+msgid "Create multiple views for this list table"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:100
+msgid ""
+"With Table Views, you can set up multiple column configurations for the same"
+" list table and easily switch between them."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:104
+msgid "Settings Template"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:105
+msgid "New template created"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:111
+msgid "You are viewing a Template. This can be used to %s."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:115
+msgid "create a table view"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php:116
+msgid "New View created"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php148,
+#: admin-columns-pro/addons/gravityforms/classes/Service/StoreOriginalColumns.php:71
+msgid "Default"
+msgstr "Výchozí"
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/ColumnSettingsFactory.php149,
+#: admin-columns-pro/classes/Setting/ComponentFactory/UserProperty.php:34
+msgid "Other"
+msgstr "Jiné"
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/GeneralSettingsFactory.php:43
+msgctxt "table view display"
+msgid "Tabs"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/GeneralSettingsFactory.php:47
+msgctxt "table view display"
+msgid "Dropdown"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/GeneralSettingsFactory.php:53
+msgid "Sorting Preference"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/GeneralSettingsFactory.php:54
+msgid "Reset the sorting preference for all users."
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/GeneralSettingsFactory.php58,
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:73
+msgid "Reset"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/GeneralSettingsFactory.php:59
+msgid "View Selector"
+msgstr ""
+
+#: admin-columns-pro/classes/Admin/ScriptFactory/GeneralSettingsFactory.php:60
+msgid "Select the style for the \"Table View\" selector on the table screen."
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:50
+msgid "License information"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:51
+msgid "License Key"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:52
+msgid "License Status"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:53
+msgid "Manage License"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:54
+msgid "Activate License"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:55
+msgid "Deactivate License"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:56
+msgid "Refresh"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:57
+msgid "Don't have an Admin Columns Pro license?"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:58
+msgid "View pricing & purchase"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:59
+msgid "Plugin Update"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:60
+msgid "Plugin Version and available updates."
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:61
+msgid "Current version"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:62
+msgid "Latest version"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:63
+msgid "Changelog"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:64
+msgid "Update Plugin"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:65
+msgid "Check For Updates"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:67
+msgid "Are you sure you want deactivate Admin Columns Pro?"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:71
+msgid "You need to fill in your license key again if you want to reactivate."
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:76
+msgid "Updating plugin"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:77
+msgid "network settings page"
+msgstr "stránka nastavení sítě"
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:78
+msgid "The license can be managed on the %s."
+msgstr "Licenci lze spravovat na %s."
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:79
+msgid "Enter your license key to %s."
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:80
+msgid "unlock all settings"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:81
+msgid "receive automatic updates"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:82
+msgid "Subscription Expires"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/LicenseManager.php:83
+msgid "Subscription Expired"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/Table.php:73
+msgid "Not shown in menu"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/Table.php:74
+msgctxt "number of items"
+msgid "%s more"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/Table.php:75
+msgid "Switch View"
+msgstr "Přepnout zobrazení"
+
+#: admin-columns-pro/classes/Asset/Script/Table.php:78
+msgctxt "column-resize-button"
+msgid "Reset"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/Table.php:79
+msgid "Columns"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/Table.php80,
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/ColumnResize.php:12
+msgid "Resize Columns"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/Table.php:83
+msgid "Restore the current column widths and order to their defaults."
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/Table.php:86
+msgid "Save changes"
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/Table.php:89
+msgid ""
+"Save the current column widths and order changes as the new default for ALL "
+"users."
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/Table.php:95
+msgid "Reset columns to their default widths and order."
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/Table.php:99
+msgid "Save the current column widths and order changes."
+msgstr ""
+
+#: admin-columns-pro/classes/Asset/Script/Table.php:240
+msgid "Filtered by: %s"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/Comment/HasReplies.php:24
+msgid "Has Replies"
+msgstr "Má odpovědi"
+
+#: admin-columns-pro/classes/ColumnFactory/Comment/IsReply.php:23
+msgid "Is Reply"
+msgstr "Je odpověď"
+
+#: admin-columns-pro/classes/ColumnFactory/Comment/PostType.php22,
+#: admin-columns-pro/classes/ColumnFactory/Post/PostType.php17,
+#: admin-columns-pro/classes/Setting/ComponentFactory/TaxonomyPostType.php26,
+#: admin-columns-pro/classes/Setting/ComponentFactory/NetworkSite/PostType.php:18
+msgid "Post Type"
+msgstr "Typ příspěvku"
+
+#: admin-columns-pro/classes/ColumnFactory/Media/AspectRatio.php:22
+msgid "Aspect Ratio"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/Media/Orientation.php:23
+msgid "Orientation"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/Media/UploadedToPostType.php:25
+msgid "Uploaded to Post Type"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/Media/UsedAsFeaturedImage.php:48
+msgid "Featured Image"
+msgstr "Náhledový obrázek"
+
+#: admin-columns-pro/classes/ColumnFactory/NetworkSite/BlogIdFactory.php:22
+msgid "Blog ID"
+msgstr "ID blogu"
+
+#: admin-columns-pro/classes/ColumnFactory/NetworkSite/CommentCountFactory.php:45
+msgid "Comments"
+msgstr "Komentáře"
+
+#: admin-columns-pro/classes/ColumnFactory/NetworkSite/DomainFactory.php:30
+msgid "Domain"
+msgstr "Doména"
+
+#: admin-columns-pro/classes/ColumnFactory/NetworkSite/OptionsFactory.php:60
+msgid "Options"
+msgstr "Možnosti"
+
+#: admin-columns-pro/classes/ColumnFactory/NetworkSite/PathFactory.php:25
+msgid "Path"
+msgstr "Cesta"
+
+#: admin-columns-pro/classes/ColumnFactory/NetworkSite/PostCountFactory.php:57
+msgid "Post Count"
+msgstr "Počet příspěvků"
+
+#: admin-columns-pro/classes/ColumnFactory/NetworkSite/SiteIdFactory.php:25
+msgid "Site ID"
+msgstr "ID webu"
+
+#: admin-columns-pro/classes/ColumnFactory/NetworkSite/StatusFactory.php25,
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/subscriptions.php12,
+#: admin-columns-pro/addons/buddypress/classes/ColumnFactory/User/StatusFactory.php30,
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/SubMenu/PostStatus.php12,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/OrderProperty.php:38
+msgid "Status"
+msgstr "Stav"
+
+#: admin-columns-pro/classes/ColumnFactory/NetworkSite/ThemeFactory.php:51
+msgid "Theme"
+msgstr "Šablona"
+
+#: admin-columns-pro/classes/ColumnFactory/NetworkSite/UploadSpaceFactory.php:25
+msgid "Storage Space"
+msgstr "Prostor úložiště"
+
+#: admin-columns-pro/classes/ColumnFactory/Post/Ancestor.php:43
+msgid "Ancestors"
+msgstr "Předci"
+
+#: admin-columns-pro/classes/ColumnFactory/Post/AuthorName.php:60
+msgid "Author"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/Post/ChildPages.php:58
+msgid "Child Pages"
+msgstr "Podřízené stránky"
+
+#: admin-columns-pro/classes/ColumnFactory/Post/GutenbergBlocks.php:38
+msgid "Gutenberg Blocks"
+msgstr "Bloky Gutenbergu"
+
+#: admin-columns-pro/classes/ColumnFactory/Post/HasTerm.php:45
+msgid "Has Term"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/Post/HasTerm.php:65
+msgid "No term selected"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/Post/Images.php:24
+msgid "Images"
+msgstr "Obrázky"
+
+#: admin-columns-pro/classes/ColumnFactory/Post/LastModifiedAuthor.php:64
+msgid "Last Modified Author"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/Post/LatestComment.php:37
+msgid "Latest Comment"
+msgstr "Poslední komentář"
+
+#: admin-columns-pro/classes/ColumnFactory/Post/LinkCount.php:41
+msgid "Link Count"
+msgstr "Počet odkazů"
+
+#: admin-columns-pro/classes/ColumnFactory/Post/PostVisibility.php:17
+msgid "Post Visibility"
+msgstr "Viditelnost příspěvku"
+
+#: admin-columns-pro/classes/ColumnFactory/Post/Revisions.php:23
+msgid "Revisions"
+msgstr "Verze"
+
+#: admin-columns-pro/classes/ColumnFactory/Post/Shortcode.php32,
+#: admin-columns-pro/classes/Setting/ComponentFactory/Shortcodes.php:17
+msgid "Shortcode"
+msgstr "Krátký kód"
+
+#: admin-columns-pro/classes/ColumnFactory/Post/Shortcode.php:53
+msgid "No shortcode selected"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/Taxonomy/CountForPostType.php:52
+msgid "Count for Post Type"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/Taxonomy/Id.php46,
+#: admin-columns-pro/addons/buddypress/classes/ColumnFactory/Group/IdFactory.php41,
+#: admin-columns-pro/addons/metabox/classes/ColumnFactory/MetaBox/Id.php30,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/OrderProperty.php:35
+msgid "ID"
+msgstr "ID"
+
+#: admin-columns-pro/classes/ColumnFactory/Taxonomy/Menu.php:44
+msgid "Menu"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/Taxonomy/TermParent.php:51
+msgid "Parent"
+msgstr "Nadřazené"
+
+#: admin-columns-pro/classes/ColumnFactory/User/AdminColorScheme.php:28
+msgid "Admin Color Scheme"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/User/Gravatar.php:38
+msgid "Profile Picture"
+msgstr "Profilový obrázek"
+
+#: admin-columns-pro/classes/ColumnFactory/User/Password.php:24
+msgid "Password"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/User/Password.php30,
+#: admin-columns-pro/classes/Editing/View/WpPassword.php:16
+msgid "Set new password"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/User/Password.php:31
+msgid "Enable Inline Edit to change password"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/User/TaxonomyFactory.php61,
+#: admin-columns-pro/classes/Setting/ComponentFactory/Post/TaxonomyTerm.php44,
+#: admin-columns-pro/classes/Setting/ComponentFactory/User/UserTaxonomy.php25,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Product/SecondaryProductProperty.php:48
+msgid "Taxonomy"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/User/UserUrl.php30,
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Organizer/WebsiteFactory.php29,
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Venue/WebsiteFactory.php26,
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/OrganizerDisplay.php71,
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/OrganizerLink.php57,
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/VenueDisplay.php:48
+msgid "Website"
+msgstr "Web"
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:62
+msgid "Everyone"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:63
+msgid "Personal"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:64
+msgid "Select Rules"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:65
+msgid "Visible to all users."
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:66
+msgid "Visible only to you."
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:67
+msgid "Add your first rule to start using conditional formatting."
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:71
+msgid "Copy %d rule from %s."
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:72
+msgid "Copy %d rules from %s."
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:74
+msgctxt "between_operator"
+msgid "and"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:75
+msgid "Apply"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:76
+msgid "Save &amp; Apply"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:78
+msgid "Add Rule"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:79
+msgid "Add condition"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php80,
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php81,
+#: admin-columns-pro/classes/ConditionalFormat/Settings/ListScreen/TableElementFactory.php:18
+msgid "Conditional Formatting"
+msgstr ""
+
+#: admin-columns-pro/classes/ConditionalFormat/Asset/Table.php:82
+msgid "Formatting Style"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/RequestHandler/BulkDelete.php:47
+msgid "Table does not support bulk delete."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/RequestHandler/BulkDelete.php:52
+msgid "Current user has no delete permissions."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/RequestHandler/BulkSave.php:128
+msgid "Missing id"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/RequestHandler/InlineSave.php73,
+#: admin-columns-pro/classes/Editing/RequestHandler/Exception/InvalidUserPermissionException.php:12
+msgid "You don't have permissions to edit this item"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/ComputedNumber.php:46
+msgid "Cannot divide by zero"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/SerializedMeta.php:41
+msgid "Data must be `scalar`."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/ServiceFactory.php31,
+#: admin-columns-pro/addons/acf/classes/Editing/ViewFactory.php45,
+#: admin-columns-pro/addons/types/classes/Search/Checkbox.php34,
+#: admin-columns-pro/classes/Editing/Service/User/RichEditing.php24,
+#: admin-columns-pro/classes/Editing/Service/User/ShowToolbar.php24,
+#: admin-columns-pro/classes/Search/Comparison/Comment/HasReplies.php56,
+#: admin-columns-pro/classes/Search/Comparison/Comment/IsReply.php46,
+#: admin-columns-pro/classes/Search/Comparison/Meta/Checkmark.php30,
+#: admin-columns-pro/addons/events-calendar/classes/Search/Event/Featured.php41,
+#: admin-columns-pro/addons/events-calendar/classes/Search/Event/Recurring.php57,
+#: admin-columns-pro/addons/events-calendar/classes/Search/Event/Sticky.php35,
+#: admin-columns-pro/addons/woocommerce/classes/Editing/Order/OrderMetaFactory.php28,
+#: admin-columns-pro/addons/woocommerce/classes/Search/ProductVariation/Enabled.php35,
+#: admin-columns-pro/addons/seopress/classes/ColumnFactory/Redirect/Original/Enable.php:22
+msgid "False"
+msgstr "Nepravda"
+
+#: admin-columns-pro/classes/Editing/Service/ServiceFactory.php32,
+#: admin-columns-pro/addons/acf/classes/Editing/ViewFactory.php46,
+#: admin-columns-pro/addons/types/classes/Search/Checkbox.php33,
+#: admin-columns-pro/classes/Editing/Service/User/RichEditing.php23,
+#: admin-columns-pro/classes/Editing/Service/User/ShowToolbar.php23,
+#: admin-columns-pro/classes/Search/Comparison/Comment/HasReplies.php55,
+#: admin-columns-pro/classes/Search/Comparison/Comment/IsReply.php45,
+#: admin-columns-pro/classes/Search/Comparison/Meta/Checkmark.php29,
+#: admin-columns-pro/addons/events-calendar/classes/Search/Event/Featured.php42,
+#: admin-columns-pro/addons/events-calendar/classes/Search/Event/Recurring.php56,
+#: admin-columns-pro/addons/events-calendar/classes/Search/Event/Sticky.php34,
+#: admin-columns-pro/addons/woocommerce/classes/Editing/Order/OrderMetaFactory.php29,
+#: admin-columns-pro/addons/woocommerce/classes/Search/ProductVariation/Enabled.php36,
+#: admin-columns-pro/addons/seopress/classes/ColumnFactory/Redirect/Original/Enable.php:23
+msgid "True"
+msgstr "Pravda"
+
+#: admin-columns-pro/classes/Editing/TableElement/BulkDelete.php12,
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:137
+msgid "Bulk Delete"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/TableElement/BulkEdit.php12,
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:184
+msgid "Bulk Edit"
+msgstr "Hromadná úprava"
+
+#: admin-columns-pro/classes/Editing/TableElement/InlineEdit.php12,
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:98
+msgid "Inline Edit"
+msgstr "Přímá úprava"
+
+#: admin-columns-pro/classes/Editing/View/FullName.php:14
+msgid "First Name"
+msgstr "Jméno"
+
+#: admin-columns-pro/classes/Editing/View/FullName.php:15
+msgid "Last Name"
+msgstr "Příjmení"
+
+#: admin-columns-pro/classes/Export/Service/ExportHandler.php:49
+msgid "Invalid value supplied for export counter."
+msgstr "Pro počítadlo exportu byla zadána neplatná hodnota."
+
+#: admin-columns-pro/classes/Export/Service/TableScreen.php:95
+msgid "Export Button"
+msgstr "Tlačítko Exportovat"
+
+#: admin-columns-pro/classes/Filtering/Asset/TableScriptFactory.php:63
+msgid "Fetching options"
+msgstr ""
+
+#: admin-columns-pro/classes/Filtering/Asset/TableScriptFactory.php:64
+msgid "Start date"
+msgstr "Datum začátku"
+
+#: admin-columns-pro/classes/Filtering/Asset/TableScriptFactory.php:65
+msgid "End date"
+msgstr "Datum konce"
+
+#: admin-columns-pro/classes/Filtering/Asset/TableScriptFactory.php:66
+msgid "Min"
+msgstr "Minimum"
+
+#: admin-columns-pro/classes/Filtering/Asset/TableScriptFactory.php:67
+msgid "Max"
+msgstr "Maximum"
+
+#: admin-columns-pro/classes/Filtering/Asset/TableScriptFactory.php:68
+msgid "Filter"
+msgstr "Filtr"
+
+#: admin-columns-pro/classes/Filtering/Asset/TableScriptFactory.php69,
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php:130
+msgid "No options found"
+msgstr ""
+
+#: admin-columns-pro/classes/Filtering/Asset/TableScriptFactory.php:206
+msgid "Future"
+msgstr ""
+
+#: admin-columns-pro/classes/Filtering/Asset/TableScriptFactory.php:207
+msgid "Past"
+msgstr ""
+
+#: admin-columns-pro/classes/Filtering/Asset/TableScriptFactory.php274,
+#: admin-columns-pro/classes/Filtering/Setting/ComponentFactory/FilterLabel.php:31
+msgid "Any %s"
+msgstr "Jakékoli  %s"
+
+#: admin-columns-pro/classes/Formatter/Media/Orientation.php:26
+msgctxt "image orientation"
+msgid "Square"
+msgstr ""
+
+#: admin-columns-pro/classes/Formatter/Media/Orientation.php:30
+msgctxt "image orientation"
+msgid "Landscape"
+msgstr ""
+
+#: admin-columns-pro/classes/Formatter/Media/Orientation.php:31
+msgctxt "image orientation"
+msgid "Portrait"
+msgstr ""
+
+#: admin-columns-pro/classes/Formatter/NetworkSite/Themes.php:54
+msgid "Site Enabled"
+msgstr "Web povolen"
+
+#: admin-columns-pro/classes/Formatter/NetworkSite/Themes.php:52
+msgid "Network Enabled"
+msgstr "Síť aktivní"
+
+#: admin-columns-pro/classes/Formatter/NetworkSite/UploadSpace.php28,
+#: admin-columns-pro/classes/Formatter/NetworkSite/UploadSpace.php:34
+msgid "%s MB"
+msgstr "%s MB"
+
+#: admin-columns-pro/classes/Formatter/Post/ExtendedRevisionLink.php27,
+#: admin-columns-pro/classes/Value/ExtendedValue/Post/Revisions.php:34
+msgid "%d revision"
+msgid_plural "%d revisions"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: admin-columns-pro/classes/Formatter/Post/ImagesExtendedLink.php:37
+msgid "%d image"
+msgid_plural "%d images"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: admin-columns-pro/classes/QuickAdd/Table/Loader.php70,
+#: admin-columns-pro/classes/QuickAdd/Admin/TableElement/QuickAdd.php16,
+#: admin-columns-pro/classes/QuickAdd/Table/Checkbox/ShowButton.php:13
+msgid "Add Row"
+msgstr ""
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/ExportableListTables.php102,
+#: admin-columns-pro/classes/RequestHandler/Ajax/ListScreenTemplates.php:67
+msgid "File"
+msgstr ""
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/Feedback.php33,
+#: admin-columns-pro/classes/RequestHandler/Ajax/FileStorageMigration.php36,
+#: admin-columns-pro/classes/RequestHandler/Ajax/FileStorageSettings.php40,
+#: admin-columns-pro/classes/RequestHandler/Ajax/LicenseActivate.php:66
+msgid "Invalid request"
+msgstr ""
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/Feedback.php:40
+msgid "Please insert a valid email so we can reply to your feedback."
+msgstr "Vložte prosím platný e-mail, abychom mohli odpovědět na vaši zpětnou vazbu."
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/Feedback.php:47
+msgid "Your feedback form is empty."
+msgstr "Formulář pro zpětnou vazbu je prázdný."
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/Feedback.php:62
+msgid "Thank you very much for your feedback!"
+msgstr ""
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/FileStorageMigration.php:48
+msgid "Migration completed successfully."
+msgstr ""
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/FileStorageSettings.php:53
+msgid "The directory is not writable."
+msgstr ""
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/ImportMessageTrait.php:27
+msgid "Successfully imported %s for %s."
+msgstr "Úspěšně importované %s pro %s."
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/LicenseActivate.php:72
+msgid "Empty license."
+msgstr "Prázdná licence."
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/LicenseActivate.php:76
+msgid "Invalid license."
+msgstr ""
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/LicenseUpdate.php:49
+msgid "License information has been updated."
+msgstr "Informace o licenci byly aktualizovány."
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/ListScreenCreate.php:88
+msgid "Name can not be empty."
+msgstr "Název nemůže být prázdný."
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/ListScreenImportUpload.php:39
+msgid "Invalid request."
+msgstr ""
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/ListScreenImportUpload.php:47
+msgid "No import file was uploaded."
+msgstr ""
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/ListScreenImportUpload.php:73
+msgid "No (valid) column settings where found in the uploaded file."
+msgstr ""
+
+#: admin-columns-pro/classes/RequestHandler/Ajax/ResetSorting.php:26
+msgid "All sorting preferences have been reset."
+msgstr "Všechny předvolby řazení byly obnoveny."
+
+#: admin-columns-pro/classes/Search/Labels/Date.php:14
+msgid "is after"
+msgstr "je po"
+
+#: admin-columns-pro/classes/Search/Labels/Date.php:15
+msgid "is before"
+msgstr "je před"
+
+#: admin-columns-pro/classes/Search/Labels/Date.php:16
+msgid "is today"
+msgstr "je dnes"
+
+#: admin-columns-pro/classes/Search/Labels/Date.php:17
+msgid "is in the past"
+msgstr "je v minulosti"
+
+#: admin-columns-pro/classes/Search/Labels/Date.php:18
+msgid "is in the future"
+msgstr "je v budoucnu"
+
+#: admin-columns-pro/classes/Search/Labels/Date.php:19
+msgid "is less than"
+msgstr "je menší než"
+
+#: admin-columns-pro/classes/Search/Labels/Date.php:20
+msgid "is more than"
+msgstr "je více než"
+
+#: admin-columns-pro/classes/Search/Labels/Date.php:21
+msgid "is within"
+msgstr "je mezi"
+
+#: admin-columns-pro/classes/Search/Labels/Date.php:22
+msgid "in month"
+msgstr ""
+
+#: admin-columns-pro/classes/Search/Labels/Date.php:23
+msgid "in year"
+msgstr ""
+
+#: admin-columns-pro/classes/Search/RequestHandler/Rules.php:63
+msgid "Smart filter for %s could not be applied."
+msgstr ""
+
+#: admin-columns-pro/classes/Search/RequestHandler/Rules.php:66
+msgid "Try to re-apply the filter."
+msgstr ""
+
+#: admin-columns-pro/classes/Service/Storage/Template.php:57
+msgid "This is a preview of %s."
+msgstr ""
+
+#: admin-columns-pro/classes/Service/Storage/Template.php:63
+msgid "Leave preview mode"
+msgstr ""
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/GutenbergDisplay.php28,
+#: admin-columns-pro/classes/Setting/ComponentFactory/Media/FeaturedImageDisplay.php16,
+#: admin-columns-pro/classes/Setting/ComponentFactory/NetworkSite/PluginDisplay.php17,
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/FlexDisplay.php17,
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/RepeaterDisplay.php29,
+#: admin-columns-pro/addons/buddypress/classes/Settings/ComponentFactory/Group.php18,
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/OrganizerDisplay.php28,
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/VenueDisplay.php28,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/AddressProperty.php21,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/CouponLimit.php19,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/DateType.php21,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/NoteProperty.php21,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/TotalProperty.php21,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/ProductVariation/VariationDisplay.php17,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/User/AddressType.php19,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/User/RatingDisplay.php19,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/User/UserProducts.php:19
+msgid "Display"
+msgstr "Zobrazit"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/GutenbergDisplay.php:69
+msgid "Block Count"
+msgstr "Počet bloků"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/GutenbergDisplay.php:70
+msgid "Block Structure"
+msgstr "Struktura bloků"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/LinkCountType.php14,
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/order-notes.php12,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/ProductTypeFactory.php:29
+msgid "Type"
+msgstr "Typ"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/LinkCountType.php:22
+msgid "Total Links"
+msgstr ""
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/LinkCountType.php:23
+msgid "Internal Links"
+msgstr "Interní odkazy"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/LinkCountType.php:24
+msgid "External Links"
+msgstr "Externí odkazy"
+
+#: admin-columns-pro/classes/Sorting/Service/AdminScripts.php:57
+msgid "Reset Sorting"
+msgstr "Obnovit řazení"
+
+#: admin-columns-pro/classes/Sorting/Service/AdminScripts.php:58
+msgid "Sorted by %s"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/ColumnFactory/AcfFactory.php91,
+#: admin-columns-pro/addons/pods/classes/ColumnFactory/FieldFactory.php65,
+#: admin-columns-pro/addons/types/classes/ColumnFactory/FieldFactory.php75,
+#: admin-columns-pro/addons/jetengine/classes/ColumnFactory/Meta/FieldFactory.php129,
+#: admin-columns-pro/addons/metabox/classes/ColumnFactory/Meta/FieldFactory.php:114
+msgid "Meta Key"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/ColumnFactory/AcfFactory.php:92
+msgid "Field Key"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/ColumnFactory/AcfFactory.php:93
+msgid "ACF Field Type"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/ColumnFactory/AcfFactory.php:100
+msgid "Field Group"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/ColumnFactory/AcfFactory.php:105
+msgid "Required"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/ColumnFactory/AcfFactory.php:105
+msgid "Yes"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/Service/ColumnGroups.php32,
+#: admin-columns-pro/addons/buddypress/classes/Settings/ComponentFactory/Date.php:25
+msgid "BuddyPress"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/Service/ColumnGroups.php:40
+msgid "BuddyPress Profile Fields"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/TableScreen/Activity.php:25
+msgid "Activity"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/TableScreen/Activity.php:26
+msgid "Activities"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/TableScreen/Group.php:25
+msgid "Group"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/TableScreen/Group.php26,
+#: admin-columns-pro/addons/buddypress/classes/ColumnFactory/User/GroupsFactory.php:59
+msgid "Groups"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactories/VenueFactory.php38,
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/VenueDisplay.php:43
+msgid "Address"
+msgstr "Adresa"
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactories/VenueFactory.php43,
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/VenueDisplay.php:44
+msgid "City"
+msgstr "Město"
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactories/VenueFactory.php:48
+msgid "Postal Code"
+msgstr "PSČ"
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactories/VenueFactory.php53,
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Organizer/PhoneFactory.php32,
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/OrganizerDisplay.php69,
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/VenueDisplay.php:46
+msgid "Phone"
+msgstr "Telefon"
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactories/VenueFactory.php:58
+msgid "State or Province"
+msgstr "Kraj nebo provincie"
+
+#: admin-columns-pro/addons/events-calendar/classes/Search/PastEvents.php:34
+msgid "Has Past Event"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/Search/PastEvents.php:35
+msgid "Has No Past Event"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/Search/RelatedEvents.php:34
+msgid "Has Event"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/Search/RelatedEvents.php:35
+msgid "Has No Event"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/Search/UpcomingEvent.php:34
+msgid "Has Upcoming Event"
+msgstr "Má nadcházející akci"
+
+#: admin-columns-pro/addons/events-calendar/classes/Search/UpcomingEvent.php:35
+msgid "Has No Upcoming Event"
+msgstr "Nemá nadcházející akci"
+
+#: admin-columns-pro/addons/events-calendar/classes/Service/TableScreen.php:123
+msgid "upcoming"
+msgstr "nadcházející"
+
+#: admin-columns-pro/addons/events-calendar/classes/Service/TableScreen.php:128
+msgid "previous"
+msgstr "předchozíq"
+
+#: admin-columns-pro/addons/events-calendar/classes/Service/TableScreen.php:132
+msgid "all"
+msgstr "vše"
+
+#: admin-columns-pro/addons/events-calendar/classes/Service/TableScreen.php:137
+msgid "Filtering on %s: Showing %s events from %s."
+msgstr "Filtrace na %s: Zobrazeno %s událostí z %s."
+
+#: admin-columns-pro/addons/events-calendar/classes/Service/TableScreen.php:147
+msgid "Return to %s"
+msgstr "Vrátit se na %s"
+
+#: admin-columns-pro/addons/events-calendar/classes/Service/TableScreen.php:160
+msgid "Remove this filter"
+msgstr "Odebrat tento filtr"
+
+#: admin-columns-pro/addons/gravityforms/classes/Service/ColumnGroup.php:20
+msgid "Gravity Forms"
+msgstr ""
+
+#: admin-columns-pro/addons/gravityforms/classes/TableElement/EntryFilters.php:14
+msgid "Entry Search"
+msgstr ""
+
+#: admin-columns-pro/addons/gravityforms/classes/TableElement/WordPressNotifications.php:16
+msgid "WordPress Notifications"
+msgstr ""
+
+#: admin-columns-pro/addons/jetengine/classes/Search/ComparisonFactory.php:43
+msgid "On"
+msgstr ""
+
+#: admin-columns-pro/addons/jetengine/classes/Search/ComparisonFactory.php:43
+msgid "Off"
+msgstr ""
+
+#: admin-columns-pro/addons/jetengine/classes/Service/ColumnGroups.php:33
+msgid "JetEngine"
+msgstr ""
+
+#: admin-columns-pro/addons/jetengine/classes/Service/ColumnGroups.php:40
+msgid "JetEngine Relationship"
+msgstr ""
+
+#: admin-columns-pro/addons/pods/classes/ColumnFactory/FieldFactory.php:66
+msgid "Pods Field Type"
+msgstr ""
+
+#: admin-columns-pro/addons/polylang/classes/ColumnFactory/Language.php:34
+msgid "Polylang Language"
+msgstr ""
+
+#: admin-columns-pro/addons/types/classes/ColumnFactory/FieldFactory.php:76
+msgid "Types Field Type"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ListTable/ProductVariation.php:87
+msgid "Select product"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/PostType/ProductVariation.php66,
+#: admin-columns-pro/addons/woocommerce/classes/PostType/ProductVariation.php:68
+msgid "Product Variations"
+msgstr "Varianty produktu"
+
+#: admin-columns-pro/addons/woocommerce/classes/PostType/ProductVariation.php:67
+msgid "Product Variation"
+msgstr "Varianta produktu"
+
+#: admin-columns-pro/addons/woocommerce/classes/PostType/ProductVariation.php:69
+msgid "Add New"
+msgstr "Přidat novou"
+
+#: admin-columns-pro/addons/woocommerce/classes/PostType/ProductVariation.php:70
+msgid "Add new variation"
+msgstr "Přidat novou variantu"
+
+#: admin-columns-pro/addons/woocommerce/classes/PostType/ProductVariation.php:71
+msgid "Edit"
+msgstr "Upravit"
+
+#: admin-columns-pro/addons/woocommerce/classes/PostType/ProductVariation.php:72
+msgid "Edit variation"
+msgstr "Upravit variantu"
+
+#: admin-columns-pro/addons/woocommerce/classes/PostType/ProductVariation.php:73
+msgid "New variation"
+msgstr "Nová varianta"
+
+#: admin-columns-pro/addons/woocommerce/classes/PostType/ProductVariation.php74,
+#: admin-columns-pro/addons/woocommerce/classes/PostType/ProductVariation.php:75
+msgid "View variation"
+msgstr "Zobrazit variantu"
+
+#: admin-columns-pro/addons/woocommerce/classes/PostType/ProductVariation.php:77
+msgid "No variations found"
+msgstr "Nebyly nalezeny žádné varianty"
+
+#: admin-columns-pro/addons/woocommerce/classes/PostType/ProductVariation.php:78
+msgid "No variations found in trash"
+msgstr "V koši nebyly nalezeny žádné varianty"
+
+#: admin-columns-pro/addons/woocommerce/classes/PostType/ProductVariation.php:79
+msgid "Insert into variation"
+msgstr "Vložit k variantě"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/ColumnGroups.php32,
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php219,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/CustomerProperty.php:47
+msgid "WooCommerce"
+msgstr "WooCommerce"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:118
+msgid "This note will be send to the customer by email"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:124
+msgid "Clear Sale Price"
+msgstr "Vymazat akční cenu"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:125
+msgid "Decimals"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:126
+msgid "Decrease by"
+msgstr "Snížit o"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:130
+msgid "Increase by"
+msgstr "Zvýšit o"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:136
+msgid "Regular"
+msgstr "Běžná"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:137
+msgid "Regular Price"
+msgstr "Běžná cena"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:138
+msgid "Replace"
+msgstr "Nahradit"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:141
+msgid "Sale from"
+msgstr "Akční cena od"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:142
+msgid "Sale To"
+msgstr "Akční cena do"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:143
+msgid "Set New"
+msgstr "Nastavit nové"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:144
+msgid "Set the sale price based on the regular price"
+msgstr "Nastavit akční cenu založenou na běžné ceně"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:149
+msgctxt "schedule"
+msgid "From"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:150
+msgctxt "schedule"
+msgid "To"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php151,
+#: admin-columns-pro/addons/woocommerce/classes/Search/Product/Sale.php:32
+msgid "Scheduled"
+msgstr "Naplánováno"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:158
+msgid "No Rounding"
+msgstr "Bez zaokrouhlování"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:159
+msgid "Round up"
+msgstr "Zaokrouhlovat"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:160
+msgid "Round down"
+msgstr "Zaokrouhlovat dolů"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:161
+msgid "Example:"
+msgstr "Příklad:"
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:163
+msgid "Delete note"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreen.php:164
+msgid "Are you sure you want to delete this note?"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreenProductVariations.php49,
+#: admin-columns-pro/addons/woocommerce/classes/Service/TableScreenProductVariations.php:72
+msgid "View Variations"
+msgstr "Zobrazit varianty"
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/coupon-customers.php5,
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/customers.php5,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/CustomerFactory.php59,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/Customer.php49,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/TableElement/FilterSubscriptionCustomer.php:16
+msgid "Customer"
+msgstr "Zákazník"
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/customers.php:8
+msgid "Recent Order"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/customers.php11,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopCoupon/Orders.php27,
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/ShopCoupon/Orders.php:78
+msgid "Orders"
+msgstr "Objednávky"
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/order-notes.php:11
+msgid "Note"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/order-notes.php13,
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/orders.php5,
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/FilterPostDate.php14,
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Event/DisplayDateFactory.php62,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/TableElement/FilterOrderDate.php16,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/OrderProperty.php:36
+msgid "Date"
+msgstr "Datum"
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/ordered-products.php4,
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/products.php4,
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/purchased.php11,
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/subscriptions.php13,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/TableElement/FilterSubscriptionProduct.php16,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Product/ProductProperty.php111,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Product/ProductProperty.php118,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Product/ProductProperty.php:125
+msgid "Product"
+msgstr "Produkt"
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/ordered-products.php5,
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/orders.php7,
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/purchased.php:12
+msgid "Quantity"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/orders.php:4
+msgid "Order"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/orders.php6,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/Purchased.php33,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/User/ProductsFactory.php45,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/User/ShopOrder/Products.php:44
+msgid "Products"
+msgstr "Produkty"
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/orders.php8,
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/purchased.php14,
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/subscriptions.php14,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/TotalProperty.php:41
+msgid "Total"
+msgstr "Celkem"
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/products.php:5
+msgid "SKU"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/products.php6,
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/variations.php:19
+msgid "Stock"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/products.php7,
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/variations.php:20
+msgid "Price"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/purchased.php13,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/TaxFactory.php23,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/Tax.php26,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/TotalProperty.php:44
+msgid "Tax"
+msgstr "Daň"
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/subscriptions.php11,
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/TableScreen/OrderSubscription.php:24
+msgid "Subscription"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/variations.php15,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ProductVariation/VariationFactory.php:57
+msgid "Variation"
+msgid_plural "Variations"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: admin-columns-pro/addons/woocommerce/templates/modal-value/variations.php:18
+msgid "Attributes"
+msgstr ""
+
+#: admin-columns-pro/classes/ColumnFactory/Post/Original/Title.php:31
+msgid "Add title"
+msgstr "Přidat titulek"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:80
+msgid "Select author"
+msgstr "Vybrat autora"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:82
+msgid "Redo"
+msgstr "Opakovat"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:83
+msgid "Undo"
+msgstr "Zpět"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:86
+msgid "Generate"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:87
+msgid "Restore"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:88
+msgid "Show"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:89
+msgid "Hide"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:90
+msgid "Download"
+msgstr "Stáhnout"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:91
+msgid "Loading"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:93
+msgid "This field is required."
+msgstr "Toto pole je vyžadováno."
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:94
+msgid "Please enter a valid float value."
+msgstr "Zadejte platnou plovoucí hodnotu."
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:95
+msgid "Please enter valid float values."
+msgstr "Zadejte platné plovoucí hodnoty."
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:96
+msgid "Something went wrong."
+msgstr "Něco se pokazilo."
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php99,
+#: admin-columns-pro/classes/Export/Asset/Script/Table.php:59
+msgid "Failed"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:100
+msgid "Media"
+msgstr "Média"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:101
+msgid "Image"
+msgstr "Obrázek"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:102
+msgid "Audio"
+msgstr "Audio"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:103
+msgid "Time"
+msgstr "Čas"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:104
+msgid "Update"
+msgstr "Aktualizovat"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php106,
+#: admin-columns-pro/classes/Export/Asset/Script/Table.php:60
+msgid "Done"
+msgstr "Dokončeno"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:107
+msgid "Replace with"
+msgstr "Nahradit za"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php109,
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:114
+msgid "Remove"
+msgstr "Odstranit"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:110
+msgid "Add to gallery"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:112
+msgid "Subtract"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:115
+msgid "Multiply"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:116
+msgid "Divide"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:119
+msgctxt "bulk-delete"
+msgid "This will affect {0}"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:120
+msgid "all selected items"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php121,
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:122
+msgid "all items"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php123,
+#: admin-columns-pro/classes/Export/Asset/Script/Table.php:67
+msgid "{0} items"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php124,
+#: admin-columns-pro/classes/Export/Asset/Script/Table.php:68
+msgid "1 item"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:125
+msgid "Select all {0} items"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:127
+msgid "{0} selected for %s."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:132
+msgctxt "bulk-delete"
+msgid "Assign all content to:"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:138
+msgid "Bulk Restore"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:139
+msgid "Do you want to bulk delete all selected items?"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:143
+msgid "Do you want to bulk restore all selected items?"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:147
+msgctxt "bulk-delete"
+msgid "current user"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:148
+msgctxt "bulk-delete"
+msgid "Delete all content"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:153
+msgctxt "bulk-delete"
+msgid "Delete the items permanently"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:158
+msgctxt "bulk-delete"
+msgid "The selected items will be deleted permanently."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:163
+msgctxt "bulk-delete"
+msgid "Restore"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:164
+msgctxt "bulk-delete"
+msgid "Restore the items"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php169,
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:196
+msgid "Processed {0} items"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:170
+msgctxt "bulk-delete"
+msgid "Move the items to trash"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:175
+msgctxt "bulk-delete"
+msgid "What should be done with content owned by these users?"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:180
+msgid "Yes, Delete"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:181
+msgid "Yes, Restore"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:185
+msgid "Done & Deselect All"
+msgstr "Hotovo & vše odznačit"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:187
+msgid "This will update {0} items."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:188
+msgid "You are about to clear {0} items."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:189
+msgid "You are about to update {0} items."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:191
+msgid "Yes, Update"
+msgstr "Ano, aktualizovat"
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:194
+msgid "Show items"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:195
+msgid "Hide items"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:197
+msgid "Updating items."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:198
+msgid "Processed {0} of {1} items."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:199
+msgid "Updating failed. Please try again."
+msgstr "Aktualizace se nezdařila. Opakujte akci."
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:200
+msgctxt "bulk edit errors"
+msgid "We have found {0} while processing."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:205
+msgid "These items are not editable and could not be modified:"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:221
+msgid "bulk edit"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:222
+msgid ""
+"Bulk edit items by clicking the Bulk Edit button below the column labels."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:228
+msgid "bulk delete"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:229
+msgid "Bulk delete items by clicking the trash icon in the top left corner."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:235
+msgid "export"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:236
+msgid "Export items by clicking the Export button."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Asset/Script/Table.php:259
+msgid "current user"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/Comment.php:17
+msgid "Comment does not exist."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/Comment.php21,
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/Post.php60,
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/Taxonomy.php:24
+msgid "You have no permission to delete this item."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/Comment.php:29
+msgid "Failed to delete comment."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/Post.php:41
+msgid "You have no permission to restore this item."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/Post.php:48
+msgid "%s is not in Trash."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/Post.php:80
+msgid "%s has already been deleted."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/Post.php:104
+msgid "%s is currently being edited by %s."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/Taxonomy.php:30
+msgid "Term does not exist."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/Taxonomy.php:33
+msgid "A default term can not be deleted."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/User.php:17
+msgid "You do not have permissions to delete this user."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/User.php:22
+msgid "The current user can not be deleted."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/User.php:30
+msgid "The assigned user can not be deleted."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/BulkDelete/RequestHandler/User.php:36
+msgid "User does not exist."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/RequestHandler/Exception/NotEditableException.php:12
+msgid "Item can not be edited."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/Media/AlternateText.php:25
+msgid "Item is not an image."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/Post/Author.php:28
+msgid "You can not change the author."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/Post/CommentStatus.php23,
+#: admin-columns-pro/classes/Editing/Service/Post/PingStatus.php23,
+#: admin-columns-pro/classes/Search/Comparison/Post/CommentStatus.php:27
+msgid "Closed"
+msgstr "Zavřeno"
+
+#: admin-columns-pro/classes/Editing/Service/Post/CommentStatus.php24,
+#: admin-columns-pro/classes/Editing/Service/Post/PingStatus.php24,
+#: admin-columns-pro/classes/Search/Comparison/Post/CommentStatus.php:26
+msgid "Open"
+msgstr "Otevřít"
+
+#: admin-columns-pro/classes/Editing/Service/Post/Date.php:28
+msgid "Date can not be updated for %s with %s status."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/Post/Discussion.php:18
+msgid "Comment Status"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/Post/Discussion.php:23
+msgctxt "Comment Status"
+msgid "Open"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/Post/Discussion.php:24
+msgctxt "Comment Status"
+msgid "Closed"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/Post/Discussion.php:32
+msgid "Enable pingbacks & trackbacks"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/Post/Excerpt.php:20
+msgid "Excerpt automatically generated from content."
+msgstr "Krátký popis automaticky generovaný z obsahu."
+
+#: admin-columns-pro/classes/Editing/Service/Post/Slug.php:24
+msgid "Enter slug"
+msgstr "Zadejte slug"
+
+#: admin-columns-pro/classes/Editing/Service/Post/Sticky.php23,
+#: admin-columns-pro/classes/Search/Comparison/Post/Sticky.php:28
+msgid "Not sticky"
+msgstr "Není zvýrazněné"
+
+#: admin-columns-pro/classes/Editing/Service/Post/Sticky.php23,
+#: admin-columns-pro/classes/Search/Comparison/Post/Sticky.php:29
+msgid "Sticky"
+msgstr "Zvýrazněný"
+
+#: admin-columns-pro/classes/Editing/Service/User/LanguageRemote.php:44
+msgid "Installed"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/User/LanguageRemote.php:47
+msgid "Available"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/User/Nicename.php:20
+msgid "Author Slug"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/User/Role.php:43
+msgid "Current user can not change user role."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Setting/ComponentFactory/BulkEdit.php:17
+msgid "Enable Bulk Editing"
+msgstr "Povolit hromadné úpravy"
+
+#: admin-columns-pro/classes/Editing/Setting/ComponentFactory/CreateTerms.php:19
+msgid "Allow new terms"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Setting/ComponentFactory/EditableType.php:19
+msgid "Input Type"
+msgstr "Typ vstupu"
+
+#: admin-columns-pro/classes/Editing/Setting/ComponentFactory/InlineEdit.php:25
+msgid "Enable Editing"
+msgstr "Povolit úpravy"
+
+#: admin-columns-pro/classes/Editing/Setting/ComponentFactory/InlineEditCustomField.php:16
+msgid "Learn more about %s."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Setting/ComponentFactory/InlineEditCustomField.php:25
+msgid "custom field save formats"
+msgstr ""
+
+#: admin-columns-pro/classes/Export/Asset/Script/Table.php:50
+msgid "Export to CSV"
+msgstr "Export do CSV"
+
+#: admin-columns-pro/classes/Export/Asset/Script/Table.php:51
+msgid "Something went wrong during exporting. Please try again."
+msgstr "Během exportu se něco pokazilo. Opakujte akci."
+
+#: admin-columns-pro/classes/Export/Asset/Script/Table.php:55
+msgid "Processed {0} of {1} items ({2}%)."
+msgstr "Zpracováno {0} z {1} záznamů ({2}%)."
+
+#: admin-columns-pro/classes/Export/Asset/Script/Table.php:56
+msgid "Exporting current list of items."
+msgstr "Exportování aktuálního seznamu položek."
+
+#: admin-columns-pro/classes/Export/Asset/Script/Table.php:57
+msgid "Exported {0} items"
+msgstr ""
+
+#: admin-columns-pro/classes/Export/Asset/Script/Table.php:58
+msgid "Download File"
+msgstr "Stáhnout soubor"
+
+#: admin-columns-pro/classes/Export/Asset/Script/Table.php:62
+msgid ""
+"You are currently generating an export file. Leaving the page will cancel "
+"this process. Are you sure you want to leave the page?"
+msgstr "Právě generujete exportní soubor. Opuštění stránky tento proces zruší. Opravdu chcete stránku opustit?"
+
+#: admin-columns-pro/classes/Export/Asset/Script/Table.php:66
+msgctxt "export"
+msgid "This will affect {0}"
+msgstr ""
+
+#: admin-columns-pro/classes/Export/Setting/ComponentFactory/Export.php:17
+msgid "Enable Export"
+msgstr "Povolit export"
+
+#: admin-columns-pro/classes/Filtering/Setting/ComponentFactory/FilterDateFormat.php:17
+msgid "Filter by"
+msgstr "Filtrovat podle"
+
+#: admin-columns-pro/classes/Filtering/Setting/ComponentFactory/FilterDateFormat.php:22
+msgid "This will allow you to set the filter format."
+msgstr "Toto vám umožní nastavit formát filtru."
+
+#: admin-columns-pro/classes/Filtering/Setting/ComponentFactory/FilterDateFormat.php:30
+msgid "Daily"
+msgstr ""
+
+#: admin-columns-pro/classes/Filtering/Setting/ComponentFactory/FilterDateFormat.php:31
+msgid "Monthly"
+msgstr ""
+
+#: admin-columns-pro/classes/Filtering/Setting/ComponentFactory/FilterDateFormat.php:32
+msgid "Yearly"
+msgstr ""
+
+#: admin-columns-pro/classes/Filtering/Setting/ComponentFactory/FilterDateFormat.php:33
+msgid "Future / Past"
+msgstr "Budoucnost / minulost"
+
+#: admin-columns-pro/classes/Filtering/Setting/ComponentFactory/FilterDateFormat.php:34
+msgid "Range"
+msgstr "Rozsah"
+
+#: admin-columns-pro/classes/Filtering/Setting/ComponentFactory/Filtering.php:27
+msgid "Enable Filtering"
+msgstr "Povolit filtraci"
+
+#: admin-columns-pro/classes/Filtering/Setting/ComponentFactory/FilterLabel.php:14
+msgid "Top label"
+msgstr "Horní popisek"
+
+#: admin-columns-pro/classes/Filtering/Setting/ComponentFactory/FilterLabel.php:19
+msgid "Set the name of the label in the filter menu"
+msgstr "Nastavit název popisku v nabídce filtru"
+
+#: admin-columns-pro/classes/QuickAdd/Admin/TableElement/QuickAdd.php:17
+msgid "Quick Add"
+msgstr "Rychlé přidání"
+
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php:124
+msgctxt "select placeholder"
+msgid "Select"
+msgstr "Vybrat"
+
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php:125
+msgid "Add Filter"
+msgstr "Přidat filtr"
+
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php:126
+msgid "days ago"
+msgstr "dny staré"
+
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php:127
+msgid "days"
+msgstr "dny"
+
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php:128
+msgid "Available to all users"
+msgstr "Dostupné všem uživatelům"
+
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php:131
+msgid "Clear filters"
+msgstr "Vymazat filtry"
+
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php:133
+msgid "Type to search"
+msgstr ""
+
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php:134
+msgid "Save Filters"
+msgstr "Uložit filtry"
+
+#: admin-columns-pro/classes/Search/Asset/Script/Table.php135,
+#: admin-columns-pro/addons/woocommerce/classes/RequestHandler/Ajax/OrderMetaFields.php:55
+msgid "Public"
+msgstr ""
+
+#: admin-columns-pro/classes/Search/Comparison/Media/UsedAsFeaturedImage.php:48
+msgid "In use"
+msgstr "Používáno"
+
+#: admin-columns-pro/classes/Search/Comparison/Media/UsedAsFeaturedImage.php:49
+msgid "Not used"
+msgstr "Nepoužívá se"
+
+#: admin-columns-pro/classes/Search/Comparison/Post/Attachment.php:23
+msgid "Has No Attachment"
+msgstr ""
+
+#: admin-columns-pro/classes/Search/Comparison/Post/Attachment.php:24
+msgid "Has Attachment"
+msgstr ""
+
+#: admin-columns-pro/classes/Search/Comparison/Post/Content.php23,
+#: admin-columns-pro/classes/Search/Comparison/Post/WordCount.php:19
+msgid "has no content"
+msgstr ""
+
+#: admin-columns-pro/classes/Search/Comparison/Post/Content.php24,
+#: admin-columns-pro/classes/Search/Comparison/Post/WordCount.php:20
+msgid "has content"
+msgstr ""
+
+#: admin-columns-pro/classes/Search/Comparison/Post/PostParent.php:34
+msgid "Has No Parent"
+msgstr ""
+
+#: admin-columns-pro/classes/Search/Comparison/Post/PostParent.php:35
+msgid "Has Parent"
+msgstr ""
+
+#: admin-columns-pro/classes/Search/Comparison/User/TrueFalse.php:21
+msgid "is true"
+msgstr ""
+
+#: admin-columns-pro/classes/Search/Comparison/User/TrueFalse.php:22
+msgid "is false"
+msgstr ""
+
+#: admin-columns-pro/classes/Search/Setting/ComponentFactory/Search.php:17
+msgid "Enable Smart Filtering"
+msgstr "Povolit chytrou filtraci"
+
+#: admin-columns-pro/classes/Search/Settings/TableElement/SmartFilters.php:14
+msgid "Smart Filters"
+msgstr "Chytré filtry"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/Media/FeaturedImageDisplay.php:26
+msgid "True / False"
+msgstr "Pravda / nepravda"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/NetworkSite/PluginDisplay.php25,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/NoteProperty.php:29
+msgid "Count"
+msgstr "Počet"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/NetworkSite/PluginDisplay.php:26
+msgid "List"
+msgstr "Seznam"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/NetworkSite/PluginIncludeNetwork.php:16
+msgid "Include network plugins"
+msgstr "Zahrnout síťové pluginy"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/NetworkSite/PostStatus.php17,
+#: admin-columns-pro/classes/Setting/ComponentFactory/Post/Status.php:17
+msgid "Post Status"
+msgstr "Stav příspěvku"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/NetworkSite/PostStatus.php:37
+msgid "Does not include %s"
+msgstr "Nezahrnuje %s"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/NetworkSite/PostType.php:46
+msgid "All post types"
+msgstr "Všechny typy obsahu"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/NetworkSite/SiteOptions.php:18
+msgid "Option"
+msgstr "Možnost"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/NetworkSite/ThemeStatus.php:17
+msgid "Theme Status"
+msgstr ""
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/NetworkSite/ThemeStatus.php:25
+msgid "Active Theme"
+msgstr "Aktivní šablona"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/NetworkSite/ThemeStatus.php:26
+msgid "Allowed Themes"
+msgstr "Povolené šablony"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/NetworkSite/ThemeStatus.php:27
+msgid "Available Themes"
+msgstr "Dostupné šablony"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/Post/Status.php32,
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/ProductVariation/VariationWithLabel.php:38
+msgid "Any"
+msgstr "Jakékoli"
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/Post/Term.php:28
+msgid "Term"
+msgstr ""
+
+#: admin-columns-pro/classes/Setting/ComponentFactory/User/GravatarImageSize.php:16
+msgid "Gravatar Image Size"
+msgstr ""
+
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/BulkActions.php:12
+msgid "Bulk Actions"
+msgstr "Hromadné akce"
+
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/ColumnOrder.php:12
+msgid "Column Order"
+msgstr ""
+
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/FilterCategory.php14,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/TableElement/FilterProductCategory.php:16
+msgid "Category"
+msgstr "Kategorie"
+
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/FilterCommentType.php:14
+msgid "Comment Types"
+msgstr ""
+
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/FilterMediaItem.php:14
+msgid "Media Items"
+msgstr "Položky médií"
+
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/FilterPostFormat.php:14
+msgid "Post Format"
+msgstr "Formát příspěvku"
+
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/Filters.php:14
+msgid "Filters"
+msgstr "Filtry"
+
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/RowActions.php:16
+msgid "Row Actions"
+msgstr ""
+
+#: admin-columns-pro/classes/Settings/ListScreen/TableElement/RowActions.php:17
+msgid "Below Title"
+msgstr ""
+
+#: admin-columns-pro/classes/Sorting/Setting/ComponentFactory/Sort.php:17
+msgid "Sorting"
+msgstr "Řazení"
+
+#: admin-columns-pro/classes/Sorting/TableScreen/ManageHeading/ScreenColumns.php:60
+msgid "Table ordered by %s."
+msgstr ""
+
+#: admin-columns-pro/classes/Tools/Export/Response/File.php:37
+msgid "No screens selected for export."
+msgstr "Pro export nebyly vybrány žádné obrazovky."
+
+#: admin-columns-pro/classes/Value/ExtendedValue/NetworkSites/Plugins.php:47
+msgid "No plugins found"
+msgstr ""
+
+#: admin-columns-pro/classes/Value/ExtendedValue/NetworkSites/Plugins.php:92
+msgid "Network activated"
+msgstr ""
+
+#: admin-columns-pro/classes/Value/ExtendedValue/NetworkSites/Plugins.php:93
+msgid "Activated"
+msgstr ""
+
+#: admin-columns-pro/classes/Value/ExtendedValue/NetworkSites/Plugins.php:95
+msgid "Update to %s"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/ColumnFactory/Meta/Unsupported.php:40
+msgid "This ACF field is not supported"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/ColumnFactory/Meta/Unsupported.php:45
+msgid ""
+"This specific ACF field type is not supported in this integration. Although "
+"the column may work, it could lead to unexpected behavior. Sorting, "
+"Filtering and Inline Editing are disabled for this field."
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/BeforeAfterExtended.php:46
+msgid "Before / After"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/BeforeAfterExtended.php:54
+msgid "Prepend"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/BeforeAfterExtended.php:55
+msgid "Appears before the rendered column value"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/BeforeAfterExtended.php:60
+msgid "Append"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/BeforeAfterExtended.php:61
+msgid "Appears after the rendered column value"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/Date.php31,
+#: admin-columns-pro/addons/buddypress/classes/Settings/ComponentFactory/Date.php:23
+msgid "Time Difference"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/Date.php32,
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/Time.php40,
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/Time.php73,
+#: admin-columns-pro/addons/buddypress/classes/Settings/ComponentFactory/Date.php:24
+msgid "WordPress Date Format"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/Date.php33,
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/Time.php:41
+msgid "ACF"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/ExtraActions.php:24
+msgid "Extra Actions"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/ExtraActions.php:42
+msgid "Edit Field"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/FlexDisplay.php:25
+msgid "Layout Type Count"
+msgstr "Počet typů rozvržení"
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/FlexDisplay.php:26
+msgid "Layout Structure"
+msgstr "Struktura rozvržení"
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/OembedDisplay.php:19
+msgid "Display format"
+msgstr "Formát zobrazení"
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/RepeaterDisplay.php37,
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/RepeaterSubField.php27,
+#: admin-columns-pro/addons/jetengine/classes/Setting/ComponentFactory/RepeaterField.php:25
+msgid "Subfield"
+msgstr "Podpole"
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/RepeaterDisplay.php:38
+msgid "Number of Rows"
+msgstr "Počet řádků"
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/Time.php:29
+msgid "Display Time Format"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Setting/ComponentFactory/Time.php:72
+msgid "The %s can be changed in %s."
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Value/Formatter/File.php41,
+#: admin-columns-pro/addons/acf/classes/Value/Formatter/FileLink.php33,
+#: admin-columns-pro/addons/jetengine/classes/Value/Formatter/Media.php:33
+msgid "Invalid attachment"
+msgstr "Neplatná příloha"
+
+#: admin-columns-pro/addons/acf/classes/Value/Formatter/File.php61,
+#: admin-columns-pro/addons/metabox/classes/Value/Formatter/FilePreview.php:56
+msgid "No support for video player"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Value/Formatter/File.php69,
+#: admin-columns-pro/addons/metabox/classes/Value/Formatter/FilePreview.php:64
+msgid "No support for audio player"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/ColumnFactory/Activity/ComponentFactory.php:22
+msgid "Component"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/ColumnFactory/Group/AvatarFactory.php:22
+msgid "Avatar"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/ColumnFactory/Group/CreatorFactory.php:44
+msgid "Creator"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/ColumnFactory/Group/NameOnlyFactory.php:51
+msgid "Name Only"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/ColumnFactory/User/ActivityUpdatesFactory.php:52
+msgid "Activity Updates"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/ColumnFactory/User/FriendsFactory.php:29
+msgid "Friends"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/ColumnFactory/User/LastActivityFactory.php:27
+msgid "Last Activity"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/ColumnFactory/User/LastSeenFactory.php:53
+msgid "Last Seen"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/Settings/ComponentFactory/ActivityType.php:16
+msgid "Activity Type"
+msgstr ""
+
+#: admin-columns-pro/addons/buddypress/classes/Settings/ComponentFactory/GroupLink.php:18
+msgid "Link To"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Event/AllDayEventFactory.php:31
+msgid "All Day Event"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Event/CostsFactory.php:36
+msgid "Costs"
+msgstr "Ceny"
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Event/DurationFactory.php:30
+msgid "Duration"
+msgstr "Délka trvání"
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Event/EventSerieFactory.php:33
+msgid "Event Series Name"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Event/EventStatusFactory.php:36
+msgid "Event Status"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Event/EventStatusReasonFactory.php:35
+msgid "Event Status Reason"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Event/FeaturedFactory.php:34
+msgid "Featured"
+msgstr "Zvýrazněná"
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Event/HideFromUpcomingFactory.php:32
+msgid "Hide from Event Listing"
+msgstr "Skrýt z výpisu akcí"
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Event/OrganizerFactory.php:68
+msgid "Organizer"
+msgstr "Pořadatel"
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Event/StickyFactory.php:29
+msgid "Sticky in Month View"
+msgstr "Zvýrazněná v měsíčním přehledu"
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Event/VenueFactory.php:67
+msgid "Venue"
+msgstr "Místo konání"
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Event/VirtualEventTypeFactory.php:31
+msgid "Virtual Event Type"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Event/WebsiteFactory.php:53
+msgid "Event Website"
+msgstr "Web akce"
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/EventSeries/EventFactory.php:25
+msgid "Event Series"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Organizer/EmailFactory.php31,
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/OrganizerDisplay.php70,
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/OrganizerLink.php:56
+msgid "Email"
+msgstr "E-mail"
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Organizer/EventsFactory.php52,
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Venue/EventsFactory.php:51
+msgid "Events"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Organizer/UpcomingEventFactory.php51,
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Venue/UpcomingEventFactory.php:63
+msgid "Upcoming Event"
+msgstr "Nadcházející akce"
+
+#: admin-columns-pro/addons/events-calendar/classes/ColumnFactory/Venue/CountryFactory.php32,
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/VenueDisplay.php:45
+msgid "Country"
+msgstr "Stát"
+
+#: admin-columns-pro/addons/events-calendar/classes/Search/Event/AllDayEvent.php:23
+msgid "Not All Day Events"
+msgstr "Nejsou celodenní akce"
+
+#: admin-columns-pro/addons/events-calendar/classes/Search/Event/AllDayEvent.php:24
+msgid "All Day Events"
+msgstr "Celodenní akce"
+
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/EventDates.php:16
+msgid "Event Date"
+msgstr "Datum akce"
+
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/EventDisplay.php:19
+msgid "Show Events"
+msgstr "Zobrazit akce"
+
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/EventDisplay.php:28
+msgid "Upcoming Events"
+msgstr "Nadcházející akce"
+
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/EventDisplay.php:29
+msgid "Past Events"
+msgstr "Minulé akce"
+
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/EventLink.php:14
+msgid "Event"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/OrganizerLink.php24,
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/VenueLink.php22,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/ProductVariation/ProductVariationLink.php:20
+msgid "Link to"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/ShowFilterLink.php:17
+msgid "Link to Filtered Overview"
+msgstr "Odkaz na filtrovaný přehled"
+
+#: admin-columns-pro/addons/events-calendar/classes/Setting/ComponentFactory/VenueDisplay.php:49
+msgid "ZIP"
+msgstr ""
+
+#: admin-columns-pro/addons/events-calendar/classes/Value/ExtendedValue/EventSeries.php:28
+msgid "No series found"
+msgstr ""
+
+#: admin-columns-pro/addons/jetengine/classes/ColumnFactory/Meta/FieldFactory.php:130
+msgid "JetEngine Field Type"
+msgstr ""
+
+#: admin-columns-pro/addons/metabox/classes/ColumnFactory/Meta/FieldFactory.php:115
+msgid "MetaBox Field Type"
+msgstr ""
+
+#: admin-columns-pro/addons/metabox/classes/ColumnFactory/MetaBox/CustomTable.php:31
+msgid "Custom Table"
+msgstr ""
+
+#: admin-columns-pro/addons/metabox/classes/ColumnFactory/MetaBox/Fields.php:30
+msgid "Fields"
+msgstr ""
+
+#: admin-columns-pro/addons/metabox/classes/ColumnFactory/MetaBox/NumberOfFields.php:30
+msgid "Number of Fields"
+msgstr ""
+
+#: admin-columns-pro/addons/metabox/classes/ColumnFactory/MetaBox/Position.php:30
+msgid "Position"
+msgstr ""
+
+#: admin-columns-pro/addons/metabox/classes/ColumnFactory/PostType/Label.php:30
+msgid "Label"
+msgstr ""
+
+#: admin-columns-pro/addons/metabox/classes/ColumnFactory/PostType/Supports.php:31
+msgid "Supports"
+msgstr ""
+
+#: admin-columns-pro/addons/metabox/classes/ColumnFactory/PostType/Taxonomies.php:30
+msgid "Taxonomies"
+msgstr ""
+
+#: admin-columns-pro/addons/metabox/classes/Setting/ComponentFactory/GroupField.php:29
+msgid "Group Field"
+msgstr ""
+
+#: admin-columns-pro/addons/metabox/classes/Value/Formatter/Maps.php:27
+msgid "Latitude"
+msgstr ""
+
+#: admin-columns-pro/addons/metabox/classes/Value/Formatter/Maps.php:28
+msgid "Longitude"
+msgstr ""
+
+#: admin-columns-pro/addons/metabox/classes/Value/Formatter/Maps.php:29
+msgid "Zoom"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/Post/CanonicalUrl.php30,
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/User/CanonicalUrl.php30,
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Taxonomy/CanonicalUrlFactory.php:56
+msgid "Canonical URL"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/Post/FacebookDescription.php:27
+msgctxt "Rank Math Facebook"
+msgid "Description"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/Post/FacebookIconOverlay.php:40
+msgctxt "Rank Math Facebook"
+msgid "Icon Overlay"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/Post/FacebookImage.php:49
+msgctxt "Rank Math Facebook"
+msgid "Image"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/Post/FacebookShowIconOverlay.php:26
+msgctxt "Rank Math Facebook"
+msgid "Show Icon Overlay"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/Post/FacebookTitle.php:27
+msgctxt "Rank Math Facebook"
+msgid "Title"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/Post/FocusKeyWord.php29,
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/User/FocusKeyword.php:29
+msgid "Focus Keyword"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/Post/PillarContent.php:30
+msgid "Pillar Content"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/Post/PrimaryTerm.php51,
+#: admin-columns-pro/addons/seopress/classes/ColumnFactory/Post/PrimaryTaxonomy.php:37
+msgid "Primary Term"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/Post/Score.php:31
+msgid "SEO Score"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/Robots/Robots.php:43
+msgctxt "Rank Math Robots Meta"
+msgid "All Directives"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/User/FacebookProfileUrl.php:30
+msgid "Facebook profile url"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/User/ProfileUrls.php:31
+msgid "Additional profile URLs"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/User/RankMathDescription.php:29
+msgid "RankMath Description"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/User/RankMathTitle.php:29
+msgid "RankMath Title"
+msgstr ""
+
+#: admin-columns-pro/addons/rankmath/classes/ColumnFactory/User/TwitterUsername.php:29
+msgid "Twitter username"
+msgstr ""
+
+#: admin-columns-pro/addons/seopress/classes/ColumnFactory/Post/FacebookImage.php:42
+msgid "Facebook Thumbnail"
+msgstr ""
+
+#: admin-columns-pro/addons/seopress/classes/ColumnFactory/Post/FacebookPreview.php:23
+msgid "Facebook Preview"
+msgstr ""
+
+#: admin-columns-pro/addons/seopress/classes/ColumnFactory/Post/XPreview.php:23
+msgid "X Preview"
+msgstr ""
+
+#: admin-columns-pro/addons/seopress/classes/ColumnFactory/Redirect/LoginStatus.php:25
+msgid "Login Status"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Asset/Script/TableVariation.php:25
+msgid "Back to products"
+msgstr "Zpět na produkty"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/CouponsUsedFactory.php22,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/CouponsUsed.php27,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/User/ShopOrder/CouponUsed.php:22
+msgid "Coupons Used"
+msgstr "Kupónů použito"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/CreatedVersionFactory.php:23
+msgid "WooCommerce Version"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/CreatedViaFactory.php:24
+msgid "Created via"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/CurrencyFactory.php23,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/Currency.php:27
+msgid "Currency"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/CustomerNoteFactory.php50,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/CustomerNote.php:48
+msgid "Customer Note"
+msgstr "Poznámka zákazníka"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/CustomerTotalOrdersFactory.php:22
+msgid "Number of Orders"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/CustomerTotalSalesFactory.php:22
+msgid "Customer Total Sales"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/CustomerTotalSalesFactory.php:32
+msgid "The customer's total lifetime spend across all orders."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/DiscountTaxFactory.php:24
+msgid "Discount Tax"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/DiscountTotalFactory.php:24
+msgid "Discount Total"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/DownloadPermissionGrantedFactory.php24,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/DownloadPermissionGrantedFactory.php:38
+msgid "Download Permission Granted"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/DownloadsFactory.php23,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/Downloads.php:28
+msgid "Downloads"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/FeesFactory.php23,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/Fees.php28,
+#: admin-columns-pro/addons/woocommerce/classes/Search/ShopOrder/HasFees.php31,
+#: admin-columns-pro/addons/woocommerce/classes/Search/ShopOrder/HasFees.php35,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/TotalProperty.php:48
+msgid "Fees"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/FulfillmentTimeFactory.php:23
+msgid "Fulfillment Time"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/FulfillmentTimeFactory.php:33
+msgid "Time between order creation and completion."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/IpFactory.php23,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/Ip.php:29
+msgid "Customer IP address"
+msgstr "IP adresa zákazníka"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/IsCustomerFactory.php23,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/IsCustomer.php:26
+msgid "Is Customer"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/OrderKeyFactory.php:23
+msgid "Order Key"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/OrderMetaFactory.php:52
+msgid "Order Meta"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/OrderNumberFactory.php23,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/OrderNumber.php:27
+msgid "Order Number"
+msgstr "Číslo objednávky"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/PaidAmountFactory.php:24
+msgid "Paid Amount"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/PaymentMethodFactory.php24,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/PaymentMethod.php29,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/TableElement/FilterSubscriptionPayment.php:16
+msgid "Payment Method"
+msgstr "Platební metoda"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/ProductDetailFactory.php:23
+msgid "Product Details"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/ProductTaxonomyFactory.php49,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ProductVariation/ProductTaxonomy.php49,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/ProductTaxonomy.php:43
+msgid "Product Taxonomy"
+msgstr "Taxonomie produktu"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/PurchasedFactory.php:24
+msgid "Products Count"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/RefundFactory.php23,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/Refunds.php27,
+#: admin-columns-pro/addons/woocommerce/classes/Search/ShopOrder/Refunds.php29,
+#: admin-columns-pro/addons/woocommerce/classes/Search/ShopOrder/Refunds.php33,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/TotalProperty.php:45
+msgid "Refunds"
+msgstr "Vratky"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/ReturningCustomerFactory.php:24
+msgid "Returning Customer"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/ShippingFactory.php24,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/User/AddressType.php:27
+msgid "Shipping"
+msgstr "Doručení"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/ShippingTaxAmountFactory.php:23
+msgid "Shipping Tax Amount"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/UserAgentFactory.php:23
+msgid "User Agent"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/AvgOrderInterfalFactory.php50,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/ShopOrder/AvgOrderInterfalFactory.php:48
+msgid "Average Order Interval"
+msgstr "Průměrný čas objednávky"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/AvgOrderInterfalFactory.php:55
+msgid "Average number of days between orders containing this product."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/BackordersAllowedFactory.php:30
+msgid "Backorders Allowed"
+msgstr "Jsou povoleny objednávky"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/CouponsFactory.php:28
+msgid "Coupons"
+msgstr "Kupóny"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/CrossSellsFactory.php:31
+msgid "Cross Sells"
+msgstr "Doplňkový prodej"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/CustomersFactory.php29,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/ShopOrder/CustomersFactory.php:28
+msgid "Customers"
+msgstr "Zákazníci"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/CustomersFactory.php:34
+msgid "Number of unique customers who have purchased this product."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/CustomersFactory.php:43
+msgid "%d customer"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/CustomersFactory.php:44
+msgid "%d customers"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/DaysSinceLastSaleFactory.php:23
+msgid "Days Since Last Sale"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/DaysSinceLastSaleFactory.php:33
+msgid "Time since this product was last purchased."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/DefaultFormValuesFactory.php:28
+msgid "Variation Default"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/GroupedByFactory.php:55
+msgid "Grouped By"
+msgstr "Seskupeno podle"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/LowOnStockFactory.php:29
+msgid "Low on Stock"
+msgstr "Nízký stav skladu"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/OrderCountFactory.php:33
+msgid "Number of orders that contain this product."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/OrderTotalFactory.php58,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/ShopOrder/OrderTotalFactory.php29,
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/ColumnFactory/OrderSubscription/TotalRevenue.php23,
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/ColumnFactory/ShopSubscription/TotalRevenue.php:23
+msgid "Total Revenue"
+msgstr "Celkový výdělek"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/OrderTotalFactory.php:63
+msgid "Total revenue generated by this product across all matching orders."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/RatingFactory.php:36
+msgid "Average Rating"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/ReviewsEnabledFactory.php:29
+msgid "Reviews Enabled"
+msgstr "Recenze povoleny"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/SaleFactory.php:35
+msgid "Sale Price"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/SalesFactory.php56,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/ShopOrder/SalesFactory.php:50
+msgid "Products Sold"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/SalesFactory.php:61
+msgid "Total quantity of this product sold across all matching orders."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/StockThresholdFactory.php:30
+msgid "Low on Stock Threshold"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/StockValueFactory.php:23
+msgid "Stock Value"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/StockValueFactory.php:33
+msgid ""
+"Total value of current stock, calculated as product price multiplied by "
+"stock quantity."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/UpsellsFactory.php:31
+msgid "Upsells"
+msgstr "Navyšovací prodej"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/VariationFactory.php:41
+msgid "%d variation"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/VariationFactory.php:42
+msgid "%d variations"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Product/VisibilityFactory.php:32
+msgid "Catalog Visibility"
+msgstr "Viditelnost v katalogu"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ProductVariation/ParentProductFactory.php:55
+msgid "Parent Product"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopCoupon/AmountMaximum.php:32
+msgid "Maximum Amount"
+msgstr "Maximální částka"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopCoupon/AmountMinimum.php:32
+msgid "Minimum Amount"
+msgstr "Minimální částka"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopCoupon/EmailRestrictions.php:29
+msgid "Email Restrictions"
+msgstr "E-mailová omezení"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopCoupon/ExcludedProducts.php:31
+msgid "Excluded Products"
+msgstr "Vyloučené produkty"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopCoupon/ExcludedProductsCategories.php:30
+msgid "Excluded Product Categories"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopCoupon/FreeShipping.php:30
+msgid "Free Shipping"
+msgstr "Poštovné zdarma"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopCoupon/IncludedProducts.php:31
+msgid "Included Products"
+msgstr "Zahrnuté produkty"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopCoupon/Limit.php:50
+msgid "Coupon limit"
+msgstr "Limit kupónů"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopCoupon/UsedBy.php:28
+msgid "Used By"
+msgstr "Použito"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/Discount.php:27
+msgid "Order Discount"
+msgstr "Sleva z objednávky"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/OrderDate.php:51
+msgid "Order Date"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/Purchased.php:34
+msgid "Purchased"
+msgstr "Zakoupeno"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/Shipping.php27,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/TotalProperty.php:43
+msgid "Shipping Costs"
+msgstr "Třída doručení"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/StatusIcon.php:26
+msgid "Status Icon"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/Totals.php:43
+msgid "Totals"
+msgstr "Celkem"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/TotalWeight.php:27
+msgid "Total Order Weight"
+msgstr "Celková váha objednávky"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/User/AddressFactory.php146,
+#: admin-columns-pro/addons/woocommerce/classes/Editing/ShopOrder/AddressFactory.php21,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Product/SecondaryProductProperty.php:44
+msgid "None"
+msgstr "Žádný"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/User/AverageOrderValueFactory.php:24
+msgid "Average Order Value"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/User/AverageOrderValueFactory.php:34
+msgid "Customer's total revenue divided by their number of orders."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/User/CustomerSinceFactory.php43,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/CustomerProperty.php:38
+msgid "Customer Since"
+msgstr "Zákazníkem od"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/User/DaysSinceLastOrderFactory.php:23
+msgid "Days Since Last Order"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/User/DaysSinceLastOrderFactory.php:33
+msgid "Number of days since this customer's most recent order."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/User/FirstOrderFactory.php:43
+msgid "First Order"
+msgstr "První objednávka"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/User/LastActive.php:43
+msgid "Last Active"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/User/LastOrderFactory.php:43
+msgid "Last Order"
+msgstr "Poslední objednávka"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/User/TotalSalesFactory.php25,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/User/ShopOrder/TotalSales.php43,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/CustomerProperty.php:41
+msgid "Total Sales"
+msgstr "Celkové prodeje"
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/Product/BackordersAllowed.php:25
+msgid "Backorder value could not be changed."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/Product/BackordersAllowed.php:27
+msgid "Only product that have \"%s\" can have back orders"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/Product/BackordersAllowed.php:28
+msgid "manage stock enabled"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/Product/Dimensions.php30,
+#: admin-columns-pro/addons/woocommerce/classes/Editing/Product/ProductNotSupportedReasonTrait.php:19
+msgid "%s can not be edited."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/Product/ShippingClass.php:22
+msgid "Product does not have a shipping class."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/Product/ShippingClass.php:27
+msgid "No shipping class"
+msgstr "Žádná třída doručení"
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/Product/TaxClass.php:16
+msgid "Standard"
+msgstr "Standardní"
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/Product/Weight.php:23
+msgid "Virtual product can not be edited."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/ProductVariation/ShippingClass.php:19
+msgid "Use Product Shipping Class"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/ProductVariation/TaxClass.php:23
+msgid "Use Product Tax Class"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/User/Address.php27,
+#: admin-columns-pro/addons/woocommerce/classes/Editing/User/Address.php28,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/AddressProperty.php34,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/AddressProperty.php:35
+msgid "Address line %s"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/RequestHandler/Ajax/OrderMetaFields.php:54
+msgid "Hidden"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/Order/PaymentMethod.php43,
+#: admin-columns-pro/addons/woocommerce/classes/Search/ShopOrder/PaymentMethod.php:42
+msgid "disabled"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/Product/Featured.php:24
+msgid "Is featured"
+msgstr "Je zvýrazněný"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/Product/Featured.php:25
+msgid "Is not featured"
+msgstr "Není zvýrazněný"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/Product/Sale.php:30
+msgid "On Sale"
+msgstr "V akci"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/Product/Sale.php:31
+msgid "Not on Sale"
+msgstr "Není v akci"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/Product/SoldIndividually.php:29
+msgid "Sold Individually"
+msgstr "Prodáváno zvlášť"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/Product/SoldIndividually.php:30
+msgid "Not Sold Individually"
+msgstr "Není prodáváno zvlášť"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/Product/Stock.php:30
+msgid "is out of stock"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/Product/Stock.php:31
+msgid "is in stock"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/Product/StockStatus.php48,
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/StockStatusIcon.php:18
+msgid "In stock"
+msgstr "Skladem"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/Product/StockStatus.php49,
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/StockStatusIcon.php:20
+msgid "Out of stock"
+msgstr "Není skladem"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/Product/StockStatus.php50,
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/StockStatusIcon.php:27
+msgid "On backorder"
+msgstr "Na objednávku"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/ProductVariation/Downloadable.php:22
+msgid "Is Downloadable"
+msgstr "Je ke stažení"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/ProductVariation/Downloadable.php23,
+#: admin-columns-pro/addons/woocommerce/classes/Search/ProductVariation/Virtual.php:22
+msgid "Exclude %s"
+msgstr "Vyloučit %s"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/ProductVariation/Virtual.php:21
+msgid "Is Virtual"
+msgstr "Je virtuální"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/ShopOrder/CustomerMessage.php:22
+msgid "Empty"
+msgstr "Prázdné"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/ShopOrder/CustomerMessage.php:23
+msgid "Has customer message"
+msgstr "Má zprávu od zákazníka"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/ShopOrder/HasFees.php30,
+#: admin-columns-pro/addons/woocommerce/classes/Search/ShopOrder/Refunds.php:28
+msgid "Without %s"
+msgstr "Bez %s"
+
+#: admin-columns-pro/addons/woocommerce/classes/Search/ShopOrder/HasFees.php34,
+#: admin-columns-pro/addons/woocommerce/classes/Search/ShopOrder/Refunds.php:32
+msgid "Has %s"
+msgstr "Má %s"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/AddressProperty.php:29
+msgid "Full Address"
+msgstr "Celá adresa"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/AddressProperty.php:32
+msgid "Full Name"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Period.php19,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/PeriodWithAllTime.php:24
+msgid "Period"
+msgstr "Období"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Period.php24,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/PeriodWithAllTime.php:29
+msgid "Select the time period from now"
+msgstr "Vyberte časové období od teď"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Period.php32,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/PeriodWithAllTime.php:38
+msgid "Last year"
+msgstr "Minulý rok"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Period.php33,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/PeriodWithAllTime.php:39
+msgid "Last quarter"
+msgstr "Minulé čtvrtletí"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Period.php34,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/PeriodWithAllTime.php:40
+msgid "Last month"
+msgstr "Minulý měsíc"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Period.php35,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/PeriodWithAllTime.php:41
+msgid "Last week"
+msgstr "Minulý týden"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/PeriodWithAllTime.php:37
+msgid "All time"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/PeriodWithAllTime.php:42
+msgid "Custom"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/PeriodWithAllTime.php:55
+msgid "Number of days"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/TableElement/FilterOrderCustomer.php:16
+msgid "Registered Customer"
+msgstr "Registrovaný zákazník"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/TableElement/FilterOrderSubType.php:16
+msgid "Order Type"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/TableElement/FilterProductStockStatus.php:16
+msgid "Stock Status"
+msgstr "Stav skladu"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/TableElement/FilterProductType.php:16
+msgid "Product Type"
+msgstr "Typ produktuq"
+
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/Service/Columns.php:25
+msgid "WooCommerce Subscriptions"
+msgstr "Předplatná WooCommerce"
+
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/TableScreen/OrderSubscription.php25,
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/ColumnFactory/User/Subscriptions.php:27
+msgid "Subscriptions"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/FocusKeywordCountFactory.php:32
+msgid "Keyphrase Occurrence"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/IsIndexedFactory.php:45
+msgid "Is Indexed"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/PrimaryTaxonomyFactory.php:56
+msgid "Primary Taxonomy"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/ReadabilityScore.php:31
+msgid "Readability score"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/ReadingTime.php:31
+msgid "Reading time"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/ReadingTime.php:40
+msgid "%d minute"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/ReadingTime.php:41
+msgid "%d minutes"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/RelatedKeyphrases.php29,
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Taxonomy/RelatedKeyphrases.php:42
+msgid "Related Keyphrases"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/SchemaArticleTypeFactory.php:36
+msgid "Schema Article type"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/SchemaPageTypeFactory.php:36
+msgid "Schema Page type"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/SocialDescriptionFactory.php:30
+msgid "Social Description"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/SocialImageFactory.php:51
+msgid "Social Image"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/SocialTitleFactory.php:32
+msgid "Social Title"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/TwitterDescriptionFactory.php:32
+msgid "Twitter Description"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/TwitterImageFactory.php:59
+msgid "Twitter Image"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/TwitterTitleFactory.php:32
+msgid "Twitter Title"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Taxonomy/FocusKeywordFactory.php:45
+msgid "Focus keyword"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Taxonomy/IncludeInSitemapFactory.php:44
+msgid "Include in Sitemap"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Taxonomy/MetaDescriptionFactory.php:45
+msgid "Meta Desc."
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Taxonomy/MetaTitleFactory.php45,
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/User/AuthorMetaTitleFactory.php:33
+msgid "SEO Title"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Taxonomy/NoIndexFactory.php:44
+msgid "Noindex"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Taxonomy/NoIndexFactory.php:56
+msgid "Use default"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/User/AuthorMetaDescriptionFactory.php:32
+msgid "SEO Meta Description"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/Search/Post/IsIndexed.php:33
+msgid "Default for Post Type"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/Value/Formatter/IsIndexed.php:36
+msgid "Implicit"
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Service/Media/MetaData/Audio.php:21
+msgid "Item is not an audio file."
+msgstr ""
+
+#: admin-columns-pro/classes/Editing/Setting/ComponentFactory/EditableType/Content.php24,
+#: admin-columns-pro/classes/Editing/Setting/ComponentFactory/EditableType/Text.php:26
+msgid "Textarea"
+msgstr "Textová oblast"
+
+#: admin-columns-pro/classes/Editing/Setting/ComponentFactory/EditableType/Content.php25,
+#: admin-columns-pro/classes/Editing/Setting/ComponentFactory/EditableType/Text.php:27
+msgid "WYSIWYG"
+msgstr "Wysiwyg"
+
+#: admin-columns-pro/classes/Editing/Setting/ComponentFactory/EditableType/Text.php:25
+msgid "Text"
+msgstr "Text"
+
+#: admin-columns-pro/classes/Helper/Select/Post/GroupFormatter/MimeType.php:56
+msgctxt "mediatype"
+msgid "Image"
+msgstr "Obrázek"
+
+#: admin-columns-pro/classes/Helper/Select/Post/GroupFormatter/MimeType.php:57
+msgctxt "mediatype"
+msgid "Audio"
+msgstr "Audio"
+
+#: admin-columns-pro/classes/Helper/Select/Post/GroupFormatter/MimeType.php:58
+msgctxt "mediatype"
+msgid "Video"
+msgstr "Video"
+
+#: admin-columns-pro/classes/Helper/Select/Post/GroupFormatter/MimeType.php:59
+msgctxt "mediatype"
+msgid "Document"
+msgstr "Dokument"
+
+#: admin-columns-pro/classes/Helper/Select/Post/GroupFormatter/MimeType.php:60
+msgctxt "mediatype"
+msgid "Spreadsheet"
+msgstr "Tabulky"
+
+#: admin-columns-pro/classes/Helper/Select/Post/GroupFormatter/MimeType.php:61
+msgctxt "mediatype"
+msgid "Interactive"
+msgstr "Interaktivní"
+
+#: admin-columns-pro/classes/Helper/Select/Post/GroupFormatter/MimeType.php:62
+msgctxt "mediatype"
+msgid "Text"
+msgstr "Text"
+
+#: admin-columns-pro/classes/Helper/Select/Post/GroupFormatter/MimeType.php:63
+msgctxt "mediatype"
+msgid "Archive"
+msgstr "Archiv"
+
+#: admin-columns-pro/classes/Helper/Select/Post/GroupFormatter/MimeType.php:64
+msgctxt "mediatype"
+msgid "Code"
+msgstr "Kód"
+
+#: admin-columns-pro/classes/Helper/Select/Post/LabelFormatter/PostTitle.php:16
+msgid "no title"
+msgstr ""
+
+#: admin-columns-pro/classes/Helper/Select/PostType/GroupFormatter/Type.php:16
+msgctxt "post_types"
+msgid "Public"
+msgstr ""
+
+#: admin-columns-pro/classes/Helper/Select/PostType/GroupFormatter/Type.php:19
+msgctxt "post_types"
+msgid "Hidden"
+msgstr ""
+
+#: admin-columns-pro/classes/Helper/Select/User/GroupFormatter/Role.php:20
+msgid "No Role"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Search/Comparison/FieldGroup/Location.php:45
+msgctxt "ACF location"
+msgid "Block"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Search/Comparison/FieldGroup/Location.php:46
+msgctxt "ACF location"
+msgid "Users"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Search/Comparison/FieldGroup/Location.php:49
+msgctxt "ACF location"
+msgid "Post Type"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Search/Comparison/FieldGroup/Location.php:50
+msgctxt "ACF location"
+msgid "Widget"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Search/Comparison/FieldGroup/Location.php:51
+msgctxt "ACF location"
+msgid "Option Page"
+msgstr ""
+
+#: admin-columns-pro/addons/acf/classes/Search/Comparison/FieldGroup/Location.php:52
+msgctxt "ACF location"
+msgid "Menu"
+msgstr ""
+
+#: admin-columns-pro/addons/metabox/classes/Value/Formatter/MetaBox/Position.php:23
+msgid "Side"
+msgstr ""
+
+#: admin-columns-pro/addons/metabox/classes/Value/Formatter/MetaBox/Position.php:26
+msgid "After content"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/BulkDelete/Deletable/RequestHandler/Order.php:20
+msgid "Order does not exists."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/BulkDelete/Deletable/RequestHandler/Product.php:21
+msgid "Product does not exists."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/Address/BillingAddressFactory.php21,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/Address/BillingAddress.php:19
+msgid "Billing Address"
+msgstr "Fakturační adresa"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/Address/ShippingAddressFactory.php21,
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/ShopOrder/Address/ShippingAddress.php:19
+msgid "Shipping Address"
+msgstr "Doručovací adresa"
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/Date/CompletedDateFactory.php:45
+msgid "Date Completed"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/Date/CreatedDateFactory.php:45
+msgid "Date Created"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/Date/ModifiedDateFactory.php:44
+msgid "Date Modified"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/ColumnFactory/Order/Date/PaidDateFactory.php:44
+msgid "Date Paid"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/Storage/Product/Attributes.php:43
+msgid "Non existing attribute."
+msgstr "Neexistující vlastnost."
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/StorageModel/Product/Price.php:36
+msgid "Price can not lower than zero."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/StorageModel/Product/SalePrice.php:39
+msgid "Sale price can not be zero or lower."
+msgstr "Akční cena nemůže být nulová nebo nižší."
+
+#: admin-columns-pro/addons/woocommerce/classes/Editing/StorageModel/Product/SalePrice.php:45
+msgid "Sale price can not be higher than the regular price."
+msgstr "Akční cena nemůže být vyšší, než prodejní cena."
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/CustomerProperty.php:35
+msgid "Billing Company"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/CustomerProperty.php:36
+msgid "Billing Country"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/CustomerProperty.php:37
+msgid "Billing Email"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/CustomerProperty.php:39
+msgid "Order Count"
+msgstr "Počet objednávek"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/DateType.php:47
+msgid "Completed"
+msgstr "Dokončeno"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/DateType.php:48
+msgid "Created"
+msgstr "Vytvořeno"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/DateType.php:49
+msgid "Modified"
+msgstr "Upraveno"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/DateType.php50,
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/TotalProperty.php:47
+msgid "Paid"
+msgstr "Zaplaceno"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/MetaField.php:28
+msgid "Field"
+msgstr "Pole"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/MetaField.php:38
+msgid "Select"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/NoteProperty.php:30
+msgid "Last Order Note"
+msgstr "Poznámka k poslední objednávce"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/NoteType.php:22
+msgid "Note Type"
+msgstr "Typ poznámky"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/NoteType.php:30
+msgid "All Notes"
+msgstr "Všechny poznámky"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/NoteType.php:31
+msgid "System Notes"
+msgstr "Systémové poznámky"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/NoteType.php:32
+msgid "Private Notes"
+msgstr "Soukromé poznámky"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/NoteType.php:33
+msgid "Notes to Customer"
+msgstr "Poznámky zákazníkovi"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/OrderProperty.php:26
+msgid "Order Display"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/OrderProperty.php:37
+msgid "Amount"
+msgstr "Částka"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/OrderProperty.php:39
+msgid "Summary"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/OrderStatuses.php:24
+msgid "Order Status"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/ShippingMethodType.php:21
+msgid "Shipping Method Type"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/ShippingMethodType.php:29
+msgid "Method Label"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/ShippingMethodType.php:30
+msgid "Method Type"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/TotalProperty.php:42
+msgid "Subtotal"
+msgstr "Mezisoučet"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Order/TotalProperty.php:46
+msgid "Discounts"
+msgstr "Slevy"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Product/ProductAttributes.php:20
+msgid "Show Single"
+msgstr "Zobrazit jednu"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Product/ProductAttributes.php:25
+msgid "Display a single attribute."
+msgstr "Zobrazit jednu vlastnost"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Product/ProductAttributes.php:25
+msgid "Only works for taxonomy attributes."
+msgstr "Funguje pouze pro taxonomii vlastností."
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Product/ProductAttributes.php:100
+msgid "All attributes"
+msgstr "Všechny vlastnosti"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Product/ProductProperty.php:58
+msgid "Product Display"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/Product/SecondaryProductProperty.php:26
+msgid "Secondary Info"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/ProductVariation/ProductVariationLink.php:36
+msgid "Edit Product Variation"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/ProductVariation/VariationAttribute.php:21
+msgid "Attribute"
+msgstr "Vlastnost"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/ProductVariation/VariationAttribute.php:30
+msgid "Select attribute"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/ProductVariation/VariationAttribute.php:79
+msgid "Global Attributes"
+msgstr "Globální vlastnosti"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/ProductVariation/VariationAttribute.php:80
+msgid "Product Attributes"
+msgstr "Vlastnosti produktu"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/ProductVariation/VariationDisplay.php:26
+msgid "Without label"
+msgstr "Bez popisku"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/User/AddressType.php:28
+msgid "Billing"
+msgstr "Fakturace"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/User/RatingDisplay.php:27
+msgid "Number of ratings"
+msgstr "Počet hodnocení"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/User/RatingDisplay.php:28
+msgid "Average rating"
+msgstr "Průměrné hodnocení"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/User/UserProducts.php:27
+msgid "Total products purchased"
+msgstr "Celkem zakoupeno produktů"
+
+#: admin-columns-pro/addons/woocommerce/classes/Setting/ComponentFactory/User/UserProducts.php:28
+msgid "Unique products purchased"
+msgstr "Zakoupené unikátní produkty"
+
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/ColumnFactory/Order/RelatedSubscription.php:37
+msgid "Related Subscription"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/ColumnFactory/Order/SubscriptionOrderType.php:21
+msgid "Subscription Order Type"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/ColumnFactory/OrderSubscription/AutoRenewal.php25,
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/ColumnFactory/ShopSubscription/AutoRenewal.php25,
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/Search/OrderSubscription/AutoRenewal.php:29
+msgid "Auto Renewal"
+msgstr "Automatické obnovení"
+
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/ColumnFactory/OrderSubscription/BillingInterval.php:23
+msgid "Billing Interval"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/ColumnFactory/OrderSubscription/BillingPeriod.php:23
+msgid "Billing Period"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/ColumnFactory/Product/Period.php:26
+msgid "Price Period"
+msgstr "Cenové období"
+
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/ColumnFactory/User/InactiveSubscriber.php:23
+msgid "Inactive subscriber"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/Order/Notes.php28,
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/Order/Products.php:29
+msgid "No order found"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/Order/Notes.php:43
+msgid "Private"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/Order/Notes.php:40
+msgid "System"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/Order/Notes.php:37
+msgid "Note To Customer"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/Order/Notes.php:55
+msgid "No notes found"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/Order/Products.php:35
+msgid "No products found"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/Product/Customers.php:71
+msgid "%d order"
+msgid_plural "%d orders"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/ShopCoupon/Orders.php32,
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/User/Orders.php:33
+msgid "No items"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/ShopCoupon/UsedBy.php:56
+msgid "Not a registered user"
+msgstr "Neregistrovaný uživatel"
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/User/Orders.php:72
+msgid "Recent orders"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/User/Products.php:58
+msgid "Product removed"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/User/Products.php:82
+msgid "Too many products."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/ExtendedValue/User/Products.php:83
+msgid "Only the top %d are shown."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Order/Purchased.php:35
+msgid "%d product"
+msgid_plural "%d products"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/AllProductAttributes.php:73
+msgid "Is a taxonomy"
+msgstr "Je taxonomie"
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/BackordersFormatted.php:20
+msgid "Do not allow backorders"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/BackordersFormatted.php:23
+msgid "Allow backorders"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/Dimensions.php:42
+msgid "Length"
+msgstr "Délka"
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/Dimensions.php:43
+msgid "Width"
+msgstr "Šířka"
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/Dimensions.php:44
+msgid "Height"
+msgstr "Výška"
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/GroupedProducts.php:34
+msgid "Grouped products for %s"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/LowOnStock.php:36
+msgid "Low On Stock"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/LowStockThreshold.php:29
+msgid "Set gobally to %d"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/OnSaleExtended.php102,
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/OnSaleLabel.php:38
+msgctxt "Product on sale from (date)"
+msgid "From"
+msgstr "Od"
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/OnSaleExtended.php:106
+msgctxt "Product on sale until (date)"
+msgid "Until"
+msgstr "Do"
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Product/OnSaleLabel.php:44
+msgctxt "Product on sale from (date)"
+msgid "Until"
+msgstr "Do"
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/ProductVariation/ShippingClass.php:30
+msgid "Shipping Class managed by product"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/ProductVariation/Sku.php:28
+msgid "SKU from product"
+msgstr "SKU z produktu"
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/ProductVariation/Stock.php:26
+msgid "Stock managed by product"
+msgstr "Sklad spravován produktem"
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/User/OrderCount.php:57
+msgid "Recent orders by %s"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/User/OrderInformation.php:45
+msgid "items"
+msgstr "položek"
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/User/Products.php:43
+msgid "Recent purchases by %s"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/User/Subscriptions.php:43
+msgid "Recent subscriptions by %s"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/Original/FocusKeywordFactory.php:24
+msgid "Enter your SEO Focus Keywords"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/Original/MetaDescFactory.php:22
+msgid "Enter your SEO Meta Description"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/ColumnFactory/Post/Original/MetaTitleFactory.php:22
+msgid "Enter your SEO Meta Title"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/Editing/Service/Post/IsIndexed.php:39
+msgid "Default for %s, currently: %s"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/Settings/ListScreen/TableElement/FilterReadabilityScore.php:16
+msgid "Readability Score"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/Settings/ListScreen/TableElement/FilterSeoScores.php:16
+msgid "SEO Scores"
+msgstr ""
+
+#: admin-columns-pro/addons/yoast-seo/classes/Value/Formatter/User/FallbackMetaTitle.php:22
+msgid ""
+"Specific title is missing. The current title is generated by Yoast SEO."
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/Value/Formatter/UserSubscription/InactiveSubscriptions.php:77
+msgid "%s since %s"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Subscriptions/Value/Formatter/UserSubscription/InactiveSubscriptions.php:95
+msgid "since %s"
+msgstr ""
+
+#: admin-columns-pro/addons/woocommerce/classes/Value/Formatter/Order/OrderNote/LinkableCount.php:33
+msgid "%d note"
+msgid_plural "%d notes"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""

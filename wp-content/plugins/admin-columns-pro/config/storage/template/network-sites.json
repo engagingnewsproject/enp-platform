@@ -1,0 +1,108 @@
+[
+	{
+		"version": "7.0",
+		"list_screen": {
+			"title": "Network Sites",
+			"type": "wp-ms_sites",
+			"id": "6491a3a91cecf",
+			"status": "",
+			"updated": 1759324466,
+			"columns": [
+				{
+					"name": "blogname",
+					"label": "URL",
+					"width_unit": "px",
+					"width": "",
+					"export": "on",
+					"sort": "on",
+					"type": "blogname"
+				},
+				{
+					"name": "1f850a28cdd2f2",
+					"label": "Domain",
+					"width_unit": "px",
+					"width": "239",
+					"type": "column-msite_domain"
+				},
+				{
+					"name": "642acd4fca3d70",
+					"label": "Path",
+					"width_unit": "%",
+					"width": "",
+					"export": "on",
+					"type": "column-msite_path"
+				},
+				{
+					"name": "users",
+					"label": "Users",
+					"width_unit": "px",
+					"width": "121",
+					"export": "on",
+					"type": "users"
+				},
+				{
+					"name": "15bbfcf8170a3d",
+					"label": "Total Posts",
+					"width_unit": "px",
+					"width": "120",
+					"post_type": "post",
+					"post_status": "",
+					"export": "on",
+					"type": "column-msite_postcount"
+				},
+				{
+					"name": "24ccd40e676c8c",
+					"label": "Plugins",
+					"width_unit": "px",
+					"width": "120",
+					"include_network": "on",
+					"plugin_display": "count",
+					"export": "on",
+					"type": "column-msite_plugins"
+				},
+				{
+					"name": "468f4f74f851ec",
+					"label": "Total Comments",
+					"width_unit": "px",
+					"width": "150",
+					"comment_status": "approved",
+					"export": "on",
+					"type": "column-msite_commentcount"
+				},
+				{
+					"name": "2e5bb7e7d0624e",
+					"label": "Storage Space",
+					"width_unit": "px",
+					"width": "378",
+					"export": "on",
+					"type": "column-msite_uploadspace"
+				},
+				{
+					"name": "registered",
+					"label": "Registered",
+					"width_unit": "px",
+					"width": "140",
+					"export": "on",
+					"sort": "on",
+					"type": "registered"
+				}
+			],
+			"settings": {
+				"hide_inline_edit": "off",
+				"hide_bulk_edit": "off",
+				"hide_filters": "off",
+				"hide_conditional_formatting": "off",
+				"hide_search": "off",
+				"hide_bulk_actions": "off",
+				"resize_columns": "off",
+				"column_order": "off",
+				"hide_row_actions": "off",
+				"sorting": "",
+				"wrapping": "wrap",
+				"horizontal_scrolling": "on"
+			}
+		},
+		"segments": [],
+		"conditional_format": []
+	}
+]

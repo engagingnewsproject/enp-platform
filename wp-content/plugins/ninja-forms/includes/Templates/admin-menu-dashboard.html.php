@@ -167,7 +167,7 @@
 <script id="tmpl-nf-widget-forms" type="text/template">
 		<header>
 				<div class="action">
-						<button class="add nf-button primary"><?php esc_html_e( 'Add New', 'ninja-forms' ); ?></button>
+						<button class="add nf-button primary" data-testid="nf-add-new-form"><?php esc_html_e( 'Add New', 'ninja-forms' ); ?></button>
 						<button class="cancel nf-button secondary"><?php esc_html_e( 'Cancel', 'ninja-forms' ); ?></button>
 				</div>
 				<div class="filter nf-search"></div>
@@ -203,12 +203,12 @@
 <script id="tmpl-nf-widget-forms-table-row" type="text/template">
 		<td class="">
 				<span class="title">
-						<a href="admin.php?page=ninja-forms&form_id={{{ data.id }}}">{{{ data.title }}}</a>
+						<a href="admin.php?page=ninja-forms&form_id={{{ data.id }}}" data-testid="nf-form-title-{{{ data.id }}}">{{{ data.title }}}</a>
 				</span>
 				<ul class="form-row-actions">
-						<li><a href="admin.php?page=ninja-forms&form_id={{{ data.id }}}"><?php esc_html_e( 'Edit', 'ninja-forms' ); ?></a></li>
-						<li><a class="duplicate"><?php esc_html_e( 'Duplicate', 'ninja-forms' ); ?></a></li>
-						<li><a href="<?php print( get_home_url() ); ?>/?nf_preview_form={{{ data.id }}}" target="_blank"><?php esc_html_e( 'Preview Form', 'ninja-forms' ); ?></a></li>
+						<li><a href="admin.php?page=ninja-forms&form_id={{{ data.id }}}" data-testid="nf-form-edit-{{{ data.id }}}"><?php esc_html_e( 'Edit', 'ninja-forms' ); ?></a></li>
+						<li><a class="duplicate" data-testid="nf-form-duplicate-{{{ data.id }}}"><?php esc_html_e( 'Duplicate', 'ninja-forms' ); ?></a></li>
+						<li><a href="<?php print( get_home_url() ); ?>/?nf_preview_form={{{ data.id }}}" target="_blank" data-testid="nf-form-preview-{{{ data.id }}}"><?php esc_html_e( 'Preview Form', 'ninja-forms' ); ?></a></li>
 						<# if(data.public_link_key) { #>
 						<li><a href="<?php
 								global $wp_rewrite;
@@ -219,14 +219,14 @@
 								}
 								?>"><?php esc_html_e( 'Public Link', 'ninja-forms' ); ?></a></li>
 						<# } #>
-						<li><a href="<?php echo intval( Ninja_Forms()->get_setting('load_legacy_submissions') ) ? 'edit.php?post_status=all&post_type=nf_sub' : 'admin.php?page=nf-submissions'; ?>&form_id={{{ data.id }}}" target="_blank"><?php esc_html_e( 'View Submissions', 'ninja-forms' ); ?></a></li>
-						<li><a class="delete"><?php esc_html_e( 'Delete', 'ninja-forms' ); ?></a></li>
+						<li><a href="<?php echo intval( Ninja_Forms()->get_setting('load_legacy_submissions') ) ? 'edit.php?post_status=all&post_type=nf_sub' : 'admin.php?page=nf-submissions'; ?>&form_id={{{ data.id }}}" target="_blank" data-testid="nf-form-submissions-{{{ data.id }}}"><?php esc_html_e( 'View Submissions', 'ninja-forms' ); ?></a></li>
+						<li><a class="delete" data-testid="nf-form-delete-{{{ data.id }}}"><?php esc_html_e( 'Delete', 'ninja-forms' ); ?></a></li>
 				</ul>
 		</td>
 		<td>
 				{{{ data.shortcode }}}
 		</td>
-		<td>
+		<td data-testid="nf-form-created-at-{{{ data.id }}}">
 				{{{ data.created_at }}}
 		</td>
 		<td><div class="nf-item-controls">
