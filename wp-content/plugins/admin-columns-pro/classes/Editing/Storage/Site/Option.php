@@ -1,0 +1,34 @@
+<?php
+
+namespace ACP\Editing\Storage\Site;
+
+use AC\Helper;
+use ACP\Editing\Storage;
+
+class Option implements Storage
+{
+
+    private string $option_name;
+
+    public function __construct(string $option_name)
+    {
+        $this->option_name = $option_name;
+    }
+
+    public function update(int $id, $data): bool
+    {
+        switch_to_blog($id);
+
+        $result = update_option($this->option_name, $data);
+
+        restore_current_blog();
+
+        return $result;
+    }
+
+    public function get(int $id)
+    {
+        return Helper\Network::create()->get_site_option($id, $this->option_name);
+    }
+
+}

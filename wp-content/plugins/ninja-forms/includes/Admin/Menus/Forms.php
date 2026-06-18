@@ -606,6 +606,10 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
 
             $name = $field->get_name();
             $settings = $field->get_settings();
+            // Add settingKey BEFORE grouping so it's available in settingGroups (for data-testid)
+            foreach( $settings as $key => $setting ) {
+                $settings[ $key ][ 'settingKey' ] = $key;
+            }
             $groups = Ninja_Forms::config( 'SettingsGroups' );
 
             $unique_settings = $this->_unique_settings( $settings );
@@ -685,6 +689,10 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
 
         // This step remove the <script> that sets inline vars we then use the $this variables into wp_localize_script
         $this->fieldTypeData = array_values( $field_type_settings );
+        // Add unique config key to each setting before stripping array keys (for data-testid)
+        foreach( $master_settings as $key => $setting ) {
+            $master_settings[ $key ][ 'settingKey' ] = $key;
+        }
         $this->fieldSettings = array_values( $master_settings );
         $this->fieldTypeSections = $field_type_sections;
 
@@ -700,6 +708,10 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
 
             $name = $action->get_name();
             $settings = $action->get_settings();
+            // Add settingKey BEFORE grouping so it's available in settingGroups (for data-testid)
+            foreach( $settings as $key => $setting ) {
+                $settings[ $key ][ 'settingKey' ] = $key;
+            }
             $groups = Ninja_Forms::config( 'SettingsGroups' );
 
             $settings_groups = $this->_group_settings( $settings, $groups );
@@ -766,6 +778,10 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
 
         // This step remove the <script> that sets inline vars we then use the $this variables into wp_localize_script
         $this->actionTypeData = array_values( $action_type_settings );
+        // Add unique config key to each setting before stripping array keys (for data-testid)
+        foreach( $master_settings_list as $key => $setting ) {
+            $master_settings_list[ $key ][ 'settingKey' ] = $key;
+        }
         $this->actionSettings = array_values( $master_settings_list );
 
     }

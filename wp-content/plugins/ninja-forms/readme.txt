@@ -4,7 +4,7 @@ Tags: forms, form builder, contact form, lead form, registration form
 
 Requires at least: 6.7
 Tested up to: 6.9
-Stable tag: 3.14.5
+Stable tag: 3.14.6
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -310,18 +310,21 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.14.5 (19 May 2026) =
+= 3.14.6 (10 June 2026) =
 
 *Bug Fixes:*
 
-- fix Rich Text Editor content displaying as raw HTML in submissions modal
-- fix HTML entity decoding in Rich Text Editor fields
-- fix Quill Rich Text Editor inline text alignment not being preserved
-- fix unordered list content being stripped in Quill Rich Text Editor
-- fix ordered list items getting unwanted markup injected in Quill Rich Text Editor
-- limit telemetry to admin only
+- fix PHP warnings when retriggering emails from submissions page
+- fix bulk export returning no results when selecting a single day
 
 == Changelog ==
+= 3.14.6 (10 June 2026) =
+
+*Bug Fixes:*
+
+- fix PHP warnings when retriggering emails from submissions page
+- fix bulk export returning no results when selecting a single day
+
 = 3.14.5 (19 May 2026) =
 
 *Bug Fixes:*

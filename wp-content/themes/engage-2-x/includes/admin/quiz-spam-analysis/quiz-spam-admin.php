@@ -33,6 +33,8 @@ const ENGAGE_QUIZ_META_ANALYZED_AT = '_enp_quiz_spam_analyzed_at';
 /** Post meta: JSON array of disposable/extra-risk embed hits (url, host, matched_domain); absent when none. */
 const ENGAGE_QUIZ_META_SPAM_EMBED_MATCHES = '_enp_quiz_spam_embed_matches';
 
+require_once __DIR__ . '/spam-user-quiz-actions.php';
+
 /**
  * Wires all actions and filters once; called at the bottom of this file after functions are defined.
  *
@@ -42,6 +44,7 @@ const ENGAGE_QUIZ_META_SPAM_EMBED_MATCHES = '_enp_quiz_spam_embed_matches';
 function engage_quiz_spam_admin_init(): void {
 	add_action( 'admin_notices', 'engage_quiz_spam_finished_notice' );
 	add_action( 'admin_notices', 'engage_quiz_spam_error_notice' );
+	add_action( 'admin_notices', 'engage_quiz_spam_disposable_embed_export_notice' );
 	add_action( 'admin_init', 'engage_quiz_spam_handle_analyze_request', 1 );
 	add_action( 'admin_init', 'engage_quiz_spam_handle_export_disposable_embeds', 1 );
 	add_filter( 'manage_edit-quiz_columns', 'engage_quiz_spam_add_columns', 25 );
@@ -53,6 +56,10 @@ function engage_quiz_spam_admin_init(): void {
 	add_action( 'admin_menu', 'engage_quiz_spam_embed_sites_submenu' );
 	add_action( 'load-quiz_page_engage-quiz-embed-sites', 'engage_quiz_embed_sites_load_screen' );
 	add_filter( 'set_screen_option_embed_sites_per_page', 'engage_quiz_embed_sites_set_per_page_option', 10, 3 );
+	add_action( 'admin_menu', 'engage_quiz_spam_user_quizzes_submenu' );
+	add_action( 'load-quiz_page_engage-quiz-spam-user-quizzes', 'engage_quiz_spam_user_quizzes_load_screen' );
+	add_filter( 'set_screen_option_spam_user_quizzes_per_page', 'engage_quiz_spam_user_quizzes_set_per_page_option', 10, 3 );
+	add_action( 'admin_notices', 'engage_quiz_spam_user_quizzes_admin_notices' );
 }
 
 /**
@@ -443,10 +450,130 @@ function engage_quiz_spam_handle_analyze_request(): void {
 }
 
 /**
- * Streams a CSV of quizzes whose embed hosts matched disposable/extra-risk lists (meta written during analysis).
+ * Layman: Transient key for a one-time “no rows to export” message on the Quizzes list.
  *
- * Layman: Use this after “Analyse Quizzes” to download a spreadsheet of affected quizzes and which URLs matched.
- * Technical: GET engage_export_spam_embed_quizzes=1 on edit.php?post_type=quiz; check_admin_referer( engage_export_spam_embed_quizzes ); WP_Query meta EXISTS on ENGAGE_QUIZ_META_SPAM_EMBED_MATCHES.
+ * @return string User-scoped transient name.
+ */
+function engage_quiz_disposable_export_empty_notice_key(): string {
+	return 'engage_disposable_export_empty_' . (int) get_current_user_id();
+}
+
+/**
+ * Layman: Resolves disposable embed hits for one synced quiz—saved analysis meta first, then a live scan of embed URLs on the post.
+ *
+ * @param int               $post_id  Quiz CPT post ID.
+ * @param QuizSpamAnalyzer  $analyzer Loaded blocklists.
+ * @return array<int, array{url: string, host: string, matched_domain: string}>
+ */
+function engage_quiz_disposable_embed_matches_for_post( int $post_id, QuizSpamAnalyzer $analyzer ): array {
+	$raw_matches = get_post_meta( $post_id, ENGAGE_QUIZ_META_SPAM_EMBED_MATCHES, true );
+	$matches     = is_string( $raw_matches ) ? json_decode( $raw_matches, true ) : $raw_matches;
+	if ( is_array( $matches ) && count( $matches ) > 0 ) {
+		return $matches;
+	}
+
+	$embed_sites = trim( (string) get_post_meta( $post_id, 'embed_sites', true ) );
+	if ( '' === $embed_sites ) {
+		return array();
+	}
+
+	return $analyzer->find_disposable_embed_matches_in_urls( $embed_sites );
+}
+
+/**
+ * Layman: Builds every quiz row that should appear in the disposable-embed CSV (blocklisted embed hosts only).
+ *
+ * Scans synced quizzes that have embed URLs or prior saved matches; uses current blocklist files at export time.
+ *
+ * @return array<int, array{post_id: int, enp_id: int, title: string, matches: array<int, array{url: string, host: string, matched_domain: string}>, tier: string, score: string, analyzed: string}>
+ */
+function engage_quiz_collect_disposable_embed_export_rows(): array {
+	$analyzer = new QuizSpamAnalyzer( QuizSpamAnalyzer::default_data_dir() );
+
+	$query = new \WP_Query(
+		array(
+			'post_type'      => 'quiz',
+			'post_status'    => 'any',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+			'orderby'        => 'ID',
+			'order'          => 'ASC',
+			'meta_query'     => array(
+				'relation' => 'AND',
+				array(
+					'key'     => '_enp_quiz_id',
+					'compare' => 'EXISTS',
+				),
+				array(
+					'relation' => 'OR',
+					array(
+						'key'     => 'embed_sites',
+						'value'   => '',
+						'compare' => '!=',
+					),
+					array(
+						'key'     => ENGAGE_QUIZ_META_SPAM_EMBED_MATCHES,
+						'compare' => 'EXISTS',
+					),
+				),
+			),
+			'no_found_rows'  => true,
+		)
+	);
+
+	$rows = array();
+	foreach ( $query->posts as $post_id ) {
+		$post_id = (int) $post_id;
+		$matches = engage_quiz_disposable_embed_matches_for_post( $post_id, $analyzer );
+		if ( count( $matches ) === 0 ) {
+			continue;
+		}
+
+		$rows[] = array(
+			'post_id'  => $post_id,
+			'enp_id'   => (int) get_post_meta( $post_id, '_enp_quiz_id', true ),
+			'title'    => get_the_title( $post_id ),
+			'matches'  => $matches,
+			'tier'     => (string) get_post_meta( $post_id, ENGAGE_QUIZ_META_RISK_TIER, true ),
+			'score'    => (string) get_post_meta( $post_id, ENGAGE_QUIZ_META_RISK_SCORE, true ),
+			'analyzed' => (string) get_post_meta( $post_id, ENGAGE_QUIZ_META_ANALYZED_AT, true ),
+		);
+	}
+
+	return $rows;
+}
+
+/**
+ * Layman: After an empty disposable-embed export, explains why no CSV was downloaded and what to try next.
+ */
+function engage_quiz_spam_disposable_embed_export_notice(): void {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	$screen = get_current_screen();
+	if ( ! $screen || 'edit-quiz' !== $screen->id ) {
+		return;
+	}
+
+	$key = engage_quiz_disposable_export_empty_notice_key();
+	if ( ! get_transient( $key ) ) {
+		return;
+	}
+	delete_transient( $key );
+
+	echo '<div class="notice notice-warning is-dismissible"><p>';
+	echo esc_html__(
+		'No quizzes were exported: none of your synced quizzes have embed URLs whose hosts appear on the disposable or extra-risk domain lists. Run Sync and Analyse Quizzes first, check Quizzes ▸ Embed Sites for suspicious hosts, and add custom domains to extra_risk_domains.txt in the theme data folder if needed.',
+		'engage'
+	);
+	echo '</p></div>';
+}
+
+/**
+ * Streams a CSV of quizzes whose embed hosts matched disposable/extra-risk lists.
+ *
+ * Layman: Downloads quizzes with blocklisted embed hosts; rescans embed URLs at export time so new list entries appear without re-running Analyse.
+ * Technical: GET engage_export_spam_embed_quizzes=1; redirects with transient notice when zero rows.
  */
 function engage_quiz_spam_handle_export_disposable_embeds(): void {
 	if ( ! is_admin() ) {
@@ -468,23 +595,17 @@ function engage_quiz_spam_handle_export_disposable_embeds(): void {
 	}
 	check_admin_referer( 'engage_export_spam_embed_quizzes' );
 
-	$query = new \WP_Query(
-		array(
-			'post_type'      => 'quiz',
-			'post_status'    => 'any',
-			'posts_per_page' => -1,
-			'fields'         => 'ids',
-			'orderby'        => 'ID',
-			'order'          => 'ASC',
-			'meta_query'     => array(
-				array(
-					'key'     => ENGAGE_QUIZ_META_SPAM_EMBED_MATCHES,
-					'compare' => 'EXISTS',
-				),
-			),
-			'no_found_rows'  => true,
-		)
-	);
+	if ( function_exists( 'set_time_limit' ) ) {
+		// phpcs:ignore Squiz.PHP.DiscouragedFunctions.Discouraged -- admin export may scan thousands of embed URLs.
+		@set_time_limit( 120 );
+	}
+
+	$export_rows = engage_quiz_collect_disposable_embed_export_rows();
+	if ( count( $export_rows ) === 0 ) {
+		set_transient( engage_quiz_disposable_export_empty_notice_key(), 1, 300 );
+		wp_safe_redirect( admin_url( 'edit.php?post_type=quiz' ) );
+		exit;
+	}
 
 	nocache_headers();
 	header( 'Content-Type: text/csv; charset=utf-8' );
@@ -510,17 +631,8 @@ function engage_quiz_spam_handle_export_disposable_embeds(): void {
 		)
 	);
 
-	foreach ( $query->posts as $post_id ) {
-		$post_id = (int) $post_id;
-		$enp_id  = (int) get_post_meta( $post_id, '_enp_quiz_id', true );
-		$title   = get_the_title( $post_id );
-
-		$raw_matches = get_post_meta( $post_id, ENGAGE_QUIZ_META_SPAM_EMBED_MATCHES, true );
-		$matches     = is_string( $raw_matches ) ? json_decode( $raw_matches, true ) : array();
-		if ( ! is_array( $matches ) ) {
-			$matches = array();
-		}
-
+	foreach ( $export_rows as $row ) {
+		$matches = $row['matches'];
 		$domains = array();
 		$hosts   = array();
 		$urls    = array();
@@ -542,22 +654,18 @@ function engage_quiz_spam_handle_export_disposable_embeds(): void {
 			}
 		}
 
-		$tier     = (string) get_post_meta( $post_id, ENGAGE_QUIZ_META_RISK_TIER, true );
-		$score    = (string) get_post_meta( $post_id, ENGAGE_QUIZ_META_RISK_SCORE, true );
-		$analyzed = (string) get_post_meta( $post_id, ENGAGE_QUIZ_META_ANALYZED_AT, true );
-
 		fputcsv(
 			$out,
 			array(
-				(string) $post_id,
-				(string) $enp_id,
-				$title,
+				(string) $row['post_id'],
+				(string) $row['enp_id'],
+				$row['title'],
 				implode( '; ', $domains ),
 				implode( '; ', $hosts ),
 				implode( '; ', $urls ),
-				$tier,
-				$score,
-				$analyzed,
+				$row['tier'],
+				$row['score'],
+				$row['analyzed'],
 			)
 		);
 	}
@@ -968,6 +1076,582 @@ function engage_quiz_render_embed_site_quizzes( int $embed_site_id ): void {
 	}
 
 	echo '</tbody></table></div>';
+}
+
+/**
+ * Registers Spam user quizzes under the Quizzes menu.
+ */
+function engage_quiz_spam_user_quizzes_submenu(): void {
+	add_submenu_page(
+		'edit.php?post_type=quiz',
+		__( 'Spam user quizzes', 'engage' ),
+		__( 'Spam user quizzes', 'engage' ),
+		'manage_options',
+		'engage-quiz-spam-user-quizzes',
+		'engage_quiz_render_spam_user_quizzes_page'
+	);
+}
+
+/**
+ * Screen options and bulk/delete handlers for Spam user quizzes.
+ */
+function engage_quiz_spam_user_quizzes_load_screen(): void {
+	add_screen_option(
+		'per_page',
+		array(
+			'label'   => __( 'Quizzes per page', 'engage' ),
+			'default' => 20,
+			'option'  => 'spam_user_quizzes_per_page',
+		)
+	);
+
+	add_action( 'admin_footer', 'engage_quiz_spam_user_quizzes_footer_search_enter_fix', 5 );
+
+	engage_quiz_spam_user_quizzes_handle_requests();
+}
+
+/**
+ * Layman: Enter in the search box triggers Search, not the bulk Apply button.
+ */
+function engage_quiz_spam_user_quizzes_footer_search_enter_fix(): void {
+	$screen = get_current_screen();
+	if ( ! $screen || 'quiz_page_engage-quiz-spam-user-quizzes' !== $screen->id ) {
+		return;
+	}
+	?>
+<script>
+(function () {
+	var form = document.getElementById( 'engage-spam-user-quizzes-filter' );
+	if ( ! form ) {
+		return;
+	}
+	var searchInput = form.querySelector( 'input[name="s"]' );
+	var searchBtn   = document.getElementById( 'search-submit' );
+	if ( searchInput && searchBtn ) {
+		searchInput.addEventListener( 'keydown', function ( e ) {
+			if ( e.key !== 'Enter' ) {
+				return;
+			}
+			e.preventDefault();
+			searchBtn.click();
+		} );
+	}
+})();
+</script>
+	<?php
+}
+
+/**
+ * Persists per-page screen option for the spam user quizzes table.
+ *
+ * @param mixed $status Default status.
+ * @param string $option Option name.
+ * @param mixed $value  Submitted value.
+ * @return mixed
+ */
+function engage_quiz_spam_user_quizzes_set_per_page_option( $status, $option, $value ) {
+	if ( 'spam_user_quizzes_per_page' === $option ) {
+		return (int) $value;
+	}
+	return $status;
+}
+
+/**
+ * Layman: Handles bulk confirm, draft execution, and chunked permanent delete before the list renders.
+ */
+function engage_quiz_spam_user_quizzes_handle_requests(): void {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	if ( isset( $_GET['engage_spam_quiz_delete_continue'] ) && '1' === $_GET['engage_spam_quiz_delete_continue'] ) {
+		engage_quiz_spam_user_quizzes_process_delete_continue();
+		return;
+	}
+
+	if ( isset( $_POST['engage_spam_quiz_confirm_run'] ) && '1' === $_POST['engage_spam_quiz_confirm_run'] ) {
+		engage_quiz_spam_user_quizzes_process_confirm();
+		return;
+	}
+
+	$action = false;
+	if ( isset( $_REQUEST['action'] ) && '-1' !== $_REQUEST['action'] ) {
+		$action = sanitize_key( wp_unslash( $_REQUEST['action'] ) );
+	} elseif ( isset( $_REQUEST['action2'] ) && '-1' !== $_REQUEST['action2'] ) {
+		$action = sanitize_key( wp_unslash( $_REQUEST['action2'] ) );
+	}
+
+	if ( ! in_array( $action, array( 'set_to_draft', 'permanent_delete' ), true ) ) {
+		return;
+	}
+
+	check_admin_referer( 'bulk-quizzes' );
+
+	$raw_ids = isset( $_REQUEST['quiz'] ) ? array_map( 'intval', (array) wp_unslash( $_REQUEST['quiz'] ) ) : array();
+	$valid   = engage_quiz_validate_spam_quiz_ids( $raw_ids );
+
+	if ( empty( $valid ) ) {
+		engage_quiz_spam_set_success_notice( 'no_selection' );
+		wp_safe_redirect( engage_quiz_spam_user_quizzes_admin_url() );
+		exit;
+	}
+
+	set_transient(
+		engage_quiz_spam_pending_transient_key(),
+		array(
+			'action'   => $action,
+			'quiz_ids' => $valid,
+		),
+		15 * MINUTE_IN_SECONDS
+	);
+
+	$confirm = 'set_to_draft' === $action ? 'draft' : 'delete';
+	wp_safe_redirect(
+		engage_quiz_spam_user_quizzes_admin_url(
+			array( 'engage_spam_quiz_confirm' => $confirm )
+		)
+	);
+	exit;
+}
+
+/**
+ * Renders confirm step or main list table.
+ */
+function engage_quiz_render_spam_user_quizzes_page(): void {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'You do not have permission to access this page.', 'engage' ) );
+	}
+
+	if ( isset( $_GET['engage_spam_quiz_confirm'] ) ) {
+		engage_quiz_render_spam_user_quizzes_confirm();
+		return;
+	}
+
+	require_once __DIR__ . '/class-engage-spam-user-quizzes-list-table.php';
+
+	$table = new Engage_Spam_User_Quizzes_List_Table();
+	$table->prepare_items();
+
+	echo '<div class="wrap">';
+	echo '<h1 class="wp-heading-inline">' . esc_html__( 'Spam user quizzes', 'engage' ) . '</h1>';
+	$notice_markup = engage_quiz_spam_user_quizzes_notice_markup();
+	if ( '' !== $notice_markup ) {
+		echo $notice_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built with esc_html/esc_attr.
+	}
+	echo '<p class="description">' . esc_html__( 'Quizzes owned by users with the spam_user role (administrators excluded). Permanent delete removes ENP data via the synced quiz post—moving a post to Trash does not.', 'engage' ) . '</p>';
+	echo '<hr class="wp-header-end" />';
+
+	echo '<form id="engage-spam-user-quizzes-filter" method="post">';
+	wp_nonce_field( 'bulk-quizzes' );
+	echo '<input type="hidden" name="page" value="engage-quiz-spam-user-quizzes" />';
+
+	$table->views();
+	$table->search_box( __( 'Search quizzes', 'engage' ), 'spam-user-quiz' );
+	$table->display();
+
+	echo '</form>';
+	echo '</div>';
+}
+
+/**
+ * Confirmation screen before bulk draft or permanent delete.
+ */
+function engage_quiz_render_spam_user_quizzes_confirm(): void {
+	$confirm_type = isset( $_GET['engage_spam_quiz_confirm'] ) ? sanitize_key( wp_unslash( $_GET['engage_spam_quiz_confirm'] ) ) : '';
+	if ( ! in_array( $confirm_type, array( 'draft', 'delete' ), true ) ) {
+		wp_safe_redirect( engage_quiz_spam_user_quizzes_admin_url() );
+		exit;
+	}
+
+	$pending = get_transient( engage_quiz_spam_pending_transient_key() );
+	if ( ! is_array( $pending ) || empty( $pending['quiz_ids'] ) ) {
+		engage_quiz_spam_set_success_notice( 'expired' );
+		wp_safe_redirect( engage_quiz_spam_user_quizzes_admin_url() );
+		exit;
+	}
+
+	$expected_action = 'draft' === $confirm_type ? 'set_to_draft' : 'permanent_delete';
+	if ( ! isset( $pending['action'] ) || $expected_action !== $pending['action'] ) {
+		engage_quiz_spam_set_success_notice( 'expired' );
+		wp_safe_redirect( engage_quiz_spam_user_quizzes_admin_url() );
+		exit;
+	}
+
+	$quiz_ids = array_map( 'intval', $pending['quiz_ids'] );
+	$count    = count( $quiz_ids );
+
+	echo '<div class="wrap">';
+	echo '<h1>' . esc_html__( 'Confirm bulk action', 'engage' ) . '</h1>';
+
+	if ( 'draft' === $confirm_type ) {
+		echo '<p>' . esc_html(
+			sprintf(
+				/* translators: %d: number of quizzes */
+				_n(
+					'Set %d quiz to draft (unpublish in ENP)?',
+					'Set %d quizzes to draft (unpublish in ENP)?',
+					$count,
+					'engage'
+				),
+				$count
+			)
+		) . '</p>';
+		echo '<p>' . esc_html__( 'Afterward, run Sync Quizzes on the main quiz list so WordPress meta stays in sync.', 'engage' ) . '</p>';
+	} else {
+		echo '<p>' . esc_html(
+			sprintf(
+				/* translators: %d: number of quizzes */
+				_n(
+					'Permanently delete %d quiz? This cannot be undone.',
+					'Permanently delete %d quizzes? This cannot be undone.',
+					$count,
+					'engage'
+				),
+				$count
+			)
+		) . '</p>';
+		echo '<p>' . esc_html__( 'This removes the quiz from ENP (so it leaves this list) and deletes any synced WordPress quiz posts when permitted.', 'engage' ) . '</p>';
+	}
+
+	echo '<form method="post" action="' . esc_url( engage_quiz_spam_user_quizzes_admin_url() ) . '">';
+	wp_nonce_field( 'engage_spam_quiz_bulk', 'engage_spam_quiz_bulk_nonce' );
+	echo '<input type="hidden" name="engage_spam_quiz_confirm_run" value="1" />';
+	echo '<input type="hidden" name="engage_spam_quiz_confirm_type" value="' . esc_attr( $confirm_type ) . '" />';
+
+	if ( 'delete' === $confirm_type ) {
+		echo '<p><label><input type="checkbox" name="engage_spam_quiz_reviewed" value="1" required /> ';
+		echo esc_html__( 'I have reviewed an export or the quiz list', 'engage' ) . '</label></p>';
+	}
+
+	submit_button( 'draft' === $confirm_type ? __( 'Set to draft', 'engage' ) : __( 'Permanently delete', 'engage' ), 'primary', 'submit', false );
+	echo ' <a class="button" href="' . esc_url( engage_quiz_spam_user_quizzes_admin_url() ) . '">' . esc_html__( 'Cancel', 'engage' ) . '</a>';
+	echo '</form></div>';
+}
+
+/**
+ * Executes confirmed bulk draft or starts chunked delete queue.
+ */
+function engage_quiz_spam_user_quizzes_process_confirm(): void {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	check_admin_referer( 'engage_spam_quiz_bulk', 'engage_spam_quiz_bulk_nonce' );
+
+	$confirm_type = isset( $_POST['engage_spam_quiz_confirm_type'] ) ? sanitize_key( wp_unslash( $_POST['engage_spam_quiz_confirm_type'] ) ) : '';
+	if ( ! in_array( $confirm_type, array( 'draft', 'delete' ), true ) ) {
+		wp_safe_redirect( engage_quiz_spam_user_quizzes_admin_url() );
+		exit;
+	}
+
+	if ( 'delete' === $confirm_type && empty( $_POST['engage_spam_quiz_reviewed'] ) ) {
+		engage_quiz_spam_set_success_notice( 'review_required' );
+		wp_safe_redirect( engage_quiz_spam_user_quizzes_admin_url() );
+		exit;
+	}
+
+	$pending = get_transient( engage_quiz_spam_pending_transient_key() );
+	delete_transient( engage_quiz_spam_pending_transient_key() );
+
+	if ( ! is_array( $pending ) || empty( $pending['quiz_ids'] ) ) {
+		engage_quiz_spam_set_success_notice( 'expired' );
+		wp_safe_redirect( engage_quiz_spam_user_quizzes_admin_url() );
+		exit;
+	}
+
+	$quiz_ids = engage_quiz_validate_spam_quiz_ids( $pending['quiz_ids'] );
+
+	if ( 'draft' === $confirm_type ) {
+		$result = engage_quiz_bulk_draft_spam_quizzes( $quiz_ids );
+		engage_quiz_spam_set_success_notice(
+			'drafted',
+			array(
+				'updated' => (int) $result['updated'],
+				'skipped' => (int) $result['skipped'],
+			)
+		);
+		wp_safe_redirect( engage_quiz_spam_user_quizzes_admin_url() );
+		exit;
+	}
+
+	set_transient(
+		engage_quiz_spam_delete_queue_transient_key(),
+		array(
+			'quiz_ids'     => $quiz_ids,
+			'enp_removed'  => 0,
+			'cpt_removed'  => 0,
+			'cpt_failed'   => 0,
+		),
+		HOUR_IN_SECONDS
+	);
+
+	$continue_url = wp_nonce_url(
+		engage_quiz_spam_user_quizzes_admin_url(
+			array(
+				'engage_spam_quiz_delete_continue' => '1',
+				'spam_quiz_off'                    => 0,
+			)
+		),
+		'engage_spam_quiz_bulk',
+		'engage_spam_quiz_bulk_nonce'
+	);
+
+	engage_quiz_spam_render_delete_progress_page( 0, $continue_url, count( $quiz_ids ), true );
+	exit;
+}
+
+/**
+ * Layman: Progress page between chunks when permanently deleting many quizzes.
+ *
+ * @param int    $processed    Quizzes processed so far.
+ * @param string $continue_url Next chunk URL.
+ * @param int    $total        Total in queue.
+ * @param bool   $is_starting  First hop.
+ */
+function engage_quiz_spam_render_delete_progress_page( int $processed, string $continue_url, int $total, bool $is_starting = false ): void {
+	nocache_headers();
+	header( 'Content-Type: text/html; charset=' . get_bloginfo( 'charset' ) );
+
+	$total_for_bar = max( 1, $total );
+	$pct           = min( 100, (int) round( 100 * min( $processed, $total_for_bar ) / $total_for_bar ) );
+	$esc_url       = esc_url( $continue_url, array( 'http', 'https' ) );
+	$json_url      = wp_json_encode( $continue_url, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT );
+
+	if ( $is_starting ) {
+		$line = sprintf(
+			/* translators: %d: total quizzes */
+			__( 'Starting permanent delete… %d quizzes queued.', 'engage' ),
+			$total
+		);
+	} else {
+		$line = sprintf(
+			/* translators: 1: processed, 2: total */
+			__( 'Deleting quizzes… %1$d of %2$d processed.', 'engage' ),
+			min( $processed, $total_for_bar ),
+			$total_for_bar
+		);
+	}
+
+	$html_lang = str_replace( '_', '-', get_locale() );
+	echo '<!DOCTYPE html><html lang="' . esc_attr( $html_lang ) . '"><head>';
+	echo '<meta charset="' . esc_attr( get_bloginfo( 'charset' ) ) . '">';
+	echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
+	echo '<meta http-equiv="refresh" content="3;url=' . esc_attr( $esc_url ) . '">';
+	echo '<title>' . esc_html__( 'Deleting quizzes', 'engage' ) . '</title>';
+	echo '<style>body{margin:40px auto;max-width:520px;font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}.bar{height:10px;background:#c3c4c7;border-radius:3px;margin:16px 0}.bar>span{display:block;height:100%;background:#b32d2e;width:' . (int) $pct . '%}</style>';
+	echo '</head><body><h1>' . esc_html__( 'Spam user quizzes — delete', 'engage' ) . '</h1>';
+	echo '<p>' . esc_html( $line ) . '</p>';
+	echo '<div class="bar"><span></span></div>';
+	echo '<p><a href="' . $esc_url . '">' . esc_html__( 'Continue now', 'engage' ) . '</a></p>';
+	echo '<script>window.location.replace(' . $json_url . ');</script></body></html>';
+}
+
+/**
+ * Processes one chunk of permanent deletes, then continues or finishes.
+ */
+function engage_quiz_spam_user_quizzes_process_delete_continue(): void {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	check_admin_referer( 'engage_spam_quiz_bulk', 'engage_spam_quiz_bulk_nonce' );
+
+	$queue = get_transient( engage_quiz_spam_delete_queue_transient_key() );
+	if ( ! is_array( $queue ) || empty( $queue['quiz_ids'] ) ) {
+		engage_quiz_spam_set_success_notice( 'expired' );
+		wp_safe_redirect( engage_quiz_spam_user_quizzes_admin_url() );
+		exit;
+	}
+
+	$quiz_ids = engage_quiz_validate_spam_quiz_ids( $queue['quiz_ids'] );
+	$offset   = isset( $_GET['spam_quiz_off'] ) ? max( 0, (int) $_GET['spam_quiz_off'] ) : 0;
+	$total    = count( $quiz_ids );
+
+	$result = engage_quiz_bulk_delete_spam_quizzes_chunk( $quiz_ids, $offset, ENGAGE_SPAM_USER_QUIZ_DELETE_CHUNK );
+
+	$queue['enp_removed'] = (int) ( $queue['enp_removed'] ?? 0 ) + (int) $result['enp_removed'];
+	$queue['cpt_removed'] = (int) ( $queue['cpt_removed'] ?? 0 ) + (int) $result['cpt_removed'];
+	$queue['cpt_failed']  = (int) ( $queue['cpt_failed'] ?? 0 ) + (int) $result['cpt_failed'];
+
+	$next_offset = $offset + (int) $result['processed'];
+
+	if ( ! $result['done'] ) {
+		set_transient( engage_quiz_spam_delete_queue_transient_key(), $queue, HOUR_IN_SECONDS );
+		$continue_url = wp_nonce_url(
+			engage_quiz_spam_user_quizzes_admin_url(
+				array(
+					'engage_spam_quiz_delete_continue' => '1',
+					'spam_quiz_off'                    => $next_offset,
+				)
+			),
+			'engage_spam_quiz_bulk',
+			'engage_spam_quiz_bulk_nonce'
+		);
+		engage_quiz_spam_render_delete_progress_page( $next_offset, $continue_url, $total, false );
+		exit;
+	}
+
+	delete_transient( engage_quiz_spam_delete_queue_transient_key() );
+
+	engage_quiz_spam_set_success_notice(
+		'deleted',
+		array(
+			'enp_removed' => (int) $queue['enp_removed'],
+			'cpt_removed' => (int) $queue['cpt_removed'],
+			'cpt_failed'  => (int) $queue['cpt_failed'],
+		)
+	);
+
+	wp_safe_redirect( engage_quiz_spam_user_quizzes_admin_url() );
+	exit;
+}
+
+/**
+ * Resolves notice payload once per request (transient, then URL fallback).
+ *
+ * @return array{type: string, counts: array<string, mixed>}|null
+ */
+function engage_quiz_spam_user_quizzes_notice_data(): ?array {
+	static $resolved = false;
+	static $data     = null;
+
+	if ( $resolved ) {
+		return $data;
+	}
+	$resolved = true;
+
+	$stored = engage_quiz_spam_get_and_clear_success_notice();
+	if ( is_array( $stored ) ) {
+		return $data = $stored;
+	}
+
+	if ( isset( $_GET['engage_spam_quiz_notice'] ) ) {
+		$counts = array();
+		if ( isset( $_GET['updated'] ) ) {
+			$counts['updated'] = (int) $_GET['updated'];
+		}
+		if ( isset( $_GET['skipped'] ) ) {
+			$counts['skipped'] = (int) $_GET['skipped'];
+		}
+		if ( isset( $_GET['enp_removed'] ) ) {
+			$counts['enp_removed'] = (int) $_GET['enp_removed'];
+		}
+		if ( isset( $_GET['cpt_removed'] ) ) {
+			$counts['cpt_removed'] = (int) $_GET['cpt_removed'];
+		}
+		if ( isset( $_GET['cpt_failed'] ) ) {
+			$counts['cpt_failed'] = (int) $_GET['cpt_failed'];
+		}
+		return $data = array(
+			'type'   => sanitize_key( wp_unslash( $_GET['engage_spam_quiz_notice'] ) ),
+			'counts' => $counts,
+		);
+	}
+
+	return $data = null;
+}
+
+/**
+ * Layman: Builds the green/yellow admin notice HTML for bulk actions on this screen.
+ *
+ * Uses a short-lived transient first, then legacy URL query args.
+ *
+ * @return string Empty when there is nothing to show.
+ */
+function engage_quiz_spam_user_quizzes_notice_markup(): string {
+	if ( isset( $_GET['engage_spam_quiz_export'] ) && 'none' === $_GET['engage_spam_quiz_export'] ) {
+		return sprintf(
+			'<div class="notice notice-warning is-dismissible"><p>%s</p></div>',
+			esc_html__( 'Select at least one quiz to export.', 'engage' )
+		);
+	}
+
+	$payload = engage_quiz_spam_user_quizzes_notice_data();
+	if ( ! is_array( $payload ) || empty( $payload['type'] ) ) {
+		return '';
+	}
+
+	$type   = $payload['type'];
+	$counts = $payload['counts'];
+
+	$message = '';
+	$class   = 'notice-success';
+
+	switch ( $type ) {
+		case 'drafted':
+			$updated = isset( $counts['updated'] ) ? (int) $counts['updated'] : 0;
+			$skipped = isset( $counts['skipped'] ) ? (int) $counts['skipped'] : 0;
+			$message = sprintf(
+				/* translators: 1: updated count, 2: skipped count */
+				__( 'Set %1$d quiz(es) to draft. %2$d already non-published. Run Sync Quizzes on the main list to refresh meta.', 'engage' ),
+				$updated,
+				$skipped
+			);
+			break;
+		case 'deleted':
+			$enp_removed = isset( $counts['enp_removed'] ) ? (int) $counts['enp_removed'] : 0;
+			$cpt_removed = isset( $counts['cpt_removed'] ) ? (int) $counts['cpt_removed'] : 0;
+			$cpt_failed  = isset( $counts['cpt_failed'] ) ? (int) $counts['cpt_failed'] : 0;
+			if ( $enp_removed <= 0 ) {
+				$class   = 'notice-error';
+				$message = __( 'No quizzes were removed from ENP. The selection may have already been deleted or is no longer owned by a spam user.', 'engage' );
+				break;
+			}
+			$message = sprintf(
+				/* translators: 1: ENP quizzes removed, 2: WP posts removed */
+				__( 'Removed %1$d quiz(es) from ENP. Deleted %2$d synced WordPress post(s).', 'engage' ),
+				$enp_removed,
+				$cpt_removed
+			);
+			if ( $cpt_failed > 0 ) {
+				$message .= ' ' . sprintf(
+					/* translators: %d: posts that could not be deleted */
+					__( '%d synced post(s) may still exist; check the main Quizzes list or trash. ENP rows were removed.', 'engage' ),
+					$cpt_failed
+				);
+				$class = 'notice-warning';
+			}
+			break;
+		case 'no_selection':
+			$class   = 'notice-warning';
+			$message = __( 'Select at least one quiz for that bulk action.', 'engage' );
+			break;
+		case 'expired':
+			$class   = 'notice-warning';
+			$message = __( 'That bulk action expired. Please try again.', 'engage' );
+			break;
+		case 'review_required':
+			$class   = 'notice-error';
+			$message = __( 'Confirm that you reviewed the list before permanently deleting.', 'engage' );
+			break;
+		default:
+			return '';
+	}
+
+	return sprintf(
+		'<div class="notice %1$s is-dismissible"><p>%2$s</p></div>',
+		esc_attr( $class ),
+		esc_html( $message )
+	);
+}
+
+/**
+ * Admin notices for spam user quiz bulk actions (duplicate of inline notice for standard WP placement).
+ */
+function engage_quiz_spam_user_quizzes_admin_notices(): void {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	$on_page = isset( $_GET['page'] ) && 'engage-quiz-spam-user-quizzes' === $_GET['page'];
+	if ( ! $on_page ) {
+		return;
+	}
+
+	$markup = engage_quiz_spam_user_quizzes_notice_markup();
+	if ( '' !== $markup ) {
+		echo $markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
 }
 
 engage_quiz_spam_admin_init();

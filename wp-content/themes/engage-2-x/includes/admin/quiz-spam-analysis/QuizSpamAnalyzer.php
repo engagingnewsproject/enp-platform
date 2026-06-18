@@ -297,6 +297,64 @@ class QuizSpamAnalyzer {
 	}
 
 	/**
+	 * Layman: Checks a list of embed URLs against the disposable/extra-risk domain lists (same rule as Analyse Quizzes).
+	 *
+	 * Accepts newline- or comma-separated URLs (synced embed_sites meta uses commas).
+	 *
+	 * @param string $embed_blob Raw URLs separated by newlines and/or commas.
+	 * @return array<int, array{url: string, host: string, matched_domain: string}>
+	 */
+	public function find_disposable_embed_matches_in_urls( string $embed_blob ): array {
+		$embed_blob = trim( $embed_blob );
+		if ( '' === $embed_blob ) {
+			return array();
+		}
+
+		$blob = preg_replace( '/\s*,\s*/', "\n", $embed_blob );
+		$lines = preg_split( '/\r\n|\r|\n/', $blob );
+		$dedupe = array();
+		$spam_embed_matches = array();
+		$allowlist = $this->allowlist_domains;
+
+		if ( ! is_array( $lines ) ) {
+			return array();
+		}
+
+		foreach ( $lines as $line ) {
+			$line = trim( (string) $line );
+			if ( '' === $line ) {
+				continue;
+			}
+			if ( function_exists( 'engage_quiz_is_local_embed_url' ) && engage_quiz_is_local_embed_url( $line ) ) {
+				continue;
+			}
+			$host = self::host_from_embed_url( $line );
+			if ( '' === $host || self::is_domain_allowlisted( $host, $allowlist ) ) {
+				continue;
+			}
+			foreach ( self::candidate_domains_for_disposable( $host ) as $cand ) {
+				if ( '' === $cand || self::is_domain_allowlisted( $cand, $allowlist ) ) {
+					continue;
+				}
+				if ( isset( $this->disposable_domains[ $cand ] ) ) {
+					$key = $line . "\0" . $cand;
+					if ( isset( $dedupe[ $key ] ) ) {
+						continue;
+					}
+					$dedupe[ $key ]       = true;
+					$spam_embed_matches[] = array(
+						'url'            => $line,
+						'host'           => $host,
+						'matched_domain' => $cand,
+					);
+				}
+			}
+		}
+
+		return $spam_embed_matches;
+	}
+
+	/**
 	 * Runs all rules on one quiz and returns points, tier, and which rules fired (for the admin table).
 	 *
 	 * @param array<string, string> $row              Row must include embed_site_urls (newline-separated embed URLs), embed_row_count, owner_email (for burst only), and quiz_* fields.
@@ -339,47 +397,11 @@ class QuizSpamAnalyzer {
 			: 0;
 		$burst_threshold = (int) ( $this->cfg['email_burst_threshold'] ?? 4 );
 
-		$embed_blob = trim( (string) ( $row['embed_site_urls'] ?? '' ) );
-		$spam_embed_matches = array();
-		if ( '' !== $embed_blob ) {
-			$lines = preg_split( '/\r\n|\r|\n/', $embed_blob );
-			$dedupe = array();
-			if ( is_array( $lines ) ) {
-				foreach ( $lines as $line ) {
-					$line = trim( (string) $line );
-					if ( '' === $line ) {
-						continue;
-					}
-					if ( function_exists( 'engage_quiz_is_local_embed_url' ) && engage_quiz_is_local_embed_url( $line ) ) {
-						continue;
-					}
-					$host = self::host_from_embed_url( $line );
-					if ( '' === $host || self::is_domain_allowlisted( $host, $allowlist ) ) {
-						continue;
-					}
-					foreach ( self::candidate_domains_for_disposable( $host ) as $cand ) {
-						if ( '' === $cand || self::is_domain_allowlisted( $cand, $allowlist ) ) {
-							continue;
-						}
-						if ( isset( $this->disposable_domains[ $cand ] ) ) {
-							$key = $line . "\0" . $cand;
-							if ( isset( $dedupe[ $key ] ) ) {
-								continue;
-							}
-							$dedupe[ $key ]           = true;
-							$spam_embed_matches[]     = array(
-								'url'             => $line,
-								'host'            => $host,
-								'matched_domain'  => $cand,
-							);
-						}
-					}
-				}
-			}
-			if ( count( $spam_embed_matches ) > 0 ) {
-				$hits[] = 'disposable_domain';
-				$score += (int) ( $weights['disposable_domain'] ?? 0 );
-			}
+		$embed_blob           = trim( (string) ( $row['embed_site_urls'] ?? '' ) );
+		$spam_embed_matches   = $this->find_disposable_embed_matches_in_urls( $embed_blob );
+		if ( count( $spam_embed_matches ) > 0 ) {
+			$hits[] = 'disposable_domain';
+			$score += (int) ( $weights['disposable_domain'] ?? 0 );
 		}
 
 		if ( $t_len > 0 && $t_len <= $max_short ) {
