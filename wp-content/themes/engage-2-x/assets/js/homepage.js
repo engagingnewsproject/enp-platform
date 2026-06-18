@@ -11,6 +11,8 @@ const carousel = new Flickity('.carousel-main', {
   cellAlign: 'left',
 })
 
+const carouselEl = carousel.element
+
 // Recalculate slide positions after layout shifts (async CSS, fonts, lazy images).
 function relayoutCarousel() {
   const index = carousel.selectedIndex
@@ -19,17 +21,6 @@ function relayoutCarousel() {
 }
 
 const relayoutCarouselDebounced = debounce(relayoutCarousel, 100)
-
-window.addEventListener('load', relayoutCarousel)
-
-if (document.fonts && document.fonts.ready) {
-  document.fonts.ready.then(relayoutCarousel)
-}
-
-carousel.on('lazyLoad', () => {
-  bindCarouselImageLoadListeners(carouselEl)
-  relayoutCarouselDebounced()
-})
 
 // load does not bubble; attach directly to each slide image (and handle already-cached loads).
 function bindCarouselImageLoadListeners(container) {
@@ -51,7 +42,17 @@ function bindCarouselImageLoadListeners(container) {
   })
 }
 
-const carouselEl = document.querySelector('.carousel-main')
+window.addEventListener('load', relayoutCarousel)
+
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(relayoutCarousel)
+}
+
+carousel.on('lazyLoad', () => {
+  bindCarouselImageLoadListeners(carouselEl)
+  relayoutCarouselDebounced()
+})
+
 bindCarouselImageLoadListeners(carouselEl)
 
 // Enhance accessibility of navigation buttons
