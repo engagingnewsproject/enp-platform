@@ -1,18 +1,24 @@
 <?php
 /**
-* Uninstaller
-*
-* Uninstall the plugin by removing any options from the database
-*
-* @package	simple-footnotes
-* @since	1.0
-*/
+ * Uninstaller — Footnotes Made Easy
+ *
+ * Runs when the plugin is deleted from the WordPress admin.
+ * Respects the "Preserve settings on uninstall" option from the Tools page.
+ * If preserve is enabled, all settings are kept.
+ * If disabled (default), all plugin data is removed and options reset to defaults.
+ *
+ * @package footnotes-made-easy
+ */
 
-// If the uninstall was not called by WordPress, exit
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+    exit;
+}
 
-if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) { exit(); }
+// If the user chose to preserve settings, do nothing.
+if ( get_option( 'fme_preserve_settings_on_uninstall' ) === '1' ) {
+    return;
+}
 
-// Delete any saved data
-
+// Remove all plugin options.
 delete_option( 'swas_footnote_options' );
-?>
+delete_option( 'fme_preserve_settings_on_uninstall' );

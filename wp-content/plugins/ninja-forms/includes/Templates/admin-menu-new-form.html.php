@@ -100,7 +100,7 @@
     {{{ data.label }}}
 </script>
 <script id="tmpl-nf-merge-tag-box-tag" type="text/template">
-    <span data-tag="{{{data.tag}}}">{{{ _.escape( data.label ) }}} <small>{{{data.tag}}}</small></span>
+    <span data-tag="{{{data.tag}}}" data-testid="nf-merge-tag-item-{{{data.tag}}}">{{{ _.escape( data.label ) }}} <small>{{{data.tag}}}</small></span>
 </script>
 <script id="tmpl-nf-merge-tag-box-filter" type="text/template">
     <input type="text" placeholder="Search for merge tags" >
@@ -125,7 +125,7 @@
     <div class="nf-main-test">
         <div>
             <div colspan="4" style="text-align: center;">
-                <a class="nf-secondary-control nf-open-drawer" title="Add new field" href="#" data-drawerid="addField">
+                <a class="nf-secondary-control nf-open-drawer" title="Add new field" href="#" data-drawerid="addField" data-testid="nf-add-field-header">
                     <svg class="nf-plus" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" data-drawerid="addField" aria-hidden="true">
                         <line class="nf-plus__angle nf-plus__angle--top" x1="50" y1="0" x2="50" y2="54" />
                         <line class="nf-plus__base" x1="0" y1="50" x2="100" y2="50" />
@@ -136,7 +136,7 @@
             </div>
         </div>
     </div>
-    <a class="nf-master-control nf-open-drawer" title="<?php esc_html_e( 'Add new field', 'ninja-forms' ); ?>" href="#" data-drawerid="addField">
+    <a class="nf-master-control nf-open-drawer" title="<?php esc_html_e( 'Add new field', 'ninja-forms' ); ?>" href="#" data-drawerid="addField" data-testid="nf-add-field-footer">
         <svg class="nf-plus" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" data-drawerid="addField" aria-hidden="true">
             <line class="nf-plus__angle nf-plus__angle--top" x1="50" y1="0" x2="50" y2="54" />
             <line class="nf-plus__base" x1="0" y1="50" x2="100" y2="50" />
@@ -150,7 +150,7 @@
     <div class="nf-main-test">
         <div>
             <div colspan="4" style="text-align: center;">
-                <a class="nf-secondary-control nf-open-drawer" title="Add new action" href="#" data-drawerid="addAction">
+                <a class="nf-secondary-control nf-open-drawer" title="Add new action" href="#" data-drawerid="addAction" data-testid="nf-add-action-header">
                     <svg class="nf-plus" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" data-drawerid="addField" aria-hidden="true">
                         <line class="nf-plus__angle nf-plus__angle--top" x1="50" y1="0" x2="50" y2="54" />
                         <line class="nf-plus__base" x1="0" y1="50" x2="100" y2="50" />
@@ -161,7 +161,7 @@
             </div>
         </div>
     </div>
-    <a class="nf-master-control nf-open-drawer" title="<?php esc_html_e( 'Add new action', 'ninja-forms' ); ?>" href="#" data-drawerid="addAction">
+    <a class="nf-master-control nf-open-drawer" title="<?php esc_html_e( 'Add new action', 'ninja-forms' ); ?>" href="#" data-drawerid="addAction" data-testid="nf-add-action-footer">
         <svg class="nf-plus" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" data-drawerid="addField" aria-hidden="true">
             <line class="nf-plus__angle nf-plus__angle--top" x1="50" y1="0" x2="50" y2="54" />
             <line class="nf-plus__base" x1="0" y1="50" x2="100" y2="50" />
@@ -193,7 +193,7 @@
 </script>
 
 <script id="tmpl-nf-app-header-publish-button" type="text/template">
-    <a href="#" style="width:{{{ data.publishWidth }}} !important" class="nf-button primary {{{ data.maybeDisabled() }}} publish" title="<?php esc_html_e( 'Publish', 'ninja-forms' ); ?>"><?php esc_html_e( 'PUBLISH', 'ninja-forms' ); ?></a>
+    <a href="#" style="width:{{{ data.publishWidth }}} !important" class="nf-button primary {{{ data.maybeDisabled() }}} publish" title="<?php esc_html_e( 'Publish', 'ninja-forms' ); ?>" data-testid="nf-publish"><?php esc_html_e( 'PUBLISH', 'ninja-forms' ); ?></a>
 </script>
 
 <script id="tmpl-nf-add-header-publish-loading" type="text/template">
@@ -258,7 +258,7 @@
 </script>
 
 <script id="tmpl-nf-main-content-field" type="text/template">
-    <div id="{{{ data.getFieldID() }}}" class="{{{ data.renderClasses() }}}" data-id="{{{ data.id }}}">
+    <div id="{{{ data.getFieldID() }}}" class="{{{ data.renderClasses() }}}" data-id="{{{ data.id }}}" data-testid="nf-field-row-{{{ data.id }}}" <# if (data.qaId) { #>data-qa-id="{{{ data.qaId }}}"<# } #>>
 
         <!-- Inline overlay to prevent click-throughs. -->
         <div style="position:absolute;top:0;right:0;bottom:0;left:0;z-index:2;"></div>
@@ -285,9 +285,9 @@
 </script>
 
 <script id="tmpl-nf-item-controls" type="text/template">
-    <div class="nf-item-edit nf-item-control"><a href="#" title="<?php esc_html_e( 'Edit', 'ninja-forms' ); ?>"><i class="nf-edit-settings fa fa-cog" aria-hidden="true"></i><!-- <span class="nf-item-editing">Editing {{{ data.objectType }}}</span> --></a></div>
-    <div class="nf-item-duplicate nf-item-control"><a href="#" title="<?php esc_html_e( 'Duplicate (^ + C + click)', 'ninja-forms' ); ?>"><i class="nf-duplicate fa fa-files-o" aria-hidden="true"></i></a></div>
-    <div class="nf-item-delete nf-item-control"><a href="#" title="<?php esc_html_e( 'Delete (^ + D + click)', 'ninja-forms' ); ?>"><i class="nf-delete fa fa-trash" aria-hidden="true"></i></a></div>
+    <div class="nf-item-edit nf-item-control"><a href="#" title="<?php esc_html_e( 'Edit', 'ninja-forms' ); ?>" data-testid="nf-item-edit"><i class="nf-edit-settings fa fa-cog" aria-hidden="true"></i><!-- <span class="nf-item-editing">Editing {{{ data.objectType }}}</span> --></a></div>
+    <div class="nf-item-duplicate nf-item-control"><a href="#" title="<?php esc_html_e( 'Duplicate (^ + C + click)', 'ninja-forms' ); ?>" data-testid="nf-item-duplicate"><i class="nf-duplicate fa fa-files-o" aria-hidden="true"></i></a></div>
+    <div class="nf-item-delete nf-item-control"><a href="#" title="<?php esc_html_e( 'Delete (^ + D + click)', 'ninja-forms' ); ?>" data-testid="nf-item-delete"><i class="nf-delete fa fa-trash" aria-hidden="true"></i></a></div>
 </script>
 
 <script id="tmpl-nf-action-table" type="text/template">
@@ -315,7 +315,7 @@
 </script>
 
 <script id="tmpl-nf-form-setting-type" type="text/template">
-    <div class="{{{ data.renderClasses() }}}"><span>{{{ data.nicename }}}</span></div>
+    <div class="{{{ data.renderClasses() }}}" data-testid="nf-advanced-{{{ data.id }}}"><span>{{{ data.nicename }}}</span></div>
 </script>
 
 <script id="tmpl-nf-mobile-menu" type="text/template">
@@ -458,7 +458,7 @@
 </script>
 
 <script id="tmpl-nf-drawer-content-edit-setting-group-label" type="text/template">
-    <h3 class="toggle"><span class="dashicons dashicons-arrow-{{{ data.renderArrowDir() }}}"></span>{{{ data.label }}}</h3>
+    <h3 class="toggle" data-testid="nf-drawer-section-{{{ data.id }}}"><span class="dashicons dashicons-arrow-{{{ data.renderArrowDir() }}}"></span>{{{ data.label }}}</h3>
 </script>
 
 <script id="tmpl-nf-drawer-staged-field" type="text/template">
@@ -474,7 +474,7 @@
 
 <script id="tmpl-nf-drawer-field-type-button" type="text/template">
     <div class="nf-field-type-button {{{ (data.availableField()) ? '' : 'nf-field-type-draggable' }}} {{{ data.savedField() }}} {{{ data.availableField() }}}" data-id="{{{ data.id }}}">
-        <div class="nf-item {{{ data.availableField() }}}" data-id="{{{ data.id }}}" tabindex="0"><span class="fa fa-{{{ data.icon }}}" data-id="{{{ data.id }}}"></span>{{{ data.nicename }}}</div>
+        <div class="nf-item {{{ data.availableField() }}}" data-id="{{{ data.id }}}" tabindex="0" data-testid="nf-field-type-{{{ data.id }}}"><span class="fa fa-{{{ data.icon }}}" data-id="{{{ data.id }}}"></span>{{{ data.nicename }}}</div>
     </div>
 </script>
 
@@ -491,22 +491,22 @@
 
 <script id="tmpl-nf-drawer-action-type-button" type="text/template">
     <div class="nf-one-third" data-type="{{{ data.id }}}">
-        <div class="{{{ data.renderClasses() }}}">{{{ data.nicename }}}</div>
+        <div class="{{{ data.renderClasses() }}}" data-testid="nf-action-type-{{{ data.id }}}">{{{ data.nicename }}}</div>
     </div>
 </script>
 
 <script id="tmpl-nf-drawer-header-default" type="text/template">
     <header class="nf-drawer-header">
         <div class="nf-search">
-            <input type="search" class="nf-filter" value="" placeholder="Filter" tabindex="-1" />
+            <input type="search" class="nf-filter" value="" placeholder="Filter" tabindex="-1" data-testid="nf-drawer-filter" />
         </div>
-        <a href="#" title="<?php esc_html_e( 'Done', 'ninja-forms' ); ?>" class="nf-button primary nf-close-drawer {{{ data.renderDisabled() }}}" tabindex="-1"><?php esc_html_e( 'Done', 'ninja-forms' ); ?></a>
+        <a href="#" title="<?php esc_html_e( 'Done', 'ninja-forms' ); ?>" class="nf-button primary nf-close-drawer {{{ data.renderDisabled() }}}" tabindex="-1" data-testid="nf-drawer-done"><?php esc_html_e( 'Done', 'ninja-forms' ); ?></a>
     </header>
 </script>
 
 <script id="tmpl-nf-drawer-header-edit-settings" type="text/template">
     <header class="nf-drawer-header">
-        <a href="#" title="<?php esc_html_e( 'Done', 'ninja-forms' ); ?>" class="nf-button primary nf-close-drawer {{{ data.renderDisabled() }}}" tabindex="-1"><?php esc_html_e( 'Done', 'ninja-forms' ); ?></a>
+        <a href="#" title="<?php esc_html_e( 'Done', 'ninja-forms' ); ?>" class="nf-button primary nf-close-drawer {{{ data.renderDisabled() }}}" tabindex="-1" data-testid="nf-drawer-done"><?php esc_html_e( 'Done', 'ninja-forms' ); ?></a>
     </header>
 </script>
 
@@ -537,11 +537,11 @@
     <div>
         <a href="#" title="<?php esc_html_e( 'Not Yet', 'ninja-forms' ); ?>" class="nf-button secondary nf-close-drawer" style="float:left;" tabindex="-1"><?php esc_html_e( 'Not Yet', 'ninja-forms' ); ?></a>
     </div>
-    <a href="#" title="<?php esc_html_e( 'Publish', 'ninja-forms' ); ?>" class="nf-button primary nf-close-drawer publish" tabindex="-1"><?php esc_html_e( 'Publish', 'ninja-forms' ); ?></a>
+    <a href="#" title="<?php esc_html_e( 'Publish', 'ninja-forms' ); ?>" class="nf-button primary nf-close-drawer publish" tabindex="-1" data-testid="nf-drawer-publish"><?php esc_html_e( 'Publish', 'ninja-forms' ); ?></a>
 </script>
 
 <script id="tmpl-nf-app-menu-item" type="text/template">
-    <li><a href="{{{ data.renderUrl() }}}" title="{{{ data.nicename }}}" class="{{{ data.renderClasses() }}}" target="{{{ data.renderTarget() }}}" {{{ data.renderDisabled() }}}><span class="app-menu-text">{{{ data.nicename }}}</span>{{{ data.renderDashicons() }}}</a></li>
+    <li><a data-testid="nf-menu-{{{ data.id === 'settings' ? 'advanced' : data.id }}}" href="{{{ data.renderUrl() }}}" title="{{{ data.nicename }}}" class="{{{ data.renderClasses() }}}" target="{{{ data.renderTarget() }}}" {{{ data.renderDisabled() }}}><span class="app-menu-text">{{{ data.nicename }}}</span>{{{ data.renderDashicons() }}}</a></li>
 </script>
 
 <script id="tmpl-nf-staged-fields-drag" type="text/template">
@@ -566,13 +566,13 @@
 </script>
 
 <script id="tmpl-nf-merge-tags-item" type="text/template">
-    <a href="#" title="{{{ _.escape( data.label ) }}}" tabindex="1" class="{{{ data.renderClasses() }}}">{{{ _.escape( data.label ) }}}</a>
+    <a href="#" title="{{{ _.escape( data.label ) }}}" tabindex="1" class="{{{ data.renderClasses() }}}" data-testid="nf-merge-tag-item-{{{ data.tag }}}">{{{ _.escape( data.label ) }}}</a>
 </script>
 
 <!-- Field Settings Templates -->
 
 <script id="tmpl-nf-edit-setting-wrap" type="text/template">
-    <div class="{{{ data.renderClasses() }}}" {{{ data.renderVisible() }}}>
+    <div class="{{{ data.renderClasses() }}}" {{{ data.renderVisible() }}} data-testid="nf-setting-{{{ data.name }}}">
         {{{ data.renderSetting() }}}
         <div class="nf-setting-error"></div>
     </div>
@@ -744,7 +744,7 @@ Label Three
 </script>
 
 <script id="tmpl-nf-edit-setting-toggle" type="text/template">
-   
+
     <span class="nf-setting-label">{{{ data.label }}}{{{ data.renderTooltip() }}}</span>
     <input type="checkbox" data-setting="{{{ data.settingName }}}" id="{{{ data.name }}}" class="nf-toggle setting" {{{ ( 1 == data.value ) ? 'checked' : '' }}} />
     <label for="{{{ data.name }}}">{{{ data.label }}}</label>
@@ -815,7 +815,7 @@ Label Three
 
 <script id="tmpl-nf-edit-setting-option-repeater" type="text/template">
 
-    <fieldset class="nf-list-options {{{ data.renderFieldsetClasses() }}}" {{{ data.renderVisible() }}}>
+    <fieldset class="nf-list-options {{{ data.renderFieldsetClasses() }}}" data-testid="nf-repeater-{{{ data.name }}}" {{{ data.renderVisible() }}}>
         <legend>{{{ data.label }}}</legend>
         <div class="nf-div-table">
             <div class="nf-table-row nf-table-header">
@@ -997,7 +997,7 @@ Label Three
     </div>
     <div>
         <textarea class="setting" data-id="eq">{{{ data.eq }}}</textarea>
-        <span class="dashicons dashicons-list-view merge-tags"></span>
+        <span class="dashicons dashicons-list-view merge-tags" data-testid="nf-merge-tag-picker-eq"></span>
     </div>
     <div>
         <span class="dashicons dashicons-dismiss nf-delete"></span>

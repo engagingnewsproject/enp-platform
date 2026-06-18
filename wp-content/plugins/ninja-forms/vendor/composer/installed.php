@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'saturday-drive/ninja-forms',
-        'pretty_version' => 'dev-c412081a137c5c0f96bdc35320736d401e6ef2e2',
-        'version' => 'dev-c412081a137c5c0f96bdc35320736d401e6ef2e2',
-        'reference' => 'c412081a137c5c0f96bdc35320736d401e6ef2e2',
+        'pretty_version' => 'dev-a6e6b78604c63430b3fd7527f1a1713173c30f24',
+        'version' => 'dev-a6e6b78604c63430b3fd7527f1a1713173c30f24',
+        'reference' => 'a6e6b78604c63430b3fd7527f1a1713173c30f24',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'saturday-drive/ninja-forms' => array(
-            'pretty_version' => 'dev-c412081a137c5c0f96bdc35320736d401e6ef2e2',
-            'version' => 'dev-c412081a137c5c0f96bdc35320736d401e6ef2e2',
-            'reference' => 'c412081a137c5c0f96bdc35320736d401e6ef2e2',
+            'pretty_version' => 'dev-a6e6b78604c63430b3fd7527f1a1713173c30f24',
+            'version' => 'dev-a6e6b78604c63430b3fd7527f1a1713173c30f24',
+            'reference' => 'a6e6b78604c63430b3fd7527f1a1713173c30f24',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

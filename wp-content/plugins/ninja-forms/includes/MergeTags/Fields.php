@@ -610,15 +610,17 @@ class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
         } else {
             $type = '';
 
-            foreach ($this->merge_tags['all_fields']['fields'] as $field) {
+            if ( isset( $this->merge_tags['all_fields']['fields'] ) && is_array( $this->merge_tags['all_fields']['fields'] ) ) {
+                foreach ($this->merge_tags['all_fields']['fields'] as $field) {
 
-                if (
-                    isset($field['key'])
-                    && $field['key'] == $id
-                    && isset($field['type'])
-                ) {
-                    $type = $field['type'];
-                    break;
+                    if (
+                        isset($field['key'])
+                        && $field['key'] == $id
+                        && isset($field['type'])
+                    ) {
+                        $type = $field['type'];
+                        break;
+                    }
                 }
             }
         }
@@ -630,7 +632,7 @@ class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
 
     private function get_fields_sorted()
     {
-        $fields = $this->merge_tags['all_fields']['fields'];
+        $fields = isset( $this->merge_tags['all_fields']['fields'] ) ? $this->merge_tags['all_fields']['fields'] : array();
         $sorted = array();
 
         // Filterable Sorting for Add-ons (ie Layout and Multi-Part ).
