@@ -26,20 +26,33 @@ if (document.fonts && document.fonts.ready) {
   document.fonts.ready.then(relayoutCarousel)
 }
 
-carousel.on('lazyLoad', relayoutCarouselDebounced)
+carousel.on('lazyLoad', () => {
+  bindCarouselImageLoadListeners(carouselEl)
+  relayoutCarouselDebounced()
+})
+
+// load does not bubble; attach directly to each slide image (and handle already-cached loads).
+function bindCarouselImageLoadListeners(container) {
+  if (!container) return
+
+  container.querySelectorAll('.carousel-cell-image').forEach((img) => {
+    if (img.dataset.carouselRelayoutBound) return
+    img.dataset.carouselRelayoutBound = 'true'
+
+    const onImageReady = () => relayoutCarouselDebounced()
+
+    if (img.complete) {
+      onImageReady()
+      return
+    }
+
+    img.addEventListener('load', onImageReady, { once: true })
+    img.addEventListener('error', onImageReady, { once: true })
+  })
+}
 
 const carouselEl = document.querySelector('.carousel-main')
-if (carouselEl) {
-  carouselEl.addEventListener(
-    'load',
-    (event) => {
-      if (event.target.matches('.carousel-cell-image')) {
-        relayoutCarouselDebounced()
-      }
-    },
-    true
-  )
-}
+bindCarouselImageLoadListeners(carouselEl)
 
 // Enhance accessibility of navigation buttons
 function enhanceButtonAccessibility() {
