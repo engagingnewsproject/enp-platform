@@ -122,18 +122,18 @@ add_action('before_delete_post', function($post_id) {
     }
 
     // Get the custom quiz_id from post meta
-    $quiz_id = get_post_meta($post_id, '_enp_quiz_id', true);
-    if (!$quiz_id) {
+    $quiz_id = (int) get_post_meta($post_id, '_enp_quiz_id', true);
+    if ($quiz_id <= 0) {
         return;
     }
 
     global $wpdb;
 
     // First delete from the child table (enp_embed_quiz)
-    $wpdb->delete("{$wpdb->prefix}enp_embed_quiz", ['quiz_id' => $quiz_id]);
+    $wpdb->delete("{$wpdb->prefix}enp_embed_quiz", ['quiz_id' => $quiz_id], ['%d']);
 
     // Then delete from the main custom quiz table
-    $wpdb->delete("{$wpdb->prefix}enp_quiz", ['quiz_id' => $quiz_id]);
+    $wpdb->delete("{$wpdb->prefix}enp_quiz", ['quiz_id' => $quiz_id], ['%d']);
 
     // Clean up post meta
     delete_post_meta($post_id, '_enp_quiz_id');
