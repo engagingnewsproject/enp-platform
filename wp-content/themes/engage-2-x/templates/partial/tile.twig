@@ -14,21 +14,21 @@ Other tiles have a link to the post URL
 {% if post_type == 'press' %}
 	{% set tile_link = tile.meta('press_article_url') %}
 	{# 
-				for press tiles in the solidarity-journalism-video	category, 
-				`press_article_publication_date_other` will be true, so
-				we need to get the `press_article_publication_date_other_txt` field in place of the date
-			#}
+		for press tiles in the solidarity-journalism-video	category, 
+		`press_article_publication_date_other` will be true, so
+		we need to get the `press_article_publication_date_other_txt` field in place of the date
+	#}
 	{% if tile.meta('press_article_publication_date_other') %}
 		{% set tile_date = tile.meta('press_article_publication_date_other_txt') %}
 	{% else %}
 		{% set raw_date = tile.meta('press_article_publication_date') %}
 		{% if raw_date %}
 			{# 
-										Append ' 12:00:00' to ensure the date is always interpreted as midday UTC.
-										This prevents timezone conversion from rolling the date back a day
-										when displaying in US timezones (e.g., Chicago, Los Angeles).
-										The database stores only the date (YYYYMMDD), so we add a time for safe display.
-									#}
+				Append ' 12:00:00' to ensure the date is always interpreted as midday UTC.
+				This prevents timezone conversion from rolling the date back a day
+				when displaying in US timezones (e.g., Chicago, Los Angeles).
+				The database stores only the date (YYYYMMDD), so we add a time for safe display.
+			#}
 			{% set formatted_date = raw_date|slice(0,4) ~ '-' ~ raw_date|slice(4,2) ~ '-' ~ raw_date|slice(6,2) ~ ' 12:00:00' %}
 			{% set tile_date = formatted_date|date('F j, Y', wp_timezone) %}
 		{% else %}
@@ -140,7 +140,7 @@ Other tiles have a link to the post URL
 		{% if post_type != 'press' and post_type != 'publication' %}
 			{% if tile.excerpt %}
 				<div class="tile__excerpt">
-					{{ tile.excerpt }}
+					{{ tile.excerpt|wp_kses_post }}
 				</div>
 			{% endif %}
 		{% endif %}
