@@ -220,8 +220,8 @@
                     "label": "Excerpt",
                     "name": "excerpt",
                     "aria-label": "",
-                    "type": "textarea",
-                    "instructions": "",
+                    "type": "wysiwyg",
+                    "instructions": "Use the toolbar to apply formatting such as italics or bold.",
                     "required": 0,
                     "conditional_logic": 0,
                     "wrapper": {
@@ -230,10 +230,11 @@
                         "id": ""
                     },
                     "default_value": "Advertiser information for cable and nightly network news broadcasts.",
-                    "placeholder": "",
-                    "maxlength": "",
-                    "rows": "",
-                    "new_lines": "",
+                    "allow_in_bindings": 0,
+                    "tabs": "visual",
+                    "toolbar": "basic",
+                    "media_upload": 0,
+                    "delay": 0,
                     "parent_repeater": "field_6216b2efd1aa3"
                 },
                 {
@@ -528,5 +529,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1779206899
+    "modified": 1782763149
 }

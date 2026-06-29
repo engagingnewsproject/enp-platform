@@ -163,8 +163,8 @@
                             "label": "Excerpt",
                             "name": "excerpt",
                             "aria-label": "",
-                            "type": "textarea",
-                            "instructions": "",
+                            "type": "wysiwyg",
+                            "instructions": "Use the toolbar to apply formatting such as italics or bold.",
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
@@ -173,11 +173,11 @@
                                 "id": ""
                             },
                             "default_value": "",
-                            "maxlength": "",
                             "allow_in_bindings": 0,
-                            "rows": "",
-                            "placeholder": "",
-                            "new_lines": ""
+                            "tabs": "visual",
+                            "toolbar": "basic",
+                            "media_upload": 0,
+                            "delay": 0
                         },
                         {
                             "key": "field_67eee5e775cae",
@@ -274,5 +274,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1779206899
+    "modified": 1782763080
 }
