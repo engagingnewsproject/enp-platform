@@ -99,7 +99,11 @@ var nfLocaleConverter = function(newLocale, thousands_sep, decimal_sep) {
     this.numberEncoder = function(num, percision) {
         num = this.numberDecoder(num);
 
-        return Intl.NumberFormat(this.locale, { minimumFractionDigits: percision, maximumFractionDigits: percision }).format(num);
+        var options = ( 'undefined' !== typeof percision )
+            ? { minimumFractionDigits: percision, maximumFractionDigits: percision }
+            : { maximumFractionDigits: 20 };
+
+        return Intl.NumberFormat(this.locale, options).format(num);
     }
 
     this.debug = function(message) {

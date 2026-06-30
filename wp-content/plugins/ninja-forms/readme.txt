@@ -4,7 +4,7 @@ Tags: forms, form builder, contact form, lead form, registration form
 
 Requires at least: 6.7
 Tested up to: 6.9
-Stable tag: 3.14.6
+Stable tag: 3.14.7
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -310,14 +310,45 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.14.6 (10 June 2026) =
+= 3.14.7 (18 June 2026) =
 
 *Bug Fixes:*
 
-- fix PHP warnings when retriggering emails from submissions page
-- fix bulk export returning no results when selecting a single day
+- fix date field "default to current date" displaying wrong date with conditional logic
+- fix date/date-time field value corruption when editing via submissions backend
+- fix checkbox fields not being redacted from record submissions
+- fix time display on single submission page for date/time fields
+- fix decimal precision loss in calculations
+
+*Enhancements:*
+
+- increase default visible columns in legacy submissions from 5 to 10
+- remove survey promo from admin
+
+*Security Enhancements:*
+
+- protect against PHP object injection in form import
 
 == Changelog ==
+= 3.14.7 (18 June 2026) =
+
+*Bug Fixes:*
+
+- fix date field "default to current date" displaying wrong date with conditional logic
+- fix date/date-time field value corruption when editing via submissions backend
+- fix checkbox fields not being redacted from record submissions
+- fix time display on single submission page for date/time fields
+- fix decimal precision loss in calculations
+
+*Enhancements:*
+
+- increase default visible columns in legacy submissions from 5 to 10
+- remove survey promo from admin
+
+*Security Enhancements:*
+
+- protect against PHP object injection in form import
+
 = 3.14.6 (10 June 2026) =
 
 *Bug Fixes:*

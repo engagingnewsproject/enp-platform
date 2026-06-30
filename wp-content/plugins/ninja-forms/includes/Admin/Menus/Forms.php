@@ -224,8 +224,6 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
 
             $promotions = get_option( 'nf_active_promotions' );
             $promotions = json_decode( $promotions, true );
-            $surveyPromo = new NF_Admin_SurveyPromo();
-            if($surveyPromo->shouldShow() && $surveyPromo->isDashboard()) $promotions = array();
 
             if( ! empty( $promotions ) ) {
                 wp_localize_script( 'nf-dashboard', 'nfPromotions', array_values( $promotions[ 'dashboard' ] ) );

@@ -179,6 +179,11 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
      */
     public function export_value( $value, $field )
     {
+        // If value is redacted, return it unchanged.
+        if ( '(redacted)' === $value ) {
+            return $value;
+        }
+
         // @TODO: Why were these values translated in the first place?
         // If value is equal to checked or unchecked return the value
         if ( __( 'checked', 'ninja-forms' ) == $value ||
