@@ -11,10 +11,9 @@
 				{% include ['tease-'~post.post_type~'.twig', 'tease.twig'] %}
 			{% endfor %} #}
 			{% include 'tiles.twig' with { 
-					intro: archive.intro, 
 					posts: posts,
 					loadEagerTiles: 6,
-					post_type: archive.post_type,
+					tiles_variant: 'search',
 				} %}
 			{% include 'partial/pagination.twig' with { pagination: posts.pagination({show_all: false, mid_size: 3, end_size: 2}) } %}
 		</div>

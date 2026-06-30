@@ -30,3 +30,18 @@
 .footnote-tooltip .footnote-back-link-wrapper {
 	display: none;
 }
+
+/* jQuery UI accessibility live region. jQuery UI ships this rule in its own
+   stylesheet, but many themes don't load jQuery UI CSS — without it, the
+   aria-live log region renders as visible duplicate text at the end of <body>.
+   We provide it here so the screen-reader-only region stays visually hidden. */
+.ui-helper-hidden-accessible {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+}

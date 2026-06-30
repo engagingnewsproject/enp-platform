@@ -1,17 +1,17 @@
 {
-    "packages": {
-        "0": {
+    "packages": [
+        {
             "name": "firebase/php-jwt",
             "version": "v6.3.2",
             "version_normalized": "6.3.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/firebase/php-jwt.git",
+                "url": "https://github.com/googleapis/php-jwt.git",
                 "reference": "ea7dda77098b96e666c5ef382452f94841e439cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/ea7dda77098b96e666c5ef382452f94841e439cd",
+                "url": "https://api.github.com/repos/googleapis/php-jwt/zipball/ea7dda77098b96e666c5ef382452f94841e439cd",
                 "reference": "ea7dda77098b96e666c5ef382452f94841e439cd",
                 "shasum": ""
             },
@@ -65,7 +65,7 @@
             },
             "install-path": "../firebase/php-jwt"
         },
-        "1": {
+        {
             "name": "lucatume/di52",
             "version": "3.3.7",
             "version_normalized": "3.3.7.0",
@@ -113,7 +113,7 @@
             },
             "install-path": "../lucatume/di52"
         },
-        "2": {
+        {
             "name": "monolog/monolog",
             "version": "2.10.0",
             "version_normalized": "2.10.0.0",
@@ -218,7 +218,7 @@
             ],
             "install-path": "../monolog/monolog"
         },
-        "3": {
+        {
             "name": "nyholm/psr7",
             "version": "1.8.2",
             "version_normalized": "1.8.2.0",
@@ -299,7 +299,7 @@
             ],
             "install-path": "../nyholm/psr7"
         },
-        "4": {
+        {
             "name": "psr/container",
             "version": "1.1.1",
             "version_normalized": "1.1.1.0",
@@ -350,7 +350,7 @@
             },
             "install-path": "../psr/container"
         },
-        "5": {
+        {
             "name": "psr/http-client",
             "version": "1.0.3",
             "version_normalized": "1.0.3.0",
@@ -405,7 +405,7 @@
             },
             "install-path": "../psr/http-client"
         },
-        "6": {
+        {
             "name": "psr/http-factory",
             "version": "1.1.0",
             "version_normalized": "1.1.0.0",
@@ -434,7 +434,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "TEC\\Common\\Psr\\Http\\Message\\": "src/"
+                    "Psr\\Http\\Message\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -463,7 +463,7 @@
             },
             "install-path": "../psr/http-factory"
         },
-        "7": {
+        {
             "name": "psr/http-message",
             "version": "1.1",
             "version_normalized": "1.1.0.0",
@@ -491,7 +491,7 @@
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "TEC\\Common\\Psr\\Http\\Message\\": "src/"
+                    "Psr\\Http\\Message\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -519,7 +519,7 @@
             },
             "install-path": "../psr/http-message"
         },
-        "8": {
+        {
             "name": "psr/log",
             "version": "1.1.4",
             "version_normalized": "1.1.4.0",
@@ -572,7 +572,7 @@
             },
             "install-path": "../psr/log"
         },
-        "10": {
+        {
             "name": "stellarwp/admin-notices",
             "version": "1.2.2",
             "version_normalized": "1.2.2.0",
@@ -628,7 +628,7 @@
             },
             "install-path": "../stellarwp/admin-notices"
         },
-        "11": {
+        {
             "name": "stellarwp/arrays",
             "version": "1.2.2",
             "version_normalized": "1.2.2.0",
@@ -688,7 +688,7 @@
             },
             "install-path": "../stellarwp/arrays"
         },
-        "12": {
+        {
             "name": "stellarwp/assets",
             "version": "1.4.10",
             "version_normalized": "1.4.10.0",
@@ -750,7 +750,7 @@
             },
             "install-path": "../stellarwp/assets"
         },
-        "13": {
+        {
             "name": "stellarwp/container-contract",
             "version": "1.1.1",
             "version_normalized": "1.1.1.0",
@@ -800,7 +800,7 @@
             },
             "install-path": "../stellarwp/container-contract"
         },
-        "14": {
+        {
             "name": "stellarwp/db",
             "version": "1.2.0",
             "version_normalized": "1.2.0.0",
@@ -859,7 +859,7 @@
             },
             "install-path": "../stellarwp/db"
         },
-        "15": {
+        {
             "name": "stellarwp/harbor",
             "version": "v1.4.0",
             "version_normalized": "1.4.0.0",
@@ -932,7 +932,7 @@
             },
             "install-path": "../stellarwp/harbor"
         },
-        "16": {
+        {
             "name": "stellarwp/installer",
             "version": "1.1.1",
             "version_normalized": "1.1.1.0",
@@ -988,7 +988,7 @@
             },
             "install-path": "../stellarwp/installer"
         },
-        "17": {
+        {
             "name": "stellarwp/licensing-api-client",
             "version": "2.0.0",
             "version_normalized": "2.0.0.0",
@@ -1033,7 +1033,7 @@
             },
             "install-path": "../stellarwp/licensing-api-client"
         },
-        "18": {
+        {
             "name": "stellarwp/licensing-api-client-wordpress",
             "version": "2.0.0",
             "version_normalized": "2.0.0.0",
@@ -1076,7 +1076,7 @@
             },
             "install-path": "../stellarwp/licensing-api-client-wordpress"
         },
-        "19": {
+        {
             "name": "stellarwp/models",
             "version": "2.0.0",
             "version_normalized": "2.0.0.0",
@@ -1136,7 +1136,7 @@
             },
             "install-path": "../stellarwp/models"
         },
-        "20": {
+        {
             "name": "stellarwp/schema",
             "version": "3.2.0",
             "version_normalized": "3.2.0.0",
@@ -1200,7 +1200,7 @@
             },
             "install-path": "../stellarwp/schema"
         },
-        "21": {
+        {
             "name": "stellarwp/schema-models",
             "version": "0.2.0",
             "version_normalized": "0.2.0.0",
@@ -1266,7 +1266,7 @@
             },
             "install-path": "../stellarwp/schema-models"
         },
-        "22": {
+        {
             "name": "stellarwp/shepherd",
             "version": "0.2.0",
             "version_normalized": "0.2.0.0",
@@ -1334,7 +1334,7 @@
             },
             "install-path": "../stellarwp/shepherd"
         },
-        "23": {
+        {
             "name": "stellarwp/telemetry",
             "version": "2.3.4",
             "version_normalized": "2.3.4.0",
@@ -1386,7 +1386,7 @@
             },
             "install-path": "../stellarwp/telemetry"
         },
-        "24": {
+        {
             "name": "stellarwp/uplink",
             "version": "v2.2.2",
             "version_normalized": "2.2.2.0",
@@ -1456,7 +1456,7 @@
             },
             "install-path": "../stellarwp/uplink"
         },
-        "25": {
+        {
             "name": "trustedlogin/client",
             "version": "v1.9.0",
             "version_normalized": "1.9.0.0",
@@ -1518,7 +1518,7 @@
             },
             "install-path": "../trustedlogin/client"
         },
-        "26": {
+        {
             "name": "woocommerce/action-scheduler",
             "version": "3.9.3",
             "version_normalized": "3.9.3.0",
@@ -1562,10 +1562,9 @@
                 "issues": "https://github.com/woocommerce/action-scheduler/issues",
                 "source": "https://github.com/woocommerce/action-scheduler/tree/3.9.3"
             },
-            "install-path": "../woocommerce/action-scheduler",
-            "autoload": []
+            "install-path": "../woocommerce/action-scheduler"
         }
-    },
+    ],
     "dev": false,
     "dev-package-names": []
 }

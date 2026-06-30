@@ -418,13 +418,13 @@ class NF_Admin_CPT_Submission
         }
 
         if ( $hidden_columns === false ) {
-            // If we don't have custom hidden columns set up for this form, then only show the first five columns.
+            // If we don't have custom hidden columns set up for this form, then only show the first ten columns.
             // Get our column headers
             $columns = get_column_headers( 'edit-nf_sub' );
             $hidden_columns = array();
             $x = 0;
             foreach ( $columns as $slug => $name ) {
-                if ( $x > 5 ) {
+                if ( $x > 10 ) {
                     if ( $slug != 'sub_date' )
                         $hidden_columns[] = $slug;
                 }

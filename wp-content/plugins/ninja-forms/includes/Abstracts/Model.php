@@ -341,7 +341,7 @@ class NF_Abstracts_Model
             if( in_array($key, $danger) ) {
                 $this->_settings[ $key ] = $value;
             } else {
-                $this->_settings[ $key ] = maybe_unserialize( $value );
+                $this->_settings[ $key ] = is_serialized( $value ) ? unserialize( $value, ['allowed_classes' => false] ) : $value;
             }
         }
 
@@ -511,7 +511,7 @@ class NF_Abstracts_Model
 
             foreach($table_data as $data_item) {
                 foreach($data_item as $label => $val ) {
-                    $generic_object_array[$data_item['id']]->_settings[$label] = maybe_unserialize( $val );
+                    $generic_object_array[$data_item['id']]->_settings[$label] = is_serialized( $val ) ? unserialize( $val, ['allowed_classes' => false] ) : $val;
                 }
             }
         
@@ -522,7 +522,7 @@ class NF_Abstracts_Model
             foreach($meta_data as $meta) {
 
                 // if( ! isset($generic_object_array[$meta['parent_id']]->_settings[$meta['meta_key']])) {
-                    $generic_object_array[$meta['parent_id']]->_settings[$meta['meta_key']] = maybe_unserialize( $meta['meta_value'] );
+                    $generic_object_array[$meta['parent_id']]->_settings[$meta['meta_key']] = is_serialized( $meta['meta_value'] ) ? unserialize( $meta['meta_value'], ['allowed_classes' => false] ) : $meta['meta_value'];
                 // }
             }
         }
