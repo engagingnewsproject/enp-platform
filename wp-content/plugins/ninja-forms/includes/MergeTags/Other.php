@@ -60,9 +60,11 @@ class NF_MergeTags_Other extends NF_Abstracts_MergeTags
             if ( is_array( $value ) ) {
                 $value = wp_kses_post_deep( $value );
                 $value = map_deep( $value, 'esc_attr' );
+                $value = map_deep( $value, array( $this, 'neutralize_shortcodes' ) );
             } else {
                 $value = wp_kses_post( $value );
                 $value = esc_attr( $value );
+                $value = $this->neutralize_shortcodes( $value );
             }
             $this->set_merge_tags( $key, $value );
         }
@@ -122,13 +124,36 @@ class NF_MergeTags_Other extends NF_Abstracts_MergeTags
         );
     }
 
+    /**
+     * Neutralize shortcode brackets to prevent shortcode injection.
+     *
+     * Converts [ and ] to HTML entities so they display correctly
+     * but are not interpreted as shortcodes by do_shortcode().
+     *
+     * @since 3.14.10
+     *
+     * @param mixed $value The value to sanitize.
+     * @return mixed The sanitized value with brackets converted to entities.
+     */
+    protected function neutralize_shortcodes( $value )
+    {
+        if ( ! is_string( $value ) ) {
+            return $value;
+        }
+
+        $value = str_replace( '[', '&#91;', $value );
+        $value = str_replace( ']', '&#93;', $value );
+
+        return $value;
+    }
+
     protected function system_date()
     {
         $format = Ninja_Forms()->get_setting( 'date_format' );
         if ( empty( $format ) ) {
             $format = 'Y/m/d';
         }
-        return date( $format, time() );
+        return wp_date( $format );
     }
 
     protected function system_time()
@@ -169,20 +194,20 @@ class NF_MergeTags_Other extends NF_Abstracts_MergeTags
     }
 
     protected function mergetag_year()
-    {   
+    {
 
 
-        return apply_filters( 'ninja_forms-mergetag_year', date( 'Y' ) );
+        return apply_filters( 'ninja_forms-mergetag_year', wp_date( 'Y' ) );
     }
 
     protected function mergetag_month()
-    {   
-        return apply_filters( 'ninja_forms-mergetag_month', date( 'm' ) );
+    {
+        return apply_filters( 'ninja_forms-mergetag_month', wp_date( 'm' ) );
     }
 
     protected function mergetag_day()
-    {   
-        return apply_filters( 'ninja_forms-mergetag_day', date( 'd' ) );
+    {
+        return apply_filters( 'ninja_forms-mergetag_day', wp_date( 'd' ) );
     }
 
 } // END CLASS NF_MergeTags_Other

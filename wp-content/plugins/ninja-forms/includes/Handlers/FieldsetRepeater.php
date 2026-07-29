@@ -277,10 +277,10 @@ class NF_Handlers_FieldsetRepeater
 
         $fieldsetFieldId = $exploded[0];
 
-        if (isset($exploded[1])) {
-            $submissionIndex=$exploded[1];
+        if (isset($exploded[1]) && ctype_digit($exploded[1])) {
+            $submissionIndex = $exploded[1];
         } else {
-            $submissionIndex = 0; // if no index present, set as -1 for an un-repeated fieldset
+            $submissionIndex = '0';
         }
 
         $return = array(
@@ -438,7 +438,8 @@ class NF_Handlers_FieldsetRepeater
             $fieldsetFieldId = $parsedSubmissionIds['fieldsetFieldId'];
 
 
-            $submissionIndex = $parsedSubmissionIds['submissionIndex'];
+            // Ensure the index is a canonical numeric string
+            $submissionIndex = (string) absint($parsedSubmissionIds['submissionIndex']);
 
             $idKey = $fieldId . $this->fieldsetDelimiter . $fieldsetFieldId;
 

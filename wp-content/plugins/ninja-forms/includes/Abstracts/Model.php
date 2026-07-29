@@ -254,7 +254,7 @@ class NF_Abstracts_Model
                 ARRAY_A
             );
 
-            if( ! is_wp_error( $field ) ){
+            if( $field ){
                 $this->_settings[ 'label' ] = $field[ 'label' ];
                 $this->_settings[ 'key' ] = $field[ 'key' ];
                 $this->_settings[ 'type' ] = $field[ 'type' ];

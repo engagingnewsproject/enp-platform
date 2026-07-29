@@ -936,15 +936,15 @@ class NF_Display_Render
     public static function enqueue_styles_display( $css_dir ) {
         switch( Ninja_Forms()->get_setting( 'opinionated_styles' ) ) {
             case 'light':
-                wp_enqueue_style( 'nf-display',      $css_dir . 'display-opinions-light.css', array( 'dashicons' ) );
+                wp_enqueue_style( 'nf-display',      $css_dir . 'display-opinions-light.css' );
                 wp_enqueue_style( 'nf-font-awesome', $css_dir . 'font-awesome.min.css'       );
                 break;
             case 'dark':
-                wp_enqueue_style( 'nf-display',      $css_dir . 'display-opinions-dark.css', array( 'dashicons' )  );
+                wp_enqueue_style( 'nf-display',      $css_dir . 'display-opinions-dark.css' );
                 wp_enqueue_style( 'nf-font-awesome', $css_dir . 'font-awesome.min.css'      );
                 break;
             default:
-                wp_enqueue_style( 'nf-display',      $css_dir . 'display-structure.css', array( 'dashicons' ) );
+                wp_enqueue_style( 'nf-display',      $css_dir . 'display-structure.css' );
         }
     }
 

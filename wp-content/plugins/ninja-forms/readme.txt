@@ -2,9 +2,9 @@
 Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorhouse, jmcelhaney, wpnzach, ericwindhamsd, mrpritchett, stuartsequeira, nahuelmahe
 Tags: forms, form builder, contact form, lead form, registration form
 
-Requires at least: 6.7
-Tested up to: 6.9
-Stable tag: 3.14.7
+Requires at least: 6.8
+Tested up to: 7.0
+Stable tag: 3.14.11
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -310,26 +310,71 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.14.7 (18 June 2026) =
+= 3.14.11 (28 July 2026) =
 
 *Bug Fixes:*
 
-- fix date field "default to current date" displaying wrong date with conditional logic
-- fix date/date-time field value corruption when editing via submissions backend
-- fix checkbox fields not being redacted from record submissions
-- fix time display on single submission page for date/time fields
-- fix decimal precision loss in calculations
+- fix CSV export column alignment for fields placed after repeatable fieldsets
+- preserve <br>, <hr>, and <pre> tags in HTML field editor
+- clear validation error on Time Only field when user corrects input
+- fix ninja_forms_render_options filter breaking form validation
+
+== Changelog ==
+= 3.14.11 (28 July 2026) =
+
+*Bug Fixes:*
+
+- fix CSV export column alignment for fields placed after repeatable fieldsets
+- preserve <br>, <hr>, and <pre> tags in HTML field editor
+- clear validation error on Time Only field when user corrects input
+- fix ninja_forms_render_options filter breaking form validation
+
+= 3.14.10 (27 July 2026) =
+
+*Bug Fixes:*
+
+- fix anchor tag URLs breaking when merge tags are used as querystrings in HTML fields
+- fix date field required validation not triggering for Date & Time mode
+- fix {other:date} merge tag reporting dates in UTC instead of local timezone
 
 *Enhancements:*
 
-- increase default visible columns in legacy submissions from 5 to 10
-- remove survey promo from admin
+- add banner-led partner cards to Partner Apps & Services tab
 
 *Security Enhancements:*
 
-- protect against PHP object injection in form import
+- protect against SQL injection in import settings key
+- block unauthenticated shortcode execution
 
-== Changelog ==
+= 3.14.9 (14 July 2026) =
+
+*Bug Fixes:*
+
+- restore visibility of "Almost there..." heading in new-form drawer
+- add descender allowance for typed signature fonts in PDF
+
+*Security Enhancements:*
+
+- protect against unauthorized multisite data deletion
+- protect against stored XSS in Repeatable Fieldset
+- protect against field metadata override
+- protect against calc value injection in list fields
+- protect against unauthorized access to submissions via block insertion
+
+= 3.14.8 (29 June 2026) =
+
+*Bug Fixes:*
+
+- fix merge tag picker falsely triggering for calculation tags with slash in name
+- fix phone field truncating last digit when browser autofill includes country code
+- fix PHP warning for array offset on null in Model.php
+- fix opinionated styles CSS not loading for logged-out users
+- fix Gutenberg block editor iframe not loading (add API version 3)
+- fix personal data export failing with PHP fatal error in UserDataRequests.php
+- fix invisible reCAPTCHA v2 not working due to block scope bug
+- fix form builder sidebar not closing when screen width expands
+- fix {fields_table} incorrectly including unchecked checkbox fields
+
 = 3.14.7 (18 June 2026) =
 
 *Bug Fixes:*

@@ -161,6 +161,23 @@ class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
             // TODO: Skip hidden fields, ie conditionally hidden.
             if (isset($field['visible']) && false === $field['visible']) continue;
 
+            // Skip unchecked single checkbox fields - they represent no user input
+            // Must check BEFORE the filter transforms raw value to display text
+            // Fixes #7908 (regression) and #7909 (longstanding)
+            if ($field['type'] === 'checkbox') {
+                // Check raw value (standard case: 0, '', false, null = unchecked)
+                if (!$field['value']) {
+                    continue;
+                }
+                // Also check if value matches unchecked_value (handles pre-transformed data)
+                $unchecked_value = isset($field['settings']['unchecked_value'])
+                    ? $field['settings']['unchecked_value']
+                    : '';
+                if ($unchecked_value !== '' && $field['value'] === $unchecked_value) {
+                    continue;
+                }
+            }
+
             // Check to see if the type is a list field and if it is...
             if (in_array($field['type'], array_values($list_fields_types))) {
                 // If we have a comma separated value...

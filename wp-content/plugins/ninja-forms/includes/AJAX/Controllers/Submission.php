@@ -2,12 +2,43 @@
 
 class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
 {
+    /**
+     * Client-submitted form data from the AJAX request.
+     *
+     * WARNING: This data is client-controlled and must not be trusted for security-sensitive
+     * properties like 'type', 'required', 'key', or 'settings'. Always use server-side
+     * form definitions from $_form_cache as the source of truth for field configuration.
+     *
+     * @var array
+     */
     protected $_form_data = array();
 
+    /**
+     * Server-side form configuration cache.
+     *
+     * This data is trusted and should be used as the authoritative source for field
+     * definitions including type, required status, validation rules, and other
+     * security-sensitive settings.
+     *
+     * @var array
+     */
     protected $_form_cache = array();
 
+    /**
+     * Preview data for form preview submissions.
+     *
+     * Contains temporary form configuration when processing preview submissions
+     * from the form builder.
+     *
+     * @var array
+     */
     protected $_preview_data = array();
 
+    /**
+     * The form ID being processed.
+     *
+     * @var string|int
+     */
     protected $_form_id = '';
 
     public function __construct()
@@ -257,8 +288,10 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
             // Duplicate the Field ID for access as a setting.
             $field[ 'settings' ][ 'id' ] = $field[ 'id' ];
 
-            // Combine with submitted data.
-            $field = array_merge( $field, $this->_form_data[ 'fields' ][ $field_id ] );
+            // Combine with submitted data using whitelist to prevent field metadata override.
+            // @see https://github.com/Saturday-Drive/ninja-forms/issues/8011
+            $whitelist = apply_filters( 'ninja_forms_submit_field_whitelist', array( 'value', 'files', 'save_id' ) );
+            $field = $this->apply_field_whitelist( $field, $this->_form_data[ 'fields' ][ $field_id ], $whitelist );
 
             // Flatten the field array.
             $field = array_merge( $field, $field[ 'settings' ] );
@@ -268,7 +301,9 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
                 foreach( $field["value"] as $index => $child_field_value ){
                     foreach( $field['fields'] as $i => $child_field ) {
                         if(strpos($index, $child_field['id']) !== false){
-                            $field['value'][$index] = array_merge($child_field, $child_field_value);
+                            // Apply whitelist to repeater child fields.
+                            // @see https://github.com/Saturday-Drive/ninja-forms/issues/8011
+                            $field['value'][$index] = $this->apply_field_whitelist( $child_field, $child_field_value, $whitelist );
                         }
                     }
                 }
@@ -295,7 +330,10 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
                     $this->process_field($field);
                 }
             }
-            $field = array_merge( $field, $this->_form_data[ 'fields' ][ $field_id ] );
+            // Re-merge after processing using whitelist to pick up legitimate changes (e.g., file uploads)
+            // while still protecting against field metadata override.
+            // @see https://github.com/Saturday-Drive/ninja-forms/issues/8011
+            $field = $this->apply_field_whitelist( $field, $this->_form_data[ 'fields' ][ $field_id ], $whitelist );
 
 	        // Check for field errors after processing.
 	        if ( isset( $this->_form_data['errors']['fields'][ $field_id ] ) ) {
@@ -708,5 +746,39 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
         // Merge tag resolution should only occur on admin-configured content
         // (email templates, success messages, calculations), not on form submissions.
         return;
+    }
+
+    /**
+     * Apply field whitelist to merge only safe properties from submitted data.
+     *
+     * This method controls which properties from client-submitted field data
+     * are allowed to be merged into the server-defined field configuration.
+     *
+     * SECURITY: This method implements defense-in-depth by explicitly blocking
+     * security-sensitive properties (type, required, key, settings, id) even if
+     * they appear in the whitelist. This prevents malicious filter hooks from
+     * re-enabling dangerous properties.
+     *
+     * @since 3.x.x
+     * @see https://github.com/Saturday-Drive/ninja-forms/issues/8011
+     *
+     * @param array $server_field Server-defined field configuration (trusted).
+     * @param array $submitted    Client-submitted field data (untrusted).
+     * @param array $whitelist    Allowed properties to copy from submission.
+     * @return array The server field with allowed properties merged from submission.
+     */
+    protected function apply_field_whitelist( array $server_field, array $submitted, array $whitelist ): array {
+        // Security-critical properties that can NEVER be overridden by client data,
+        // regardless of any filter or whitelist configuration.
+        $blocked_props = array( 'type', 'required', 'key', 'settings', 'id' );
+
+        // Copy only whitelisted properties from submission, excluding blocked ones.
+        foreach ( $whitelist as $prop ) {
+            if ( ! in_array( $prop, $blocked_props, true ) && isset( $submitted[ $prop ] ) ) {
+                $server_field[ $prop ] = $submitted[ $prop ];
+            }
+        }
+
+        return $server_field;
     }
 }
