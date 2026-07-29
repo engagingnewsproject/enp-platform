@@ -213,7 +213,7 @@ class NF_Admin_CPT_Submission
         $sub = Ninja_Forms()->form()->get_sub( $sub_id );
 
         if( 'id' == $column ) {
-            echo apply_filters( 'nf_sub_table_seq_num', $sub->get_seq_num(), $sub_id, $column );
+            echo esc_html( apply_filters( 'nf_sub_table_seq_num', $sub->get_seq_num(), $sub_id, $column ) );
         }
 
         $form_id = absint( $_GET[ 'form_id' ] );
@@ -246,7 +246,8 @@ class NF_Admin_CPT_Submission
                 $value = implode('<br />',$optionsByRepetition);
             }
 
-            echo apply_filters( 'ninja_forms_custom_columns', $value, $field, $sub_id );
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped via safeEscapeFilteredValue()
+            echo $this->safeEscapeFilteredValue($value, $field, $sub_id);
         }elseif( is_numeric( $column ) ){
             $value = $sub->get_field_value( $column );
 
@@ -254,11 +255,256 @@ class NF_Admin_CPT_Submission
                 $fields[$column] = Ninja_Forms()->form( $form_id )->get_field( $column );
             }
             $field = $fields[$column];
-            echo apply_filters( 'ninja_forms_custom_columns', $value, $field, $sub_id );
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped via safeEscapeFilteredValue()
+            echo $this->safeEscapeFilteredValue($value, $field, $sub_id);
         }
 
     }
 
+    /**
+     * Apply the ninja_forms_custom_columns filter and escape the output for safe display.
+     *
+     * Uses wp_kses_post() to allow safe HTML (e.g., Signature field styling, <br> tags)
+     * while stripping dangerous elements like <script> and event handlers.
+     *
+     * The data: protocol is allowed ONLY for safe bitmap image MIME types
+     * (png, jpeg, gif, webp) to support drawn signatures.
+     *
+     * Security approach (defense-in-depth):
+     * 1. Strip ALL unsafe data: URIs first (prevents bypass via unquoted attrs, entity encoding)
+     * 2. Extract safe bitmap URIs for later restoration
+     * 3. Run wp_kses_post (strips remaining dangerous content)
+     * 4. Restore only explicitly extracted safe URIs
+     *
+     * @param mixed $value  The field value to filter and escape.
+     * @param mixed $field  The field object or settings.
+     * @param int   $sub_id The submission ID.
+     * @return string The safely escaped filtered value.
+     */
+    protected function safeEscapeFilteredValue($value, $field, $sub_id): string
+    {
+        $filtered = apply_filters('ninja_forms_custom_columns', $value, $field, $sub_id);
+
+        // Ensure we have a string before escaping (filter may return non-string)
+        if (!is_string($filtered)) {
+            $filtered = is_scalar($filtered) ? (string) $filtered : '';
+        }
+
+        // Step 1: Strip ALL unsafe data: URIs (handles bypass attempts)
+        // This removes dangerous payloads that could confuse kses parsing
+        $filtered = $this->sanitizeDataUris($filtered);
+
+        // Step 2: Extract safe bitmap image data URIs BEFORE kses runs
+        $safeDataUris = $this->extractSafeBitmapDataUris($filtered);
+
+        // Step 3: Run wp_kses_post (strips remaining dangerous content)
+        $escaped = wp_kses_post($filtered);
+
+        // Step 4: Restore ONLY the safe bitmap images we explicitly extracted
+        $escaped = $this->restoreSafeDataUris($escaped, $safeDataUris);
+
+        return $escaped;
+    }
+
+    /**
+     * Sanitize data: URIs to only allow safe bitmap image types.
+     *
+     * Strips all data: URIs except those with safe bitmap MIME types:
+     * - image/png, image/jpeg, image/gif, image/webp
+     *
+     * Security: Handles bypass attempts including:
+     * - Quoted attributes: href="data:..."
+     * - Unquoted attributes: href=data:...
+     * - Entity-obfuscated scheme letters: &#100;ata: or &#x64;ata:
+     * - Entity-obfuscated colon: data&#58; or data&#x3a; or data&colon;
+     *
+     * @param string $content Content potentially containing data: URIs.
+     * @return string Content with unsafe data: URIs removed.
+     */
+    protected function sanitizeDataUris(string $content): string
+    {
+        if (empty($content)) {
+            return $content;
+        }
+
+        // Build pattern for data: scheme including entity-encoded variants
+        // &#100; or &#x64; = 'd', &#97; or &#x61; = 'a', &#116; or &#x74; = 't'
+        // &#58; or &#x3a; or &colon; = ':'
+        $dataScheme = '(?:d|&#0*100;?|&#x0*64;?)' .
+            '(?:a|&#0*97;?|&#x0*61;?)' .
+            '(?:t|&#0*116;?|&#x0*74;?)' .
+            '(?:a|&#0*97;?|&#x0*61;?)' .
+            '(?::|&#0*58;?|&#x0*3[aA];?|&colon;?)';
+
+        // Pattern 1: Double-quoted attribute value (captures everything up to closing ")
+        $content = preg_replace_callback(
+            '/\b(href|src)\s*=\s*"(' . $dataScheme . '[^"]*)"/i',
+            function ($match) {
+                return $this->filterDataUriAttribute($match[1], '"', $match[2], '"');
+            },
+            $content
+        );
+
+        // Pattern 2: Single-quoted attribute value (captures everything up to closing ')
+        $content = preg_replace_callback(
+            '/\b(href|src)\s*=\s*\'(' . $dataScheme . '[^\']*)\'/i',
+            function ($match) {
+                return $this->filterDataUriAttribute($match[1], "'", $match[2], "'");
+            },
+            $content
+        );
+
+        // Pattern 3: Unquoted attribute value (handles malformed HTML)
+        // For unquoted attributes, the value ends at first > or whitespace.
+        // However, if the payload contains <tags>, multiple > may appear.
+        // Match up to 2 segments ending in > to capture attacks like:
+        // href=data:text/html,<script>alert(1)</script>
+        $content = preg_replace_callback(
+            '/\b(href|src)\s*=\s*' . $dataScheme . '[^>]*>(?:[^>]*>)?/i',
+            function ($match) {
+                $fullMatch = $match[0];
+
+                // Extract just the initial data: URI part for safety check
+                if (preg_match('/data:[^>\s]*/i', $fullMatch, $uriMatch)) {
+                    $decodedUri = html_entity_decode($uriMatch[0], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+                    // Check if it's a safe bitmap image (unlikely for unquoted, but check anyway)
+                    if (preg_match('/^data:image\/(png|jpeg|gif|webp);base64,[A-Za-z0-9+\/]+=*$/i', $decodedUri)) {
+                        return $fullMatch; // Safe - keep original
+                    }
+                }
+
+                // Unsafe - remove entire malformed attribute section
+                return '';
+            },
+            $content
+        );
+
+        return $content;
+    }
+
+    /**
+     * Filter a single data: URI attribute value.
+     *
+     * @param string $attrName   The attribute name (href or src).
+     * @param string $openQuote  The opening quote character (", ', or empty).
+     * @param string $dataUri    The data URI value.
+     * @param string $closeQuote The closing quote character.
+     * @return string The filtered attribute.
+     */
+    protected function filterDataUriAttribute(string $attrName, string $openQuote, string $dataUri, string $closeQuote): string
+    {
+        // Decode any HTML entities in the data URI to normalize it
+        $decodedUri = html_entity_decode($dataUri, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+        // Check if it's a safe bitmap image (png, jpeg, gif, webp with base64)
+        if (preg_match('/^data:image\/(png|jpeg|gif|webp);base64,[A-Za-z0-9+\/]+=*$/i', $decodedUri)) {
+            // Safe - keep the original (not decoded) to preserve encoding
+            return $attrName . '=' . $openQuote . $dataUri . $closeQuote;
+        }
+
+        // Unsafe - remove the attribute value entirely
+        return $attrName . '=' . $openQuote . $closeQuote;
+    }
+
+    /**
+     * Extract safe bitmap image data URIs from content.
+     *
+     * Captures only data URIs with safe MIME types (png, jpeg, gif, webp)
+     * and base64 encoding. These can be restored after kses strips all data: URIs.
+     *
+     * @param string $content Content potentially containing data: URIs.
+     * @return array Array of ['placeholder' => 'SAFE_DATA_URI_0', 'uri' => 'data:image/png;base64,...']
+     */
+    protected function extractSafeBitmapDataUris(string $content): array
+    {
+        $safeUris = [];
+
+        if (empty($content)) {
+            return $safeUris;
+        }
+
+        // Match safe bitmap image data URIs in quoted attribute values
+        // Pattern: data:image/(png|jpeg|gif|webp);base64,<valid-base64>
+        $pattern = '/data:image\/(png|jpeg|gif|webp);base64,[A-Za-z0-9+\/]+=*/i';
+
+        if (preg_match_all($pattern, $content, $matches)) {
+            foreach ($matches[0] as $index => $uri) {
+                $safeUris[] = [
+                    'placeholder' => '___SAFE_DATA_URI_' . $index . '___',
+                    'uri' => $uri,
+                ];
+            }
+        }
+
+        return $safeUris;
+    }
+
+    /**
+     * Restore safe data URIs after kses has stripped all data: protocol URLs.
+     *
+     * After wp_kses_post() strips all data: URIs, this method restores only
+     * the safe bitmap images that were explicitly extracted beforehand.
+     *
+     * wp_kses may either:
+     * - Remove the src attribute entirely: <img alt="x">
+     * - Leave an empty src: <img src="" alt="x">
+     *
+     * This method handles both cases by adding/replacing src as needed.
+     *
+     * @param string $escaped  Content after wp_kses_post (data: URIs stripped).
+     * @param array  $safeUris Array of safe URIs from extractSafeBitmapDataUris().
+     * @return string Content with safe data URIs restored.
+     */
+    protected function restoreSafeDataUris(string $escaped, array $safeUris): string
+    {
+        if (empty($safeUris)) {
+            return $escaped;
+        }
+
+        foreach ($safeUris as $safe) {
+            // First try to replace empty src="" attribute
+            $pattern1 = '/(<img)([^>]*)\s+src=""([^>]*>)/i';
+            if (preg_match($pattern1, $escaped)) {
+                $escaped = preg_replace(
+                    $pattern1,
+                    '$1$2 src="' . $safe['uri'] . '"$3',
+                    $escaped,
+                    1
+                );
+                continue;
+            }
+
+            // If no empty src, add src to an img tag without it
+            // Match <img that doesn't have src= anywhere in it
+            $pattern2 = '/(<img)(?![^>]*\bsrc=)([^>]*)(>)/i';
+            if (preg_match($pattern2, $escaped)) {
+                $escaped = preg_replace(
+                    $pattern2,
+                    '$1 src="' . $safe['uri'] . '"$2$3',
+                    $escaped,
+                    1
+                );
+            }
+        }
+
+        return $escaped;
+    }
+
+    /**
+     * Add data: protocol to allowed protocols for wp_kses.
+     *
+     * @deprecated No longer used - extract/restore pattern doesn't require protocol allowance.
+     *
+     * @param array $protocols List of allowed protocols.
+     * @return array Modified list including data: protocol.
+     */
+    public function allowDataProtocol($protocols)
+    {
+        $protocols[] = 'data';
+        return $protocols;
+    }
+    
     public function save_nf_sub( $nf_sub_id, $nf_sub )
     {
         global $pagenow;
@@ -418,13 +664,13 @@ class NF_Admin_CPT_Submission
         }
 
         if ( $hidden_columns === false ) {
-            // If we don't have custom hidden columns set up for this form, then only show the first five columns.
+            // If we don't have custom hidden columns set up for this form, then only show the first ten columns.
             // Get our column headers
             $columns = get_column_headers( 'edit-nf_sub' );
             $hidden_columns = array();
             $x = 0;
             foreach ( $columns as $slug => $name ) {
-                if ( $x > 5 ) {
+                if ( $x > 10 ) {
                     if ( $slug != 'sub_date' )
                         $hidden_columns[] = $slug;
                 }

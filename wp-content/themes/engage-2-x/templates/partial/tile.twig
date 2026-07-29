@@ -140,7 +140,7 @@ Other tiles have a link to the post URL
 		{% if post_type != 'press' and post_type != 'publication' %}
 			{% if tile.excerpt %}
 				<div class="tile__excerpt">
-					{{ tile.excerpt|wp_kses_post }}
+					{{ tile.excerpt|e('wp_kses_post') }}
 				</div>
 			{% endif %}
 		{% endif %}

@@ -46,8 +46,12 @@ class NF_Handlers_LocaleNumberFormatting
                 if ( 1 == count( $separators ) ) {
                     $separator = reset($separators);
                     list($before, $after) = explode($separator, $number);
-               
-                    if(3 == strlen($after) && $separator == $thousands_sep) {
+
+                    // If $before is empty, this is a leading decimal point (e.g., .0125)
+                    // Always treat it as a decimal separator, not thousands
+                    if ( '' === $before ) {
+                        $replacer = '.';
+                    } elseif(3 == strlen($after) && $separator == $thousands_sep) {
                         $replacer = '';
                     } else {
                         $replacer = '.';

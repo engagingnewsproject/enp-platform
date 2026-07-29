@@ -3,7 +3,7 @@
  * Plugin Name:       Footnotes Made Easy
  * Plugin URI:        https://lumumbas.blog/plugins/footnotes-made-easy/
  * Description:       Allows post authors to easily add and manage footnotes in posts.
- * Version:           3.2.0
+ * Version:           3.2.1
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Patrick Lumumba
@@ -96,6 +96,28 @@ function fme_enqueue_styles( $hook ) {
         ),
         'postedTab'  => isset( $_POST['fme_active_tab'] ) ? sanitize_key( wp_unslash( $_POST['fme_active_tab'] ) ) : '', // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Tab state only; nonce is verified in save_options().
     ) );
+
+    // Feedback modal — available on the Help page
+    if ( 'footnotes-help' === $current_page ) {
+        $plugin_data    = get_plugin_data( __FILE__, false, false );
+        $plugin_version = $plugin_data['Version'] ?? '1.0';
+        wp_localize_script( 'fme-admin-settings', 'fmeFeedback', array(
+            'endpointBugReports'      => 'https://analytics.altvisewp.com/wp-json/altvisewp/v1/bug-reports',
+            'endpointFeatureRequests' => 'https://analytics.altvisewp.com/wp-json/altvisewp/v1/feature-requests',
+            'endpointFeedback'        => 'https://analytics.altvisewp.com/wp-json/altvisewp/v1/feedback',
+            'pluginSlug'    => 'footnotes-made-easy',
+            'pluginVersion' => $plugin_version,
+            'wpVersion'     => get_bloginfo( 'version' ),
+            'siteUrl'       => get_site_url(),
+            'nonce'         => wp_create_nonce( 'fme_feedback_nonce' ),
+            'i18n'          => array(
+                'sending'      => esc_html__( 'Sending…', 'footnotes-made-easy' ),
+                'sent'         => esc_html__( 'Thank you! Your message has been sent.', 'footnotes-made-easy' ),
+                'error'        => esc_html__( 'Something went wrong. Please try again.', 'footnotes-made-easy' ),
+                'submit'       => esc_html__( 'Send message', 'footnotes-made-easy' ),
+            ),
+        ) );
+    }
 
     // Coming Soon / Pro waitlist page — enqueue countdown + signup script
     if ( 'footnotes-pro' === $current_page ) {
@@ -353,7 +375,7 @@ class swas_wp_footnotes {
         add_action( 'the_content', array( $this, 'process' ), $this->current_options[ 'priority' ] );
         add_action( 'admin_menu',         array( $this, 'add_options_page' ) );      // Insert the Admin panel.
         add_action( 'network_admin_menu',  array( $this, 'add_network_menu' ) );         // Network admin menu.
-        add_action( 'wp_head', array( $this, 'insert_styles' ) );
+        add_action( 'wp_enqueue_scripts', array( $this, 'insert_styles' ) );
         if ( $this->current_options[ 'pretty_tooltips' ] ) add_action( 'wp_enqueue_scripts', array( $this, 'tooltip_scripts' ) );
 
         add_filter( 'plugin_action_links', array( $this, 'add_settings_link' ), 10, 2 );
@@ -1142,7 +1164,13 @@ class swas_wp_footnotes {
 		if ( 'symbol' !== $this->current_options[ 'list_style_type' ] ) {
 			$css .= 'ol.footnotes>li {list-style-type:' . esc_attr( $this->current_options[ 'list_style_type' ] ) . ';}';
 		}
-		wp_add_inline_style( 'wp-block-library', $css );
+		// Attach the inline CSS to a self-owned, always-enqueued handle rather than
+		// 'wp-block-library'. Many themes (and performance plugins) do not load
+		// wp-block-library on the front end, in which case wp_add_inline_style() on
+		// that handle silently outputs nothing and the footnote sizing is lost.
+		wp_register_style( 'fme-footnotes-inline', false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+		wp_enqueue_style( 'fme-footnotes-inline' );
+		wp_add_inline_style( 'fme-footnotes-inline', $css );
 	}
 
 	/**
@@ -1245,6 +1273,9 @@ class swas_wp_footnotes {
 
 	function tooltip_scripts() {
 
+		$tt_js_path  = plugin_dir_path( __FILE__ ) . 'assets/js/tooltips.min.js';
+		$tt_css_path = plugin_dir_path( __FILE__ ) . 'assets/css/tooltips.min.css';
+
 		wp_enqueue_script(
 							'wp-footnotes-tooltips',
 							plugins_url( 'assets/js/tooltips.min.js' , __FILE__ ),
@@ -1255,11 +1286,11 @@ class swas_wp_footnotes {
 									'jquery-ui-core',
 									'jquery-ui-position'
 								),
-							'3.0.8',
+							file_exists( $tt_js_path ) ? (string) filemtime( $tt_js_path ) : '3.0.8',
 							true
 							);
 
-		wp_enqueue_style( 'wp-footnotes-tt-style', plugins_url( 'assets/css/tooltips.min.css' , __FILE__ ), array(), '3.0.8' );
+		wp_enqueue_style( 'wp-footnotes-tt-style', plugins_url( 'assets/css/tooltips.min.css' , __FILE__ ), array(), file_exists( $tt_css_path ) ? (string) filemtime( $tt_css_path ) : '3.0.8' );
 	}
 
 	/**
@@ -1283,7 +1314,7 @@ class swas_wp_footnotes {
 		);
 
 		// Include Pro settings if Pro is active and licensed
-		if ( defined( 'FME_PRO_VERSION' ) && class_exists( 'FME_Pro_License' ) && FME_Pro_License::is_active() ) {
+		if ( defined( 'FME_PRO_VERSION' ) && function_exists( 'fmep_fs' ) && fmep_fs() && fmep_fs()->is_paying() ) {
 			$data['settings']['pro'] = array(
 				'fme_pro_citation_style'            => get_option( 'fme_pro_citation_style', 'apa' ),
 				'fme_preserve_settings_on_uninstall' => get_option( 'fme_preserve_settings_on_uninstall', '0' ),
@@ -1364,8 +1395,9 @@ class swas_wp_footnotes {
 		if ( ! empty( $data['settings']['pro'] ) ) {
 			if (
 				defined( 'FME_PRO_VERSION' ) &&
-				class_exists( 'FME_Pro_License' ) &&
-				FME_Pro_License::is_active()
+				function_exists( 'fmep_fs' ) &&
+				fmep_fs() &&
+				fmep_fs()->is_paying()
 			) {
 				$pro         = $data['settings']['pro'];
 				$allowed_pro = array( 'fme_pro_citation_style', 'fme_preserve_settings_on_uninstall' );
@@ -1492,6 +1524,7 @@ class swas_wp_footnotes {
 			'footnotes-pro',
 			'fme-pro-library',
 			'fme-pro-license',
+			'footnotes-made-easy-account',
 		);
 		return in_array( $page, $our_pages, true );
 	}

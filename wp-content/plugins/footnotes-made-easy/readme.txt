@@ -5,7 +5,7 @@ Donate link: https://lumumbas.blog/support-wp-plugins
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.2.0
+Stable tag: 3.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -160,6 +160,10 @@ Full documentation is at [docs.altvisewp.com/footnotes-made-easy](https://docs.a
 
 I use semantic versioning, with the first release being 1.0.
 
+= 3.2.1 [June 23, 2026] =
+* Fixed: Duplicate footnote text appearing at the bottom of the page when Pretty Tooltips was enabled. [#51](https://github.com/altvisewp/footnotes-made-easy/issues/51)
+* Fixed: Footnote font size appeared too large on themes that don't load the block library stylesheet. [#52](https://github.com/altvisewp/footnotes-made-easy/issues/52)
+
 = 3.2.0 [June 12, 2026] =
 * New: Fully redesigned admin UI with a dedicated top-level Footnotes menu (Dashboard, Footnotes Settings, Tools, and so much more)
 * New: Dashboard page with live plugin usage statistics — footnote counts across all posts and pages
@@ -198,5 +202,5 @@ I use semantic versioning, with the first release being 1.0.
 
 == Upgrade Notice ==
 
-= 3.2.0 =
-* Major release. Fully redesigned admin UI, new Dashboard, Tools, and Get Help pages, multisite support, and a new method of suppressing footnotes.
+= 3.2.1 =
+Fixes a duplicate footnote appearing at the bottom of the page with Pretty Tooltips enabled, and footnote text rendering too large on some themes. Recommended for all users.

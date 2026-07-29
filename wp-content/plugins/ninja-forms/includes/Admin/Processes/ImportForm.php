@@ -353,6 +353,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
         foreach( $this->form[ 'settings' ] as $meta_key => $meta_value ) {
             if ( in_array( $meta_key, $blacklist ) ) continue;
             $meta_value = maybe_serialize( $meta_value );
+            $this->_db->escape_by_ref( $meta_key );
             $this->_db->escape_by_ref( $meta_value );
             $insert_values .= "( {$this->form[ 'ID' ]}, '{$meta_key}', '{$meta_value}'";
             if ( $this->form[ 'db_stage_one_complete'] ) {
@@ -424,6 +425,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
             $insert_values = '';
             foreach ( $action_meta as $meta_key => $meta_value ) {
                 $meta_value = maybe_serialize( $meta_value );
+                $this->_db->escape_by_ref( $meta_key );
                 $this->_db->escape_by_ref( $meta_value );
                 $insert_values .= "( {$action_id}, '{$meta_key}', '{$meta_value}'";
                 if ( $this->form[ 'db_stage_one_complete'] ) {
@@ -549,6 +551,7 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
                     }
                 }
 
+                $this->_db->escape_by_ref( $meta_key );
                 $this->_db->escape_by_ref( $meta_value );
                 $insert_values .= "( {$field_id}, '{$meta_key}', '{$meta_value}'";
                 if ( $this->form[ 'db_stage_one_complete'] ) {

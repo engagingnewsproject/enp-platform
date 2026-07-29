@@ -216,36 +216,59 @@ class NF_Exports_SubmissionCsvExport implements SubmissionCsvExportInterface {
             $newColumnValues = $columnValues;
             $repeaterValuesArray = [];
             unset($newColumnValues['repeater']);
-            
-            // FIX Issue #6863 and #6589: Store base row separately to prevent value carryover
-            $baseRow = array_merge($row, $newColumnValues);
-            
+
             // Get all repeater field keys for initialization
             $allRepeaterFieldKeys = array_keys($columnValues['repeater']);
-            
+
+            // FIX Issue #8035: Split non-repeater fields into pre-repeater and post-repeater groups
+            // to maintain correct column order in CSV output
+            $fieldKeyOrder = array_keys($this->fieldLabels);
+            $firstRepeaterKey = reset($allRepeaterFieldKeys);
+            $firstRepeaterPosition = array_search($firstRepeaterKey, $fieldKeyOrder);
+
+            $preRepeaterFields = [];
+            $postRepeaterFields = [];
+
+            foreach ($newColumnValues as $key => $value) {
+                $position = array_search($key, $fieldKeyOrder);
+                // Fields before the first repeater field, or fields not in fieldLabels (place before)
+                if ($position === false || ($firstRepeaterPosition !== false && $position < $firstRepeaterPosition)) {
+                    $preRepeaterFields[$key] = $value;
+                } else {
+                    $postRepeaterFields[$key] = $value;
+                }
+            }
+
+            // FIX Issue #6863 and #6589: Store base row separately to prevent value carryover
+            // FIX Issue #8035: Only include pre-repeater fields in base row
+            $baseRow = array_merge($row, $preRepeaterFields);
+
             //Extract Repeater rows and find max repetition count
             $maxRepetitions = 0;
             foreach($columnValues['repeater'] as $repeaterFieldID => $repeaterFieldsetRowValue){
                 $maxRepetitions = max($maxRepetitions, count($repeaterFieldsetRowValue));
                 foreach($repeaterFieldsetRowValue as $index => $fieldsetValue){
-                    $repeaterValuesArray[$index][$repeaterFieldID] = $fieldsetValue; 
+                    $repeaterValuesArray[$index][$repeaterFieldID] = $fieldsetValue;
                 }
             }
-            
+
             //insert global row data in repeater rows
             // FIX: Create fresh row each iteration from baseRow to prevent value carryover
             for($i = 0; $i < $maxRepetitions; $i++){
                 // Start with fresh copy of base row each iteration
                 $currentRow = $baseRow;
-                
+
                 // Add repeater values for this index
                 // FIX Issue #6589: Use empty string for missing repeater values instead of carrying over
                 foreach($allRepeaterFieldKeys as $repeaterFieldKey){
-                    $currentRow[$repeaterFieldKey] = isset($repeaterValuesArray[$i][$repeaterFieldKey]) 
-                        ? $repeaterValuesArray[$i][$repeaterFieldKey] 
+                    $currentRow[$repeaterFieldKey] = isset($repeaterValuesArray[$i][$repeaterFieldKey])
+                        ? $repeaterValuesArray[$i][$repeaterFieldKey]
                         : '';
                 }
-                
+
+                // FIX Issue #8035: Append post-repeater fields AFTER repeater values
+                $currentRow = array_merge($currentRow, $postRepeaterFields);
+
                 $strippedRows["repeater"][] = WPN_Helper::stripslashes($currentRow);
             }
 
