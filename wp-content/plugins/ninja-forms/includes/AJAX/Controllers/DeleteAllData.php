@@ -64,20 +64,45 @@ class NF_AJAX_Controllers_DeleteAllData extends NF_Abstracts_Controller
 		$this->_data[ 'delete_count' ] = $total_subs_deleted;
 		$this->_data[ 'success' ] = true;
 
-		if ( 1 == $_POST[ 'last_form' ] ) {
-			//if we are on the last form, then deactivate and nuke db tables
+		if ( isset( $_POST['last_form'] ) && 1 == absint( $_POST['last_form'] ) ) {
+			// If we are on the last form, then deactivate and nuke db tables.
 			$migrations = new NF_Database_Migrations();
-			$migrations->nuke(TRUE, TRUE);
-			$migrations->nuke_settings(TRUE, TRUE);
-			$migrations->nuke_deprecated(TRUE, TRUE);
+
+			$nuke_multisite = $this->should_nuke_multisite();
+
+			$migrations->nuke( TRUE, TRUE, $nuke_multisite );
+			$migrations->nuke_settings( TRUE, TRUE, $nuke_multisite );
+			$migrations->nuke_deprecated( TRUE, TRUE, $nuke_multisite );
+
 			deactivate_plugins( 'ninja-forms/ninja-forms.php' );
-			$this->_data[ 'plugin_url' ] = admin_url( 'plugins.php' );
+			$this->_data['plugin_url'] = admin_url( 'plugins.php' );
 		}
 
 		$this->_respond();
 	}
 
-	 private function prepare_in( $sql, $vals ) {
+	/**
+	 * Determine if the current user is authorized to perform network-wide deletion.
+	 *
+	 * Only super admins or users with manage_network_options capability on multisite
+	 * installations are authorized to delete data across all subsites.
+	 * Site admins can only delete their own site's data.
+	 *
+	 * @since 3.x.x
+	 * @return bool True if network-wide deletion is authorized, false for site-scoped only.
+	 */
+	protected function should_nuke_multisite(): bool {
+		return is_multisite() && ( is_super_admin() || current_user_can( 'manage_network_options' ) );
+	}
+
+	/**
+	 * Prepare an IN clause for SQL queries.
+	 *
+	 * @param string $sql SQL query with [IN] placeholder.
+	 * @param array  $vals Values to insert into the IN clause.
+	 * @return string Prepared SQL query.
+	 */
+	private function prepare_in( $sql, $vals ) {
 		global $wpdb;
 		$not_in_count = substr_count( $sql, '[IN]' );
 		if ( $not_in_count > 0 ) {

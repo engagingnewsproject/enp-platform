@@ -19,6 +19,7 @@ add_action('init', function () {
     );
 
     register_block_type('ninja-forms/form', array_merge($block, [
+        'api_version' => 3,
         'title' => esc_attr__('Ninja Form', 'ninja-forms'),
         'render_callback' => function ($atts) {
             $formID = isset($atts['formID']) ? $atts['formID'] : 1;
@@ -53,6 +54,7 @@ add_action('init', function () {
     );
 
     register_block_type('ninja-forms/submissions-table', array(
+        'api_version' => 3,
         'editor_script' => 'ninja-forms/submissions-table/block',
         'render_callback' => function ($attributes, $content) {
             if (isset($attributes['formID']) && $attributes['formID']) {
@@ -61,8 +63,13 @@ add_action('init', function () {
                 // require submission-viewing capability before issuing a token.
                 // This prevents Contributor/Author users from obtaining tokens by adding
                 // a submissions-table block to a draft post and previewing it.
-                // Published pages intentionally issue tokens to all viewers (admin chose to
-                // display submissions publicly by placing the block on a published page).
+                //
+                // For published pages, tokens are issued to all viewers because:
+                // 1. The allowed_block_types_all filter prevents unauthorized users from inserting this block
+                // 2. The content_save_pre filter strips unauthorized blocks and protects formID
+                // 3. Therefore, any block present on a published page was authorized
+                //
+                // See Issue #8013 for security model details.
                 $current_post = get_post();
                 if ( $current_post && 'publish' !== $current_post->post_status ) {
                     $views_capability = apply_filters(
@@ -115,6 +122,200 @@ add_action('init', function () {
     wp_set_script_translations( "ninja-forms/submissions-table/render", "ninja-forms", plugin_dir_path( __FILE__ ) . 'lang' );
 
 });
+
+
+
+/**
+ * Helper: Get the capability required for submissions table block access
+ *
+ * @return string The capability name
+ */
+function nf_security_get_views_capability() {
+    return apply_filters(
+        'ninja_forms_views_token_capability',
+        apply_filters( 'ninja_forms_admin_submissions_capabilities', 'manage_options' )
+    );
+}
+
+/**
+ * Helper: Strip all submissions-table blocks from content
+ *
+ * @param string $content The post content
+ * @return string Content with submissions-table blocks removed
+ */
+function nf_security_strip_submissions_blocks( $content ) {
+    $blocks = parse_blocks( $content );
+    $filtered = nf_security_remove_submissions_blocks( $blocks );
+    return serialize_blocks( $filtered );
+}
+
+/**
+ * Helper: Remove submissions-table blocks from a blocks array
+ *
+ * @param array $blocks Array of parsed blocks
+ * @return array Filtered blocks array
+ */
+function nf_security_remove_submissions_blocks( $blocks ) {
+    return array_values( array_filter( $blocks, function( $block ) {
+        return $block['blockName'] !== 'ninja-forms/submissions-table';
+    } ) );
+}
+
+/**
+ * Helper: Extract submissions-table blocks from a blocks array
+ *
+ * @param array $blocks Array of parsed blocks
+ * @return array Array of submissions-table blocks with original indices preserved
+ */
+function nf_security_extract_submissions_blocks( $blocks ) {
+    $result = [];
+    foreach ( $blocks as $index => $block ) {
+        if ( $block['blockName'] === 'ninja-forms/submissions-table' ) {
+            $result[] = $block;
+        }
+    }
+    return $result;
+}
+
+/**
+ * Helper: Process blocks for unauthorized save
+ *
+ * - Preserves existing submissions-table blocks with their original formID
+ * - Strips any newly-added submissions-table blocks
+ *
+ * @param array $new_blocks Blocks from new content being saved
+ * @param array $original_submissions Original submissions-table blocks to preserve
+ * @return array Processed blocks array
+ */
+function nf_security_process_blocks_for_unauthorized_save( $new_blocks, $original_submissions ) {
+    $original_count = count( $original_submissions );
+    $found_submissions = 0;
+    $processed_blocks = [];
+
+    foreach ( $new_blocks as $block ) {
+        if ( $block['blockName'] === 'ninja-forms/submissions-table' ) {
+            // Check if this corresponds to an original block
+            if ( $found_submissions < $original_count ) {
+                // Preserve the block but restore original formID
+                $original_block = $original_submissions[ $found_submissions ];
+
+                // Keep the new block's other attributes, but restore original formID
+                if ( isset( $original_block['attrs']['formID'] ) ) {
+                    $block['attrs']['formID'] = $original_block['attrs']['formID'];
+                }
+
+                $processed_blocks[] = $block;
+                $found_submissions++;
+            }
+            // If beyond original count, this is a NEW block - skip it (don't add to processed)
+        } else {
+            // Non-submissions block - keep as-is
+            $processed_blocks[] = $block;
+        }
+    }
+
+    return $processed_blocks;
+}
+
+/**
+ * Layer 1: Block Inserter Filter
+ *
+ * Hide ninja-forms/submissions-table from the block inserter for users
+ * who lack the required capability.
+ *
+ * @since 3.8.21
+ */
+add_filter( 'allowed_block_types_all', function( $allowed_block_types, $editor_context ) {
+    $views_capability = nf_security_get_views_capability();
+
+    // Authorized users see all blocks
+    if ( current_user_can( $views_capability ) ) {
+        return $allowed_block_types;
+    }
+
+    // Unauthorized user - filter out submissions-table block
+    if ( is_array( $allowed_block_types ) ) {
+        return array_values( array_filter( $allowed_block_types, function( $block ) {
+            return $block !== 'ninja-forms/submissions-table';
+        } ) );
+    }
+
+    // If true (all blocks allowed), convert to array excluding submissions-table
+    if ( $allowed_block_types === true ) {
+        $all_blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
+        return array_values( array_filter( array_keys( $all_blocks ), function( $block ) {
+            return $block !== 'ninja-forms/submissions-table';
+        } ) );
+    }
+
+    return $allowed_block_types;
+}, 10, 2 );
+
+/**
+ * Layer 2: Content Save Filter
+ *
+ * For unauthorized users:
+ * - Strip any newly-added submissions-table blocks
+ * - Preserve existing submissions-table blocks with their original formID
+ *
+ * This implements the "Protect the Future, Preserve the Past" principle:
+ * existing configurations continue working, but new unauthorized changes are blocked.
+ *
+ * @since 3.8.21
+ */
+add_filter( 'content_save_pre', function( $content ) {
+    // Skip if content is empty or not a string
+    if ( empty( $content ) || ! is_string( $content ) ) {
+        return $content;
+    }
+
+    // Skip if no submissions-table blocks in new content
+    if ( strpos( $content, 'ninja-forms/submissions-table' ) === false ) {
+        return $content;
+    }
+
+    $views_capability = nf_security_get_views_capability();
+
+    // Authorized users can save any content
+    if ( current_user_can( $views_capability ) ) {
+        return $content;
+    }
+
+    // Determine post ID from various sources
+    $post_id = 0;
+    if ( isset( $_POST['post_ID'] ) ) {
+        $post_id = absint( $_POST['post_ID'] );
+    } elseif ( isset( $_POST['id'] ) ) {
+        // REST API uses 'id'
+        $post_id = absint( $_POST['id'] );
+    }
+
+    // New post with no ID - strip all submissions-table blocks
+    if ( ! $post_id ) {
+        return nf_security_strip_submissions_blocks( $content );
+    }
+
+    // Get original post content
+    $original_post = get_post( $post_id );
+    if ( ! $original_post || empty( $original_post->post_content ) ) {
+        return nf_security_strip_submissions_blocks( $content );
+    }
+
+    // Extract original submissions-table blocks
+    $original_blocks = parse_blocks( $original_post->post_content );
+    $original_submissions = nf_security_extract_submissions_blocks( $original_blocks );
+
+    // If no original submissions blocks, strip all from new content
+    if ( empty( $original_submissions ) ) {
+        return nf_security_strip_submissions_blocks( $content );
+    }
+
+    // Parse new content and process blocks
+    $new_blocks = parse_blocks( $content );
+    $processed_blocks = nf_security_process_blocks_for_unauthorized_save( $new_blocks, $original_submissions );
+
+    return serialize_blocks( $processed_blocks );
+}, 10, 1 );
 
 /**
  * Localize data for blocks

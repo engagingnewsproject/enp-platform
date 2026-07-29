@@ -174,9 +174,9 @@ var nfRenderTurnstile = function() {
 }
 
 if (typeof nf_reprocess_recaptcha === 'undefined') {
-	const nf_reprocess_recaptcha = ( grecaptchaID ) => {
+	var nf_reprocess_recaptcha = ( grecaptchaID ) => {
 		grecaptcha.execute( grecaptchaID );
-	}
+	};
 }
 
 const nf_check_recaptcha_consent = () => {

@@ -941,8 +941,12 @@ class NF_Fields_Signature extends NF_Abstracts_Input
         $text_height = abs( $bbox[5] - $bbox[1] );
         $padding = $options['padding'];
 
+        // imagettfbbox() excludes descenders (letters like y, g, j below the baseline).
+        // Add an allowance so cursive script fonts render without clipping.
+        $descender_allowance = (int) ceil( $font_size * 0.30 );
+
         $img_width = $text_width + ( $padding * 2 );
-        $img_height = $text_height + ( $padding * 2 );
+        $img_height = $text_height + ( $padding * 2 ) + $descender_allowance;
 
         // Create image
         $image = imagecreatetruecolor( $img_width, $img_height );

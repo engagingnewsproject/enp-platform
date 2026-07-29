@@ -175,7 +175,7 @@ class NF_Fields_Repeater extends NF_Abstracts_Field
         $return ='';
 
         foreach($extractedSubmissionData as $index=> $indexedSubmission){
-            $return .= '<br /><span style="font-weight:bold;">Repeated Fieldset #'.$index.'</span><br />';
+            $return .= '<br /><span style="font-weight:bold;">Repeated Fieldset #' . esc_html( (string) $index ) . '</span><br />';
             foreach($indexedSubmission as $submissionValueArray){
                 $fieldsetFieldSubmissionValue = $submissionValueArray['value'];
 
