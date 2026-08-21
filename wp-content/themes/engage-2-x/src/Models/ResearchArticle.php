@@ -115,6 +115,75 @@ class ResearchArticle extends Post {
         return null;
     }
 
+
+    /**
+     * Related posts shown below the article on `research` and `blogs` singles.
+     *
+     * Stays within the current post type, prefers the current post's category, 
+     * then backfills with other recent posts of that type until the limit is 
+     * reached. The current post is never included.
+     *
+     * @param int $limit Max number of related posts to return.
+     * @return \Timber\Post[]
+     */
+    public function getRelatedPosts($limit = 4)
+    {
+        $limit = max(0, (int) $limit);
+        if ($limit === 0) {
+            return [];
+        }
+
+        // Only research and blogs get a related list.
+        $taxonomies = [
+            'research' => 'research-categories',
+            'blogs'    => 'blogs-category',
+        ];
+        if (!isset($taxonomies[$this->post_type])) {
+            return [];
+        }
+
+        $base_args = [
+            'post_type'           => $this->post_type,
+            'post_status'         => 'publish',
+            'post__not_in'        => [$this->ID],
+            'posts_per_page'      => $limit,
+            'orderby'             => 'date',
+            'order'               => 'DESC',
+            'ignore_sticky_posts' => true,
+            'no_found_rows'       => true,
+        ];
+
+        // 1. Same category as the current post.
+        $related = [];
+        $term_ids = wp_get_post_terms($this->ID, $taxonomies[$this->post_type], ['fields' => 'ids']);
+        if (!is_wp_error($term_ids) && !empty($term_ids)) {
+            $related = Timber::get_posts(array_merge($base_args, [
+                'tax_query' => [
+                    [
+                        'taxonomy' => $taxonomies[$this->post_type],
+                        'field'    => 'term_id',
+                        'terms'    => $term_ids,
+                    ],
+                ],
+            ]))->to_array();
+        }
+
+        // 2. Backfill with other recent posts of the same type.
+        if (count($related) < $limit) {
+            $exclude = [$this->ID];
+            foreach ($related as $post) {
+                $exclude[] = $post->ID;
+            }
+            $fill = Timber::get_posts(array_merge($base_args, [
+                'post__not_in'   => $exclude,
+                'posts_per_page' => $limit - count($related),
+            ]))->to_array();
+            $related = array_merge($related, $fill);
+        }
+
+        return $related;
+    }
+
     public function getPostTypeArchiveLink() {
         return get_post_type_archive_link($this->post_type);
     }

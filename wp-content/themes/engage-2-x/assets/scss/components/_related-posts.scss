@@ -1,0 +1,86 @@
+// Related posts list below `research` and `blogs` single articles.
+// Replaces the Recent Posts Widget Extended (RPWE) plugin markup/styles.
+// 1 column on mobile, 2 on tablet, 4 on desktop.
+.related-posts {
+	margin-top: $spacer;
+	padding-top: $spacer;
+	border-top: 1px solid $gray-light;
+}
+
+.related-posts__title {
+	font-family: $font-family-sans-serif;
+	color: $blue-dark;
+	font-size: $font-size-h3;
+	margin-bottom: $spacer-sm;
+}
+
+.related-posts__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: $spacer-sm 20px;
+
+	@include media($phablet) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	@include media($desktop) {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+.related-posts__item {
+	margin: 0;
+}
+
+.related-posts__link {
+	display: grid;
+	grid-template-columns: 150px 1fr;
+	align-items: start;
+	column-gap: 15px;
+	text-decoration: none;
+	color: inherit;
+
+	// Stacked image over text once the cards get narrow (tablet/desktop columns).
+	@include media($phablet) {
+		grid-template-columns: 1fr;
+		row-gap: 10px;
+	}
+
+	&:hover .related-posts__item-title,
+	&:focus .related-posts__item-title {
+		text-decoration: underline;
+	}
+}
+
+.related-posts__img-wrap {
+	width: 150px;
+	max-width: 100%;
+}
+
+.related-posts__img {
+	display: block;
+	width: 150px;
+	height: 150px;
+	max-width: 100%;
+	object-fit: cover;
+}
+
+.related-posts__text {
+	display: block;
+}
+
+.related-posts__item-title {
+	display: block;
+	font-size: $font-size-base;
+	font-weight: 700;
+	line-height: 1.3;
+}
+
+.related-posts__date {
+	display: block;
+	margin-top: 5px;
+	color: #bbb;
+	font-size: $font-size-small;
+}
