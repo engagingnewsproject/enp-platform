@@ -230,6 +230,21 @@ class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
 
     public function add_field($field)
     {
+        // Ensure field settings are available with fallback to database for repeater fields
+        if (isset($field['type']) && 'repeater' === $field['type']) {
+            if (!isset($field['settings']['fields']) || !is_array($field['settings']['fields'])) {
+                $fieldObj = Ninja_Forms()->form()->get_field($field['id']);
+                if ($fieldObj) {
+                    $freshSettings = $fieldObj->get_settings();
+                    // Merge fresh settings with existing to preserve any runtime additions
+                    $field['settings'] = array_merge(
+                        isset($field['settings']) ? $field['settings'] : array(),
+                        $freshSettings
+                    );
+                }
+            }
+        }
+
         // set boolean check for isRepetater field type
         $isRepeater = isset($field['settings']['type'])
         && isset($field['key'])
@@ -358,6 +373,14 @@ class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
     {
         $field_key =  $field['key'];
 
+        // Ensure field settings are available with fallback to database
+        if (!isset($field['settings']['fields']) || !is_array($field['settings']['fields'])) {
+            $fieldObj = Ninja_Forms()->form()->get_field($field['id']);
+            if ($fieldObj) {
+                $field['settings'] = $fieldObj->get_settings();
+            }
+        }
+
         // Create merge tag for table output
         $tableBase = 'table';
         $tableCallback = 'field_' . $field_key.'_'.$tableBase;
@@ -377,9 +400,20 @@ class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
         $outgoingValue = '';
 
         $list_fields_types = array('listcheckbox', 'listmultiselect', 'listradio', 'listselect');
-        
+
         // Handle fieldset repeater
-        $array = Ninja_Forms()->fieldsetRepeater->extractSubmissions($field['id'], $field['value'], $field['settings']);
+        // Ensure field settings are available with fallback to database
+        $fieldSettings = isset($field['settings']) ? $field['settings'] : array();
+
+        // If settings don't contain the nested fields definition, fetch fresh from database
+        if (!isset($fieldSettings['fields']) || !is_array($fieldSettings['fields'])) {
+            $fieldObj = Ninja_Forms()->form()->get_field($field['id']);
+            if ($fieldObj) {
+                $fieldSettings = $fieldObj->get_settings();
+            }
+        }
+
+        $array = Ninja_Forms()->fieldsetRepeater->extractSubmissions($field['id'], $field['value'], $fieldSettings);
 
         // Iterate submission indexes (each repeated fieldset in the submission)
         foreach ($array as $submissionIndex => $fieldsetArray) {
@@ -402,6 +436,13 @@ class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
                 $fieldValue = $submissionValueArray['value'];
                 if ( isset( $submissionValueArray['type'] ) ) {
                     $fieldValue = apply_filters( 'ninja_forms_merge_tag_value_' . $submissionValueArray['type'], $fieldValue, $submissionValueArray );
+
+                    $fieldValue = Ninja_Forms()->fieldsetRepeater->formatFieldsetFieldValue(
+                        $fieldsetFieldId,
+                        $fieldValue,
+                        $submissionValueArray['type'],
+                        $fieldSettings
+                    );
                 }
                 
                 $outgoingValue .= '<tr><td valign="top">' . apply_filters('ninja_forms_merge_label', $submissionValueArray['label'], $field, $this->form_id) . ':</td><td>' . $fieldValue . '</td></tr>';
@@ -521,24 +562,13 @@ class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
                     // individual value
                     if(is_array($fieldsetFieldSubmissionValue['value'])){
 
-                        //Detect date field value in RFF
-                        if(isset($fieldsetFieldSubmissionValue['value']['date'])){
-
-                            // initialize outgoing datefield value as empty string
-                            $outgoing[$fieldsetFieldId]['value'] = "";
-
-                            foreach($fieldsetFieldSubmissionValue['value'] as $dateFieldKey => $dateElement) {
-                                //Discard date index for time only fields
-                                if(strpos($dateElement, ":") === false) {
-                                    $outgoing[$fieldsetFieldId]['value'] .= $dateFieldKey . ": " . strip_shortcodes($dateElement) . "<br>";
-                                }
-                            }
-                            
-                        } else {
-                            // value is array but not a date array
-                            // use array_map to strip shortcodes from each value in indexed array
-                            $outgoing[$fieldsetFieldId]['value']=array_map('strip_shortcodes',$fieldsetFieldSubmissionValue['value']);
-                        }
+                        /*
+                         * Strip each individual value, keeping the array shape.
+                         * A date field's parts must survive as parts so they can
+                         * be combined for display further down; flattening them
+                         * here left the raw parts in the output. See #7440.
+                         */
+                        $outgoing[$fieldsetFieldId]['value']=array_map('strip_shortcodes',$fieldsetFieldSubmissionValue['value']);
                     }else{
                         // If value is not array, strip shortcode
                         $outgoing[$fieldsetFieldId]['value']=strip_shortcodes($fieldsetFieldSubmissionValue['value']);

@@ -69,9 +69,9 @@ final class NF_Admin_Menus_Welcome extends NF_Abstracts_Submenu
     public function display()
     {
 
-	    wp_enqueue_script( 'jBox', Ninja_Forms::$url . 'assets/js/min/jBox.min.js', array( 'jquery' ) );
+	    wp_enqueue_script( 'jBox', Ninja_Forms::$url . 'assets/js/min/jBox.min.js', array( 'jquery' ), (string) filemtime( Ninja_Forms::$dir . 'assets/js/min/jBox.min.js' ) );
         wp_enqueue_style( 'nf-combobox', Ninja_Forms::$url . 'assets/css/combobox.css' );
-	    wp_enqueue_style( 'jBox', Ninja_Forms::$url . 'assets/css/jBox.css' );
+	    wp_enqueue_style( 'jBox', Ninja_Forms::$url . 'assets/css/jBox.css', array(), (string) filemtime( Ninja_Forms::$dir . 'assets/css/jBox.css' ) );
         wp_enqueue_style( 'nf-onboarding', Ninja_Forms::$url . 'assets/css/nfOnboarding.css' );
         wp_register_script( 'ninja_forms_admin_menu_welcome', Ninja_Forms::$url . 'assets/js/admin-welcome.js', array( 'jquery' ), FALSE, TRUE );
         wp_register_script( 'nf-onboarding', Ninja_Forms::$url . 'assets/js/lib/nfOnboarding.js', array('jquery', 'jBox'), FALSE, TRUE);

@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/?utm_source=WordPress&utm_medium=readme
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.14.11
+Version: 3.15.1
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -13,6 +13,8 @@ Copyright 2016 WP Ninjas.
 */
 use NinjaForms\Includes\Admin\VersionCompatibilityCheck;
 use NinjaForms\Includes\Admin\ManageUpdates;
+use NinjaForms\Includes\AI\ChatUiBootstrap;
+use NinjaForms\Includes\AI\GenerationAdminHooks;
 
 require_once dirname( __FILE__ ) . '/lib/NF_Tracking.php';
 require_once dirname( __FILE__ ) . '/includes/Integrations/sendwp.php';
@@ -43,7 +45,7 @@ final class Ninja_Forms
      * @since 3.0
      */
 
-    const VERSION = '3.14.11';
+    const VERSION = '3.15.1';
 
     /**
      * @since 3.4.0
@@ -313,6 +315,8 @@ final class Ninja_Forms
                 */
             self::$instance->controllers[ 'REST' ][ 'forms' ] = new NF_AJAX_REST_Forms();
             self::$instance->controllers[ 'REST' ][ 'new-form-templates' ] = new NF_AJAX_REST_NewFormTemplates();
+            self::$instance->controllers[ 'REST' ][ 'ai-form-builder' ] = new NF_AJAX_REST_AIFormBuilder();
+            self::$instance->controllers[ 'REST' ][ 'ai-chat' ] = new NF_AJAX_REST_AIChat();
 
             /*
             *   API Routes
@@ -417,6 +421,22 @@ final class Ninja_Forms
                 * Abilities API Integration
                 */
             self::$instance->abilities = new NF_Abilities_Integration();
+
+            /*
+                * AI Integration
+                *
+                * The AI feature's admin UI and lifecycle subscribers are
+                * mounted here, next to the other feature integrations, rather
+                * than from the admin-ajax transports that serve its endpoints.
+                * Registration order is unchanged: both subscribers previously
+                * registered from constructors called earlier in this same
+                * method, no other code runs in between, and nothing else in
+                * the plugin subscribes to the hooks they use.
+                */
+            require_once Ninja_Forms::$dir . 'includes/AI/GenerationAdminHooks.php';
+            require_once Ninja_Forms::$dir . 'includes/AI/ChatUiBootstrap.php';
+            ( new GenerationAdminHooks( NF_AJAX_REST_AIFormBuilder::PROMPT_MAX_LENGTH ) )->register();
+            ( new ChatUiBootstrap() )->register();
 
             /*
                 * Fieldset Repeater Handler
@@ -1092,6 +1112,28 @@ final class Ninja_Forms
     }
 
     /**
+     * Asset Version
+     *
+     * Resolve the cache-busting version for a plugin asset. Built assets are
+     * versioned by file mtime so a rebuild busts the browser cache, but build
+     * output such as assets/js/min/ is not committed. On a checkout where the
+     * build has not run the file is absent, and an unguarded filemtime() would
+     * warn and return false, which casts to an empty version string and drops
+     * cache busting entirely. Fall back to the plugin version instead.
+     *
+     * @param string $relative_path Asset path relative to the plugin directory.
+     * @return string Version string for wp_enqueue_script/wp_enqueue_style.
+     */
+    public static function asset_version( $relative_path )
+    {
+        $absolute_path = self::$dir . $relative_path;
+
+        return file_exists( $absolute_path )
+            ? (string) filemtime( $absolute_path )
+            : self::VERSION;
+    }
+
+    /**
      * Config
      *
      * @param $file_name
@@ -1293,9 +1335,13 @@ function nf_update_marketing_feed() {
     $data = wp_remote_get( 'http://api.ninjaforms.com/feeds/?fetch=addons' );
     // If we got a valid response...
     if ( is_array($data) && 200 == $data[ 'response' ][ 'code' ] ) {
-        // Save the data to our option.
-        $data = wp_remote_retrieve_body( $data );
-        update_option( 'ninja_forms_addons_feed', $data, false );
+        $body = wp_remote_retrieve_body( $data );
+        // Only cache the response if it actually decodes to valid feed data.
+        // Otherwise leave the existing (or bundled) data in place rather than
+        // caching something that will break the Add-Ons page.
+        if ( is_array( json_decode( $body, true ) ) ) {
+            update_option( 'ninja_forms_addons_feed', $body, false );
+        }
     }
 }
 add_action( 'nf_marketing_feed_cron', 'nf_update_marketing_feed' );

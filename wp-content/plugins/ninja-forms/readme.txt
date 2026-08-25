@@ -4,7 +4,7 @@ Tags: forms, form builder, contact form, lead form, registration form
 
 Requires at least: 6.8
 Tested up to: 7.0
-Stable tag: 3.14.11
+Stable tag: 3.15.1
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -310,17 +310,84 @@ This section describes how to install the plugin and get it working.
 5. Beautiful Forms Every Time!
 
 == Upgrade Notice ==
-= 3.14.11 (28 July 2026) =
+= 3.15.1 (24 August 2026) =
+
+*Security Enhancements:*
+
+- strengthen input validation for list field option imports
 
 *Bug Fixes:*
 
-- fix CSV export column alignment for fields placed after repeatable fieldsets
-- preserve <br>, <hr>, and <pre> tags in HTML field editor
-- clear validation error on Time Only field when user corrects input
-- fix ninja_forms_render_options filter breaking form validation
+- allow non-Latin characters and special symbols in list field option values
+- preserve HTML formatting in checkbox and radio list option labels after editing
+- capture time values correctly when Date/Time field is inside a Repeater
+- preserve user-authored HTML in rich text editor without restructuring on toggle
+- preserve HTML comments in Email Message field through Source/Visual toggles
+- keep heading-formatted text inside table cells in rich text editor
+- preserve nested div elements in HTML field editor
+- prevent editor from marking field as changed on initial load
+- display rich text editor toolbar icons for logged-out users
+- prevent fatal error when marketing feed data is corrupted
+- delay Date/Time required validation until user finishes entering time
+- make Date/Time field Hour and Minute placeholder text translatable
+- resolve critical error on non-English sites running PHP 8+
+- fix TypeError when Custom Input Mask contains only numbers
+- show correct AI provider status when Ollama connector is configured
 
 == Changelog ==
-= 3.14.11 (28 July 2026) =
+= 3.15.1 (24 August 2026) =
+
+*Security Enhancements:*
+
+- strengthen input validation for list field option imports
+
+*Bug Fixes:*
+
+- allow non-Latin characters and special symbols in list field option values
+- preserve HTML formatting in checkbox and radio list option labels after editing
+- capture time values correctly when Date/Time field is inside a Repeater
+- preserve user-authored HTML in rich text editor without restructuring on toggle
+- preserve HTML comments in Email Message field through Source/Visual toggles
+- keep heading-formatted text inside table cells in rich text editor
+- preserve nested div elements in HTML field editor
+- prevent editor from marking field as changed on initial load
+- display rich text editor toolbar icons for logged-out users
+- prevent fatal error when marketing feed data is corrupted
+- delay Date/Time required validation until user finishes entering time
+- make Date/Time field Hour and Minute placeholder text translatable
+- resolve critical error on non-English sites running PHP 8+
+- fix TypeError when Custom Input Mask contains only numbers
+- show correct AI provider status when Ollama connector is configured
+
+= 3.15.0 (12 August 2026) =
+
+*Enhancements:*
+
+- add AI Form Builder: generate forms from natural language prompts via the Abilities API
+
+*Bug Fixes:*
+
+- fix typed signatures with periods appearing incomplete after switching fields
+- prevent form from rendering multiple times when using "Append a Ninja Form" with other plugins
+- allow terms list field to be set as required
+
+= 3.14.12 (10 August 2026) =
+
+*Bug Fixes:*
+
+- tables inserted via toolbar now have visible borders and padding
+- preserve hand-coded table HTML in Email Message field
+- resolve TypeError when nf-behavioral.js file is missing
+- validation error on Time Only field now clears correctly
+- required field asterisk displays correctly on multi-form pages
+- form builder loads correctly when marketing filter is disabled
+- repeatable fieldset data now displays in email summaries
+
+*Security Enhancements:*
+
+- strengthen SQL query parameter handling
+
+= 3.14.11 (23 July 2026) =
 
 *Bug Fixes:*
 
@@ -329,7 +396,7 @@ This section describes how to install the plugin and get it working.
 - clear validation error on Time Only field when user corrects input
 - fix ninja_forms_render_options filter breaking form validation
 
-= 3.14.10 (27 July 2026) =
+= 3.14.10 (20 July 2026) =
 
 *Bug Fixes:*
 
@@ -344,9 +411,9 @@ This section describes how to install the plugin and get it working.
 *Security Enhancements:*
 
 - protect against SQL injection in import settings key
-- block unauthenticated shortcode execution
+- block unauthenticated shortcode execution; responsibly reported by Meher Sudhakar Abbireddi
 
-= 3.14.9 (14 July 2026) =
+= 3.14.9 (09 July 2026) =
 
 *Bug Fixes:*
 
@@ -361,7 +428,7 @@ This section describes how to install the plugin and get it working.
 - protect against calc value injection in list fields
 - protect against unauthorized access to submissions via block insertion
 
-= 3.14.8 (29 June 2026) =
+= 3.14.8 (230 June 2026) =
 
 *Bug Fixes:*
 

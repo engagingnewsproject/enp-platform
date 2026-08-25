@@ -14,6 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Register Ninja Forms abilities with WordPress.
+ *
+ * @return void
+ */
 function ninja_forms_register_abilities() {
 	if ( ! function_exists( 'wp_register_ability' ) ) {
 		return;
@@ -43,7 +48,10 @@ function ninja_forms_register_abilities() {
 						'items'       => array(
 							'type'       => 'object',
 							'properties' => array(
-								'type'          => array( 'type' => 'string' ),
+								'type'          => array(
+									'type'        => 'string',
+									'description' => __( 'Field type. Must be a registered Ninja Forms field type - never invent one; unknown types are coerced to textbox. Core types: textbox, textarea, email, number, phone, date, checkbox, listcheckbox, listradio, listselect, listmultiselect, liststate, listcountry, address, city, zip, firstname, lastname, hidden, html, hr, starrating. For US states use "liststate", for countries use "listcountry", for a dropdown use "listselect". If no specific type fits, use "textbox". Use ninjaforms/list-field-types for the full list on this site (add-ons register more, e.g. file_upload).', 'ninja-forms' ),
+								),
 								'label'         => array( 'type' => 'string' ),
 								'required'      => array( 'type' => 'boolean' ),
 								'placeholder'   => array( 'type' => 'string' ),
@@ -51,6 +59,14 @@ function ninja_forms_register_abilities() {
 								'help_text'     => array( 'type' => 'string' ),
 								'admin_label'   => array( 'type' => 'string' ),
 								'key'           => array( 'type' => 'string' ),
+								'personally_identifiable' => array(
+									'type'        => 'boolean',
+									'description' => __( 'REQUIRED (true) for email, phone, and address fields for GDPR compliance.', 'ninja-forms' ),
+								),
+								'number_of_stars' => array(
+									'type'        => 'integer',
+									'description' => __( 'REQUIRED for starrating fields (typically 5); stars will not render without it.', 'ninja-forms' ),
+								),
 								'options'       => array(
 									'type'  => 'array',
 									'items' => array(
@@ -68,14 +84,36 @@ function ninja_forms_register_abilities() {
 					),
 					'actions' => array(
 						'type'        => 'array',
-						'description' => __( 'Custom actions for the form. If not provided, defaults will be added (Success Message, Admin Email, Record Submission)', 'ninja-forms' ),
+						'description' => __( 'Custom actions for the form. If not provided, defaults will be added (Success Message, Admin Email, Record Submission). When provided, a Record Submission (save) and Success Message action are still guaranteed - you may omit them. Supported types are "email", "redirect", "successmessage", and "save". Core settings: "email" (to, email_subject, email_message, email_format ["html"|"plain"], reply_to, from_name, from_address, cc, bcc), "successmessage" (success_msg), "redirect" (redirect_url), "save" (none). ADMIN NOTIFICATION: an email action with to={wp:admin_email}. AUTORESPONDER / CONFIRMATION EMAIL to the submitter: an email action with "to" set to the email field merge tag, e.g. to={field:email_1234567890123} using that field\'s exact key. MERGE TAGS in email_message text need a space before { and after }.', 'ninja-forms' ),
 						'items'       => array(
 							'type'       => 'object',
 							'properties' => array(
-								'type'     => array( 'type' => 'string' ),
+								'type'     => array(
+									'type' => 'string',
+									'enum' => array( 'email', 'redirect', 'successmessage', 'save' ),
+								),
 								'label'    => array( 'type' => 'string' ),
 								'active'   => array( 'type' => 'boolean', 'default' => true ),
-								'settings' => array( 'type' => 'object' ),
+								'settings' => array(
+									'type'                 => 'object',
+									'properties'           => array(
+										'to'            => array( 'type' => 'string' ),
+										'email_subject' => array( 'type' => 'string' ),
+										'email_message' => array( 'type' => 'string' ),
+										'email_format'  => array(
+											'type' => 'string',
+											'enum' => array( 'html', 'plain' ),
+										),
+										'reply_to'      => array( 'type' => 'string' ),
+										'from_name'     => array( 'type' => 'string' ),
+										'from_address'  => array( 'type' => 'string' ),
+										'cc'            => array( 'type' => 'string' ),
+										'bcc'           => array( 'type' => 'string' ),
+										'success_msg'   => array( 'type' => 'string' ),
+										'redirect_url'  => array( 'type' => 'string' ),
+									),
+									'additionalProperties' => false,
+								),
 							),
 							'required' => array( 'type' ),
 						),
@@ -218,7 +256,7 @@ function ninja_forms_register_abilities() {
 		'ninjaforms/add-field',
 		array(
 			'label'              => __( 'Add Field', 'ninja-forms' ),
-			'description'        => __( 'Adds a field to an existing Ninja Forms form. Use the form_id returned by ninjaforms/create-form to add fields. Call this ability multiple times to add multiple fields to a form. CRITICAL MERGE TAG FORMATTING: When adding HTML fields (type: html) that display calculations or field values using merge tags like {field:key} or {calc:name}, always add a space before { and after }. Example: "<h3>Total: $ {calc:total} </h3>" not "<h3>Total: ${calc:total}</h3>". Merge tags that touch other characters will fail to render. CRITICAL CALCULATION DISPLAY: For calculator forms, use HTML field type (NOT textbox) to display calculation results for real-time updates. Use ONE merge tag per HTML field. Example: Add separate fields like {"type":"html","label":"Monthly Payment","default":"<h3>$ {calc:monthly} </h3>"} and {"type":"html","label":"Total Cost","default":"<p>$ {calc:total} </p>"} rather than combining multiple calculations in one field. Keep HTML simple with basic tags (h3, p, strong). Complex nested structures with multiple merge tags will not update in real-time. PERSONALLY IDENTIFIABLE FIELDS: Email, phone, and address field types MUST include "personally_identifiable":true in field settings for GDPR compliance. SPAM PROTECTION: hCaptcha and reCAPTCHA fields must have "label_pos":"hidden" (the widget itself is sufficient) and should NOT be marked as required (set "required":false) - spam protection fields should never display required asterisks. Place spam protection fields before the submit button. REQUIRED FIELDS: Set "required":true for required fields, "required":false for optional fields. Default is false if not specified. FORM ORGANIZATION: Use HTML fields with bold text for section headers: {"type":"html","default":"<p><b>Section Name</b></p>"}. Use HR (divider) fields between major sections. Group related fields together. TWO-COLUMN LAYOUTS: First field in two-column set: "container_class":"one-half first". Second field: "container_class":"one-half". After the pair, return to full width or start another two-column set. PLACEHOLDER POLICY: Default to empty placeholder ("placeholder":""). Only add placeholder text when the field purpose is ambiguous or users need format examples. DO NOT add placeholders for standard fields like Name, Email, Phone, Number, or Address where the label is self-explanatory. FIELD-TYPE-SPECIFIC SETTINGS: Star rating fields (type: "starrating") require the "number_of_stars" setting (typically set to "5"). Without this setting, the stars will not render on the form. Example: {"type":"starrating","label":"Overall Satisfaction","required":true,"number_of_stars":"5"}.', 'ninja-forms' ),
+			'description'        => __( 'Adds a field to an existing Ninja Forms form. Use the form_id returned by ninjaforms/create-form to add fields. Call this ability multiple times to add multiple fields to a form. POSITIONING: order is a one-based insertion position, not a final sort hint. Existing fields at that position and below move down. For requests like "before Message" or "between Email and Message", call ninjaforms/get-form first and use the current order of Message. If order is omitted, the field is inserted immediately before Submit. CRITICAL MERGE TAG FORMATTING: When adding HTML fields (type: html) that display calculations or field values using merge tags like {field:key} or {calc:name}, always add a space before { and after }. Example: "<h3>Total: $ {calc:total} </h3>" not "<h3>Total: ${calc:total}</h3>". Merge tags that touch other characters will fail to render. CRITICAL CALCULATION DISPLAY: For calculator forms, use HTML field type (NOT textbox) to display calculation results for real-time updates. Use ONE merge tag per HTML field. Example: Add separate fields like {"type":"html","label":"Monthly Payment","default":"<h3>$ {calc:monthly} </h3>"} and {"type":"html","label":"Total Cost","default":"<p>$ {calc:total} </p>"} rather than combining multiple calculations in one field. Keep HTML simple with basic tags (h3, p, strong). Complex nested structures with multiple merge tags will not update in real-time. PERSONALLY IDENTIFIABLE FIELDS: Email, phone, and address field types MUST include "personally_identifiable":true in field settings for GDPR compliance. SPAM PROTECTION: hCaptcha and reCAPTCHA fields must have "label_pos":"hidden" (the widget itself is sufficient) and should NOT be marked as required (set "required":false) - spam protection fields should never display required asterisks. Place spam protection fields before the submit button. REQUIRED FIELDS: Set "required":true for required fields, "required":false for optional fields. Default is false if not specified. FORM ORGANIZATION: Use HTML fields with bold text for section headers: {"type":"html","default":"<p><b>Section Name</b></p>"}. Use HR (divider) fields between major sections. Group related fields together. TWO-COLUMN LAYOUTS: First field in two-column set: "container_class":"one-half first". Second field: "container_class":"one-half". After the pair, return to full width or start another two-column set. PLACEHOLDER POLICY: Default to empty placeholder ("placeholder":""). Only add placeholder text when the field purpose is ambiguous or users need format examples. DO NOT add placeholders for standard fields like Name, Email, Phone, Number, or Address where the label is self-explanatory. FIELD-TYPE-SPECIFIC SETTINGS: Star rating fields (type: "starrating") require the "number_of_stars" setting (typically set to "5"). Without this setting, the stars will not render on the form. Example: {"type":"starrating","label":"Overall Satisfaction","required":true,"number_of_stars":"5"}.', 'ninja-forms' ),
 			'category'           => 'forms',
 			'input_schema'       => array(
 				'type'       => 'object',
@@ -229,13 +267,7 @@ function ninja_forms_register_abilities() {
 					),
 					'type' => array(
 						'type'        => 'string',
-						'description' => __( 'Field type (required)', 'ninja-forms' ),
-						'enum'        => array(
-							'textbox', 'textarea', 'email', 'number', 'checkbox',
-							'listcheckbox', 'listradio', 'listselect', 'listmultiselect',
-							'date', 'hidden', 'html', 'submit', 'firstname', 'lastname',
-							'phone', 'city', 'zip', 'country', 'address', 'starrating',
-						),
+						'description' => __( 'Field type (required). Must be a registered Ninja Forms field type - never invent one; unknown types are coerced to textbox. Core types: textbox, textarea, email, number, phone, date, checkbox, listcheckbox, listradio, listselect, listmultiselect, liststate, listcountry, address, city, zip, firstname, lastname, hidden, html, hr, starrating, submit. For US states use liststate, for countries use listcountry, for a dropdown use listselect. If no specific type fits, use textbox. Use ninjaforms/list-field-types for the full list on this site (add-ons register more, e.g. file_upload).', 'ninja-forms' ),
 					),
 					'label' => array(
 						'type'        => 'string',
@@ -257,6 +289,19 @@ function ninja_forms_register_abilities() {
 						'type'        => 'string',
 						'description' => __( 'Help text', 'ninja-forms' ),
 					),
+					'order' => array(
+						'type'        => 'integer',
+						'minimum'     => 1,
+						'description' => __( 'Optional one-based insertion position. Existing fields at this position and below shift down. To add before a named field, first read the form and use that field\'s current order. Omit to insert immediately before Submit.', 'ninja-forms' ),
+					),
+					'personally_identifiable' => array(
+						'type'        => 'boolean',
+						'description' => __( 'REQUIRED (true) for email, phone, and address fields for GDPR compliance.', 'ninja-forms' ),
+					),
+					'number_of_stars' => array(
+						'type'        => 'integer',
+						'description' => __( 'REQUIRED for starrating fields (typically 5); stars will not render without it.', 'ninja-forms' ),
+					),
 				),
 				'required' => array( 'form_id', 'type' ),
 			),
@@ -267,6 +312,7 @@ function ninja_forms_register_abilities() {
 					'field_id' => array( 'type' => 'integer' ),
 					'form_id'  => array( 'type' => 'integer' ),
 					'type'     => array( 'type' => 'string' ),
+					'order'    => array( 'type' => 'integer' ),
 					'message'  => array( 'type' => 'string' ),
 				),
 			),
@@ -2022,4 +2068,3 @@ function ninja_forms_register_abilities() {
 }
 
 add_action( 'wp_abilities_api_init', 'ninja_forms_register_abilities' );
-

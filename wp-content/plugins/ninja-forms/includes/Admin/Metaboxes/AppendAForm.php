@@ -4,6 +4,16 @@ final class NF_Admin_Metaboxes_AppendAForm extends NF_Abstracts_Metabox
 {
     protected $_post_types = array( 'post', 'page' );
 
+    /**
+     * Post IDs that have already had a form appended in this request,
+     * so a discarded/internal the_content pass (e.g. Yoast SEO's meta
+     * description calculation) can't consume a render instance slot
+     * that then gets misassigned to the real, visible render.
+     *
+     * @var array
+     */
+    protected static $_appended_posts = array();
+
     public function __construct()
     {
         parent::__construct();
@@ -23,9 +33,15 @@ final class NF_Admin_Metaboxes_AppendAForm extends NF_Abstracts_Metabox
 
         if( ! $post || ! is_object( $post ) || post_password_required($post) ) return $content;
 
+        if ( ! is_main_query() || ! in_the_loop() ) return $content;
+
+        if ( isset( self::$_appended_posts[ $post->ID ] ) ) return $content;
+
         $form_id = get_post_meta( $post->ID, 'ninja_forms_form', TRUE );
 
         if( ! $form_id ) return $content;
+
+        self::$_appended_posts[ $post->ID ] = true;
 
         return $content . "[ninja_forms id=$form_id]";
     }

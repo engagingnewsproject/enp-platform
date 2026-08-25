@@ -1,23 +1,21 @@
 /**
  * Definition of the NinjaModal class.
  * 
- * @param data (object) The default data to be passed into the class.
- *   data.width (int) The width of the modal.
- *   data.class (string) The class to be applied to the modal.
- *   data.closeOnClick (string/bool) The click options to close the modal.
- *   data.closeOnEsc (bool) Whether or not to close the modal on escape.
- *   data.title (string) The title of the modal.
- *   data.content (string) The content of the modal.
- *   data.btnPrimary (object) Information about the primary button of the modal.
- *     btnPrimary.text (string) The text content of the button.
- *     btnPrimary.class (string) The class to be added to the button.
- *     btnPrimary.callback (function) The function to be called when the button is clicked.
- *   data.btnSecondary (object) Information about the secondary button of the modal.
- *     btnSecondary.text (string) The text content of the button.
- *     btnSecondary.class (string) The class to be added to the button.
- *     btnSecondary.callback (function) The function to be called when the button is clicked.
- *   data.useProgressBar (bool) Whether or not this modal needs the progress bar.
- *   data.loadingText (string) The text to be shown while the progress bar is visible.
+ * @param {Object}          data                     Modal options.
+ * @param {number}          [data.width]             Modal width.
+ * @param {string}          [data.class]             Modal CSS class.
+ * @param {string|boolean}  [data.closeOnClick]      Click-to-close behavior.
+ * @param {boolean}         [data.closeOnEsc]        Whether escape closes the modal.
+ * @param {string}          [data.title]             Modal title.
+ * @param {string}          [data.content]           Modal content.
+ * @param {Object}          [data.btnPrimary]        Primary button options.
+ * @param {Object}          [data.btnSecondary]      Secondary button options.
+ * @param {boolean}         [data.useProgressBar]    Whether to show progress.
+ * @param {string}          [data.loadingText]       Progress text.
+ * @param {Function|false}  [data.onOpenCallback]    Optional open callback.
+ * @param {Function|false}  [data.onCloseCallback]   Optional close callback.
+ * @return {NinjaModal} Initialized modal.
+ * @class
  */
 function NinjaModal ( data ) {
     // Setup our modal settings.
@@ -38,6 +36,9 @@ function NinjaModal ( data ) {
     this.buttons.primary.data = ( 'undefined' != typeof data.btnPrimary ? data.btnPrimary : false );
     this.buttons.secondary.data = ( 'undefined' != typeof data.btnSecondary ? data.btnSecondary : false );
     this.onOpenCallback = ( 'undefined' != typeof data.onOpenCallback ? data.onOpenCallback : false );
+    // Fires on ANY close (button, overlay click, or escape) — dismissing a
+    // modal must run the same cleanup as an explicit cancel.
+    this.onCloseCallback = ( 'undefined' !== typeof data.onCloseCallback ? data.onCloseCallback : false );
     // See if we need the progress bar.
     this.useProgressBar = ( 'undefined' !=  typeof data.useProgressBar ? data.useProgressBar : false );
     if ( this.useProgressBar ) {
@@ -149,6 +150,8 @@ NinjaModal.prototype.initButtons = function () {
 
 /**
  * Function to initialize the popup modal.
+ *
+ * @return {void}
  */
 NinjaModal.prototype.initModal = function () {
     // Save the context of this for callbacks.
@@ -174,6 +177,11 @@ NinjaModal.prototype.initModal = function () {
 
             if ( that.onOpenCallback ) {
                 that.onOpenCallback();
+            }
+        },
+        onClose: function() {
+            if ( that.onCloseCallback ) {
+                that.onCloseCallback();
             }
         },
     } );
