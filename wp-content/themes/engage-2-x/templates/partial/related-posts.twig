@@ -1,0 +1,26 @@
+{#
+	Related posts list shown below `research` and `blogs` single articles.
+	Replaces the Recent Posts Widget Extended (RPWE) plugin.
+
+	Reuses partial/tile.twig so the cards match the rest of the site.
+
+	@props
+		- related: array of Timber\Post — from post.getRelatedPosts
+		- post: the current post, used for the heading wording
+#}
+{% if related is not empty %}
+	{% set heading = post.post_type == 'research' ? 'Related research' : 'Related posts' %}
+	<section class="related-posts" aria-labelledby="related-posts__title">
+		<h2 class="related-posts__title" id="related-posts__title">{{ heading }}</h2>
+		<div class="tiles grid grid--col-12 grid--gap-20 tiles--{{ post.post_type }}">
+			{% for item in related %}
+				{% include "partial/tile.twig" with {
+					'tile': item,
+					'index': loop.index,
+					'loadEagerTiles': 0,
+					'post_type': item.post_type,
+				} %}
+			{% endfor %}
+		</div>
+	</section>
+{% endif %}
