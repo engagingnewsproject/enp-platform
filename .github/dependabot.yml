@@ -1,12 +1,20 @@
 version: 2
-
 updates:
   - package-ecosystem: "npm"
     directory: "/wp-content/themes/engage-2-x"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
+    groups:
+      npm-dependencies:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 5
 
   - package-ecosystem: "composer"
     directory: "/wp-content/themes/engage-2-x"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
+    groups:
+      composer-dependencies:
+        patterns:
+          - "*"

@@ -13,6 +13,413 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Create one action on a form the way an ability must.
+ *
+ * CRITICAL ACTION CREATION REQUIREMENTS (Session 10 - November 2025):
+ * =====================================================================
+ * When creating actions, you MUST:
+ * 1. Use update_setting() (singular) NOT update_settings() (plural array)
+ * 2. EXPLICITLY set 'parent_id' => $form_id for EVERY action
+ * 3. Set each property individually with update_setting()
+ *
+ * WHY THIS MATTERS:
+ * - Without explicit parent_id, save actions don't work (submissions not saved)
+ * - Forms appear to work (show success message) but data is lost
+ * - This was root cause of W3, W6 submission bugs in testing
+ * - add-action ability works because it sets parent_id explicitly
+ * - Original code used update_settings() array without parent_id = BROKEN
+ *
+ * VERIFIED FIX (Session 10):
+ * - Form 51 tested with explicit parent_id = submissions saved correctly
+ * - Form 50 (before fix) = no submissions saved, required delete/recreate
+ * =====================================================================
+ * This helper carries that invariant for every action create-form makes, so
+ * it is enforced — and documented — in exactly one place.
+ *
+ * @param int    $form_id  Parent form ID.
+ * @param string $type     Registered action type.
+ * @param string $label    Action label.
+ * @param int    $order    Action order.
+ * @param array  $settings Optional pre-sanitized extra settings. 'active'
+ *                         defaults to 1 and may be overridden here;
+ *                         parent_id, type, and order are managed by the
+ *                         helper and ignored if passed.
+ * @return int|WP_Error Saved action ID, or a persistence error.
+ */
+function ninja_forms_ability_create_form_action( $form_id, $type, $label, $order, $settings = array() ) {
+	$action = Ninja_Forms()->form( $form_id )->action()->get();
+	$action->update_setting( 'parent_id', $form_id ); // CRITICAL: Must explicitly set parent_id
+	$action->update_setting( 'type', $type );
+	$action->update_setting( 'label', $label );
+	$action->update_setting( 'active', 1 );
+	$action->update_setting( 'order', $order );
+
+	foreach ( $settings as $setting_key => $setting_value ) {
+		if ( in_array( $setting_key, array( 'parent_id', 'type', 'order' ), true ) ) {
+			continue; // Managed above.
+		}
+		$action->update_setting( $setting_key, $setting_value );
+	}
+
+	$action->save();
+	$action_id = (int) $action->get_id();
+	if ( ! $action_id ) {
+		return new WP_Error(
+			'action_save_failed',
+			__( 'A generated form action could not be saved.', 'ninja-forms' )
+		);
+	}
+
+	global $wpdb;
+	$stored = $wpdb->get_row(
+		$wpdb->prepare(
+			"SELECT id, parent_id, type, label, active
+			FROM {$wpdb->prefix}nf3_actions WHERE id = %d AND parent_id = %d",
+			$action_id,
+			$form_id
+		),
+		ARRAY_A
+	);
+	if ( ! is_array( $stored ) || $action_id !== (int) $stored['id'] ) {
+		return new WP_Error(
+			'action_save_unverified',
+			__( 'A generated form action could not be verified after saving.', 'ninja-forms' )
+		);
+	}
+	$meta_rows = $wpdb->get_results(
+		$wpdb->prepare(
+			"SELECT `key`, `value` FROM {$wpdb->prefix}nf3_action_meta WHERE parent_id = %d",
+			$action_id
+		),
+		ARRAY_A
+	);
+	$persisted = $stored;
+	foreach ( (array) $meta_rows as $meta_row ) {
+		$persisted[ $meta_row['key'] ] = maybe_unserialize( $meta_row['value'] );
+	}
+	$expected = array_merge(
+		$settings,
+		array(
+			'parent_id' => $form_id,
+			'type'      => $type,
+			'label'     => $label,
+			'active'    => isset( $settings['active'] ) ? (int) $settings['active'] : 1,
+			'order'     => $order,
+		)
+	);
+	foreach ( $expected as $setting_key => $expected_value ) {
+		if (
+			! array_key_exists( $setting_key, $persisted )
+			|| ! ninja_forms_ability_persisted_value_matches(
+				$expected_value,
+				$persisted[ $setting_key ]
+			)
+		) {
+			return new WP_Error(
+				'action_save_unverified',
+				__( 'A generated form action setting could not be verified after saving.', 'ninja-forms' )
+			);
+		}
+	}
+
+	return $action_id;
+}
+
+/**
+ * Compare normalized persisted settings across scalar database encodings.
+ *
+ * @param mixed $expected Expected value.
+ * @param mixed $actual   Persisted value.
+ * @return bool Whether values are equivalent.
+ */
+function ninja_forms_ability_persisted_value_matches( $expected, $actual ) {
+	if ( is_array( $expected ) || is_array( $actual ) ) {
+		return $expected === $actual;
+	}
+
+	return (string) $expected === (string) $actual;
+}
+
+/**
+ * Delete a partially generated form and verify no related form remains.
+ *
+ * @param int      $form_id Generated form ID.
+ * @param WP_Error $error   Original creation failure.
+ * @return WP_Error Original error, or a cleanup failure.
+ */
+function ninja_forms_ability_abort_form_creation( $form_id, $error ) {
+	$children = ninja_forms_ability_capture_generated_form_children( $form_id );
+	$form = Ninja_Forms()->form( $form_id )->get();
+	if ( $form && $form->get_id() ) {
+		$form->delete();
+	}
+
+	$verified = ninja_forms_ability_verify_generated_form_absent( $form_id, $children );
+	if ( is_wp_error( $verified ) ) {
+		return $verified;
+	}
+
+	return $error;
+}
+
+/**
+ * Capture the child IDs needed to detect orphan metadata after form deletion.
+ *
+ * @param int $form_id Generated form ID.
+ * @return array{fields:array<int>,actions:array<int>} Generated child IDs.
+ */
+function ninja_forms_ability_capture_generated_form_children( $form_id ) {
+	global $wpdb;
+
+	return array(
+		'fields'  => array_map(
+			'intval',
+			(array) $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT id FROM {$wpdb->prefix}nf3_fields WHERE parent_id = %d",
+					$form_id
+				)
+			)
+		),
+		'actions' => array_map(
+			'intval',
+			(array) $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT id FROM {$wpdb->prefix}nf3_actions WHERE parent_id = %d",
+					$form_id
+				)
+			)
+		),
+	);
+}
+
+/**
+ * Count durable rows still tied to one deleted child object.
+ *
+ * @param int    $id        Child object ID.
+ * @param string $type      Child type: field or action.
+ * @param string $table     Primary table suffix.
+ * @param string $meta_table Meta table suffix.
+ * @return int Remaining primary, metadata, and relationship rows.
+ */
+function ninja_forms_ability_count_generated_child_rows( $id, $type, $table, $meta_table ) {
+	global $wpdb;
+
+	return (int) $wpdb->get_var(
+		$wpdb->prepare(
+			"SELECT
+				(SELECT COUNT(*) FROM {$wpdb->prefix}{$table} WHERE id = %d) +
+				(SELECT COUNT(*) FROM {$wpdb->prefix}{$meta_table} WHERE parent_id = %d) +
+				(SELECT COUNT(*) FROM {$wpdb->prefix}nf3_relationships
+					WHERE (parent_id = %d AND parent_type = %s)
+						OR (child_id = %d AND child_type = %s))",
+			$id,
+			$id,
+			$id,
+			$type,
+			$id,
+			$type
+		)
+	);
+}
+
+/**
+ * Verify that no generated-form rows, child metadata, or relationships remain.
+ *
+ * @param int   $form_id Generated form ID.
+ * @param array $children Captured field and action IDs from before deletion.
+ * @return true|WP_Error Exact cleanup result.
+ */
+function ninja_forms_ability_verify_generated_form_absent( $form_id, $children = array() ) {
+	global $wpdb;
+
+	$remaining = (int) $wpdb->get_var(
+		$wpdb->prepare(
+			"SELECT
+				(SELECT COUNT(*) FROM {$wpdb->prefix}nf3_forms WHERE id = %d) +
+				(SELECT COUNT(*) FROM {$wpdb->prefix}nf3_form_meta WHERE parent_id = %d) +
+				(SELECT COUNT(*) FROM {$wpdb->prefix}nf3_fields WHERE parent_id = %d) +
+				(SELECT COUNT(*) FROM {$wpdb->prefix}nf3_actions WHERE parent_id = %d) +
+				(SELECT COUNT(*) FROM {$wpdb->prefix}nf3_relationships
+					WHERE (parent_id = %d AND parent_type = 'form')
+						OR (child_id = %d AND child_type = 'form'))",
+			$form_id,
+			$form_id,
+			$form_id,
+			$form_id,
+			$form_id,
+			$form_id
+		)
+	);
+	foreach ( (array) ( $children['fields'] ?? array() ) as $field_id ) {
+		$remaining += ninja_forms_ability_count_generated_child_rows(
+			(int) $field_id,
+			'field',
+			'nf3_fields',
+			'nf3_field_meta'
+		);
+	}
+	foreach ( (array) ( $children['actions'] ?? array() ) as $action_id ) {
+		$remaining += ninja_forms_ability_count_generated_child_rows(
+			(int) $action_id,
+			'action',
+			'nf3_actions',
+			'nf3_action_meta'
+		);
+	}
+	if ( 0 !== $remaining ) {
+		return new WP_Error(
+			'form_cleanup_failed',
+			__( 'The incomplete generated form could not be removed safely.', 'ninja-forms' )
+		);
+	}
+
+	return true;
+}
+
+/**
+ * Normalize one provider-generated action through the public action boundary.
+ *
+ * The generation schema groups type-specific values beneath `settings`, while
+ * the shared action normalizer accepts the public ability's flat input. This
+ * adapter permits only the four public action types and maps only their
+ * declared settings before returning storage-keyed values.
+ *
+ * @param array $action_data Provider-generated action definition.
+ * @return array|WP_Error Normalized action definition, or validation error.
+ */
+function ninja_forms_ability_normalize_generated_action( $action_data ) {
+	if ( ! is_array( $action_data ) ) {
+		return new WP_Error(
+			'invalid_action',
+			__( 'Each generated action must be an object.', 'ninja-forms' )
+		);
+	}
+	$valid = ninja_forms_ability_validate_input_keys(
+		$action_data,
+		array( 'type', 'label', 'active', 'settings' )
+	);
+	if ( is_wp_error( $valid ) ) {
+		return $valid;
+	}
+
+	$type = isset( $action_data['type'] ) ? sanitize_key( $action_data['type'] ) : '';
+	if ( ! ninja_forms_ability_is_supported_action_type( $type ) ) {
+		return new WP_Error(
+			'unsupported_action_type',
+			__( 'That action type is not supported.', 'ninja-forms' )
+		);
+	}
+	$settings = isset( $action_data['settings'] ) ? $action_data['settings'] : array();
+	if ( ! is_array( $settings ) ) {
+		return new WP_Error(
+			'invalid_action_settings',
+			__( 'Generated action settings must be an object.', 'ninja-forms' )
+		);
+	}
+
+	$setting_map = array(
+		'email'          => array(
+			'to'            => 'to',
+			'email_subject' => 'subject',
+			'email_message' => 'message',
+			'email_format'  => 'email_format',
+			'from_name'     => 'from_name',
+			'from_address'  => 'from_address',
+			'reply_to'      => 'reply_to',
+			'cc'            => 'cc',
+			'bcc'           => 'bcc',
+		),
+		'redirect'       => array( 'redirect_url' => 'redirect_url' ),
+		'successmessage' => array( 'success_msg' => 'success_msg' ),
+		'save'           => array(),
+	);
+	$valid = ninja_forms_ability_validate_input_keys(
+		$settings,
+		array_keys( $setting_map[ $type ] )
+	);
+	if ( is_wp_error( $valid ) ) {
+		return $valid;
+	}
+
+	$flat = array( 'type' => $type );
+	foreach ( array( 'label', 'active' ) as $key ) {
+		if ( array_key_exists( $key, $action_data ) ) {
+			$flat[ $key ] = $action_data[ $key ];
+		}
+	}
+	foreach ( $setting_map[ $type ] as $stored_key => $public_key ) {
+		if ( array_key_exists( $stored_key, $settings ) ) {
+			$flat[ $public_key ] = $settings[ $stored_key ];
+		}
+	}
+
+	$normalized = ninja_forms_ability_normalize_action_input( $flat, '', 'add' );
+	if ( is_wp_error( $normalized ) ) {
+		return $normalized;
+	}
+
+	/*
+	 * Fall back to the same human names the guaranteed actions use. ucfirst on
+	 * the type alone reads as "Successmessage" in the administrator's actions
+	 * list, which is where these names are seen.
+	 */
+	$default_labels = array(
+		'email'          => __( 'Email', 'ninja-forms' ),
+		'redirect'       => __( 'Redirect', 'ninja-forms' ),
+		'successmessage' => __( 'Success Message', 'ninja-forms' ),
+		'save'           => __( 'Record Submission', 'ninja-forms' ),
+	);
+	$default_label = isset( $default_labels[ $type ] ) ? $default_labels[ $type ] : ucfirst( $type );
+
+	$result = array(
+		'type'     => $normalized['type'],
+		'label'    => isset( $normalized['label'] ) ? $normalized['label'] : $default_label,
+		'active'   => isset( $normalized['active'] ) ? $normalized['active'] : 1,
+		'settings' => array(),
+	);
+	foreach ( $setting_map[ $type ] as $stored_key => $public_key ) {
+		if ( array_key_exists( $public_key, $normalized ) ) {
+			$result['settings'][ $stored_key ] = $normalized[ $public_key ];
+		}
+	}
+
+	return $result;
+}
+
+/**
+ * Execute callback for the ninjaforms/create-form ability.
+ *
+ * Creates a form with its fields and actions in one call, resilient to
+ * imperfect generated input: unknown field types are coerced to textbox and
+ * unknown action types are skipped, so one bad entry never fails the whole
+ * generation. A submit button field is always appended, and the saved form
+ * is always given a save (Record Submission) action and a success-message
+ * action even when the provided actions omit them; with no actions at all,
+ * the dashboard Blank Form defaults (success message, admin email, save)
+ * are created instead.
+ *
+ * @param array $input {
+ *     Ability input, validated against the create-form schema.
+ *
+ *     @type string $title           Required. Form title.
+ *     @type array  $fields          Optional. Field definitions, each passed to
+ *                                   ninja_forms_ability_add_field_internal()
+ *                                   (see it for the per-field contract).
+ *     @type array  $actions         Optional. Action definitions (type, label,
+ *                                   active, settings). Types not registered on
+ *                                   this install are skipped.
+ *     @type string $success_message Optional. Body for the guaranteed
+ *                                   success-message action.
+ *     @type string $submit_label    Optional. Submit button label.
+ *                                   Plus optional display/behavior settings
+ *                                   (show_title, default_label_pos,
+ *                                   sub_limit_number, honeypot_enabled, …).
+ * }
+ * @return array|WP_Error [ success, form_id, field_count, message ], or
+ *                        WP_Error when the title is missing.
+ */
 function ninja_forms_ability_create_form( $input ) {
 	if ( empty( $input['title'] ) ) {
 		return new WP_Error( 'invalid_input', __( 'Form title is required', 'ninja-forms' ) );
@@ -86,19 +493,52 @@ function ninja_forms_ability_create_form( $input ) {
 
 	$form->update_settings( $settings );
 	$form->save();
-	$form_id = $form->get_id();
+	$form_id = (int) $form->get_id();
+	if ( ! $form_id ) {
+		return new WP_Error(
+			'form_save_failed',
+			__( 'The generated form could not be saved.', 'ninja-forms' )
+		);
+	}
+	global $wpdb;
+	$stored_title = $wpdb->get_var(
+		$wpdb->prepare(
+			"SELECT title FROM {$wpdb->prefix}nf3_forms WHERE id = %d",
+			$form_id
+		)
+	);
+	if ( (string) $settings['title'] !== (string) $stored_title ) {
+		return ninja_forms_ability_abort_form_creation(
+			$form_id,
+			new WP_Error(
+				'form_save_unverified',
+				__( 'The generated form settings could not be verified after saving.', 'ninja-forms' )
+			)
+		);
+	}
 
 	// Process fields if provided
 	$fields_created = array();
 	if ( isset( $input['fields'] ) && is_array( $input['fields'] ) ) {
+		$next_order = 0;
 		foreach ( $input['fields'] as $field_data ) {
+			/*
+			 * Order carries the caller's array sequence when it says nothing.
+			 * Without this every field persists at the same order, and the
+			 * one-based insertion positions add-field documents cannot hold:
+			 * a field inserted at position 2 sorts after every existing one.
+			 */
+			++$next_order;
+			if ( ! isset( $field_data['order'] ) || '' === $field_data['order'] ) {
+				$field_data['order'] = $next_order;
+			} else {
+				$next_order = max( $next_order, (int) $field_data['order'] );
+			}
 			$field_result = ninja_forms_ability_add_field_internal( $form_id, $field_data );
 			if ( is_wp_error( $field_result ) ) {
-				// Log error but continue with other fields
-				error_log( 'Failed to add field: ' . $field_result->get_error_message() );
-			} else {
-				$fields_created[] = $field_result['field_id'];
+				return ninja_forms_ability_abort_form_creation( $form_id, $field_result );
 			}
+			$fields_created[] = $field_result['field_id'];
 		}
 	}
 
@@ -113,9 +553,10 @@ function ninja_forms_ability_create_form( $input ) {
 	);
 
 	$submit_result = ninja_forms_ability_add_field_internal( $form_id, $submit_field_data );
-	if ( ! is_wp_error( $submit_result ) ) {
-		$fields_created[] = $submit_result['field_id'];
+	if ( is_wp_error( $submit_result ) ) {
+		return ninja_forms_ability_abort_form_creation( $form_id, $submit_result );
 	}
+	$fields_created[] = $submit_result['field_id'];
 
 	// CRITICAL FIX: HTML fields with merge tags need save() called twice for merge tag processing to work
 	// First save (in add_field_internal line 2251) creates the field
@@ -127,98 +568,102 @@ function ninja_forms_ability_create_form( $input ) {
 			if ( $field && $field->get_setting( 'type' ) === 'html' ) {
 				// Re-save HTML field to initialize merge tag processing
 				$field->save();
+				if ( ! $field->get_id() ) {
+					return ninja_forms_ability_abort_form_creation(
+						$form_id,
+						new WP_Error(
+							'field_save_failed',
+							__( 'A generated HTML field could not be finalized.', 'ninja-forms' )
+						)
+					);
+				}
 			}
 		}
 	}
 
-	// Process actions
+	// Process actions — every creation path goes through
+	// ninja_forms_ability_create_form_action(), which carries the critical
+	// parent_id-via-update_setting() invariant.
+	$success_message = isset( $input['success_message'] )
+		? sanitize_text_field( $input['success_message'] )
+		: __( 'Your form has been successfully submitted.', 'ninja-forms' );
+
 	if ( isset( $input['actions'] ) && is_array( $input['actions'] ) ) {
-		// Custom actions provided - create those
-		$order = 1;
+		// Custom actions provided - create those.
+		$order         = 1;
+		$created_types = array();
+
 		foreach ( $input['actions'] as $action_data ) {
-			if ( empty( $action_data['type'] ) ) {
-				continue; // Skip actions without type
+			$action_data = ninja_forms_ability_normalize_generated_action( $action_data );
+			if ( is_wp_error( $action_data ) ) {
+				return ninja_forms_ability_abort_form_creation( $form_id, $action_data );
 			}
 
-			$action = Ninja_Forms()->form( $form_id )->action()->get();
-
-			$action_settings = array(
-				'type'   => sanitize_text_field( $action_data['type'] ),
-				'label'  => isset( $action_data['label'] ) ? sanitize_text_field( $action_data['label'] ) : ucfirst( $action_data['type'] ),
-				'active' => isset( $action_data['active'] ) ? (int) $action_data['active'] : 1,
-				'order'  => $order++,
+			$action_type = $action_data['type'];
+			$settings    = array_merge(
+				array( 'active' => (int) $action_data['active'] ),
+				$action_data['settings']
 			);
 
-			// Merge in additional settings
-			if ( isset( $action_data['settings'] ) && is_array( $action_data['settings'] ) ) {
-				$action_settings = array_merge( $action_settings, $action_data['settings'] );
+			$action_result = ninja_forms_ability_create_form_action(
+				$form_id,
+				$action_type,
+				$action_data['label'],
+				$order++,
+				$settings
+			);
+			if ( is_wp_error( $action_result ) ) {
+				return ninja_forms_ability_abort_form_creation( $form_id, $action_result );
 			}
+			$created_types[] = $action_type;
+		}
 
-			$action->update_settings( $action_settings );
-			$action->save();
+		// Every form needs its submissions recorded and a success message -
+		// guarantee both even when the provided actions omit them.
+		if ( ! in_array( 'save', $created_types, true ) ) {
+			$action_result = ninja_forms_ability_create_form_action( $form_id, 'save', __( 'Record Submission', 'ninja-forms' ), $order++ );
+			if ( is_wp_error( $action_result ) ) {
+				return ninja_forms_ability_abort_form_creation( $form_id, $action_result );
+			}
+		}
+
+		if ( ! in_array( 'successmessage', $created_types, true ) ) {
+			$action_result = ninja_forms_ability_create_form_action( $form_id, 'successmessage', __( 'Success Message', 'ninja-forms' ), $order++, array(
+				'success_msg' => $success_message, // CRITICAL: Use 'success_msg' not 'message'
+			) );
+			if ( is_wp_error( $action_result ) ) {
+				return ninja_forms_ability_abort_form_creation( $form_id, $action_result );
+			}
 		}
 	} else {
 		// No custom actions - add default actions that match dashboard "Blank Form" behavior
 
-		// CRITICAL ACTION CREATION REQUIREMENTS (Session 10 - November 2025):
-		// =====================================================================
-		// When creating actions, you MUST:
-		// 1. Use update_setting() (singular) NOT update_settings() (plural array)
-		// 2. EXPLICITLY set 'parent_id' => $form_id for EVERY action
-		// 3. Set each property individually with update_setting()
-		//
-		// WHY THIS MATTERS:
-		// - Without explicit parent_id, save actions don't work (submissions not saved)
-		// - Forms appear to work (show success message) but data is lost
-		// - This was root cause of W3, W6 submission bugs in testing
-		// - add-action ability works because it sets parent_id explicitly
-		// - Original code used update_settings() array without parent_id = BROKEN
-		//
-		// VERIFIED FIX (Session 10):
-		// - Form 51 tested with explicit parent_id = submissions saved correctly
-		// - Form 50 (before fix) = no submissions saved, required delete/recreate
-		// =====================================================================
-
 		// Action 1: Success Message
-		$success_message = isset( $input['success_message'] ) ? sanitize_text_field( $input['success_message'] ) : __( 'Your form has been successfully submitted.', 'ninja-forms' );
-		$success_action = Ninja_Forms()->form( $form_id )->action()->get();
-		$success_action->update_setting( 'parent_id', $form_id );
-		$success_action->update_setting( 'type', 'successmessage' );
-		$success_action->update_setting( 'label', __( 'Success Message', 'ninja-forms' ) );
-		$success_action->update_setting( 'active', 1 );
-		$success_action->update_setting( 'success_msg', $success_message ); // CRITICAL: Use 'success_msg' not 'message'
-		$success_action->update_setting( 'order', 1 );
-		$success_action->save();
+		$default_action_results = array();
+		$default_action_results[] = ninja_forms_ability_create_form_action( $form_id, 'successmessage', __( 'Success Message', 'ninja-forms' ), 1, array(
+			'success_msg' => $success_message, // CRITICAL: Use 'success_msg' not 'message'
+		) );
 
 		// Action 2: Admin Email
-		$email_to = isset( $input['admin_email_to'] ) ? sanitize_text_field( $input['admin_email_to'] ) : '{wp:admin_email}';
-		$email_subject = isset( $input['admin_email_subject'] ) ? sanitize_text_field( $input['admin_email_subject'] ) : __( 'Ninja Forms Submission', 'ninja-forms' );
-
-		$email_action = Ninja_Forms()->form( $form_id )->action()->get();
-		$email_action->update_setting( 'parent_id', $form_id );
-		$email_action->update_setting( 'type', 'email' );
-		$email_action->update_setting( 'label', __( 'Admin Email', 'ninja-forms' ) );
-		$email_action->update_setting( 'active', 1 );
-		$email_action->update_setting( 'to', $email_to );
-		$email_action->update_setting( 'email_subject', $email_subject );
-		$email_action->update_setting( 'email_message', '{fields_table}' );
-		$email_action->update_setting( 'email_format', 'html' );
-		$email_action->update_setting( 'reply_to', '' );
-		$email_action->update_setting( 'from_name', '' );
-		$email_action->update_setting( 'from_address', '' );
-		$email_action->update_setting( 'cc', '' );
-		$email_action->update_setting( 'bcc', '' );
-		$email_action->update_setting( 'order', 2 );
-		$email_action->save();
+		$default_action_results[] = ninja_forms_ability_create_form_action( $form_id, 'email', __( 'Admin Email', 'ninja-forms' ), 2, array(
+			'to'            => isset( $input['admin_email_to'] ) ? sanitize_text_field( $input['admin_email_to'] ) : '{wp:admin_email}',
+			'email_subject' => isset( $input['admin_email_subject'] ) ? sanitize_text_field( $input['admin_email_subject'] ) : __( 'Ninja Forms Submission', 'ninja-forms' ),
+			'email_message' => '{fields_table}',
+			'email_format'  => 'html',
+			'reply_to'      => '',
+			'from_name'     => '',
+			'from_address'  => '',
+			'cc'            => '',
+			'bcc'           => '',
+		) );
 
 		// Action 3: Record Submission
-		$save_action = Ninja_Forms()->form( $form_id )->action()->get();
-		$save_action->update_setting( 'parent_id', $form_id ); // CRITICAL: Must explicitly set parent_id
-		$save_action->update_setting( 'type', 'save' );
-		$save_action->update_setting( 'label', __( 'Record Submission', 'ninja-forms' ) );
-		$save_action->update_setting( 'active', 1 );
-		$save_action->update_setting( 'order', 3 );
-		$save_action->save();
+		$default_action_results[] = ninja_forms_ability_create_form_action( $form_id, 'save', __( 'Record Submission', 'ninja-forms' ), 3 );
+		foreach ( $default_action_results as $action_result ) {
+			if ( is_wp_error( $action_result ) ) {
+				return ninja_forms_ability_abort_form_creation( $form_id, $action_result );
+			}
+		}
 	}
 
 	$message = sprintf( __( 'Form created with ID %d', 'ninja-forms' ), $form_id );
@@ -322,6 +767,12 @@ function ninja_forms_ability_list_forms( $input ) {
 	);
 }
 
+/**
+ * Get a form and its requested related data.
+ *
+ * @param array $input Ability input.
+ * @return array|WP_Error Form result.
+ */
 function ninja_forms_ability_get_form( $input ) {
 	// Validate form_id
 	if ( empty( $input['form_id'] ) ) {
@@ -336,7 +787,6 @@ function ninja_forms_ability_get_form( $input ) {
 	if ( ! $form || ! $form->get_id() ) {
 		return new WP_Error( 'form_not_found', sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ) );
 	}
-
 	// Build base form data
 	global $wpdb;
 	$form_record = $wpdb->get_row( $wpdb->prepare(
@@ -348,7 +798,7 @@ function ninja_forms_ability_get_form( $input ) {
 		'id'         => $form_id,
 		'title'      => $form_record['title'],
 		'created_at' => (string) $form_record['created_at'],
-		'settings'   => $form->get_settings(),
+		'settings'   => ninja_forms_ability_project_form_settings( $form->get_settings() ),
 	);
 
 	// Include fields if requested (default: true)
@@ -359,6 +809,7 @@ function ninja_forms_ability_get_form( $input ) {
 		$fields_data = array();
 
 		foreach ( $fields as $field ) {
+			$field_settings = ninja_forms_ability_project_field( $field->get_settings() );
 			$fields_data[] = array(
 				'id'       => $field->get_id(),
 				'type'     => $field->get_setting( 'type' ),
@@ -366,7 +817,7 @@ function ninja_forms_ability_get_form( $input ) {
 				'key'      => $field->get_setting( 'key' ),
 				'order'    => $field->get_setting( 'order' ),
 				'required' => $field->get_setting( 'required' ),
-				'settings' => $field->get_settings(),
+				'settings' => $field_settings,
 			);
 		}
 
@@ -382,14 +833,12 @@ function ninja_forms_ability_get_form( $input ) {
 		$actions_data = array();
 
 		foreach ( $actions as $action ) {
-			$actions_data[] = array(
-				'id'       => $action->get_id(),
-				'type'     => $action->get_setting( 'type' ),
-				'label'    => $action->get_setting( 'label' ),
-				'active'   => $action->get_setting( 'active' ),
-				'order'    => $action->get_setting( 'order' ),
-				'settings' => $action->get_settings(),
-			);
+			$action_settings = $action->get_settings();
+			$action_settings['id'] = $action->get_id();
+			foreach ( array( 'type', 'label', 'active', 'order' ) as $setting ) {
+				$action_settings[ $setting ] = $action->get_setting( $setting );
+			}
+			$actions_data[] = ninja_forms_ability_project_action( $action_settings );
 		}
 
 		$form_data['actions'] = $actions_data;
@@ -400,7 +849,9 @@ function ninja_forms_ability_get_form( $input ) {
 	$include_calculations = isset( $input['include_calculations'] ) ? (bool) $input['include_calculations'] : true;
 	if ( $include_calculations ) {
 		$calculations = $form->get_setting( 'calculations' );
-		$form_data['calculations'] = is_array( $calculations ) ? $calculations : array();
+		$form_data['calculations'] = is_array( $calculations )
+			? ninja_forms_ability_project_calculations( $calculations )
+			: array();
 		$form_data['calculation_count'] = count( $form_data['calculations'] );
 	}
 
@@ -411,6 +862,12 @@ function ninja_forms_ability_get_form( $input ) {
 	);
 }
 
+/**
+ * Update form settings.
+ *
+ * @param array $input Ability input.
+ * @return array|WP_Error Form update result.
+ */
 function ninja_forms_ability_update_form( $input ) {
 	// Validate required input
 	if ( empty( $input['form_id'] ) ) {
@@ -423,6 +880,10 @@ function ninja_forms_ability_update_form( $input ) {
 	$form = Ninja_Forms()->form( $form_id )->get();
 	if ( ! $form || ! $form->get_id() ) {
 		return new WP_Error( 'form_not_found', sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ) );
+	}
+	$input = ninja_forms_ability_normalize_form_input( $input );
+	if ( is_wp_error( $input ) ) {
+		return $input;
 	}
 
 	// Build settings array with only the provided values
@@ -445,19 +906,8 @@ function ninja_forms_ability_update_form( $input ) {
 
 	// Only include settings that were provided in the input
 	foreach ( $setting_map as $input_key => $setting_key ) {
-		if ( isset( $input[ $input_key ] ) ) {
-			$value = $input[ $input_key ];
-
-			// Sanitize based on type
-			if ( in_array( $input_key, array( 'show_title', 'clear_complete', 'hide_complete', 'allow_public_link' ), true ) ) {
-				$value = (int) $value;
-			} elseif ( $input_key === 'logged_in' ) {
-				$value = (bool) $value;
-			} else {
-				$value = sanitize_text_field( $value );
-			}
-
-			$settings_to_update[ $setting_key ] = $value;
+		if ( array_key_exists( $input_key, $input ) ) {
+			$settings_to_update[ $setting_key ] = $input[ $input_key ];
 		}
 	}
 

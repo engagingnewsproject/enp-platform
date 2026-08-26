@@ -2,6 +2,11 @@ function NinjaOnboarding () {
     this.init();
 }
 
+/**
+ * Initialize onboarding state and modal instances.
+ *
+ * @return {void}
+ */
 NinjaOnboarding.prototype.init  = function () {
     this.pointer = jQuery("#nf_blinky");
     this.backdrop = jQuery("#nf_curtain");
@@ -16,21 +21,32 @@ NinjaOnboarding.prototype.init  = function () {
     this.builderClean = 'undefined' != typeof(Backbone) ? Backbone.Radio.channel('app').request('get:setting', 'clean') : true;
     this.builderCurrentDrawer = '';
     this.currentStep = 0;
+    /*
+     * Onboarding modals opt out of the NF modal defaults (dim overlay,
+     * click-outside-to-close): they carry onClose step logic and their own
+     * curtain, so a stray outside click must not advance or derail the tour.
+     */
     this.box = new jBox('Modal', {
         addClass: 'nf-onboarding-modal',
         title: '',
         closeButton: 'title',
+        overlay: false,
+        closeOnClick: false,
         onClose: function(e) {
             nfOB.modal(4);
         }
     });
     this.confirmBox = new jBox('Modal', {
         addClass: 'nf-onboarding-modal',
+        overlay: false,
+        closeOnClick: false,
     });
     this.congratulationsBox = new jBox('Modal', {
         addClass: 'nf-onboarding-modal',
         title: '',
         closeButton: 'title',
+        overlay: false,
+        closeOnClick: false,
         onClose: function(e) {
             nfOB.step(0);
         },

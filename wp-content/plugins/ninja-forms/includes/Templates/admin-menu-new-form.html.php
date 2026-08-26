@@ -185,6 +185,7 @@
 <script id="tmpl-nf-app-header-action-button" type="text/template">
     {{{ data.renderPublish() }}}
     {{{ data.maybeRenderCancel() }}}
+    {{{ data.renderAiAssistant() }}}
     {{{ data.renderPublicLink() }}}
 </script>
 
@@ -212,7 +213,10 @@
     <a class="nf-cancel viewChanges" title="<?php esc_html_e( 'View Changes', 'ninja-forms' ); ?>" style="text-decoration: none;" href="#"><span class="dashicons dashicons-backup"></span></a>
 </script>
 <script id="tmpl-nf-app-header-public-link" type="text/template">
-    <a class="nf-public-link publicLink" title="<?php esc_html_e( 'Public Link', 'ninja-forms' ); ?>" style="text-decoration: none;" href="#"><span class="dashicons dashicons-admin-links"></span></a>
+    <a class="nf-public-link publicLink" title="<?php esc_attr_e( 'Public Link — display your form', 'ninja-forms' ); ?>" aria-label="<?php esc_attr_e( 'Public Link — display your form', 'ninja-forms' ); ?>" style="text-decoration: none;" href="#"><span class="dashicons dashicons-admin-links"></span></a>
+</script>
+<script id="tmpl-nf-app-header-ai-assistant" type="text/template">
+    <a class="nf-ai-assistant aiAssistant" title="<?php esc_attr_e( 'Build with AI', 'ninja-forms' ); ?>" aria-label="<?php esc_attr_e( 'Build with AI', 'ninja-forms' ); ?>" style="text-decoration: none;" href="#"><span class="nf-ai-sparkle" aria-hidden="true"></span></a>
 </script>
 
 <script id="tmpl-nf-main" type="text/template">
@@ -336,9 +340,15 @@
         <span class="dashicons dashicons-admin-collapse"></span><span class="nf-expand-off"><?php esc_html_e( 'Full screen', 'ninja-forms' ); ?></span><span class="nf-expand-on"><?php esc_html_e( 'Half screen', 'ninja-forms' ); ?></span>
     </a>
     <span id="nf-drawer-footer"></span>
-    <# if(1 != nfAdmin.devMode){ #>
-    <div style="margin-top:100px;padding:20px;opacity:.5;text-align:center;">
-        For more technical features, <a href="<?php echo add_query_arg('page', 'nf-settings', admin_url('admin.php')); ?>#ninja_forms[builder_dev_mode]">enable Developer Mode</a>.
+    <# if(1 !== nfAdmin.devMode){ #>
+    <div class="nf-drawer-dev-mode-note" style="margin-top:100px;padding:20px;opacity:.5;text-align:center;">
+        <?php
+        printf(
+            /* translators: %s: URL to the Ninja Forms Developer Mode setting. */
+            wp_kses_post( __( 'For more technical features, <a href="%s">enable Developer Mode</a>.', 'ninja-forms' ) ),
+            esc_url( add_query_arg( 'page', 'nf-settings', admin_url( 'admin.php' ) ) . '#ninja_forms[builder_dev_mode]' )
+        );
+        ?>
     </div>
     <# } #>
 </script>
@@ -523,6 +533,51 @@
     <header class="nf-drawer-header">
         <a href="#" title="<?php esc_html_e( 'Done', 'ninja-forms' ); ?>" class="nf-button primary nf-close-drawer" tabindex="-1"><?php esc_html_e( 'Done', 'ninja-forms' ); ?></a>
     </header>
+</script>
+
+<script id="tmpl-nf-drawer-header-ai-assistant" type="text/template">
+    <header class="nf-drawer-header">
+        <a href="#" title="<?php esc_html_e( 'Done', 'ninja-forms' ); ?>" class="nf-button primary nf-close-drawer" tabindex="-1"><?php esc_html_e( 'Done', 'ninja-forms' ); ?></a>
+    </header>
+</script>
+
+<script id="tmpl-nf-drawer-content-ai-assistant" type="text/template">
+    <div class="nf-ai-chat">
+        <div class="nf-ai-chat-title">
+            <span class="nf-ai-sparkle" aria-hidden="true"></span> <?php esc_html_e( 'AI Assistant', 'ninja-forms' ); ?>
+        </div>
+        <div class="nf-ai-chat-log" role="log" aria-live="polite"></div>
+        <div class="nf-ai-chat-controls">
+            <button type="button" class="nf-ai-start-new-chat"><?php esc_html_e( 'Start new chat', 'ninja-forms' ); ?></button>
+            <div class="nf-ai-model-control">
+                <button type="button" class="nf-ai-model-trigger" aria-expanded="false">
+                    <span class="nf-ai-model-current"><?php esc_html_e( 'Choose a model', 'ninja-forms' ); ?></span>
+                    <span class="dashicons dashicons-arrow-down-alt2" aria-hidden="true"></span>
+                </button>
+                <div class="nf-ai-model-menu" hidden>
+                    <input type="search" class="nf-ai-model-search" placeholder="<?php esc_attr_e( 'Search models', 'ninja-forms' ); ?>">
+                    <div class="nf-ai-model-list"></div>
+                </div>
+            </div>
+        </div>
+        <div class="nf-ai-chat-input">
+            <textarea rows="1" placeholder="<?php esc_attr_e( 'Ask for a change…', 'ninja-forms' ); ?>"></textarea>
+            <button type="button" class="nf-ai-chat-send" title="<?php esc_attr_e( 'Send', 'ninja-forms' ); ?>" aria-label="<?php esc_attr_e( 'Send', 'ninja-forms' ); ?>"><span class="dashicons dashicons-arrow-up-alt"></span></button>
+        </div>
+    </div>
+</script>
+
+<script id="tmpl-nf-ai-save-first" type="text/template">
+    <div class="modal-template nf-ai-save-first">
+        <p><?php esc_html_e( 'The AI Assistant works with saved forms, so this one needs a name and a place in the database before it can start.', 'ninja-forms' ); ?></p>
+        <label for="nf-ai-save-first-title"><?php esc_html_e( 'What would you like to call it?', 'ninja-forms' ); ?></label>
+        <input type="text" id="nf-ai-save-first-title" class="nf-ai-save-first-title" value="{{ data.title }}">
+        <div id="nf-ai-save-first-error" role="alert" style="display:none;"></div>
+        <div class="actions">
+            <a href="#" class="nf-button secondary nf-ai-save-first-cancel"><?php esc_html_e( 'Not yet', 'ninja-forms' ); ?></a>
+            <button class="primary nf-button nf-ai-save-first-go"><?php esc_html_e( 'Save and start', 'ninja-forms' ); ?></button>
+        </div>
+    </div>
 </script>
 
 <script id="tmpl-nf-drawer-header-new-form" type="text/template">
@@ -870,7 +925,7 @@ Label Three
         if ( 'undefined' != typeof columns.value ) {
             #>
              <div>
-                <input type="text" class="setting" value="{{{ data.value }}}" data-id="value">
+                <input type="text" class="setting" value="{{{ _.escape( data.value ) }}}" data-id="value">
             </div>
             <#
         }

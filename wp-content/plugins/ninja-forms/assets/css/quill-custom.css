@@ -34,6 +34,104 @@
     font-size: 20px !important;
 }
 
+/* The custom list item intentionally omits Quill's persisted ql-ui span.
+ * Draw the same editor-only markers directly on the list item instead. */
+.ql-editor li::before {
+    display: inline-block;
+    margin-left: -1.5em;
+    margin-right: .3em;
+    text-align: right;
+    white-space: nowrap;
+    width: 1.2em;
+}
+
+.ql-editor li[data-list="bullet"]::before {
+    content: "\2022";
+    font-size: 1.25em;
+    font-weight: 700;
+    line-height: 1;
+    vertical-align: -.05em;
+}
+
+.ql-editor li[data-list="ordered"]:not([class*="ql-indent-"])::before {
+    content: counter(list-0, decimal) ". ";
+}
+
+.ql-editor li[data-list="ordered"].ql-indent-1::before {
+    content: counter(list-1, lower-alpha) ". ";
+}
+
+.ql-editor li[data-list="ordered"].ql-indent-2::before {
+    content: counter(list-2, lower-roman) ". ";
+}
+
+.ql-editor li[data-list="ordered"].ql-indent-3::before {
+    content: counter(list-3, decimal) ". ";
+}
+
+.ql-editor li[data-list="ordered"].ql-indent-4::before {
+    content: counter(list-4, lower-alpha) ". ";
+}
+
+.ql-editor li[data-list="ordered"].ql-indent-5::before {
+    content: counter(list-5, lower-roman) ". ";
+}
+
+.ql-editor li[data-list="ordered"].ql-indent-6::before {
+    content: counter(list-6, decimal) ". ";
+}
+
+.ql-editor li[data-list="ordered"].ql-indent-7::before {
+    content: counter(list-7, lower-alpha) ". ";
+}
+
+.ql-editor li[data-list="ordered"].ql-indent-8::before {
+    content: counter(list-8, lower-roman) ". ";
+}
+
+.ql-editor li[data-list="ordered"].ql-indent-9::before {
+    content: counter(list-9, decimal) ". ";
+}
+
+/* Quill's default three-em jump per level is too wide in the settings drawer.
+ * Keep the base marker space and use a two-em jump for each nested level. */
+.ql-editor li.ql-indent-1:not(.ql-direction-rtl) { padding-left: 3.5em; }
+.ql-editor li.ql-indent-2:not(.ql-direction-rtl) { padding-left: 5.5em; }
+.ql-editor li.ql-indent-3:not(.ql-direction-rtl) { padding-left: 7.5em; }
+.ql-editor li.ql-indent-4:not(.ql-direction-rtl) { padding-left: 9.5em; }
+.ql-editor li.ql-indent-5:not(.ql-direction-rtl) { padding-left: 11.5em; }
+.ql-editor li.ql-indent-6:not(.ql-direction-rtl) { padding-left: 13.5em; }
+.ql-editor li.ql-indent-7:not(.ql-direction-rtl) { padding-left: 15.5em; }
+.ql-editor li.ql-indent-8:not(.ql-direction-rtl) { padding-left: 17.5em; }
+.ql-editor li.ql-indent-9:not(.ql-direction-rtl) { padding-left: 19.5em; }
+
+.ql-editor li.ql-indent-1.ql-direction-rtl { padding-right: 3.5em; }
+.ql-editor li.ql-indent-2.ql-direction-rtl { padding-right: 5.5em; }
+.ql-editor li.ql-indent-3.ql-direction-rtl { padding-right: 7.5em; }
+.ql-editor li.ql-indent-4.ql-direction-rtl { padding-right: 9.5em; }
+.ql-editor li.ql-indent-5.ql-direction-rtl { padding-right: 11.5em; }
+.ql-editor li.ql-indent-6.ql-direction-rtl { padding-right: 13.5em; }
+.ql-editor li.ql-indent-7.ql-direction-rtl { padding-right: 15.5em; }
+.ql-editor li.ql-indent-8.ql-direction-rtl { padding-right: 17.5em; }
+.ql-editor li.ql-indent-9.ql-direction-rtl { padding-right: 19.5em; }
+
+/* Quill models a table cell as the block itself. These Visual-mode markers
+ * render cell text like the semantic heading restored in Source/save (#8027). */
+.ql-editor td[data-nf-heading="1"] {
+    font-size: 28px !important;
+    font-weight: bold !important;
+}
+
+.ql-editor td[data-nf-heading="2"] {
+    font-size: 24px !important;
+    font-weight: bold !important;
+}
+
+.ql-editor td[data-nf-heading="3"] {
+    font-size: 20px !important;
+    font-weight: bold !important;
+}
+
 .ql-toolbar.ql-snow .ql-formats {
     margin-right: 8px !important;
 }

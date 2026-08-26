@@ -218,6 +218,44 @@ class WPN_Helper
     }
 
     /**
+     * Apply the safe-HTML allowlist to a list field's option labels.
+     *
+     * Labels are user-facing and may legitimately carry basic formatting, so
+     * they are allowlisted rather than escaped or stripped. Option values are
+     * identifiers rather than markup and are left untouched here — they are
+     * escaped where they are displayed instead.
+     *
+     * wp_kses_post() normalises a bare ampersand to &amp;. Labels are edited in
+     * a plain text box, so a re-encoded ampersand resurfaces to the person
+     * editing the form as a literal "&amp;" and survives every subsequent save.
+     * Restoring just the ampersand keeps the round trip stable. Angle brackets
+     * deliberately stay encoded: anything wp_kses_post left behind as &lt; is
+     * text, and decoding it would let it be parsed as markup again.
+     *
+     * @param $options array Option rows, each optionally carrying a 'label'.
+     * @return array|mixed The options with their labels cleaned.
+     */
+    public static function kses_list_options( $options )
+    {
+        if( ! is_array( $options ) ) return $options;
+
+        foreach( $options as $index => $option ) {
+
+            if( ! is_array( $option ) ) continue;
+            if( ! isset( $option[ 'label' ] ) ) continue;
+            if( ! is_string( $option[ 'label' ] ) || '' === $option[ 'label' ] ) continue;
+
+            $options[ $index ][ 'label' ] = str_replace(
+                '&amp;',
+                '&',
+                wp_kses_post( $option[ 'label' ] )
+            );
+        }
+
+        return $options;
+    }
+
+    /**
      * @param $value
      * @return array|string
      */

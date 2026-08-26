@@ -5,7 +5,7 @@ Donate link: https://lumumbas.blog/support-wp-plugins
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.2.1
+Stable tag: 3.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,9 +32,26 @@ Footnotes Made Easy is a simple but powerful plugin for adding footnotes to your
 * Compatible with the Classic Editor and the Gutenberg block editor
 * Lots of configuration options
 
+== Upgrade to Footnotes Made Easy Pro ==
+
+Need to cite sources properly? **[Footnotes Made Easy Pro](https://altvisewp.com/plugins/footnotes-made-easy/)** turns your footnotes into a full academic referencing system, built right on top of the free plugin you already use.
+
+**Pro features:**
+
+* **Academic citations** — format references in APA, MLA, and Chicago styles automatically
+* **10 source types** — books, journals, websites, newspapers, films, theses, and more, each formatted correctly for every style
+* **DOI & ISBN auto-fetch** — paste a DOI or ISBN and the source details (title, author, publisher, year) fill in for you
+* **Reusable Citation Library** — save a reference once and reuse it across any post; search, filter, and insert in seconds
+* **Gutenberg sidebar panel** — manage, edit, and insert footnotes directly from the block editor sidebar
+* **Priority support** — direct help from the AltviseWP team
+
+Everything in the free plugin keeps working exactly as it does today — Pro simply adds the citation and referencing tools on top.
+
+**[Get Footnotes Made Easy Pro &rarr;](https://altvisewp.com/plugins/footnotes-made-easy/)**
+
 **Footnotes Made Easy is a fork of [WP Footnotes](https://github.com/drzax/wp-footnotes "Github - wp-footnotes"), a plugin by Simon Elvery.**
 
-**For the latest code, planned enhancements and known issues, visit the [GitHub page](https://github.com/altvisewp/footnotes-made-easy/s "Github").**
+**For the latest code, planned enhancements and known issues, visit the [GitHub page](https://github.com/altvisewp/footnotes-made-easy/ "Github").**
 
 == Getting Started ==
 
@@ -139,6 +156,14 @@ Yes. Add the `(( ))` syntax directly inside any text block.
 
 Yes. See the Multisite section above for configuration details.
 
+= What's the difference between the free version and Pro? =
+
+The free version handles everything you need to add, number, link, and display footnotes. Footnotes Made Easy Pro adds a full academic referencing layer on top: automatic citation formatting in APA, MLA, and Chicago styles across 10 source types, DOI and ISBN auto-fetch, a reusable Citation Library, a Gutenberg sidebar panel, and priority support. Learn more on the [Pro page](https://altvisewp.com/plugins/footnotes-made-easy/).
+
+= Will upgrading to Pro change how my existing footnotes work? =
+
+No. Pro is built on top of the free plugin, so all your existing footnotes and settings keep working exactly as they do now. Pro simply adds the citation and referencing tools alongside what you already have.
+
 = Does the plugin remove its data when uninstalled? =
 
 Yes. Deleting the plugin via the WordPress admin removes all stored settings and user meta from the database. If you want to preserve settings for a future reinstall, enable the **Preserve settings on uninstall** option in the Tools page before deleting.
@@ -159,6 +184,10 @@ Full documentation is at [docs.altvisewp.com/footnotes-made-easy](https://docs.a
 == Changelog ==
 
 I use semantic versioning, with the first release being 1.0.
+
+= 3.2.2 [August 12, 2026] =
+* Fixed: The footnotes header and footer text could not be translated on multilingual sites [Issue #53](https://github.com/altvisewp/footnotes-made-easy/issues/53).
+* Fixed: Minor UI fixes
 
 = 3.2.1 [June 23, 2026] =
 * Fixed: Duplicate footnote text appearing at the bottom of the page when Pretty Tooltips was enabled. [#51](https://github.com/altvisewp/footnotes-made-easy/issues/51)
@@ -202,5 +231,5 @@ I use semantic versioning, with the first release being 1.0.
 
 == Upgrade Notice ==
 
-= 3.2.1 =
-Fixes a duplicate footnote appearing at the bottom of the page with Pretty Tooltips enabled, and footnote text rendering too large on some themes. Recommended for all users.
+= 3.2.2 =
+Minor UI fixes and translation issues fixes. 

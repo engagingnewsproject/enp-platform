@@ -872,7 +872,9 @@ return apply_filters( 'ninja_forms_field_settings', array(
         'type' => 'textbox',
         'label' => esc_html__( 'Label' , 'ninja-forms' ),
         // This text was located below the element '%n will be used to signfify the number of seconds'
-        'value' => sprintf( esc_textarea( __( 'Please wait %s seconds', 'ninja-forms' ) ), '%n'),
+        // str_replace (not sprintf) so a malformed/stale translation containing stray "%" characters
+        // can't throw a fatal ValueError on PHP 8+ - see issue #8097.
+        'value' => str_replace( '%s', '%n', esc_textarea( __( 'Please wait %s seconds', 'ninja-forms' ) ) ),
         'width' => '',
         'group' => '',
 

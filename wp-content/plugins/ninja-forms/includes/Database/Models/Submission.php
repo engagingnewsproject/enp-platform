@@ -517,7 +517,15 @@ class NF_Database_Models_Submission
                        $submissionCount = count($fieldsetFieldSubmissionCollection);
                        
                             foreach ($fieldsetFieldSubmissionCollection as  &$fieldsetFieldSubmission) {
-                                
+
+                                $fieldsetFieldSubmission['value'] = Ninja_Forms()->fieldsetRepeater
+                                        ->formatFieldsetFieldValue(
+                                            $fieldsetFieldId,
+                                            $fieldsetFieldSubmission['value'],
+                                            $fieldType,
+                                            $fieldsetSettings
+                                        );
+
                                 if(is_array($fieldsetFieldSubmission['value'])){
 
                                     $fieldsetFieldSubmission['value']= implode(', ',$fieldsetFieldSubmission['value']);
