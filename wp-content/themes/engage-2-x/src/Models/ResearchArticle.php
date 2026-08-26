@@ -157,7 +157,7 @@ class ResearchArticle extends Post {
         $related = [];
         $term_ids = wp_get_post_terms($this->ID, $taxonomies[$this->post_type], ['fields' => 'ids']);
         if (!is_wp_error($term_ids) && !empty($term_ids)) {
-            $related = Timber::get_posts(array_merge($base_args, [
+            $collection = Timber::get_posts(array_merge($base_args, [
                 'tax_query' => [
                     [
                         'taxonomy' => $taxonomies[$this->post_type],
@@ -165,7 +165,8 @@ class ResearchArticle extends Post {
                         'terms'    => $term_ids,
                     ],
                 ],
-            ]))->to_array();
+            ]));
+            $related = $collection ? $collection->to_array() : [];
         }
 
         // 2. Backfill with other recent posts of the same type.
@@ -174,11 +175,11 @@ class ResearchArticle extends Post {
             foreach ($related as $post) {
                 $exclude[] = $post->ID;
             }
-            $fill = Timber::get_posts(array_merge($base_args, [
+            $collection = Timber::get_posts(array_merge($base_args, [
                 'post__not_in'   => $exclude,
                 'posts_per_page' => $limit - count($related),
-            ]))->to_array();
-            $related = array_merge($related, $fill);
+            ]));
+            $related = array_merge($related, $collection ? $collection->to_array() : []);
         }
 
         return $related;
