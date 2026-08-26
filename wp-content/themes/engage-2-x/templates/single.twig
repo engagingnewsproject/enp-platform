@@ -79,7 +79,7 @@
 
 						{# Related posts — research and blogs singles only #}
 						{% if post.post_type == "research" or post.post_type == "blogs" %}
-							{% include 'partial/related-posts.twig' with { related: post.getRelatedPosts(4), post: post } %}
+							{% include 'partial/related-posts.twig' with { related: post.getRelatedPosts(3), post: post } %}
 						{% endif %}
 					</div>
 				{% if post.post_type != "team" and post.post_type != "board" %}

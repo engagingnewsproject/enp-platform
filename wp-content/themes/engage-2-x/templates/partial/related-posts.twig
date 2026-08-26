@@ -1,5 +1,8 @@
 {#
 	Related posts list shown below `research` and `blogs` single articles.
+	Replaces the Recent Posts Widget Extended (RPWE) plugin.
+
+	Reuses partial/tile.twig so the cards match the rest of the site.
 
 	@props
 		- related: array of Timber\Post — from post.getRelatedPosts
@@ -9,25 +12,15 @@
 	{% set heading = post.post_type == 'research' ? 'Related research' : 'Related posts' %}
 	<section class="related-posts" aria-labelledby="related-posts__title">
 		<h2 class="related-posts__title" id="related-posts__title">{{ heading }}</h2>
-		<ul class="related-posts__list">
+		<div class="tiles grid grid--col-12 grid--gap-20 tiles--{{ post.post_type }}">
 			{% for item in related %}
-				<li class="related-posts__item">
-					<a class="related-posts__link" href="{{ item.link }}">
-						<div class="related-posts__img-wrap">
-							<img class="related-posts__img"
-								src="{{ item.thumbnail ? item.thumbnail.src('thumbnail') : theme.link ~ '/assets/img/default-logo.png' }}"
-								alt=""
-								width="150"
-								height="150"
-								loading="lazy" />
-						</div>
-						<span class="related-posts__text">
-							<span class="related-posts__item-title">{{ item.title }}</span>
-							<time class="related-posts__date" datetime="{{ item.date('Y-m-d') }}">{{ item.date }}</time>
-						</span>
-					</a>
-				</li>
+				{% include "partial/tile.twig" with {
+					'tile': item,
+					'index': loop.index,
+					'loadEagerTiles': 0,
+					'post_type': item.post_type,
+				} %}
 			{% endfor %}
-		</ul>
+		</div>
 	</section>
 {% endif %}
