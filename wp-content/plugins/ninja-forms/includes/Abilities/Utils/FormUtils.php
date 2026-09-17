@@ -1152,6 +1152,15 @@ function ninja_forms_ability_embed_form( $input ) {
 			}
 
 			if ( $existing_page ) {
+				// Verify user can edit this specific post before returning its content.
+				// @see https://github.com/Saturday-Drive/ninja-forms/issues/8124
+				if ( ! current_user_can( 'edit_post', $existing_page->ID ) ) {
+					return array(
+						'success' => false,
+						'message' => __( 'You do not have permission to edit this post.', 'ninja-forms' ),
+					);
+				}
+
 				// PAGE FOUND - Return content for user to review
 				$blocks = parse_blocks( $existing_page->post_content );
 				$readable_blocks = array();
@@ -1210,6 +1219,17 @@ function ninja_forms_ability_embed_form( $input ) {
 			$target_post = get_page_by_title( $post_title, OBJECT, $post_type );
 
 			if ( ! $target_post && $confirm_create ) {
+				// Verify user can create posts of this type (defense in depth).
+				// @see https://github.com/Saturday-Drive/ninja-forms/issues/8124
+				$post_type_object = get_post_type_object( $post_type );
+				$create_cap       = $post_type_object ? $post_type_object->cap->create_posts : 'edit_posts';
+				if ( ! current_user_can( $create_cap ) ) {
+					return array(
+						'success' => false,
+						'message' => __( 'You do not have permission to create posts.', 'ninja-forms' ),
+					);
+				}
+
 				// Create new page
 				$new_post_id = wp_insert_post( array(
 					'post_title'   => $post_title,
@@ -1243,6 +1263,15 @@ function ninja_forms_ability_embed_form( $input ) {
 
 		$post_id = $target_post->ID;
 		$result_message = '';
+
+		// Verify user can edit this specific post before modifying it.
+		// @see https://github.com/Saturday-Drive/ninja-forms/issues/8124
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return array(
+				'success' => false,
+				'message' => __( 'You do not have permission to edit this post.', 'ninja-forms' ),
+			);
+		}
 
 		// Handle embedding based on method
 		if ( $embed_method === 'metabox' ) {

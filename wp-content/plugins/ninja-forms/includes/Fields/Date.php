@@ -149,11 +149,18 @@ class NF_Fields_Date extends NF_Fields_Textbox
 
     private function stringify_value( $field_value, $field )
     {
-        return self::combine_value_parts(
-            $field_value,
-            1 == $field->get_setting( 'hours_24' ),
-            $field->get_setting( 'date_mode' )
-        );
+        $hours_24 = false;
+        $date_mode = '';
+
+        if ( is_object( $field ) ) {
+            $hours_24 = 1 == $field->get_setting( 'hours_24' );
+            $date_mode = $field->get_setting( 'date_mode' );
+        } elseif ( is_array( $field ) && isset ( $field[ 'settings' ] ) ) {
+            $hours_24 = isset ( $field[ 'settings' ][ 'hours_24' ] ) && 1 == $field[ 'settings' ][ 'hours_24' ];
+            $date_mode = isset ( $field[ 'settings' ][ 'date_mode' ] ) ? $field[ 'settings' ][ 'date_mode' ] : '';
+        }
+
+        return self::combine_value_parts( $field_value, $hours_24, $date_mode );
     }
 
     /**

@@ -217,6 +217,123 @@ class WPN_Helper
         return $value;
     }
 
+
+    /**
+     * Prepare a value a site visitor submitted for storage.
+     *
+     * A visitor typing into a form field is writing text, not markup. Running
+     * the safe-HTML allowlist over that text does two things customers have
+     * reported since 2019 (issue #4003): it rewrites a bare ampersand as
+     * &amp;, and it deletes anything that looks like a tag it does not allow,
+     * so "Try to understand <redacted>" reaches the database as
+     * "Try to understand ". Encoding instead of allowlisting loses nothing and
+     * leaves nothing a browser could parse: every character survives, and it
+     * survives as text.
+     *
+     * Entities are deliberately double-encoded. Someone writing about HTML who
+     * types the literal characters "&amp;" is storing five characters, and must
+     * read those five characters back rather than a bare ampersand.
+     *
+     * A field that stores markup on purpose - the Paragraph field with its rich
+     * text editor on - passes $allow_html and keeps the allowlist.
+     *
+     * Pair this with decode_submission_value(), which is applied once wherever a
+     * stored value is read back out.
+     *
+     * @see https://github.com/Saturday-Drive/ninja-forms/issues/4003
+     *
+     * @param mixed $value      Submitted value; arrays are handled per item.
+     * @param bool  $allow_html Whether the field legitimately stores markup.
+     * @return array|string
+     */
+    public static function encode_submission_value( $value, $allow_html = false )
+    {
+        if ( is_array( $value ) ) {
+            $encoded = array();
+            foreach ( $value as $key => $item ) {
+                $encoded[ $key ] = self::encode_submission_value( $item, $allow_html );
+            }
+            return $encoded;
+        }
+
+        if ( ! is_string( $value ) ) return $value;
+
+        if ( $allow_html ) return wp_kses_post( $value );
+
+        return htmlspecialchars( $value, ENT_QUOTES, 'UTF-8', true );
+    }
+
+
+    /**
+     * Whether a field legitimately stores markup rather than plain text.
+     *
+     * Almost every field holds what a visitor typed, and that is text: encoding
+     * it loses nothing and leaves nothing a browser could parse (issue #4003).
+     * Two fields genuinely hold markup - the Paragraph field with its rich text
+     * editor enabled, and the Signature field, whose value is an image. Those
+     * keep the safe-HTML allowlist.
+     *
+     * A field that cannot be read is treated as plain text, because the safe
+     * answer when we do not know is the one that stores nothing parsable.
+     *
+     * @see https://github.com/Saturday-Drive/ninja-forms/issues/4003
+     *
+     * @param mixed $field Field object, or its settings array.
+     * @return bool
+     */
+    public static function field_stores_html( $field )
+    {
+        if ( is_object( $field ) && method_exists( $field, 'get_setting' ) ) {
+            $type = $field->get_setting( 'type' );
+            $rte  = $field->get_setting( 'textarea_rte' );
+        } elseif ( is_array( $field ) ) {
+            $settings = isset( $field[ 'settings' ] ) && is_array( $field[ 'settings' ] ) ? $field[ 'settings' ] : $field;
+            $type     = isset( $settings[ 'type' ] ) ? $settings[ 'type' ] : '';
+            $rte      = isset( $settings[ 'textarea_rte' ] ) ? $settings[ 'textarea_rte' ] : false;
+        } else {
+            return false;
+        }
+
+        if ( 'signature' === $type ) return true;
+
+        return 'textarea' === $type && (bool) $rte;
+    }
+
+    /**
+     * Turn a stored field value back into the characters the visitor typed.
+     *
+     * Applied once per read, wherever a submission value leaves storage, so the
+     * submissions screen, the CSV exports, and email notifications all show the
+     * same thing. Submissions saved before issue #4003 was fixed already carry
+     * entities in the database, and this repairs them on the way out without
+     * rewriting any stored data.
+     *
+     * Decoding runs exactly once. A stored "&amp;amp;" yields the literal text
+     * "&amp;" and stops there, so a value cannot drift each time it is read.
+     *
+     * Callers displaying the result on an HTML page must still escape it for
+     * that page. This returns text, not markup.
+     *
+     * @see https://github.com/Saturday-Drive/ninja-forms/issues/4003
+     *
+     * @param mixed $value Stored value; arrays are handled per item.
+     * @return array|string
+     */
+    public static function decode_submission_value( $value )
+    {
+        if ( is_array( $value ) ) {
+            $decoded = array();
+            foreach ( $value as $key => $item ) {
+                $decoded[ $key ] = self::decode_submission_value( $item );
+            }
+            return $decoded;
+        }
+
+        if ( ! is_string( $value ) ) return $value;
+
+        return html_entity_decode( $value, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+    }
+
     /**
      * Apply the safe-HTML allowlist to a list field's option labels.
      *
@@ -327,6 +444,49 @@ class WPN_Helper
         return $returnString;
     }
 
+
+    /**
+     * Build one enclosed CSV line from a row of values.
+     *
+     * A CSV field wrapped in the enclosure character must double any occurrence
+     * of that character inside it, or the reader ends the field early and every
+     * later cell on the row shifts left. The bulk export used to wrap and join
+     * these values by hand without that step; the fault was invisible only for
+     * as long as submissions stored `&quot;` in place of a quote, and surfaced
+     * as soon as issue #4003 let real quotes through.
+     *
+     * Commas and newlines inside a value need no escaping once the value is
+     * enclosed, and are deliberately left alone.
+     *
+     * @see https://github.com/Saturday-Drive/ninja-forms/issues/4003
+     *
+     * @param array  $values     Cell values for this row.
+     * @param string $delimiter  Character between cells.
+     * @param string $enclosure  Character wrapping each cell.
+     * @param string $terminator End-of-line sequence.
+     * @return string
+     */
+    public static function csv_row( array $values, $delimiter = ',', $enclosure = '"', $terminator = "\n" )
+    {
+        $cells = array();
+
+        foreach ( $values as $value ) {
+            if ( is_array( $value ) ) {
+                $value = implode( ' ', $value );
+            } elseif ( is_bool( $value ) ) {
+                $value = $value ? 'true' : 'false';
+            } elseif ( is_null( $value ) ) {
+                $value = '';
+            }
+
+            $value = (string) $value;
+
+            $cells[] = $enclosure . str_replace( $enclosure, $enclosure . $enclosure, $value ) . $enclosure;
+        }
+
+        return implode( $delimiter, $cells ) . $terminator;
+    }
+
     public static function get_query_string( $key, $default = FALSE )
     {
         if( ! isset( $_GET[ $key ] ) ) return $default;
@@ -368,9 +528,9 @@ class WPN_Helper
         if ( is_serialized( $original ) ){
             // Ported with php5.2 support from https://magp.ie/2014/08/13/php-unserialize-string-after-non-utf8-characters-stripped-out/
             $parsed = preg_replace_callback( '!s:(\d+):"(.*?)";!s', 'WPN_Helper::parse_utf8_serialized' , $original );
-            $parsed = @unserialize( $parsed );
+            $parsed = @unserialize( $parsed, ['allowed_classes' => false] );
 
-            return ( $parsed ) ? $parsed : unserialize( $original ); // Fallback if parse error.
+            return ( $parsed ) ? $parsed : unserialize( $original, ['allowed_classes' => false] ); // Fallback if parse error.
         }
         return $original;
     }

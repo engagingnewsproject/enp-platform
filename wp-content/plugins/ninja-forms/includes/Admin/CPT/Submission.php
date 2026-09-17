@@ -236,9 +236,9 @@ class NF_Admin_CPT_Submission
             
             if(!in_array($fieldType,$arrayListTypes)){
                 
-            $value =implode('<br />',array_column(unserialize($sub->get_field_value($column)),'value'));
+            $value =implode('<br />',array_column(unserialize($sub->get_field_value($column), ['allowed_classes' => false]),'value'));
             }else{
-                $optionsByRepetition = array_column(unserialize($sub->get_field_value($column)),'value');
+                $optionsByRepetition = array_column(unserialize($sub->get_field_value($column), ['allowed_classes' => false]),'value');
                 
                 foreach($optionsByRepetition as &$repetition){
                     $repetition = implode(', ',$repetition);
@@ -255,8 +255,17 @@ class NF_Admin_CPT_Submission
                 $fields[$column] = Ninja_Forms()->form( $form_id )->get_field( $column );
             }
             $field = $fields[$column];
-            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped via safeEscapeFilteredValue()
-            echo $this->safeEscapeFilteredValue($value, $field, $sub_id);
+
+            // A plain text field holds what the visitor typed, so it is shown as
+            // text: the allowlist would delete anything bracket-shaped, which is
+            // the data loss reported in issue #4003. Fields that hold markup on
+            // purpose keep the allowlist.
+            if ( ! WPN_Helper::field_stores_html( $field ) ) {
+                echo esc_html( apply_filters( 'ninja_forms_custom_columns', $value, $field, $sub_id ) );
+            } else {
+                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped via safeEscapeFilteredValue()
+                echo $this->safeEscapeFilteredValue($value, $field, $sub_id);
+            }
         }
 
     }

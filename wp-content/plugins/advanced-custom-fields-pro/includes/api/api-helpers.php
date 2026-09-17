@@ -2526,6 +2526,15 @@ function acf_upload_file( $uploaded_file ) {
 	$file     = $file['file'];
 	$filename = basename( $file );
 
+	// Reject any PDF without a %PDF- header.
+	if ( 'application/pdf' === $type ) {
+		$head = file_get_contents( $file, false, null, 0, 1024 );
+		if ( false === $head || 0 !== strpos( ltrim( $head, "\x00..\x20" ), '%PDF-' ) ) {
+			wp_delete_file( $file );
+			return __( 'Sorry, this file could not be uploaded.', 'acf' );
+		}
+	}
+
 	// Construct the object array
 	$object = array(
 		'post_title'     => $filename,
@@ -4157,23 +4166,40 @@ function acf_connect_attachment_to_post( $attachment_id = 0, $post_id = 0 ) {
  *
  * @since 5.5.8
  *
- * @param string $data The data to encrypt.
+ * @param string $data    The data to encrypt.
+ * @param string $context Optional domain-separation label. When non-empty, the key derivation
+ *                        and HMAC input are bound to this label so a token minted for one
+ *                        context cannot be verified as belonging to another. When empty, the
+ *                        legacy key derivation is used for back-compat with existing callers.
  * @return string|false Encrypted string, or false if encryption fails.
  */
-function acf_encrypt( $data = '' ) {
+function acf_encrypt( $data = '', string $context = '' ) {
 
 	if ( ! function_exists( 'openssl_encrypt' ) ) {
 		return false;
 	}
 
-	$key     = wp_hash( 'acf_encrypt' );
-	$mac_key = wp_hash( 'acf_encrypt_mac' );
-	$iv      = openssl_random_pseudo_bytes( openssl_cipher_iv_length( 'aes-256-cbc' ) );
+	if ( '' === $context ) {
+		$key     = wp_hash( 'acf_encrypt' );
+		$mac_key = wp_hash( 'acf_encrypt_mac' );
+	} else {
+		$key     = wp_hash( 'acf_encrypt|' . $context );
+		$mac_key = wp_hash( 'acf_encrypt_mac|' . $context );
+	}
+
+	$iv = openssl_random_pseudo_bytes( openssl_cipher_iv_length( 'aes-256-cbc' ) );
+	if ( false === $iv ) {
+		return false;
+	}
 
 	$encrypted_data = openssl_encrypt( $data, 'aes-256-cbc', $key, 0, $iv );
+	if ( false === $encrypted_data ) {
+		return false;
+	}
 
-	$payload = $encrypted_data . '::' . $iv;
-	$hmac    = hash_hmac( 'sha256', $payload, $mac_key, true );
+	$payload  = $encrypted_data . '::' . $iv;
+	$mac_data = '' === $context ? $payload : ( $context . '|' . $payload );
+	$hmac     = hash_hmac( 'sha256', $mac_data, $mac_key, true );
 
 	return base64_encode( $payload . $hmac );
 }
@@ -4184,10 +4210,13 @@ function acf_encrypt( $data = '' ) {
  *
  * @since 5.5.8
  *
- * @param string $data The string to decrypt.
+ * @param string $data    The string to decrypt.
+ * @param string $context Optional domain-separation label. Must match the context passed to
+ *                        acf_encrypt() at mint time. When empty, the legacy key derivation is
+ *                        used for back-compat with existing callers.
  * @return string|false Decrypted string, or false if the payload is malformed or decryption fails.
  */
-function acf_decrypt( $data = '' ) {
+function acf_decrypt( $data = '', string $context = '' ) {
 
 	if ( ! function_exists( 'openssl_decrypt' ) ) {
 		return false;
@@ -4202,11 +4231,19 @@ function acf_decrypt( $data = '' ) {
 		return false;
 	}
 
-	$mac_key = wp_hash( 'acf_encrypt_mac' );
+	if ( '' === $context ) {
+		$key     = wp_hash( 'acf_encrypt' );
+		$mac_key = wp_hash( 'acf_encrypt_mac' );
+	} else {
+		$key     = wp_hash( 'acf_encrypt|' . $context );
+		$mac_key = wp_hash( 'acf_encrypt_mac|' . $context );
+	}
+
 	$hmac    = substr( $raw, -32 );
 	$payload = substr( $raw, 0, -32 );
 
-	$expected = hash_hmac( 'sha256', $payload, $mac_key, true );
+	$mac_data = '' === $context ? $payload : ( $context . '|' . $payload );
+	$expected = hash_hmac( 'sha256', $mac_data, $mac_key, true );
 	if ( ! hash_equals( $expected, $hmac ) ) {
 		return false;
 	}
@@ -4214,8 +4251,6 @@ function acf_decrypt( $data = '' ) {
 	if ( strpos( $payload, '::' ) === false ) {
 		return false;
 	}
-
-	$key = wp_hash( 'acf_encrypt' );
 
 	list( $encrypted_data, $iv ) = explode( '::', $payload, 2 );
 

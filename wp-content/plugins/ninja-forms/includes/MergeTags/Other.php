@@ -135,7 +135,7 @@ class NF_MergeTags_Other extends NF_Abstracts_MergeTags
      * @param mixed $value The value to sanitize.
      * @return mixed The sanitized value with brackets converted to entities.
      */
-    protected function neutralize_shortcodes( $value )
+    public function neutralize_shortcodes( $value )
     {
         if ( ! is_string( $value ) ) {
             return $value;
@@ -174,12 +174,20 @@ class NF_MergeTags_Other extends NF_Abstracts_MergeTags
             $ip = $_SERVER['REMOTE_ADDR'];
         }
 
-        return apply_filters( 'ninja_forms-get_ip', apply_filters( 'nf_get_ip', $ip ) );
+        $ip = apply_filters( 'ninja_forms-get_ip', apply_filters( 'nf_get_ip', $ip ) );
+
+        // Neutralize shortcode brackets to prevent shortcode injection.
+        // @see https://github.com/Saturday-Drive/ninja-forms/issues/8123
+        return $this->neutralize_shortcodes( $ip );
     }
 
     protected function referer_url()
-    {   
-        return apply_filters( 'ninja_forms-referer_url_mt', wp_get_referer() );
+    {
+        $referer = apply_filters( 'ninja_forms-referer_url_mt', wp_get_referer() );
+
+        // Neutralize shortcode brackets to prevent shortcode injection.
+        // @see https://github.com/Saturday-Drive/ninja-forms/issues/8123
+        return $this->neutralize_shortcodes( $referer );
     }
 
     protected function mergetag_random( $length = 5 ) {

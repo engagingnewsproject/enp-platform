@@ -16,6 +16,27 @@
     overflow-y: auto !important;
 }
 
+/* Keep the scrollbar visible instead of only appearing on hover/scroll */
+.ql-editor::-webkit-scrollbar {
+    width: 10px;
+    cursor: default;
+}
+
+/* Without this the contenteditable text cursor (I-beam) bleeds into the scrollbar */
+.ql-editor::-webkit-scrollbar-thumb,
+.ql-editor::-webkit-scrollbar-track {
+    cursor: default;
+}
+
+.ql-editor::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+}
+
+.ql-editor::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
 /* Custom font sizes for headings and paragraph */
 .ql-editor p,
 .ql-editor .ql-size-normal {
@@ -259,6 +280,26 @@
 
 .code-view-wrapper .CodeMirror-gutters {
     padding-right: 5px;
+}
+
+/* Keep the scrollbar visible instead of only appearing on hover/scroll */
+.code-view-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* CodeMirror sets pointer-events: none on this element by default since it's
+   normally just a redraw proxy; restore it so the now-visible bar is draggable */
+.code-view-wrapper .CodeMirror-vscrollbar {
+    pointer-events: auto !important;
+}
+
+.code-view-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.35);
+    border-radius: 5px;
+}
+
+.code-view-wrapper .CodeMirror-vscrollbar::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .code-view .ql-toolbar {
