@@ -235,7 +235,7 @@ function ninja_forms_register_abilities() {
 				),
 			),
 			'execute_callback'   => 'ninja_forms_ability_create_form',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_manage_form_lifecycle',
 			'meta'               => array(
 				'show_in_rest' => true,
 				'annotations'  => array(
@@ -730,7 +730,7 @@ function ninja_forms_register_abilities() {
 				),
 			),
 			'execute_callback'    => 'ninja_forms_ability_delete_form',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_manage_form_lifecycle',
 			'meta'                => array(
 				'show_in_rest' => true,
 				'annotations'  => array(
@@ -881,7 +881,7 @@ function ninja_forms_register_abilities() {
 				),
 			),
 			'execute_callback'    => 'ninja_forms_ability_duplicate_form',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_manage_form_lifecycle',
 			'meta'                => array(
 				'show_in_rest' => true,
 				'annotations'  => array(
@@ -1404,7 +1404,7 @@ function ninja_forms_register_abilities() {
 				),
 			),
 			'execute_callback'    => 'ninja_forms_ability_get_submissions',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_read_submissions',
 			'meta'                => array(
 				'show_in_rest' => true,
 				'annotations'  => array(
@@ -1446,7 +1446,7 @@ function ninja_forms_register_abilities() {
 				),
 			),
 			'execute_callback'    => 'ninja_forms_ability_get_submission',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_read_submissions',
 			'meta'                => array(
 				'show_in_rest' => true,
 				'annotations'  => array(
@@ -1496,7 +1496,7 @@ function ninja_forms_register_abilities() {
 				),
 			),
 			'execute_callback'    => 'ninja_forms_ability_get_submission_fields',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_read_submissions',
 			'meta'                => array(
 				'show_in_rest' => true,
 				'annotations'  => array(
@@ -1544,7 +1544,7 @@ function ninja_forms_register_abilities() {
 				),
 			),
 			'execute_callback'    => 'ninja_forms_ability_update_submission',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_edit_submissions',
 			'meta'                => array(
 				'show_in_rest' => true,
 				'annotations'  => array(
@@ -1593,7 +1593,7 @@ function ninja_forms_register_abilities() {
 				),
 			),
 			'execute_callback'    => 'ninja_forms_ability_delete_submission',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_delete_submissions',
 			'meta'                => array(
 				'show_in_rest' => true,
 				'annotations'  => array(
@@ -1650,7 +1650,7 @@ function ninja_forms_register_abilities() {
 				),
 			),
 			'execute_callback'    => 'ninja_forms_ability_export_submissions',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_read_submissions',
 			'meta'                => array(
 				'show_in_rest' => true,
 				'annotations'  => array(
@@ -1703,7 +1703,7 @@ function ninja_forms_register_abilities() {
 				),
 			),
 			'execute_callback'    => 'ninja_forms_ability_process_submission',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_edit_submissions',
 			'meta'                => array(
 				'show_in_rest' => true,
 				'annotations'  => array(
@@ -1751,7 +1751,7 @@ function ninja_forms_register_abilities() {
 				),
 			),
 			'execute_callback'    => 'ninja_forms_ability_import_form',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_manage_form_lifecycle',
 			'meta'                => array(
 				'show_in_rest' => true,
 				'annotations'  => array(
@@ -1890,7 +1890,7 @@ function ninja_forms_register_abilities() {
 				),
 			),
 			'execute_callback'    => 'ninja_forms_ability_embed_form',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_embed_form',
 			'meta'                => array(
 				'show_in_rest' => true,
 				'annotations'  => array(
@@ -1939,7 +1939,7 @@ function ninja_forms_register_abilities() {
 				),
 			),
 			'execute_callback'    => 'ninja_forms_ability_get_public_link',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_manage_settings',
 			'meta'                => array(
 				'show_in_rest' => true,
 				'annotations'  => array(
@@ -1983,7 +1983,7 @@ function ninja_forms_register_abilities() {
 				'required' => array( 'success', 'message', 'settings', 'settings_by_group' ),
 			),
 			'execute_callback'    => 'ninja_forms_ability_get_plugin_settings',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_manage_settings',
 			'meta'                => array(
 				'show_in_rest' => true,
 				'annotations'  => array(
@@ -2050,7 +2050,7 @@ function ninja_forms_register_abilities() {
 				'required' => array( 'success', 'message', 'updated' ),
 			),
 			'execute_callback'    => 'ninja_forms_ability_update_plugin_settings',
-			'permission_callback' => 'ninja_forms_ability_can_manage_forms',
+			'permission_callback' => 'ninja_forms_ability_can_manage_settings',
 			'meta'                => array(
 				'show_in_rest' => true,
 				'annotations'  => array(

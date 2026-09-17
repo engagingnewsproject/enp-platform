@@ -92,7 +92,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
      */
     public function remove_legacy_submissions_page( $screen ) {
         if ( "nf_sub" === $screen->post_type && $screen->id === "edit-nf_sub") {
-            $form_id = !empty($_GET["form_id"]) ? "&form_id=" . $_GET["form_id"] : "";
+            $form_id = !empty($_GET["form_id"]) ? "&form_id=" . absint($_GET["form_id"]) : "";
             wp_safe_redirect( admin_url( "admin.php?page=nf-submissions" . $form_id ), 302, "Ninja Forms");
             exit;
         }
@@ -393,19 +393,26 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                     $redirect = urlencode( remove_query_arg( array( 'download_all', 'download_file' ) ) );
                     $url = admin_url( 'admin.php?page=nf-processing&action=download_all_subs&form_id=' . absint( $_REQUEST['form_id'] ) . '&redirect=' . $redirect . '&security=' . wp_create_nonce( 'ninja_forms_batch_nonce' ) );
                     $url = esc_url( $url );
+                    // Build HTML string in PHP, then JSON-encode for safe JS output.
+                    // @see https://github.com/Saturday-Drive/ninja-forms/issues/8103
+                    $button_html = '<a href="' . esc_attr( $url ) . '" class="button-secondary nf-download-all">' . esc_html__( 'Download All Submissions', 'ninja-forms' ) . '</a>';
                     ?>
-                    var button = '<a href="<?php echo $url; ?>" class="button-secondary nf-download-all"><?php echo esc_html__( 'Download All Submissions', 'ninja-forms' ); ?></a>';
+                    var button = <?php echo wp_json_encode( $button_html, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ); ?>;
                     <?php
                 }
 
                 if ( isset ( $_REQUEST['download_all'] ) && $_REQUEST['download_all'] != '' ) {
-                    $redirect = esc_url_raw( add_query_arg( array( 
-                        'download_file' => esc_html( $_REQUEST['download_all'] ),
+                    // Use sanitize_text_field for URL parameter value, not esc_html.
+                    // @see https://github.com/Saturday-Drive/ninja-forms/issues/8103
+                    $redirect = esc_url_raw( add_query_arg( array(
+                        'download_file' => sanitize_text_field( $_REQUEST['download_all'] ),
                         '_wpnonce' => wp_create_nonce( 'ninja_forms_download_submission_nonce' )
                     ) ) );
                     $redirect = remove_query_arg( array( 'download_all' ), $redirect );
+                    // Use wp_json_encode for JS context - provides proper escaping for string literals.
+                    // @see https://github.com/Saturday-Drive/ninja-forms/issues/8103
                     ?>
-                    document.location.href = "<?php echo $redirect; ?>";
+                    document.location.href = <?php echo wp_json_encode( $redirect, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ); ?>;
                     <?php
                 }
 

@@ -145,8 +145,7 @@ class NF_Admin_Processes_ExportSubmissions extends NF_Abstracts_BatchProcess
         }
         $filtered_labels = $csv_array[0][0];
 
-        $glue = $this->enclosure . $this->delimiter . $this->enclosure;
-        $constructed = $this->enclosure . implode($glue, $filtered_labels) . $this->enclosure . $this->terminator;
+        $constructed = WPN_Helper::csv_row($filtered_labels, $this->delimiter, $this->enclosure, $this->terminator);
         fwrite($file, $constructed);
         fclose($file);
     }
@@ -249,10 +248,8 @@ class NF_Admin_Processes_ExportSubmissions extends NF_Abstracts_BatchProcess
             return;
         }
 
-        $glue = $this->enclosure . $this->delimiter . $this->enclosure;
-
         foreach ($csv_array[1][0] as $filtered_row) {
-            $constructed = $this->enclosure . implode($glue, $filtered_row) . $this->enclosure . $this->terminator;
+            $constructed = WPN_Helper::csv_row($filtered_row, $this->delimiter, $this->enclosure, $this->terminator);
             fwrite($file, $constructed);
         }
 

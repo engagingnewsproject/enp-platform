@@ -125,6 +125,29 @@ final class NF_MergeTags_Deprecated extends NF_Abstracts_MergeTags
         return date( $format, time() );
     }
 
+    /**
+     * Neutralize shortcode brackets to prevent shortcode injection.
+     *
+     * Converts [ and ] to HTML entities so they display correctly
+     * but are not interpreted as shortcodes by do_shortcode().
+     *
+     * @see https://github.com/Saturday-Drive/ninja-forms/issues/8123
+     *
+     * @param mixed $value The value to sanitize.
+     * @return mixed The sanitized value with brackets converted to entities.
+     */
+    protected function neutralize_shortcodes( $value )
+    {
+        if ( ! is_string( $value ) ) {
+            return $value;
+        }
+
+        $value = str_replace( '[', '&#91;', $value );
+        $value = str_replace( ']', '&#93;', $value );
+
+        return $value;
+    }
+
     protected function system_ip()
     {
         $ip = '127.0.0.1';
@@ -138,7 +161,11 @@ final class NF_MergeTags_Deprecated extends NF_Abstracts_MergeTags
             $ip = $_SERVER['REMOTE_ADDR'];
         }
 
-        return apply_filters( 'ninja_forms-get_ip', apply_filters( 'nf_get_ip', $ip ) );
+        $ip = apply_filters( 'ninja_forms-get_ip', apply_filters( 'nf_get_ip', $ip ) );
+
+        // Neutralize shortcode brackets to prevent shortcode injection.
+        // @see https://github.com/Saturday-Drive/ninja-forms/issues/8123
+        return $this->neutralize_shortcodes( $ip );
     }
 
 

@@ -203,7 +203,7 @@ class NF_Database_Models_Submission
         $this->_field_values[ $field ] = get_post_meta($this->_id, $field, TRUE);
         $this->_field_values[ $field_ref ] = get_post_meta($this->_id, $field, TRUE);
 
-        return WPN_Helper::htmlspecialchars( $this->_field_values[ $field ] );
+        return WPN_Helper::decode_submission_value( $this->_field_values[ $field ] );
     }
 
     /**
@@ -309,9 +309,41 @@ class NF_Database_Models_Submission
     {
         $field_id = ( is_numeric( $field_ref ) ) ? $field_ref : $this->get_field_id_by_key( $field_ref );
 
-        $this->_field_values[ $field_id ] = WPN_Helper::kses_post( $value );
+        $this->_field_values[ $field_id ] = WPN_Helper::encode_submission_value(
+            $value,
+            $this->field_stores_html( $field_id )
+        );
 
         return $this;
+    }
+
+
+    /**
+     * Whether a field legitimately stores markup rather than plain text.
+     *
+     * Resolves the field, then defers to WPN_Helper::field_stores_html() so the
+     * storage path and the display path answer this the same way. A field that
+     * cannot be resolved is treated as plain text, because the safe answer when
+     * we do not know is the one that stores nothing parsable. See issue #4003.
+     *
+     * @see https://github.com/Saturday-Drive/ninja-forms/issues/4003
+     *
+     * @param int|string $field_id Field the value belongs to.
+     * @return bool
+     */
+    protected function field_stores_html( $field_id )
+    {
+        if ( ! is_numeric( $field_id ) ) return false;
+
+        try {
+            $field = $this->_form_id
+                ? Ninja_Forms()->form( $this->_form_id )->get_field( $field_id )
+                : Ninja_Forms()->form()->get_field( $field_id );
+        } catch ( \Exception $e ) {
+            return false;
+        }
+
+        return WPN_Helper::field_stores_html( $field );
     }
 
     /**

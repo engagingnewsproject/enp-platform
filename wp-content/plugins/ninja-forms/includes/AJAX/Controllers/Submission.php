@@ -298,13 +298,28 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
 
             /** Prepare Fields in repeater for Validation and Process */
             if( $field["type"] === "repeater" ){
+                // Build lookup of valid child field IDs from server-side definition.
+                // @see https://github.com/Saturday-Drive/ninja-forms/issues/8116
+                $valid_child_ids = array();
+                foreach( $field['fields'] as $child_field ) {
+                    $valid_child_ids[ (string) $child_field['id'] ] = $child_field;
+                }
+
                 foreach( $field["value"] as $index => $child_field_value ){
-                    foreach( $field['fields'] as $i => $child_field ) {
-                        if(strpos($index, $child_field['id']) !== false){
-                            // Apply whitelist to repeater child fields.
-                            // @see https://github.com/Saturday-Drive/ninja-forms/issues/8011
-                            $field['value'][$index] = $this->apply_field_whitelist( $child_field, $child_field_value, $whitelist );
-                        }
+                    // Extract child field ID from key (part before first dot).
+                    // Legitimate keys: "{childFieldId}.{instanceNumber}" e.g., "9.0", "9.1"
+                    $key_parts = explode( '.', (string) $index, 2 );
+                    $submitted_child_id = $key_parts[0];
+
+                    if( isset( $valid_child_ids[ $submitted_child_id ] ) ) {
+                        // Apply whitelist to repeater child fields using server-side definition.
+                        // @see https://github.com/Saturday-Drive/ninja-forms/issues/8011
+                        $child_field = $valid_child_ids[ $submitted_child_id ];
+                        $field['value'][$index] = $this->apply_field_whitelist( $child_field, $child_field_value, $whitelist );
+                    } else {
+                        // Discard entries with keys that don't match any known child field.
+                        // This prevents attackers from injecting rogue entries with arbitrary types.
+                        unset( $field['value'][$index] );
                     }
                 }
             }

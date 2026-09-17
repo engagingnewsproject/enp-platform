@@ -340,7 +340,7 @@
         <span class="dashicons dashicons-admin-collapse"></span><span class="nf-expand-off"><?php esc_html_e( 'Full screen', 'ninja-forms' ); ?></span><span class="nf-expand-on"><?php esc_html_e( 'Half screen', 'ninja-forms' ); ?></span>
     </a>
     <span id="nf-drawer-footer"></span>
-    <# if(1 !== nfAdmin.devMode){ #>
+    <# if(1 != nfAdmin.devMode){ #>
     <div class="nf-drawer-dev-mode-note" style="margin-top:100px;padding:20px;opacity:.5;text-align:center;">
         <?php
         printf(
