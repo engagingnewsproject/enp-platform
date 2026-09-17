@@ -1,0 +1,16 @@
+// Related posts list below `research` and `blogs` single articles.
+// Replaces the Recent Posts Widget Extended (RPWE) plugin.
+// Cards come from partial/tile.twig, so the grid and card styles are inherited
+// from _tiles.scss. Only the section wrapper and heading are styled here.
+.related-posts {
+	margin-top: $spacer;
+	padding-top: $spacer;
+	border-top: 1px solid $gray-light;
+}
+
+.related-posts__title {
+	font-family: $font-family-sans-serif;
+	color: $blue-dark;
+	font-size: $font-size-h3;
+	margin-bottom: $spacer-sm;
+}

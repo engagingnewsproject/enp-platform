@@ -44,6 +44,19 @@ return apply_filters( 'ninja_forms_plugin_settings_advanced', array(
 
     /*
     |--------------------------------------------------------------------------
+    | Disable AI Features
+    |--------------------------------------------------------------------------
+    */
+
+    'disable_ai_features' => array(
+        'id'    => 'disable_ai_features',
+        'type'  => 'checkbox',
+        'label' => esc_html__( 'Disable AI Features', 'ninja-forms' ),
+        'desc'  => esc_html__( 'Remove "Build with AI" and the builder\'s AI assistant everywhere. AI features use the AI provider connected to your WordPress site and send form descriptions and chat messages to it.', 'ninja-forms' ),
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
     | "Dev Mode"
     |--------------------------------------------------------------------------
     */

@@ -92,8 +92,8 @@ return apply_filters( 'ninja_forms_i18n_builder', array(
 	'cancel'    => esc_html__( 'Cancel', 'ninja-forms' ),
     'minVal'    => esc_html__( 'Min Value', 'ninja-forms' ),
     'maxVal'    => esc_html__( 'Max Value', 'ninja-forms' ),
-    'valueChars' => esc_html__( 'In order to prevent errors, values may only contain'
-		. ' a specific subset of characters ( a-z, 0-9, -, _, @, space ). You'
+    'valueChars' => esc_html__( 'The value stored when this option is chosen. Any'
+		. ' characters may be used, including accented and non-Latin ones. You'
 		. ' can use the option label in your success message(s) or email action(s) by adding'
 		. ' the :label attribute to your list field merge tags. For example:'
         . ' {field:key:label}', 'ninja-forms' ),

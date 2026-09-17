@@ -49,8 +49,8 @@ class NF_Admin_AddFormModal {
 
         wp_enqueue_script( 'nf-combobox', Ninja_Forms::$url . 'assets/js/lib/combobox.min.js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-button', 'jquery-ui-autocomplete' ) );
 
-        wp_enqueue_script( 'nf-jBox', Ninja_Forms::$url . 'assets/js/min/jBox.min.js', array( 'jquery' ) );
-        wp_enqueue_style( 'jBox', Ninja_Forms::$url . 'assets/css/jBox.css' );
+        wp_enqueue_script( 'nf-jBox', Ninja_Forms::$url . 'assets/js/min/jBox.min.js', array( 'jquery' ), Ninja_Forms::asset_version( 'assets/js/min/jBox.min.js' ) );
+        wp_enqueue_style( 'jBox', Ninja_Forms::$url . 'assets/css/jBox.css', array(), Ninja_Forms::asset_version( 'assets/css/jBox.css' ) );
 
         // wp_enqueue_style( 'jquery-smoothness', NINJA_FORMS_URL .'css/smoothness/jquery-smoothness.css' );
         ?>

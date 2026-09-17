@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Load utility files containing organized function groups
+require_once __DIR__ . '/Utils/NormalizationUtils.php';
 require_once __DIR__ . '/Utils/FormUtils.php';
 require_once __DIR__ . '/Utils/FieldUtils.php';
 require_once __DIR__ . '/Utils/SubmissionUtils.php';

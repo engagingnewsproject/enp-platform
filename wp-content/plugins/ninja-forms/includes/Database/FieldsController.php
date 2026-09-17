@@ -227,6 +227,19 @@ class NF_Database_FieldsController
 
             foreach( $field_data[ 'settings' ] as $key => $value ){
 
+                /*
+                 * A list field's options are an array, so they fall straight past the
+                 * is_string() guard below and were never sanitised. Labels may carry
+                 * basic formatting, so they go through the allowlist rather than being
+                 * escaped; values are identifiers and are escaped where they are shown.
+                 * $value is reassigned so the cleaned options are what actually reach
+                 * the meta query, not just the returned settings array.
+                 */
+                if( 'options' === $key && is_array( $value ) && WPN_Helper::maybe_disallow_unfiltered_html_for_sanitization() ){
+                    $value = WPN_Helper::kses_list_options( $value );
+                    $field_data[ 'settings' ][ $key ] = $value;
+                }
+
                 //Sanitize string settings if disallow_unfiltered_html is true
                 if(is_string($value) && WPN_Helper::maybe_disallow_unfiltered_html_for_sanitization()){
                     $field_type = isset($field_data['settings']['type']) ? $field_data['settings']['type'] : '';

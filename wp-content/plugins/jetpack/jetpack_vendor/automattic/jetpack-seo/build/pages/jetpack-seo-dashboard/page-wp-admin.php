@@ -87,9 +87,10 @@ function jetpack_seo_get_jetpack_seo_dashboard_wp_admin_menu_items() {
  */
 function jetpack_seo_jetpack_seo_dashboard_wp_admin_preload_data() {
 	// Define paths to preload - same for all pages
-	// Please also change packages/core-data/src/entities.js when changing this.
+	// This must exactly match the _fields list in packages/core-data/src/entities.js,
+	// same fields in the same order, or the preload is never consumed.
 	$preload_paths = array(
-		'/?_fields=description,gmt_offset,home,image_sizes,image_size_threshold,name,site_icon,site_icon_url,site_logo,timezone_string,url,page_for_posts,page_on_front,show_on_front',
+		'/?_fields=description,gmt_offset,home,image_max_bit_depth,image_sizes,image_size_threshold,image_strip_meta,name,site_icon,site_icon_url,site_logo,timezone_string,url,page_for_posts,page_on_front,show_on_front',
 		array( '/wp/v2/settings', 'OPTIONS' ),
 	);
 
@@ -145,8 +146,12 @@ function jetpack_seo_jetpack_seo_dashboard_wp_admin_enqueue_scripts( $hook_suffi
 	// Get all registered routes
 	$routes = jetpack_seo_get_jetpack_seo_dashboard_wp_admin_routes();
 
-	// Get boot module asset file for dependencies
+	// Get boot module asset file for dependencies. Plugins that build their own
+	// boot module use it; everyone else falls back to the copy bundled with Core.
 	$asset_file = __DIR__ . '/../../modules/boot/index.min.asset.php';
+	if ( ! file_exists( $asset_file ) ) {
+		$asset_file = ABSPATH . WPINC . '/js/dist/script-modules/boot/index.min.asset.php';
+	}
 	if ( file_exists( $asset_file ) ) {
 		$asset = require $asset_file;
 
@@ -154,6 +159,8 @@ function jetpack_seo_jetpack_seo_dashboard_wp_admin_enqueue_scripts( $hook_suffi
 		// 1. It ensures all the globals that are made available to the modules are loaded.
 		// 2. It initializes the boot module as an inline script.
 		wp_register_script( 'jetpack-seo-dashboard-wp-admin-prerequisites', '', $asset['dependencies'], $asset['version'], true );
+
+		$init_modules = [];
 
 		/*
 		 * Add inline script to initialize the app using initSinglePage (no menuItems).
@@ -166,9 +173,28 @@ function jetpack_seo_jetpack_seo_dashboard_wp_admin_enqueue_scripts( $hook_suffi
 		 * "Cannot unlock an undefined object". See <https://core.trac.wordpress.org/ticket/65103>.
 		 */
 		$init_js_function = <<<'JS'
-		( mountId, routes ) => {
+		( mountId, routes, initModules ) => {
 			const run = async () => {
 				const mod = await import( "@wordpress/boot" );
+				/*
+				 * Run the init modules here instead of delegating to
+				 * initSinglePage(): WordPress cores that bundle an older
+				 * @wordpress/boot (initModules support postdates WP 7.0's copy,
+				 * and the import map resolves @wordpress/boot to core's bundle
+				 * when core provides one) silently ignore the option, so init
+				 * modules would never execute. Running them before
+				 * initSinglePage() gives identical behavior on every core.
+				 */
+				for ( const id of initModules ?? [] ) {
+					try {
+						const initModule = await import( id );
+						if ( typeof initModule.init === "function" ) {
+							await initModule.init();
+						}
+					} catch ( error ) {
+						console.warn( "Failed to run boot init module:", id, error );
+					}
+				}
 				mod.initSinglePage( { mountId, routes } );
 			};
 			if ( document.readyState === "loading" ) {
@@ -177,14 +203,15 @@ function jetpack_seo_jetpack_seo_dashboard_wp_admin_enqueue_scripts( $hook_suffi
 				run();
 			}
 		}
-		JS;
+JS;
 		wp_add_inline_script(
 			'jetpack-seo-dashboard-wp-admin-prerequisites',
 			sprintf(
-				'( %s )( %s, %s );',
+				'( %s )( %s, %s, %s );',
 				$init_js_function,
 				wp_json_encode( 'jetpack-seo-dashboard-wp-admin-app', JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ),
-				wp_json_encode( $routes, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES )
+				wp_json_encode( $routes, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ),
+				wp_json_encode( $init_modules, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES )
 			)
 		);
 
@@ -204,6 +231,9 @@ function jetpack_seo_jetpack_seo_dashboard_wp_admin_enqueue_scripts( $hook_suffi
 				'id'     => '@wordpress/boot',
 			),
 		);
+
+		// Add init modules as static dependencies
+			// No init modules configured
 
 		// Add all registered routes as dependencies
 		foreach ( $routes as $route ) {
@@ -263,23 +293,23 @@ function jetpack_seo_jetpack_seo_dashboard_wp_admin_render_page() {
 		#wpwrap {
 			overflow-y: auto;
 		}
-		body {
+		body.js {
 			background: #fff;
 		}
 
 		/* Reset wp-admin padding */
-		#wpcontent {
+		body.js #wpcontent {
 			padding-inline-start: 0;
 		}
-		#wpbody-content {
+		body.js #wpbody-content {
 			padding-bottom: 0;
 		}
 
 		/* Hide legacy admin elements */
-		#wpbody-content > div:not(.boot-layout-container):not(#screen-meta) {
+		body.js #wpbody-content > div:not(#jetpack-seo-dashboard-wp-admin-app):not(#screen-meta) {
 			display: none;
 		}
-		#wpfooter {
+		body.js #wpfooter {
 			display: none;
 		}
 
@@ -308,6 +338,20 @@ function jetpack_seo_jetpack_seo_dashboard_wp_admin_render_page() {
 			}
 		}
 	</style>
+	<div class="wrap hide-if-js">
+		<h1 class="wp-heading-inline"><?php echo esc_html( get_admin_page_title() ); ?></h1>
+		<?php
+		wp_admin_notice(
+			__( 'This screen requires JavaScript. Enable JavaScript in your browser settings and reload the page.' ),
+			array( 'type' => 'error' )
+		);
+		?>
+	</div>
+	<?php
+	// Core's pre-CSS Modules Boot layout uses this class for viewport sizing.
+	// Remove it when the minimum supported WordPress version includes the Boot
+	// changes from Gutenberg #81756.
+	?>
 	<div id="jetpack-seo-dashboard-wp-admin-app" class="boot-layout-container"></div>
 	<?php
 }

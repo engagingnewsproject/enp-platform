@@ -10,7 +10,7 @@
         <input type="radio"
                id="nf-field-{{{ data.fieldID }}}-{{{ data.index }}}"
                name="nf-field-{{{ data.fieldID }}}"
-               class="{{{ data.classes }}} nf-element {{{ ( data.value == data.currentValue  || 1 == data.selected ) ? 'nf-checked' : '' }}}" value="{{{ data.value }}}" {{{ ( data.value == data.currentValue  || 1 == data.selected ) ? 'checked="checked"' : '' }}}
+               class="{{{ data.classes }}} nf-element {{{ ( data.value == data.currentValue  || 1 == data.selected ) ? 'nf-checked' : '' }}}" value="{{{ _.escape( data.value ) }}}" {{{ ( data.value == data.currentValue  || 1 == data.selected ) ? 'checked="checked"' : '' }}}
             aria-labelledby="nf-label-class-field-{{{ data.fieldID }}}-{{{ data.index }}}"
             <# if( data.required ) { #>
 			required aria-required="true"

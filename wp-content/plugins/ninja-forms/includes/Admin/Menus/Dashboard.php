@@ -112,17 +112,19 @@ final class NF_Admin_Menus_Dashboard extends NF_Abstracts_Submenu
                 "version"   => false
             ];
             // get active data from asset.php
-            if( file_exists( Ninja_Forms::$url . "build/nf-behavioral.asset.php" ) ){
-                $asset_php = include(Ninja_Forms::$url . "build/nf-behavioral.asset.php" );
+            if( file_exists( Ninja_Forms::$dir . "build/nf-behavioral.asset.php" ) ){
+                $asset_php = include( Ninja_Forms::$dir . "build/nf-behavioral.asset.php" );
                 $nf_be_data_asset_php["dependencies"] = array_merge( $nf_be_data_asset_php["dependencies"], $asset_php["dependencies"]);
                 $nf_be_data_asset_php["version"] = $asset_php["version"];
             }
-            // Enqueue the script
-            wp_enqueue_script('nf-be-data-script', Ninja_Forms::$url . 'build/nf-behavioral.js', $nf_be_data_asset_php["dependencies"], $nf_be_data_asset_php["version"], true);
-            wp_localize_script('nf-be-data-script', 'nfBeData', [
-                'restUrl'               =>  esc_url_raw( get_rest_url() ),
-                'token'                 =>  wp_create_nonce( 'wp_rest' )
-            ]);
+            // Enqueue the script only if the build file exists
+            if( file_exists( Ninja_Forms::$dir . 'build/nf-behavioral.js' ) ){
+                wp_enqueue_script('nf-be-data-script', Ninja_Forms::$url . 'build/nf-behavioral.js', $nf_be_data_asset_php["dependencies"], $nf_be_data_asset_php["version"], true);
+                wp_localize_script('nf-be-data-script', 'nfBeData', [
+                    'restUrl'               =>  esc_url_raw( get_rest_url() ),
+                    'token'                 =>  wp_create_nonce( 'wp_rest' )
+                ]);
+            }
             
         }
     }

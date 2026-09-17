@@ -382,7 +382,10 @@ class NF_Actions_Email extends SotAction implements InterfacesSotAction
                 if (empty($value) && ! isset($value)) {
                     $value = '';
                 }
-                if (is_array($value)) {
+                // Date fields store compound values (date/hour/minute/ampm parts) as an
+                // array and combine them into a formatted string via their own export
+                // filter below - flattening here first would destroy that structure.
+                if (is_array($value) && 'date' !== $field['type']) {
                     // Handle nested arrays (e.g., repeater fields without 'fields' metadata)
                     $value = implode(',', array_map(function ($v) {
                         if (is_array($v)) {

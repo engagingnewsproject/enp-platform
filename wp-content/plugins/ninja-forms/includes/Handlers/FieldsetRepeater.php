@@ -118,6 +118,88 @@ class NF_Handlers_FieldsetRepeater
     }
 
     /**
+     * Returns the authored settings of a single field within the fieldset
+     *
+     * @param string $fieldsetFieldReference Any reference to the child field
+     * @param array $fieldSettings Provided by (obj)$field->get_settings()
+     * @return array Empty when the child cannot be resolved
+     */
+    public function getFieldsetFieldSettings($fieldsetFieldReference, $fieldSettings)
+    {
+        if (
+            !isset($fieldSettings['fields']) ||
+            !is_array($fieldSettings['fields'])
+        ) {
+            return [];
+        }
+
+        $target = $this->reduceToFieldsetFieldId($fieldsetFieldReference);
+
+        foreach ($fieldSettings['fields'] as $field) {
+
+            if (!isset($field['id'])) continue;
+
+            if ($target === $this->reduceToFieldsetFieldId($field['id'])) {
+                return $field;
+            }
+        }
+
+        return [];
+    }
+
+    /**
+     * Render a fieldset child's stored value the way it reads outside a repeater
+     *
+     * Child fields keep their submission nested under the parent repeater, so
+     * the per-field-type display filters that run for a standard field never
+     * reach them. Date fields are stored as separate date/hour/minute/ampm
+     * parts, which is why an unformatted value surfaces as a bare date or as
+     * raw parts. See issue #7440.
+     *
+     * @param string $fieldsetFieldReference Any reference to the child field
+     * @param mixed $value Stored value for that child
+     * @param string $type Field type of that child
+     * @param array $fieldSettings Provided by (obj)$field->get_settings()
+     * @return mixed Formatted string for types we format, otherwise $value
+     */
+    public function formatFieldsetFieldValue($fieldsetFieldReference, $value, $type, $fieldSettings)
+    {
+        if ('date' !== $type || !is_array($value)) {
+            return $value;
+        }
+
+        $childSettings = $this->getFieldsetFieldSettings($fieldsetFieldReference, $fieldSettings);
+
+        $hours24 = isset($childSettings['hours_24']) && 1 == $childSettings['hours_24'];
+        $dateMode = isset($childSettings['date_mode']) ? $childSettings['date_mode'] : '';
+
+        return NF_Fields_Date::combine_value_parts($value, $hours24, $dateMode);
+    }
+
+    /**
+     * Reduce any child reference to the child's id within the fieldset
+     *
+     * Depending on the caller a child is referenced as '7.2', as '7.2_0', or
+     * as a bare '2'. All three identify the same child field.
+     *
+     * @param string $reference
+     * @return string
+     */
+    protected function reduceToFieldsetFieldId($reference)
+    {
+        $reference = (string) $reference;
+
+        if ($this->isRepeaterFieldByFieldReference($reference)) {
+            $parsed = $this->parseFieldsetFieldReference($reference);
+            $reference = (string) $parsed['fieldsetFieldId'];
+        }
+
+        $parsedIndex = $this->parseSubmissionIndex($reference);
+
+        return (string) $parsedIndex['fieldsetFieldId'];
+    }
+
+    /**
      * Given a field reference (ID or Key), return boolean for 'is repeater field'
      * 
      * Determines if the given field reference is a fieldset repeater construct.
@@ -388,8 +470,15 @@ class NF_Handlers_FieldsetRepeater
             return $return;
         }
 
-        if(is_null($fieldSettings)){
-            $fieldSettings = Ninja_Forms()->form()->get_field( $fieldId )->get_settings();
+        // Ensure field settings are available with fallback to database
+        if(is_null($fieldSettings) || !isset($fieldSettings['fields']) || !is_array($fieldSettings['fields'])){
+            $fieldObj = Ninja_Forms()->form()->get_field( $fieldId );
+            if ($fieldObj) {
+                $fieldSettings = $fieldObj->get_settings();
+            } else {
+                // If we still can't get field settings, return empty to avoid errors
+                return $return;
+            }
         }
 
         if(''!==$fieldId and []!== $fieldSettings){

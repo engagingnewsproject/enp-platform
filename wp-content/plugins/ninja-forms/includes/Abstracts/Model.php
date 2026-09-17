@@ -707,12 +707,16 @@ class NF_Abstracts_Model
         }
 
         $meta_row = $this->_db->get_row(
-            "
+            $this->_db->prepare(
+                "
                 SELECT `value`
                 FROM   `$this->_meta_table_name`
-                WHERE  `parent_id` = $this->_id
-                AND    `key` = '$key'
-                "
+                WHERE  `parent_id` = %d
+                AND    `key` = %s
+                ",
+                $this->_id,
+                $key
+            )
         );
 
         if( $meta_row ){

@@ -101,4 +101,8 @@ return apply_filters( 'ninja_forms_i18n_front_end', array(
     'recaptchaConsentMissing'               =>  esc_html__( "reCaptcha validation couldn't load.", 'ninja-forms' ),
     'recaptchaMissingCookie'                =>  esc_html__( "reCaptcha v3 validation couldn't load the cookie needed to submit the form.", 'ninja-forms' ),
     'recaptchaConsentEvent'                 =>  esc_html__( 'Accept reCaptcha cookies before sending the form.', 'ninja-forms' ),
+    'hourPlaceholder'                       => esc_html__( 'Hour', 'ninja-forms' ),
+    'minutePlaceholder'                     => esc_html__( 'Minute', 'ninja-forms' ),
+    'am'                                    => esc_html__( 'AM', 'ninja-forms' ),
+    'pm'                                    => esc_html__( 'PM', 'ninja-forms' ),
 ));

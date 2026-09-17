@@ -100,7 +100,8 @@ class NF_Display_Render
         $settings = array_merge( Ninja_Forms::config( 'i18nFrontEnd' ), $settings );
         $settings = apply_filters( 'ninja_forms_display_form_settings', $settings, $form_id );
 
-        $form->update_settings( $settings );
+        // Don't update the form object to avoid state mutation when rendering multiple instances
+        // $form->update_settings( $settings );
 
         if( $form->get_setting( 'logged_in' ) && ! is_user_logged_in() ){
             echo do_shortcode( $form->get_setting( 'not_logged_in_msg' ));
@@ -142,22 +143,25 @@ class NF_Display_Render
         $currencySymbolLookup = Ninja_Forms::config( 'CurrencySymbol' );
 
         $currencySymbol = self::getCurrencySymbol($currencySymbolLookup,$currency) ;
-        $form->update_setting( 'currency_symbol', $currencySymbol );
+        $settings[ 'currency_symbol' ] = $currencySymbol;
 
         $title = apply_filters( 'ninja_forms_form_title', $form->get_setting( 'title' ), $form_id );
-        $form->update_setting( 'title', esc_html( $title ) );
+        $settings[ 'title' ] = esc_html( $title );
 
         $before_form = apply_filters( 'ninja_forms_display_before_form', '', $form_id );
-        $form->update_setting( 'beforeForm', $before_form );
+        $settings[ 'beforeForm' ] = $before_form;
 
         $before_fields = apply_filters( 'ninja_forms_display_before_fields', '', $form_id );
-        $form->update_setting( 'beforeFields', $before_fields );
+        $settings[ 'beforeFields' ] = $before_fields;
 
         $after_fields = apply_filters( 'ninja_forms_display_after_fields', '', $form_id );
-        $form->update_setting( 'afterFields', $after_fields );
+        $settings[ 'afterFields' ] = $after_fields;
 
         $after_form = apply_filters( 'ninja_forms_display_after_form', '', $form_id );
-        $form->update_setting( 'afterForm', $after_form );
+        $settings[ 'afterForm' ] = $after_form;
+
+        // Save form settings before field processing loop (which reuses $settings variable name)
+        $form_settings = $settings;
 
         $form_fields = Ninja_Forms()->form( $form_id )->get_fields();
         $fields = array();
@@ -356,14 +360,14 @@ class NF_Display_Render
         }
 
         // Output Form Container
-        do_action( 'ninja_forms_before_container', $form_id, $form->get_settings(), $form_fields );
+        do_action( 'ninja_forms_before_container', $form_id, $form_settings, $form_fields );
         Ninja_Forms::template( 'display-form-container.html.php', compact( 'form_id' ) );
 
         $form_id = "$form_id";
 
         ?>
         <!-- That data is being printed as a workaround to page builders reordering the order of the scripts loaded-->
-        <script>var formDisplay=1;var nfForms=nfForms||[];var form=[];form.id='<?php echo $form_id; ?>';form.settings=<?php echo wp_json_encode( $form->get_settings() ); ?>;form.fields=<?php echo wp_json_encode( $fields ); ?>;nfForms.push(form);</script>
+        <script>var formDisplay=1;var nfForms=nfForms||[];var form=[];form.id='<?php echo $form_id; ?>';form.settings=<?php echo wp_json_encode( $form_settings ); ?>;form.fields=<?php echo wp_json_encode( $fields ); ?>;nfForms.push(form);</script>
         <?php
 
         self::enqueue_scripts( $form_id );
@@ -874,6 +878,7 @@ class NF_Display_Render
                 wp_enqueue_media();
             }
 
+            wp_enqueue_style( 'dashicons' );
             wp_enqueue_style( 'quill-core',         $css_dir . 'quill.core.css'   , $ver );
             wp_enqueue_style( 'quill-snow',         $css_dir . 'quill.snow.css'   , $ver );
             wp_enqueue_style( 'quill-custom',       $css_dir . 'quill-custom.css' , $ver );

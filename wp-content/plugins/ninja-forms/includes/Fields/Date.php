@@ -149,26 +149,74 @@ class NF_Fields_Date extends NF_Fields_Textbox
 
     private function stringify_value( $field_value, $field )
     {
+        $hours_24 = false;
+        $date_mode = '';
+
+        if ( is_object( $field ) ) {
+            $hours_24 = 1 == $field->get_setting( 'hours_24' );
+            $date_mode = $field->get_setting( 'date_mode' );
+        } elseif ( is_array( $field ) && isset ( $field[ 'settings' ] ) ) {
+            $hours_24 = isset ( $field[ 'settings' ][ 'hours_24' ] ) && 1 == $field[ 'settings' ][ 'hours_24' ];
+            $date_mode = isset ( $field[ 'settings' ][ 'date_mode' ] ) ? $field[ 'settings' ][ 'date_mode' ] : '';
+        }
+
+        return self::combine_value_parts( $field_value, $hours_24, $date_mode );
+    }
+
+    /**
+     * Combine a stored date value into the single string we display.
+     *
+     * A date field's submission is stored as separate date/hour/minute/ampm
+     * parts. Every surface that shows one - the submissions columns, CSV
+     * export, merge tags - needs the same combined string. Exposed statically
+     * so a date field nested inside a repeater, whose parts are stored under
+     * the repeater rather than as a field of its own, renders identically to
+     * one outside a repeater. See issue #7440.
+     *
+     * @param mixed $field_value Stored value: the parts array, or a plain string.
+     * @param bool $hours_24 Whether the field is configured for 24 hour time.
+     * @param string $date_mode 'date_only', 'date_and_time' or 'time_only'.
+     * @return string
+     */
+    public static function combine_value_parts( $field_value, $hours_24 = false, $date_mode = '' )
+    {
         if ( ! is_array( $field_value ) ) {
             return $field_value;
         }
 
-        // Get our date and time, the combine them into a string.
-        $date = isset ( $field_value[ 'date' ] ) ? $field_value[ 'date' ] : '';
-        $hour = isset ( $field_value[ 'hour' ] ) ? $field_value[ 'hour' ] : '';
-        $minute = isset ( $field_value[ 'minute' ] ) ? $field_value[ 'minute' ] : '';
-        $ampm = isset ( $field_value[ 'ampm' ] ) ? $field_value[ 'ampm' ] : '';
+        $date = isset ( $field_value[ 'date' ] ) ? trim( (string) $field_value[ 'date' ] ) : '';
+        $hour = isset ( $field_value[ 'hour' ] ) ? trim( (string) $field_value[ 'hour' ] ) : '';
+        $minute = isset ( $field_value[ 'minute' ] ) ? trim( (string) $field_value[ 'minute' ] ) : '';
+        $ampm = isset ( $field_value[ 'ampm' ] ) ? trim( (string) $field_value[ 'ampm' ] ) : '';
         $time = '';
 
-        if ( ! empty ( $hour ) && ! empty ( $minute ) ) {
-            $time = ' ' . $hour . ':' . $minute;
-            // Display an edit for am/pm if necessary
-            if ( 1 != $field->get_setting( 'hours_24' ) ) {
+        /*
+         * '00' is a legitimate hour and a legitimate minute. Testing for an
+         * empty string rather than using empty() keeps midnight and on-the-hour
+         * times, which were previously discarded along with their date.
+         */
+        if ( '' !== $hour && '' !== $minute ) {
+            $time = $hour . ':' . $minute;
+
+            // Display am/pm if necessary
+            if ( ! $hours_24 && '' !== $ampm ) {
                 $time .= ' ' . $ampm;
             }
         }
 
-        return $date . $time;
+        /*
+         * A time-only field inside a repeater stores the assembled time under
+         * the 'date' key as well as in the parts. Emit the time once.
+         */
+        if ( 'time_only' === $date_mode ) {
+            return '' !== $time ? $time : $date;
+        }
+
+        if ( '' === $date ) {
+            return $time;
+        }
+
+        return '' === $time ? $date : $date . ' ' . $time;
     }
 
     private function get_hours_options( $hour, $field )
@@ -269,10 +317,15 @@ class NF_Fields_Date extends NF_Fields_Textbox
          */
         
         $exploded_value = explode( ',', $value );
-        
-        $date = $exploded_value[0];
-        $hour = $exploded_value[1];
-        $minute = $exploded_value[2];
+
+        /*
+         * A time-only value arrives already assembled, as '02:15 pm', with no
+         * commas to split on. Default the parts rather than reading positions
+         * that are not there. See #7440.
+         */
+        $date = isset ( $exploded_value[0] ) ? $exploded_value[0] : '';
+        $hour = isset ( $exploded_value[1] ) ? $exploded_value[1] : '';
+        $minute = isset ( $exploded_value[2] ) ? $exploded_value[2] : '';
 
         $time = $hour . ':' . $minute;
 

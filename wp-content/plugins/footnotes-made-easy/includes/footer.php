@@ -7,19 +7,38 @@
  */
 defined( 'ABSPATH' ) || exit;
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template file; variables are prefixed with fme_.
+
+// Active Pro license unlocks the AltviseWP, LLC attribution and priority support
+// routing; otherwise the plugin is attributed to its author, Patrick Lumumba.
+$fme_pro_licensed = defined( 'FME_PRO_VERSION' )
+	&& function_exists( 'fmep_fs' )
+	&& fmep_fs()
+	&& fmep_fs()->is_paying();
 ?>
 <div class="fme-page-footer">
 
     <div class="fme-page-footer__brand">
         <span><?php esc_html_e( 'Made with', 'footnotes-made-easy' ); ?></span>
         <svg class="fme-page-footer__heart" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 14s-6-3.84-6-8a4 4 0 0 1 6-3.46A4 4 0 0 1 14 6c0 4.16-6 8-6 8z"/></svg>
+        <?php if ( $fme_pro_licensed ) : ?>
         <span><?php esc_html_e( 'by AltviseWP, LLC', 'footnotes-made-easy' ); ?></span>
+        <?php else : ?>
+        <span><?php esc_html_e( 'by Patrick Lumumba', 'footnotes-made-easy' ); ?></span>
+        <?php endif; ?>
     </div>
 
     <nav class="fme-page-footer__links">
         <a href="https://altvisewp.com/blog/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Our blog', 'footnotes-made-easy' ); ?></a>
         <span class="fme-page-footer__sep">/</span>
-        <a href="https://altvisewp.com/support/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Support', 'footnotes-made-easy' ); ?></a>
+        <?php
+        // Route Support to priority support for active Pro license holders,
+        // otherwise to the public WordPress.org support forum. ($fme_pro_licensed
+        // is computed at the top of this file.)
+        $fme_support_url  = $fme_pro_licensed
+            ? 'https://altvisewp.com/account/#!/support'
+            : 'https://wordpress.org/support/plugin/footnotes-made-easy/';
+        ?>
+        <a href="<?php echo esc_url( $fme_support_url ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Support', 'footnotes-made-easy' ); ?></a>
         <span class="fme-page-footer__sep">/</span>
         <a href="https://docs.altvisewp.com/footnotes-made-easy/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Docs', 'footnotes-made-easy' ); ?></a>
         <span class="fme-page-footer__sep">/</span>

@@ -64,7 +64,8 @@ class NF_Fields_ListImage extends NF_Abstracts_List
             } elseif ($value === $option['value']) {
                 $checked = 'checked';
             }
-            $list .= "<li><label><input type='" . $type . "' value='{$option['value']}' name='fields[$id][]' $checked>{$option['label']}</label></li>";
+            $value = esc_attr( $option['value'] );
+            $list .= "<li><label><input type='" . esc_attr( $type ) . "' value='{$value}' name='fields[$id][]' $checked>{$option['label']}</label></li>";
         }
 
         return "<input type='hidden' name='fields[$id]' value='0' ><ul>$list</ul>";

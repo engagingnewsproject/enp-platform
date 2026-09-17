@@ -88,10 +88,6 @@ class Post_Schema_Node {
 				'@type' => 'WebPage',
 				'@id'   => get_permalink( $post ),
 			),
-			'author'           => array(
-				'@type' => 'Person',
-				'name'  => get_the_author_meta( 'display_name', (int) $post->post_author ),
-			),
 		);
 
 		$image = get_the_post_thumbnail_url( $post, 'full' );
@@ -123,12 +119,17 @@ class Post_Schema_Node {
 			return null;
 		}
 
+		// render_block() skips the `the_content` chain, so the paywall never sees this text.
+		if ( Content_Gate::is_gated( $post ) ) {
+			return null;
+		}
+
 		$items = array();
 		foreach ( parse_blocks( $post->post_content ) as $block ) {
 			if ( 'core/details' !== ( $block['blockName'] ?? '' ) ) {
 				continue;
 			}
-			$question = trim( (string) ( $block['attrs']['summary'] ?? '' ) );
+			$question = trim( html_entity_decode( wp_strip_all_tags( (string) ( $block['innerHTML'] ?? '' ) ), ENT_QUOTES, 'UTF-8' ) );
 
 			// Render only the inner blocks for the answer. Rendering the whole
 			// core/details block would re-include the <summary> (the question).
@@ -136,7 +137,7 @@ class Post_Schema_Node {
 			foreach ( $block['innerBlocks'] ?? array() as $inner_block ) {
 				$answer_html .= render_block( $inner_block );
 			}
-			$answer = trim( wp_strip_all_tags( $answer_html ) );
+			$answer = trim( html_entity_decode( wp_strip_all_tags( $answer_html ), ENT_QUOTES, 'UTF-8' ) );
 			if ( '' === $question || '' === $answer ) {
 				continue;
 			}

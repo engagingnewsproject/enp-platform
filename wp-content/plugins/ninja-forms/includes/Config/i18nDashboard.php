@@ -80,6 +80,7 @@ return apply_filters( 'ninja_forms_i18n_dashboard', array(
     'cleanupPrimary'                        => sprintf( esc_html__( 'Clean up my data', 'ninja-forms' ) ),
     'cleanupLoading'                        => esc_html__( 'Processing...', 'ninja-forms' ),
     'noResult'                              => esc_html__( 'No Results Found.', 'ninja-forms' ),
+    'importingForm'                         => esc_html__( 'Importing...', 'ninja-forms' ),
 
     /**
      * Services Tab
@@ -94,4 +95,24 @@ return apply_filters( 'ninja_forms_i18n_dashboard', array(
     /** Service Model */
     'serviceRedirect'                     => sprintf( esc_html__( '%sRedirecting to NinjaForms.com%s', 'ninja-forms' ), '<p style="text-align:center;">', '</p>' ),
     'serviceUpdateError'                  => esc_html__( 'Unable to update the service.' , 'ninja-forms' ),
+
+    /** AI Form Builder tile */
+    'aiStages'                            => array(
+                                                esc_html__( 'Reading your description', 'ninja-forms' ),
+                                                esc_html__( 'Choosing the right fields', 'ninja-forms' ),
+                                                esc_html__( 'Designing your form', 'ninja-forms' ),
+                                                esc_html__( 'Building your form', 'ninja-forms' ),
+                                            ),
+    'aiError'                             => esc_html__( 'Something went wrong. Please try again.', 'ninja-forms' ),
+    'aiProviderChoose'                    => esc_html__( 'Choose a model', 'ninja-forms' ),
+    'aiProviderRequired'                  => esc_html__( 'Choose an AI model before generating your form.', 'ninja-forms' ),
+    'aiShowAllModels'                     => esc_html__( 'Show all compatible models', 'ninja-forms' ),
+    /* translators: 1: current character count, 2: maximum character count. */
+    'aiPromptCount'                       => esc_html__( '%1$s / %2$s characters', 'ninja-forms' ),
+    /* translators: 1: characters over the limit, 2: maximum character count. */
+    'aiPromptOverLimit'                   => esc_html__( 'Description exceeds the %2$s-character limit by %1$s. Shorten it to continue.', 'ninja-forms' ),
+    'aiFormReady'                         => esc_html__( 'Form ready — opening the builder…', 'ninja-forms' ),
+    'aiFormReadyNotice'                   => esc_html__( 'Your form is ready.', 'ninja-forms' ),
+    'aiOpenBuilder'                       => esc_html__( 'Open it in the builder', 'ninja-forms' ),
+    'aiDismiss'                           => esc_attr__( 'Dismiss', 'ninja-forms' ),
 ));

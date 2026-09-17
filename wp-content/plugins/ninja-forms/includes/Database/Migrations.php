@@ -96,10 +96,13 @@ class NF_Database_Migrations
      * Function to handle the actual deletion of tables and caches.
      *
      * @since 3.1.0
+     * @return void
      */
     protected function _nuke()
     {
         global $wpdb;
+
+        require_once dirname( __DIR__ ) . '/AI/ConversationStore.php';
 
         /* Drop THREE Tables */
         foreach( $this->migrations as $migration ){
@@ -110,6 +113,56 @@ class NF_Database_Migrations
         $wpdb->query( "DELETE FROM `{$wpdb->options}` WHERE `option_name` LIKE 'nf_form_%'" );
         $wpdb->query( "DELETE FROM `{$wpdb->options}` WHERE `option_name` LIKE '_transient_nf_form_%'" );
         $wpdb->query( "DELETE FROM `{$wpdb->options}` WHERE `option_name` LIKE '_transient_timeout_nf_form_%'" );
+
+        /* Delete every persisted AI assistant choice and conversation. */
+        $ai_option_prefixes = \NinjaForms\Includes\AI\ConversationStore::optionPrefixes();
+        foreach ( $ai_option_prefixes as $option_prefix ) {
+            $option_names = $wpdb->get_col(
+                $wpdb->prepare(
+                    "SELECT option_name FROM `{$wpdb->options}` WHERE option_name LIKE %s",
+                    $wpdb->esc_like( $option_prefix ) . '%'
+                )
+            );
+            foreach ( $option_names as $option_name ) {
+                // delete_option() also invalidates persistent object caches.
+                delete_option( $option_name );
+            }
+        }
+        delete_option( 'nf_ai_last_model' );
+
+        /*
+         * Discover dynamic AI transient names before deleting them. Raw SQL
+         * alone leaves persistent object-cache values alive, so each cache is
+         * removed through delete_transient().
+         */
+        $ai_transients = array(
+            'nf_ai_connected_providers',
+            'nf_ai_provider_available',
+        );
+        $ai_provider_ids = array( 'anthropic', 'google', 'openai' );
+        $transient_options = $wpdb->get_col(
+            $wpdb->prepare(
+                "SELECT option_name FROM `{$wpdb->options}` WHERE option_name LIKE %s",
+                $wpdb->esc_like( '_transient_nf_ai_' ) . '%'
+            )
+        );
+        foreach ( $transient_options as $transient_option ) {
+            if ( 0 === strpos( $transient_option, '_transient_timeout_' ) ) {
+                continue;
+            }
+            $ai_transients[] = substr( $transient_option, strlen( '_transient_' ) );
+        }
+        if ( function_exists( 'wp_get_connectors' ) ) {
+            $ai_provider_ids = array_merge( $ai_provider_ids, array_keys( wp_get_connectors() ) );
+        }
+        foreach ( array_unique( $ai_provider_ids ) as $provider_id ) {
+            $provider_id = sanitize_key( $provider_id );
+            $ai_transients[] = 'nf_ai_model_catalog_' . $provider_id;
+            $ai_transients[] = 'nf_ai_auth_failed_' . $provider_id;
+        }
+        foreach ( array_unique( $ai_transients ) as $transient_name ) {
+            delete_transient( $transient_name );
+        }
     }
 
 

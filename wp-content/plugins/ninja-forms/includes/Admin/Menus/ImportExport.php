@@ -194,8 +194,8 @@ class NF_Admin_Menus_ImportExport extends NF_Abstracts_Submenu
             'builderURL'                            => admin_url( 'admin.php?page=ninja-forms&form_id=' ),
         ));
 
-        wp_enqueue_script( 'jBox', Ninja_Forms::$url . 'assets/js/min/jBox.min.js', array( 'jquery' ) );
-        wp_enqueue_style( 'jBox', Ninja_Forms::$url . 'assets/css/jBox.css' );
+        wp_enqueue_script( 'jBox', Ninja_Forms::$url . 'assets/js/min/jBox.min.js', array( 'jquery' ), (string) filemtime( Ninja_Forms::$dir . 'assets/js/min/jBox.min.js' ) );
+        wp_enqueue_style( 'jBox', Ninja_Forms::$url . 'assets/css/jBox.css', array(), (string) filemtime( Ninja_Forms::$dir . 'assets/css/jBox.css' ) );
         wp_enqueue_script( 'nf-ninja-modal', Ninja_Forms::$url . 'assets/js/lib/ninjaModal.js', array( 'jquery' ) );
         wp_enqueue_script( 'nf-batch-processor', Ninja_Forms::$url . 'assets/js/lib/batch-processor.js', array( 'jquery' ) );
         wp_enqueue_style( 'nf-font-awesome', Ninja_Forms::$url . 'assets/css/font-awesome.min.css' );

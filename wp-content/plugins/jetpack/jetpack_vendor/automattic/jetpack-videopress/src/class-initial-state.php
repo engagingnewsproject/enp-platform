@@ -133,6 +133,11 @@ class Initial_State {
 			'assets'                 => array(
 				'buildUrl' => plugins_url( '../build/', __FILE__ ),
 			),
+			// Feature gates mirrored from the PHP-side filters so the client can
+			// hide gated UI without a round trip.
+			'features'               => array(
+				'chaptersEditor' => Admin_UI::is_chapters_editor_enabled(),
+			),
 			// Authoritative map of accepted upload types (extension => mimetype),
 			// so the dashboard's drag-and-drop filter accepts exactly what the
 			// VideoPress backend supports rather than guessing client-side.
@@ -141,8 +146,9 @@ class Initial_State {
 			// populated when the site isn't connected — the only time the
 			// connection gate renders the upsell — so connected dashboards never
 			// incur the synchronous WPCOM pricing request `get_pricing_data()`
-			// makes.
-			'pricing'                => ( new Connection_Manager() )->is_connected() ? null : $this->get_pricing_data(),
+			// makes. Skipped on WordPress.com Simple, where the connection gate is
+			// bypassed (Simple sites are inherently wpcom-connected).
+			'pricing'                => ( ( new Host() )->is_wpcom_simple() || ( new Connection_Manager() )->is_connected() ) ? null : $this->get_pricing_data(),
 		);
 	}
 
@@ -161,7 +167,10 @@ class Initial_State {
 		$site_product  = My_Jetpack_Products::get_product( 'videopress' );
 		$product_price = Plan::get_product_price();
 
-		if ( ! is_array( $site_product ) || ! isset( $product_price['yearly'] ) ) {
+		// Plan::get_product_price() returns a WP_Error when the WPCOM products
+		// request doesn't come back 200, and `isset()` on a non-ArrayAccess
+		// object is a fatal in PHP 8 — so the array check has to come first.
+		if ( ! is_array( $site_product ) || ! is_array( $product_price ) || ! isset( $product_price['yearly'] ) ) {
 			return null;
 		}
 
@@ -180,25 +189,39 @@ class Initial_State {
 	 * counts as paid access. On WPCOM the legacy `videopress` slug also
 	 * grants access.
 	 *
-	 * @return bool
+	 * @return bool|null Null when site features could not be retrieved.
 	 */
 	public static function has_videopress_access() {
-		return self::has_videopress_feature( 'videopress-1tb-storage' )
-			|| self::has_videopress_feature( 'videopress-unlimited-storage' )
-			|| ( ( new Host() )->is_wpcom_platform() && self::has_videopress_feature( 'videopress' ) );
+		$feature_slugs = array( 'videopress-1tb-storage', 'videopress-unlimited-storage' );
+		if ( ( new Host() )->is_wpcom_platform() ) {
+			$feature_slugs[] = 'videopress';
+		}
+
+		foreach ( $feature_slugs as $feature_slug ) {
+			$has_feature = self::has_videopress_feature( $feature_slug );
+			if ( null === $has_feature || $has_feature ) {
+				return $has_feature;
+			}
+		}
+
+		return false;
 	}
 
 	/**
 	 * Whether the named feature appears in the WPCOM active-features list.
 	 *
 	 * @param string $feature_slug Feature slug as returned by WPCOM (e.g. `videopress-1tb-storage`).
-	 * @return bool
+	 * @return bool|null Null when site features could not be retrieved.
 	 */
 	private static function has_videopress_feature( $feature_slug ) {
+		if ( ( new Host() )->is_wpcom_simple() ) {
+			return function_exists( 'wpcom_site_has_feature' ) && (bool) wpcom_site_has_feature( $feature_slug );
+		}
+
 		$features = Product::get_site_features_from_wpcom();
 
 		if ( is_wp_error( $features ) ) {
-			return false;
+			return null;
 		}
 
 		$active = $features['active'] ?? array();

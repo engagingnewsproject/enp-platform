@@ -45,6 +45,7 @@ final class NF_Admin_Menus_Addons extends NF_Abstracts_Submenu
     {
         // Fetch our marketing feed.
         $saved = get_option( 'ninja_forms_addons_feed', false );
+        $feed_unavailable = false;
         // If we got back nothing...
         if ( ! $saved ) {
             // Default to the in-app file.
@@ -54,6 +55,25 @@ final class NF_Admin_Menus_Addons extends NF_Abstracts_Submenu
         else {
             // Use the data we fetched.
             $items = json_decode( $saved, true );
+
+            // The cached feed can end up corrupted (e.g. a non-JSON response was cached
+            // before this validation existed). Fall back to the bundled list instead of
+            // fatal-ing — the weekly feed cron will overwrite the option once it
+            // successfully fetches valid data again.
+            if ( ! is_array( $items ) ) {
+                $feed_unavailable = true;
+                $items = file_get_contents( Ninja_Forms::$dir . '/lib/Legacy/addons-feed.json' );
+                $items = json_decode( $items, true );
+            }
+        }
+
+        // Last-resort guard: never let a bad bundled file take down the page either.
+        if ( ! is_array( $items ) ) {
+            $items = array();
+        }
+
+        if ( $feed_unavailable ) {
+            add_action( 'admin_notices', array( $this, 'render_feed_unavailable_notice' ) );
         }
         //shuffle( $items );
 
@@ -134,11 +154,31 @@ final class NF_Admin_Menus_Addons extends NF_Abstracts_Submenu
     }
 
     public static function filterItemsByCategroy( $items, $category ) {
+        if ( ! is_array( $items ) ) {
+            return array();
+        }
         return array_filter( $items, function( $item ) use ($category) {
             return array_filter( $item['categories'], function( $itemCategory ) use ($category){
                 return $category === $itemCategory['slug'];
             });
         });
+    }
+
+    /**
+     * Admin notice shown when the cached add-ons feed is corrupted/unreadable
+     * and we've fallen back to the bundled add-ons list.
+     */
+    public function render_feed_unavailable_notice() {
+        // The dashboard page's own stylesheet hides any direct child of #wpbody-content
+        // that isn't the React app's ".wrap" root, so this notice needs the "wrap" class
+        // to stay visible on this specific page.
+        ?>
+        <div class="wrap">
+            <div class="notice notice-warning">
+                <p><?php esc_html_e( 'The Ninja Forms add-ons feed is temporarily unavailable. Showing the default add-ons list below.', 'ninja-forms' ); ?></p>
+            </div>
+        </div>
+        <?php
     }
 
     public static function getItemStatus( $item ) {
