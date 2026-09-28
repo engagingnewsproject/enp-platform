@@ -33,6 +33,71 @@ abstract class NF_Abstracts_List extends NF_Abstracts_Field
         return 'list';
     }
 
+    /**
+     * Validate submitted value is a configured option.
+     *
+     * Provides server-side option validation for all list field types.
+     * Handles both single-value and multi-value (array) submissions.
+     *
+     * @param array $field Field settings including submitted value.
+     * @param array $data  Form data.
+     * @return array Validation errors.
+     */
+    public function validate( $field, $data )
+    {
+        $errors = parent::validate( $field, $data );
+        if ( ! empty( $errors ) ) {
+            return $errors;
+        }
+
+        // Determine options source: image_options for listimage, options for others.
+        $options_key = ( 'listimage' === $this->_type ) ? 'image_options' : 'options';
+        $options = isset( $field[ $options_key ] ) && is_array( $field[ $options_key ] )
+            ? $field[ $options_key ]
+            : array();
+
+        // Apply render options filters to get dynamically-provided options.
+        $options = apply_filters( 'ninja_forms_render_options', $options, $field );
+        $options = apply_filters( 'ninja_forms_render_options_' . $this->_type, $options, $field );
+
+        // Build allowed values list.
+        $allowed = array();
+        foreach ( $options as $option ) {
+            if ( isset( $option['value'] ) ) {
+                $allowed[] = (string) $option['value'];
+            }
+        }
+
+        // Normalize submitted value to array for uniform handling.
+        $submitted = isset( $field['value'] ) ? $field['value'] : '';
+        if ( ! is_array( $submitted ) ) {
+            $submitted = array( (string) htmlspecialchars_decode( $submitted ) );
+        } else {
+            $submitted = array_map( function( $v ) {
+                return (string) htmlspecialchars_decode( $v );
+            }, $submitted );
+        }
+
+        // Empty submission is valid (required check handled by parent).
+        if ( 1 === count( $submitted ) && '' === $submitted[0] ) {
+            return $errors;
+        }
+
+        // Validate each submitted value exists in allowed options.
+        foreach ( $submitted as $value ) {
+            if ( '' === $value ) {
+                continue;
+            }
+            if ( ! in_array( $value, $allowed, true ) ) {
+                $errors['slug'] = 'invalid-option';
+                $errors['message'] = esc_html__( 'Invalid selection.', 'ninja-forms' );
+                return $errors;
+            }
+        }
+
+        return $errors;
+    }
+
     public function admin_form_element( $id, $value )
     {
         $form_id = get_post_meta( absint( $_GET[ 'post' ] ), '_form_id', true );

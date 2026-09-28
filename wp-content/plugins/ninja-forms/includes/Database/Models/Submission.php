@@ -578,7 +578,7 @@ class NF_Database_Models_Submission
                       $field_labels[ $field->get_id() ] = WPN_Helper::maybe_escape_csv_column( $field->get_setting( 'label' ) );
                   }
 
-                  $field_value = maybe_unserialize( $sub->get_field_value( $field_id ) );
+                  $field_value = self::safely_deserialize_field_value( $sub->get_field_value( $field_id ) );
 
                   $field_value = apply_filters('nf_subs_export_pre_value', $field_value, $field_id);
                   $field_value = apply_filters('ninja_forms_subs_export_pre_value', $field_value, $field_id, $form_id);
@@ -790,5 +790,26 @@ class NF_Database_Models_Submission
         return ( $a->get_setting( 'order' ) < $b->get_setting( 'order' ) ) ? -1 : 1;
     }
 
+    /**
+     * Safely deserialize field values, preventing PHP Object Injection.
+     *
+     * Uses allowed_classes => false to prevent arbitrary object instantiation
+     * during unserialization. Serialized objects become __PHP_Incomplete_Class
+     * which cannot execute magic methods (__wakeup, __destruct).
+     *
+     * @since 3.15.4
+     * @see https://github.com/developer/ninja-forms/issues/8183
+     *
+     * @param mixed $value Potentially serialized value from submission field.
+     * @return mixed Deserialized array/scalar, or original value if not serialized.
+     */
+    protected static function safely_deserialize_field_value( $value )
+    {
+        if ( ! is_serialized( $value ) ) {
+            return $value;
+        }
+
+        return unserialize( $value, [ 'allowed_classes' => false ] );
+    }
 
 } // End NF_Database_Models_Submission

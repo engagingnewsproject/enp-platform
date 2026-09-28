@@ -46,8 +46,8 @@ final class NF_Admin_Menus_Settings extends NF_Abstracts_Submenu
     public function ninja_forms_cf7_notice( $notices )
     {
         // If we don't have recaptcha keys, bail.
-        $recaptcha_site_key = Ninja_Forms()->get_settings();
-        if ( $recaptcha_site_key[ 'recaptcha_site_key' ] === '' ) {
+        $recaptcha_site_key = Ninja_Forms()->get_setting( 'recaptcha_site_key', '' );
+        if ( $recaptcha_site_key === '' ) {
             return $notices;
         }
         // If we can detect Contact Form 7...

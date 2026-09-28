@@ -44,7 +44,7 @@ class NF_Fields_ListCheckbox extends NF_Abstracts_List
             $checked = '';
             if( is_array( $value ) && in_array( $option[ 'value' ], $value ) ) $checked = "checked";
             $value = esc_attr( $option[ 'value' ] );
-            $list .= "<li><label><input type='checkbox' value='{$value}' name='fields[$id][]' $checked> {$option[ 'label' ]}</label></li>";
+            $list .= "<li><label><input type='checkbox' value='{$value}' name='fields[$id][]' $checked> " . esc_html( $option[ 'label' ] ) . "</label></li>";
         }
 
         return "<input type='hidden' name='fields[$id]' value='0' ><ul>$list</ul>";

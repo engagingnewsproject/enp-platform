@@ -40,7 +40,7 @@ class NF_Fields_ListMultiselect extends NF_Abstracts_List
         foreach( $field_options as $option ){
             $selected = ( is_array( $value ) && in_array( $option[ 'value' ], $value ) ) ? "selected" : '';
             $value = esc_attr( $option[ 'value' ] );
-            $options .= "<option value='{$value}' $selected>{$option[ 'label' ]}</option>";
+            $options .= "<option value='{$value}' $selected>" . esc_html( $option[ 'label' ] ) . "</option>";
         }
 
         return "<select class='widefat' name='fields[$id][]' id='' multiple>$options</select>";

@@ -23,6 +23,171 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
         return apply_filters( 'ninja_forms_admin_status_capabilities', $this->capability );
     }
 
+    /**
+     * Bytes of a log file read when collecting recent entries.
+     *
+     * The Error logs section only ever shows the most recent entries, so only
+     * the tail of each file is read. Reading whole files exhausted memory and
+     * crashed this page on sites with a very large debug log (issue #8149).
+     */
+    const LOG_READ_BYTES = 262144;
+
+    /** Maximum number of log entries listed. */
+    const LOG_ENTRY_LIMIT = 50;
+
+    /** Untranslated default for the oversized-log notice. */
+    const OVERSIZED_LOG_NOTICE = 'Note: %1$s is %2$s. Only the most recent entries are shown.';
+
+    /**
+     * Collect the recent PHP error entries shown in the Error logs section.
+     *
+     * @param array $logFiles Candidate log file paths.
+     * @return array Log entries, most recent first.
+     */
+    public function readErrorLog( array $logFiles )
+    {
+        $errorLog = [];
+
+        foreach ( $this->uniqueLogFiles( $logFiles ) as $logFile ) {
+            $lines = preg_split( '/\R/', $this->readLogTail( $logFile ) );
+
+            foreach ( array_reverse( $lines ) as $line ) {
+                $line = rtrim( $line );
+
+                // Skip empty lines
+                if ( '' === trim( $line ) ) {
+                    continue;
+                }
+
+                // Only capture warnings and fatal errors
+                if ( ! preg_match( '/\[(.*?)\]\s*PHP (Warning|Error|Fatal error|Parse error):/i', $line ) ) {
+                    continue;
+                }
+
+                $errorLog[] = $line;
+
+                if ( count( $errorLog ) >= self::LOG_ENTRY_LIMIT ) {
+                    return $errorLog;
+                }
+            }
+        }
+
+        return $errorLog;
+    }
+
+    /**
+     * Describe any log file too large to be read in full.
+     *
+     * @param array       $logFiles Candidate log file paths.
+     * @param string|null $format   Translated sprintf format; the untranslated
+     *                              default is used when none is supplied.
+     * @return array Human readable notices, one per oversized file.
+     */
+    public function describeOversizedLogs( array $logFiles, $format = null )
+    {
+        if ( ! is_string( $format ) || '' === $format ) {
+            $format = self::OVERSIZED_LOG_NOTICE;
+        }
+
+        $notices = [];
+
+        foreach ( $this->uniqueLogFiles( $logFiles ) as $logFile ) {
+            $size = filesize( $logFile );
+
+            if ( false === $size || $size <= self::LOG_READ_BYTES ) {
+                continue;
+            }
+
+            $notices[] = sprintf( $format, $logFile, $this->formatLogSize( $size ) );
+        }
+
+        return $notices;
+    }
+
+    /**
+     * Resolve the candidate log paths to readable files, without duplicates.
+     *
+     * Several of the candidate locations commonly resolve to the same physical
+     * file, which would otherwise be read more than once.
+     *
+     * @param array $logFiles Candidate log file paths.
+     * @return array Existing, readable, de-duplicated paths.
+     */
+    protected function uniqueLogFiles( array $logFiles )
+    {
+        $unique = [];
+
+        foreach ( $logFiles as $logFile ) {
+            if ( ! is_string( $logFile ) || '' === $logFile ) {
+                continue;
+            }
+
+            if ( ! file_exists( $logFile ) || ! is_readable( $logFile ) || ! is_file( $logFile ) ) {
+                continue;
+            }
+
+            $resolved = realpath( $logFile );
+
+            if ( false === $resolved ) {
+                $resolved = $logFile;
+            }
+
+            $unique[ $resolved ] = $resolved;
+        }
+
+        return array_values( $unique );
+    }
+
+    /**
+     * Read the tail of a log file, never more than self::LOG_READ_BYTES.
+     *
+     * @param string $logFile Readable log file path.
+     * @return string Trailing portion of the file.
+     */
+    protected function readLogTail( $logFile )
+    {
+        $handle = @fopen( $logFile, 'rb' );
+
+        if ( false === $handle ) {
+            return '';
+        }
+
+        $size = filesize( $logFile );
+
+        if ( false !== $size && $size > self::LOG_READ_BYTES ) {
+            fseek( $handle, - self::LOG_READ_BYTES, SEEK_END );
+            // The seek lands mid-entry; drop that partial line.
+            fgets( $handle );
+        }
+
+        $tail = '';
+
+        while ( ! feof( $handle ) ) {
+            $chunk = fread( $handle, 8192 );
+
+            if ( false === $chunk ) {
+                break;
+            }
+
+            $tail .= $chunk;
+        }
+
+        fclose( $handle );
+
+        return $tail;
+    }
+
+    /**
+     * Format a file size for display.
+     *
+     * @param int $bytes
+     * @return string
+     */
+    protected function formatLogSize( $bytes )
+    {
+        return number_format( $bytes / ( 1024 * 1024 ), 1 ) . ' MB';
+    }
+
     public function display()
     {
         /** @global wpdb $wpdb */
@@ -218,38 +383,16 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
             ini_get('error_log'), // Check PHP setting for log location
         ];
 
-        $errorLog = [];
-
-        foreach ($logFiles as $logFile) {
-            if (file_exists($logFile) && is_readable($logFile)) {
-                $logContent = file_get_contents($logFile);
-                $errors = array_reverse(explode("\n", $logContent));
-
-                foreach ($errors as $error) {
-                    // Skip empty lines
-                    if (trim($error) === '') {
-                        continue;
-                    }
-
-                    // Only capture warnings and fatal errors
-                    if (preg_match('/\[(.*?)\]\s*PHP (Warning|Error|Fatal error|Parse error):/i', $error)) {
-                        $errorLog[] = $error;
-                    }                    
-
-                    // Limit to 50 entries
-                    if (count($errorLog) < 50) {
-                        $errorLog[] = $error;
-                    } else {
-                        break;
-                    }
-                }
-            }
-        }
-
-        $errorLog = array_reverse($errorLog);
+        $errorLog = $this->readErrorLog( $logFiles );
 
         if (empty($errorLog)) {
-            $errorLog[] = 'No errors found in log files.';
+            $errorLog[] = esc_html__( 'No errors found in log files.', 'ninja-forms' );
+        }
+
+        $oversizedLogFormat = esc_html__( 'Note: %1$s is %2$s. Only the most recent entries are shown.', 'ninja-forms' );
+
+        foreach ( $this->describeOversizedLogs( $logFiles, $oversizedLogFormat ) as $oversizedLogNotice ) {
+            $errorLog[] = $oversizedLogNotice;
         }
 
         //retrieve old NF error logs
