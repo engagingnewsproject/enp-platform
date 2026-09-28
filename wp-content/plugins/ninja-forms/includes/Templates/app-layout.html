@@ -1,6 +1,10 @@
 <script id="tmpl-nf-layout" type="text/template">
+	<#
+	var headingLevel = data.settings.form_title_heading_level;
+	headingLevel = ( typeof headingLevel === 'number' || typeof headingLevel === 'string' ) && /^[1-6]$/.test( headingLevel ) ? headingLevel : 3;
+	#>
 	<span id="nf-form-title-{{{ data.id }}}" class="nf-form-title">
-		{{{ ( 1 == data.settings.show_title ) ? '<h' + data.settings.form_title_heading_level + '>' + data.settings.title + '</h' + data.settings.form_title_heading_level + '>' : '' }}}
+		{{{ ( 1 == data.settings.show_title ) ? '<h' + headingLevel + '>' + data.settings.title + '</h' + headingLevel + '>' : '' }}}
 	</span>
 	<div class="nf-form-wrap ninja-forms-form-wrap">
 		<div class="nf-response-msg"></div>

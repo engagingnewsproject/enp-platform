@@ -113,7 +113,7 @@
     <tbody>
         <tr>
             <td><?php esc_html_e('PHP errors', 'ninja-forms'); ?>:</td>
-            <td class=scroll><?php echo nl2br(implode("\n", $errorLog)); ?>
+            <td class=scroll><?php echo nl2br(esc_html(implode("\n", $errorLog))); ?>
             </td>
         </tr>
     </tbody>
