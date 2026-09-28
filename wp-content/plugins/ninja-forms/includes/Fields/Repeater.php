@@ -182,7 +182,7 @@ class NF_Fields_Repeater extends NF_Abstracts_Field
                 if(is_array($fieldsetFieldSubmissionValue)){
                     $fieldsetFieldSubmissionValue=implode(', ',$fieldsetFieldSubmissionValue);
                 }
-                $return.='<span>'.$submissionValueArray['label'].' </span><input class="widefat" name="fields[' . absint( $id ) . ']" disabled = "disabled" value="' . esc_attr( $fieldsetFieldSubmissionValue ) . '" type="text" />';
+                $return.='<span>' . esc_html( $submissionValueArray['label'] ) . ' </span><input class="widefat" name="fields[' . absint( $id ) . ']" disabled = "disabled" value="' . esc_attr( $fieldsetFieldSubmissionValue ) . '" type="text" />';
             }
 
         }

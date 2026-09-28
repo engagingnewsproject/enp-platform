@@ -111,7 +111,7 @@ class NF_Fields_Date extends NF_Fields_Textbox
         $field = Ninja_Forms()->form( $form_id )->get_field( $id );
 
         // If the value is an array, output an appropriate edit element.
-        if ( ! is_array( $value ) ) return '<input class="widefat" name="fields[' . $id . '][date]" value="' . $value . '" type="text">';
+        if ( ! is_array( $value ) ) return '<input class="widefat" name="fields[' . $id . '][date]" value="' . esc_attr( $value ) . '" type="text">';
 
         $edit_values = '';
 
@@ -126,7 +126,7 @@ class NF_Fields_Date extends NF_Fields_Textbox
         $minutes_options = $this->get_minutes_options( $minute, $field );        
 
         if ( ! empty ( $date ) ) {
-            $edit_values = '<input class="" name="fields[' . $id . '][date]" value="' . $date . '" type="text">';
+            $edit_values = '<input class="" name="fields[' . $id . '][date]" value="' . esc_attr( $date ) . '" type="text">';
         }
 
         if ( ! empty ( $hour ) && ! empty ( $minute ) ) {

@@ -94,7 +94,7 @@ class NF_Fields_ListCountry extends NF_Abstracts_List
         echo "<select name='fields[$id]'>";
         foreach( $options as $option ){
             $selected = ( $option['value'] == $value ) ? ' selected' : '';
-            echo "<option value='" . $option['value'] . "'" . $selected . ">" . $option['label'] . "</option>";
+            echo "<option value='" . esc_attr( $option['value'] ) . "'" . $selected . ">" . esc_html( $option['label'] ) . "</option>";
         }
         echo "</select>";
         return ob_get_clean();

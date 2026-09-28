@@ -65,7 +65,7 @@ class NF_Fields_ListImage extends NF_Abstracts_List
                 $checked = 'checked';
             }
             $value = esc_attr( $option['value'] );
-            $list .= "<li><label><input type='" . esc_attr( $type ) . "' value='{$value}' name='fields[$id][]' $checked>{$option['label']}</label></li>";
+            $list .= "<li><label><input type='" . esc_attr( $type ) . "' value='{$value}' name='fields[$id][]' $checked>" . esc_html( $option['label'] ) . "</label></li>";
         }
 
         return "<input type='hidden' name='fields[$id]' value='0' ><ul>$list</ul>";
@@ -118,6 +118,10 @@ class NF_Fields_ListImage extends NF_Abstracts_List
             if (isset($img['image_id']) && is_numeric($img['image_id'])) {
                 $post = get_post(intval($img['image_id']));
                 if ($post) {
+                    $image_url = wp_get_attachment_url(intval($img['image_id']));
+                    if ($image_url) {
+                        $field['settings']['image_options'][$index]['image'] = $image_url;
+                    }
                     $img_alt = get_post_meta($img['image_id'], '_wp_attachment_image_alt');
 
                     $field['settings']['image_options'][$index]['img_title'] = esc_attr($post->post_title);

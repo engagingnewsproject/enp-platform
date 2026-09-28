@@ -325,12 +325,16 @@ class EDD_SL_Plugin_Updater {
 	 *
 	 * @since 3.6.5
 	 *
-	 * @param stdClass $data
+	 * @param mixed $data Optional details from the store; scalars have no entries.
 	 *
 	 * @return array
 	 */
 	private function convert_object_to_array( $data ) {
 		$new_data = array();
+		if ( ! is_array( $data ) && ! is_object( $data ) ) {
+			return $new_data;
+		}
+
 		foreach ( $data as $key => $value ) {
 			$new_data[ $key ] = $value;
 		}
@@ -436,7 +440,7 @@ class EDD_SL_Plugin_Updater {
 			$request->icons = maybe_unserialize( $request->icons );
 		}
 
-		if( ! empty( $request->sections ) ) {
+		if( ! empty( $request->sections ) && ( is_array( $request->sections ) || is_object( $request->sections ) ) ) {
 			foreach( $request->sections as $key => $section ) {
 				$request->$key = (array) $section;
 			}
@@ -528,7 +532,7 @@ class EDD_SL_Plugin_Updater {
 		// We need to turn the icons into an array, thanks to WP Core forcing these into an object at some point.
 		$cache['value'] = json_decode( $cache['value'] );
 		if ( ! empty( $cache['value']->icons ) ) {
-			$cache['value']->icons = (array) $cache['value']->icons;
+			$cache['value']->icons = $this->convert_object_to_array( $cache['value']->icons );
 		}
 
 		return $cache['value'];

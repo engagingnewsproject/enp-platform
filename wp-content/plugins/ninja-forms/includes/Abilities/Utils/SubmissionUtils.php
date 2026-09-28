@@ -13,6 +13,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Retrieve a submission only when its stored WordPress post exists.
+ *
+ * The submission model alone is not an existence check: it retains an
+ * arbitrary requested ID even when no corresponding post exists.
+ *
+ * @param int $submission_id Submission post ID.
+ * @return NF_Database_Models_Submission|false Stored submission model, or false.
+ */
+function ninja_forms_ability_find_submission( $submission_id ) {
+	$post = get_post( $submission_id );
+	if ( ! $post || 'nf_sub' !== $post->post_type ) {
+		return false;
+	}
+
+	return Ninja_Forms()->form()->get_sub( $submission_id );
+}
+
 function ninja_forms_ability_get_submissions( $input ) {
 	// Validate required input
 	if ( empty( $input['form_id'] ) ) {
@@ -75,7 +93,7 @@ function ninja_forms_ability_get_submission( $input ) {
 	$submission_id = (int) $input['submission_id'];
 
 	// Get submission
-	$sub = Ninja_Forms()->form()->get_sub( $submission_id );
+	$sub = ninja_forms_ability_find_submission( $submission_id );
 	if ( ! $sub || ! $sub->get_id() ) {
 		return array(
 			'success' => false,
@@ -119,7 +137,7 @@ function ninja_forms_ability_get_submission_fields( $input ) {
 	$submission_id = (int) $input['submission_id'];
 
 	// Get submission
-	$sub = Ninja_Forms()->form()->get_sub( $submission_id );
+	$sub = ninja_forms_ability_find_submission( $submission_id );
 	if ( ! $sub || ! $sub->get_id() ) {
 		return array(
 			'success' => false,
@@ -202,7 +220,7 @@ function ninja_forms_ability_update_submission( $input ) {
 	$submission_id = (int) $input['submission_id'];
 
 	// Get submission
-	$sub = Ninja_Forms()->form()->get_sub( $submission_id );
+	$sub = ninja_forms_ability_find_submission( $submission_id );
 	if ( ! $sub || ! $sub->get_id() ) {
 		return array(
 			'success' => false,
@@ -249,7 +267,7 @@ function ninja_forms_ability_delete_submission( $input ) {
 	$submission_id = (int) $input['submission_id'];
 
 	// Get submission
-	$sub = Ninja_Forms()->form()->get_sub( $submission_id );
+	$sub = ninja_forms_ability_find_submission( $submission_id );
 	if ( ! $sub || ! $sub->get_id() ) {
 		return array(
 			'success' => false,
@@ -391,7 +409,7 @@ function ninja_forms_ability_process_submission( $input ) {
 	$action_type = sanitize_text_field( $input['action_type'] );
 
 	// Get submission
-	$sub = Ninja_Forms()->form()->get_sub( $submission_id );
+	$sub = ninja_forms_ability_find_submission( $submission_id );
 	if ( ! $sub || ! $sub->get_id() ) {
 		return array(
 			'success' => false,
