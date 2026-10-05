@@ -9,6 +9,12 @@ class NF_MergeTags_Calcs extends NF_Abstracts_MergeTags
 
     protected $_default_group = FALSE;
 
+    /** @var array Separators for each calculation, separate from numeric values. */
+    protected $calc_formats = array();
+
+    /** @var bool Whether the current replacement is for a display action. */
+    protected $format_action_values = false;
+
     public function __construct()
     {
         parent::__construct();
@@ -18,12 +24,46 @@ class NF_MergeTags_Calcs extends NF_Abstracts_MergeTags
 
     public function __call($name, $arguments)
     {
-        return $this->merge_tags[ $name ][ 'calc_value' ];
+        $value = $this->merge_tags[ $name ][ 'calc_value' ];
+
+        // Action context is scoped to email/success messages.
+        // Arithmetic and integration consumers continue to receive canonical numbers.
+        if ( $this->format_action_values && isset( $this->calc_formats[ $name ] ) ) {
+            $format = $this->calc_formats[ $name ];
+            $point = strpos( $value, '.' );
+            $precision = ( false === $point ) ? 0 : strlen( $value ) - $point - 1;
+            return number_format( (float) $value, $precision, $format['decimal'], $format['thousands'] );
+        }
+
+        return $value;
+    }
+
+    /**
+     * Format display actions even when their settings omit builder-only objectType.
+     *
+     * @param mixed $subject Action settings.
+     * @return string|array
+     */
+    public function action_replace( $subject )
+    {
+        $previous = $this->format_action_values;
+        $this->format_action_values = is_array( $subject ) && isset( $subject['type'] )
+            && in_array( $subject['type'], array( 'email', 'successmessage' ), true );
+        try {
+            return parent::action_replace( $subject );
+        } finally {
+            $this->format_action_values = $previous;
+        }
     }
 
     public function set_merge_tags( $key, $value, $round = 2 , $dec = '.', $sep = ',')
     {
         $callback = ( is_numeric( $key ) ) ? 'calc_' . $key : $key;
+
+        // Retain display separators without changing stored numeric values.
+        $format = array( 'decimal' => $dec, 'thousands' => $sep );
+        $this->calc_formats[ $callback ] = $format;
+        $this->calc_formats[ $callback . '2' ] = $format;
 
         try {
             $locale = new stdClass();

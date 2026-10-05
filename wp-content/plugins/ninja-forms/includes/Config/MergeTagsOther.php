@@ -26,6 +26,14 @@ return apply_filters( 'ninja_forms_merge_tags_other', array(
         'callback' => 'system_date'
     ),
 
+    // Share the File Uploads key so its callback can override without duplication.
+    'fu_date' => array(
+        'id' => 'fu_date',
+        'tag' => '{other:formatted_date}',
+        'label' => __( 'Date in yyyy-mm-dd format', 'ninja-forms' ),
+        'callback' => 'mergetag_formatted_date'
+    ),
+
     /*
     |--------------------------------------------------------------------------
     | System Date
@@ -117,4 +125,4 @@ return apply_filters( 'ninja_forms_merge_tags_other', array(
         'callback' => 'mergetag_day'
     ),
 
-)); 
+));

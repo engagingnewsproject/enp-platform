@@ -311,36 +311,23 @@ class NF_Fields_Date extends NF_Fields_Textbox
             return $value;
         }
 
-        /**
-         * Explode our value at each ','.
-         * It'll be in a format like 01/05/2021,hour,minute,ampm.
-         */
-        
-        $exploded_value = explode( ',', $value );
-
-        /*
-         * A time-only value arrives already assembled, as '02:15 pm', with no
-         * commas to split on. Default the parts rather than reading positions
-         * that are not there. See #7440.
-         */
-        $date = isset ( $exploded_value[0] ) ? $exploded_value[0] : '';
-        $hour = isset ( $exploded_value[1] ) ? $exploded_value[1] : '';
-        $minute = isset ( $exploded_value[2] ) ? $exploded_value[2] : '';
-
-        $time = $hour . ':' . $minute;
-
-        if ( isset ( $exploded_value[3] ) ) {
-            $time .= ' ' . $exploded_value[3];
+        // Match the time suffix from the right: a long date can contain commas.
+        // Already assembled values (including time-only values) pass through.
+        if ( ! preg_match( '/^(.*),([0-9]{0,2}),([0-9]{0,2}),(am|pm|)$/s', $value, $parts )
+            && ! preg_match( '/^(.*),([0-9]{1,2}),([0-9]{1,2})$/s', $value, $parts ) ) {
+            return $value;
         }
 
-        if ( 'time_only' == $field[ 'settings' ][ 'date_mode' ] ) {
-            if($time === ':' && !strpos($value, ',')) {
-                return $value;
-            } else {
-                return $time;
-            } 
+        $date = $parts[1];
+        $time = ( '' !== $parts[2] || '' !== $parts[3] ) ? $parts[2] . ':' . $parts[3] : '';
+        if ( isset( $parts[4] ) && '' !== $parts[4] && '' !== $time ) {
+            $time .= ' ' . $parts[4];
         }
 
-        return $date . ' ' . $time;
+        if ( 'time_only' === $field['settings']['date_mode'] ) {
+            return $time;
+        }
+
+        return trim( $date . ' ' . $time );
     }
 }

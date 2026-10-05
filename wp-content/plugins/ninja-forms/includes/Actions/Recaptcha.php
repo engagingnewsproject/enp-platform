@@ -350,13 +350,18 @@ final class NF_Actions_Recaptcha extends SotAction implements InterfacesSotActio
 	{
 		$form_data = $this->get_form_data();
 
-		if (! $form_data || ! isset($form_data['id'])) {
+		if (! is_array($form_data) || ! isset($form_data['id'])
+			|| (! is_int($form_data['id']) && ! is_string($form_data['id']))
+			|| ! preg_match('/^([0-9]+)(_[0-9]+)?$/D', (string) $form_data['id'], $form_parts)) {
 			return false;
 		}
 
-		$field_id = $this->get_field_id_hash($form_data['id']);
+		// Rendering hashes the original form ID, then adds the display instance suffix.
+		$field_id = $this->get_field_id_hash($form_parts[1]) . ($form_parts[2] ?? '');
 
-		if (! isset($form_data['fields']) || ! isset($form_data['fields'][$field_id])) {
+		if (! isset($form_data['fields']) || ! is_array($form_data['fields'])
+			|| ! isset($form_data['fields'][$field_id]['value'])
+			|| ! is_string($form_data['fields'][$field_id]['value'])) {
 			return false;
 		}
 

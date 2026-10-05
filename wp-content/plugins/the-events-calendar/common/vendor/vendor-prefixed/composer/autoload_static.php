@@ -4,7 +4,7 @@
 
 namespace TEC\Common\Composer\Autoload;
 
-class ComposerStaticInitaa9bdf51a668bd09d1bc9ae49b37845f
+class ComposerStaticInit94c7c2b06eeaadc3aee5fefc04b11c2f
 {
     public static $prefixLengthsPsr4 = array (
         'T' =>
@@ -22,6 +22,7 @@ class ComposerStaticInitaa9bdf51a668bd09d1bc9ae49b37845f
             'TEC\\Common\\StellarWP\\Schema\\' => 28,
             'TEC\\Common\\StellarWP\\SchemaModels\\' => 34,
             'TEC\\Common\\StellarWP\\Models\\' => 28,
+            'TEC\\Common\\StellarWP\\Migrations\\' => 32,
             'TEC\\Common\\StellarWP\\Installer\\Assets_JS\\' => 41,
             'TEC\\Common\\StellarWP\\Installer\\Admin_Views\\' => 43,
             'TEC\\Common\\StellarWP\\Installer\\' => 31,
@@ -34,6 +35,7 @@ class ComposerStaticInitaa9bdf51a668bd09d1bc9ae49b37845f
             'TEC\\Common\\Psr\\Http\\Client\\' => 27,
             'TEC\\Common\\Psr\\Container\\' => 25,
             'TEC\\Common\\Nyholm\\Psr7\\' => 23,
+            'TEC\\Common\\MyCLabs\\Enum\\' => 24,
             'TEC\\Common\\Monolog\\' => 19,
             'TEC\\Common\\LiquidWeb\\LicensingApiClient\\' => 40,
             'TEC\\Common\\LiquidWeb\\LicensingApiClientWordPress\\' => 49,
@@ -102,6 +104,10 @@ class ComposerStaticInitaa9bdf51a668bd09d1bc9ae49b37845f
         array (
             0 => __DIR__ . '/..' . '/stellarwp/models/src/Models',
         ),
+        'TEC\\Common\\StellarWP\\Migrations\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/stellarwp/migrations/src',
+        ),
         'TEC\\Common\\StellarWP\\Installer\\Assets_JS\\' =>
         array (
             0 => __DIR__ . '/..' . '/stellarwp/installer/src/assets/js',
@@ -149,6 +155,10 @@ class ComposerStaticInitaa9bdf51a668bd09d1bc9ae49b37845f
         'TEC\\Common\\Nyholm\\Psr7\\' =>
         array (
             0 => __DIR__ . '/..' . '/nyholm/psr7/src',
+        ),
+        'TEC\\Common\\MyCLabs\\Enum\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/myclabs/php-enum/src',
         ),
         'TEC\\Common\\Monolog\\' =>
         array (
@@ -204,6 +214,7 @@ class ComposerStaticInitaa9bdf51a668bd09d1bc9ae49b37845f
         'Psr\\Http\\Message\\UploadedFileInterface' => __DIR__ . '/..' . '/psr/http-message/src/UploadedFileInterface.php',
         'Psr\\Http\\Message\\UriFactoryInterface' => __DIR__ . '/..' . '/psr/http-factory/src/UriFactoryInterface.php',
         'Psr\\Http\\Message\\UriInterface' => __DIR__ . '/..' . '/psr/http-message/src/UriInterface.php',
+        'Stringable' => __DIR__ . '/..' . '/myclabs/php-enum/stubs/Stringable.php',
         'TEC\\Common\\Firebase\\JWT\\BeforeValidException' => __DIR__ . '/..' . '/firebase/php-jwt/src/BeforeValidException.php',
         'TEC\\Common\\Firebase\\JWT\\CachedKeySet' => __DIR__ . '/..' . '/firebase/php-jwt/src/CachedKeySet.php',
         'TEC\\Common\\Firebase\\JWT\\ExpiredException' => __DIR__ . '/..' . '/firebase/php-jwt/src/ExpiredException.php',
@@ -549,6 +560,8 @@ class ComposerStaticInitaa9bdf51a668bd09d1bc9ae49b37845f
         'TEC\\Common\\Monolog\\SignalHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/SignalHandler.php',
         'TEC\\Common\\Monolog\\Test\\TestCase' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Test/TestCase.php',
         'TEC\\Common\\Monolog\\Utils' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Utils.php',
+        'TEC\\Common\\MyCLabs\\Enum\\Enum' => __DIR__ . '/..' . '/myclabs/php-enum/src/Enum.php',
+        'TEC\\Common\\MyCLabs\\Enum\\PHPUnit\\Comparator' => __DIR__ . '/..' . '/myclabs/php-enum/src/PHPUnit/Comparator.php',
         'TEC\\Common\\Nyholm\\Psr7\\Factory\\HttplugFactory' => __DIR__ . '/..' . '/nyholm/psr7/src/Factory/HttplugFactory.php',
         'TEC\\Common\\Nyholm\\Psr7\\Factory\\Psr17Factory' => __DIR__ . '/..' . '/nyholm/psr7/src/Factory/Psr17Factory.php',
         'TEC\\Common\\Nyholm\\Psr7\\MessageTrait' => __DIR__ . '/..' . '/nyholm/psr7/src/MessageTrait.php',
@@ -640,6 +653,35 @@ class ComposerStaticInitaa9bdf51a668bd09d1bc9ae49b37845f
         'TEC\\Common\\StellarWP\\Installer\\Handler\\Plugin' => __DIR__ . '/..' . '/stellarwp/installer/src/Installer/Handler/Plugin.php',
         'TEC\\Common\\StellarWP\\Installer\\Installer' => __DIR__ . '/..' . '/stellarwp/installer/src/Installer/Installer.php',
         'TEC\\Common\\StellarWP\\Installer\\Utils\\Array_Utils' => __DIR__ . '/..' . '/stellarwp/installer/src/Installer/Utils/Array_Utils.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Abstracts\\Migration_Abstract' => __DIR__ . '/..' . '/stellarwp/migrations/src/Abstracts/Migration_Abstract.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Admin\\Assets' => __DIR__ . '/..' . '/stellarwp/migrations/src/Admin/Assets.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Admin\\Provider' => __DIR__ . '/..' . '/stellarwp/migrations/src/Admin/Provider.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Admin\\UI' => __DIR__ . '/..' . '/stellarwp/migrations/src/Admin/UI.php',
+        'TEC\\Common\\StellarWP\\Migrations\\CLI\\Commands' => __DIR__ . '/..' . '/stellarwp/migrations/src/CLI/Commands.php',
+        'TEC\\Common\\StellarWP\\Migrations\\CLI\\Provider' => __DIR__ . '/..' . '/stellarwp/migrations/src/CLI/Provider.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Config' => __DIR__ . '/..' . '/stellarwp/migrations/src/Config.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Contracts\\Migration' => __DIR__ . '/..' . '/stellarwp/migrations/src/Contracts/Migration.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Contracts\\Template_Engine' => __DIR__ . '/..' . '/stellarwp/migrations/src/Contracts/Template_Engine.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Enums\\Log_Type' => __DIR__ . '/..' . '/stellarwp/migrations/src/Enums/Log_Type.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Enums\\Operation' => __DIR__ . '/..' . '/stellarwp/migrations/src/Enums/Operation.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Enums\\Status' => __DIR__ . '/..' . '/stellarwp/migrations/src/Enums/Status.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Exceptions\\ApiMethodException' => __DIR__ . '/..' . '/stellarwp/migrations/src/Exceptions/ApiMethodException.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Models\\Execution' => __DIR__ . '/..' . '/stellarwp/migrations/src/Models/Execution.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Provider' => __DIR__ . '/..' . '/stellarwp/migrations/src/Provider.php',
+        'TEC\\Common\\StellarWP\\Migrations\\REST\\Endpoints' => __DIR__ . '/..' . '/stellarwp/migrations/src/REST/Endpoints.php',
+        'TEC\\Common\\StellarWP\\Migrations\\REST\\Provider' => __DIR__ . '/..' . '/stellarwp/migrations/src/REST/Provider.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Registry' => __DIR__ . '/..' . '/stellarwp/migrations/src/Registry.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Tables\\Migration_Executions' => __DIR__ . '/..' . '/stellarwp/migrations/src/Tables/Migration_Executions.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Tables\\Migration_Logs' => __DIR__ . '/..' . '/stellarwp/migrations/src/Tables/Migration_Logs.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Tables\\Provider' => __DIR__ . '/..' . '/stellarwp/migrations/src/Tables/Provider.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Tasks\\Clear_Logs' => __DIR__ . '/..' . '/stellarwp/migrations/src/Tasks/Clear_Logs.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Tasks\\Execute' => __DIR__ . '/..' . '/stellarwp/migrations/src/Tasks/Execute.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Traits\\API_Methods' => __DIR__ . '/..' . '/stellarwp/migrations/src/Traits/API_Methods.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Utilities\\Cast' => __DIR__ . '/..' . '/stellarwp/migrations/src/Utilities/Cast.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Utilities\\Default_Template_Engine' => __DIR__ . '/..' . '/stellarwp/migrations/src/Utilities/Default_Template_Engine.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Utilities\\Log_Download_Handler' => __DIR__ . '/..' . '/stellarwp/migrations/src/Utilities/Log_Download_Handler.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Utilities\\Logger' => __DIR__ . '/..' . '/stellarwp/migrations/src/Utilities/Logger.php',
+        'TEC\\Common\\StellarWP\\Migrations\\Utilities\\Migration_UI' => __DIR__ . '/..' . '/stellarwp/migrations/src/Utilities/Migration_UI.php',
         'TEC\\Common\\StellarWP\\Models\\Config' => __DIR__ . '/..' . '/stellarwp/models/src/Models/Config.php',
         'TEC\\Common\\StellarWP\\Models\\Contracts\\Arrayable' => __DIR__ . '/..' . '/stellarwp/models/src/Models/Contracts/Arrayable.php',
         'TEC\\Common\\StellarWP\\Models\\Contracts\\Model' => __DIR__ . '/..' . '/stellarwp/models/src/Models/Contracts/Model.php',
@@ -884,9 +926,9 @@ class ComposerStaticInitaa9bdf51a668bd09d1bc9ae49b37845f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitaa9bdf51a668bd09d1bc9ae49b37845f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitaa9bdf51a668bd09d1bc9ae49b37845f::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitaa9bdf51a668bd09d1bc9ae49b37845f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit94c7c2b06eeaadc3aee5fefc04b11c2f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit94c7c2b06eeaadc3aee5fefc04b11c2f::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit94c7c2b06eeaadc3aee5fefc04b11c2f::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -84,6 +84,18 @@ final class NF_Admin_Menus_Addons extends NF_Abstracts_Submenu
         if ( !$u_id ) $u_id = apply_filters( 'ninja_forms_affiliate_id', false );
 
         foreach ($items as &$item) {
+            // Normalize renamed first-party destinations in cached feeds as well as fallback data.
+            // Do this before affiliate wrapping so the destination remains correct there too.
+            foreach ( array( 'docs', 'link' ) as $link_key ) {
+                if ( isset( $item[ $link_key ] ) && is_string( $item[ $link_key ] ) ) {
+                    $item[ $link_key ] = preg_replace(
+                        '~^(https?://(?:www\.)?ninjaforms\.com/(?:docs|extensions)/)post-creation(?=/|[?#]|$)~i',
+                        '${1}front-end-posting',
+                        $item[ $link_key ]
+                    );
+                }
+            }
+
             $plugin_data = array();
             if( !empty( $item['plugin'] ) && file_exists( WP_PLUGIN_DIR.'/'.$item['plugin'] ) ){
                 $plugin_data = get_plugin_data( WP_PLUGIN_DIR.'/'.$item['plugin'], false, true );

@@ -4,7 +4,7 @@ Tags: forms, form builder, contact form, custom form, calculator form
 
 Requires at least: 6.9
 Tested up to: 7.1
-Stable tag: 3.15.4
+Stable tag: 3.15.5
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -211,27 +211,59 @@ This section describes how to install the plugin and get it working.
 7. A finished form on the front end, with a live total, a star rating, and a signature
 
 == Upgrade Notice ==
-= 3.15.4 (21 September 2026) =
+= 3.15.5 (28 September 2026) =
 
 *Security Enhancements:*
 
-- strengthen output escaping in admin submission edit screen; responsibly reported by Venkateswara Reddy Challa
-- protect CSV export against object injection in stored submission data
-- enforce server-side option validation for list fields
+- strengthen sanitization of Paragraph Text (Rich Text) field submissions against stored cross-site scripting
 
 *Bug Fixes:*
 
-- add CSS class setting to Hidden fields
-- make Select Image field mobile responsive
-- use relative paths for image URLs in Select Image field
-- fix JavaScript error when deleting forms in dashboard
-- resolve PHP warning for undefined reCAPTCHA settings key
-- display form title correctly when heading level is unset
-- return proper error when submission abilities reference nonexistent submission
-- prevent fatal memory error on Get Help page with large debug logs
-- silence PHP 8 warning from add-on update checker when store returns no record
+- save File Upload and other fields inside a Repeatable Fieldset correctly
+- remove "Undefined array key fields-save-toggle" PHP warning when saving submissions
+- remove foreach() PHP warnings when a repeatable fieldset is left blank
+- display calculation values with the correct locale separator in form actions
+- stop embedded-page forms from reflecting unsaved builder changes
+- hide unknown fields from merge tag name search results
+- stop the "Congratulations" popup from appearing after every builder action
+- send opt-in telemetry only once
+- fix the AM/PM indicator for long date/time formats
+- prevent an unnecessary redirect with GET parameters on a second submission
+- fix the broken Front End Posting documentation link
+- support reCAPTCHA v3 when the same form is embedded multiple times on a page
+- show copied fields in the merge tag list
+- allow number fields to be pre-populated via query strings
+- add the {other:formatted_date} merge tag to core
+- rename the "Disable Browser Autocomplete" setting for clarity and note that browsers may still autofill
+- reject list fields created without options through the abilities API
 
 == Changelog ==
+= 3.15.5 (28 September 2026) =
+
+*Security Enhancements:*
+
+- strengthen sanitization of Paragraph Text (Rich Text) field submissions against stored cross-site scripting
+
+*Bug Fixes:*
+
+- save File Upload and other fields inside a Repeatable Fieldset correctly
+- remove "Undefined array key fields-save-toggle" PHP warning when saving submissions
+- remove foreach() PHP warnings when a repeatable fieldset is left blank
+- display calculation values with the correct locale separator in form actions
+- stop embedded-page forms from reflecting unsaved builder changes
+- hide unknown fields from merge tag name search results
+- stop the "Congratulations" popup from appearing after every builder action
+- send opt-in telemetry only once
+- fix the AM/PM indicator for long date/time formats
+- prevent an unnecessary redirect with GET parameters on a second submission
+- fix the broken Front End Posting documentation link
+- support reCAPTCHA v3 when the same form is embedded multiple times on a page
+- show copied fields in the merge tag list
+- allow number fields to be pre-populated via query strings
+- add the {other:formatted_date} merge tag to core
+- rename the "Disable Browser Autocomplete" setting for clarity and note that browsers may still autofill
+- reject list fields created without options through the abilities API
+
 = 3.15.4 (21 September 2026) =
 
 *Security Enhancements:*

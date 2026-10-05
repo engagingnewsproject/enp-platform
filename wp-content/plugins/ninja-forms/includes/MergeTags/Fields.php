@@ -551,7 +551,7 @@ class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
 
         $outgoing = $incoming; // Initialize with incoming value to prevent undefined variable warning
 
-        if('repeater'===$type) {
+        if('repeater'===$type && is_array($incoming)) {
             // Iterate each repeater value
             foreach($incoming as $fieldsetFieldId=>$fieldsetFieldSubmissionValue ){
                 

@@ -198,6 +198,12 @@ class NF_Actions_Save extends SotAction implements InterfacesSotAction
 
         $hidden_field_types = apply_filters('nf_sub_hidden_field_types', array());
 
+        // Legacy and programmatically created actions can omit these settings.
+        // An absent toggle keeps the existing save-everything fallback.
+        $save_all_none = $action_settings['fields-save-toggle'] ?? '';
+        $exception_fields = isset($action_settings['exception_fields']) && is_array($action_settings['exception_fields'])
+            ? $action_settings['exception_fields'] : array();
+
         // For each field on the form...
         foreach ($data['fields'] as $field) {
 
@@ -218,14 +224,13 @@ class NF_Actions_Save extends SotAction implements InterfacesSotAction
                 }
             }
 
-            $save_all_none = $action_settings['fields-save-toggle'];
             $save_field = true;
 
             // If we were told to save all fields...
             if ('save_all' == $save_all_none) {
                 $save_field = true;
                 // For each exception to that rule...
-                foreach ($action_settings['exception_fields'] as $exception_field) {
+                foreach ($exception_fields as $exception_field) {
                     // Remove it from the list.
                     if ($field['key'] == $exception_field['field']) {
                         $save_field = false;
@@ -237,7 +242,7 @@ class NF_Actions_Save extends SotAction implements InterfacesSotAction
                 $save_field = false;
                 // For each exception to that rule...
                 foreach (
-                    $action_settings['exception_fields'] as
+                    $exception_fields as
                     $exception_field
                 ) {
                     // Add it to the list.

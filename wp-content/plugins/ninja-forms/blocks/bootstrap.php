@@ -24,7 +24,7 @@ add_action('init', function () {
         'render_callback' => function ($atts) {
             $formID = isset($atts['formID']) ? $atts['formID'] : 1;
             ob_start();
-            Ninja_Forms()->display( absint($formID), true );
+            Ninja_Forms()->display( absint($formID), false );
             return ob_get_clean();
         },
         'editor_script' => 'ninja-forms/form'

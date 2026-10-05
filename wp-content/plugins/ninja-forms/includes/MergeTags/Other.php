@@ -201,6 +201,11 @@ class NF_MergeTags_Other extends NF_Abstracts_MergeTags
         return apply_filters('ninja_forms-mergetag_random', $random_string );
     }
 
+    protected function mergetag_formatted_date()
+    {
+        return apply_filters( 'ninja_forms-mergetag_formatted_date', wp_date( 'Y-m-d' ) );
+    }
+
     protected function mergetag_year()
     {
 
