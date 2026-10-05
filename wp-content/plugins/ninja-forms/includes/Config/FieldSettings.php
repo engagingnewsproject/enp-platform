@@ -927,13 +927,14 @@ return apply_filters( 'ninja_forms_field_settings', array(
     ),
 
     /*
-     * Disable Browser Autocomplete
+     * Request Browser Autocomplete Off
      */
 
     'disable_browser_autocomplete' => array(
         'name' => 'disable_browser_autocomplete',
         'type' => 'toggle',
-        'label' => esc_html__( 'Disable Browser Autocomplete', 'ninja-forms' ),
+        'label' => esc_html__( 'Request Browser Autocomplete Off', 'ninja-forms' ),
+        'help' => esc_html__( 'This setting asks the browser not to autocomplete this field. Browsers may still offer autofill, especially for names, email addresses, and other personal information.', 'ninja-forms' ),
         'width' => 'full',
         'group' => 'restrictions',
     ),

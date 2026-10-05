@@ -749,6 +749,18 @@ class NF_Routes_Submissions extends NF_Abstracts_Routes
             }
         }
 
+        // Re-sent emails need the same display context as the initial email action.
+        // Keep the caller's settings shape while supplying the action filter's context.
+        $email_settings = apply_filters( 'ninja_forms_run_action_settings', array_merge(
+            (array) $data,
+            array( 'objectType' => 'Action', 'type' => 'email' )
+        ), $form_id, isset( $data->id ) ? $data->id : 0, $formSettings );
+        foreach ( $data as $key => $value ) {
+            if ( array_key_exists( $key, $email_settings ) ) {
+                $data->$key = $email_settings[$key];
+            }
+        }
+
         //Loop through Action settings and apply merge tags
         $array_data = (array) $data;
         foreach( $array_data as $ind => $value ){

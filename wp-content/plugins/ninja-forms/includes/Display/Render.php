@@ -266,11 +266,16 @@ class NF_Display_Render
 
                 $default_value = ( isset( $settings[ 'default' ] ) ) ? $settings[ 'default' ] : null;
                 $default_value = apply_filters('ninja_forms_render_default_value', $default_value, $field_type, $settings);
-                if ( $default_value ) {
+                // Number templates read default before value on a clean field.
+                if ( 'number' === $field_type ) {
+                    $default_value = is_numeric( $default_value ) ? trim( (string) $default_value ) : '';
+                    $settings['default'] = $default_value;
+                }
+                if ( $default_value || ( 'number' === $field_type && '0' === $default_value ) ) {
 
                     $default_value = preg_replace( '/{[^}]}/', '', $default_value );
 
-                    if ($default_value) {
+                    if ( $default_value || ( 'number' === $field_type && '0' === $default_value ) ) {
                         $settings['value'] = $default_value;
 
                         if( ! is_array( $default_value ) ) {
@@ -712,11 +717,16 @@ class NF_Display_Render
 
                 $default_value = ( isset( $field[ 'settings' ][ 'default' ] ) ) ? $field[ 'settings' ][ 'default' ] : null;
                 $default_value = apply_filters( 'ninja_forms_render_default_value', $default_value, $field_type, $field[ 'settings' ]);
-                if( $default_value ){
+                // Keep the preview's numeric default consistent with the published form.
+                if ( 'number' === $field_type ) {
+                    $default_value = is_numeric( $default_value ) ? trim( (string) $default_value ) : '';
+                    $field['settings']['default'] = $default_value;
+                }
+                if ( $default_value || ( 'number' === $field_type && '0' === $default_value ) ) {
 
                     $default_value = preg_replace( '/{.*}/', '', $default_value );
 
-                    if ($default_value) {
+                    if ( $default_value || ( 'number' === $field_type && '0' === $default_value ) ) {
                         $field['settings']['value'] = $default_value;
 
                         if( ! is_array( $default_value ) ) {

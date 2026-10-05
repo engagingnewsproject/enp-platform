@@ -4,7 +4,7 @@
     'name' => 'the-events-calendar/tribe-common',
     'pretty_version' => 'dev-main',
     'version' => 'dev-main',
-    'reference' => '33ac5ab1dbb574a5dbc2c5c5ac795eb9be4eaae3',
+    'reference' => '7dd9994a662f86b34e60af064595f50512b701c5',
     'type' => 'wordpress-plugin',
     'install_path' => __DIR__ . '/../',
     'aliases' => 
@@ -45,6 +45,18 @@
       'reference' => '5cf826f2991858b54d5c3809bee745560a1042a7',
       'type' => 'library',
       'install_path' => __DIR__ . '/../monolog/monolog',
+      'aliases' => 
+      array (
+      ),
+      'dev_requirement' => false,
+    ),
+    'myclabs/php-enum' => 
+    array (
+      'pretty_version' => '1.8.5',
+      'version' => '1.8.5.0',
+      'reference' => 'e7be26966b7398204a234f8673fdad5ac6277802',
+      'type' => 'library',
+      'install_path' => __DIR__ . '/../myclabs/php-enum',
       'aliases' => 
       array (
       ),
@@ -230,6 +242,19 @@
       ),
       'dev_requirement' => false,
     ),
+    'stellarwp/migrations' => 
+    array (
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
+      'reference' => '84edb1bb995adc7c94fb5c2687756938121345a8',
+      'type' => 'library',
+      'install_path' => __DIR__ . '/../stellarwp/migrations',
+      'aliases' => 
+      array (
+        0 => '9999999-dev',
+      ),
+      'dev_requirement' => false,
+    ),
     'stellarwp/models' => 
     array (
       'pretty_version' => '2.0.0',
@@ -268,9 +293,9 @@
     ),
     'stellarwp/shepherd' => 
     array (
-      'pretty_version' => '0.2.0',
-      'version' => '0.2.0.0',
-      'reference' => '63c02ff7d978452c2fd879eed910a756e7abd185',
+      'pretty_version' => '0.2.1',
+      'version' => '0.2.1.0',
+      'reference' => 'f35d201d44f9c9edb7b359b2c4c23d6b6220296f',
       'type' => 'library',
       'install_path' => __DIR__ . '/../stellarwp/shepherd',
       'aliases' => 

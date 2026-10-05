@@ -147,10 +147,11 @@ final class NF_Tracking
         update_option( 'ninja_forms_allow_tracking', true );
         update_option( 'ninja_forms_do_not_allow_tracking', false );
 
-        /**
-         * Send updated environment variables.
-         */
-        Ninja_Forms()->dispatcher()->sendTelemetryData();
+        // report_optin sends the initial telemetry snapshot. If that report was
+        // already sent independently, enabling tracking still refreshes telemetry.
+        if ( get_option( 'ninja_forms_optin_reported', 0 ) ) {
+            Ninja_Forms()->dispatcher()->sendTelemetryData();
+        }
 
         /**
          * Send our optin event

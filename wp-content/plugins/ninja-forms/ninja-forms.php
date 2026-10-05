@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: https://ninjaforms.com/?utm_source=WordPress.org&utm_medium=Plugin+header
 Description: Free WordPress form builder with calculations, signatures, star ratings, unlimited submissions stored on your site, and an AI form builder.
-Version: 3.15.4
+Version: 3.15.5
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -45,7 +45,7 @@ final class Ninja_Forms
      * @since 3.0
      */
 
-    const VERSION = '3.15.4';
+    const VERSION = '3.15.5';
 
     /**
      * @since 3.4.0

@@ -233,6 +233,15 @@ function ninja_forms_ability_persist_field( $form_id, $field_data, $insertion_po
 	// Set help text (always set, even if empty, for dashboard parity)
 	$field->update_setting( 'help_text', isset( $field_data['help_text'] ) ? sanitize_text_field( $field_data['help_text'] ) : '' );
 
+	// Match the builder's registered defaults when options were omitted.
+	// Explicit arrays, including an empty list, remain the caller's choice.
+	if ( ! array_key_exists( 'options', $field_data ) ) {
+		$type_settings = Ninja_Forms()->fields[ $field_data['type'] ]->get_settings();
+		if ( isset( $type_settings['options']['value'] ) && is_array( $type_settings['options']['value'] ) ) {
+			$field_data['options'] = $type_settings['options']['value'];
+		}
+	}
+
 	// Handle list field options
 	if ( isset( $field_data['options'] ) && is_array( $field_data['options'] ) ) {
 		$options = array();

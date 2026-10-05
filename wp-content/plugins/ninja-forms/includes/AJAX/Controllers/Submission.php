@@ -305,13 +305,10 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
                     $valid_child_ids[ (string) $child_field['id'] ] = $child_field;
                 }
 
-                foreach( $field["value"] as $index => $child_field_value ){
-                    // Extract child field ID from key (part before first dot).
-                    // Legitimate keys: "{childFieldId}.{instanceNumber}" e.g., "9.0", "9.1"
-                    $key_parts = explode( '.', (string) $index, 2 );
-                    $submitted_child_id = $key_parts[0];
+                foreach( ( is_array( $field['value'] ) ? $field['value'] : array() ) as $index => $child_field_value ){
+                    $submitted_child_id = $this->resolve_repeater_child_id( (string) $index, $valid_child_ids );
 
-                    if( isset( $valid_child_ids[ $submitted_child_id ] ) ) {
+                    if( null !== $submitted_child_id ) {
                         // Apply whitelist to repeater child fields using server-side definition.
                         // @see https://github.com/Saturday-Drive/ninja-forms/issues/8011
                         $child_field = $valid_child_ids[ $submitted_child_id ];
@@ -326,7 +323,7 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
             /** Validate the Field */
             if( $validate_fields && ! isset( $this->_data[ 'resume' ] ) ){
                 if( $field["type"] === "repeater" ){
-                    foreach( $field["value"] as  $index => $child_field ){
+                    foreach( ( is_array( $field['value'] ) ? $field['value'] : array() ) as $index => $child_field ){
                         $this->validate_field( $field["value"][$index] );
                     }
                 } else {
@@ -338,7 +335,7 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
             /** Process the Field */
             if( ! isset( $this->_data[ 'resume' ] ) ) {
                 if( $field["type"] === "repeater" ){
-                    foreach( $field["value"] as $index => $child_field ){
+                    foreach( ( is_array( $field['value'] ) ? $field['value'] : array() ) as $index => $child_field ){
                         $this->process_field( $field["value"][$index] );
                     }
                 } else {
@@ -782,6 +779,31 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
      * @param array $whitelist    Allowed properties to copy from submission.
      * @return array The server field with allowed properties merged from submission.
      */
+    /**
+     * Resolve a Repeatable Fieldset entry to the child field it belongs to.
+     *
+     * @see https://github.com/Saturday-Drive/ninja-forms/issues/8116
+     *
+     * @param string $index           the submitted entry's key
+     * @param array  $valid_child_ids child fields of this fieldset, keyed by id
+     *
+     * @return string|null the child field id, or null when the entry matches none
+     */
+    protected function resolve_repeater_child_id( $index, $valid_child_ids )
+    {
+        $index = (string) $index;
+
+        // A submitted key is the child field's own id followed by the repeat
+        // number, for example "5.1_0" for the first repeat of child field "5.1".
+        // A child field id already contains a dot - it is the fieldset's id, a
+        // dot, then the child's number - so the child id is everything before
+        // the final underscore, not everything before the first dot (#8140).
+        $separator = strrpos( $index, '_' );
+        $submitted_child_id = false === $separator ? $index : substr( $index, 0, $separator );
+
+        return isset( $valid_child_ids[ $submitted_child_id ] ) ? $submitted_child_id : null;
+    }
+
     protected function apply_field_whitelist( array $server_field, array $submitted, array $whitelist ): array {
         // Security-critical properties that can NEVER be overridden by client data,
         // regardless of any filter or whitelist configuration.

@@ -801,8 +801,12 @@ Label Three
 <script id="tmpl-nf-edit-setting-toggle" type="text/template">
 
     <span class="nf-setting-label">{{{ data.label }}}{{{ data.renderTooltip() }}}</span>
-    <input type="checkbox" data-setting="{{{ data.settingName }}}" id="{{{ data.name }}}" class="nf-toggle setting" {{{ ( 1 == data.value ) ? 'checked' : '' }}} />
+    <input type="checkbox" data-setting="{{{ data.settingName }}}" id="{{{ data.name }}}" class="nf-toggle setting" <# if ( 'disable_browser_autocomplete' === data.name ) { #>aria-describedby="nf-autocomplete-guidance"<# } #> {{{ ( 1 == data.value ) ? 'checked' : '' }}} />
     <label for="{{{ data.name }}}">{{{ data.label }}}</label>
+
+    <# if ( 'disable_browser_autocomplete' === data.name ) { #>
+    <p id="nf-autocomplete-guidance">{{ data.help }}</p>
+    <# } #>
 
 </script>
 
