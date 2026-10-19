@@ -36,8 +36,6 @@ if ((
 	// This group setting will show the fields on the team_category taxonomy page
 	// Example: WP Admin > Team > Team Category > click category > Frontend Team Settings
 	
-	// TODO: Add ACF Frontend Team Settings color pickers for Title and Supertitle (maybe more!)
-	
 	// Get all team categories from WordPress, including empty ones
 	$team_categories = get_terms([
 		'taxonomy' => 'team_category',
@@ -65,7 +63,9 @@ if ((
 		$context['processed_titles'][$slug] = [
 			'has_acf' => false,
 			'title' => '',
-			'subtitle' => ''
+			'supertitle' => '',
+			'title_color' => '#bf5700',
+			'supertitle_color' => '#333f48'
 		];
 
         // Get custom title from ACF field 'category_title' for this team category
@@ -76,13 +76,19 @@ if ((
         // Example: If term_id is 5, looks for field in 'team_category_5'
 		$acf_title = get_field('category_title', 'team_category_' . $category->term_id);
 		$acf_supertitle = get_field('category_supertitle', 'team_category_' . $category->term_id);
+		$acf_title_color = sanitize_hex_color((string) get_field('category_title_color', 'team_category_' . $category->term_id));
+		$acf_supertitle_color = sanitize_hex_color((string) get_field('category_supertitle_color', 'team_category_' . $category->term_id));
+		$title_color = $acf_title_color ?: '#bf5700';
+		$supertitle_color = $acf_supertitle_color ?: '#333f48';
 
 		if ($acf_title || $acf_supertitle) {
 			// Use ACF fields if they exist
 			$context['processed_titles'][$slug] = [
 				'has_acf' => true,
 				'title' => $acf_title,
-				'supertitle' => $acf_supertitle
+				'supertitle' => $acf_supertitle,
+				'title_color' => $title_color,
+				'supertitle_color' => $supertitle_color
 			];
 		} else {
 			// Fall back to default title and split it if necessary
@@ -95,7 +101,9 @@ if ((
 			$context['processed_titles'][$slug] = [
 				'has_acf' => false, 													// Indicates no custom fields were found
 				'title' => count($title_parts) > 1 ? $title_parts[1] : $title_parts[0], // For multi-word titles, use second word, otherwise use first
-				'supertitle' => count($title_parts) > 1 ? $title_parts[0] : ''			// For multi-word titles, use first word as subtitle
+				'supertitle' => count($title_parts) > 1 ? $title_parts[0] : '',			// For multi-word titles, use first word as subtitle
+				'title_color' => $title_color,
+				'supertitle_color' => $supertitle_color
 			];
 		}
 	}
