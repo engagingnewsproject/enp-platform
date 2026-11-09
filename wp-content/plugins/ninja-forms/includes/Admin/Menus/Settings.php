@@ -176,7 +176,7 @@ final class NF_Admin_Menus_Settings extends NF_Abstracts_Submenu
             'batchNonce'   => wp_create_nonce( 'ninja_forms_batch_nonce' ),
             'i18n'          => array(
                 'trashExpiredSubsMessage'          => esc_html__( 'Are you sure you want to trash all expired submissions?', 'ninja-forms' ),
-                'trashExpiredSubsButtonPrimary'    => esc_html__( 'Trash', 'ninja-forms' ),
+                'trashExpiredSubsButtonPrimary'    => esc_html_x( 'Trash', 'verb: move to the trash', 'ninja-forms' ),
                 'trashExpiredSubsButtonSecondary'  => esc_html__( 'Cancel', 'ninja-forms' ),
             ),
             'allow_telemetry' => $allow_tel,
@@ -197,8 +197,9 @@ final class NF_Admin_Menus_Settings extends NF_Abstracts_Submenu
             'batchNonce'   => wp_create_nonce( 'ninja_forms_batch_nonce' ),
             'i18n'          => array(
                 'trashExpiredSubsMessage'          => esc_html__( 'Are you sure you want to trash all expired submissions?', 'ninja-forms' ),
-                'trashExpiredSubsButtonPrimary'    => esc_html__( 'Trash', 'ninja-forms' ),
+                'trashExpiredSubsButtonPrimary'    => esc_html_x( 'Trash', 'verb: move to the trash', 'ninja-forms' ),
                 'trashExpiredSubsButtonSecondary'  => esc_html__( 'Cancel', 'ninja-forms' ),
+                'deleteSavedFieldFailed'           => esc_html__( "We couldn't confirm this favorite field was deleted. Refresh the page to see the current list.", 'ninja-forms' ),
             ),
             'allow_telemetry' => $allow_tel,
             'nf_optin_nonce' => wp_create_nonce( 'nf_optin_nonce' ),

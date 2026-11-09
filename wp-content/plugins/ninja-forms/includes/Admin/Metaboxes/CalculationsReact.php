@@ -87,14 +87,16 @@ class CalculationsReact
                 }
 
                 $raw = [
-                    'label' =>  \esc_html($name). __(' - Raw', 'ninja-forms'),
+                    /* translators: %s is the name of a calculation. */
+                    'label' => sprintf( __( '%s - Raw', 'ninja-forms' ), \esc_html( $name ) ),
                     'value' => $contents['raw']
                 ];
 
                 $return[] = $raw;
                 
                 $parsed = [
-                    'label' =>  \esc_html($name) . __(' - Parsed', 'ninja-forms'),
+                    /* translators: %s is the name of a calculation. */
+                    'label' => sprintf( __( '%s - Parsed', 'ninja-forms' ), \esc_html( $name ) ),
                     'value' => $contents['parsed']
                 ];
 

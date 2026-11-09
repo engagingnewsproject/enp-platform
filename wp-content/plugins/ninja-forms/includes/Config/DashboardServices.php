@@ -5,7 +5,8 @@ return apply_filters( 'ninja_forms_services', [
         'name' => 'SendWP',
         'slug' => 'sendwp',
         'installPath' => 'sendwp/sendwp.php',
-        'description' =>  __('SendWP is a business-grade email service and close partner of Ninja Forms dedicated to making sure all of your WordPress email is delivered every time. We send millions of emails every year and maintain a 99.5% deliverability rate! With SendWP, say goodbye to email support headaches. We have a team of email professionals to handle any issues that may arise.', 'ninja-forms'),
+        /* translators: ||| separates two paragraphs; keep it exactly, with no spaces around it. */
+        'description' =>  __('SendWP is a business-grade email service and close partner of Ninja Forms dedicated to making sure all of your WordPress email is delivered every time. We send millions of emails every year and maintain a 99.5% deliverability rate!|||With SendWP, say goodbye to email support headaches. We have a team of email professionals to handle any issues that may arise.', 'ninja-forms'),
         'enabled' => null,
         'learnMore' => 'https://sendwp.com/',
     ],
@@ -19,7 +20,8 @@ return apply_filters( 'ninja_forms_services', [
     'wpml' => [
         'name' => 'WPML',
         'slug' => 'wpml',
-        'description' => __('WPML makes it easy to build and run multilingual WordPress websites. Translate pages, posts, custom types, taxonomies, menus, and more with a combination of automatic and human translations. Choose what to translate, who will translate it, and target languages from one dashboard. WPML is fully compatible with and a committed partner of Ninja Forms.', 'ninja-forms'),
+        /* translators: ||| separates two paragraphs; keep it exactly, with no spaces around it. */
+        'description' => __('WPML makes it easy to build and run multilingual WordPress websites. Translate pages, posts, custom types, taxonomies, menus, and more with a combination of automatic and human translations.|||Choose what to translate, who will translate it, and target languages from one dashboard. WPML is fully compatible with and a committed partner of Ninja Forms.', 'ninja-forms'),
         'enabled' => null,
         'learnMore' => 'https://wpml.org/plugin/ninja-forms/',
     ],
@@ -33,7 +35,8 @@ return apply_filters( 'ninja_forms_services', [
     'codeable' => [
         'name' => 'Codeable',
         'slug' => 'codeable',
-        'description' => __('Codeable matches customers in need of custom WordPress solutions to professional WordPress experts. Match your needs with hand-picked WordPress and Ninja Forms specialists for any project size or type. Codeable\'s Ninja Forms experts excel at plugin and theme customization, custom integrations, and much more.', 'ninja-forms'),
+        /* translators: ||| separates two paragraphs; keep it exactly, with no spaces around it. */
+        'description' => __('Codeable matches customers in need of custom WordPress solutions to professional WordPress experts. Match your needs with hand-picked WordPress and Ninja Forms specialists for any project size or type.|||Codeable\'s Ninja Forms experts excel at plugin and theme customization, custom integrations, and much more.', 'ninja-forms'),
         'enabled' => null,
         'learnMore' => 'https://www.codeable.io/partners/ninja-forms/?ref=nVHqb',
     ],
@@ -47,7 +50,8 @@ return apply_filters( 'ninja_forms_services', [
     'omnisend' => [
         'name' => 'Omnisend',
         'slug' => 'omnisend',
-        'description' => __('Omnisend\'s Ninja Forms Add-on connects Ninja Forms to Omnisend, automatically sending form data and contact information to Omnisend. This makes it simple to segment your contacts and send them personalized emails. Compatible with the Omnisend for WooCommerce plugin.', 'ninja-forms'),
+        /* translators: ||| separates two paragraphs; keep it exactly, with no spaces around it. */
+        'description' => __('Omnisend\'s Ninja Forms Add-on connects Ninja Forms to Omnisend, automatically sending form data and contact information to Omnisend. This makes it simple to segment your contacts and send them personalized emails.|||Compatible with the Omnisend for WooCommerce plugin.', 'ninja-forms'),
         'enabled' => null,
         'learnMore' => 'https://wordpress.org/plugins/omnisend-for-ninja-forms-add-on/',
     ],

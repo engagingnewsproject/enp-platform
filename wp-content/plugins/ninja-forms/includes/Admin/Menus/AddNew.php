@@ -30,7 +30,7 @@ final class NF_Admin_Menus_AddNew extends NF_Abstracts_Submenu
 
     public function get_page_title()
     {
-        return esc_html__( 'Add New', 'ninja-forms' );
+        return esc_html__( 'Add New Form', 'ninja-forms' );
     }
 
     public function get_capability()

@@ -1,10 +1,13 @@
 <script id="tmpl-nf-field-terms" type="text/template">
     <ul aria-describedby="nf-error-{{{ data.id }}}">
         {{{ data.renderOptions() }}}
-        <# if( ( 'undefined' != typeof add_new_terms ) && add_new_terms ) { #>
-        <li>
-            <input type="text" class="extra-value nf-element">
-            <button class="extra">{{{ nfi18n.fieldsTermsAdd }}}</button>
+        <# if( ( 'undefined' != typeof data.add_new_terms ) && data.add_new_terms ) { #>
+        <li class="nf-terms-add-new">
+            <div class="nf-terms-add-controls">
+                <label class="nf-sr-only" for="nf-field-{{{ data.id }}}-new-term">{{{ nfi18n.fieldsTermsNewName }}}</label>
+                <input type="text" id="nf-field-{{{ data.id }}}-new-term" class="extra-value nf-element ninja-forms-field">
+                <button type="button" class="extra nf-terms-add-button ninja-forms-field">{{{ nfi18n.fieldsTermsAdd }}}</button>
+            </div>
         </li>
         <# } #>
     </ul>

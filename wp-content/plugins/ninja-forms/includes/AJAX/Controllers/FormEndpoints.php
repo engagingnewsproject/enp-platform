@@ -66,7 +66,8 @@ class NF_AJAX_Controllers_FormEndpoints extends NF_Abstracts_Controller
 
         $form_title = $form->get_setting( 'title' );
 
-        $new_form_title = $form_title . " - " . esc_html__( 'copy', 'ninja-forms' );
+        /* translators: %s is the title of the form that was duplicated. */
+        $new_form_title = sprintf( esc_html__( '%s - copy', 'ninja-forms' ), $form_title );
 
         $new_form->update_setting( 'title', $new_form_title );
 

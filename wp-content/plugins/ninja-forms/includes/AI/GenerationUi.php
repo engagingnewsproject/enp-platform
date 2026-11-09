@@ -87,7 +87,7 @@ class GenerationUi
             . '<textarea id="nf-ai-form-prompt" rows="5" data-max-length="'
             . esc_attr($this->promptLimit) . '" aria-describedby="nf-ai-form-count nf-ai-form-error" placeholder="'
             // phpcs:ignore Generic.Files.LineLength.TooLong -- Translator-safe string.
-            . esc_attr__('e.g. A catering quote request form: name, email, phone, event date, number of guests, and a message.', 'ninja-forms') . '"></textarea>'
+            . esc_attr__('e.g. a catering quote request form: name, email, phone, event date, number of guests, and a message.', 'ninja-forms') . '"></textarea>'
             . '<div class="nf-ai-prompt-meta"><span id="nf-ai-form-count" '
             . 'class="nf-ai-prompt-count" aria-live="polite">'
             /*

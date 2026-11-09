@@ -124,6 +124,11 @@ class NF_Admin_Processes_ChunkPublish extends NF_Abstracts_BatchProcess
 
         unset( $form_data[ 'settings' ][ '_seq_num' ] );
 
+        // Apply the unfiltered_html policy to rich-text form messages, as for field settings (#8254).
+        if( WPN_Helper::maybe_disallow_unfiltered_html_for_sanitization() ) {
+            $form_data[ 'settings' ] = WPN_Helper::sanitize_form_html_settings( $form_data[ 'settings' ] );
+        }
+
         $form->update_settings( $form_data[ 'settings' ] )->save();
 
         if( isset( $form_data[ 'fields' ] ) ) {

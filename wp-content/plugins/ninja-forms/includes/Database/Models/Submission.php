@@ -614,8 +614,13 @@ class NF_Database_Models_Submission
                             // If the column in the row value is a repeater
                             // fieldset field, copy the next submission index value
                             
-                            
-                            $repeatingValueArray[$index][]=$columnValue[$index];
+                            // A submission that left the fieldset empty has no
+                            // value at any index, and the row still needs a cell
+                            // under this column so every later column stays
+                            // under its own header.
+                            $repeatingValueArray[$index][] = isset($columnValue[$index])
+                                ? $columnValue[$index]
+                                : '';
                         }
                     }
                     // at the end of the row value columns, increment the index

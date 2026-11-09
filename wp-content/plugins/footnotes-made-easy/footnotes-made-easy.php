@@ -1,13 +1,13 @@
 <?php
 /*
  * Plugin Name:       Footnotes Made Easy
- * Plugin URI:        https://lumumbas.blog/plugins/footnotes-made-easy/
+ * Plugin URI:        https://wordpress.org/plugins/footnotes-made-easy/
  * Description:       Allows post authors to easily add and manage footnotes in posts.
- * Version:           3.2.2
+ * Version:           3.2.3
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Patrick Lumumba
- * Author URI:        https://lumumbas.blog
+ * Author URI:        https://lumumbas-blog.co.ke
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       footnotes-made-easy
@@ -28,34 +28,54 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin version — kept in sync with the header above. Used for cache-busting
-// and for the welcome-modal version comparison (more reliable than reading the
+// and for the once-per-version orphan cleanup (more reliable than reading the
 // header at runtime via get_plugin_data(), which isn't always loaded on admin_init).
 if ( ! defined( 'FME_VERSION' ) ) {
-    define( 'FME_VERSION', '3.2.2' );
+    define( 'FME_VERSION', '3.2.3' );
 }
 
-// External Pro upgrade / pricing page. Kept for public, shareable links only.
+// Pro landing page (pricing, comparison, checkout).
 if ( ! defined( 'FME_PRO_URL' ) ) {
-    define( 'FME_PRO_URL', 'https://altvisewp.com/plugins/footnotes-made-easy/' );
+    define( 'FME_PRO_URL', 'https://altvisewp.com/fme-pro/' );
 }
 
 /**
- * URL of the in-plugin Pro page (admin.php?page=footnotes-pro).
+ * URL of the Pro landing page.
  *
- * All in-admin "Upgrade to Pro" / "Get Pro" CTAs point here. On multisite the
- * page lives in the network admin, so return the network URL there.
+ * All in-admin "Upgrade to Pro" / "Get Pro" CTAs point here. It is an external
+ * page, so links to it should open in a new tab (target="_blank").
  *
  * @return string
  */
 function fme_pro_page_url() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Uses the plugin's established fme_ prefix.
-    return is_multisite()
-        ? network_admin_url( 'admin.php?page=footnotes-pro' )
-        : admin_url( 'admin.php?page=footnotes-pro' );
+    return 'https://altvisewp.com/fme-pro/';
 }
+
+/**
+ * Send the legacy admin.php?page=footnotes-pro URL to the Pro landing page.
+ *
+ * The in-plugin Pro page was retired. The "Upgrade to Pro" submenu item still
+ * uses that slug, and old bookmarks may too, so redirect before any output.
+ */
+function fme_redirect_legacy_pro_page() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Uses the plugin's established fme_ prefix.
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- $_GET['page'] is a routing parameter, not form data.
+    $page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+
+    if ( 'footnotes-pro' !== $page || defined( 'FME_PRO_VERSION' ) || ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
+
+    wp_redirect( fme_pro_page_url() ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Fixed external URL, not user input.
+    exit;
+}
+add_action( 'admin_init', 'fme_redirect_legacy_pro_page' );
 
 // Multilingual support: make the footnote header/footer text translatable via
 // Polylang and WPML. No-ops on sites without a translation plugin.
 require_once dirname( __FILE__ ) . '/includes/multilingual.php';
+
+// Black Friday promo banner (free users, campaign window only).
+require_once dirname( __FILE__ ) . '/includes/black-friday-banner.php';
 
 /**
  * Enqueue plugin admin styles and scripts — only on our plugin pages.
@@ -73,7 +93,6 @@ function fme_enqueue_styles( $hook ) {
         'footnotes-settings',
         'footnotes-help',
         'footnotes-tools',
-        'footnotes-pro',
     );
 
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- $_GET['page'] is a routing parameter, not form data.
@@ -166,20 +185,6 @@ function fme_enqueue_deactivation_survey( string $hook ): void { // phpcs:ignore
 add_action( 'admin_enqueue_scripts', 'fme_enqueue_deactivation_survey' );
 
 /**
- * Welcome modal — shown once after fresh install or update from an older version.
- */
-function fme_check_welcome_modal(): void { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Legacy function name, renaming would break existing installations.
-    $current_ver    = FME_VERSION;
-    $stored_ver     = get_option( 'fme_welcome_shown_version', '' );
-
-    // Show if never shown, or if version has changed
-    if ( $stored_ver !== $current_ver ) {
-        set_transient( 'fme_show_welcome', $current_ver, DAY_IN_SECONDS );
-    }
-}
-add_action( 'admin_init', 'fme_check_welcome_modal' );
-
-/**
  * One-time cleanup of files removed from the plugin package.
  *
  * The WordPress.org updater overwrites files but does not reliably delete files
@@ -201,6 +206,7 @@ function fme_cleanup_orphan_files(): void { // phpcs:ignore WordPress.NamingConv
     $fme_orphans = array(
         'includes/coming-soon-pro.php',
         'assets/js/coming-soon.js',
+        'assets/js/welcome-modal.js',
     );
 
     foreach ( $fme_orphans as $fme_orphan ) {
@@ -216,94 +222,20 @@ function fme_cleanup_orphan_files(): void { // phpcs:ignore WordPress.NamingConv
         }
     }
 
+    // Leftovers from the retired welcome modal.
+    delete_option( 'fme_welcome_shown_version' );
+    delete_transient( 'fme_show_welcome' );
+
     update_option( 'fme_orphan_cleanup_version', FME_VERSION );
 }
 add_action( 'admin_init', 'fme_cleanup_orphan_files' );
-
-function fme_enqueue_welcome_modal( string $hook ): void { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Legacy function name, renaming would break existing installations.
-    // Only show on our own plugin pages
-    $fme_pages = [
-        'toplevel_page_footnotes-made-easy',
-        'footnotes_page_footnotes-settings',
-        'footnotes_page_footnotes-tools',
-        'footnotes_page_footnotes-help',
-        'footnotes_page_footnotes-pro',
-        'footnotes_page_fme-pro-library',
-    ];
-    if ( ! in_array( $hook, $fme_pages, true ) ) return;
-
-    $show_version = get_transient( 'fme_show_welcome' );
-    if ( ! $show_version ) return;
-
-    $stored_ver  = get_option( 'fme_welcome_shown_version', '' );
-    $is_update   = ! empty( $stored_ver );
-
-    // Determine the Pro state so the modal can address each audience correctly:
-    //   'active'   — Pro installed and license is paying
-    //   'inactive' — Pro installed but no active license
-    //   'none'     — free user, Pro not installed
-    $fme_pro_installed = defined( 'FME_PRO_VERSION' );
-    $fme_pro_active    = $fme_pro_installed
-        && function_exists( 'fmep_fs' )
-        && fmep_fs()
-        && fmep_fs()->is_paying();
-    if ( $fme_pro_active ) {
-        $fme_pro_state = 'active';
-    } elseif ( $fme_pro_installed ) {
-        $fme_pro_state = 'inactive';
-    } else {
-        $fme_pro_state = 'none';
-    }
-
-    $js_path = plugin_dir_path( __FILE__ ) . 'assets/js/welcome-modal.js';
-    wp_enqueue_script(
-        'fme-welcome-modal',
-        plugin_dir_url( __FILE__ ) . 'assets/js/welcome-modal.js',
-        [],
-        file_exists( $js_path ) ? filemtime( $js_path ) : '1.0',
-        true
-    );
-
-    wp_localize_script( 'fme-welcome-modal', 'fmeWelcome', [
-        'show'      => true,
-        'version'   => $show_version,
-        'isUpdate'  => $is_update,
-        'proState'  => $fme_pro_state,
-        'proUrl'    => fme_pro_page_url(),
-        'accountUrl'=> 'https://altvisewp.com/account/',
-        'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
-        'nonce'     => wp_create_nonce( 'fme_welcome_nonce' ),
-    ] );
-
-    // Preblur the page until the welcome modal appears (added via inline style on a registered handle)
-    wp_register_style( 'fme-welcome-preblur', false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-    wp_enqueue_style( 'fme-welcome-preblur' );
-    wp_add_inline_style(
-        'fme-welcome-preblur',
-        '#wpcontent,#wpbody-content,#adminmenu{filter:blur(4px) brightness(0.92);pointer-events:none;user-select:none;transition:filter 0.3s ease;}body.wp-admin::before{content:"";position:fixed;inset:0;background:rgba(20,18,40,0.28);z-index:9998;pointer-events:none;}'
-    );
-}
-add_action( 'admin_enqueue_scripts', 'fme_enqueue_welcome_modal' );
-
-// AJAX handler — mark welcome as shown
-add_action( 'wp_ajax_fme_dismiss_welcome', function (): void {
-    check_ajax_referer( 'fme_welcome_nonce', 'nonce' );
-    $version = get_transient( 'fme_show_welcome' );
-    if ( $version ) {
-        update_option( 'fme_welcome_shown_version', $version );
-        delete_transient( 'fme_show_welcome' );
-    }
-    wp_send_json_success();
-} );
-
-
 
 // Inject admin CSS for full-width purple Upgrade to Pro menu item
 function fme_pro_menu_css() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Legacy function name, renaming would break existing installations.
     if ( defined( 'FME_PRO_VERSION' ) || ! swas_wp_footnotes::show_upsell() ) return;
 
-    // Style the "Upgrade to Pro" menu item. It links to the in-plugin Pro page
-    // (admin.php?page=footnotes-pro), so we match that href.
+    // Style the "Upgrade to Pro" menu item. Its href is admin.php?page=footnotes-pro
+    // (redirected to the landing page by fme_redirect_legacy_pro_page()), so we match that href.
     $css = '
 #adminmenu a[href="admin.php?page=footnotes-pro"] {
     background: #534AB7 !important;
@@ -327,7 +259,22 @@ function fme_pro_menu_css() { // phpcs:ignore WordPress.NamingConventions.Prefix
 add_action( 'admin_enqueue_scripts', 'fme_pro_menu_css' );
 add_action( 'network_admin_menu', function () {
     add_action( 'admin_enqueue_scripts', 'fme_pro_menu_css' );
+    add_action( 'admin_enqueue_scripts', 'fme_pro_menu_new_tab' );
 } );
+
+// The "Upgrade to Pro" menu item ends up on an external page, so open it in a
+// new tab and keep wp-admin where it is.
+function fme_pro_menu_new_tab() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Uses the plugin's established fme_ prefix.
+    if ( defined( 'FME_PRO_VERSION' ) || ! swas_wp_footnotes::show_upsell() ) return;
+
+    wp_register_script( 'fme-admin-menu', false, array(), FME_VERSION, true );
+    wp_enqueue_script( 'fme-admin-menu' );
+    wp_add_inline_script(
+        'fme-admin-menu',
+        "document.querySelectorAll('#adminmenu a[href$=\"page=footnotes-pro\"]').forEach(function(a){a.target='_blank';a.rel='noopener noreferrer';});"
+    );
+}
+add_action( 'admin_enqueue_scripts', 'fme_pro_menu_new_tab' );
 
 $swas_wp_footnotes = new swas_wp_footnotes(); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
@@ -943,7 +890,7 @@ class swas_wp_footnotes {
      * Get the correct URL for a plugin admin page, accounting for network admin.
      * In the network admin, uses network_admin_url(); otherwise admin_url().
      *
-     * @param string    $page         The page slug (e.g. 'footnotes-pro').
+     * @param string    $page         The page slug (e.g. 'footnotes-tools').
      * @param bool|null $force_network Optional. Force network (true) or subsite (false) context.
      *                                 When null, auto-detects via is_network_admin().
      * @return string The full admin URL.
@@ -1129,8 +1076,9 @@ class swas_wp_footnotes {
 			array( $this, 'footnotes_help_page' )
 		);
 
-		// In-plugin Pro sales page — network admin only, super admins only,
-		// and only when Pro is not installed.
+		// "Upgrade to Pro" menu link — network admin only, super admins only, and
+		// only when Pro is not installed. Clicking it is redirected to the Pro
+		// landing page by fme_redirect_legacy_pro_page(); there is no page to render.
 		if ( is_super_admin() && ! defined( 'FME_PRO_VERSION' ) && swas_wp_footnotes::show_upsell() ) {
 			add_submenu_page(
 				'footnotes-made-easy',
@@ -1138,7 +1086,7 @@ class swas_wp_footnotes {
 				'<span style="display:flex;align-items:center;gap:6px;">✦ ' . esc_html__( 'Upgrade to Pro', 'footnotes-made-easy' ) . '</span>',
 				'manage_network_options',
 				'footnotes-pro',
-				array( $this, 'footnotes_pro_page' )
+				'__return_null'
 			);
 		}
 	}
@@ -1164,8 +1112,10 @@ class swas_wp_footnotes {
 			array( $this, 'footnotes_help_page' )
 		);
 
-		// In-plugin Pro sales page — only shown when Pro is not installed.
-		// On multisite this page belongs in the network admin only (registered in
+		// "Upgrade to Pro" menu link — only shown when Pro is not installed.
+		// Clicking it is redirected to the Pro landing page by
+		// fme_redirect_legacy_pro_page(); there is no page to render.
+		// On multisite the link lives in the network admin only (registered in
 		// add_network_secondary_pages), so we skip it for individual sites/subsites.
 		if ( ! is_multisite() && ! defined( 'FME_PRO_VERSION' ) && swas_wp_footnotes::show_upsell() ) {
 			add_submenu_page(
@@ -1174,30 +1124,11 @@ class swas_wp_footnotes {
 				'<span style="display:flex;align-items:center;gap:6px;">✦ ' . esc_html__( 'Upgrade to Pro', 'footnotes-made-easy' ) . '</span>',
 				'manage_options',
 				'footnotes-pro',
-				array( $this, 'footnotes_pro_page' )
+				'__return_null'
 			);
 		}
 
 	} // end add_secondary_menu_pages()
-
-	/**
-	 * Pro Coming Soon page
-	 */
-	function footnotes_pro_page() {
-		// If the user reached this page from the welcome notice's "See Pro
-		// features" CTA, that counts as having seen the welcome — record it
-		// here server-side. This is deterministic, unlike the JS fetch, which
-		// can be cut off by the same-tab navigation to this page.
-		$fme_welcome_ver = get_transient( 'fme_show_welcome' );
-		if ( $fme_welcome_ver ) {
-			update_option( 'fme_welcome_shown_version', $fme_welcome_ver );
-			delete_transient( 'fme_show_welcome' );
-		}
-
-		// Render the in-plugin Pro sales page. (Public marketing still lives on
-		// the external page, FME_PRO_URL, used for shareable/public links.)
-		include plugin_dir_path( __FILE__ ) . 'includes/pro-page.php';
-	}
 
 	/**
 	* Dashboard Page
@@ -1602,7 +1533,6 @@ class swas_wp_footnotes {
 			'footnotes-settings',
 			'footnotes-help',
 			'footnotes-tools',
-			'footnotes-pro',
 			'fme-pro-library',
 			'footnotes-made-easy-account',
 		);

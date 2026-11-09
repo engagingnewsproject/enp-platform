@@ -36,7 +36,7 @@ function ninja_forms_ability_get_submissions( $input ) {
 	if ( empty( $input['form_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Form ID is required', 'ninja-forms' ),
+			'message' => 'Form ID is required',
 		);
 	}
 
@@ -47,7 +47,7 @@ function ninja_forms_ability_get_submissions( $input ) {
 	if ( ! $form || ! $form->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'Form with ID %d not found', $form_id ),
 		);
 	}
 
@@ -77,7 +77,7 @@ function ninja_forms_ability_get_submissions( $input ) {
 		'form_id'     => $form_id,
 		'count'       => count( $submissions_data ),
 		'submissions' => $submissions_data,
-		'message'     => sprintf( __( 'Found %d submission(s) for form %d.', 'ninja-forms' ), count( $submissions_data ), $form_id ),
+		'message'     => sprintf( 'Found %d submission(s) for form %d.', count( $submissions_data ), $form_id ),
 	);
 }
 
@@ -86,7 +86,7 @@ function ninja_forms_ability_get_submission( $input ) {
 	if ( empty( $input['submission_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Submission ID is required', 'ninja-forms' ),
+			'message' => 'Submission ID is required',
 		);
 	}
 
@@ -97,7 +97,7 @@ function ninja_forms_ability_get_submission( $input ) {
 	if ( ! $sub || ! $sub->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Submission with ID %d not found', 'ninja-forms' ), $submission_id ),
+			'message' => sprintf( 'Submission with ID %d not found', $submission_id ),
 		);
 	}
 
@@ -121,7 +121,7 @@ function ninja_forms_ability_get_submission( $input ) {
 	return array(
 		'success'    => true,
 		'submission' => $submission_data,
-		'message'    => sprintf( __( 'Retrieved submission %d from form "%s".', 'ninja-forms' ), $submission_id, $sub->get_form_title() ),
+		'message'    => sprintf( 'Retrieved submission %d from form "%s".', $submission_id, $sub->get_form_title() ),
 	);
 }
 
@@ -130,7 +130,7 @@ function ninja_forms_ability_get_submission_fields( $input ) {
 	if ( empty( $input['submission_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Submission ID is required', 'ninja-forms' ),
+			'message' => 'Submission ID is required',
 		);
 	}
 
@@ -141,7 +141,7 @@ function ninja_forms_ability_get_submission_fields( $input ) {
 	if ( ! $sub || ! $sub->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Submission with ID %d not found', 'ninja-forms' ), $submission_id ),
+			'message' => sprintf( 'Submission with ID %d not found', $submission_id ),
 		);
 	}
 
@@ -197,7 +197,7 @@ function ninja_forms_ability_get_submission_fields( $input ) {
 		'form_id'       => $sub->get_form_id(),
 		'count'         => count( $field_values ),
 		'fields'        => $fields_data,
-		'message'       => sprintf( __( 'Retrieved %d field value(s) from submission %d.', 'ninja-forms' ), count( $field_values ), $submission_id ),
+		'message'       => sprintf( 'Retrieved %d field value(s) from submission %d.', count( $field_values ), $submission_id ),
 	);
 }
 
@@ -206,14 +206,14 @@ function ninja_forms_ability_update_submission( $input ) {
 	if ( empty( $input['submission_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Submission ID is required', 'ninja-forms' ),
+			'message' => 'Submission ID is required',
 		);
 	}
 
 	if ( empty( $input['field_values'] ) || ! is_array( $input['field_values'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Field values array is required', 'ninja-forms' ),
+			'message' => 'Field values array is required',
 		);
 	}
 
@@ -224,7 +224,7 @@ function ninja_forms_ability_update_submission( $input ) {
 	if ( ! $sub || ! $sub->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Submission with ID %d not found', 'ninja-forms' ), $submission_id ),
+			'message' => sprintf( 'Submission with ID %d not found', $submission_id ),
 		);
 	}
 
@@ -251,7 +251,7 @@ function ninja_forms_ability_update_submission( $input ) {
 		'submission_id' => $submission_id,
 		'form_id'       => $form_id,
 		'updated'       => $updated_count,
-		'message'       => sprintf( __( 'Successfully updated %d field value(s) in submission %d.', 'ninja-forms' ), $updated_count, $submission_id ),
+		'message'       => sprintf( 'Successfully updated %d field value(s) in submission %d.', $updated_count, $submission_id ),
 	);
 }
 
@@ -260,7 +260,7 @@ function ninja_forms_ability_delete_submission( $input ) {
 	if ( empty( $input['submission_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Submission ID is required', 'ninja-forms' ),
+			'message' => 'Submission ID is required',
 		);
 	}
 
@@ -271,7 +271,7 @@ function ninja_forms_ability_delete_submission( $input ) {
 	if ( ! $sub || ! $sub->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Submission with ID %d not found', 'ninja-forms' ), $submission_id ),
+			'message' => sprintf( 'Submission with ID %d not found', $submission_id ),
 		);
 	}
 
@@ -299,7 +299,7 @@ function ninja_forms_ability_delete_submission( $input ) {
 		'submission_id' => $submission_id,
 		'form_id'       => $form_id,
 		'permanent'     => $permanent,
-		'message'       => sprintf( __( 'Successfully %s submission #%d (ID: %d) from form %d.', 'ninja-forms' ), $action_taken, $seq_num, $submission_id, $form_id ),
+		'message'       => sprintf( 'Successfully %s submission #%d (ID: %d) from form %d.', $action_taken, $seq_num, $submission_id, $form_id ),
 	);
 }
 
@@ -308,7 +308,7 @@ function ninja_forms_ability_export_submissions( $input ) {
 	if ( empty( $input['form_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Form ID is required', 'ninja-forms' ),
+			'message' => 'Form ID is required',
 		);
 	}
 
@@ -319,7 +319,7 @@ function ninja_forms_ability_export_submissions( $input ) {
 	if ( ! $form || ! $form->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'Form with ID %d not found', $form_id ),
 		);
 	}
 
@@ -337,7 +337,7 @@ function ninja_forms_ability_export_submissions( $input ) {
 			if ( empty( $csv_content ) ) {
 				return array(
 					'success' => false,
-					'message' => __( 'No submissions found to export', 'ninja-forms' ),
+					'message' => 'No submissions found to export',
 				);
 			}
 
@@ -348,7 +348,7 @@ function ninja_forms_ability_export_submissions( $input ) {
 				'format'  => 'csv',
 				'count'   => count( $sub_ids ) > 0 ? count( $sub_ids ) : count( Ninja_Forms()->form( $form_id )->get_subs() ),
 				'content' => $csv_content,
-				'message' => __( 'Successfully exported submissions to CSV.', 'ninja-forms' ),
+				'message' => 'Successfully exported submissions to CSV.',
 			);
 		} elseif ( $format === 'json' ) {
 			// Export to JSON
@@ -373,18 +373,18 @@ function ninja_forms_ability_export_submissions( $input ) {
 				'format'      => 'json',
 				'count'       => count( $submissions_data ),
 				'submissions' => $submissions_data,
-				'message'     => __( 'Successfully exported submissions to JSON.', 'ninja-forms' ),
+				'message'     => 'Successfully exported submissions to JSON.',
 			);
 		} else {
 			return array(
 				'success' => false,
-				'message' => sprintf( __( 'Unsupported export format: %s. Use "csv" or "json".', 'ninja-forms' ), $format ),
+				'message' => sprintf( 'Unsupported export format: %s. Use "csv" or "json".', $format ),
 			);
 		}
 	} catch ( Exception $e ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Export failed: %s', 'ninja-forms' ), $e->getMessage() ),
+			'message' => sprintf( 'Export failed: %s', $e->getMessage() ),
 		);
 	}
 }
@@ -394,14 +394,14 @@ function ninja_forms_ability_process_submission( $input ) {
 	if ( empty( $input['submission_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Submission ID is required', 'ninja-forms' ),
+			'message' => 'Submission ID is required',
 		);
 	}
 
 	if ( empty( $input['action_type'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Action type is required (e.g., "email")', 'ninja-forms' ),
+			'message' => 'Action type is required (e.g., "email")',
 		);
 	}
 
@@ -413,7 +413,7 @@ function ninja_forms_ability_process_submission( $input ) {
 	if ( ! $sub || ! $sub->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Submission with ID %d not found', 'ninja-forms' ), $submission_id ),
+			'message' => sprintf( 'Submission with ID %d not found', $submission_id ),
 		);
 	}
 
@@ -423,7 +423,7 @@ function ninja_forms_ability_process_submission( $input ) {
 	if ( $action_type !== 'email' ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Action type "%s" is not supported. Only "email" action processing is available.', 'ninja-forms' ), $action_type ),
+			'message' => sprintf( 'Action type "%s" is not supported. Only "email" action processing is available.', $action_type ),
 		);
 	}
 
@@ -431,7 +431,7 @@ function ninja_forms_ability_process_submission( $input ) {
 	if ( empty( $input['action_settings'] ) || ! is_array( $input['action_settings'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Action settings are required for email processing', 'ninja-forms' ),
+			'message' => 'Action settings are required for email processing',
 		);
 	}
 
@@ -441,7 +441,7 @@ function ninja_forms_ability_process_submission( $input ) {
 	if ( empty( $action_settings['to'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Email "to" address is required in action_settings', 'ninja-forms' ),
+			'message' => 'Email "to" address is required in action_settings',
 		);
 	}
 
@@ -468,7 +468,7 @@ function ninja_forms_ability_process_submission( $input ) {
 	if ( ! isset( Ninja_Forms()->actions['email'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Email action not available', 'ninja-forms' ),
+			'message' => 'Email action not available',
 		);
 	}
 
@@ -491,12 +491,12 @@ function ninja_forms_ability_process_submission( $input ) {
 			'submission_id' => $submission_id,
 			'form_id'       => $form_id,
 			'action_type'   => $action_type,
-			'message'       => __( 'Successfully processed email action for submission.', 'ninja-forms' ),
+			'message'       => 'Successfully processed email action for submission.',
 		);
 	} catch ( Exception $e ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Action processing failed: %s', 'ninja-forms' ), $e->getMessage() ),
+			'message' => sprintf( 'Action processing failed: %s', $e->getMessage() ),
 		);
 	}
 }

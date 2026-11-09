@@ -19,6 +19,22 @@ class NF_Actions_Email extends SotAction implements InterfacesSotAction
     protected $_tags = array();
 
     /**
+     * Absolute path of the CSV file created for the current submission, so it
+     * can be removed after sending without recomputing a shared path. See #8200.
+     *
+     * @var string
+     */
+    protected $_csv_path = '';
+
+    /**
+     * Absolute path of the unique per-submission directory holding the CSV,
+     * removed alongside the file after sending. See #8200.
+     *
+     * @var string
+     */
+    protected $_csv_dir = '';
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -145,33 +161,126 @@ class NF_Actions_Email extends SotAction implements InterfacesSotAction
             // If action settings do not match the look up values continue.
             if (! $action_settings[$setting]) continue;
 
-            // This is the array that will contain the sanitized email address values.
-            $sanitized_array = array();
+            /*
+             * The From address is a single address rather than a list, so it is
+             * never split on a separator. Carriage returns and line feeds are
+             * still removed, because they have no legitimate use in an address
+             * and RFC 5322 section 2.2 forbids them inside a header field.
+             */
+            if ('from_address' === $setting) {
+                $action_settings[$setting] = $this->normalize_from_address($action_settings[$setting]);
+                continue;
+            }
 
             /*
-             * Checks to see action settings is array,
-             * if not explodes to comma delimited array.
+             * Merge tags can expand to lists separated by line breaks,
+             * semicolons or pipes as well as commas, so all of those are
+             * recognised. Entries that are not valid addresses are kept here so
+             * that check_for_errors() can still report them to administrators.
              */
-            if (is_array($action_settings[$setting])) {
-                $email_addresses = $action_settings[$setting];
-            } else {
-                $email_addresses = explode(',', $action_settings[$setting]);
-            }
-
-            // Loop over our email addresses.
-            foreach ($email_addresses as $email) {
-
-                // Updated to trim values in case there is a value with spaces/tabs/etc to remove whitespace
-                $email = trim($email);
-                if (empty($email)) continue;
-
-                // Build our array of the email addresses.
-                $sanitized_array[] = $email;
-            }
-            // Sanitized our array of settings.
-            $action_settings[$setting] = implode(',', $sanitized_array);
+            $action_settings[$setting] = implode(',', $this->split_address_list($action_settings[$setting]));
         }
         return $action_settings;
+    }
+
+    /**
+     * Removes carriage returns and line feeds from a header value
+     *
+     * RFC 5322 section 2.2 forbids a bare CR or LF inside a header field.
+     * Merge tag values can carry either, so every value is stripped before it
+     * is written into a header line.
+     *
+     * @param  string|null $value
+     * @return string
+     */
+    protected function strip_header_breaks($value)
+    {
+        return str_replace(array("\r\n", "\r", "\n"), '', (string) $value);
+    }
+
+    /**
+     * Splits an email address setting into its individual entries
+     *
+     * A merge tag placed in an address setting can expand to a list separated
+     * by line breaks, semicolons or pipes as well as by commas, so all of those
+     * are treated as separators. Empty and whitespace-only entries are dropped;
+     * entries that are not valid addresses are preserved so that
+     * check_for_errors() can still surface them to administrators.
+     *
+     * @param  string|array $value
+     * @return array
+     */
+    protected function split_address_list($value)
+    {
+        if (is_array($value)) {
+            $value = implode(',', $value);
+        }
+
+        $value = preg_replace('/[\r\n;|,]+/', ',', (string) $value);
+
+        $entries = array();
+
+        foreach (explode(',', $value) as $entry) {
+            $entry = trim($entry);
+
+            if ('' === $entry) continue;
+
+            $entries[] = $entry;
+        }
+
+        return $entries;
+    }
+
+    /**
+     * Normalises the From address
+     *
+     * The From address is a single address rather than a list, so it is never
+     * split on a separator. Carriage returns and line feeds are removed,
+     * because they have no legitimate use in an address and RFC 5322 section
+     * 2.2 forbids them inside a header field.
+     *
+     * @param  string|array $value
+     * @return string
+     */
+    protected function normalize_from_address($value)
+    {
+        if (is_array($value)) {
+            $value = implode(',', array_map('trim', $value));
+        }
+
+        return trim($this->strip_header_breaks($value));
+    }
+
+    /**
+     * Returns the individual entries of an address setting
+     *
+     * Every setting except the From address is a list; the From address is a
+     * single address. Both paths match what _format_recipients() and
+     * _format_from() will do with the same value, so validation and header
+     * construction never disagree.
+     *
+     * @param  string       $setting
+     * @param  string|array $value
+     * @return array
+     */
+    protected function address_entries($setting, $value)
+    {
+        if ('from_address' === $setting) {
+            return array($this->normalize_from_address($value));
+        }
+
+        return $this->split_address_list($value);
+    }
+
+    /**
+     * Determines whether an entry can be used as an email recipient
+     *
+     * @param  string $email
+     * @return bool
+     */
+    protected function is_valid_recipient($email)
+    {
+        return (bool) is_email(trim($this->strip_header_breaks($email)));
     }
 
     protected function check_for_errors($action_settings)
@@ -185,17 +294,31 @@ class NF_Actions_Email extends SotAction implements InterfacesSotAction
             if (! $action_settings[$setting]) continue;
 
 
-            $email_addresses = is_array($action_settings[$setting]) ? $action_settings[$setting] : explode(',', $action_settings[$setting]);
+            $email_addresses = $this->address_entries($setting, $action_settings[$setting]);
 
-            foreach ((array) $email_addresses as $email) {
+            /*
+             * Entries that are not usable addresses are skipped when the header
+             * is built, so one of them is not on its own a reason to stop the
+             * submission. The warning is raised only when a setting produced no
+             * usable recipient at all.
+             */
+            $produced_a_recipient = false;
+
+            foreach ($email_addresses as $email) {
                 $email = trim($email);
                 if (false !== strpos($email, '<') && false !== strpos($email, '>')) {
                     preg_match('/(?:<)([^>]*)(?:>)/', $email, $email);
                     $email = $email[1];
                 }
-                if (! is_email($email)) {
-                    $errors['invalid_email'] = sprintf(esc_html__('Your email action "%s" has an invalid value for the "%s" setting. Please check this setting and try again.', 'ninja-forms'), $action_settings['label'], $setting);
+                if (is_email($email)) {
+                    $produced_a_recipient = true;
+                    break;
                 }
+            }
+
+            if (! $produced_a_recipient) {
+                /* translators: 1: name of the email action. 2: name of the setting. */
+                $errors['invalid_email'] = sprintf(esc_html__('Your email action "%1$s" has an invalid value for the "%2$s" setting. Please check this setting and try again.', 'ninja-forms'), $action_settings['label'], $setting);
             }
         }
 
@@ -270,16 +393,21 @@ class NF_Actions_Email extends SotAction implements InterfacesSotAction
 
         foreach ($recipient_settings as $type => $emails) {
 
-            $emails = explode(',', $emails);
+            foreach ($this->split_address_list($emails) as $email) {
 
-            foreach ($emails as $email) {
-
-                if (! $email) continue;
+                $email = $this->strip_header_breaks($email);
 
                 $matches = array();
                 if (preg_match('/^"?(?<name>[^<"]+)"? <(?<email>[^>]+)>$/', $email, $matches)) {
+                    // Skip anything that is not a usable address so that an
+                    // unusable entry cannot corrupt the header for the valid
+                    // addresses listed alongside it.
+                    if (! $this->is_valid_recipient($matches['email'])) continue;
+
                     $headers[] = $this->_format_recipient($type, $matches['email'], $matches['name']);
                 } else {
+                    if (! $this->is_valid_recipient($email)) continue;
+
                     $headers[] = $this->_format_recipient($type, $email);
                 }
             }
@@ -291,6 +419,11 @@ class NF_Actions_Email extends SotAction implements InterfacesSotAction
     private function _format_recipient($type, $email, $name = '')
     {
         $type = ucfirst($type);
+
+        // Final guard: no header line this action produces may contain a bare
+        // carriage return or line feed.
+        $email = trim($this->strip_header_breaks($email));
+        $name = trim($this->strip_header_breaks($name));
 
         if (! $name) $name = $email;
 
@@ -427,21 +560,35 @@ class NF_Actions_Email extends SotAction implements InterfacesSotAction
         fclose($temp_file);
 
         // find the directory we will be using for the final file
-        $path = pathinfo($path);
-        $dir = $path['dirname'];
-        $basename = $path['basename'];
+        $path_parts = pathinfo($path);
+        $dir = $path_parts['dirname'];
+        $basename = $path_parts['basename'];
 
         // create name for file
         $new_name = apply_filters('ninja_forms_submission_csv_name', 'ninja-forms-submission');
 
-        // remove a file if it already exists
-        if (file_exists($dir . '/' . $new_name . '.csv')) {
-            unlink($dir . '/' . $new_name . '.csv');
+        /*
+         * Give this submission its own unique directory so the friendly, shared
+         * filename does not collide with a concurrent submission's CSV. The
+         * previous behaviour renamed every submission's CSV to one fixed path,
+         * so two overlapping submissions could attach each other's data (#8200).
+         * The unique directory is derived from the already-unique tempnam basename.
+         */
+        $unique_dir = $dir . '/' . $basename . '.d';
+        if (! is_dir($unique_dir)) {
+            mkdir($unique_dir, 0755, true);
         }
 
-        // move file
-        rename($dir . '/' . $basename, $dir . '/' . $new_name . '.csv');
-        return $dir . '/' . $new_name . '.csv';
+        $final_path = $unique_dir . '/' . $new_name . '.csv';
+
+        // move the temp file into the unique directory under the friendly name
+        rename($path, $final_path);
+
+        // remember the exact paths so cleanup removes this submission's file only
+        $this->_csv_path = $final_path;
+        $this->_csv_dir = $unique_dir;
+
+        return $final_path;
     }
 
     /**
@@ -449,16 +596,18 @@ class NF_Actions_Email extends SotAction implements InterfacesSotAction
      */
     private function _drop_csv()
     {
-        $upload_dir = wp_upload_dir();
-        $path = trailingslashit($upload_dir['path']);
-
-        // create name for file
-        $new_name = apply_filters('ninja_forms_submission_csv_name', 'ninja-forms-submission');
-
-        // remove a file if it already exists
-        if (file_exists($path . '/' . $new_name . '.csv')) {
-            unlink($path . '/' . $new_name . '.csv');
+        // Remove only this submission's own CSV, tracked when it was created,
+        // so a concurrent submission's file is never deleted out from under it (#8200).
+        if ('' !== $this->_csv_path && file_exists($this->_csv_path)) {
+            unlink($this->_csv_path);
         }
+
+        if ('' !== $this->_csv_dir && is_dir($this->_csv_dir)) {
+            @rmdir($this->_csv_dir);
+        }
+
+        $this->_csv_path = '';
+        $this->_csv_dir = '';
     }
 
     /*
@@ -498,6 +647,12 @@ class NF_Actions_Email extends SotAction implements InterfacesSotAction
         $message =  str_replace(array('<table>', '</table>', '<tr><td>', ''), '', $message);
         $message =  str_replace('</td><td>', ' ', $message);
         $message =  str_replace('</td></tr>', "\r\n", $message);
-        return strip_tags($message);
+        /*
+         * Submitted values arrive here escaped, so that a `<` survives the
+         * merge tag instead of truncating the submission (#7279). Decode after
+         * the markup is removed, so a plain text recipient reads the
+         * characters that were typed rather than entity codes such as `&lt;`.
+         */
+        return html_entity_decode(strip_tags($message), ENT_QUOTES, 'UTF-8');
     }
 }

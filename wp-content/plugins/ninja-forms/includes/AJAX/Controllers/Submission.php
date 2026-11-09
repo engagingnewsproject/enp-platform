@@ -139,6 +139,8 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
             $this->_respond();
         }
 
+        $this->maybe_refuse_logged_out_submission();
+
         if( $this->is_preview() ) {
 
             $this->_form_cache = get_user_option( 'nf_form_preview_' . $this->_form_id );
@@ -177,6 +179,37 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
         $this->process();
     }
 
+    /**
+     * Refuse a logged-out submission to a form that requires a logged-in user.
+     *
+     * The requirement is read from the saved form, never from the request.
+     * The form's logged-out message is reused as the error and filtered the
+     * same way as on display, because the front end renders form errors as HTML.
+     *
+     * @return void
+     */
+    protected function maybe_refuse_logged_out_submission()
+    {
+        if ( is_user_logged_in() ) {
+            return;
+        }
+
+        $form = Ninja_Forms()->form( $this->_form_id )->get();
+
+        if ( ! $form->get_setting( 'logged_in' ) ) {
+            return;
+        }
+
+        $message = trim( (string) $form->get_setting( 'not_logged_in_msg' ) );
+
+        if ( '' === $message ) {
+            $message = esc_html__( 'You must be logged in to submit this form.', 'ninja-forms' );
+        }
+
+        $this->_errors[ 'form' ][ 'logged_in' ] = do_shortcode( WPN_Helper::maybe_kses_form_message( $message ) );
+        $this->_respond();
+    }
+
     public function resume()
     {
         $this->_form_data = Ninja_Forms()->session()->get( 'nf_processing_form_data' );
@@ -194,6 +227,10 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
 
     protected function process()
     {
+        // Discard client-submitted extra data stored under a reserved,
+        // server-generated key before it enters processing. See issue #8228.
+        $this->scrubReservedExtraKeys();
+
         // Init Field Merge Tags.
         $field_merge_tags = Ninja_Forms()->merge_tags[ 'fields' ];
         $field_merge_tags->set_form_id( $this->_form_id );
@@ -283,7 +320,9 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
             $field[ 'settings' ][ 'value' ] = $field[ 'value' ];
 
             // Duplicate field value to form cache for passing to the action filter.
-            $this->_form_cache[ 'fields' ][ $key ][ 'settings' ][ 'value' ] = $this->_form_data[ 'fields' ][ $field_id ][ 'value' ];
+            // Reuse the value guarded above: a field whose add-on is inactive is
+            // submitted without a value. See issue #8198.
+            $this->_form_cache[ 'fields' ][ $key ][ 'settings' ][ 'value' ] = $field[ 'value' ];
 
             // Duplicate the Field ID for access as a setting.
             $field[ 'settings' ][ 'id' ] = $field[ 'id' ];
@@ -410,7 +449,7 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
             AND m.meta_value = $this->_form_id
             AND p.post_status = 'publish'");
             if ( intval( $result->count ) >= intval( $this->_data[ 'settings' ][ 'sub_limit_number' ] ) ) {
-                $this->_errors[ 'form' ][] = $this->_data[ 'settings' ][ 'sub_limit_msg' ];
+                $this->_errors[ 'form' ][] = WPN_Helper::maybe_kses_form_message( $this->_data[ 'settings' ][ 'sub_limit_msg' ] );
                 $this->_respond();
             }
         }
@@ -578,6 +617,49 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
      *
      * @return void
      */
+    /**
+     * Submission "extra" data keys reserved for server-generated data.
+     *
+     * Client-submitted values under these keys are discarded during
+     * processing so they cannot spoof or overwrite server data, or reach
+     * an admin screen that renders stored extra data. See issue #8228.
+     *
+     * @return array
+     */
+    protected function getReservedExtraKeys(): array
+    {
+        return apply_filters( 'ninja_forms_reserved_extra_keys', array(
+            'calculations',
+            'product_fields',
+        ) );
+    }
+
+    /**
+     * Remove client-submitted extra data stored under a reserved key.
+     *
+     * WordPress unslashes post meta keys when they are written, so each
+     * submitted key is compared to the reserved list in the form it will be
+     * stored as. This runs for both fresh and resumed submissions, and the
+     * re-merge in the calculations step reads the same scrubbed source.
+     * See issue #8228.
+     *
+     * @return void
+     */
+    protected function scrubReservedExtraKeys(): void
+    {
+        if ( ! isset( $this->_form_data[ 'extra' ] ) || ! is_array( $this->_form_data[ 'extra' ] ) ) {
+            return;
+        }
+
+        $reserved = $this->getReservedExtraKeys();
+
+        foreach ( array_keys( $this->_form_data[ 'extra' ] ) as $key ) {
+            if ( in_array( wp_unslash( $key ), $reserved, true ) ) {
+                unset( $this->_form_data[ 'extra' ][ $key ] );
+            }
+        }
+    }
+
     private function maybePreserveExtraData(): void
     {
         if (
@@ -598,6 +680,9 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
 
         if( ! is_string( $field_settings['type'] ) ) return;
 
+        // The field type is unregistered when its add-on is inactive. See issue #8198.
+        if( ! isset( Ninja_Forms()->fields[ $field_settings['type'] ] ) ) return;
+
         $field_class = Ninja_Forms()->fields[ $field_settings['type'] ];
 
         // if field_class is neither object nor string return before method_exists call
@@ -617,6 +702,9 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
     protected function process_field( $field_settings )
     {
         if( ! is_string( $field_settings['type'] ) ) return;
+
+        // The field type is unregistered when its add-on is inactive. See issue #8198.
+        if( ! isset( Ninja_Forms()->fields[ $field_settings['type'] ] ) ) return;
 
         $field_class = Ninja_Forms()->fields[ $field_settings['type'] ];
 

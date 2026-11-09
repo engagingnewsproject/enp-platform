@@ -6,53 +6,39 @@
 // translation files resolve. Never loaded at runtime: the generated PHP
 // loaders are pinned to the .min.js sibling.
 
-__( "A connection check failed.", "jetpack-newsletter" );
 __( "Loading", "jetpack-newsletter" );
 /* translators: %s: keyboard shortcut. */
 __( "Keyboard shortcut: %s", "jetpack-newsletter" );
+/* translators: accessibility text appended to link text */
+__( "(opens in a new tab)", "jetpack-newsletter" );
 __( "OK", "jetpack-newsletter" );
 __( "Cancel", "jetpack-newsletter" );
 __( "Close", "jetpack-newsletter" );
 __( "More details follow.", "jetpack-newsletter" );
-/* translators: accessibility text appended to link text */
-__( "(opens in a new tab)", "jetpack-newsletter" );
 __( "Dismiss", "jetpack-newsletter" );
+__( "More details follow the field.", "jetpack-newsletter" );
 __( "Sections", "jetpack-newsletter" );
-__( "Jetpack Logo", "jetpack-newsletter" );
 __( "An Automattic Airline", "jetpack-newsletter" );
-__( "Edit your profile →", "jetpack-newsletter" );
-__( "View profile →", "jetpack-newsletter" );
-__( "Contact", "jetpack-newsletter" );
-__( "Send money", "jetpack-newsletter" );
-__( "Sorry, we are unable to load this Gravatar profile.", "jetpack-newsletter" );
-__( "Gravatar not found.", "jetpack-newsletter" );
-__( "This profile is private.", "jetpack-newsletter" );
-__( "Too many requests.", "jetpack-newsletter" );
-__( "Internal server error.", "jetpack-newsletter" );
-__( "Is this you?", "jetpack-newsletter" );
-__( "Claim your free profile.", "jetpack-newsletter" );
-__( "Email", "jetpack-newsletter" );
-__( "Home phone", "jetpack-newsletter" );
-__( "Work phone", "jetpack-newsletter" );
-__( "Cell phone", "jetpack-newsletter" );
-__( "Contact form", "jetpack-newsletter" );
-__( "Calendar", "jetpack-newsletter" );
-__( "Products", "jetpack-newsletter" );
+__( "Jetpack Logo", "jetpack-newsletter" );
+__( "Features", "jetpack-newsletter" );
 __( "Help", "jetpack-newsletter" );
 __( "Jetpack", "jetpack-newsletter" );
 /* translators: %s: an error message. */
 __( "There was an error testing Jetpack. Error: %s", "jetpack-newsletter" );
+__( "View a summary of your newsletter.", "jetpack-newsletter" );
 __( "Manage everyone subscribed to your site.", "jetpack-newsletter" );
 __( "Configure how your newsletter looks, behaves, and reaches subscribers.", "jetpack-newsletter" );
+__( "You have unsaved changes. Are you sure you want to leave this tab?", "jetpack-newsletter" );
+__( "Overview", "jetpack-newsletter" );
 __( "Subscribers", "jetpack-newsletter" );
 __( "Settings", "jetpack-newsletter" );
 __( "Connect to manage your subscribers", "jetpack-newsletter" );
 __( "Subscriber management needs a connection to WordPress.com before you can view and manage everyone subscribed to your site.", "jetpack-newsletter" );
 __( "Connecting…", "jetpack-newsletter" );
 __( "Connect", "jetpack-newsletter" );
-__( "We couldn’t import your subscribers. Check your import confirmation email for details, then try again.", "jetpack-newsletter" );
+__( "We couldn’t import your subscribers. Check your confirmation email if you received one, or contact support for help.", "jetpack-newsletter" );
 /* translators: %1$d: subscribers imported. %2$d: email addresses that couldn't be added. */
-_n( "Imported %1$d subscriber. %2$d couldn’t be added — check your import confirmation email for details.", "Imported %1$d subscribers. %2$d couldn’t be added — check your import confirmation email for details.", 1, "jetpack-newsletter" );
+_n( "Imported %1$d subscriber. %2$d couldn’t be added. Check your confirmation email if you received one, or contact support for help.", "Imported %1$d subscribers. %2$d couldn’t be added. Check your confirmation email if you received one, or contact support for help.", 1, "jetpack-newsletter" );
 /* translators: %1$d: subscribers imported. %2$d: email addresses already subscribed. */
 _n( "%1$d subscriber imported. %2$d already subscribed.", "%1$d subscribers imported. %2$d already subscribed.", 1, "jetpack-newsletter" );
 /* translators: %d: number of subscribers imported. */
@@ -112,17 +98,17 @@ __( "Today, %s, selected", "jetpack-newsletter" );
 __( "%s, selected", "jetpack-newsletter" );
 __( "Required", "jetpack-newsletter" );
 __( "Optional", "jetpack-newsletter" );
-__( "More details follow the field.", "jetpack-newsletter" );
+__( "Select", "jetpack-newsletter" );
 __( "Sort ascending", "jetpack-newsletter" );
 __( "Sort descending", "jetpack-newsletter" );
 __( "(no title)", "jetpack-newsletter" );
 __( "Actions", "jetpack-newsletter" );
-/* translators: %d: number of items. */
-_n( "%d Item selected", "%d Items selected", 1, "jetpack-newsletter" );
-/* translators: %d: number of items. */
-_n( "%d Item", "%d Items", 1, "jetpack-newsletter" );
-/* translators: %1$d: number of items. %2$d: total number of items. */
-_n( "%1$d of %2$d Item", "%1$d of %2$d Items", 1, "jetpack-newsletter" );
+/* translators: %s: formatted number of items. */
+_n( "%s Item selected", "%s Items selected", 1, "jetpack-newsletter" );
+/* translators: %s: formatted number of items. */
+_n( "%s Item", "%s Items", 1, "jetpack-newsletter" );
+/* translators: %1$s: formatted number of items. %2$s: formatted total number of items. */
+_n( "%1$s of %2$s Item", "%1$s of %2$s Items", 1, "jetpack-newsletter" );
 __( "Deselect all", "jetpack-newsletter" );
 __( "Select all", "jetpack-newsletter" );
 __( "Add filter", "jetpack-newsletter" );
@@ -267,6 +253,9 @@ __( "Weeks ago", "jetpack-newsletter" );
 __( "Months ago", "jetpack-newsletter" );
 __( "Years ago", "jetpack-newsletter" );
 __( "Unit", "jetpack-newsletter" );
+__( "Coordinated Universal Time", "jetpack-newsletter" );
+/* translators: %s: timezone detail, e.g. "(CEST) Europe/Madrid" or "UTC+3". */
+__( "Timezone: %s", "jetpack-newsletter" );
 __( "Date time", "jetpack-newsletter" );
 __( "Today", "jetpack-newsletter" );
 __( "Yesterday", "jetpack-newsletter" );
@@ -317,6 +306,8 @@ __( "Validating…", "jetpack-newsletter" );
 /* translators: %d: Number of fields that need attention */
 _n( "%d field needs attention", "%d fields need attention", 1, "jetpack-newsletter" );
 __( "More details", "jetpack-newsletter" );
+__( "Confirmation email sent.", "jetpack-newsletter" );
+__( "Couldn't send the confirmation email. Please try again.", "jetpack-newsletter" );
 /* translators: %s: subscriber display name or email. */
 __( "You have unsubscribed %s.", "jetpack-newsletter" );
 /* translators: %d: number of subscribers removed. */
@@ -330,7 +321,28 @@ __( "Free", "jetpack-newsletter" );
 __( "Subscribed", "jetpack-newsletter" );
 __( "Not confirmed", "jetpack-newsletter" );
 __( "Not subscribed", "jetpack-newsletter" );
+__( "Bounced", "jetpack-newsletter" );
+__( "Emails paused", "jetpack-newsletter" );
 __( "Not sending", "jetpack-newsletter" );
+__( "This subscriber turned off all WordPress.com emails. Ask them to turn emails back on in their WordPress.com settings.", "jetpack-newsletter" );
+__( "Emails to this address couldn't be delivered. Check it's correct or ask for another one.", "jetpack-newsletter" );
+__( "Edit your profile →", "jetpack-newsletter" );
+__( "View profile →", "jetpack-newsletter" );
+__( "Contact", "jetpack-newsletter" );
+__( "Send money", "jetpack-newsletter" );
+__( "Sorry, we are unable to load this Gravatar profile.", "jetpack-newsletter" );
+__( "Gravatar not found.", "jetpack-newsletter" );
+__( "This profile is private.", "jetpack-newsletter" );
+__( "Too many requests.", "jetpack-newsletter" );
+__( "Internal server error.", "jetpack-newsletter" );
+__( "Is this you?", "jetpack-newsletter" );
+__( "Claim your free profile.", "jetpack-newsletter" );
+__( "Email", "jetpack-newsletter" );
+__( "Home phone", "jetpack-newsletter" );
+__( "Work phone", "jetpack-newsletter" );
+__( "Cell phone", "jetpack-newsletter" );
+__( "Contact form", "jetpack-newsletter" );
+__( "Calendar", "jetpack-newsletter" );
 __( "No matching subscribers", "jetpack-newsletter" );
 __( "Try adjusting your filters or search to see more subscribers.", "jetpack-newsletter" );
 __( "No subscribers yet", "jetpack-newsletter" );
@@ -376,9 +388,11 @@ __( "Name", "jetpack-newsletter" );
 __( "Subscription type", "jetpack-newsletter" );
 __( "Paid", "jetpack-newsletter" );
 __( "Email subscription", "jetpack-newsletter" );
+__( "Not sending (any reason)", "jetpack-newsletter" );
 __( "Date subscribed", "jetpack-newsletter" );
 __( "View", "jetpack-newsletter" );
 __( "Comp a subscription", "jetpack-newsletter" );
+__( "Send confirmation email", "jetpack-newsletter" );
 __( "Remove subscriber", "jetpack-newsletter" );
 __( "Could not load subscribers.", "jetpack-newsletter" );
 __( "Search subscribers…", "jetpack-newsletter" );
@@ -390,6 +404,9 @@ __( "Excerpt", "jetpack-newsletter" );
 __( "Sets whether email subscribers can read full posts in emails or just an excerpt and link to the full version of the post.", "jetpack-newsletter" );
 __( "Email content", "jetpack-newsletter" );
 __( "Featured images will not be used in your emails until the site is public, because access to the images is restricted to your site only.", "jetpack-newsletter" );
+__( "Edit email design", "jetpack-newsletter" );
+__( "Email design", "jetpack-newsletter" );
+__( "Set the colors, fonts, and layout your subscribers see in their inbox.", "jetpack-newsletter" );
 /* translators: <Empty /> placeholder is set to "Byline will be empty" */
 __( "<Preview>Preview:</Preview> <Empty>Byline will be empty</Empty>", "jetpack-newsletter" );
 /* translators: %1$s placeholder is the user display name, %2$s is example date */
@@ -431,11 +448,13 @@ __( "Add the Subscribe Block to the navigation", "jetpack-newsletter" );
 __( "Add the Subscriber Login Block to the navigation", "jetpack-newsletter" );
 __( "Enable the \"Subscribe to site\" option on your comment form", "jetpack-newsletter" );
 __( "Enable the \"Subscribe to comments\" option on your comment form", "jetpack-newsletter" );
+__( "Show the Action Bar on the front end of the site", "jetpack-newsletter" );
 __( "Subscriptions", "jetpack-newsletter" );
 __( "Automatically add subscription forms to your site and turn visitors into subscribers.", "jetpack-newsletter" );
 __( "Homepage and posts", "jetpack-newsletter" );
 __( "Navigation", "jetpack-newsletter" );
 __( "Comments", "jetpack-newsletter" );
+__( "Action Bar", "jetpack-newsletter" );
 __( "This category already exists.", "jetpack-newsletter" );
 __( "Could not create the category. Please try again.", "jetpack-newsletter" );
 /* translators: %s: the category name the user typed. */
@@ -486,10 +505,102 @@ __( "Failed to save welcome email message", "jetpack-newsletter" );
 __( "Subscribe modal saved", "jetpack-newsletter" );
 __( "Failed to save subscribe modal heading", "jetpack-newsletter" );
 __( "Connect your WordPress.com account to enable and set up your newsletter. <a>Connect now</a>", "jetpack-newsletter" );
+_x( "%1$s, %2$s", "legend item label and value", "jetpack-newsletter" );
+_x( "%s: visible. Toggle visibility.", "visible interactive legend item", "jetpack-newsletter" );
+_x( "%s: hidden. Toggle visibility.", "hidden interactive legend item", "jetpack-newsletter" );
+_x( "%s: hidden", "hidden non-interactive legend item", "jetpack-newsletter" );
+__( "Comparison period", "jetpack-newsletter" );
+__( "No data", "jetpack-newsletter" );
+_x( "All segments are hidden. Click legend items to show data.", "chart empty state: interactive segments", "jetpack-newsletter" );
+_x( "All segments are hidden.", "chart empty state: segments", "jetpack-newsletter" );
+_x( "All series are hidden. Click legend items to show data.", "chart empty state: interactive series", "jetpack-newsletter" );
+_x( "All series are hidden.", "chart empty state: series", "jetpack-newsletter" );
+__( "Reset zoom", "jetpack-newsletter" );
+__( "View details", "jetpack-newsletter" );
+__( "No data available", "jetpack-newsletter" );
+__( "Invalid data", "jetpack-newsletter" );
+__( "Line chart", "jetpack-newsletter" );
+__( "Area chart", "jetpack-newsletter" );
+__( "Week of %s", "jetpack-newsletter" );
+__( "Bar chart", "jetpack-newsletter" );
+__( "Bar list chart", "jetpack-newsletter" );
+_n( "%s item", "%s items", 1, "jetpack-newsletter" );
+__( "Conversion rate", "jetpack-newsletter" );
+__( "Conversion funnel chart", "jetpack-newsletter" );
+__( "Funnel steps", "jetpack-newsletter" );
+__( "Loading map", "jetpack-newsletter" );
+__( "Geo chart", "jetpack-newsletter" );
+__( "Less", "jetpack-newsletter" );
+__( "More", "jetpack-newsletter" );
+__( "Heatmap chart", "jetpack-newsletter" );
+__( "Current period", "jetpack-newsletter" );
+__( "Previous period", "jetpack-newsletter" );
+__( "Loading…", "jetpack-newsletter" );
+__( "Not enough space to display data", "jetpack-newsletter" );
+__( "Leaderboard chart", "jetpack-newsletter" );
+__( "Percentage change unavailable", "jetpack-newsletter" );
+__( "No comparison data", "jetpack-newsletter" );
+__( "Pie chart", "jetpack-newsletter" );
+__( "Semi-circle chart", "jetpack-newsletter" );
+__( "Loading recent posts…", "jetpack-newsletter" );
+__( "Recent posts could not be loaded.", "jetpack-newsletter" );
+__( "Retry", "jetpack-newsletter" );
+__( "No posts yet.", "jetpack-newsletter" );
+__( "Create a post", "jetpack-newsletter" );
+_x( "Post", "table column heading displaying post title", "jetpack-newsletter" );
+_x( "Status", "table column heading for post status", "jetpack-newsletter" );
+_x( "Recipients", "table column heading for emails sent", "jetpack-newsletter" );
+_x( "Opens", "table column heading for email open rate", "jetpack-newsletter" );
+_x( "Clicks", "table column heading for email click rate", "jetpack-newsletter" );
+__( "Published", "jetpack-newsletter" );
+__( "Recent Posts", "jetpack-newsletter" );
+__( "View all", "jetpack-newsletter" );
+__( "Paid subscribers", "jetpack-newsletter" );
+/* translators: %s: Current user's display name. */
+__( "Welcome, %s", "jetpack-newsletter" );
+__( "Welcome", "jetpack-newsletter" );
+__( "Chart interval", "jetpack-newsletter" );
+__( "Next period", "jetpack-newsletter" );
+__( "Subscribers with a paid subscription.", "jetpack-newsletter" );
+__( "Subscriber stats could not be loaded.", "jetpack-newsletter" );
+__( "Loading subscriber stats…", "jetpack-newsletter" );
+__( "No subscriber data is available for this period.", "jetpack-newsletter" );
+__( "Newsletter metrics", "jetpack-newsletter" );
+__( "Total subscribers", "jetpack-newsletter" );
+__( "Open rate (last 30 sends)", "jetpack-newsletter" );
+__( "Click rate (last 30 sends)", "jetpack-newsletter" );
+__( "Start a newsletter", "jetpack-newsletter" );
+__( "2 min", "jetpack-newsletter" );
+__( "Send newsletter emails to subscribers", "jetpack-newsletter" );
+__( "4 min", "jetpack-newsletter" );
+__( "Newsletter settings", "jetpack-newsletter" );
+__( "5 min", "jetpack-newsletter" );
+__( "Opens in a new tab", "jetpack-newsletter" );
+__( "Guides", "jetpack-newsletter" );
+__( "Skip", "jetpack-newsletter" );
+__( "Your site has a newsletter built in. When you publish a post, it's automatically emailed to your subscribers.", "jetpack-newsletter" );
+__( "Add a subscribe form to your site", "jetpack-newsletter" );
+__( "Give visitors a way to subscribe: a form at the end of your posts, a pop-up, or a floating button.", "jetpack-newsletter" );
+__( "Add a subscribe form", "jetpack-newsletter" );
+__( "Get your first 3 subscribers", "jetpack-newsletter" );
+__( "Invite friends, family, or readers you already have. Don't have anyone to add? Find other writers to read and subscribe, like, or comment. It's one of the best ways to find your first readers.", "jetpack-newsletter" );
+__( "Send your first newsletter", "jetpack-newsletter" );
+__( "Write a new post and publish it with email turned on. Posts you've already published won't be sent. Send yourself a test first to see what your subscribers get.", "jetpack-newsletter" );
+__( "Write a post", "jetpack-newsletter" );
+__( "Updating checklist…", "jetpack-newsletter" );
+__( "Complete", "jetpack-newsletter" );
+__( "Loading checklist…", "jetpack-newsletter" );
+/* translators: %s: Product name, "Jetpack Newsletter". Do not translate. */
+__( "%s on WordPress.com", "jetpack-newsletter" );
+__( "A newsletter lets people subscribe with their email address, so every new post is delivered straight to their inbox. It's a simple way to build an audience you own, strengthen relationships with readers, and keep them coming back to your site.", "jetpack-newsletter" );
+__( "We stopped sending emails to this subscriber after their address bounced. If you're sure their address is correct, you can send one confirmation email to ask to restart their subscription.", "jetpack-newsletter" );
+/* translators: 1: date the confirmation email was sent, 2: number of days before another can be sent. */
+__( "A confirmation email was sent on %1$s. If they haven’t confirmed, you can send another one after %2$d days.", "jetpack-newsletter" );
+__( "We stopped sending emails to this subscriber after their address bounced. You can't send a confirmation email right now. Try again later.", "jetpack-newsletter" );
+__( "Could not load subscriber details.", "jetpack-newsletter" );
+__( "Try again", "jetpack-newsletter" );
 __( "Emails sent", "jetpack-newsletter" );
 __( "Open rate", "jetpack-newsletter" );
-/* translators: %d: percentage value (without the % sign). */
-__( "%d%%", "jetpack-newsletter" );
 __( "Click rate", "jetpack-newsletter" );
 __( "Newsletter subscription details", "jetpack-newsletter" );
 __( "Receives emails for", "jetpack-newsletter" );

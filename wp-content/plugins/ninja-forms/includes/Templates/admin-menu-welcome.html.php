@@ -185,13 +185,13 @@
     <div class="content nf-main-content">
         <div class="above-banner">
             <p class="greeting"><?php esc_html_e("Thank you for giving Ninja Forms a try!", "ninja-forms"); ?></p>
-            <p class="thanks"><?php esc_html_e("As a small WordPress business, every new person exploring the plugin means a lot to us.", "ninja-forms"); ?></p>
+            <p class="thanks"><?php esc_html_e('We\'re a small WordPress business, so every new person exploring the plugin means a lot to us.', "ninja-forms"); ?></p>
         </div>
         <div class="welcome-banner">
             <img src="<?php echo Ninja_Forms::$url . 'assets/img/onboarding/nf-team-welcome.png' ?>" alt="Our team thanks you!" />
         </div>
         <div class="below-banner">
-            <p class="message"><?php esc_html_e("We've been standing by our product and our users for over a decade, working to make your experience the best it can be. We're one of the only form builders around that offers support for all users, whether you've made a purchase or not. If you have any questions or suggestions, you'll find a direct line to our team from the Get Help tab. We're always happy to hear from you.", "ninja-forms"); ?></p>
+            <p class="message"><?php esc_html_e('We\'ve been standing by our product and our users for over a decade, working to make your experience the best it can be. We\'re one of the only form builders around that offer support for all users, whether you\'ve made a purchase or not. If you have any questions or suggestions, you\'ll find a direct line to our team from the Get Help tab. We\'re always happy to hear from you.', "ninja-forms"); ?></p>
             <p class="thanks"><?php esc_html_e("Thanks again for joining us. We're excited to have you on board!", "ninja-forms"); ?></p>
         </div>
         <div class="actions">
@@ -202,7 +202,7 @@
             <?php } ?>
             <a class="secondary nf-button" href="https://ninjaforms.com/documentation/?utm_source=Ninja+Forms+Plugin&utm_medium=Welcome&utm_campaign=Documentation" target="_blank"><?php esc_html_e("Documentation", "ninja-forms"); ?></a>
         </div>
-        <p><?php echo sprintf(esc_html__("Already know what you're doing? Great! You can %sdismiss this page.%s", "ninja-forms"), "<a id='nf-dismiss'>", "</a>"); ?></p>
+        <p><?php echo sprintf(/* translators: 1: opening link tag, 2: closing link tag. */ esc_html__('Already know what you\'re doing? Great! You can %1$sdismiss this page%2$s.', "ninja-forms"), "<a id='nf-dismiss'>", "</a>"); ?></p>
     </div>
 
 </div>

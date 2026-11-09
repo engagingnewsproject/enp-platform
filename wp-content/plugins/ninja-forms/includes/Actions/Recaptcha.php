@@ -386,7 +386,7 @@ final class NF_Actions_Recaptcha extends SotAction implements InterfacesSotActio
 		$recaptcha_response = $this->get_recaptcha_response();
 
 		if (! $recaptcha_response) {
-			$data['errors']['form']['recaptcha'] = esc_html__('Recaptcha validation failed. Please try again later', 'ninja-forms');
+			$data['errors']['form']['recaptcha'] = esc_html__('reCAPTCHA validation failed. Please try again later.', 'ninja-forms');
 
 			return $data;
 		}
@@ -395,7 +395,7 @@ final class NF_Actions_Recaptcha extends SotAction implements InterfacesSotActio
 			return $data;
 		}
 
-		$data['errors']['form']['recaptcha'] = esc_html__('Recaptcha validation failed. Please try again later', 'ninja-forms');
+		$data['errors']['form']['recaptcha'] = esc_html__('reCAPTCHA validation failed. Please try again later.', 'ninja-forms');
 
 		return $data;
 	}

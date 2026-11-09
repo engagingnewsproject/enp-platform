@@ -29,7 +29,7 @@
                         <?php if( ! $license[ 'is_valid' ] ): ?>
                         <button type="submit" class="button button-primary" name="ninja_forms_license[action]" value="activate"><?php esc_html_e( 'Activate', 'ninja-forms' ); ?></button>
                         <?php else: ?>
-                        <button type="submit" class="button button-secondary" name="ninja_forms_license[action]" value="deactivate"><?php esc_html_e( 'De-activate', 'ninja-forms' ); ?></button>
+                        <button type="submit" class="button button-secondary" name="ninja_forms_license[action]" value="deactivate"><?php esc_html_e( 'Deactivate', 'ninja-forms' ); ?></button>
                         <?php endif; ?>
                     </form>
                 </td>

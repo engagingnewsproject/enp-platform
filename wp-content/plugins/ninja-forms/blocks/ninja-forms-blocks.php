@@ -11,7 +11,11 @@ if(file_exists($autoloader = dirname(__DIR__) . '/vendor/autoload.php')) {
         if( defined('WP_DEBUG') && WP_DEBUG ){
             echo sprintf(
                 '<div class="notice notice-error"><p>%s</p></div>',
-                esc_html__( 'Autoloader not found for Ninja Forms Blocks - try running <code>composer install</code>', 'ninja-forms' )
+                sprintf(
+                    /* translators: %s is a command to type, shown as code: composer install */
+                    esc_html__( 'Autoloader not found for Ninja Forms Blocks - try running %s', 'ninja-forms' ),
+                    '<code>composer install</code>'
+                )
             );
         } else {
             echo sprintf(

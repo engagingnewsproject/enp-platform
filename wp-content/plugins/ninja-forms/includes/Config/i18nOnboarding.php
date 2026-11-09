@@ -1,14 +1,16 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit;
 
 return apply_filters( 'ninja_forms_i18n_onboarding', array(
-    "step1" => esc_html__("Anytime you want to create a new form, just click Add New under Ninja Forms in your dashboard!", "ninja-forms"),
+    /* translators: 'Add New Form' is the label of the dashboard button and menu item; use the same translation as for that string. */
+    "step1" => esc_html__('Anytime you want to create a new form, just click Add New Form under Ninja Forms in your dashboard!', "ninja-forms"),
     "step2" => esc_html__("You can begin with a blank form, or choose any starter template.", "ninja-forms"),
     "step3" => esc_html__("You can add new fields with a click, or drag and drop them exactly where you want them.", "ninja-forms"),
     "step4" => esc_html__("You can drag and drop fields to change their order. Hover your mouse over a field to see copy, edit, and settings options. Or just click the field to go straight into its settings. Give it a try and let us know when you're ready!", "ninja-forms"),
     "step5" => esc_html__("Now that you're set with fields, let's take a look at form email and other actions.", "ninja-forms"),
     "step6" => esc_html__("Here are the Actions active right now for your form. Active Actions happen when a user submits your form. You can add new ones, or click on any of them to adjust their settings. Take a look around and let us know when you're ready to move on!", "ninja-forms"),
     "step7" => esc_html__("Now let's look at your form's Advanced settings.", "ninja-forms"),
-    "step8" => sprintf( esc_html__("These Advanced settings control details about the form and how it behaves. You can learn more about them in %sour documentation%s.", "ninja-forms"), "<a href='https://ninjaforms.com/documentation/?utm_source=Ninja+Forms+Plugin&utm_medium=Onboarding-Sequence&utm_campaign=Documentation' target='_blank'>", "</a>"),
+    /* translators: 1: opening link tag, 2: closing link tag. */
+    "step8" => sprintf( esc_html__('These Advanced settings control details about the form and how it behaves. You can learn more about them in %1$sour documentation%2$s.', "ninja-forms"), "<a href='https://ninjaforms.com/documentation/?utm_source=Ninja+Forms+Plugin&utm_medium=Onboarding-Sequence&utm_campaign=Documentation' target='_blank'>", "</a>"),
     "step9" => esc_html__("Now let's save your work and get the form ready to go live!", "ninja-forms"),
     "step9opt" => esc_html__("Give your new form a name!", "ninja-forms"),
     "appendTitle" => esc_html__("Append to Page", "ninja-forms"),
@@ -26,8 +28,10 @@ return apply_filters( 'ninja_forms_i18n_onboarding', array(
     "exitb2" => esc_html__("No", "ninja-forms"),
     "next" => esc_html__("Next", "ninja-forms"),
     "congratulations" => esc_attr__("Congratulations!", "ninja-forms"),
-    "congratulations1" => sprintf( esc_html__("You've created your first Ninja Form! You can %splace it on any page%s or even %sshare it using just a link%s. And remember, if you ever need a hand we're always happy to help. You'll find a direct link to support on the Get Help tab!", "ninja-forms"), "<a href='https://ninjaforms.com/docs/publishing-a-form/?utm_source=Ninja+Forms+Plugin&utm_medium=Onboarding-Sequence&utm_campaign=Documentation' target='_blank'>", "</a>", "<a href='https://ninjaforms.com/docs/sharing-a-form-public-link/?utm_source=Ninja+Forms+Plugin&utm_medium=Onboarding-Sequence&utm_campaign=Documentation' target='_blank'>", "</a>" ),
-    "congratulations2" => sprintf( esc_html__("Your love helps keep the lights on. If you have an extra minute, it'd mean a lot to us if you helped spread the word with a 5-Star rating%s on WordPress.org. Thank you for your support and here's to many more forms!%s", "ninja-froms"), " (&#11088;&#11088;&#11088;&#11088;&#11088;)", " &#128522;"),
+    /* translators: 1: opening tag of the link to the guide on publishing a form, 2: closing link tag, 3: opening tag of the link to the guide on sharing a form by public link, 4: closing link tag. */
+    "congratulations1" => sprintf( esc_html__('You\'ve created your first Ninja Form! You can %1$splace it on any page%2$s or even %3$sshare it using just a link%4$s. And remember, if you ever need a hand we\'re always happy to help. You\'ll find a direct link to support on the Get Help tab!', "ninja-forms"), "<a href='https://ninjaforms.com/docs/publishing-a-form/?utm_source=Ninja+Forms+Plugin&utm_medium=Onboarding-Sequence&utm_campaign=Documentation' target='_blank'>", "</a>", "<a href='https://ninjaforms.com/docs/sharing-a-form-public-link/?utm_source=Ninja+Forms+Plugin&utm_medium=Onboarding-Sequence&utm_campaign=Documentation' target='_blank'>", "</a>" ),
+    /* translators: 1: five star emoji characters shown after the rating request. 2: a smiling face emoji that closes the sentence. */
+    "congratulations2" => sprintf( esc_html__("Your love helps keep the lights on. If you have an extra minute, it'd mean a lot to us if you helped spread the word with a 5-Star rating%s on WordPress.org. Thank you for your support and here's to many more forms!%s", "ninja-forms"), " (&#11088;&#11088;&#11088;&#11088;&#11088;)", " &#128522;"),
     "rateUs" => esc_html__("Rate Ninja Forms on WordPress.org", "ninja-forms"),
     "inProgress" => esc_html__("In progress...", "ninja-forms"),
 ));

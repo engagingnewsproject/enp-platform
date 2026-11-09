@@ -4,7 +4,7 @@
 
 namespace TEC\Common\Composer\Autoload;
 
-class ComposerStaticInit94c7c2b06eeaadc3aee5fefc04b11c2f
+class ComposerStaticInitaea9ea0e62da148cd6e410e57bea6b8e
 {
     public static $prefixLengthsPsr4 = array (
         'T' =>
@@ -35,6 +35,7 @@ class ComposerStaticInit94c7c2b06eeaadc3aee5fefc04b11c2f
             'TEC\\Common\\Psr\\Http\\Client\\' => 27,
             'TEC\\Common\\Psr\\Container\\' => 25,
             'TEC\\Common\\Nyholm\\Psr7\\' => 23,
+            'TEC\\Common\\Nexcess\\Banners\\' => 27,
             'TEC\\Common\\MyCLabs\\Enum\\' => 24,
             'TEC\\Common\\Monolog\\' => 19,
             'TEC\\Common\\LiquidWeb\\LicensingApiClient\\' => 40,
@@ -155,6 +156,10 @@ class ComposerStaticInit94c7c2b06eeaadc3aee5fefc04b11c2f
         'TEC\\Common\\Nyholm\\Psr7\\' =>
         array (
             0 => __DIR__ . '/..' . '/nyholm/psr7/src',
+        ),
+        'TEC\\Common\\Nexcess\\Banners\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/stellarwp/banners/src',
         ),
         'TEC\\Common\\MyCLabs\\Enum\\' =>
         array (
@@ -562,6 +567,11 @@ class ComposerStaticInit94c7c2b06eeaadc3aee5fefc04b11c2f
         'TEC\\Common\\Monolog\\Utils' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Utils.php',
         'TEC\\Common\\MyCLabs\\Enum\\Enum' => __DIR__ . '/..' . '/myclabs/php-enum/src/Enum.php',
         'TEC\\Common\\MyCLabs\\Enum\\PHPUnit\\Comparator' => __DIR__ . '/..' . '/myclabs/php-enum/src/PHPUnit/Comparator.php',
+        'TEC\\Common\\Nexcess\\Banners\\Banner' => __DIR__ . '/..' . '/stellarwp/banners/src/Banner.php',
+        'TEC\\Common\\Nexcess\\Banners\\BannerFields' => __DIR__ . '/..' . '/stellarwp/banners/src/BannerFields.php',
+        'TEC\\Common\\Nexcess\\Banners\\Dismissals' => __DIR__ . '/..' . '/stellarwp/banners/src/Dismissals.php',
+        'TEC\\Common\\Nexcess\\Banners\\Package' => __DIR__ . '/..' . '/stellarwp/banners/src/Package.php',
+        'TEC\\Common\\Nexcess\\Banners\\Registry' => __DIR__ . '/..' . '/stellarwp/banners/src/Registry.php',
         'TEC\\Common\\Nyholm\\Psr7\\Factory\\HttplugFactory' => __DIR__ . '/..' . '/nyholm/psr7/src/Factory/HttplugFactory.php',
         'TEC\\Common\\Nyholm\\Psr7\\Factory\\Psr17Factory' => __DIR__ . '/..' . '/nyholm/psr7/src/Factory/Psr17Factory.php',
         'TEC\\Common\\Nyholm\\Psr7\\MessageTrait' => __DIR__ . '/..' . '/nyholm/psr7/src/MessageTrait.php',
@@ -926,9 +936,9 @@ class ComposerStaticInit94c7c2b06eeaadc3aee5fefc04b11c2f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit94c7c2b06eeaadc3aee5fefc04b11c2f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit94c7c2b06eeaadc3aee5fefc04b11c2f::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit94c7c2b06eeaadc3aee5fefc04b11c2f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitaea9ea0e62da148cd6e410e57bea6b8e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitaea9ea0e62da148cd6e410e57bea6b8e::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitaea9ea0e62da148cd6e410e57bea6b8e::$classMap;
 
         }, null, ClassLoader::class);
     }

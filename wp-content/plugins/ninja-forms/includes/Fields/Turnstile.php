@@ -68,7 +68,7 @@ class NF_Fields_Turnstile extends NF_Abstracts_Field {
 		$this->_settings['theme'] = array(
 			'name'    => 'theme',
 			'type'    => 'select',
-			'label'   => esc_html__( 'Theme', 'ninja-forms' ),
+			'label'   => esc_html_x( 'Theme', 'color scheme of a CAPTCHA widget (light, dark or auto)', 'ninja-forms' ),
 			'options' => array(
 				array(
 					'label' => esc_html__( 'Light', 'ninja-forms' ),

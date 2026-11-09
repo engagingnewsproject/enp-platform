@@ -60,9 +60,14 @@ abstract class SotActionNewsletter extends SotAction implements InterfacesSotAct
     {
         check_ajax_referer('ninja_forms_builder_nonce', 'security');
 
+        // The person explicitly asked, so always ask the provider.
+        $this->clear_wait_after_failure();
+
         $lists = $this->get_lists();
 
         if ($this->is_failed_lookup($lists)) {
+
+            $this->start_wait_after_failure();
 
             /*
              * The lookup did not produce a usable list of lists. Report that
@@ -88,6 +93,78 @@ abstract class SotActionNewsletter extends SotAction implements InterfacesSotAct
      */
 
     abstract protected function get_lists();
+
+    /**
+     * How long to wait before asking a provider again after a failed lookup.
+     *
+     * Short enough that a site recovers on its own, long enough that a site
+     * whose connection is broken stops calling a provider that is already
+     * refusing it.
+     *
+     * @return int seconds
+     */
+    protected function get_lookup_retry_delay()
+    {
+        return MINUTE_IN_SECONDS;
+    }
+
+    /**
+     * Should this request ask the provider for its lists at all?
+     *
+     * The list options exist to populate a dropdown in the form builder. A
+     * visitor loading the public site does not need them, and neither does a
+     * form submission, which reaches admin-ajax and would otherwise pay for an
+     * outbound call on every entry.
+     *
+     * @return bool
+     */
+    protected function should_look_up_lists()
+    {
+        if (! is_admin()) return false;
+
+        if (function_exists('wp_doing_ajax') && wp_doing_ajax()) {
+
+            $ajax_action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
+
+            if ('nf_ajax_submit' === $ajax_action) return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Are we still inside the wait period after a failed lookup?
+     *
+     * @return bool
+     */
+    protected function is_waiting_after_failure()
+    {
+        return (bool) get_transient($this->get_retry_transient());
+    }
+
+    /**
+     * Start the wait period after a failed lookup.
+     */
+    protected function start_wait_after_failure()
+    {
+        set_transient($this->get_retry_transient(), 1, $this->get_lookup_retry_delay());
+    }
+
+    /**
+     * End the wait period, so the next request asks again.
+     */
+    protected function clear_wait_after_failure()
+    {
+        delete_transient($this->get_retry_transient());
+    }
+
+    /**
+     * @return string
+     */
+    protected function get_retry_transient()
+    {
+        return $this->_transient . '_retry_after';
+    }
 
     /**
      * Did this lookup fail to produce a usable list of lists?
@@ -146,11 +223,20 @@ abstract class SotActionNewsletter extends SotAction implements InterfacesSotAct
         /*
          * A cached failure is not an answer. Sites that cached a blank list
          * before this was fixed ask the provider again instead of serving that
-         * blank result forever.
+         * blank result forever, but only from a request that needs the lists
+         * and only once per wait period.
          */
-        if ($this->is_failed_lookup($lists)) {
+        if ($this->is_failed_lookup($lists)
+            && $this->should_look_up_lists()
+            && ! $this->is_waiting_after_failure()
+        ) {
             $lists = $this->get_lists();
-            $this->cache_lists($lists);
+
+            if ($this->is_failed_lookup($lists)) {
+                $this->start_wait_after_failure();
+            } else {
+                $this->cache_lists($lists);
+            }
         }
 
         $lookupFailed = $this->is_failed_lookup($lists);

@@ -44,6 +44,8 @@ final class NF_Routes_Telemetry extends NF_Abstracts_Routes
     /**
      * Store telemetry data
      *
+     * Legacy arrays without schema_version are rejected with 410 and not stored.
+     *
      * @since 3.8.18
      * @since 3.14.5 Added input validation and sanitization
      *
@@ -53,22 +55,21 @@ final class NF_Routes_Telemetry extends NF_Abstracts_Routes
     function nf_be_store_data($request) {
         $data = json_decode($request['data'], true);
 
-        // Validate data structure
-        if (!is_array($data) || count($data) < 3 || !is_numeric($data[2]) || $data[2] <= 0) {
-            return new WP_REST_Response('Invalid data', 400);
+        if (is_array($data) && isset($data['schema_version'])) {
+            if (!NF_Telemetry_BehavioralEvent::valid($data)) {
+                return new WP_REST_Response('Invalid event', 400);
+            }
+            // Identity comes from the authenticated WordPress user.
+            $data['user_id'] = get_current_user_id();
+            if (!NF_Telemetry_BehavioralQueue::enqueue($data)) {
+                return new WP_REST_Response('Event not stored; retry later', 503);
+            }
+            return new WP_REST_Response(['accepted_event_ids' => [$data['event_id']]], 200);
         }
 
-        // Sanitize string values to prevent injection
-        $data = array_map(function($item) {
-            return is_string($item) ? sanitize_text_field($item) : $item;
-        }, $data);
-
-        $data[] = get_current_user_id();
-        $stored_data = get_option('nf_be_data', []);
-        $stored_data[] = $data;
-        update_option('nf_be_data', $stored_data);
-
-        return new WP_REST_Response('Data stored', 200);
+        // Only tabs opened before an upgrade still send the legacy array, which carried
+        // captured page HTML. It is no longer stored, so the monthly backlog can only shrink.
+        return new WP_REST_Response('Legacy format is no longer accepted', 410);
     }
 
 }

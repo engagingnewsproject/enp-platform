@@ -1,5 +1,5 @@
 <select name="form_id" id="form_id">
-    <option value="0"><?php esc_html_e( '- Select a form', 'ninja-forms' ); ?></option>
+    <option value="0">- <?php esc_html_e( 'Select a form', 'ninja-forms' ); ?></option>
     <?php foreach( $form_options as $id => $title ): ?>
         <option value="<?php echo $id; ?>" <?php if( $id == $form_selected ) echo 'selected'; ?>>
             <?php echo $title . " ( ID: " . $id . " )"; ?>

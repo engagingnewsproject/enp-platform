@@ -44,16 +44,16 @@ class NF_Fields_Date extends NF_Fields_Textbox
     private function get_format( $format )
     {
         $lookup = array(
-            'MM/DD/YYYY' => esc_html__( 'm/d/Y', 'ninja-forms' ),
-            'MM-DD-YYYY' => esc_html__( 'm-d-Y', 'ninja-forms' ),
-            'MM.DD.YYYY' => esc_html__( 'm.d.Y', 'ninja-forms' ),
-            'DD/MM/YYYY' => esc_html__( 'd/m/Y', 'ninja-forms' ),
-            'DD-MM-YYYY' => esc_html__( 'd-m-Y', 'ninja-forms' ),
-            'DD.MM.YYYY' => esc_html__( 'd.m.Y', 'ninja-forms' ),
-            'YYYY-MM-DD' => esc_html__( 'Y-m-d', 'ninja-forms' ),
-            'YYYY/MM/DD' => esc_html__( 'Y/m/d', 'ninja-forms' ),
-            'YYYY.MM.DD' => esc_html__( 'Y.m.d', 'ninja-forms' ),
-            'dddd, MMMM D YYYY' => esc_html__( 'l, F d Y', 'ninja-forms' ),
+            'MM/DD/YYYY' => 'm/d/Y',
+            'MM-DD-YYYY' => 'm-d-Y',
+            'MM.DD.YYYY' => 'm.d.Y',
+            'DD/MM/YYYY' => 'd/m/Y',
+            'DD-MM-YYYY' => 'd-m-Y',
+            'DD.MM.YYYY' => 'd.m.Y',
+            'YYYY-MM-DD' => 'Y-m-d',
+            'YYYY/MM/DD' => 'Y/m/d',
+            'YYYY.MM.DD' => 'Y.m.d',
+            'dddd, MMMM D YYYY' => 'l, F d Y',
         );
 
         return ( isset( $lookup[ $format ] ) ) ? $lookup[ $format ] : $format;

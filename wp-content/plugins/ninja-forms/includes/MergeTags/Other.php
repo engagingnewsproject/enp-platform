@@ -92,7 +92,12 @@ class NF_MergeTags_Other extends NF_Abstracts_MergeTags
     
     public function __call($name, $arguments)
     {
-        return $this->merge_tags[ $name ][ 'value' ];
+        $value = $this->merge_tags[ $name ][ 'value' ];
+
+        // A list-shaped querystring value (?key[]=x) cannot be substituted as text.
+        if ( is_array( $value ) ) return '';
+
+        return $value;
     }
 
     /**
@@ -163,27 +168,15 @@ class NF_MergeTags_Other extends NF_Abstracts_MergeTags
 
     protected function user_ip()
     {
-        $ip = '127.0.0.1';
-        if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-            //check ip from share internet
-            $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-            //to check ip is pass from proxy
-            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } elseif( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
-            $ip = $_SERVER['REMOTE_ADDR'];
-        }
-
-        $ip = apply_filters( 'ninja_forms-get_ip', apply_filters( 'nf_get_ip', $ip ) );
-
         // Neutralize shortcode brackets to prevent shortcode injection.
         // @see https://github.com/Saturday-Drive/ninja-forms/issues/8123
-        return $this->neutralize_shortcodes( $ip );
+        return $this->neutralize_shortcodes( $this->get_client_ip() );
     }
 
     protected function referer_url()
     {
-        $referer = apply_filters( 'ninja_forms-referer_url_mt', wp_get_referer() );
+        // The referer is set by the client, so only a clean URL is substituted.
+        $referer = esc_url_raw( (string) apply_filters( 'ninja_forms-referer_url_mt', wp_get_referer() ) );
 
         // Neutralize shortcode brackets to prevent shortcode injection.
         // @see https://github.com/Saturday-Drive/ninja-forms/issues/8123

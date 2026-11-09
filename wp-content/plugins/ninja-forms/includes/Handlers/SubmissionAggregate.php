@@ -279,6 +279,20 @@ class SubmissionAggregate
                 $fieldSettings = $nfField->get_settings();
                 
                 $fieldOptionDefinition = $nfField->get_setting('options',[]);
+
+                // A field type whose choices are not stored in the form — the
+                // Terms List field reads them from the site's taxonomy — supplies
+                // them here, so a submission reads as the chosen label rather
+                // than the stored ID. #8135
+                $fieldOptionDefinition = \apply_filters(
+                    'ninja_forms_submission_field_options_' . $nfField->get_setting('type'),
+                    $fieldOptionDefinition,
+                    $fieldSettings
+                );
+
+                // The submissions screens read their control's choices from the
+                // field settings, so the resolved options travel with them.
+                $fieldSettings['options'] = $fieldOptionDefinition;
                 $fieldsetRepeaterFields = $nfField->get_setting('fields',[]);
 
                 if(!empty($fieldOptionDefinition)){

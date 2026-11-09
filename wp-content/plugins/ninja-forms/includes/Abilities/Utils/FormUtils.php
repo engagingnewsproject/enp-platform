@@ -67,7 +67,7 @@ function ninja_forms_ability_create_form_action( $form_id, $type, $label, $order
 	if ( ! $action_id ) {
 		return new WP_Error(
 			'action_save_failed',
-			__( 'A generated form action could not be saved.', 'ninja-forms' )
+			'A generated form action could not be saved.'
 		);
 	}
 
@@ -84,7 +84,7 @@ function ninja_forms_ability_create_form_action( $form_id, $type, $label, $order
 	if ( ! is_array( $stored ) || $action_id !== (int) $stored['id'] ) {
 		return new WP_Error(
 			'action_save_unverified',
-			__( 'A generated form action could not be verified after saving.', 'ninja-forms' )
+			'A generated form action could not be verified after saving.'
 		);
 	}
 	$meta_rows = $wpdb->get_results(
@@ -118,7 +118,7 @@ function ninja_forms_ability_create_form_action( $form_id, $type, $label, $order
 		) {
 			return new WP_Error(
 				'action_save_unverified',
-				__( 'A generated form action setting could not be verified after saving.', 'ninja-forms' )
+				'A generated form action setting could not be verified after saving.'
 			);
 		}
 	}
@@ -293,7 +293,7 @@ function ninja_forms_ability_normalize_generated_action( $action_data ) {
 	if ( ! is_array( $action_data ) ) {
 		return new WP_Error(
 			'invalid_action',
-			__( 'Each generated action must be an object.', 'ninja-forms' )
+			'Each generated action must be an object.'
 		);
 	}
 	$valid = ninja_forms_ability_validate_input_keys(
@@ -308,14 +308,14 @@ function ninja_forms_ability_normalize_generated_action( $action_data ) {
 	if ( ! ninja_forms_ability_is_supported_action_type( $type ) ) {
 		return new WP_Error(
 			'unsupported_action_type',
-			__( 'That action type is not supported.', 'ninja-forms' )
+			'That action type is not supported.'
 		);
 	}
 	$settings = isset( $action_data['settings'] ) ? $action_data['settings'] : array();
 	if ( ! is_array( $settings ) ) {
 		return new WP_Error(
 			'invalid_action_settings',
-			__( 'Generated action settings must be an object.', 'ninja-forms' )
+			'Generated action settings must be an object.'
 		);
 	}
 
@@ -422,7 +422,7 @@ function ninja_forms_ability_normalize_generated_action( $action_data ) {
  */
 function ninja_forms_ability_create_form( $input ) {
 	if ( empty( $input['title'] ) ) {
-		return new WP_Error( 'invalid_input', __( 'Form title is required', 'ninja-forms' ) );
+		return new WP_Error( 'invalid_input', 'Form title is required' );
 	}
 
 	$form = Ninja_Forms()->form()->get();
@@ -497,7 +497,7 @@ function ninja_forms_ability_create_form( $input ) {
 	if ( ! $form_id ) {
 		return new WP_Error(
 			'form_save_failed',
-			__( 'The generated form could not be saved.', 'ninja-forms' )
+			'The generated form could not be saved.'
 		);
 	}
 	global $wpdb;
@@ -512,7 +512,7 @@ function ninja_forms_ability_create_form( $input ) {
 			$form_id,
 			new WP_Error(
 				'form_save_unverified',
-				__( 'The generated form settings could not be verified after saving.', 'ninja-forms' )
+				'The generated form settings could not be verified after saving.'
 			)
 		);
 	}
@@ -573,7 +573,7 @@ function ninja_forms_ability_create_form( $input ) {
 						$form_id,
 						new WP_Error(
 							'field_save_failed',
-							__( 'A generated HTML field could not be finalized.', 'ninja-forms' )
+							'A generated HTML field could not be finalized.'
 						)
 					);
 				}
@@ -666,9 +666,9 @@ function ninja_forms_ability_create_form( $input ) {
 		}
 	}
 
-	$message = sprintf( __( 'Form created with ID %d', 'ninja-forms' ), $form_id );
+	$message = sprintf( 'Form created with ID %d', $form_id );
 	if ( ! empty( $fields_created ) ) {
-		$message .= sprintf( __( ' with %d field(s)', 'ninja-forms' ), count( $fields_created ) );
+		$message .= sprintf( ' with %d field(s)', count( $fields_created ) );
 	}
 
 	return array(
@@ -716,7 +716,7 @@ function ninja_forms_ability_list_forms( $input ) {
 	$forms_data = $wpdb->get_results( $query, ARRAY_A );
 
 	if ( $wpdb->last_error ) {
-		return new WP_Error( 'database_error', __( 'Failed to retrieve forms', 'ninja-forms' ), array( 'error' => $wpdb->last_error ) );
+		return new WP_Error( 'database_error', 'Failed to retrieve forms', array( 'error' => $wpdb->last_error ) );
 	}
 
 	// Build response array
@@ -757,7 +757,7 @@ function ninja_forms_ability_list_forms( $input ) {
 	}
 
 	$count = count( $forms );
-	$message = sprintf( __( 'Found %d form(s)', 'ninja-forms' ), $count );
+	$message = sprintf( 'Found %d form(s)', $count );
 
 	return array(
 		'success' => true,
@@ -776,7 +776,7 @@ function ninja_forms_ability_list_forms( $input ) {
 function ninja_forms_ability_get_form( $input ) {
 	// Validate form_id
 	if ( empty( $input['form_id'] ) ) {
-		return new WP_Error( 'invalid_input', __( 'Form ID is required', 'ninja-forms' ) );
+		return new WP_Error( 'invalid_input', 'Form ID is required' );
 	}
 
 	$form_id = (int) $input['form_id'];
@@ -785,7 +785,7 @@ function ninja_forms_ability_get_form( $input ) {
 	$form = Ninja_Forms()->form( $form_id )->get();
 
 	if ( ! $form || ! $form->get_id() ) {
-		return new WP_Error( 'form_not_found', sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ) );
+		return new WP_Error( 'form_not_found', sprintf( 'Form with ID %d not found', $form_id ) );
 	}
 	// Build base form data
 	global $wpdb;
@@ -858,7 +858,7 @@ function ninja_forms_ability_get_form( $input ) {
 	return array(
 		'success' => true,
 		'form'    => $form_data,
-		'message' => sprintf( __( 'Retrieved form "%s" (ID: %d)', 'ninja-forms' ), $form_record['title'], $form_id ),
+		'message' => sprintf( 'Retrieved form "%s" (ID: %d)', $form_record['title'], $form_id ),
 	);
 }
 
@@ -871,7 +871,7 @@ function ninja_forms_ability_get_form( $input ) {
 function ninja_forms_ability_update_form( $input ) {
 	// Validate required input
 	if ( empty( $input['form_id'] ) ) {
-		return new WP_Error( 'invalid_input', __( 'Form ID is required', 'ninja-forms' ) );
+		return new WP_Error( 'invalid_input', 'Form ID is required' );
 	}
 
 	$form_id = (int) $input['form_id'];
@@ -879,7 +879,7 @@ function ninja_forms_ability_update_form( $input ) {
 	// Check if form exists
 	$form = Ninja_Forms()->form( $form_id )->get();
 	if ( ! $form || ! $form->get_id() ) {
-		return new WP_Error( 'form_not_found', sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ) );
+		return new WP_Error( 'form_not_found', sprintf( 'Form with ID %d not found', $form_id ) );
 	}
 	$input = ninja_forms_ability_normalize_form_input( $input );
 	if ( is_wp_error( $input ) ) {
@@ -913,7 +913,7 @@ function ninja_forms_ability_update_form( $input ) {
 
 	// If no settings to update, return error
 	if ( empty( $settings_to_update ) ) {
-		return new WP_Error( 'no_settings', __( 'No settings provided to update', 'ninja-forms' ) );
+		return new WP_Error( 'no_settings', 'No settings provided to update' );
 	}
 
 	// Update the form settings
@@ -930,14 +930,14 @@ function ninja_forms_ability_update_form( $input ) {
 		'success' => true,
 		'form_id' => $form_id,
 		'updated' => $settings_to_update,
-		'message' => sprintf( __( 'Successfully updated form "%s" (ID: %d). Updated %d setting(s).', 'ninja-forms' ), $form_title, $form_id, count( $settings_to_update ) ),
+		'message' => sprintf( 'Successfully updated form "%s" (ID: %d). Updated %d setting(s).', $form_title, $form_id, count( $settings_to_update ) ),
 	);
 }
 
 function ninja_forms_ability_delete_form( $input ) {
 	// Validate required input
 	if ( empty( $input['form_id'] ) ) {
-		return new WP_Error( 'invalid_input', __( 'Form ID is required', 'ninja-forms' ) );
+		return new WP_Error( 'invalid_input', 'Form ID is required' );
 	}
 
 	$form_id = (int) $input['form_id'];
@@ -945,7 +945,7 @@ function ninja_forms_ability_delete_form( $input ) {
 	// Check if form exists
 	$form = Ninja_Forms()->form( $form_id )->get();
 	if ( ! $form || ! $form->get_id() ) {
-		return new WP_Error( 'form_not_found', sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ) );
+		return new WP_Error( 'form_not_found', sprintf( 'Form with ID %d not found', $form_id ) );
 	}
 
 	// Store form title for message before deletion
@@ -957,14 +957,14 @@ function ninja_forms_ability_delete_form( $input ) {
 	return array(
 		'success' => true,
 		'form_id' => $form_id,
-		'message' => sprintf( __( 'Successfully deleted form "%s" (ID: %d) and all associated data.', 'ninja-forms' ), $form_title, $form_id ),
+		'message' => sprintf( 'Successfully deleted form "%s" (ID: %d) and all associated data.', $form_title, $form_id ),
 	);
 }
 
 function ninja_forms_ability_duplicate_form( $input ) {
 	// Validate required input
 	if ( empty( $input['form_id'] ) ) {
-		return new WP_Error( 'invalid_input', __( 'Form ID is required', 'ninja-forms' ) );
+		return new WP_Error( 'invalid_input', 'Form ID is required' );
 	}
 
 	$form_id = (int) $input['form_id'];
@@ -972,14 +972,14 @@ function ninja_forms_ability_duplicate_form( $input ) {
 	// Check if form exists
 	$form = Ninja_Forms()->form( $form_id )->get();
 	if ( ! $form || ! $form->get_id() ) {
-		return new WP_Error( 'form_not_found', sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ) );
+		return new WP_Error( 'form_not_found', sprintf( 'Form with ID %d not found', $form_id ) );
 	}
 
 	// Duplicate the form using the static method
 	$new_form_id = NF_Database_Models_Form::duplicate( $form_id );
 
 	if ( ! $new_form_id ) {
-		return new WP_Error( 'duplication_failed', __( 'Failed to duplicate form', 'ninja-forms' ) );
+		return new WP_Error( 'duplication_failed', 'Failed to duplicate form' );
 	}
 
 	// Get the new form to check if custom title was requested
@@ -1000,7 +1000,7 @@ function ninja_forms_ability_duplicate_form( $input ) {
 		'form_id'     => $form_id,
 		'new_form_id' => $new_form_id,
 		'title'       => $new_title,
-		'message'     => sprintf( __( 'Successfully duplicated form (ID: %d) to "%s" (ID: %d).', 'ninja-forms' ), $form_id, $new_title, $new_form_id ),
+		'message'     => sprintf( 'Successfully duplicated form (ID: %d) to "%s" (ID: %d).', $form_id, $new_title, $new_form_id ),
 	);
 }
 
@@ -1009,7 +1009,7 @@ function ninja_forms_ability_import_form( $input ) {
 	if ( empty( $input['file_content'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'No file content provided.', 'ninja-forms' ),
+			'message' => 'No file content provided.',
 		);
 	}
 
@@ -1023,7 +1023,7 @@ function ninja_forms_ability_import_form( $input ) {
 		if ( ! $form_id ) {
 			return array(
 				'success' => false,
-				'message' => __( 'Failed to import form. Invalid format or data.', 'ninja-forms' ),
+				'message' => 'Failed to import form. Invalid format or data.',
 			);
 		}
 
@@ -1033,14 +1033,14 @@ function ninja_forms_ability_import_form( $input ) {
 
 		return array(
 			'success'    => true,
-			'message'    => sprintf( __( 'Form "%s" imported successfully.', 'ninja-forms' ), $form_title ),
+			'message'    => sprintf( 'Form "%s" imported successfully.', $form_title ),
 			'form_id'    => $form_id,
 			'form_title' => $form_title,
 		);
 	} catch ( Exception $e ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Import failed: %s', 'ninja-forms' ), $e->getMessage() ),
+			'message' => sprintf( 'Import failed: %s', $e->getMessage() ),
 		);
 	}
 }
@@ -1050,7 +1050,7 @@ function ninja_forms_ability_export_form_definition( $input ) {
 	if ( empty( $input['form_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Form ID is required', 'ninja-forms' ),
+			'message' => 'Form ID is required',
 		);
 	}
 
@@ -1062,7 +1062,7 @@ function ninja_forms_ability_export_form_definition( $input ) {
 	if ( ! $exists ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Form with ID %d not found.', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'Form with ID %d not found.', $form_id ),
 		);
 	}
 
@@ -1075,7 +1075,7 @@ function ninja_forms_ability_export_form_definition( $input ) {
 		if ( ! $export_data || ! is_array( $export_data ) ) {
 			return array(
 				'success' => false,
-				'message' => __( 'Failed to export form data.', 'ninja-forms' ),
+				'message' => 'Failed to export form data.',
 			);
 		}
 
@@ -1091,7 +1091,7 @@ function ninja_forms_ability_export_form_definition( $input ) {
 
 		return array(
 			'success'    => true,
-			'message'    => sprintf( __( 'Form "%s" exported successfully.', 'ninja-forms' ), $form_title ),
+			'message'    => sprintf( 'Form "%s" exported successfully.', $form_title ),
 			'form_id'    => $form_id,
 			'form_title' => $form_title,
 			'content'    => $content,
@@ -1100,7 +1100,7 @@ function ninja_forms_ability_export_form_definition( $input ) {
 	} catch ( Exception $e ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Export failed: %s', 'ninja-forms' ), $e->getMessage() ),
+			'message' => sprintf( 'Export failed: %s', $e->getMessage() ),
 		);
 	}
 }
@@ -1110,7 +1110,7 @@ function ninja_forms_ability_embed_form( $input ) {
 	if ( empty( $input['form_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Form ID is required', 'ninja-forms' ),
+			'message' => 'Form ID is required',
 		);
 	}
 
@@ -1132,7 +1132,7 @@ function ninja_forms_ability_embed_form( $input ) {
 	if ( ! $exists ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Form with ID %d not found.', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'Form with ID %d not found.', $form_id ),
 		);
 	}
 
@@ -1157,7 +1157,7 @@ function ninja_forms_ability_embed_form( $input ) {
 				if ( ! current_user_can( 'edit_post', $existing_page->ID ) ) {
 					return array(
 						'success' => false,
-						'message' => __( 'You do not have permission to edit this post.', 'ninja-forms' ),
+						'message' => 'You do not have permission to edit this post.',
 					);
 				}
 
@@ -1188,7 +1188,7 @@ function ninja_forms_ability_embed_form( $input ) {
 					'content_blocks'     => $readable_blocks,
 					'needs_embed_method' => true,
 					'available_methods'  => array( 'shortcode', 'block', 'metabox' ),
-					'message'            => sprintf( __( 'Found existing page "%s". Choose an embed method to continue.', 'ninja-forms' ), $existing_page->post_title ),
+					'message'            => sprintf( 'Found existing page "%s". Choose an embed method to continue.', $existing_page->post_title ),
 				);
 			} else {
 				// PAGE NOT FOUND - Ask user to confirm creation
@@ -1196,7 +1196,7 @@ function ninja_forms_ability_embed_form( $input ) {
 					'success'            => false,
 					'page_not_found'     => true,
 					'needs_confirmation' => true,
-					'message'            => sprintf( __( 'No page titled "%s" was found. User must confirm page creation.', 'ninja-forms' ), $post_title ),
+					'message'            => sprintf( 'No page titled "%s" was found. User must confirm page creation.', $post_title ),
 				);
 			}
 		}
@@ -1212,7 +1212,7 @@ function ninja_forms_ability_embed_form( $input ) {
 			if ( ! $target_post ) {
 				return array(
 					'success' => false,
-					'message' => sprintf( __( 'Post with ID %d not found.', 'ninja-forms' ), $post_id ),
+					'message' => sprintf( 'Post with ID %d not found.', $post_id ),
 				);
 			}
 		} elseif ( ! empty( $post_title ) ) {
@@ -1226,7 +1226,7 @@ function ninja_forms_ability_embed_form( $input ) {
 				if ( ! current_user_can( $create_cap ) ) {
 					return array(
 						'success' => false,
-						'message' => __( 'You do not have permission to create posts.', 'ninja-forms' ),
+						'message' => 'You do not have permission to create posts.',
 					);
 				}
 
@@ -1249,7 +1249,7 @@ function ninja_forms_ability_embed_form( $input ) {
 			} elseif ( ! $target_post ) {
 				return array(
 					'success' => false,
-					'message' => sprintf( __( 'Page "%s" not found and creation not confirmed.', 'ninja-forms' ), $post_title ),
+					'message' => sprintf( 'Page "%s" not found and creation not confirmed.', $post_title ),
 				);
 			}
 		}
@@ -1257,7 +1257,7 @@ function ninja_forms_ability_embed_form( $input ) {
 		if ( ! $target_post ) {
 			return array(
 				'success' => false,
-				'message' => __( 'Unable to determine target page.', 'ninja-forms' ),
+				'message' => 'Unable to determine target page.',
 			);
 		}
 
@@ -1269,7 +1269,7 @@ function ninja_forms_ability_embed_form( $input ) {
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return array(
 				'success' => false,
-				'message' => __( 'You do not have permission to edit this post.', 'ninja-forms' ),
+				'message' => 'You do not have permission to edit this post.',
 			);
 		}
 
@@ -1277,7 +1277,7 @@ function ninja_forms_ability_embed_form( $input ) {
 		if ( $embed_method === 'metabox' ) {
 			// METABOX: Set post meta
 			update_post_meta( $post_id, '_nf_form_id', $form_id );
-			$result_message = sprintf( __( 'Form embedded via metabox in "%s" (will appear at bottom of page).', 'ninja-forms' ), $target_post->post_title );
+			$result_message = sprintf( 'Form embedded via metabox in "%s" (will appear at bottom of page).', $target_post->post_title );
 
 		} elseif ( $embed_method === 'shortcode' || $embed_method === 'block' ) {
 			// SHORTCODE or BLOCK: Insert into content with placement
@@ -1334,12 +1334,12 @@ function ninja_forms_ability_embed_form( $input ) {
 			                  ( $placement === 'at_end' ? 'at the end' :
 			                  ( ! empty( $placement_reference ) ? "{$placement} {$placement_reference}" : 'at the end' ) );
 
-			$result_message = sprintf( __( 'Form embedded via %s in "%s" (%s).', 'ninja-forms' ), $embed_method, $target_post->post_title, $placement_desc );
+			$result_message = sprintf( 'Form embedded via %s in "%s" (%s).', $embed_method, $target_post->post_title, $placement_desc );
 
 		} else {
 			return array(
 				'success' => false,
-				'message' => __( 'Invalid embed method. Use shortcode, block, or metabox.', 'ninja-forms' ),
+				'message' => 'Invalid embed method. Use shortcode, block, or metabox.',
 			);
 		}
 
@@ -1367,7 +1367,7 @@ function ninja_forms_ability_embed_form( $input ) {
 	} catch ( Exception $e ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Embed failed: %s', 'ninja-forms' ), $e->getMessage() ),
+			'message' => sprintf( 'Embed failed: %s', $e->getMessage() ),
 		);
 	}
 }
@@ -1377,7 +1377,7 @@ function ninja_forms_ability_get_public_link( $input ) {
 	if ( empty( $input['form_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Form ID is required', 'ninja-forms' ),
+			'message' => 'Form ID is required',
 		);
 	}
 
@@ -1390,7 +1390,7 @@ function ninja_forms_ability_get_public_link( $input ) {
 	if ( ! $exists ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Form with ID %d not found.', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'Form with ID %d not found.', $form_id ),
 		);
 	}
 
@@ -1417,14 +1417,14 @@ function ninja_forms_ability_get_public_link( $input ) {
 
 			// Build public link URL using pretty URL format /ninja-forms/{slug}
 			// This matches the UI behavior and uses WordPress rewrite rules
-			$public_link = home_url( '/ninja-forms/' . $public_link_key );
+			$public_link = home_url( '/ninja-forms/' . $public_link_key . '/' );
 			$form->update_setting( 'public_link', $public_link );
 
 			$form->save();
 
 			return array(
 				'success'         => true,
-				'message'         => __( 'Public link enabled successfully.', 'ninja-forms' ),
+				'message'         => 'Public link enabled successfully.',
 				'public_link'     => $public_link,
 				'public_link_key' => $public_link_key,
 				'enabled'         => true,
@@ -1437,14 +1437,14 @@ function ninja_forms_ability_get_public_link( $input ) {
 
 			return array(
 				'success' => true,
-				'message' => __( 'Public link disabled successfully.', 'ninja-forms' ),
+				'message' => 'Public link disabled successfully.',
 				'enabled' => false,
 			);
 		}
 	} catch ( Exception $e ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Public link operation failed: %s', 'ninja-forms' ), $e->getMessage() ),
+			'message' => sprintf( 'Public link operation failed: %s', $e->getMessage() ),
 		);
 	}
 }

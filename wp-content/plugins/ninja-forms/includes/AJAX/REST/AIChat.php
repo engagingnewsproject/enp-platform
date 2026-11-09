@@ -95,7 +95,7 @@ class NF_AJAX_REST_AIChat extends NF_AJAX_REST_Controller
 
         return '' !== $providerId
             ? ProviderManager::getProviderName($providerId)
-            : __('The AI provider', 'ninja-forms');
+            : _x('The AI provider', 'subject at the start of a sentence, used in place of a provider name such as OpenAI', 'ninja-forms');
     }
 
     /**

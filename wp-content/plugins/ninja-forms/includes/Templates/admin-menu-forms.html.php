@@ -67,7 +67,7 @@
         <div class="nf-field-button"><?php esc_html_e( 'Dropdown', 'ninja-forms' ); ?></div>
     </div>
     <div class="nf-one-third">
-        <div class="nf-field-button"><?php esc_html_e( 'Mult-Select', 'ninja-forms' ); ?></div>
+        <div class="nf-field-button"><?php esc_html_e( 'Multi-Select', 'ninja-forms' ); ?></div>
     </div>
     <div class="nf-one-third">
         <div class="nf-field-button"><?php esc_html_e('Radio List', 'ninja-forms' ); ?></div>
@@ -80,7 +80,7 @@
     </div>
 
 
-    <h3><?php esc_html_e( 'Basic Fields', 'ninja-fomrs' ); ?></h3>
+    <h3><?php esc_html_e( 'Basic Fields', 'ninja-forms' ); ?></h3>
 
     <div class="nf-one-third">
         <div class="nf-field-button"><?php esc_html_e( 'Textbox', 'ninja-forms' ); ?></div>
@@ -95,7 +95,7 @@
         <div class="nf-field-button"><?php esc_html_e( 'Dropdown', 'ninja-forms' ); ?></div>
     </div>
     <div class="nf-one-third">
-        <div class="nf-field-button"><?php esc_html_e( 'Mult-Select', 'ninja-forms' ); ?></div>
+        <div class="nf-field-button"><?php esc_html_e( 'Multi-Select', 'ninja-forms' ); ?></div>
     </div>
     <div class="nf-one-third">
         <div class="nf-field-button"><?php esc_html_e( 'Radio List', 'ninja-forms' ); ?></div>
@@ -123,7 +123,7 @@
         <div class="nf-field-button"><?php esc_html_e( 'Dropdown', 'ninja-forms' ); ?></div>
     </div>
     <div class="nf-one-third">
-        <div class="nf-field-button"><?php esc_html_e( 'Mult-Select', 'ninja-forms' ); ?></div>
+        <div class="nf-field-button"><?php esc_html_e( 'Multi-Select', 'ninja-forms' ); ?></div>
     </div>
     <div class="nf-one-third">
         <div class="nf-field-button"><?php esc_html_e( 'Radio List', 'ninja-forms' ); ?></div>
@@ -151,7 +151,7 @@
         <div class="nf-field-button"><?php esc_html_e( 'Dropdown', 'ninja-forms' ); ?></div>
     </div>
     <div class="nf-one-third">
-        <div class="nf-field-button"><?php esc_html_e( 'Mult-Select', 'ninja-forms' ); ?></div>
+        <div class="nf-field-button"><?php esc_html_e( 'Multi-Select', 'ninja-forms' ); ?></div>
     </div>
     <div class="nf-one-third">
         <div class="nf-field-button"><?php esc_html_e( 'Radio List', 'ninja-forms' ); ?></div>
@@ -179,7 +179,7 @@
         <div class="nf-field-button"><?php esc_html_e( 'Dropdown', 'ninja-forms' ); ?></div>
     </div>
     <div class="nf-one-third">
-        <div class="nf-field-button"><?php esc_html_e( 'Mult-Select', 'ninja-forms' ); ?></div>
+        <div class="nf-field-button"><?php esc_html_e( 'Multi-Select', 'ninja-forms' ); ?></div>
     </div>
     <div class="nf-one-third">
         <div class="nf-field-button"><?php esc_html_e( 'Radio List', 'ninja-forms' ); ?></div>

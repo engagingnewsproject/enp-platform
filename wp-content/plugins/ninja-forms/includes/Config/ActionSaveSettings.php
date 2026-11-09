@@ -36,7 +36,7 @@ return apply_filters( 'ninja_forms_action_save_settings', array(
     'exception_fields' => array(
 	    'name'      => 'exception_fields',
 	    'type'      => 'option-repeater',
-	    'label'     => esc_html__( 'Except', 'ninja-forms' ) . ' <a href="#" class="nf-add-new">' .
+	    'label'     => esc_html__( 'Except these fields', 'ninja-forms' ) . ' <a href="#" class="nf-add-new">' .
 	                   esc_html__( 'Add New', 'ninja-forms' ) . '</a>',
 	    'width'     => 'full',
 	    'group'     => 'advanced',
@@ -60,7 +60,7 @@ return apply_filters( 'ninja_forms_action_save_settings', array(
         'group' => 'advanced',
         'label' => esc_html__( 'Set Submissions to expire?', 'ninja-forms' ),
         'value' => 0,
-        'help'  => esc_html__( 'Sets submissions to be trashes after a certain number of days, it affects all existing and new submissions', 'ninja-forms' ),
+        'help'  => esc_html__( 'Sets submissions to be trashed after a certain number of days. This affects all existing and new submissions.', 'ninja-forms' ),
         'width' => 'one-half',
     ),
 
@@ -71,7 +71,7 @@ return apply_filters( 'ninja_forms_action_save_settings', array(
         'name' => 'subs_expire_time',
         'type' => 'number',
         'group' => 'advanced',
-        'label' => esc_html__( 'How long in days until subs expire?', 'ninja-forms' ),
+        'label' => esc_html__( 'How many days until submissions expire?', 'ninja-forms' ),
         'value' => '90',
         'min_val' => 1, // new minimum value setting
         'max_val' => null, // new maximum value setting

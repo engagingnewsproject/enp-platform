@@ -342,7 +342,8 @@ class NF_Fields_Signature extends NF_Abstracts_Input
             $output .= esc_html( $signature_data['typed_name'] );
             $output .= '</div>';
             $output .= '<div style="margin-top: 8px; font-size: 12px; color: #666;">';
-            $output .= '<strong>' . esc_html__( 'Type:', 'ninja-forms' ) . '</strong> ' . esc_html__( 'Typed signature', 'ninja-forms' );
+            /* translators: label followed by 'Typed signature' or 'Drawn signature'. */
+            $output .= '<strong>' . esc_html__( 'Signature type:', 'ninja-forms' ) . '</strong> ' . esc_html__( 'Typed signature', 'ninja-forms' );
             $output .= '</div>';
             $output .= '</div>';
         }
@@ -354,7 +355,8 @@ class NF_Fields_Signature extends NF_Abstracts_Input
                 $output .= 'alt="' . esc_attr__( 'Signature', 'ninja-forms' ) . '" ';
                 $output .= 'style="max-width: 400px; height: auto; display: block;" />';
                 $output .= '<div style="margin-top: 8px; font-size: 12px; color: #666;">';
-                $output .= '<strong>' . esc_html__( 'Type:', 'ninja-forms' ) . '</strong> ' . esc_html__( 'Drawn signature', 'ninja-forms' );
+                /* translators: label followed by 'Typed signature' or 'Drawn signature'. */
+                $output .= '<strong>' . esc_html__( 'Signature type:', 'ninja-forms' ) . '</strong> ' . esc_html__( 'Drawn signature', 'ninja-forms' );
                 $output .= '</div>';
                 $output .= '</div>';
             } else {
@@ -1078,7 +1080,7 @@ class NF_Fields_Signature extends NF_Abstracts_Input
 
         // Handle invalid JSON
         if ( ! is_array( $signature_data ) || ! isset( $signature_data['signature_type'] ) ) {
-            return '<span style="color: #999; font-style: italic;">' . esc_html__( 'Invalid signature', 'ninja-forms' ) . '</span>';
+            return '<span style="color: #999; font-style: italic;">' . esc_html__( 'Invalid signature data', 'ninja-forms' ) . '</span>';
         }
 
         // Display typed signature
