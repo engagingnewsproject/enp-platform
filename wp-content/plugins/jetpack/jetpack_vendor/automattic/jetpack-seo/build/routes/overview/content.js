@@ -18,7 +18,7 @@ __( "Try again", "jetpack-seo" );
 __( "Loading…", "jetpack-seo" );
 __( "Jetpack Logo", "jetpack-components" );
 __( "An Automattic Airline", "jetpack-components" );
-__( "Products", "jetpack-components" );
+__( "Features", "jetpack-components" );
 __( "Help", "jetpack-components" );
 __( "Jetpack", "jetpack-components" );
 /* translators: accessibility text */
@@ -27,12 +27,10 @@ __( "Sections" );
 /* translators: %s: an error message. */
 __( "There was an error testing Jetpack. Error: %s", "jetpack-components" );
 __( "Dismiss", "jetpack-components" );
-__( "What is GEO?", "jetpack-seo" );
-__( "GEO stands for generative engine optimization. These settings control how AI sees and uses your site.", "jetpack-seo" );
 __( "Overview", "jetpack-seo" );
-__( "Settings", "jetpack-seo" );
 __( "Content", "jetpack-seo" );
 _x( "GEO", "Generative Engine Optimization; the SEO dashboard tab label", "jetpack-seo" );
+__( "Settings", "jetpack-seo" );
 __( "Make your site discoverable in search and social, and control AI access.", "jetpack-seo" );
 __( "Could not enable SEO tools. Please try again.", "jetpack-seo" );
 __( "Could not disable SEO tools. Please try again.", "jetpack-seo" );
@@ -41,6 +39,25 @@ __( "SEO tools help your content get found: customize titles and meta descriptio
 __( "Boost your search engine ranking", "jetpack-seo" );
 __( "Get tools to optimize your site for improved search engine results.", "jetpack-seo" );
 __( "Upgrade", "jetpack-seo" );
+__( "Site name", "jetpack-seo" );
+__( "Tagline", "jetpack-seo" );
+__( "Post title", "jetpack-seo" );
+__( "Page title", "jetpack-seo" );
+__( "Tag or category name", "jetpack-seo" );
+__( "Date", "jetpack-seo" );
+__( "Archive title", "jetpack-seo" );
+__( "Front page", "jetpack-seo" );
+__( "Posts", "jetpack-seo" );
+__( "Pages", "jetpack-seo" );
+__( "Tags", "jetpack-seo" );
+__( "Archives", "jetpack-seo" );
+__( "Your site", "jetpack-seo" );
+__( "Your tagline", "jetpack-seo" );
+__( "Hello World", "jetpack-seo" );
+__( "Sample Page", "jetpack-seo" );
+__( "News", "jetpack-seo" );
+__( "January 2025", "jetpack-seo" );
+__( "Sample Archive", "jetpack-seo" );
 __( "AI crawlers can't reach this site while it's on a staging address.", "jetpack-seo" );
 __( "AI crawlers can't reach this site while it's closed to search engines.", "jetpack-seo" );
 __( "Crawler settings can't apply while a static robots.txt file exists in the WordPress installation directory.", "jetpack-seo" );
@@ -48,9 +65,12 @@ __( "Individual crawler settings are overridden by this site's data sharing opt-
 __( "Per-site crawler settings aren't available on this path-based multisite network.", "jetpack-seo" );
 __( "llms.txt published", "jetpack-seo" );
 __( "llms.txt not published", "jetpack-seo" );
+/* translators: %s: name of the active SEO plugin. */
+__( "Jetpack llms.txt paused while %s is active", "jetpack-seo" );
+__( "Jetpack llms.txt paused while SEO tools are disabled", "jetpack-seo" );
 __( "AI access", "jetpack-seo" );
-/* translators: %1$d is the number of allowed answer engines, %2$d the total. */
-__( "Answer engines: %1$d of %2$d allowed", "jetpack-seo" );
+/* translators: %1$d is the number of blocked answer engines, %2$d the total. */
+__( "Answer engines: %1$d of %2$d blocked", "jetpack-seo" );
 /* translators: %1$d is the number of blocked training crawlers, %2$d the total. */
 __( "Training crawlers: %1$d of %2$d blocked", "jetpack-seo" );
 __( "Manage AI access", "jetpack-seo" );
@@ -82,6 +102,9 @@ __( "Closed to search engines", "jetpack-seo" );
 __( "Sitemap published", "jetpack-seo" );
 __( "Sitemap not published", "jetpack-seo" );
 __( "Site visibility", "jetpack-seo" );
+__( "Sitemaps managed by WordPress.com", "jetpack-seo" );
 __( "Manage visibility", "jetpack-seo" );
 __( "Unable to load overview.", "jetpack-seo" );
+/* translators: %s: name of the SEO plugin that controls the site's SEO output, e.g. Yoast SEO. */
+__( "%s is managing your SEO titles and descriptions, so Jetpack’s are turned off.", "jetpack-seo" );
 __( "SEO tools are not enabled on this site. Some cards reflect the underlying WordPress options only.", "jetpack-seo" );

@@ -274,6 +274,9 @@
 
 .code-view-wrapper .CodeMirror {
     height: 200px;
+    min-height: 200px;
+    resize: vertical;
+    overflow: auto;
     font-size: 13px;
     line-height: 1.5;
 }

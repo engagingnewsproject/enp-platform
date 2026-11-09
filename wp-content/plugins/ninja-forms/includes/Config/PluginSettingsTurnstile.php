@@ -43,7 +43,7 @@ return apply_filters( 'ninja_forms_plugin_settings_turnstile', array(
             array( 'label' => esc_html__( 'Auto', 'ninja-forms' ), 'value' => 'auto' ),
         ),
         'label' => esc_html__( 'Turnstile Theme', 'ninja-forms' ),
-        'desc'  => esc_html__( 'Select the visual theme for the Turnstile widget', 'ninja-forms' ),
+        'desc'  => esc_html__( 'Select the theme for the Turnstile widget.', 'ninja-forms' ),
         'value' => 'auto',
     ),
 
@@ -61,7 +61,7 @@ return apply_filters( 'ninja_forms_plugin_settings_turnstile', array(
             array( 'label' => esc_html__( 'Compact', 'ninja-forms' ), 'value' => 'compact' ),
         ),
         'label' => esc_html__( 'Turnstile Size', 'ninja-forms' ),
-        'desc'  => esc_html__( 'Select the size of the Turnstile widget', 'ninja-forms' ),
+        'desc'  => esc_html__( 'Select the size of the Turnstile widget.', 'ninja-forms' ),
         'value' => 'normal',
     ),
 

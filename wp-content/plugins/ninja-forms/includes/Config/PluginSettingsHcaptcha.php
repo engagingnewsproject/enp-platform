@@ -44,7 +44,7 @@ return apply_filters( 'ninja_forms_plugin_settings_hcaptcha', array(
             array( 'label' => esc_html__( 'Dark', 'ninja-forms' ), 'value' => 'dark' ),
         ),
         'label' => esc_html__( 'hCaptcha Theme', 'ninja-forms' ),
-        'desc'  => esc_html__( 'Select the visual theme for the hCaptcha widget', 'ninja-forms' ),
+        'desc'  => esc_html__( 'Select the theme for the hCaptcha widget.', 'ninja-forms' ),
         'value' => 'light',
     ),
 
@@ -62,7 +62,7 @@ return apply_filters( 'ninja_forms_plugin_settings_hcaptcha', array(
             array( 'label' => esc_html__( 'Compact', 'ninja-forms' ), 'value' => 'compact' ),
         ),
         'label' => esc_html__( 'hCaptcha Size', 'ninja-forms' ),
-        'desc'  => esc_html__( 'Select the size of the hCaptcha widget', 'ninja-forms' ),
+        'desc'  => esc_html__( 'Select the size of the hCaptcha widget.', 'ninja-forms' ),
         'value' => 'normal',
     ),
 

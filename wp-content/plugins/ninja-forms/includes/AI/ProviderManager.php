@@ -285,7 +285,7 @@ class ProviderManager
             }
         }
 
-        return __('AI provider', 'ninja-forms');
+        return _x('The AI provider', 'subject at the start of a sentence, used in place of a provider name such as OpenAI', 'ninja-forms');
     }
 
     /**
@@ -537,7 +537,7 @@ class ProviderManager
                     'nf_ai_provider_unreachable',
                     sprintf(
                         /* translators: %s: AI provider name. */
-                        __('Your site could not reach %s. This is usually a network or firewall problem on your site.', 'ninja-forms'), // phpcs:ignore Generic.Files.LineLength.TooLong -- Translator-safe single literal.
+                        __('%s could not be reached. This is usually a network or firewall problem on your site.', 'ninja-forms'), // phpcs:ignore Generic.Files.LineLength.TooLong -- Translator-safe single literal.
                         $provider_name
                     )
                 );

@@ -13,7 +13,7 @@ add_action('init', function () {
 
     wp_register_script(
         'ninja-forms/form',
-        plugins_url('../build/form-block.js', __FILE__),
+        Ninja_Forms::$url . 'build/form-block.js',
         $block_asset_file['dependencies'],
         $block_asset_file['version']
     );
@@ -38,7 +38,7 @@ add_action('init', function () {
     $block_asset_file = include dirname(__DIR__) . '/build/sub-table-block.asset.php';
     wp_register_script(
         'ninja-forms/submissions-table/block',
-        plugins_url('../build/sub-table-block.js', __FILE__),
+        Ninja_Forms::$url . 'build/sub-table-block.js',
         $block_asset_file['dependencies'],
         $block_asset_file['version']
     );
@@ -48,7 +48,7 @@ add_action('init', function () {
     $render_asset_file = include dirname(__DIR__) . '/build/sub-table-render.asset.php';
     wp_register_script(
         'ninja-forms/submissions-table/render',
-        plugins_url('../build/sub-table-render.js', __FILE__),
+        Ninja_Forms::$url . 'build/sub-table-render.js',
         $render_asset_file['dependencies'],
         $render_asset_file['version']
     );
@@ -117,9 +117,9 @@ add_action('init', function () {
      * https://developer.wordpress.org/reference/functions/wp_set_script_translations/
      * https://developer.wordpress.org/block-editor/developers/internationalization/
      */
-    wp_set_script_translations( "ninja-forms/form", "ninja-forms", plugin_dir_path( __FILE__ ) . 'lang' );
-    wp_set_script_translations( "ninja-forms/submissions-table/block", "ninja-forms", plugin_dir_path( __FILE__ ) . 'lang' );
-    wp_set_script_translations( "ninja-forms/submissions-table/render", "ninja-forms", plugin_dir_path( __FILE__ ) . 'lang' );
+    wp_set_script_translations( "ninja-forms/form", "ninja-forms", Ninja_Forms::$dir . 'lang' );
+    wp_set_script_translations( "ninja-forms/submissions-table/block", "ninja-forms", Ninja_Forms::$dir . 'lang' );
+    wp_set_script_translations( "ninja-forms/submissions-table/render", "ninja-forms", Ninja_Forms::$dir . 'lang' );
 
 });
 

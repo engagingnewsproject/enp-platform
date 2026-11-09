@@ -32,6 +32,7 @@ return array(
     'TEC\\Common\\Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
     'TEC\\Common\\Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'TEC\\Common\\Nyholm\\Psr7\\' => array($vendorDir . '/nyholm/psr7/src'),
+    'TEC\\Common\\Nexcess\\Banners\\' => array($vendorDir . '/stellarwp/banners/src'),
     'TEC\\Common\\MyCLabs\\Enum\\' => array($vendorDir . '/myclabs/php-enum/src'),
     'TEC\\Common\\Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'TEC\\Common\\LiquidWeb\\LicensingApiClient\\' => array($vendorDir . '/stellarwp/licensing-api-client/src'),

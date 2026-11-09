@@ -618,7 +618,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                     Ninja_Forms::$url . 'build/submissions.js',  $submissions_asset_php["dependencies"], $submissions_asset_php["version"], false );
 
                 wp_enqueue_script( 'ninja_forms_admin_submissions_actions' );
-                wp_set_script_translations( "ninja_forms_admin_submissions_actions", "ninja-forms", plugin_dir_path( __FILE__ ) . 'lang' );
+                wp_set_script_translations( "ninja_forms_admin_submissions_actions", "ninja-forms", Ninja_Forms::$dir . 'lang' );
 
                 //Get all forms, to base form selector on.
                 $forms = Ninja_Forms()->form()->get_forms();
@@ -721,7 +721,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                 //Register Submission script
                 wp_register_script( 'ninja_forms_admin_submissions_actions', Ninja_Forms::$url . 'build/submissions.js',  $submissions_asset_php["dependencies"], $submissions_asset_php["version"], false );
                 wp_enqueue_script( 'ninja_forms_admin_submissions_actions' );
-                wp_set_script_translations( "ninja_forms_admin_submissions_actions", "ninja-forms", plugin_dir_path( __FILE__ ) . 'lang' );
+                wp_set_script_translations( "ninja_forms_admin_submissions_actions", "ninja-forms", Ninja_Forms::$dir . 'lang' );
                 //Enqueue Submissions style
                 wp_enqueue_style( 'ninja_forms_admin_submissions_style', Ninja_Forms::$url . 'build/submissions.scss.css',  [], $submissions_asset_scss_version );
 

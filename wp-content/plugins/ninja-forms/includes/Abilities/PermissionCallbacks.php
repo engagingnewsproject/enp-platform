@@ -25,7 +25,7 @@ function ninja_forms_ability_can_manage_forms() {
 
 	return new \WP_Error(
 		'rest_forbidden',
-		__( 'Sorry, you are not allowed to manage Ninja Forms.', 'ninja-forms' )
+		'Sorry, you are not allowed to manage Ninja Forms.'
 	);
 }
 
@@ -47,7 +47,7 @@ function ninja_forms_ability_can_manage_settings() {
 
 	return new \WP_Error(
 		'rest_forbidden',
-		__( 'Sorry, you must be an administrator to manage plugin settings.', 'ninja-forms' )
+		'Sorry, you must be an administrator to manage plugin settings.'
 	);
 }
 
@@ -69,7 +69,7 @@ function ninja_forms_ability_can_read_submissions() {
 
 	return new \WP_Error(
 		'rest_forbidden',
-		__( 'Sorry, you are not allowed to read submissions.', 'ninja-forms' )
+		'Sorry, you are not allowed to read submissions.'
 	);
 }
 
@@ -90,7 +90,7 @@ function ninja_forms_ability_can_edit_submissions() {
 
 	return new \WP_Error(
 		'rest_forbidden',
-		__( 'Sorry, you are not allowed to modify submissions.', 'ninja-forms' )
+		'Sorry, you are not allowed to modify submissions.'
 	);
 }
 
@@ -111,7 +111,7 @@ function ninja_forms_ability_can_delete_submissions() {
 
 	return new \WP_Error(
 		'rest_forbidden',
-		__( 'Sorry, you are not allowed to delete submissions.', 'ninja-forms' )
+		'Sorry, you are not allowed to delete submissions.'
 	);
 }
 
@@ -136,7 +136,7 @@ function ninja_forms_ability_can_embed_form() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return new \WP_Error(
 			'rest_forbidden',
-			__( 'Sorry, you must be an administrator to embed forms into posts.', 'ninja-forms' )
+			'Sorry, you must be an administrator to embed forms into posts.'
 		);
 	}
 
@@ -145,7 +145,7 @@ function ninja_forms_ability_can_embed_form() {
 	if ( ! current_user_can( 'edit_posts' ) ) {
 		return new \WP_Error(
 			'rest_forbidden',
-			__( 'Sorry, you are not allowed to edit posts.', 'ninja-forms' )
+			'Sorry, you are not allowed to edit posts.'
 		);
 	}
 
@@ -171,6 +171,6 @@ function ninja_forms_ability_can_manage_form_lifecycle() {
 
 	return new \WP_Error(
 		'rest_forbidden',
-		__( 'Sorry, you must be an administrator to create, delete, duplicate, or import forms.', 'ninja-forms' )
+		'Sorry, you must be an administrator to create, delete, duplicate, or import forms.'
 	);
 }

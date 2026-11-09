@@ -415,13 +415,24 @@ class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
 
         $array = Ninja_Forms()->fieldsetRepeater->extractSubmissions($field['id'], $field['value'], $fieldSettings);
 
+        // A submission keeps every value it was given, so it still holds values
+        // for fieldset fields deleted from the form since. Those fields have no
+        // label or type left to render, and re-triggering an email action must
+        // not reintroduce data the form no longer collects (#7509).
+        $currentFieldsetFieldIds = $this->getCurrentFieldsetFieldIds($fieldSettings);
+
         // Iterate submission indexes (each repeated fieldset in the submission)
         foreach ($array as $submissionIndex => $fieldsetArray) {
             $fieldsetNumber = $submissionIndex + 1;
-            $outgoingValue .= '<tr><td><b>' . $field['label'] . ' #:' . $fieldsetNumber . '</b></td></tr>';
+            $fieldsetRows = '';
 
             // Iterate each field within a submission index
             foreach ($fieldsetArray as $fieldsetFieldId => $submissionValueArray) {
+
+                // Skip values whose field is no longer part of the fieldset
+                if (!in_array((string) $fieldsetFieldId, $currentFieldsetFieldIds, true)) {
+                    continue;
+                }
 
                 // Check to see if the type is a list field and if it is...
                 if (in_array($submissionValueArray['type'], array_values($list_fields_types))) {
@@ -445,11 +456,49 @@ class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
                     );
                 }
                 
-                $outgoingValue .= '<tr><td valign="top">' . apply_filters('ninja_forms_merge_label', $submissionValueArray['label'], $field, $this->form_id) . ':</td><td>' . $fieldValue . '</td></tr>';
+                $fieldsetRows .= '<tr><td valign="top">' . apply_filters('ninja_forms_merge_label', $submissionValueArray['label'], $field, $this->form_id) . ':</td><td>' . $fieldValue . '</td></tr>';
             }
+
+            // A fieldset whose fields were all deleted contributes no heading
+            if ('' === $fieldsetRows) {
+                continue;
+            }
+
+            $outgoingValue .= '<tr><td><b>' . $field['label'] . ' #:' . $fieldsetNumber . '</b></td></tr>' . $fieldsetRows;
         }
 
         return $outgoingValue;
+    }
+
+    /**
+     * Return the ids of the fields the fieldset currently holds
+     *
+     * Submission values are keyed on the fieldset field id alone, while the
+     * field settings reference each field as {fieldsetRepeaterFieldId}.{fieldsetFieldId},
+     * so the settings references are parsed down to the same form.
+     *
+     * @param array $fieldSettings Repeatable fieldset field settings
+     * @return array
+     */
+    protected function getCurrentFieldsetFieldIds($fieldSettings)
+    {
+        $fieldsetFieldIds = array();
+
+        if (!isset($fieldSettings['fields']) || !is_array($fieldSettings['fields'])) {
+            return $fieldsetFieldIds;
+        }
+
+        foreach ($fieldSettings['fields'] as $fieldsetField) {
+            if (!isset($fieldsetField['id'])) {
+                continue;
+            }
+
+            $parsed = Ninja_Forms()->fieldsetRepeater->parseFieldsetFieldReference($fieldsetField['id']);
+
+            $fieldsetFieldIds[] = (string) $parsed['fieldsetFieldId'];
+        }
+
+        return $fieldsetFieldIds;
     }
 
 
@@ -590,7 +639,7 @@ class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
     }
 
     /**
-     * Strip tags in value
+     * Render a submitted value as literal, inert text
      *
      * @param int|string $id
      * @param mixed $incoming
@@ -612,30 +661,58 @@ class NF_MergeTags_Fields extends NF_Abstracts_MergeTags
                         // individual value
                         if(is_array($fieldsetFieldSubmissionValue['value'])){
                             // If value is not array, strip tag       
-                            $outgoing[$fieldsetFieldId]['value']=array_map('strip_tags',$fieldsetFieldSubmissionValue['value']);                    
+                            $outgoing[$fieldsetFieldId]['value']=array_map(array($this, 'makeValueInert'),$fieldsetFieldSubmissionValue['value']);                    
                         }else{
                             // If value is not array, strip shortcode
 
-                            $outgoing[$fieldsetFieldId]['value']=strip_tags($fieldsetFieldSubmissionValue['value']);
+                            $outgoing[$fieldsetFieldId]['value']=$this->makeValueInert($fieldsetFieldSubmissionValue['value']);
                         }
                     }else{
                         // fallback strip tag (all repeater values should be
                         // array so this should not fire)                  
-                        $outgoing[$fieldsetFieldId]['value']=strip_tags($incoming[$fieldsetFieldId]['value']);
+                        $outgoing[$fieldsetFieldId]['value']=$this->makeValueInert($incoming[$fieldsetFieldId]['value']);
                     }
                 }
             }
         }else{
             // Strip tags for non-repeater values
             if(is_array($incoming)){
-                $outgoing = array_map('strip_tags',$incoming);
+                $outgoing = array_map(array($this, 'makeValueInert'),$incoming);
             }else{
 
-                $outgoing = strip_tags($incoming);
+                $outgoing = $this->makeValueInert($incoming);
             }
         }
 
         return $outgoing;
+    }
+
+
+    /**
+     * Render a submitted value as literal, inert text
+     *
+     * A submitted value is data, not markup. strip_tags() reads a `<` as the
+     * start of a tag and discards everything after it, so a submission
+     * containing `<` reached the recipient truncated. Escaping instead keeps
+     * every submitted character while ensuring nothing a customer typed is
+     * acted on as markup by a mail client or a browser.
+     *
+     * htmlspecialchars() is called directly, with double encoding enabled, so
+     * that a customer who literally types `&amp;` receives `&amp;` and not
+     * `&`; esc_html() leaves an existing entity untouched and would lose it.
+     *
+     * @see Saturday-Drive/ninja-forms#7279
+     *
+     * @param mixed $value
+     * @return mixed Escaped string, or the value unchanged when not a string
+     */
+    protected function makeValueInert($value)
+    {
+        if (!is_string($value)) {
+            return $value;
+        }
+
+        return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', true);
     }
 
     /**

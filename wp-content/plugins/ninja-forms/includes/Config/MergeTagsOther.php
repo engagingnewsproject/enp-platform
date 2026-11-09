@@ -9,7 +9,7 @@ return apply_filters( 'ninja_forms_merge_tags_other', array(
     */
     'query_string' => array(
         'tag' => '{querystring:YOUR_KEY}',
-        'label' => esc_html__( 'Query String', 'ninja_forms' ),
+        'label' => esc_html__( 'Query String', 'ninja-forms' ),
         'callback' => null,
     ),
 
@@ -22,7 +22,7 @@ return apply_filters( 'ninja_forms_merge_tags_other', array(
     'date' => array(
         'id' => 'date',
         'tag' => '{other:date}',
-        'label' => esc_html__( 'Date', 'ninja_forms' ),
+        'label' => esc_html__( 'Date', 'ninja-forms' ),
         'callback' => 'system_date'
     ),
 
@@ -43,7 +43,7 @@ return apply_filters( 'ninja_forms_merge_tags_other', array(
     'time' => array(
         'id' => 'time',
         'tag' => '{other:time}',
-        'label' => esc_html__( 'Time', 'ninja_forms' ),
+        'label' => esc_html__( 'Time', 'ninja-forms' ),
         'callback' => 'system_time'
     ),
 
@@ -56,7 +56,7 @@ return apply_filters( 'ninja_forms_merge_tags_other', array(
     'ip' => array(
         'id' => 'ip',
         'tag' => '{other:user_ip}',
-        'label' => esc_html__( 'User IP Address', 'ninja_forms' ),
+        'label' => esc_html__( 'User IP Address', 'ninja-forms' ),
         'callback' => 'user_ip'
     ),
 
@@ -69,7 +69,7 @@ return apply_filters( 'ninja_forms_merge_tags_other', array(
     'referer_url' => array(
         'id' => 'referer_url',
         'tag' => '{other:referer_url}',
-        'label' => esc_html__( 'Referer URL', 'ninja_forms' ),
+        'label' => esc_html__( 'Referer URL', 'ninja-forms' ),
         'callback' => 'referer_url'
     ),
 
@@ -82,7 +82,7 @@ return apply_filters( 'ninja_forms_merge_tags_other', array(
     'mergetag_random' => array(
         'id'        => 'mergetag_random',
         'tag'       => '{other:random}',
-        'label'     => esc_html__( 'Random 5 character string.', 'ninja_forms' ),
+        'label'     => esc_html__( 'Random 5 character string.', 'ninja-forms' ),
         'callback'  => 'mergetag_random'
     ),
 

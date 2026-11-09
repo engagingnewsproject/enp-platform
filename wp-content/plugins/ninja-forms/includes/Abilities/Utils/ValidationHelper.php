@@ -54,7 +54,7 @@ class NF_Abilities_Validation {
 			if ( preg_match( $pattern, $clean_formula ) ) {
 				return NF_Abilities_Response::error(
 					'dangerous_formula',
-					__( 'Formula contains potentially dangerous code and has been rejected.', 'ninja-forms' ),
+					'Formula contains potentially dangerous code and has been rejected.',
 					array( 'formula' => $clean_formula )
 				);
 			}
@@ -65,7 +65,7 @@ class NF_Abilities_Validation {
 		if ( ! preg_match( $allowed_pattern, $clean_formula ) ) {
 			return NF_Abilities_Response::validation_error(
 				'formula',
-				__( 'Formula contains invalid characters. Only numbers, operators (+, -, *, /), parentheses, and field references {field:key} are allowed.', 'ninja-forms' )
+				'Formula contains invalid characters. Only numbers, operators (+, -, *, /), parentheses, and field references {field:key} are allowed.'
 			);
 		}
 		
@@ -73,7 +73,7 @@ class NF_Abilities_Validation {
 		if ( ! self::validate_balanced_parentheses( $clean_formula ) ) {
 			return NF_Abilities_Response::validation_error(
 				'formula',
-				__( 'Formula has unbalanced parentheses.', 'ninja-forms' )
+				'Formula has unbalanced parentheses.'
 			);
 		}
 		
@@ -81,7 +81,7 @@ class NF_Abilities_Validation {
 		if ( ! self::validate_merge_tags( $clean_formula ) ) {
 			return NF_Abilities_Response::validation_error(
 				'formula',
-				__( 'Formula contains invalid merge tag syntax. Use {field:key} or {calc:name} format.', 'ninja-forms' )
+				'Formula contains invalid merge tag syntax. Use {field:key} or {calc:name} format.'
 			);
 		}
 		
@@ -150,7 +150,7 @@ class NF_Abilities_Validation {
 		
 		$form_id = (int) $form_id;
 		if ( $form_id <= 0 ) {
-			return NF_Abilities_Response::validation_error( 'form_id', __( 'Form ID must be a positive integer.', 'ninja-forms' ) );
+			return NF_Abilities_Response::validation_error( 'form_id', 'Form ID must be a positive integer.' );
 		}
 		
 		// Check if form exists
@@ -175,7 +175,7 @@ class NF_Abilities_Validation {
 	 */
 	public static function validate_field_data( $field_data ) {
 		if ( ! is_array( $field_data ) ) {
-			return NF_Abilities_Response::validation_error( 'field_data', __( 'Field data must be an array.', 'ninja-forms' ) );
+			return NF_Abilities_Response::validation_error( 'field_data', 'Field data must be an array.' );
 		}
 		
 		// Required field type
@@ -196,7 +196,7 @@ class NF_Abilities_Validation {
 				'type',
 				sprintf(
 					/* translators: %s: field type */
-					__( 'Invalid field type: %s', 'ninja-forms' ),
+					'Invalid field type: %s',
 					sanitize_text_field( $field_data['type'] )
 				)
 			);
@@ -330,7 +330,7 @@ class NF_Abilities_Validation {
 		$limit = (int) $limit;
 		
 		if ( $limit < 0 ) {
-			return NF_Abilities_Response::validation_error( 'limit', __( 'Limit cannot be negative.', 'ninja-forms' ) );
+			return NF_Abilities_Response::validation_error( 'limit', 'Limit cannot be negative.' );
 		}
 		
 		if ( $limit > $max_limit ) {
@@ -338,7 +338,7 @@ class NF_Abilities_Validation {
 				'limit',
 				sprintf(
 					/* translators: %d: maximum limit */
-					__( 'Limit cannot exceed %d.', 'ninja-forms' ),
+					'Limit cannot exceed %d.',
 					$max_limit
 				)
 			);

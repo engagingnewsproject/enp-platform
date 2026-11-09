@@ -21,7 +21,7 @@ return apply_filters( 'ninja_forms_field_settings_groups', array(
 
     'display' => array(
         'id' => 'display',
-        'label' => esc_html__( 'Display', 'ninja-forms' ),
+        'label' => esc_html__( 'Display Settings', 'ninja-forms' ),
         'priority' => 700
     ),
 

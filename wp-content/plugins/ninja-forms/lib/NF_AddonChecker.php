@@ -39,7 +39,7 @@ final class NF_AddonChecker
 
         ?>
         <div class="notice notice-error is-dismissible">
-            <p><?php esc_html_e( 'Oops! That addon is no longer compatible with Ninja Forms.', 'ninja-forms' ); ?></p>
+            <p><?php esc_html_e( 'Oops! That add-on is no longer compatible with Ninja Forms.', 'ninja-forms' ); ?></p>
             <p><?php echo sprintf( esc_html__( '%s was deactivated.', 'ninja-forms' ), '<code>' . $plugin . '</code>'); ?></p>
         </div>
         <?php

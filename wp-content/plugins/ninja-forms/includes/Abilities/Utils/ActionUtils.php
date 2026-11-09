@@ -24,13 +24,13 @@ function ninja_forms_ability_add_action( $input ) {
 	if ( empty( $input['form_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Form ID is required', 'ninja-forms' ),
+			'message' => 'Form ID is required',
 		);
 	}
 	if ( empty( $input['type'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Action type is required', 'ninja-forms' ),
+			'message' => 'Action type is required',
 		);
 	}
 	$input = ninja_forms_ability_normalize_action_input( $input, '', 'add' );
@@ -46,7 +46,7 @@ function ninja_forms_ability_add_action( $input ) {
 	if ( ! $form || ! $form->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'Form with ID %d not found', $form_id ),
 		);
 	}
 
@@ -112,7 +112,7 @@ function ninja_forms_ability_add_action( $input ) {
 		'form_id'   => $form_id,
 		'action_id' => $action_id,
 		'type'      => $type,
-		'message'   => sprintf( __( 'Successfully added %s action (ID: %d) to form %d.', 'ninja-forms' ), $type, $action_id, $form_id ),
+		'message'   => sprintf( 'Successfully added %s action (ID: %d) to form %d.', $type, $action_id, $form_id ),
 	);
 }
 
@@ -127,13 +127,13 @@ function ninja_forms_ability_update_action( $input ) {
 	if ( empty( $input['form_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Form ID is required', 'ninja-forms' ),
+			'message' => 'Form ID is required',
 		);
 	}
 	if ( empty( $input['action_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Action ID is required', 'ninja-forms' ),
+			'message' => 'Action ID is required',
 		);
 	}
 
@@ -145,7 +145,7 @@ function ninja_forms_ability_update_action( $input ) {
 	if ( ! $form || ! $form->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'Form with ID %d not found', $form_id ),
 		);
 	}
 
@@ -154,7 +154,7 @@ function ninja_forms_ability_update_action( $input ) {
 	if ( ! $action || ! $action->get_id() || ! $action->get_setting( 'type' ) ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Action with ID %d not found in form %d', 'ninja-forms' ), $action_id, $form_id ),
+			'message' => sprintf( 'Action with ID %d not found in form %d', $action_id, $form_id ),
 		);
 	}
 	$input = ninja_forms_ability_normalize_action_input(
@@ -245,7 +245,7 @@ function ninja_forms_ability_update_action( $input ) {
 		'action_id' => $action_id,
 		'form_id'   => $form_id,
 		'updated'   => $updated_count,
-		'message'   => sprintf( __( 'Successfully updated action (ID: %d). Updated %d setting(s).', 'ninja-forms' ), $action_id, $updated_count ),
+		'message'   => sprintf( 'Successfully updated action (ID: %d). Updated %d setting(s).', $action_id, $updated_count ),
 	);
 }
 
@@ -254,13 +254,13 @@ function ninja_forms_ability_delete_action( $input ) {
 	if ( empty( $input['form_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Form ID is required', 'ninja-forms' ),
+			'message' => 'Form ID is required',
 		);
 	}
 	if ( empty( $input['action_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Action ID is required', 'ninja-forms' ),
+			'message' => 'Action ID is required',
 		);
 	}
 
@@ -272,7 +272,7 @@ function ninja_forms_ability_delete_action( $input ) {
 	if ( ! $form || ! $form->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'Form with ID %d not found', $form_id ),
 		);
 	}
 
@@ -281,7 +281,7 @@ function ninja_forms_ability_delete_action( $input ) {
 	if ( ! $action || ! $action->get_id() || ! $action->get_setting( 'type' ) ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Action with ID %d not found in form %d', 'ninja-forms' ), $action_id, $form_id ),
+			'message' => sprintf( 'Action with ID %d not found in form %d', $action_id, $form_id ),
 		);
 	}
 	$action_type = $action->get_setting( 'type' );
@@ -299,7 +299,7 @@ function ninja_forms_ability_delete_action( $input ) {
 		'success'   => true,
 		'action_id' => $action_id,
 		'form_id'   => $form_id,
-		'message'   => sprintf( __( 'Successfully deleted %s action "%s" (ID: %d) from form %d.', 'ninja-forms' ), $action_type, $action_label, $action_id, $form_id ),
+		'message'   => sprintf( 'Successfully deleted %s action "%s" (ID: %d) from form %d.', $action_type, $action_label, $action_id, $form_id ),
 	);
 }
 
@@ -314,7 +314,7 @@ function ninja_forms_ability_list_actions( $input ) {
 	if ( empty( $input['form_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Form ID is required', 'ninja-forms' ),
+			'message' => 'Form ID is required',
 		);
 	}
 
@@ -325,7 +325,7 @@ function ninja_forms_ability_list_actions( $input ) {
 	if ( ! $form || ! $form->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'Form with ID %d not found', $form_id ),
 		);
 	}
 
@@ -347,6 +347,6 @@ function ninja_forms_ability_list_actions( $input ) {
 		'form_id' => $form_id,
 		'count'   => count( $actions_data ),
 		'actions' => $actions_data,
-		'message' => sprintf( __( 'Found %d action(s) for form %d.', 'ninja-forms' ), count( $actions_data ), $form_id ),
+		'message' => sprintf( 'Found %d action(s) for form %d.', count( $actions_data ), $form_id ),
 	);
 }

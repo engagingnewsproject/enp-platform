@@ -14,7 +14,8 @@ return apply_filters( 'ninja_forms_plugin_settings_advanced', array(
         'html'  => '<button type="button" id="delete_on_uninstall" href="" class="button">' .
                    esc_html__(	'Delete All Data', 'ninja-forms' ) . '</button>',
         'label' => esc_html__( 'Remove ALL Ninja Forms data upon uninstall?', 'ninja-forms' ),
-        'desc'  => sprintf( esc_html__( 'ALL Ninja Forms data will be removed from the database and the Ninja Forms plug-in will be deactivated. %sAll form and submission data will be unrecoverable.%s', 'ninja-forms' ), '<span class="nf-nuke-warning">', '</span>' ),
+        /* translators: 1: opening span tag for the warning. 2: closing span tag. */
+        'desc'  => sprintf( esc_html__( 'ALL Ninja Forms data will be removed from the database and the Ninja Forms plugin will be deactivated. %sAll form and submission data will be unrecoverable.%s', 'ninja-forms' ), '<span class="nf-nuke-warning">', '</span>' ),
     ),
 
     /*
@@ -52,7 +53,11 @@ return apply_filters( 'ninja_forms_plugin_settings_advanced', array(
         'id'    => 'disable_ai_features',
         'type'  => 'checkbox',
         'label' => esc_html__( 'Disable AI Features', 'ninja-forms' ),
-        'desc'  => esc_html__( 'Remove "Build with AI" and the builder\'s AI assistant everywhere. AI features use the AI provider connected to your WordPress site and send form descriptions and chat messages to it.', 'ninja-forms' ),
+        'desc'  => sprintf(
+            /* translators: %s: the label of the Build with AI tile and button, already translated. */
+            esc_html__( 'Remove "%s" and the builder\'s AI Assistant everywhere. AI features use the AI provider connected to your WordPress site and send form descriptions and chat messages to it.', 'ninja-forms' ),
+            esc_html__( 'Build with AI', 'ninja-forms' )
+        ),
     ),
 
     /*
@@ -71,7 +76,10 @@ return apply_filters( 'ninja_forms_plugin_settings_advanced', array(
         'id'    => 'load_legacy_submissions',
         'type'  => 'checkbox',
         'label' => esc_html__( 'Show Legacy Submissions Page', 'ninja-forms' ),
-        'desc'  => sprintf( esc_html__( 'This setting is used to see the "old" submissions page. If you are experiencing issues with your submissions page, please notify us at %s.%sPlease refresh your settings page after saving this setting before navigating to the submissions page.', 'ninja-forms' ), '<a href="https://ninjaforms.com/contact" target="_blank">https://ninjaforms.com/contact</a>', '<br /><br />' ),
+        /* translators: %s is a link to the contact page. */
+        'desc'  => sprintf( esc_html__( 'This setting is used to see the "old" submissions page. If you are experiencing issues with your submissions page, please notify us at %s.', 'ninja-forms' ), '<a href="https://ninjaforms.com/contact" target="_blank">https://ninjaforms.com/contact</a>' )
+                   . '<br /><br />'
+                   . esc_html__( 'Please refresh your settings page after saving this setting before navigating to the submissions page.', 'ninja-forms' ),
     ),
 
     /*
@@ -85,7 +93,7 @@ return apply_filters( 'ninja_forms_plugin_settings_advanced', array(
         'type'  => 'html',
         'html'  => '<span id="nfTelOptin" class="button hidden">' . esc_html__( 'Opt-in', 'ninja-forms' ) . '</span><span id="nfTelOptout" class="button hidden">' . esc_html__( 'Opt-out', 'ninja-forms' ) . '</span><span id="nfTelSpinner" class="nf-loading-spinner" style="display:none;"></span>',
         'label' => esc_html__( 'Allow Telemetry', 'ninja-forms' ),
-        'desc'  => esc_html__( 'Opt-in to allow Ninja Forms to collect anonymous usage statistics from your site, such as PHP version, installed plugins, and other non-personally idetifiable informations.', 'ninja-forms' ),
+        'desc'  => esc_html__( 'Opt in to allow Ninja Forms to collect anonymous usage statistics from your site, such as PHP version, installed plugins, and other non-personally identifiable information.', 'ninja-forms' ),
     ),
 
     /*
@@ -119,9 +127,9 @@ return apply_filters( 'ninja_forms_plugin_settings_advanced', array(
     'trash_expired_submissions' => array(
         'id' => 'trash_expired_submissions',
         'type' => 'html',
-        'html' => '<div id="nfTrashExpiredSubmissions" class="button">' . esc_html__( 'Move To Trash', 'ninja-forms' ) . '</div>',
+        'html' => '<div id="nfTrashExpiredSubmissions" class="button">' . esc_html__( 'Move to Trash', 'ninja-forms' ) . '</div>',
         'label' => esc_html__( 'Trash Expired Submissions', 'ninja-forms' ),
-        'desc' => esc_html__( 'This setting maybe helpful if your WordPress installation is not moving expired submissions to the trash properly.', 'ninja-forms' ),
+        'desc' => esc_html__( 'This setting may be helpful if your WordPress installation is not moving expired submissions to the trash properly.', 'ninja-forms' ),
     ),
 
     // Add a button for removing all forms from maintenance

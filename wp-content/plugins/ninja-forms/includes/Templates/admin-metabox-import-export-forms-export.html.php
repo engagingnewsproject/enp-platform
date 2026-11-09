@@ -51,8 +51,7 @@
                                id="nf_export_form_turn_off_encoding">
 	                    <label style="color:red;font-style: italic;"
 			                    for="nf_export_form_turn_off_encoding">
-		                    <?php esc_html_e("If you are having trouble with form imports, please
-		                    click here to disable UTF-8 encoding and try again.", 'ninja-forms'); ?>
+		                    <?php esc_html_e('If you are having trouble with form imports, please click here to disable UTF-8 encoding and try again.', 'ninja-forms'); ?>
 	                    </label>
                     </td>
                 </tr>

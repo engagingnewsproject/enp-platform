@@ -173,27 +173,27 @@ return apply_filters( 'ninja_forms_form_display_settings', array(
 		'group' => 'advanced',
 		'options' => array(
 			array(
-				'label' => esc_html__( 'H1', 'ninja-forms' ),
+				'label' => 'H1',
 				'value' => '1'
 			),
 			array(
-				'label' => esc_html__( 'H2', 'ninja-forms' ),
+				'label' => 'H2',
 				'value' => '2'
 			),
 			array(
-				'label' => esc_html__( 'H3', 'ninja-forms' ),
+				'label' => 'H3',
 				'value' => '3'
 			),
 			array(
-				'label' => esc_html__( 'H4', 'ninja-forms' ),
+				'label' => 'H4',
 				'value' => '4'
 			),
 			array(
-				'label' => esc_html__( 'H5', 'ninja-forms' ),
+				'label' => 'H5',
 				'value' => '5'
 			),
 			array(
-				'label' => esc_html__( 'H6', 'ninja-forms' ),
+				'label' => 'H6',
 				'value' => '6'
 			),
 		),
@@ -242,7 +242,7 @@ return apply_filters( 'ninja_forms_form_display_settings', array(
 			array(
 				'name' => 'changeEmailErrorMsg',
 				'type' => 'textbox',
-				'label' => esc_html__( 'Please enter a valid email address!', 'ninja-forms' ),
+				'label' => esc_html__( 'Please enter a valid email address.', 'ninja-forms' ),
 				'width' => 'full',
 				'help'  => esc_html__( 'Email field error for improperly formatted email address.', 'ninja-forms' ),
 			),
@@ -263,23 +263,26 @@ return apply_filters( 'ninja_forms_form_display_settings', array(
 			array(
 				'name' => 'fieldNumberNumMinError',
 				'type' => 'textbox',
-				'label' => esc_html__( 'Number Min Error', 'ninja-forms' ),
+				/* translators: Label of the setting where the site owner edits the error message shown when a number is below the minimum. */
+				'label' => esc_html__( 'Number below minimum message', 'ninja-forms' ),
 				'width' => 'full',
-				'help'  => esc_html__( 'Number field error displayed when a value entered that is less than the designated minimum value.', 'ninja-forms' ),
+				'help'  => esc_html__( 'Number field error displayed when a value is entered that is less than the designated minimum value.', 'ninja-forms' ),
 			),
 			array(
 				'name' => 'fieldNumberNumMaxError',
 				'type' => 'textbox',
-				'label' => esc_html__( 'Number Max Error', 'ninja-forms' ),
+				/* translators: Label of the setting where the site owner edits the error message shown when a number is above the maximum. */
+				'label' => esc_html__( 'Number above maximum message', 'ninja-forms' ),
 				'width' => 'full',
-				'help'  => esc_html__( 'Number field error displayed when a value entered that is greater than the designated maximum value.', 'ninja-forms' ),
+				'help'  => esc_html__( 'Number field error displayed when a value is entered that is greater than the designated maximum value.', 'ninja-forms' ),
 			),
 			array(
 				'name' => 'fieldNumberIncrementBy',
 				'type' => 'textbox',
-				'label' => esc_html__( 'Please increment by ', 'ninja-forms' ),
+				/* translators: Label of the setting where the site owner edits the error message shown when a number does not match the step (the increment between allowed numbers). */
+				'label' => esc_html__( 'Number increment message', 'ninja-forms' ),
 				'width' => 'full',
-				'help'  => esc_html__( 'Number field error displayed when a value entered does not meet the required value incrementation. (e.g. the field is set to increment by tens but a number not divisible by ten is entered)', 'ninja-forms' ),
+				'help'  => esc_html__( 'Number field error displayed when a value entered does not meet the required value incrementation (e.g. the field is set to increment by tens but a number not divisible by ten is entered).', 'ninja-forms' ),
 			),
 			array(
 				'name' => 'formErrorsCorrectErrors',
@@ -298,7 +301,8 @@ return apply_filters( 'ninja_forms_form_display_settings', array(
 			array(
 				'name' => 'honeypotHoneypotError',
 				'type' => 'textbox',
-				'label' => esc_html__( 'Honeypot Error', 'ninja-forms' ),
+				/* translators: Label of the setting where the site owner edits the error message shown when the anti-spam honeypot is triggered. */
+				'label' => esc_html__( 'Anti-spam (honeypot) error message', 'ninja-forms' ),
 				'width' => 'full',
 				'help'  => esc_html__( 'Administrative only. Displayed on a form when the hidden honeypot field is interacted with by a bot (e.g. spam) and the submission attempt is rejected.', 'ninja-forms' ),
 			),

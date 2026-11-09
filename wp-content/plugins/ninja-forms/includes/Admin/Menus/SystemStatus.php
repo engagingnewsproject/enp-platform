@@ -252,7 +252,8 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
         //curl
         if ( extension_loaded( 'curl' ) && function_exists( 'curl_version' ) ) {
             $curl_version = curl_version();
-            $curl = esc_html__( 'Version' . ' ' . $curl_version['version'], 'ninja-forms' );
+            /* translators: %s is the version number of the cURL library on the server. */
+            $curl = sprintf( esc_html__( 'Version %s', 'ninja-forms' ), esc_html( $curl_version['version'] ) );
         } else {
             $curl = esc_html__( 'No', 'ninja-forms' );
         }
@@ -273,9 +274,9 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
 
         //NF Legacy Submissions check
         if ( Ninja_Forms()->get_setting('load_legacy_submissions') ) {
-            $legacy_submissions = esc_html__( 'enabled', 'ninja-forms' );
+            $legacy_submissions = esc_html__( 'Enabled', 'ninja-forms' );
         } else {
-            $legacy_submissions = esc_html__( 'disabled', 'ninja-forms' );
+            $legacy_submissions = esc_html__( 'Disabled', 'ninja-forms' );
         }
 
         // NF Opinionated Styles
@@ -323,7 +324,8 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
                     $plugin_name = '<a href="' . esc_attr( $plugin_data[ 'PluginURI' ] ) . '" title="' . esc_html__( 'Visit plugin homepage' , 'ninja-forms' ) . '">' . $plugin_name . '</a>';
                 }
 
-                $all_plugins[] = $plugin_name . ' ' . esc_html__( 'by', 'ninja-forms' ) . ' ' . $plugin_data['Author'] . ' ' . esc_html__( 'version', 'ninja-forms' ) . ' ' . $plugin_data['Version'] . $version_string;
+                /* translators: Row of the installed plugins list. 1: plugin name. 2: author. 3: version number. */
+                $all_plugins[] = sprintf( esc_html__( '%1$s by %2$s version %3$s', 'ninja-forms' ), $plugin_name, $plugin_data['Author'], $plugin_data['Version'] ) . $version_string;
             }
         }
 
@@ -352,7 +354,8 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
                     $plugin_name = '<a href="' . esc_attr($plugin_data['PluginURI']) . '" title="' . esc_html__('Visit plugin homepage', 'ninja-forms') . '">' . $plugin_name . '</a>';
                 }
 
-                $all_inactive_plugins[] = $plugin_name . ' ' . esc_html__('by', 'ninja-forms') . ' ' . $plugin_data['Author'] . ' ' . esc_html__('version', 'ninja-forms') . ' ' . $plugin_data['Version'] . $version_string;
+                /* translators: Row of the installed plugins list. 1: plugin name. 2: author. 3: version number. */
+                $all_inactive_plugins[] = sprintf( esc_html__( '%1$s by %2$s version %3$s', 'ninja-forms' ), $plugin_name, $plugin_data['Author'], $plugin_data['Version'] ) . $version_string;
             }
         }
 
@@ -501,17 +504,17 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
             esc_html__( 'Server IP Address', 'ninja-forms' ) => $server_ip,
             esc_html__( 'Host Name', 'ninja-forms' ) => $host_name,
             esc_html__( 'SMTP','ninja-forms' ) => ini_get('SMTP'),
-            esc_html__( 'smtp_port','ninja-forms' ) => ini_get('smtp_port'),
+            esc_html__( 'SMTP Port','ninja-forms' ) => ini_get('smtp_port'),
         );
         $php_extensions = array(
-            esc_html__( 'CURL Installed','ninja-forms' ) => $curl,
+            esc_html__( 'cURL Installed','ninja-forms' ) => $curl,
             esc_html__( 'mbstring Installed','ninja-forms' ) => $mbstring,
             esc_html__( 'SUHOSIN Installed','ninja-forms' ) => $suhosin,
         );
         $NF_environment = array(
             esc_html__( 'Ninja Forms DB Version', 'ninja-forms' ) => get_option( 'ninja_forms_db_version' ),
             esc_html__( 'Ninja Forms Gatekeeper', 'ninja-forms' ) => WPN_Helper::get_zuul(),
-            esc_html__( 'Ninja Forms "Dev Mode"', 'ninja-forms' ) => ( $dev_mode ) ? esc_html__('Enabled') : esc_html__('Disabled'),
+            esc_html__( 'Ninja Forms "Dev Mode"', 'ninja-forms' ) => ( $dev_mode ) ? esc_html__('Enabled', 'ninja-forms') : esc_html__('Disabled', 'ninja-forms'),
             esc_html__( 'Currency','ninja-forms' ) => Ninja_Forms()->get_setting('currency'),
             esc_html__( 'Date Format','ninja-forms' ) => Ninja_Forms()->get_setting( 'date_format' ),
             esc_html__( 'Opinionated Styles','ninja-forms' ) => $opinionated_styles,

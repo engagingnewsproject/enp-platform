@@ -26,7 +26,7 @@ class PromptValidator
             sprintf(
                 /* translators: 1: characters over the limit, 2: maximum character count. */
                 esc_html__(
-                    'Your description exceeds the %2$d-character limit by %1$d. Shorten it and try again.',
+                    'Description exceeds the %2$s-character limit by %1$s. Shorten it to continue.',
                     'ninja-forms'
                 ),
                 $prompt_length - $limit,

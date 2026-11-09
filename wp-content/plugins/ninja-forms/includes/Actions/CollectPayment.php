@@ -95,7 +95,22 @@ final class NF_Actions_CollectPayment extends SotAction implements InterfacesSot
     public function process(array $action_settings, int $form_id, array $data): array
     {
 
-        $payment_gateway = $action_settings['payment_gateways'];
+        $payment_gateway = isset($action_settings['payment_gateways'])
+            ? $action_settings['payment_gateways']
+            : '';
+
+        /**
+         * Skip the action when its gateway is not available.
+         *
+         * A form can outlive the add-on that registered its gateway, for
+         * example when a site moves off PayPal Express without removing the
+         * Collect Payment action. Treat the action the same way Ninja Forms
+         * treats any other action whose add-on is deactivated: do nothing and
+         * let the rest of the submission run.
+         */
+        if (! isset($this->payment_gateways[$payment_gateway])) {
+            return $data;
+        }
 
         $payment_gateway_class = $this->payment_gateways[$payment_gateway];
 

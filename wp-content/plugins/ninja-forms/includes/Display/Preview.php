@@ -42,7 +42,8 @@ class NF_Display_Preview
 
         $form_title = Ninja_Forms()->form( $this->_form_id )->get()->get_setting( 'title' );
 
-        return esc_html( $form_title ) . " " . esc_html__( 'Preview', 'ninja-forms' );
+        /* translators: Browser page title. %s is the title of the form. */
+        return sprintf( esc_html__( '%s Preview', 'ninja-forms' ), esc_html( $form_title ) );
     }
 
     /**

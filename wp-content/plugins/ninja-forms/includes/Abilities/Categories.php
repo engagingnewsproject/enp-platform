@@ -40,7 +40,7 @@ function ninja_forms_register_ability_categories() {
 		'forms',
 		array(
 			'label'       => __( 'Forms', 'ninja-forms' ),
-			'description' => __( 'Abilities for creating and managing forms. To build a complete form: first use ninjaforms/create-form to create the form, then use ninjaforms/add-field multiple times to add each field.', 'ninja-forms' ),
+			'description' => 'Abilities for creating and managing forms. To build a complete form: first use ninjaforms/create-form to create the form, then use ninjaforms/add-field multiple times to add each field.',
 			'meta'        => array(
 				'plugin' => 'ninja-forms',
 				'version' => Ninja_Forms::VERSION,

@@ -9,7 +9,7 @@ return apply_filters( 'ninja_forms_from_calculation_settings', array(
     'calculations' => array(
         'name'              => 'calculations',
         'type'              => 'option-repeater',
-        'label'             => ' <a href="#" class="nf-add-new">' . esc_html__( 'Add New', 'ninja-forms' ) . '</a>',
+        'label'             => ' <a href="#" class="nf-add-new">' . esc_html__( 'Add New Calculation', 'ninja-forms' ) . '</a>',
         'width'             => 'full',
         'group'             => 'primary',
         'tmpl_row'          => 'tmpl-nf-edit-setting-calculation-repeater-row',

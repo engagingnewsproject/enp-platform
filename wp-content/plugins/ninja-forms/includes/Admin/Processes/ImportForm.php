@@ -112,6 +112,11 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
             || WPN_Helper::maybe_disallow_unfiltered_html_for_sanitization() )
             {
                 $data = $this->sanitize_field_settings($data);
+
+                // Rich-text form messages are printed as HTML on the front end (#8254).
+                if( isset( $data[ 'settings' ] ) ) {
+                    $data[ 'settings' ] = WPN_Helper::sanitize_form_html_settings( $data[ 'settings' ] );
+                }
             }
 
         // $data is now a form array.
@@ -629,9 +634,11 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
             unset( $import[ 'notifications' ] );
         }
 
-        // Rename `form_title` to `title`
+        // Rename legacy `form_title` to `title`, keeping a current `title` when the export has one.
         if( isset( $import[ 'settings' ][ 'form_title' ] ) ){
-            $import[ 'settings' ][ 'title' ] = $import[ 'settings' ][ 'form_title' ];
+            if( empty( $import[ 'settings' ][ 'title' ] ) ){
+                $import[ 'settings' ][ 'title' ] = $import[ 'settings' ][ 'form_title' ];
+            }
             unset( $import[ 'settings' ][ 'form_title' ] );
         }
 
@@ -970,7 +977,8 @@ class NF_Admin_Processes_ImportForm extends NF_Abstracts_BatchProcess
             $passwordconfirm = array_merge( $field, array(
                 'id' => '',
                 'type' => 'passwordconfirm',
-                'label' => $field[ 'label' ] . ' ' . esc_html__( 'Confirm', 'ninja-forms' ),
+                /* translators: %s is the label of the field that must be typed a second time, for example "Email". */
+                'label' => sprintf( esc_html__( 'Confirm %s', 'ninja-forms' ), $field[ 'label' ] ),
                 'confirm_field' => 'password_' . $field[ 'id' ]
             ));
             $field[ 'new_fields' ][] = $passwordconfirm;

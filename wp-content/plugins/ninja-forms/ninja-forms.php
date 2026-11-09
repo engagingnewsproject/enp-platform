@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: https://ninjaforms.com/?utm_source=WordPress.org&utm_medium=Plugin+header
 Description: Free WordPress form builder with calculations, signatures, star ratings, unlimited submissions stored on your site, and an AI form builder.
-Version: 3.15.5
+Version: 3.16.0
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -45,7 +45,7 @@ final class Ninja_Forms
      * @since 3.0
      */
 
-    const VERSION = '3.15.5';
+    const VERSION = '3.16.0';
 
     /**
      * @since 3.4.0
@@ -239,6 +239,7 @@ final class Ninja_Forms
                 $plugin_upgrade = false;
             }
             update_option( 'ninja_forms_version', self::VERSION );
+            self::remove_legacy_deprecated_option();
             // If we've not recorded our db version...
             if ( ! get_option( 'ninja_forms_db_version' ) ) {
                 // If this isn't a fresh install...
@@ -286,6 +287,7 @@ final class Ninja_Forms
             self::$instance->menus[ 'dashboard' ]       = new NF_Admin_Menus_Dashboard();
             self::$instance->menus[ 'add-new' ]         = new NF_Admin_Menus_AddNew();
             self::$instance->menus[ 'submissions']      = new NF_Admin_Menus_Submissions();
+            self::$instance->menus[ 'payments' ]        = new NF_Admin_Menus_Payments();
             self::$instance->menus[ 'import-export']    = new NF_Admin_Menus_ImportExport();
             self::$instance->menus[ 'settings' ]        = new NF_Admin_Menus_Settings();
             self::$instance->menus[ 'licenses']         = new NF_Admin_Menus_Licenses();
@@ -309,6 +311,13 @@ final class Ninja_Forms
             self::$instance->controllers[ 'jserror' ]       = new NF_AJAX_Controllers_JSError();
             self::$instance->controllers[ 'dispatchpoints' ] = new NF_AJAX_Controllers_DispatchPoints();
             self::$instance->controllers[ 'onboarding' ] = new NF_AJAX_Controllers_Onboarding();
+            self::$instance->controllers[ 'paypal_connect' ] = new NF_AJAX_Controllers_PayPalConnect();
+            self::$instance->controllers[ 'paypal_order' ]   = new NF_AJAX_Controllers_PayPalOrder();
+
+            /*
+                * PayPal Connect — gateway, form action, and first-payment notice
+                */
+            new NF_PayPal_Registration();
 
             /*
                 * REST Controllers
@@ -333,6 +342,15 @@ final class Ninja_Forms
                 * Background Processes
                 */
             require_once Ninja_Forms::$dir . 'includes/Libraries/BackgroundProcessing/wp-background-processing.php';
+
+            /*
+                * Session Garbage Collection
+                *
+                * Loaded on every request, unlike the rest of the session library,
+                * which stays lazy. Without this the collector is never registered
+                * and expired session rows accumulate in wp_options forever. #8133
+                */
+            require_once Ninja_Forms::$dir . 'includes/Libraries/Session/wp-session-garbage-collection.php';
             self::$instance->requests[ 'update-fields' ] = new NF_AJAX_Processes_UpdateFields();
 
 
@@ -481,6 +499,8 @@ final class Ninja_Forms
 
         add_action( 'plugins_loaded', array( self::$instance, 'plugins_loaded' ) );
 
+        add_filter( 'load_script_translations', array( self::$instance, 'merge_script_translations' ), 10, 4 );
+
         add_action( 'ninja_forms_available_actions', array( self::$instance, 'scrub_available_actions' ) );
 
         add_action( 'init', array( self::$instance, 'instantiateTranslatableObjects' ), 5 );
@@ -535,6 +555,7 @@ final class Ninja_Forms
         self::$instance->merge_tags['deprecated'] = new NF_MergeTags_Deprecated();
 
         self::$instance->metaboxes['append-form'] = new NF_Admin_Metaboxes_AppendAForm();
+        self::$instance->metaboxes['paypal-payment'] = new NF_Admin_Metaboxes_PayPalPayment();
 
 
         /*
@@ -555,7 +576,7 @@ final class Ninja_Forms
     public function register_rewrite_rules()
     {
         add_rewrite_tag('%nf_public_link%', '([a-zA-Z0-9]+)');
-        add_rewrite_rule('^ninja-forms/([a-zA-Z0-9]+)/?', 'index.php?nf_public_link=$matches[1]', 'top');
+        add_rewrite_rule('^ninja-forms/([a-zA-Z0-9]+)/?$', 'index.php?nf_public_link=$matches[1]', 'top');
     }
 
     public function admin_init()
@@ -618,9 +639,42 @@ final class Ninja_Forms
         if($public_link_key = sanitize_text_field(get_query_var('nf_public_link'))){
             // @TODO Move this functionality behind a boundry.
             global $wpdb;
-            $query = $wpdb->prepare( "SELECT `parent_id` FROM {$wpdb->prefix}nf3_form_meta WHERE `key` = 'public_link_key' AND `value` = %s", $public_link_key );
-            $results = $wpdb->get_col($query);
-            $form_id = reset($results);
+            $query = $wpdb->prepare(
+                "SELECT link.`parent_id`, link.`value`
+                FROM `{$wpdb->prefix}nf3_form_meta` as link
+                LEFT JOIN `{$wpdb->prefix}nf3_form_meta` as allowed
+                ON allowed.parent_id = link.parent_id
+                WHERE link.`key` = 'public_link_key'
+                AND link.`value` = %s
+                AND allowed.`key` = 'allow_public_link'
+                AND allowed.`value` = '1'",
+                $public_link_key
+            );
+            $results = $wpdb->get_results($query);
+
+            /*
+             * The database compares strings without regard to case, so the
+             * stored key is compared again here. Only the key as it was issued
+             * opens the form.
+             */
+            $form_id = 0;
+            foreach( $results as $result ) {
+                if( $public_link_key === $result->value ) {
+                    $form_id = $result->parent_id;
+                    break;
+                }
+            }
+
+            /*
+             * The key belongs to no form, or to a form that is not currently
+             * shared through a public link, or the address carries more than
+             * the key itself. Serve the site's own 404 rather than letting the
+             * request fall through to the default query, which renders real
+             * site content under an unlimited set of addresses.
+             */
+            if( ! $form_id || ! $this->is_canonical_public_link_request( $public_link_key ) ) {
+                return $this->public_link_not_found( $template );
+            }
 
             $page_template = get_page_template();
             if( ! empty( $page_template ) )
@@ -632,13 +686,59 @@ final class Ninja_Forms
     }
 
     /**
+     * Whether the requested address is the public link itself and nothing more.
+     *
+     * The rewrite rule claims the key alone, but a site whose rewrite rules
+     * have not been flushed since updating still matches anything appended to
+     * it, so the request is checked directly as well.
+     *
+     * @param string $public_link_key
+     * @return bool
+     */
+    protected function is_canonical_public_link_request( $public_link_key )
+    {
+        $request = isset( $GLOBALS[ 'wp' ]->request ) ? trim( (string) $GLOBALS[ 'wp' ]->request, '/' ) : '';
+
+        // Requested without pretty permalinks, ie ?nf_public_link=<key>.
+        if( '' === $request ) return TRUE;
+
+        return 'ninja-forms/' . $public_link_key === $request;
+    }
+
+    /**
+     * Turn a public link request that resolves to nothing into the site's
+     * ordinary 404, at the address that was requested.
+     *
+     * @param string $template
+     * @return string
+     */
+    protected function public_link_not_found( $template )
+    {
+        global $wp_query;
+
+        $wp_query->set_404();
+
+        // Drop the posts the default query collected, so no real content is rendered.
+        $wp_query->posts = array();
+        $wp_query->post = NULL;
+        $wp_query->post_count = 0;
+        $wp_query->found_posts = 0;
+
+        status_header( 404 );
+
+        $not_found_template = get_404_template();
+
+        return $not_found_template ? $not_found_template : $template;
+    }
+
+    /**
      * Privacy policy suggested content for Ninja Forms
      */
     function nf_plugin_add_suggested_privacy_content() {
         if ( ! function_exists( 'wp_add_privacy_policy_content' ) ) return;
         $content = $this->plugin_get_default_privacy_content();
         wp_add_privacy_policy_content(
-            __( 'Ninja Forms' ),
+            __( 'Ninja Forms', 'ninja-forms' ),
             wp_kses_post( wpautop( $content, false) ) );
 
     }
@@ -727,6 +827,11 @@ final class Ninja_Forms
             );
         }
 
+        // A site with a PayPal add-on manages payments there; other gateways keep the tab.
+        if ( NF_PayPal_ExistingIntegration::exists() ) {
+            unset( $items[ 'payments' ] );
+        }
+
         return $items;
     }
 
@@ -808,11 +913,117 @@ final class Ninja_Forms
         self::$instance->notices->admin_notice( apply_filters( 'nf_admin_notices', $admin_notices ) );
     }
 
+    /**
+     * Load this plugin's translations, language pack first.
+     *
+     * A WordPress.org language pack's wording wins for every string it carries,
+     * and the file bundled with the plugin fills the gaps behind it. WordPress
+     * gives us that for free as long as both files are loaded in the right
+     * order: when two catalogues are loaded into one text domain, the first one
+     * loaded keeps its wording and later ones only supply strings it is missing.
+     *
+     * So the pack is loaded first and the bundled file second, and neither is
+     * unloaded. Unloading was what made this an either/or before: it threw away
+     * whatever WordPress had already loaded, leaving only one source.
+     *
+     * The .mo path is handed to load_textdomain() deliberately. WordPress reads
+     * the faster .l10n.php sibling in preference when one sits beside it, which
+     * is why both formats ship.
+     *
+     * The lang/ folder is also registered as the domain's custom path, as
+     * load_plugin_textdomain() does. When something switches locale later in
+     * the request, WordPress reloads the domain by itself, a pack first and then
+     * that path, so a locale with no pack still gets our file, not English.
+     */
+    public function load_translations()
+    {
+        global $wp_textdomain_registry;
+
+        $locale = apply_filters( 'plugin_locale', determine_locale(), 'ninja-forms' );
+
+        if ( isset( $wp_textdomain_registry ) ) {
+            $wp_textdomain_registry->set_custom_path( 'ninja-forms', self::$dir . 'lang' );
+        }
+
+        $sources = array(
+            // The language pack, if the site has one for this locale.
+            WP_LANG_DIR . '/plugins/ninja-forms-' . $locale . '.mo',
+            // Ours, always behind it.
+            self::$dir . 'lang/ninja-forms-' . $locale . '.mo',
+        );
+
+        foreach ( $sources as $mofile ) {
+            if ( is_readable( $mofile ) || is_readable( substr( $mofile, 0, -3 ) . '.l10n.php' ) ) {
+                load_textdomain( 'ninja-forms', $mofile, $locale );
+            }
+        }
+    }
+
+    /**
+     * Apply the same fill-in rule to script translations.
+     *
+     * WordPress loads exactly one JSON file per script. When a plugin passes a
+     * folder it looks there before the language pack, so once we ship JSON files
+     * ours would replace a pack's wording outright rather than filling its gaps,
+     * which is the opposite of the rule we hold for PHP strings.
+     *
+     * There is no load order to exploit here, so the two files are merged by
+     * hand: ours underneath, the pack on top, string by string.
+     *
+     * @param string $translations JSON of the file WordPress chose.
+     * @param string $file         Path of that file.
+     * @param string $handle       Script handle.
+     * @param string $domain       Text domain.
+     * @return string JSON, merged when there is anything to merge.
+     */
+    public function merge_script_translations( $translations, $file, $handle, $domain )
+    {
+        if ( 'ninja-forms' !== $domain || ! is_string( $file ) || '' === $file ) {
+            return $translations;
+        }
+
+        $ours = self::$dir . 'lang/' . basename( $file );
+        $pack = WP_LANG_DIR . '/plugins/' . basename( $file );
+
+        // Whichever of the two WordPress did not pick is the one still to merge.
+        $other = ( wp_normalize_path( $file ) === wp_normalize_path( $ours ) ) ? $pack : $ours;
+
+        if ( ! is_file( $other ) || ! is_readable( $other ) ) {
+            return $translations;
+        }
+
+        $chosen = json_decode( (string) $translations, true );
+        $missing = json_decode( (string) file_get_contents( $other ), true );
+
+        // Both message tables must be arrays before they can be merged. A file
+        // we do not control can be valid JSON and still hold something else
+        // here, and array_merge() would fatal on it, taking down every page
+        // that enqueues one of our scripts. Decline the merge instead.
+        if ( ! isset( $chosen['locale_data']['messages'], $missing['locale_data']['messages'] )
+            || ! is_array( $chosen['locale_data']['messages'] )
+            || ! is_array( $missing['locale_data']['messages'] ) ) {
+            return $translations;
+        }
+
+        // The pack always wins, whichever of the two it happens to be.
+        $pack_is_other = ( $other === $pack );
+        $base = $pack_is_other ? $chosen : $missing;
+        $top  = $pack_is_other ? $missing : $chosen;
+
+        $merged = $top;
+        $merged['locale_data']['messages'] = array_merge(
+            $base['locale_data']['messages'],
+            $top['locale_data']['messages']
+        );
+
+        $encoded = wp_json_encode( $merged );
+
+        return false === $encoded ? $translations : $encoded;
+    }
+
     public function plugins_loaded()
     {
-        unload_textdomain('ninja-forms',true);
-        
-        load_plugin_textdomain( 'ninja-forms', false, basename( dirname( __FILE__ ) ) . '/lang' );
+        self::$instance->load_translations();
 
 
 
@@ -1152,6 +1363,8 @@ final class Ninja_Forms
         $migrations = new NF_Database_Migrations();
         $migrations->migrate();
 
+        self::remove_legacy_deprecated_option();
+
         if( Ninja_Forms()->form()->get_forms() ) return;
 
         // Go ahead and create our randomn number for gated releases in the future
@@ -1173,6 +1386,21 @@ final class Ninja_Forms
 
         // Setup our add-on feed wp cron so that our add-on list is up to date on a weekly basis.
         nf_marketing_feed_cron_job();
+    }
+
+    /**
+     * Remove the 2.9-era ninja_forms_load_deprecated option.
+     *
+     * Add-ons still switch to their removed 2.9 code when this option is set,
+     * which hides their license fields or blocks their activation (#7246).
+     *
+     * @return void
+     */
+    private static function remove_legacy_deprecated_option()
+    {
+        if ( false !== get_option( 'ninja_forms_load_deprecated', false ) ) {
+            delete_option( 'ninja_forms_load_deprecated' );
+        }
     }
 
     /**
@@ -1296,6 +1524,21 @@ function nf_optin_update_environment_vars() {
     Ninja_Forms()->tracking->report_optin();
 }
 add_action( 'nf_optin_cron', 'nf_optin_update_environment_vars' );
+
+add_action('nf_behavioral_delivery', function () {
+    Ninja_Forms()->dispatcher()->sendBehavioralData();
+});
+
+// Recover a pending queue after an interrupted cron request.
+add_action('admin_init', function () {
+    if (current_user_can('manage_options') && Ninja_Forms()->dispatcher()->should_we_send()
+        && !wp_next_scheduled('nf_behavioral_delivery') && NF_Telemetry_BehavioralQueue::pending(1)) {
+        NF_Telemetry_BehavioralQueue::schedule(300);
+    }
+});
+
+// Stop autoloading a behavioral backlog saved by an older version.
+add_action('admin_init', ['NF_Telemetry_BehavioralQueue', 'unloadLegacy']);
 
 /**
  * Function to register our Custom Cron Recurrences.

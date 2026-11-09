@@ -67,7 +67,7 @@ return apply_filters( 'ninja_forms_action_collect_payment_settings', array(
         'name' => 'payment_total',
         'total_type' => 'field',
         'type' => 'select',
-        'help' => sprintf( '%s:<br />%s', esc_html__( 'Allowed Field Types', 'ninja-forms' ), esc_html__( 'Number, Single Checkbox, Select, Multi-Select, Radio List, Checkbox List, Select Image', 'ninja-forms' ) ),
+        'help' => sprintf( '%s:<br />%s', esc_html__( 'Allowed Field Types:', 'ninja-forms' ), 'Number, Single Checkbox, Select, Multi-Select, Radio List, Checkbox List, Select Image' ),
         'label' => esc_html__( 'Select Field', 'ninja-forms' ),
         'width' => 'one-half',
         'group' => 'primary',

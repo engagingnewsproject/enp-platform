@@ -155,10 +155,62 @@ abstract class NF_Abstracts_Field extends NF_Abstracts_Element
             $val = trim( $field['value'] );
             if( empty( $val ) && '0' !== $val ){
                 $errors['slug'] = 'required-error';
-                $errors['message'] = esc_html__('This field is required.', 'ninja-forms');
+                $errors['message'] = $this->get_required_field_message( $data );
             }
         }
         return $errors;
+    }
+
+    /**
+     * Required Field Message
+     *
+     * Resolves the message shown when a required field is submitted empty.
+     *
+     * The browser-side check renders the form's `validateRequiredField`
+     * setting, so this server-side check resolves the same setting instead of
+     * carrying wording of its own. One required-field condition therefore
+     * produces one message, whichever check detects it. See issue #8182.
+     *
+     * The wording is read from the saved form, never from the submitted
+     * payload, so a submitted `settings` array cannot dictate the message.
+     *
+     * The default below must stay identical to the `validateRequiredField`
+     * entry in includes/Config/i18nFrontEnd.php: they are deliberately one
+     * translatable string, and splitting them is the defect this fixes.
+     *
+     * @param array $data The submitted form data.
+     * @return string
+     */
+    protected function get_required_field_message( $data )
+    {
+        $message = esc_html__( 'This is a required field.', 'ninja-forms' );
+
+        if( ! is_array( $data ) ) return $message;
+
+        $form_id = 0;
+        if( isset( $data[ 'id' ] ) ){
+            $form_id = $data[ 'id' ];
+        } elseif( isset( $data[ 'form_id' ] ) ){
+            $form_id = $data[ 'form_id' ];
+        }
+
+        // Render instances arrive as `<form id>_<instance id>`.
+        if( is_string( $form_id ) && FALSE !== strpos( $form_id, '_' ) ){
+            $form_id = current( explode( '_', $form_id ) );
+        }
+
+        $form_id = intval( $form_id );
+        if( ! $form_id ) return $message;
+
+        $form = Ninja_Forms()->form( $form_id )->get();
+        if( ! $form ) return $message;
+
+        $custom = $form->get_setting( 'validateRequiredField' );
+        if( is_string( $custom ) && '' !== trim( $custom ) ){
+            $message = esc_html( $custom );
+        }
+
+        return $message;
     }
 
     public function process( $field, $data )

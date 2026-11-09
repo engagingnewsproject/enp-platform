@@ -175,7 +175,7 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
      *
      * @param $value checkbox field value
      * @param $field checkbox field model
-     * @return string|void
+     * @return string
      */
     public function export_value( $value, $field )
     {
@@ -186,34 +186,50 @@ class NF_Fields_Checkbox extends NF_Abstracts_Input
 
         // @TODO: Why were these values translated in the first place?
         // If value is equal to checked or unchecked return the value
-        if ( __( 'checked', 'ninja-forms' ) == $value ||
-            __( 'unchecked', 'ninja-forms' ) == $value ) return $value;
+        if ( 'checked' === $value ||
+            'unchecked' === $value ) return $value;
 
         // Creating settings variables for our check.
         if( is_array( $field ) ) {
             // The email action sends teh field variable as an array
-            $checked_setting    = $field[ 'setting' ][ 'checked_value' ];
-            $unchecked_setting  = $field[ 'setting' ][ 'unchecked_value' ];
+            $checked_setting    = $field[ 'settings' ][ 'checked_value' ] ?? '';
+            $unchecked_setting  = $field[ 'settings' ][ 'unchecked_value' ] ?? '';
         } else {
             $checked_setting    = $field->get_setting( 'checked_value' );
             $unchecked_setting  = $field->get_setting( 'unchecked_value' );
         }
 
+        /*
+         * The stored value is a flag, not words. Numbers, null and booleans
+         * read as they always have, but a string that is not numeric never
+         * matches a flag: before PHP 8 a loose 0 == $value was true for any
+         * non-numeric string, which swallowed a value already stored as a
+         * display word and reported it as unchecked.
+         */
+        $is_numeric   = is_numeric( $value );
+        $is_checked   = 'on' === $value || true === $value || ( $is_numeric && 1 == $value );
+        $is_unchecked = null === $value || false === $value || ( $is_numeric && 0 == $value );
+
         // If the the value and check to see if we have checked and unchecked settings...
-        if ( ( 1 == $value || 'on' == $value ) && ! empty( $checked_setting ) ) {
+        if ( $is_checked && ! empty( $checked_setting ) ) {
             // ...if we do return checked setting
             return $checked_setting;
-        } elseif ( 0 == $value && ! empty( $unchecked_setting ) ) {
+        } elseif ( $is_unchecked && ! empty( $unchecked_setting ) ) {
             // ...else return unchecked setting.
             return $unchecked_setting;
         /*
          * These checks are for checkbox fields that were created before version 3.2.7.
          */
-        } elseif ( 1 == $value || 'on' == $value ) {
-            return esc_html__( 'checked', 'ninja-forms' );
-        } elseif ( 0 == $value ) {
-            return esc_html__( 'unchecked', 'ninja-forms' );
+        } elseif ( $is_checked ) {
+            return esc_html__( 'Checked', 'ninja-forms' );
+        } elseif ( $is_unchecked ) {
+            return esc_html__( 'Unchecked', 'ninja-forms' );
         }
+
+        // Nothing above matched, so the stored value is already a display word:
+        // one saved while the site ran in another language, for example. Show it
+        // as it is, escaped the way the display values above are.
+        return esc_html( $value );
     }
 
     /**

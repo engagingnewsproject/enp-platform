@@ -7,8 +7,11 @@
 // loaders are pinned to the .min.js sibling.
 
 __( "Jetpack Logo", "jetpack-forms" );
+__( "Loading", "jetpack-forms" );
 /* translators: accessibility text appended to link text */
 __( "(opens in a new tab)", "jetpack-forms" );
+__( "OK", "jetpack-forms" );
+__( "Cancel", "jetpack-forms" );
 __( "Loading preview…", "jetpack-forms" );
 __( "Copied!", "jetpack-forms" );
 __( "Copy", "jetpack-forms" );
@@ -287,9 +290,17 @@ __( "Logged-in user:", "jetpack-forms" );
 __( "Previous", "jetpack-forms" );
 __( "Next", "jetpack-forms" );
 __( "Close", "jetpack-forms" );
+__( "Mark as spam", "jetpack-forms" );
+/* translators: date format. DD is the day of the month, MM the month, and YYYY the year (e.g., 12/31/2023). */
+__( "MM/DD/YYYY", "jetpack-forms" );
+/* translators: date format. DD is the day of the month, MM the month, and YYYY the year (e.g., 31/12/2023). */
+__( "DD/MM/YYYY", "jetpack-forms" );
+/* translators: date format. DD is the day of the month, MM the month, and YYYY the year (e.g., 2023-12-31). */
+__( "YYYY-MM-DD", "jetpack-forms" );
 __( "Are you sure you want to mark this response as spam?", "jetpack-forms" );
+__( "Could not mark the response as spam. Please try again.", "jetpack-forms" );
 __( "An Automattic Airline", "jetpack-forms" );
-__( "Products", "jetpack-forms" );
+__( "Features", "jetpack-forms" );
 __( "Help", "jetpack-forms" );
 __( "Jetpack", "jetpack-forms" );
 __( "Sections", "jetpack-forms" );
@@ -342,7 +353,6 @@ __( "Response marked as unread.", "jetpack-forms" );
 /* translators: %s: the number of responses. */
 _n( "%s response marked as unread.", "%s responses marked as unread.", 1, "jetpack-forms" );
 __( "Actions", "jetpack-forms" );
-__( "Mark as spam", "jetpack-forms" );
 __( "Delete permanently", "jetpack-forms" );
 __( "Back to responses", "jetpack-forms" );
 _x( "Spam", "response status", "jetpack-forms" );

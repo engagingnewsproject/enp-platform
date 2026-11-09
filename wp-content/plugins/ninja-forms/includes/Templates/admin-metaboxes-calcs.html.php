@@ -1,7 +1,7 @@
 <ul>
     <?php foreach( $data as $name => $contents ):?>
         <li>
-            <strong><?php echo( $name ); ?></strong>
+            <strong><?php echo( esc_html( $name ) ); ?></strong>
             <?php
                 echo( ' = ' . esc_html( $contents[ 'value' ] ) );
                 if( isset( $_GET[ 'calcs_debug' ] ) ) {

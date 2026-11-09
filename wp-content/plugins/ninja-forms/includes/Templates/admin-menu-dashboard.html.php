@@ -102,7 +102,7 @@
 							<# if( data.setupButtonText ){ #>
 								{{{ data.setupButtonText }}}
 							<# } else { #>
-								<?php esc_html_e( 'Setup', 'ninja-forms' ); ?>
+								<?php /* translators: Button label, a verb: set up this service. */ esc_html_e( 'Set Up', 'ninja-forms' ); ?>
 							<# } #>
 						</a>
 					<# } else { #>
@@ -157,7 +157,7 @@
 						</table>
 				</div>
 				<div>
-						<input class="nf-required-update nf-update-button" type='button' id='nf-required-updates-btn' name='nf-required-updates-btn' value="<?php esc_html_e( 'Do Required Updates' ); ?>" />
+						<input class="nf-required-update nf-update-button" type='button' id='nf-required-updates-btn' name='nf-required-updates-btn' value="<?php esc_html_e( 'Do Required Updates', 'ninja-forms' ); ?>" />
 				</div>
 				<div class="nf-update-progress jBox-content" id="nf-required-updates-progress"></div>
 		</div>
@@ -167,7 +167,7 @@
 <script id="tmpl-nf-widget-forms" type="text/template">
 		<header>
 				<div class="action">
-						<button class="add nf-button primary" data-testid="nf-add-new-form"><?php esc_html_e( 'Add New', 'ninja-forms' ); ?></button>
+						<button class="add nf-button primary" data-testid="nf-add-new-form"><?php esc_html_e( 'Add New Form', 'ninja-forms' ); ?></button>
 						<button class="cancel nf-button secondary"><?php esc_html_e( 'Cancel', 'ninja-forms' ); ?></button>
 				</div>
 				<div class="filter nf-search"></div>
@@ -213,7 +213,7 @@
 						<li><a href="<?php
 								global $wp_rewrite;
 								if($wp_rewrite->permalink_structure) {
-										echo site_url() . '/ninja-forms/{{{ data.public_link_key }}}';
+										echo site_url() . '/ninja-forms/{{{ data.public_link_key }}}/';
 								} else {
 										echo site_url('?nf_public_link={{{ data.public_link_key }}}');
 								}
@@ -237,7 +237,7 @@
 		<td colspan="4"><?php esc_html_e( 'No Forms', 'ninja-forms' ); ?></td>
 </script>
 <script id="tmpl-nf-widget-forms-table-loading" type="text/template">
-		<td colspan="4"><?php esc_html_e( 'Loading Forms', 'ninja-forms' ); ?></td>
+		<td colspan="4"><?php esc_html_e( 'Loading Forms...', 'ninja-forms' ); ?></td>
 </script>
 
 <!-- Widget: Forms - New Forms Template grid -->

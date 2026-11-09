@@ -141,9 +141,9 @@ function ninja_forms_ability_get_plugin_settings( $input ) {
 				}
 			}
 			$organized_settings = $filtered_organized;
-			$message = sprintf( __( 'Retrieved %d plugin settings successfully.', 'ninja-forms' ), count( $input['keys'] ) );
+			$message = sprintf( 'Retrieved %d plugin settings successfully.', count( $input['keys'] ) );
 		} else {
-			$message = __( 'All plugin settings retrieved successfully.', 'ninja-forms' );
+			$message = 'All plugin settings retrieved successfully.';
 		}
 
 		return array(
@@ -156,7 +156,7 @@ function ninja_forms_ability_get_plugin_settings( $input ) {
 	} catch ( Exception $e ) {
 		return array(
 			'success'  => false,
-			'message'  => sprintf( __( 'Failed to retrieve settings: %s', 'ninja-forms' ), $e->getMessage() ),
+			'message'  => sprintf( 'Failed to retrieve settings: %s', $e->getMessage() ),
 			'settings' => array(),
 		);
 	}
@@ -167,7 +167,7 @@ function ninja_forms_ability_update_plugin_settings( $input ) {
 	if ( ! isset( $input['settings'] ) || ! is_array( $input['settings'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Settings parameter is required and must be an object.', 'ninja-forms' ),
+			'message' => 'Settings parameter is required and must be an object.',
 			'updated' => array(),
 		);
 	}
@@ -178,7 +178,7 @@ function ninja_forms_ability_update_plugin_settings( $input ) {
 	if ( count( $settings ) === 0 ) {
 		return array(
 			'success' => true,
-			'message' => __( 'Successfully updated 0 plugin settings.', 'ninja-forms' ),
+			'message' => 'Successfully updated 0 plugin settings.',
 			'updated' => array(),
 		);
 	}
@@ -244,7 +244,7 @@ function ninja_forms_ability_update_plugin_settings( $input ) {
 
 		$count = count( $updated );
 		$message = sprintf(
-			_n( 'Successfully updated %d plugin setting.', 'Successfully updated %d plugin settings.', $count, 'ninja-forms' ),
+			( 1 === $count ) ? 'Successfully updated %d plugin setting.' : 'Successfully updated %d plugin settings.',
 			$count
 		);
 
@@ -257,7 +257,7 @@ function ninja_forms_ability_update_plugin_settings( $input ) {
 	} catch ( Exception $e ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Failed to update settings: %s', 'ninja-forms' ), $e->getMessage() ),
+			'message' => sprintf( 'Failed to update settings: %s', $e->getMessage() ),
 			'updated' => $updated,
 		);
 	}

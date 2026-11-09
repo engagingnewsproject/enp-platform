@@ -72,6 +72,38 @@ trait SotGetActionProperties
     }
 
     /**
+     * Set Nicename
+     *
+     * For labels that cannot be translated when the action is constructed.
+     * Actions are registered on plugins_loaded, and asking for a translation
+     * before init makes WordPress load the textdomain too early and report it
+     * as a mistake, once per request. An action in that position stores its
+     * label plainly and calls this once init has run.
+     *
+     * @param string $nicename
+     * @return void
+     */
+    public function set_nicename( string $nicename ): void
+    {
+        $this->_nicename = $nicename;
+    }
+
+    /**
+     * Set Documentation URL
+     *
+     * For actions re-instantiated under another name, such as a Collect
+     * Payment locked to one gateway, whose documentation is not the generic
+     * action's. Shown as the help link beside the action's name.
+     *
+     * @param string $url
+     * @return void
+     */
+    public function set_documentation_url( string $url ): void
+    {
+        $this->_documentation_url = $url;
+    }
+
+    /**
      * Get Section
      *
      * Returns the drawer section for an action.

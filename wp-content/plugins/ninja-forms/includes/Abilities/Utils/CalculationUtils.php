@@ -41,7 +41,7 @@ function ninja_forms_ability_add_calculation( $input ) {
 	if ( ! $form || ! $form->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'Form with ID %d not found', $form_id ),
 		);
 	}
 
@@ -56,7 +56,7 @@ function ninja_forms_ability_add_calculation( $input ) {
 		if ( isset( $calc['name'] ) && $calc['name'] === $name ) {
 			return array(
 				'success' => false,
-				'message' => sprintf( __( 'Calculation with name "%s" already exists in form %d', 'ninja-forms' ), $name, $form_id ),
+				'message' => sprintf( 'Calculation with name "%s" already exists in form %d', $name, $form_id ),
 			);
 		}
 	}
@@ -87,7 +87,7 @@ function ninja_forms_ability_add_calculation( $input ) {
 		'form_id'     => $form_id,
 		'name'        => $name,
 		'calculation' => $new_calculation,
-		'message'     => sprintf( __( 'Successfully added calculation "%s" to form %d.', 'ninja-forms' ), $name, $form_id ),
+		'message'     => sprintf( 'Successfully added calculation "%s" to form %d.', $name, $form_id ),
 	);
 }
 
@@ -96,13 +96,13 @@ function ninja_forms_ability_update_calculation( $input ) {
 	if ( empty( $input['form_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Form ID is required', 'ninja-forms' ),
+			'message' => 'Form ID is required',
 		);
 	}
 	if ( empty( $input['name'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Calculation name is required', 'ninja-forms' ),
+			'message' => 'Calculation name is required',
 		);
 	}
 
@@ -114,7 +114,7 @@ function ninja_forms_ability_update_calculation( $input ) {
 	if ( ! $form || ! $form->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'Form with ID %d not found', $form_id ),
 		);
 	}
 
@@ -123,7 +123,7 @@ function ninja_forms_ability_update_calculation( $input ) {
 	if ( ! is_array( $calculations ) ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'No calculations found in form %d', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'No calculations found in form %d', $form_id ),
 		);
 	}
 
@@ -159,7 +159,7 @@ function ninja_forms_ability_update_calculation( $input ) {
 	if ( ! $found ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Calculation "%s" not found in form %d', 'ninja-forms' ), $name, $form_id ),
+			'message' => sprintf( 'Calculation "%s" not found in form %d', $name, $form_id ),
 		);
 	}
 
@@ -177,7 +177,7 @@ function ninja_forms_ability_update_calculation( $input ) {
 		'form_id' => $form_id,
 		'name'    => $name,
 		'updated' => $updated_count,
-		'message' => sprintf( __( 'Successfully updated calculation "%s" in form %d. Updated %d setting(s).', 'ninja-forms' ), $name, $form_id, $updated_count ),
+		'message' => sprintf( 'Successfully updated calculation "%s" in form %d. Updated %d setting(s).', $name, $form_id, $updated_count ),
 	);
 }
 
@@ -186,13 +186,13 @@ function ninja_forms_ability_delete_calculation( $input ) {
 	if ( empty( $input['form_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Form ID is required', 'ninja-forms' ),
+			'message' => 'Form ID is required',
 		);
 	}
 	if ( empty( $input['name'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Calculation name is required', 'ninja-forms' ),
+			'message' => 'Calculation name is required',
 		);
 	}
 
@@ -204,7 +204,7 @@ function ninja_forms_ability_delete_calculation( $input ) {
 	if ( ! $form || ! $form->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'Form with ID %d not found', $form_id ),
 		);
 	}
 
@@ -213,7 +213,7 @@ function ninja_forms_ability_delete_calculation( $input ) {
 	if ( ! is_array( $calculations ) ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'No calculations found in form %d', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'No calculations found in form %d', $form_id ),
 		);
 	}
 
@@ -233,7 +233,7 @@ function ninja_forms_ability_delete_calculation( $input ) {
 	if ( ! $found ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Calculation "%s" not found in form %d', 'ninja-forms' ), $name, $form_id ),
+			'message' => sprintf( 'Calculation "%s" not found in form %d', $name, $form_id ),
 		);
 	}
 
@@ -250,7 +250,7 @@ function ninja_forms_ability_delete_calculation( $input ) {
 		'success' => true,
 		'form_id' => $form_id,
 		'name'    => $name,
-		'message' => sprintf( __( 'Successfully deleted calculation "%s" from form %d.', 'ninja-forms' ), $name, $form_id ),
+		'message' => sprintf( 'Successfully deleted calculation "%s" from form %d.', $name, $form_id ),
 	);
 }
 
@@ -259,7 +259,7 @@ function ninja_forms_ability_list_calculations( $input ) {
 	if ( empty( $input['form_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Form ID is required', 'ninja-forms' ),
+			'message' => 'Form ID is required',
 		);
 	}
 
@@ -270,7 +270,7 @@ function ninja_forms_ability_list_calculations( $input ) {
 	if ( ! $form || ! $form->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'Form with ID %d not found', $form_id ),
 		);
 	}
 
@@ -285,6 +285,6 @@ function ninja_forms_ability_list_calculations( $input ) {
 		'form_id'      => $form_id,
 		'count'        => count( $calculations ),
 		'calculations' => $calculations,
-		'message'      => sprintf( __( 'Found %d calculation(s) for form %d.', 'ninja-forms' ), count( $calculations ), $form_id ),
+		'message'      => sprintf( 'Found %d calculation(s) for form %d.', count( $calculations ), $form_id ),
 	);
 }

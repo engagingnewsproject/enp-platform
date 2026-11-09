@@ -10,7 +10,7 @@ __( "Jetpack Logo", "jetpack-activity-log" );
 __( "An Automattic Airline", "jetpack-activity-log" );
 /* translators: accessibility text appended to link text */
 __( "(opens in a new tab)", "jetpack-activity-log" );
-__( "Products", "jetpack-activity-log" );
+__( "Features", "jetpack-activity-log" );
 __( "Help", "jetpack-activity-log" );
 __( "Jetpack", "jetpack-activity-log" );
 __( "Sections", "jetpack-activity-log" );
@@ -22,10 +22,23 @@ __( "Keyboard shortcut: %s", "jetpack-activity-log" );
 __( "Dismiss", "jetpack-activity-log" );
 /* translators: %s: the error. */
 __( "There was an error reconnecting Jetpack. Error: %s", "jetpack-activity-log" );
+__( "Your account (connection owner)", "jetpack-activity-log" );
+/* translators: %s is the display name of the Jetpack connection owner. */
+__( "Connection owner's account (%s)", "jetpack-activity-log" );
+__( "Connection owner's account", "jetpack-activity-log" );
+__( "Your account", "jetpack-activity-log" );
+__( "Another user's account", "jetpack-activity-log" );
+__( "User connection", "jetpack-activity-log" );
+__( "Site connection", "jetpack-activity-log" );
+/* translators: %s is what the error applies to, e.g. "Site connection" or "Your account". */
+__( "Jetpack Connection error: %s", "jetpack-activity-log" );
+/* translators: %d is the number of connection errors found. */
+_n( "%d Jetpack Connection error", "%d Jetpack Connection errors", 1, "jetpack-activity-log" );
+__( "Jetpack Connection error", "jetpack-activity-log" );
+__( "Still having trouble? <link>Contact Jetpack Support</link>.", "jetpack-activity-log" );
 __( "Reconnecting Jetpack", "jetpack-activity-log" );
 __( "Loading…", "jetpack-activity-log" );
 __( "Restore Connection", "jetpack-activity-log" );
-__( "A connection check failed.", "jetpack-activity-log" );
 __( "Take Action", "jetpack-activity-log" );
 __( "Reconnecting Jetpack…", "jetpack-activity-log" );
 /* translators: 1: Calendar type. 2: Current month and year. */
@@ -44,16 +57,17 @@ __( "%s, selected", "jetpack-activity-log" );
 __( "Required", "jetpack-activity-log" );
 __( "Optional", "jetpack-activity-log" );
 __( "More details follow the field.", "jetpack-activity-log" );
+__( "Select", "jetpack-activity-log" );
 __( "Sort ascending", "jetpack-activity-log" );
 __( "Sort descending", "jetpack-activity-log" );
 __( "(no title)", "jetpack-activity-log" );
 __( "Actions", "jetpack-activity-log" );
-/* translators: %d: number of items. */
-_n( "%d Item selected", "%d Items selected", 1, "jetpack-activity-log" );
-/* translators: %d: number of items. */
-_n( "%d Item", "%d Items", 1, "jetpack-activity-log" );
-/* translators: %1$d: number of items. %2$d: total number of items. */
-_n( "%1$d of %2$d Item", "%1$d of %2$d Items", 1, "jetpack-activity-log" );
+/* translators: %s: formatted number of items. */
+_n( "%s Item selected", "%s Items selected", 1, "jetpack-activity-log" );
+/* translators: %s: formatted number of items. */
+_n( "%s Item", "%s Items", 1, "jetpack-activity-log" );
+/* translators: %1$s: formatted number of items. %2$s: formatted total number of items. */
+_n( "%1$s of %2$s Item", "%1$s of %2$s Items", 1, "jetpack-activity-log" );
 __( "Deselect all", "jetpack-activity-log" );
 __( "Select all", "jetpack-activity-log" );
 __( "Cancel", "jetpack-activity-log" );
@@ -199,6 +213,9 @@ __( "Weeks ago", "jetpack-activity-log" );
 __( "Months ago", "jetpack-activity-log" );
 __( "Years ago", "jetpack-activity-log" );
 __( "Unit", "jetpack-activity-log" );
+__( "Coordinated Universal Time", "jetpack-activity-log" );
+/* translators: %s: timezone detail, e.g. "(CEST) Europe/Madrid" or "UTC+3". */
+__( "Timezone: %s", "jetpack-activity-log" );
 __( "Date time", "jetpack-activity-log" );
 __( "Today", "jetpack-activity-log" );
 __( "Yesterday", "jetpack-activity-log" );
@@ -229,8 +246,7 @@ __( "Value must be true, false, or undefined", "jetpack-activity-log" );
 __( "Value must be an array.", "jetpack-activity-log" );
 __( "Every value must be a string.", "jetpack-activity-log" );
 __( "Value must be a valid color.", "jetpack-activity-log" );
-__( "Go to the Next Month", "jetpack-activity-log" );
-__( "Go to the Previous Month", "jetpack-activity-log" );
+__( "All AI agents", "jetpack-activity-log" );
 __( "Start date", "jetpack-activity-log" );
 __( "End date", "jetpack-activity-log" );
 __( "Last 12 months", "jetpack-activity-log" );
@@ -246,13 +262,14 @@ __( "Apply %s", "jetpack-activity-log" );
 __( "Apply", "jetpack-activity-log" );
 __( "Select a date range", "jetpack-activity-log" );
 /* translators: %s: date range label */
-__( "Date range: %s.", "jetpack-activity-log" );
-/* translators: %s: date range label */
 __( "Date range: %s. Activate to open calendar.", "jetpack-activity-log" );
+__( "Upgrade plan", "jetpack-activity-log" );
+__( "Upgrade to get complete activity history for the last 30 days, advanced filtering and date range selection. Available on the Jetpack Security and Complete plans.", "jetpack-activity-log" );
+__( "Upgrade to get complete activity history for the last 30 days, advanced filtering and date range selection. Available on WordPress.com paid plans.", "jetpack-activity-log" );
+/* translators: %s is the name of an available Jetpack bundle. */
+__( "Upgrade to %s for at least 30 days of activity history, advanced filtering and date range selection.", "jetpack-activity-log" );
 __( "Track every action with activity logs", "jetpack-activity-log" );
 __( "Debug issues faster with insights from a comprehensive audit log of all your site events.", "jetpack-activity-log" );
-__( "Upgrade to get complete activity history for the last 30 days, advanced filtering and date range selection. Available on the Jetpack Security and Complete plans.", "jetpack-activity-log" );
-__( "Upgrade plan", "jetpack-activity-log" );
 __( "Restore backup", "jetpack-activity-log" );
 /* translators: %s: MCP client name and version */
 __( "via %s (MCP)", "jetpack-activity-log" );
@@ -260,6 +277,10 @@ __( "via MCP", "jetpack-activity-log" );
 __( "Unknown", "jetpack-activity-log" );
 __( "Server", "jetpack-activity-log" );
 __( "Happiness Engineer", "jetpack-activity-log" );
+/* translators: %d: number of malware and database threats in the backup. */
+_n( "This backup is known to contain %d security threat. Restoring it may bring malware back to your site.", "This backup is known to contain %d security threats. Restoring it may bring malware back to your site.", 1, "jetpack-activity-log" );
+/* translators: %d: number of known security threats in a backup. */
+__( "Known threats (%d)", "jetpack-activity-log" );
 __( "Date & time (%s)", "jetpack-activity-log" );
 __( "Date & time", "jetpack-activity-log" );
 __( "Date & time (UTC)", "jetpack-activity-log" );
@@ -276,6 +297,7 @@ __( "Couldn’t load the activity log: %s", "jetpack-activity-log" );
 __( "Couldn’t load the activity log. Try refreshing the page.", "jetpack-activity-log" );
 __( "Filter options are temporarily unavailable, but all events are loaded correctly.", "jetpack-activity-log" );
 __( "Upgrade your plan to use this feature.", "jetpack-activity-log" );
+__( "Upgrade your plan to filter by date.", "jetpack-activity-log" );
 __( "Activity Log", "jetpack-activity-log" );
 __( "Every change made to your site, in one searchable timeline.", "jetpack-activity-log" );
 __( "Your activity log couldn’t load because your site isn’t fully connected to WordPress.com.", "jetpack-activity-log" );

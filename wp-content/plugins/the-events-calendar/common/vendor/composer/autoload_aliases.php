@@ -1925,6 +1925,61 @@ namespace TEC\Common {
     array (
     ),
   ),
+  'Nexcess\\Banners\\Banner' => 
+  array (
+    'type' => 'class',
+    'classname' => 'Banner',
+    'isabstract' => false,
+    'namespace' => 'Nexcess\\Banners',
+    'extends' => 'TEC\\Common\\Nexcess\\Banners\\Banner',
+    'implements' => 
+    array (
+    ),
+  ),
+  'Nexcess\\Banners\\BannerFields' => 
+  array (
+    'type' => 'class',
+    'classname' => 'BannerFields',
+    'isabstract' => false,
+    'namespace' => 'Nexcess\\Banners',
+    'extends' => 'TEC\\Common\\Nexcess\\Banners\\BannerFields',
+    'implements' => 
+    array (
+    ),
+  ),
+  'Nexcess\\Banners\\Dismissals' => 
+  array (
+    'type' => 'class',
+    'classname' => 'Dismissals',
+    'isabstract' => false,
+    'namespace' => 'Nexcess\\Banners',
+    'extends' => 'TEC\\Common\\Nexcess\\Banners\\Dismissals',
+    'implements' => 
+    array (
+    ),
+  ),
+  'Nexcess\\Banners\\Package' => 
+  array (
+    'type' => 'class',
+    'classname' => 'Package',
+    'isabstract' => false,
+    'namespace' => 'Nexcess\\Banners',
+    'extends' => 'TEC\\Common\\Nexcess\\Banners\\Package',
+    'implements' => 
+    array (
+    ),
+  ),
+  'Nexcess\\Banners\\Registry' => 
+  array (
+    'type' => 'class',
+    'classname' => 'Registry',
+    'isabstract' => false,
+    'namespace' => 'Nexcess\\Banners',
+    'extends' => 'TEC\\Common\\Nexcess\\Banners\\Registry',
+    'implements' => 
+    array (
+    ),
+  ),
   'Your\\Namespace\\Container' => 
   array (
     'type' => 'class',

@@ -33,7 +33,6 @@
             <?php foreach( $grouped_settings as $group => $settings ) : ?>
                 <div id="ninja_forms_metabox_<?php echo $group; ?>_settings" class="postbox">
                 <span class="item-controls">
-                    <a class="item-edit metabox-item-edit" id="edit_id" title="<?php esc_html_e( 'Edit Menu Item', 'ninja-forms' ); ?>" href="#"><?php esc_html_e( 'Edit Menu Item', 'ninja-forms' ); ?></a>
                 </span>
                     <h3 class="hndle"><span><?php echo $groups[ $group ][ 'label' ]; ?></span></h3>
                     <div class="inside" style="">

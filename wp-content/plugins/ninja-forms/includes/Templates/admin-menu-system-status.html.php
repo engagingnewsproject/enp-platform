@@ -78,13 +78,13 @@
     </thead>
     <tbody>
         <tr>
-            <td><?php esc_html_e('Active theme', 'ninja-forms'); ?>:</td>
+            <td><?php esc_html_e('Active Theme', 'ninja-forms'); ?>:</td>
             <td><?php echo $current_theme . ' v' . $current_theme_version; ?></td>
         </tr>
     </tbody>
     <tbody>
         <tr>
-            <td><?php esc_html_e('All installed themes', 'ninja-forms'); ?>:</td>
+            <td><?php esc_html_e('All Installed Themes', 'ninja-forms'); ?>:</td>
             <td><?php echo $all_installed_themes; ?></td>
         </tr>
     </tbody>
@@ -107,12 +107,12 @@
     </tbody>
     <thead>
         <tr>
-            <th colspan="2"><?php esc_html_e('Error logs', 'ninja-forms'); ?></th>
+            <th colspan="2"><?php esc_html_e('Error Logs', 'ninja-forms'); ?></th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td><?php esc_html_e('PHP errors', 'ninja-forms'); ?>:</td>
+            <td><?php esc_html_e('PHP Errors', 'ninja-forms'); ?>:</td>
             <td class=scroll><?php echo nl2br(esc_html(implode("\n", $errorLog))); ?>
             </td>
         </tr>
