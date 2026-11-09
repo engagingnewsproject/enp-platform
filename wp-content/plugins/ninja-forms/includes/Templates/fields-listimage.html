@@ -1,5 +1,5 @@
 <script id="tmpl-nf-field-listimage" type="text/template">
-    <ul aria-describedby="<# if( data.desc_text ) { #>nf-description-{{{ data.id }}} <# } #>nf-error-{{{ data.id }}}"
+    <ul<# if ( data.element_class ) { #> class="{{ data.element_class }}"<# } #> aria-describedby="<# if( data.desc_text ) { #>nf-description-{{{ data.id }}} <# } #>nf-error-{{{ data.id }}}"
         style="display:grid;grid-row-gap: 5px;grid-column-gap: 5px;">
         {{{ data.renderOptions() }}}
     </ul>

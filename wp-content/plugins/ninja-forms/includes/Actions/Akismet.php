@@ -31,7 +31,8 @@ final class NF_Actions_Akismet extends SotAction implements InterfacesSotAction
 
 		$this->_name = 'akismet';
 		$this->_group = 'core';
-		$this->_timing = 'normal';
+		// Spam filtering must decide the submission before any action processes it. See issue #6372.
+		$this->_timing = 'early';
 		$this->_priority = '10';
 
 		add_action('init', [$this, 'initHook']);

@@ -33,6 +33,10 @@ return apply_filters( 'ninja_forms_i18n_front_end', array(
     'dismiss'                               => esc_html__( 'Dismiss', 'ninja-forms' ),
     'insertLink'                            => esc_html__( 'Insert Link', 'ninja-forms' ),
     'formErrorsCorrectErrors'               => esc_html__( 'Please correct errors before submitting this form.', 'ninja-forms' ),
+    // Shown when a submit or save request fails without a readable reply:
+    // a dropped connection, or a server error page instead of data.
+    // See issue #8167.
+    'formErrorsSubmissionFailed'            => esc_html__( "Something went wrong and your form wasn't sent. Please check your connection and try again.", 'ninja-forms' ),
     'formHoneypot'                          => esc_html__( 'If you are a human seeing this field, please leave it empty.', 'ninja-forms' ),
     // Shared with the server-side required check in
     // includes/Abstracts/Field.php::get_required_field_message(). One
@@ -48,6 +52,10 @@ return apply_filters( 'ninja_forms_i18n_front_end', array(
     'decimal_point'                         => $wp_locale->number_format[ 'decimal_point' ],
     'siteLocale'                            => get_locale(),
     'dateFormat'                            => $date_format,
+    // The verbose format option is the only one that spells out month
+    // and day names, so its word order follows the site's language
+    // rather than a hardcoded English one. See issue #3308.
+    'longDateFormat'                        => WPN_Helper::get_long_date_format(),
     'startOfWeek'                           => get_option( 'start_of_week' ),
     /* translators: Counter under a text field. 1: characters or words remaining. 2: the limit. It is followed by text the site owner sets, by default "characters left". */
     'of'                                    => esc_html__( '%1$s of %2$s', 'ninja-forms' ),

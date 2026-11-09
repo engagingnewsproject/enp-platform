@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: https://ninjaforms.com/?utm_source=WordPress.org&utm_medium=Plugin+header
 Description: Free WordPress form builder with calculations, signatures, star ratings, unlimited submissions stored on your site, and an AI form builder.
-Version: 3.16.0
+Version: 3.16.1
 Author: Saturday Drive
 Author URI: http://ninjaforms.com/?utm_source=Ninja+Forms+Plugin&utm_medium=Plugins+WP+Dashboard
 Text Domain: ninja-forms
@@ -15,6 +15,7 @@ use NinjaForms\Includes\Admin\VersionCompatibilityCheck;
 use NinjaForms\Includes\Admin\ManageUpdates;
 use NinjaForms\Includes\AI\ChatUiBootstrap;
 use NinjaForms\Includes\AI\GenerationAdminHooks;
+use NinjaForms\Includes\Admin\Processes\ExportFileCleanup;
 
 require_once dirname( __FILE__ ) . '/lib/NF_Tracking.php';
 require_once dirname( __FILE__ ) . '/includes/Integrations/sendwp.php';
@@ -45,7 +46,7 @@ final class Ninja_Forms
      * @since 3.0
      */
 
-    const VERSION = '3.16.0';
+    const VERSION = '3.16.1';
 
     /**
      * @since 3.4.0
@@ -53,6 +54,23 @@ final class Ninja_Forms
     const DB_VERSION = '1.4';
 
     const WP_MIN_VERSION = '6.4';
+
+    /**
+     * Records the stored rewrite rules already examined for the public link
+     * address, so a set of rules that lacks it is rebuilt once rather than on
+     * every page load.
+     *
+     * @see https://github.com/Saturday-Drive/ninja-forms/issues/7389
+     */
+    const REWRITE_RULES_CHECKED_OPTION = 'nf_public_link_rewrite_checked';
+
+    /**
+     * Held for the moment a rebuild is under way, so simultaneous visitors to a
+     * broken public link produce one rebuild between them.
+     *
+     * @see https://github.com/Saturday-Drive/ninja-forms/issues/7389
+     */
+    const REWRITE_RULES_REBUILD_LOCK = 'nf_public_link_rewrite_rebuilding';
 
     /**
      * @var Ninja_Forms
@@ -199,6 +217,7 @@ final class Ninja_Forms
     public $notices;
     public $widgets;
     public $submission_expiration_cron;
+    public $export_file_cleanup;
     
     /**
      * Main Ninja_Forms Instance
@@ -464,10 +483,21 @@ final class Ninja_Forms
             self::$instance->submission_expiration_cron = new NF_Database_SubmissionExpirationCron();
 
             /*
+                * Housekeeping for abandoned submission CSV exports.
+                * See https://github.com/Saturday-Drive/ninja-forms/issues/7856
+                */
+            self::$instance->export_file_cleanup = new ExportFileCleanup();
+
+            /*
                 * Activation Hook
                 * TODO: Move to a permanent home.
                 */
             register_activation_hook( __FILE__, array( self::$instance, 'activation' ) );
+
+            /*
+                * Deactivation Hook
+                */
+            register_deactivation_hook( __FILE__, array( ExportFileCleanup::class, 'clearSchedule' ) );
 
 
 
@@ -505,6 +535,7 @@ final class Ninja_Forms
 
         add_action( 'init', array( self::$instance, 'instantiateTranslatableObjects' ), 5 );
         add_action( 'init', array( self::$instance, 'init' ), 5 );
+        add_action( 'wp_loaded', array( self::$instance, 'maybe_restore_rewrite_rules' ) );
         add_action( 'admin_init', array( self::$instance, 'admin_init' ), 5 );
         add_action( 'admin_enqueue_scripts', function() {
             if(apply_filters('ninja_forms_current_user_is_onboarding', 0)) {
@@ -577,6 +608,99 @@ final class Ninja_Forms
     {
         add_rewrite_tag('%nf_public_link%', '([a-zA-Z0-9]+)');
         add_rewrite_rule('^ninja-forms/([a-zA-Z0-9]+)/?$', 'index.php?nf_public_link=$matches[1]', 'top');
+    }
+
+    /**
+     * Put the public link address back into the rewrite rules the site has saved.
+     *
+     * The address is announced on every page load, but WordPress only consults
+     * the rules it has stored, and those are rebuilt rarely. A rebuild that
+     * happens without Ninja Forms loaded — host maintenance tooling, a
+     * migration or restore carrying another site's stored rules across, an
+     * administrator re-saving Permalinks while the plugin is switched off —
+     * leaves the address out of them. Every public link then returns the
+     * site's 404 until somebody re-saves Permalinks, and nothing about the
+     * plugin says so. Notice the address is missing and rebuild once.
+     *
+     * This runs on wp_loaded, after every plugin and the theme have declared
+     * their own rules and before the request is matched, so the rebuilt rules
+     * carry the whole site's addresses and take effect for the very request
+     * that found them missing.
+     *
+     * @see https://github.com/Saturday-Drive/ninja-forms/issues/7389
+     * @return void
+     */
+    public function maybe_restore_rewrite_rules()
+    {
+        // A site using plain permalinks keeps no rewrite rules at all. Its
+        // public links carry the key as a query parameter and need nothing.
+        if( ! get_option( 'permalink_structure' ) ) return;
+
+        $saved_rules = get_option( 'rewrite_rules' );
+
+        // No stored rules at all is WordPress's own "due for a rebuild" state,
+        // which it resolves itself. Nothing to repair, and nothing to measure.
+        if( empty( $saved_rules ) || ! is_array( $saved_rules ) ) return;
+
+        // The ordinary case: the address is there, so this costs one read of an
+        // option the site has already loaded, and no rebuild happens.
+        if( $this->saved_rules_carry_public_link( $saved_rules ) ) return;
+
+        /*
+         * A rebuild that has already been tried against exactly these rules and
+         * failed to produce the address is not tried again, so a site where
+         * something else strips the address cannot be made to rebuild its rules
+         * on every page load. A rebuild that succeeds records nothing, so the
+         * same site repairs itself again the next time the address goes missing.
+         */
+        if( get_option( self::REWRITE_RULES_CHECKED_OPTION ) === $this->rewrite_rules_signature( $saved_rules ) ) return;
+
+        // Several visitors can arrive at a broken link at once. The first one
+        // rebuilds; the rest leave the rebuild alone while it is under way.
+        if( get_transient( self::REWRITE_RULES_REBUILD_LOCK ) ) return;
+        set_transient( self::REWRITE_RULES_REBUILD_LOCK, 1, 30 );
+
+        /*
+         * Soft rebuild: the stored rules are what WordPress matches the request
+         * against, and rewriting a site's .htaccess from a visitor's page load
+         * is not ours to do.
+         */
+        flush_rewrite_rules( FALSE );
+
+        $rebuilt_rules = (array) get_option( 'rewrite_rules' );
+
+        if( $this->saved_rules_carry_public_link( $rebuilt_rules ) ) {
+            delete_transient( self::REWRITE_RULES_REBUILD_LOCK );
+            return;
+        }
+
+        update_option( self::REWRITE_RULES_CHECKED_OPTION, $this->rewrite_rules_signature( $rebuilt_rules ), FALSE );
+    }
+
+    /**
+     * A stable fingerprint of a set of stored rewrite rules.
+     *
+     * @param array $saved_rules The rules WordPress has stored.
+     * @return string
+     */
+    protected function rewrite_rules_signature( $saved_rules )
+    {
+        return md5( (string) wp_json_encode( array_keys( (array) $saved_rules ) ) );
+    }
+
+    /**
+     * Whether the site's stored rewrite rules carry the public link address.
+     *
+     * @param array $saved_rules The rules WordPress has stored.
+     * @return bool
+     */
+    protected function saved_rules_carry_public_link( $saved_rules )
+    {
+        foreach( array_keys( (array) $saved_rules ) as $pattern ) {
+            if( 0 === strpos( (string) $pattern, '^ninja-forms/' ) ) return TRUE;
+        }
+
+        return FALSE;
     }
 
     public function admin_init()
@@ -676,7 +800,19 @@ final class Ninja_Forms
                 return $this->public_link_not_found( $template );
             }
 
+            /*
+             * The public form stands in for a page, so it is presented with the
+             * template WordPress itself would choose for one. get_page_template()
+             * only reaches a theme's page.php; a theme that omits that file and
+             * serves its pages from singular.php instead -- Twenty Twenty does --
+             * would otherwise keep the template picked for the underlying query
+             * and render the form inside the theme's post listing, beneath an
+             * "Archives" heading.
+             */
             $page_template = get_page_template();
+            if( empty( $page_template ) ) {
+                $page_template = get_singular_template();
+            }
             if( ! empty( $page_template ) )
                 $template = $page_template;
 
@@ -1091,6 +1227,21 @@ final class Ninja_Forms
     public function form( $id = '' )
     {
         global $wpdb;
+
+        /*
+         * A blank id does not name a form: it asks for a new one. Caching that
+         * entry hands every such caller in the request the same form model, so
+         * once the first caller saves, the next caller's save updates that row
+         * instead of inserting its own. Two callers then share one form, the
+         * first one's content is overwritten, and both are told they succeeded.
+         *
+         * Real form ids are still cached, which is what the cache is for.
+         *
+         * @see https://github.com/Saturday-Drive/ninja-forms/issues/8177
+         */
+        if ( ! $id ) {
+            return new NF_Abstracts_ModelFactory( $wpdb, $id );
+        }
 
         static $forms;
         if ( isset ( $forms[ $id ] ) ) {
@@ -1607,11 +1758,28 @@ function nf_marketing_feed_cron_job() {
  */
 add_action("upgrader_process_complete", function($upgrader_object, $options){
     if(
-        $options["type"] === "plugin" && 
-        $options["action"] === "update" && 
-        $upgrader_object->result["destination_name"] === "ninja-forms" &&
-        function_exists("nf_update_marketing_feed")
+        ! is_array($options) ||
+        ! isset($options["type"], $options["action"]) ||
+        $options["type"] !== "plugin" ||
+        $options["action"] !== "update" ||
+        ! function_exists("nf_update_marketing_feed")
     ){
-        nf_update_marketing_feed();
+        return;
+    }
+
+    // Bulk updates fire this once and list every plugin in "plugins"; the upgrader
+    // result only describes the last one, so check the full list instead.
+    $plugins = array();
+    if(isset($options["plugins"]) && is_array($options["plugins"])){
+        $plugins = $options["plugins"];
+    } elseif(isset($options["plugin"]) && is_string($options["plugin"])){
+        $plugins = array($options["plugin"]);
+    }
+
+    foreach($plugins as $plugin){
+        if(is_string($plugin) && dirname($plugin) === "ninja-forms"){
+            nf_update_marketing_feed();
+            return;
+        }
     }
 }, 10, 2);

@@ -4,7 +4,7 @@ Tags: forms, form builder, contact form, lead form, calculator form
 
 Requires at least: 6.9
 Tested up to: 7.1
-Stable tag: 3.16.0
+Stable tag: 3.16.1
 Requires PHP: 7.4
 
 License: GPLv2 or later
@@ -227,25 +227,86 @@ This section describes how to install the plugin and get it working.
 7. A finished form on the front end, with a live total, a star rating, and a signature
 
 == Upgrade Notice ==
-= 3.16.0 (02 November 2026) =
+= 3.16.1 (09 November 2026) =
 
 *Bug Fixes:*
 
-- show translated text in places that stayed in English because of incorrect text domains or missing script translation folders
-- show Ninja Forms in each user's profile language when it differs from the site language
-- stop WordPress 6.7 and later logging a "translation loading was triggered too early" notice for Ninja Forms
-- export a Checkbox field value that was saved as a word in another language exactly as it was saved
-- list Timor-Leste once in country lists, and sort countries with accented names in alphabetical order
+- let a form be submitted again after a form-level message, such as a cancelled payment, without reloading the page
+- show a message and release the Submit button when a submission fails because of a lost connection or an unreadable server reply
+- clear a typed date that doesn't match the field's format and show the invalid date message, instead of silently changing it to a different date
+- show the invalid date message the first time an invalid date is typed
+- write the long date format in the word order of the site's language
+- update an HTML field as a Paragraph Text field it shows is typed in, keeping line breaks
+- stop showing a passing checkmark on a required Checkbox List field when no option is ticked
+- apply a field's custom Element class to each option of Checkbox List, Radio List and Select Image fields
+- move the cursor to the first field of a newly added Repeatable Fieldset set
+- run reCAPTCHA v3 and Akismet spam checks before any other form action, so rejected submissions no longer trigger WP Hook or add-on actions
+- prevent the Public Link page returning a 404 after the site's permalink rules are rebuilt
+- show the Public Link page without an "Archives" heading on themes that have no page template, such as Twenty Twenty
+- prevent a critical error on forms whose First Name, Last Name or Email field has a legacy "User Meta" default type
+- prevent a fatal "Cannot redeclare wp_session_cleanup()" error alongside plugins such as Charitable Pro
+- show rich text Paragraph Text answers as formatted text instead of HTML tags in the Submissions table
+- show each paragraph and list item of a rich text answer on its own line when editing a submission, and keep them when saving
+- show only the ticked options in Checkbox List cells, and let Submissions table cells grow instead of scrolling
+- keep the status, search and date filters when paging or changing page size on the Submissions page
+- show the correct hour for Date fields set to 24 hour mode on the Submissions page
+- export rich text Paragraph Text answers as readable text, without formatting tags, in Download All Submissions
+- leave reCAPTCHA and other hidden system fields out of the CSV attached to Email actions
+- place new fields where they are dropped in a Repeatable Fieldset in the form builder
+- stop the form builder going blank when a Date field's Minute Increment is 0
+- hide the Placeholder setting on Date/Time fields set to Time Only, where it had no effect
+- sort the Dashboard forms list by Date Created and Title on the first click
+- prevent errors when previewing unpublished changes on a form that has never been published
+- refresh the Add-Ons list after a bulk plugin update wherever Ninja Forms falls in the batch
+- keep each form when the create-form ability is called more than once in a request
 
 *Enhancements:*
 
-- connect a PayPal account from the new Payments page and take payments on forms without an add-on
-- bundle translations for 41 languages, using WordPress.org's wording where it exists and the bundled translation where it doesn't
-- make every Ninja Forms string translatable on WordPress.org again, including those added since 3.6.9
-- reword English strings so they translate accurately
+- open the Submissions Table block's settings when the block is clicked before any fields are chosen
+- list Ninja Forms deprecation notices in the Error logs section of Get Help
+- delete abandoned submission export files after 24 hours with a daily cleanup
 
 
 == Changelog ==
+= 3.16.1 (09 November 2026) =
+
+*Bug Fixes:*
+
+- let a form be submitted again after a form-level message, such as a cancelled payment, without reloading the page
+- show a message and release the Submit button when a submission fails because of a lost connection or an unreadable server reply
+- clear a typed date that doesn't match the field's format and show the invalid date message, instead of silently changing it to a different date
+- show the invalid date message the first time an invalid date is typed
+- write the long date format in the word order of the site's language
+- update an HTML field as a Paragraph Text field it shows is typed in, keeping line breaks
+- stop showing a passing checkmark on a required Checkbox List field when no option is ticked
+- apply a field's custom Element class to each option of Checkbox List, Radio List and Select Image fields
+- move the cursor to the first field of a newly added Repeatable Fieldset set
+- run reCAPTCHA v3 and Akismet spam checks before any other form action, so rejected submissions no longer trigger WP Hook or add-on actions
+- prevent the Public Link page returning a 404 after the site's permalink rules are rebuilt
+- show the Public Link page without an "Archives" heading on themes that have no page template, such as Twenty Twenty
+- prevent a critical error on forms whose First Name, Last Name or Email field has a legacy "User Meta" default type
+- prevent a fatal "Cannot redeclare wp_session_cleanup()" error alongside plugins such as Charitable Pro
+- show rich text Paragraph Text answers as formatted text instead of HTML tags in the Submissions table
+- show each paragraph and list item of a rich text answer on its own line when editing a submission, and keep them when saving
+- show only the ticked options in Checkbox List cells, and let Submissions table cells grow instead of scrolling
+- keep the status, search and date filters when paging or changing page size on the Submissions page
+- show the correct hour for Date fields set to 24 hour mode on the Submissions page
+- export rich text Paragraph Text answers as readable text, without formatting tags, in Download All Submissions
+- leave reCAPTCHA and other hidden system fields out of the CSV attached to Email actions
+- place new fields where they are dropped in a Repeatable Fieldset in the form builder
+- stop the form builder going blank when a Date field's Minute Increment is 0
+- hide the Placeholder setting on Date/Time fields set to Time Only, where it had no effect
+- sort the Dashboard forms list by Date Created and Title on the first click
+- prevent errors when previewing unpublished changes on a form that has never been published
+- refresh the Add-Ons list after a bulk plugin update wherever Ninja Forms falls in the batch
+- keep each form when the create-form ability is called more than once in a request
+
+*Enhancements:*
+
+- open the Submissions Table block's settings when the block is clicked before any fields are chosen
+- list Ninja Forms deprecation notices in the Error logs section of Get Help
+- delete abandoned submission export files after 24 hours with a daily cleanup
+
 = 3.16.0 (02 November 2026) =
 
 *Bug Fixes:*

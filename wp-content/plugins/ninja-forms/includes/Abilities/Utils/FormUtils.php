@@ -427,6 +427,23 @@ function ninja_forms_ability_create_form( $input ) {
 
 	$form = Ninja_Forms()->form()->get();
 
+	/*
+	 * The factory has to hand back an unsaved form. If it ever hands back one
+	 * that already carries an id, saving would update that existing row rather
+	 * than insert a new one, and this call would report success for a form it
+	 * did not create while overwriting somebody else's. The check below the
+	 * save only confirms the title landed, which stays true in exactly that
+	 * case, so it cannot catch this. Refuse instead of overwriting.
+	 *
+	 * @see https://github.com/Saturday-Drive/ninja-forms/issues/8177
+	 */
+	if ( $form->get_id() ) {
+		return new WP_Error(
+			'form_not_new',
+			__( 'A new form could not be created: an existing form was returned instead.', 'ninja-forms' )
+		);
+	}
+
 	// Build form settings array with defaults and overrides from input
 	$settings = array(
 		// Required setting
