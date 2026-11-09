@@ -91,6 +91,8 @@ function jetpack_backup_jetpack_backup_dashboard_preload_data() {
 	// This must exactly match the _fields list in packages/core-data/src/entities.js,
 	// same fields in the same order, or the preload is never consumed.
 	$preload_paths = array(
+		'/?_fields=description,generate_animated_image_subsizes,gmt_offset,home,image_max_bit_depth,image_sizes,image_size_threshold,image_strip_meta,name,site_icon,site_icon_url,site_logo,timezone_string,url,page_for_posts,page_on_front,show_on_front',
+		// WordPress 7.1's bundled core-data requests this list, without generate_animated_image_subsizes.
 		'/?_fields=description,gmt_offset,home,image_max_bit_depth,image_sizes,image_size_threshold,image_strip_meta,name,site_icon,site_icon_url,site_logo,timezone_string,url,page_for_posts,page_on_front,show_on_front',
 		array( '/wp/v2/settings', 'OPTIONS' ),
 	);
@@ -332,6 +334,22 @@ function jetpack_backup_jetpack_backup_dashboard_render_page() {
 function jetpack_backup_jetpack_backup_dashboard_intercept_render() {
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( isset( $_GET['page'] ) && 'jetpack-backup-dashboard' === $_GET['page'] ) {
+		// The page renders outside the menu page callback flow, so it must
+		// enforce authentication and capability checks itself. Without this,
+		// any admin entry point firing `admin_init` (such as admin-post.php,
+		// which serves logged-out requests) would render the page for
+		// unauthenticated visitors.
+		if ( ! is_user_logged_in() ) {
+			auth_redirect();
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die(
+				__( 'Sorry, you are not allowed to access this page.' ),
+				403
+			);
+		}
+
 		jetpack_backup_jetpack_backup_dashboard_render_page();
 		exit;
 	}

@@ -419,7 +419,8 @@ if ( ! class_exists( 'WP_Background_Process' ) ) {
 			// Adds every 5 minutes to the existing schedules.
 			$schedules[ $this->identifier . '_cron_interval' ] = array(
 				'interval' => MINUTE_IN_SECONDS * $interval,
-				'display'  => sprintf( esc_html__( 'Every %d Minutes', 'ninja-forms' ), $interval ),
+				/* translators: %d is a number of minutes. */
+				'display'  => sprintf( _n( 'Every %d Minute', 'Every %d Minutes', $interval, 'ninja-forms' ), $interval ),
 			);
 
 			return $schedules;

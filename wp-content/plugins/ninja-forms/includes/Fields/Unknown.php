@@ -25,7 +25,7 @@ class NF_Fields_Unknown extends NF_Fields_Hidden
     {
         parent::__construct();
 
-        $this->_nicename = esc_html__( 'Unknown', 'ninja-forms' );
+        $this->_nicename = esc_html__( 'Unknown Field', 'ninja-forms' );
 
         $this->_settings[ 'message' ] = array(
             'name' => 'message',

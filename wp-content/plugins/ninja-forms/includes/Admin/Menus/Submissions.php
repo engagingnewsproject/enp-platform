@@ -618,7 +618,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                     Ninja_Forms::$url . 'build/submissions.js',  $submissions_asset_php["dependencies"], $submissions_asset_php["version"], false );
 
                 wp_enqueue_script( 'ninja_forms_admin_submissions_actions' );
-                wp_set_script_translations( "ninja_forms_admin_submissions_actions", "ninja-forms", plugin_dir_path( __FILE__ ) . 'lang' );
+                wp_set_script_translations( "ninja_forms_admin_submissions_actions", "ninja-forms", Ninja_Forms::$dir . 'lang' );
 
                 //Get all forms, to base form selector on.
                 $forms = Ninja_Forms()->form()->get_forms();
@@ -647,6 +647,10 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                 wp_localize_script('ninja_forms_admin_submissions_actions', 'nf_submissions', [
                     'forms'         =>  $forms,//array keys escaped above
                     'dateFormat'    =>  esc_attr( Ninja_Forms()->get_setting('date_format') ),
+                    // Submission editing parses the stored date with this
+                    // format, so it has to be the same arrangement the form
+                    // itself writes. See issue #3308.
+                    'longDateFormat' => WPN_Helper::get_long_date_format(),
                     'timeFormat'    =>  esc_attr( get_option('time_format') ),
                     'siteUrl'       =>  esc_url_raw( site_url() ),
                     'adminUrl'      =>  esc_url_raw( admin_url() ),
@@ -721,7 +725,7 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                 //Register Submission script
                 wp_register_script( 'ninja_forms_admin_submissions_actions', Ninja_Forms::$url . 'build/submissions.js',  $submissions_asset_php["dependencies"], $submissions_asset_php["version"], false );
                 wp_enqueue_script( 'ninja_forms_admin_submissions_actions' );
-                wp_set_script_translations( "ninja_forms_admin_submissions_actions", "ninja-forms", plugin_dir_path( __FILE__ ) . 'lang' );
+                wp_set_script_translations( "ninja_forms_admin_submissions_actions", "ninja-forms", Ninja_Forms::$dir . 'lang' );
                 //Enqueue Submissions style
                 wp_enqueue_style( 'ninja_forms_admin_submissions_style', Ninja_Forms::$url . 'build/submissions.scss.css',  [], $submissions_asset_scss_version );
 
@@ -765,6 +769,10 @@ final class NF_Admin_Menus_Submissions extends NF_Abstracts_Submenu
                 $localized_data_array = apply_filters("ninja_forms_submissions_view_localize_data", [
                     'forms'                 =>  $forms,//array keys escaped above
                     'dateFormat'            =>  esc_attr( $date_format ),
+                    // Submission editing parses the stored date with this
+                    // format, so it has to be the same arrangement the form
+                    // itself writes. See issue #3308.
+                    'longDateFormat'        =>  WPN_Helper::get_long_date_format(),
                     'timeFormat'            =>  esc_attr( get_option('time_format') ),
                     'siteUrl'               =>  esc_url_raw( site_url() ),
                     'adminUrl'              =>  esc_url_raw( admin_url() ),

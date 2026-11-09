@@ -1,15 +1,4 @@
 <div class="wrap apps-container">
-<!--
-    <?php foreach ($notices as $notice): ?>
-
-        <div class="nf-addon-notice">
-            <p>
-                <strong><?php echo $notice[ 'title' ]; ?></strong> <?php esc_html_e( ' requires an update. You have version ', 'ninja-forms' );?><strong><?php echo $notice[ 'old_version' ]; ?></strong><?php esc_html_e( ' installed. The current version is ', 'ninja-forms' ); ?><strong><?php echo $notice[ 'new_version' ]; ?></strong>.
-            </p>
-        </div>
-
-    <?php endforeach; ?>
--->
     <?php
     $u_id = get_option( 'nf_aff', false );
     if ( !$u_id ) $u_id = apply_filters( 'ninja_forms_affiliate_id', false );

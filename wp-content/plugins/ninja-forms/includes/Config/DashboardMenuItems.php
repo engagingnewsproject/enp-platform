@@ -10,9 +10,13 @@ return apply_filters( 'ninja_forms_dashboard_menu_items', array(
         'slug' => 'add-ons',
         'niceName' => esc_html__( 'Add-ons', 'ninja-forms' ),
     ),
+    'payments' => array(
+        'slug' => 'payments',
+        'niceName' => esc_html__( 'Payments', 'ninja-forms' ),
+    ),
     'user_access' => array(
         'slug' => 'user-access',
-        'niceName' => esc_html__( 'User access', 'ninja-forms' )
+        'niceName' => esc_html__( 'User Access', 'ninja-forms' )
     ),
     'services' => array(
         'slug' => 'services',

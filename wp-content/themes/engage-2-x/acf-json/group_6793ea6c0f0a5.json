@@ -43,6 +43,50 @@
             "placeholder": "",
             "prepend": "",
             "append": ""
+        },
+        {
+            "key": "field_68f66e6e1d5a1",
+            "label": "Category supertitle color",
+            "name": "category_supertitle_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Leave empty to use the current default color (#333f48).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "allow_in_bindings": 0,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
+        },
+        {
+            "key": "field_68f66e8b1d5a2",
+            "label": "Category title color",
+            "name": "category_title_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "Leave empty to use the current default color (#bf5700).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "allow_in_bindings": 0,
+            "custom_palette_source": "",
+            "palette_colors": "",
+            "show_color_wheel": true
         }
     ],
     "location": [
@@ -66,5 +110,5 @@
     "display_title": "",
     "allow_ai_access": false,
     "ai_description": "",
-    "modified": 1782761293
+    "modified": 1792433577
 }

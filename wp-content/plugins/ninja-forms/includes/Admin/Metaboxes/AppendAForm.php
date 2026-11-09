@@ -75,7 +75,7 @@ final class NF_Admin_Metaboxes_AppendAForm extends NF_Abstracts_Metabox
 
         $form_id = get_post_meta( $post->ID, 'ninja_forms_form', true );
 
-        $none_text = '-- ' . esc_html__( 'None', 'ninja-forms' );
+        $none_text = '-- ' . esc_html__( 'No form', 'ninja-forms' );
 
         Ninja_Forms()->template( 'admin-metabox-append-a-form.html.php', compact( 'forms', 'form_id', 'none_text' ) );
     }

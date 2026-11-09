@@ -2,6 +2,19 @@
 
 /**
  * Class NF_Abstracts_UserInfo
+ *
+ * Shared base for the First Name, Last Name and Email fields.
+ *
+ * These fields once offered a "User Meta (if logged in)" default type, driven by
+ * a `default_type` sub-setting on Default Value and a `filter_default_value`
+ * callback per field. The `default_type` sub-setting was removed from the field
+ * settings configuration before 3.0 shipped, leaving the callbacks unreachable
+ * from the builder but still hooked. Every caller of
+ * `ninja_forms_render_default_value` passes the field type as a string, so a
+ * field whose stored meta still carried `default_type = user-meta` fataled the
+ * request. The dead path is gone; Default Value is a plain text box, and the
+ * `{wp:user_first_name}` family of merge tags is the supported way to pre-fill
+ * a field from the logged-in user. See issue #8233.
  */
 abstract class NF_Abstracts_UserInfo extends NF_Fields_Textbox
 {
@@ -32,16 +45,5 @@ abstract class NF_Abstracts_UserInfo extends NF_Fields_Textbox
 	            'personally_identifiable',
 	            'disable_browser_autocomplete' )
         );
-
-        $this->_settings[ 'default' ][ 'settings' ][ 'default_type' ][ 'options' ][] = array(
-            'label'  => esc_html__( 'User Meta (if logged in)', 'ninja-forms' ),
-            'value' => 'user-meta'
-        );
-
-        $this->_settings[ 'default' ][ 'settings' ][ 'default_type' ][ 'value' ] = 'user-meta';
-
-        add_filter( 'ninja_forms_render_default_value', array( $this, 'filter_default_value' ), 10, 3 );
     }
-
-    abstract public function filter_default_value( $default_value, $field_class, $settings );
 }

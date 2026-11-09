@@ -1,8 +1,11 @@
 const mix = require('laravel-mix');
+const fs = require('fs');
+const path = require('path');
 // Each developer may have a different local development URL, 
 // to fix this, a configuration file (config.json, added to .gitignore) contains 
 // each developers Local App URL without affecting the shared codebase.
-const config = require('./config.json');
+const configPath = path.resolve(__dirname, 'config.json');
+const config = fs.existsSync(configPath) ? require(configPath) : {};
 
 const proxyUrl = config.proxy || 'https://default-url.local';
 if (!mix.inProduction()) {

@@ -18,7 +18,11 @@ class MetaboxOutputEntity extends SimpleEntity
     protected $title = '';
 
     /**
-     * Collection of label/value/styling pairs for output
+     * Collection of label/value/styling/url elements for output
+     *
+     * Each element: 'label' and 'value' (required), 'styling' (optional class
+     * hint), and 'url' (optional link for the value, escaped with esc_url_raw;
+     * '' when absent).
      *
      * @var array
      */
@@ -45,11 +49,13 @@ class MetaboxOutputEntity extends SimpleEntity
                     }
 
                     $styling = isset($labelValueElement['styling'])?$labelValueElement['styling']:'';
-                    
+                    $url = self::normaliseUrl($labelValueElement);
+
                     $obj->labelValueCollection[] = [
                         'label' => $labelValueElement['label'],
                         'value' => $labelValueElement['value'],
-                        'styling'=>$styling
+                        'styling'=>$styling,
+                        'url'=>$url
                     ];
                 }
             } else {
@@ -94,16 +100,35 @@ class MetaboxOutputEntity extends SimpleEntity
             }
             
             $styling = isset($incomingLabelValue['styling'])?$incomingLabelValue['styling']:'';
+            $url = self::normaliseUrl($incomingLabelValue);
 
             $return[]=[
                 'label' => $incomingLabelValue['label'],
                 'value' => $incomingLabelValue['value'],
-                'styling'=>$styling
+                'styling'=>$styling,
+                'url'=>$url
             ];
         }
 
         return $return;
     }
+
+    /**
+     * Escaped url of a label/value element, or '' when it has none
+     *
+     * Empty urls are skipped so an element without a link needs no WordPress functions.
+     *
+     * Untyped on purpose: add-on metaboxes pass label/value elements too, and
+     * some may be array-like objects rather than arrays.
+     *
+     * @param array|\ArrayAccess $labelValueElement
+     * @return string
+     */
+    private static function normaliseUrl($labelValueElement): string
+    {
+        return isset($labelValueElement['url'])&&''!==$labelValueElement['url']?\esc_url_raw($labelValueElement['url']):'';
+    }
+
     /**
      * Get metabox title
      *

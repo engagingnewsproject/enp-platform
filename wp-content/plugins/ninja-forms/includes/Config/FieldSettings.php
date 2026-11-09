@@ -121,7 +121,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
             array(
                 'name' => 'num_step',
                 'type' => 'textbox',
-                'label' => esc_html__( 'Step', 'ninja-forms' ),
+                'label' => esc_html_x( 'Step', 'increment between allowed numbers', 'ninja-forms' ),
                 'placeholder' => '',
                 'width' => 'one-third',
                 'value' => 1
@@ -246,14 +246,14 @@ return apply_filters( 'ninja_forms_field_settings', array(
     'options' => array(
         'name' => 'options',
         'type' => 'option-repeater',
-        'label' => esc_html__( 'Options', 'ninja-forms' ) . ' <a href="#" class="nf-add-new">' . esc_html__( 'Add New', 'ninja-forms' ) . '</a> <a href="#" class="extra nf-open-import-tooltip"><i class="fa fa-sign-in" aria-hidden="true"></i> ' . esc_html__( 'Import', 'ninja-forms' ) . '</a>',
+        'label' => esc_html__( 'Options', 'ninja-forms' ) . ' <a href="#" class="nf-add-new">' . esc_html__( 'Add New Option', 'ninja-forms' ) . '</a> <a href="#" class="extra nf-open-import-tooltip"><i class="fa fa-sign-in" aria-hidden="true"></i> ' . esc_html__( 'Import', 'ninja-forms' ) . '</a>',
         'width' => 'full',
         'group' => 'primary',
         // 'value' => 'option-repeater',
         'value' => array(
-            array( 'label'  => esc_html__( 'One', 'ninja-forms' ), 'value' => esc_textarea( __( 'one', 'ninja-forms' ) ), 'calc' => '', 'selected' => 0, 'order' => 0 ),
-            array( 'label'  => esc_html__( 'Two', 'ninja-forms' ), 'value' => esc_textarea( __( 'two', 'ninja-forms' ) ), 'calc' => '', 'selected' => 0, 'order' => 1 ),
-            array( 'label'  => esc_html__( 'Three', 'ninja-forms' ), 'value' => esc_textarea( __( 'three', 'ninja-forms' ) ), 'calc' => '', 'selected' => 0, 'order' => 2 ),
+            array( 'label'  => esc_html__( 'One', 'ninja-forms' ), 'value' => esc_textarea( 'one' ), 'calc' => '', 'selected' => 0, 'order' => 0 ),
+            array( 'label'  => esc_html__( 'Two', 'ninja-forms' ), 'value' => esc_textarea( 'two' ), 'calc' => '', 'selected' => 0, 'order' => 1 ),
+            array( 'label'  => esc_html__( 'Three', 'ninja-forms' ), 'value' => esc_textarea( 'three' ), 'calc' => '', 'selected' => 0, 'order' => 2 ),
         ),
         'columns'           => array(
             'label'          => array(
@@ -284,7 +284,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
     'image_options' => array(
         'name' => 'image_options',
         'type' => 'image-option-repeater',
-        'label' => esc_html__( 'Image Options', 'ninja-forms' ) . ' <a href="#" class="nf-add-new">' . esc_html__( 'Add New', 'ninja-forms' ) . '</a>',
+        'label' => esc_html__( 'Image Options', 'ninja-forms' ) . ' <a href="#" class="nf-add-new">' . esc_html__( 'Add New Option', 'ninja-forms' ) . '</a>',
         'width' => 'full',
         'group' => 'primary',
         // 'value' => 'option-repeater',
@@ -403,11 +403,13 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'type' => 'select',
                 'options' => array(
                     array(
-                        'label' => esc_html__( 'Character(s)', 'ninja-forms' ),
+                        /* translators: Option: limit the field by number of characters. */
+                        'label' => esc_html__( 'Characters', 'ninja-forms' ),
                         'value' => 'characters'
                     ),
                     array(
-                        'label' => esc_html__( 'Word(s)', 'ninja-forms' ),
+                        /* translators: Option: limit the field by number of words. */
+                        'label' => esc_html__( 'Words', 'ninja-forms' ),
                         'value' => 'word'
                     ),
                 ),
@@ -418,9 +420,11 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'name' => 'input_limit_msg',
                 'type' => 'textbox',
                 'label' => esc_html__( 'Text to Appear After Counter', 'ninja-forms' ),
-                'placeholder' => esc_attr__( 'Character(s) left', 'ninja-forms' ),
+                /* translators: Default text after the character counter under a text field, as in "12 of 140 characters left". */
+                'placeholder' => esc_attr__( 'characters left', 'ninja-forms' ),
                 'width' => 'full',
-                'value' => esc_textarea( __( 'Character(s) left', 'ninja-forms' ) )
+                /* translators: Default text after the character counter under a text field, as in "12 of 140 characters left". */
+                'value' => esc_textarea( __( 'characters left', 'ninja-forms' ) )
             )
         ),
 
@@ -530,15 +534,15 @@ return apply_filters( 'ninja_forms_field_settings', array(
         'group' => 'primary',
         'options' => array(
             array(
-                'label' => esc_html__( 'Date Only', 'ninja_forms' ),
+                'label' => esc_html__( 'Date Only', 'ninja-forms' ),
                 'value' => 'date_only',
             ),
             array(
-                'label' => esc_html__( 'Time Only', 'ninja_forms' ),
+                'label' => esc_html__( 'Time Only', 'ninja-forms' ),
                 'value' => 'time_only',
             ),
             array(
-                'label' => esc_html__( 'Both Date & Time', 'ninja_forms' ),
+                'label' => esc_html__( 'Both Date & Time', 'ninja-forms' ),
                 'value' => 'date_and_time',
             ),
         ),
@@ -635,7 +639,8 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'value' => 'YYYY.MM.DD',
             ),
             array(
-                'label' => esc_html__( 'Friday, November 18, 2019', 'ninja-forms' ),
+                /* translators: Example of the long date format. Use the date format normal in your language. */
+                'label' => esc_html__( 'Monday, November 18, 2019', 'ninja-forms' ),
                 'value' => 'dddd, MMMM D YYYY',
             ),
         ),
@@ -682,13 +687,13 @@ return apply_filters( 'ninja_forms_field_settings', array(
             array(
                 'name' => 'year_range_start',
                 'type' => 'number',
-                'label' => esc_html__( 'Start Year', 'ninja_forms' ),
+                'label' => esc_html__( 'Start Year', 'ninja-forms' ),
                 'value' => ''
             ),
             array(
                 'name' => 'year_range_end',
                 'type' => 'number',
-                'label' => esc_html__( 'End Year', 'ninja_forms' ),
+                'label' => esc_html__( 'End Year', 'ninja-forms' ),
                 'value' => ''
             ),
         ),
@@ -874,7 +879,8 @@ return apply_filters( 'ninja_forms_field_settings', array(
         // This text was located below the element '%n will be used to signfify the number of seconds'
         // str_replace (not sprintf) so a malformed/stale translation containing stray "%" characters
         // can't throw a fatal ValueError on PHP 8+ - see issue #8097.
-        'value' => str_replace( '%s', '%n', esc_textarea( __( 'Please wait %s seconds', 'ninja-forms' ) ) ),
+        /* translators: %s is a number of seconds that counts down in the browser. */
+        'value' => str_replace( '%s', '%n', esc_textarea( __( 'Please wait: %s', 'ninja-forms' ) ) ),
         'width' => '',
         'group' => '',
 
@@ -904,8 +910,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
         'name' => 'password_registration_checkbox',
         'type' => 'checkbox',
         'value' => 'unchecked',
-        'label' => esc_html__( 'Use this as a registration password field. If this box is check, both
-                        password and re-password textboxes will be output', 'ninja-forms' ),
+        'label' => esc_html__( 'Use this as a registration password field. If this box is checked, both password and re-password textboxes will be output.', 'ninja-forms' ),
         'width' => '',
         'group' => '',
 
@@ -927,13 +932,14 @@ return apply_filters( 'ninja_forms_field_settings', array(
     ),
 
     /*
-     * Disable Browser Autocomplete
+     * Request Browser Autocomplete Off
      */
 
     'disable_browser_autocomplete' => array(
         'name' => 'disable_browser_autocomplete',
         'type' => 'toggle',
-        'label' => esc_html__( 'Disable Browser Autocomplete', 'ninja-forms' ),
+        'label' => esc_html__( 'Request Browser Autocomplete Off', 'ninja-forms' ),
+        'help' => esc_html__( 'This setting asks the browser not to autocomplete this field. Browsers may still offer autofill, especially for names, email addresses, and other personal information.', 'ninja-forms' ),
         'width' => 'full',
         'group' => 'restrictions',
     ),
@@ -948,7 +954,8 @@ return apply_filters( 'ninja_forms_field_settings', array(
         'label' => esc_html__( 'Custom Autocomplete Value', 'ninja-forms' ),
         'width' => 'full',
         'group' => 'advanced',
-        'help' => esc_html__( 'Set a custom autocomplete value (e.g., tel, email, given-name).', 'ninja-forms' ),
+        /* translators: %s: examples of HTML autocomplete values (tel, email, given-name), which are never translated. */
+        'help' => sprintf( esc_html__( 'Set a custom autocomplete value (e.g., %s).', 'ninja-forms' ), 'tel, email, given-name' ),
     ),
 
     /*
@@ -1175,7 +1182,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
                 'value' => 'user'
             ),
             array(
-                'label' => esc_html__( 'Hidden', 'ninja-forms' ),
+                'label' => esc_html_x( 'Hidden', 'product type', 'ninja-forms' ),
                 'value' => 'hidden'
             ),
         ),
@@ -1202,7 +1209,7 @@ return apply_filters( 'ninja_forms_field_settings', array(
     'shipping_options'      => array(
         'name'              => 'shipping_options',
         'type'              => 'option-repeater',
-        'label'             => esc_html__( 'Cost Options', 'ninja-forms' ) . ' <a href="#" class="nf-add-new">' . esc_html__( 'Add New', 'ninja-forms' ) . '</a>',
+        'label'             => esc_html__( 'Cost Options', 'ninja-forms' ) . ' <a href="#" class="nf-add-new">' . esc_html__( 'Add New Option', 'ninja-forms' ) . '</a>',
         'width'             => 'full',
         'group'             => 'primary',
         'value'             => array(

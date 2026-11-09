@@ -31,7 +31,7 @@ function ninja_forms_ability_validate_input_keys( array $input, array $allowed )
 		'unsupported_setting',
 		sprintf(
 			/* translators: %s: Unsupported setting key. */
-			__( 'Unsupported setting: %s', 'ninja-forms' ),
+			'Unsupported setting: %s',
 			sanitize_text_field( (string) reset( $unknown ) )
 		)
 	);
@@ -48,13 +48,13 @@ function ninja_forms_ability_validate_input_keys( array $input, array $allowed )
  */
 function ninja_forms_ability_normalize_options( $options ) {
 	if ( ! is_array( $options ) ) {
-		return new WP_Error( 'invalid_options', __( 'Field options must be a list.', 'ninja-forms' ) );
+		return new WP_Error( 'invalid_options', 'Field options must be a list.' );
 	}
 
 	$normalized = array();
 	foreach ( $options as $option ) {
 		if ( ! is_array( $option ) ) {
-			return new WP_Error( 'invalid_option', __( 'Each field option must be an object.', 'ninja-forms' ) );
+			return new WP_Error( 'invalid_option', 'Each field option must be an object.' );
 		}
 
 		$valid = ninja_forms_ability_validate_input_keys( $option, array( 'label', 'value', 'calc' ) );
@@ -164,10 +164,7 @@ function ninja_forms_ability_normalize_field_input(
 				'field_type_not_selectable',
 				sprintf(
 					/* translators: %s: field type name. */
-					__(
-						'The "%s" field type is retired and cannot be added to a form. It is kept only for forms that already contain one.',
-						'ninja-forms'
-					),
+					'The "%s" field type is retired and cannot be added to a form. It is kept only for forms that already contain one.',
 					$field_type
 				)
 			);
@@ -281,7 +278,7 @@ function ninja_forms_ability_normalize_action_input(
 		$action_type = sanitize_key( $action_type );
 	}
 	if ( ! ninja_forms_ability_is_supported_action_type( $action_type ) ) {
-		return new WP_Error( 'unsupported_action_type', __( 'That action type is not supported.', 'ninja-forms' ) );
+		return new WP_Error( 'unsupported_action_type', 'That action type is not supported.' );
 	}
 
 	$allowed = array( 'form_id', 'label', 'active' );
@@ -345,7 +342,7 @@ function ninja_forms_ability_normalize_action_input(
 		if ( ! in_array( $email_format, array( 'html', 'plain' ), true ) ) {
 			return new WP_Error(
 				'invalid_email_format',
-				__( 'Email format must be HTML or plain text.', 'ninja-forms' )
+				'Email format must be HTML or plain text.'
 			);
 		}
 		$normalized['email_format'] = $email_format;
@@ -356,7 +353,7 @@ function ninja_forms_ability_normalize_action_input(
 		if ( ! in_array( $scheme, array( 'http', 'https' ), true ) ) {
 			return new WP_Error(
 				'invalid_redirect_url',
-				__( 'Redirect URLs must use HTTP or HTTPS.', 'ninja-forms' )
+				'Redirect URLs must use HTTP or HTTPS.'
 			);
 		}
 		$normalized['redirect_url'] = $url;

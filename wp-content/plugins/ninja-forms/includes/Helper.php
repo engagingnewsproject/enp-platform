@@ -373,6 +373,60 @@ class WPN_Helper
     }
 
     /**
+     * Form settings that hold rich text and are printed as HTML on the front end.
+     *
+     * @since 3.15.7
+     * @see https://github.com/Saturday-Drive/ninja-forms/issues/8254
+     */
+    const FORM_HTML_SETTINGS = array( 'not_logged_in_msg', 'sub_limit_msg' );
+
+    /**
+     * Apply the safe-HTML allowlist to a form's rich-text message settings.
+     *
+     * Callers decide when to apply it, using the same unfiltered_html policy
+     * as field settings. Other settings and non-string values are untouched.
+     * Shortcodes survive as text and still run when the message is displayed.
+     *
+     * @since 3.15.7
+     *
+     * @param array|mixed $settings Form settings keyed by setting name.
+     * @return array|mixed The settings with their rich-text messages cleaned.
+     */
+    public static function sanitize_form_html_settings( $settings )
+    {
+        if( ! is_array( $settings ) ) return $settings;
+
+        foreach( self::FORM_HTML_SETTINGS as $setting_name ) {
+            if( isset( $settings[ $setting_name ] ) && is_string( $settings[ $setting_name ] ) ) {
+                $settings[ $setting_name ] = wp_kses_post( $settings[ $setting_name ] );
+            }
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Clean a stored rich-text form message before display on sites that
+     * disallow unfiltered HTML.
+     *
+     * On those sites no one may store scripts, so this also neutralises any
+     * stored before 3.15.7. Elsewhere the message is returned unchanged.
+     * Apply it to the stored message before do_shortcode(), so shortcode
+     * output is not filtered.
+     *
+     * @since 3.15.7
+     *
+     * @param mixed $message Stored message.
+     * @return mixed The message, cleaned when unfiltered HTML is disallowed.
+     */
+    public static function maybe_kses_form_message( $message )
+    {
+        if( ! is_string( $message ) || ! self::maybe_disallow_unfiltered_html_for_escaping() ) return $message;
+
+        return wp_kses_post( $message );
+    }
+
+    /**
      * @param $value
      * @return array|string
      */
@@ -907,4 +961,105 @@ class WPN_Helper
         return $value;
     }
     
+    /**
+     * Run a field default value through do_shortcode(), keeping it unchanged
+     * when a shortcode echoes rather than returns its output.
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    public static function process_default_value_shortcodes( $value )
+    {
+        if ( is_array( $value ) ) {
+            return $value;
+        }
+
+        ob_start();
+        do_shortcode( $value );
+        $ob = ob_get_clean();
+
+        if ( ! $ob ) {
+            $value = do_shortcode( $value );
+        }
+
+        // Substituted merge-tag values arrive with their brackets entity-encoded
+        // so they can't form a shortcode. Shortcode processing is done, so show
+        // them as the characters they are.
+        if ( is_string( $value ) ) {
+            $value = str_replace( array( '&#91;', '&#93;' ), array( '[', ']' ), $value );
+        }
+
+        return $value;
+    }
+
+    /**
+     * Build the long date format for the language the site is running in.
+     *
+     * The date field's verbose format option is the only one that spells out
+     * the month and day names, so it is the only one whose word order has to
+     * follow the site's language. It used to be the hardcoded English
+     * 'l, F d Y', which rendered a French site's date as
+     * "Samedi, Janvier 20 2018" while the builder's own French sample promised
+     * "Vendredi 18 novembre 2019". See issue #3308.
+     *
+     * WordPress already carries each language's date arrangement in its own
+     * translation of 'F j, Y', so take the arrangement from there and put the
+     * day name in front of it rather than maintaining a per-language table.
+     *
+     * @return string A PHP/flatpickr date format, e.g. 'l, F j, Y' in English
+     *                and 'l j F Y' in French.
+     */
+    public static function get_long_date_format()
+    {
+        // WordPress core's own arrangement for the active locale: 'F j, Y' in
+        // English, 'j F Y' in French,
+        // 'j \d\e F \d\e Y' in Spanish, and year-first in Japanese.
+        $arrangement = __( 'F j, Y' );
+
+        // Month-first languages separate the day name with a comma
+        // ("Friday, November 18, 2019"); the rest simply run on
+        // ("Samedi 20 Janvier 2018").
+        $separator = self::arrangement_leads_with_month( $arrangement ) ? ', ' : ' ';
+
+        return 'l' . $separator . $arrangement;
+    }
+
+    /**
+     * Whether a date arrangement names the month before the day or the year.
+     *
+     * Reads the first meaningful format character, skipping any escaped
+     * literal, so Spanish's 'j \d\e F \d\e Y' is read as day-first rather
+     * than being misled by the 'd' of the literal word "de".
+     *
+     * @param string $arrangement A PHP date format string.
+     * @return bool
+     */
+    private static function arrangement_leads_with_month( $arrangement )
+    {
+        $month_tokens = array( 'F', 'M', 'm', 'n' );
+        $other_tokens = array( 'd', 'j', 'D', 'l', 'Y', 'y', 'o' );
+        $length       = strlen( $arrangement );
+
+        for ( $index = 0; $index < $length; $index++ ) {
+            $character = $arrangement[ $index ];
+
+            // A backslash makes the next character a literal, not a token.
+            if ( '\\' === $character ) {
+                $index++;
+                continue;
+            }
+
+            if ( in_array( $character, $month_tokens, true ) ) {
+                return true;
+            }
+
+            if ( in_array( $character, $other_tokens, true ) ) {
+                return false;
+            }
+        }
+
+        // Nothing recognisable: read it the way English does.
+        return true;
+    }
+
 } // End Class WPN_Helper

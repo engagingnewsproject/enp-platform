@@ -402,24 +402,13 @@ class Globals
 			'posts' 			=> $posts,
 			'taxonomies'		=> ['team_category'],
 			'postTypes'			=> ['team'],
-			'linkBase'			=> 'team',
+			'linkBase'			=> 'postType',
 		];
 
 		// we don't have the team menu, so build it
 		$filters = new TeamFilterMenu($options);
-		$menu = $filters->build();
-
-		if (!empty($menu['terms'])) {
-			foreach ($menu['terms'] as $key => $term) {
-				// moves team categories to the top-level ['terms'] array
-				// so they are displayed directly in the sidebar, without grouping by verticals
-				$temp = $term;
-				unset($menu['terms'][$key]);
-				$menu['terms'] = array_merge($menu['terms'], $temp['terms']);
-			}
-		}
-
-		return $menu;
+		// TeamFilterMenu already returns category links at the top level.
+		return $filters->build();
 	}
 
 	/**

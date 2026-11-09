@@ -118,13 +118,13 @@ class NF_Routes_Submissions extends NF_Abstracts_Routes
                 ],
                 'start_date' => [
                     'required' => false,
-                    'description' => esc_attr__('strtotime($date) that represents the start date we will retrieve submssions at.', 'ninja-forms'),
+                    'description' => esc_attr__('Start date of the submissions to retrieve, as a Unix timestamp.', 'ninja-forms'),
                     'type' => 'string',
                     'validate_callback' => 'rest_validate_request_arg',
                 ],
                 'end_date' => [
                     'required' => false,
-                    'description' => esc_attr__('strtotime($date) that represents the end date we will retrieve submssions at.', 'ninja-forms'),
+                    'description' => esc_attr__('End date of the submissions to retrieve, as a Unix timestamp.', 'ninja-forms'),
                     'type' => 'string',
                     'validate_callback' => 'rest_validate_request_arg',
                 ],
@@ -675,6 +675,13 @@ class NF_Routes_Submissions extends NF_Abstracts_Routes
         $form_merge_tags->set_form_id( $form_id );
         $form_merge_tags->set_form_title( $formSettings['title'] );
 
+        // A re-sent email never fires 'ninja_forms_save_sub', the action that loads the
+        // submission sequence while a submission is being saved, so {submission:sequence}
+        // renders empty unless it is loaded here for the submission being re-sent. #5968
+        if( is_object( $sub ) && method_exists( $sub, 'get_id' ) ) {
+            $form_merge_tags->setSubSeq( $sub->get_id() );
+        }
+
         // Init Field Merge Tags.
         $fields_merge_tag_object = Ninja_Forms()->merge_tags[ 'fields' ];
         $fields_merge_tag_object->set_form_id($form_id);
@@ -749,14 +756,20 @@ class NF_Routes_Submissions extends NF_Abstracts_Routes
             }
         }
 
-        //Loop through Action settings and apply merge tags
-        $array_data = (array) $data;
-        foreach( $array_data as $ind => $value ){
-            if( !empty($value) && is_string($value) ){
-                //Merge tag
-                $data->$ind = apply_filters( 'ninja_forms_merge_tags', $value );
+        // Re-sent emails need the same display context as the initial email action.
+        // Keep the caller's settings shape while supplying the action filter's context.
+        $email_settings = apply_filters( 'ninja_forms_run_action_settings', array_merge(
+            (array) $data,
+            array( 'objectType' => 'Action', 'type' => 'email' )
+        ), $form_id, isset( $data->id ) ? $data->id : 0, $formSettings );
+        foreach ( $data as $key => $value ) {
+            if ( array_key_exists( $key, $email_settings ) ) {
+                $data->$key = $email_settings[$key];
             }
         }
+
+        // The action filter above has already run every merge tag group, so no
+        // second pass: it would re-read the substituted values as merge tags.
 
         return $data;
     }

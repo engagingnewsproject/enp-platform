@@ -43,11 +43,9 @@ class NF_Fields_ListCountry extends NF_Abstracts_List
     {
         if( $this->_name != $field->get_setting( 'type' ) ) return $value;
 
-        foreach( Ninja_Forms()->config( 'CountryList' ) as $country => $abbr ){
-            if( $value == $abbr ) return $country;
-        }
+        $countries = self::country_options();
 
-        return $value;
+        return isset( $countries[ $value ] ) ? $countries[ $value ] : $value;
     }
 
     public function filter_options( $options, $settings )
@@ -65,8 +63,85 @@ class NF_Fields_ListCountry extends NF_Abstracts_List
 		return $options;
 	}
 
+	/**
+	 * The countries this field offers, as code => translated name.
+	 *
+	 * Reads the code-keyed list, where no two countries can merge however
+	 * their names translate, and then carries across whatever the older
+	 * name-keyed filter did, so an add-on that adds, removes or renames a
+	 * country through `ninja_forms_config_country_list` still gets its way.
+	 * That filter's own shape can collide under translation, so it is used
+	 * only to find the difference it made, never as the list itself.
+	 *
+	 * @return array Country code => translated country name.
+	 */
+	private static function country_options()
+	{
+		$by_code = Ninja_Forms()->config( 'CountryListByCode' );
+
+		// What the name-keyed shape looks like before anyone filters it.
+		$baseline = array();
+		foreach ( $by_code as $code => $name ) {
+			$baseline[ $name ] = $code;
+		}
+
+		$filtered = Ninja_Forms()->config( 'CountryList' );
+
+		if ( $filtered === $baseline ) {
+			return $by_code;
+		}
+
+		// Both arrays lose the same entries to any name collision, so the
+		// difference between them is exactly what the filter changed.
+		$baseline_by_code = array_flip( $baseline );
+		$filtered_by_code = array_flip( $filtered );
+
+		$options = array();
+
+		foreach ( $by_code as $code => $name ) {
+			if ( isset( $baseline_by_code[ $code ] ) && ! isset( $filtered_by_code[ $code ] ) ) {
+				continue; // The filter removed this country.
+			}
+
+			$options[ $code ] = isset( $filtered_by_code[ $code ] )
+				? $filtered_by_code[ $code ] // The filter may have renamed it.
+				: $name;
+		}
+
+		foreach ( $filtered_by_code as $code => $name ) {
+			if ( ! isset( $by_code[ $code ] ) ) {
+				$options[ $code ] = $name; // The filter added this country.
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Order the country names as a reader expects.
+	 *
+	 * The labels are translated, so a byte comparison files every accented
+	 * name after the whole plain alphabet: Åland Islands below Zimbabwe in
+	 * English, États-Unis and Égypte below Zimbabwe in French. Folding the
+	 * accents away first puts each name under the letter it reads as. The
+	 * original comparison breaks ties so the order stays deterministic when
+	 * two names fold to the same text.
+	 *
+	 * @param array $option_a One option, carrying a 'label'.
+	 * @param array $option_b The option to compare it with.
+	 * @return int
+	 */
 	private function sort_options_by_label( $option_a, $option_b )
 	{
+		$folded = strcasecmp(
+			remove_accents( $option_a['label'] ),
+			remove_accents( $option_b['label'] )
+		);
+
+		if ( 0 !== $folded ) {
+			return $folded;
+		}
+
 		return strcasecmp( $option_a['label'], $option_b['label'] );
 	}
 
@@ -108,7 +183,7 @@ class NF_Fields_ListCountry extends NF_Abstracts_List
             'label' => '- ' . esc_html__( 'Select Country', 'ninja-forms' ) . ' -',
 	        'value' => ''
         );
-        foreach( Ninja_Forms()->config( 'CountryList' ) as $label => $value ){
+        foreach( self::country_options() as $value => $label ){
             $options[] = array(
                 'label'  => $label,
                 'value' => $value,
@@ -131,7 +206,7 @@ class NF_Fields_ListCountry extends NF_Abstracts_List
 		    'order' => $order,
 	    );
 	    $order++;
-        foreach( Ninja_Forms()->config( 'CountryList' ) as $label => $value ){
+        foreach( self::country_options() as $value => $label ){
             $options[] = array(
                 'label'  => $label,
                 'value' => $value,
@@ -148,8 +223,8 @@ class NF_Fields_ListCountry extends NF_Abstracts_List
 
     public function filter_csv_value( $field_value, $field )
     {
-        $lookup = array_flip( Ninja_Forms()->config( 'CountryList' ) );
-        if( isset( $lookup[ $field_value ] ) ) $field_value = $lookup[ $field_value ];
+        $countries = self::country_options();
+        if( isset( $countries[ $field_value ] ) ) $field_value = $countries[ $field_value ];
         return $field_value;
     }
 }

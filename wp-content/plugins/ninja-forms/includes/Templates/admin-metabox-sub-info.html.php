@@ -16,15 +16,24 @@
         </li>
 
         <li class="nf-sub-info-updated">
-            <?php esc_html_e( 'Updated on: ', 'ninja-forms' ); ?><strong><?php echo $mod_date; ?></strong>
+            <?php
+            /* translators: %s is a date and time. */
+            printf( esc_html__( 'Updated on: %s', 'ninja-forms' ), '<strong>' . $mod_date . '</strong>' );
+            ?>
             <?php do_action( 'nf_sub_edit_date_modified', $post ); ?>
         </li>
         <li class="nf-sub-info-created">
-            <?php esc_html_e( 'Submitted on: ', 'ninja-forms' ); ?><strong><?php echo $sub_date; ?></strong>
+            <?php
+            /* translators: %s is a date and time. */
+            printf( esc_html__( 'Submitted on: %s', 'ninja-forms' ), '<strong>' . $sub_date . '</strong>' );
+            ?>
             <?php do_action( 'nf_sub_edit_date_submitted', $post ); ?>
         </li>
 
-        <li class="nf-sub-info-user"><?php esc_html_e( 'Submitted by: ', 'ninja-forms' ); ?><strong><?php echo $user; ?></strong></li>
+        <li class="nf-sub-info-user"><?php
+            /* translators: %s is a user name. */
+            printf( esc_html__( 'Submitted by: %s', 'ninja-forms' ), '<strong>' . $user . '</strong>' );
+            ?></li>
 
     </ul>
 

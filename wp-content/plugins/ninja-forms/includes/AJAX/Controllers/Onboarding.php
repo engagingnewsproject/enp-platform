@@ -31,26 +31,7 @@ class NF_AJAX_Controllers_Onboarding extends NF_Abstracts_Controller
     public function pulse($response, $data)
     {
         $this->init_session();
-        // If we're not onboarding, leave.
-        if(! $this->in_progress()) return $response;
-
-        // If we don't have a current page, leave.
-        if(empty($data['ninja_forms_onboarding_page_now'])) return $response;
-
-        // If it's the right page for our current step, update our current timestamp.
-        if( false !== strpos( $data['ninja_forms_onboarding_page_now'], $this->page_now() ) ) {
-            $this->session['last_active'] = current_time( 'timestamp' );
-            $this->update();
-        } else{
-            // If it's not the right page (and we've exceeded 30 minutes), set the session to abandoned.
-            $now = current_time('timestamp');
-            $window = ($this->page_now() === 'page=ninja-forms&form_id=') ? 55 : 1800;
-            if($now - $this->session['last_active'] >= $window) {
-                $this->session['status'] = 'abandoned';
-                $this->radio('abandon');
-                $this->update();
-            }
-        }
+        // Heartbeats check expiry, but only start/next count as tour activity.
         return $response;
     }
 
@@ -108,6 +89,16 @@ class NF_AJAX_Controllers_Onboarding extends NF_Abstracts_Controller
         ];
         $session = get_user_meta( get_current_user_id(), 'nf_onboarding', true );
         if(is_array($session)) $this->session = array_merge($this->session, $session);
+
+        // Expire 15 minutes after the last tour step, including after closing the tab.
+        if ($this->in_progress()) {
+            $window = 15 * 60;
+            if (current_time('timestamp') - $this->session['last_active'] >= $window) {
+                $this->session['status'] = 'abandoned';
+                $this->radio('abandon');
+                $this->update();
+            }
+        }
     }
 
     /**

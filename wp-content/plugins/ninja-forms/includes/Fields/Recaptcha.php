@@ -23,7 +23,7 @@ class NF_Fields_Recaptcha extends NF_Abstracts_Field
     {
         parent::__construct();
 
-        $this->_nicename = esc_html__( 'Recaptcha v2', 'ninja-forms' );
+        $this->_nicename = esc_html__( 'reCAPTCHA v2', 'ninja-forms' );
 
         $this->_settings[ 'size '] = array(
             'name' => 'size',
@@ -58,7 +58,7 @@ class NF_Fields_Recaptcha extends NF_Abstracts_Field
 
     public function validate( $field, $data ) {
         if ( empty( $field['value'] ) ) {
-            return esc_html__( 'Please complete the recaptcha', 'ninja-forms' );
+            return esc_html__( 'Please complete the reCAPTCHA.', 'ninja-forms' );
         }
 
         $secret_key = !empty(Ninja_Forms()->get_setting( 'recaptcha_secret_key' )) ? Ninja_Forms()->get_setting( 'recaptcha_secret_key' ) : Ninja_Forms()->get_setting( 'recaptcha_secret_key_v3' );
@@ -70,9 +70,9 @@ class NF_Fields_Recaptcha extends NF_Abstracts_Field
             $response = json_decode( $body );
             if ( $response->success === false ) {
                 if ( !empty( $response->{'error-codes'} ) && $response->{'error-codes'} != 'missing-input-response' ) {
-                    return array( esc_html__( 'Please make sure you have entered your Site & Secret keys correctly', 'ninja-forms' ) );
+                    return array( esc_html__( 'Please make sure you have entered your Site & Secret keys correctly.', 'ninja-forms' ) );
                 }else {
-                    return array( esc_html__( 'Captcha mismatch. Please enter the correct value in captcha field', 'ninja-forms' ) );
+                    return array( esc_html__( 'Captcha mismatch. Please enter the correct value in the captcha field.', 'ninja-forms' ) );
                 }
             }
         }

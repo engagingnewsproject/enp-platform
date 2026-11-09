@@ -127,7 +127,7 @@ function ninja_forms_ability_apply_field_flags( $field, $field_data ) {
 function ninja_forms_ability_persist_field( $form_id, $field_data, $insertion_policy = 'preserve' ) {
 	// Validate required field type
 	if ( empty( $field_data['type'] ) ) {
-		return new WP_Error( 'invalid_input', __( 'Field type is required', 'ninja-forms' ) );
+		return new WP_Error( 'invalid_input', 'Field type is required' );
 	}
 	$field_data = ninja_forms_ability_normalize_field_input( $field_data, 'add' );
 	if ( is_wp_error( $field_data ) ) {
@@ -232,6 +232,15 @@ function ninja_forms_ability_persist_field( $form_id, $field_data, $insertion_po
 
 	// Set help text (always set, even if empty, for dashboard parity)
 	$field->update_setting( 'help_text', isset( $field_data['help_text'] ) ? sanitize_text_field( $field_data['help_text'] ) : '' );
+
+	// Match the builder's registered defaults when options were omitted.
+	// Explicit arrays, including an empty list, remain the caller's choice.
+	if ( ! array_key_exists( 'options', $field_data ) ) {
+		$type_settings = Ninja_Forms()->fields[ $field_data['type'] ]->get_settings();
+		if ( isset( $type_settings['options']['value'] ) && is_array( $type_settings['options']['value'] ) ) {
+			$field_data['options'] = $type_settings['options']['value'];
+		}
+	}
 
 	// Handle list field options
 	if ( isset( $field_data['options'] ) && is_array( $field_data['options'] ) ) {
@@ -338,7 +347,7 @@ function ninja_forms_ability_persist_field( $form_id, $field_data, $insertion_po
 	$field_id = $field->get_id();
 
 	if ( ! $field_id ) {
-		return new WP_Error( 'save_failed', __( 'Failed to save field', 'ninja-forms' ) );
+		return new WP_Error( 'save_failed', 'Failed to save field' );
 	}
 
 	$verified = ninja_forms_ability_verify_field_persistence(
@@ -400,7 +409,7 @@ function ninja_forms_ability_insert_field( $form_id, $field_data ) {
 		if ( ! isset( $existing_by_id[ $field_id ] ) ) {
 			return new WP_Error(
 				'field_order_unverified',
-				__( 'The existing field order could not be verified before insertion.', 'ninja-forms' )
+				'The existing field order could not be verified before insertion.'
 			);
 		}
 		$existing_field = $existing_by_id[ $field_id ];
@@ -421,7 +430,7 @@ function ninja_forms_ability_insert_field( $form_id, $field_data ) {
 	if ( false === $wpdb->query( 'START TRANSACTION' ) ) {
 		return new WP_Error(
 			'transaction_failed',
-			__( 'The field could not be added safely. No field order was changed.', 'ninja-forms' )
+			'The field could not be added safely. No field order was changed.'
 		);
 	}
 
@@ -481,7 +490,7 @@ function ninja_forms_ability_insert_field( $form_id, $field_data ) {
 			$original_orders,
 			new WP_Error(
 				'save_failed',
-				__( 'The field could not be added safely. No field order was changed.', 'ninja-forms' )
+				'The field could not be added safely. No field order was changed.'
 			),
 			(int) $result['field_id']
 		);
@@ -491,7 +500,7 @@ function ninja_forms_ability_insert_field( $form_id, $field_data ) {
 	$result['order']   = $insertion_order;
 	$result['message'] = sprintf(
 		/* translators: 1: Form ID. 2: Field ID. */
-		__( 'Field added to form %1$d with ID %2$d', 'ninja-forms' ),
+		'Field added to form %1$d with ID %2$d',
 		$form_id,
 		$result['field_id']
 	);
@@ -546,7 +555,7 @@ function ninja_forms_ability_verify_field_persistence( $form_id, $field_id, $exp
 	) {
 		return new WP_Error(
 			'field_save_unverified',
-			__( 'The field could not be verified after saving.', 'ninja-forms' )
+			'The field could not be verified after saving.'
 		);
 	}
 
@@ -563,7 +572,7 @@ function ninja_forms_ability_verify_field_persistence( $form_id, $field_id, $exp
 		if ( ! $matches ) {
 			return new WP_Error(
 				'field_save_unverified',
-				__( 'The field settings could not be verified after saving.', 'ninja-forms' )
+				'The field settings could not be verified after saving.'
 			);
 		}
 	}
@@ -623,7 +632,7 @@ function ninja_forms_ability_verify_field_order( $form_id, $expected_orders ) {
 	if ( $expected_orders !== $actual_orders ) {
 		return new WP_Error(
 			'field_order_unverified',
-			__( 'The final field order could not be verified.', 'ninja-forms' )
+			'The final field order could not be verified.'
 		);
 	}
 
@@ -657,7 +666,7 @@ function ninja_forms_ability_get_field_orders( $form_id ) {
 		if ( isset( $orders[ $field_id ] ) ) {
 			return new WP_Error(
 				'field_order_unverified',
-				__( 'The final field order could not be verified.', 'ninja-forms' )
+				'The final field order could not be verified.'
 			);
 		}
 		$orders[ $field_id ] = (int) maybe_unserialize( $row['field_order'] );
@@ -686,14 +695,14 @@ function ninja_forms_ability_verify_field_rollback( $form_id, $expected_orders, 
 		) {
 			return new WP_Error(
 				'field_order_unverified',
-				__( 'The final field order could not be verified.', 'ninja-forms' )
+				'The final field order could not be verified.'
 			);
 		}
 	}
 	if ( $inserted_field_id && isset( $actual_orders[ $inserted_field_id ] ) ) {
 		return new WP_Error(
 			'field_order_unverified',
-			__( 'The inserted field could not be removed during rollback.', 'ninja-forms' )
+			'The inserted field could not be removed during rollback.'
 		);
 	}
 	if ( $inserted_field_id ) {
@@ -713,13 +722,13 @@ function ninja_forms_ability_verify_field_rollback( $form_id, $expected_orders, 
 		if ( 0 !== $remaining_rows ) {
 			return new WP_Error(
 				'field_order_unverified',
-				__( 'The inserted field data could not be removed during rollback.', 'ninja-forms' )
+				'The inserted field data could not be removed during rollback.'
 			);
 		}
 	} elseif ( count( $actual_orders ) !== count( $expected_orders ) ) {
 		return new WP_Error(
 			'field_order_unverified',
-			__( 'The field rollback left an unidentified persisted field.', 'ninja-forms' )
+			'The field rollback left an unidentified persisted field.'
 		);
 	}
 
@@ -792,7 +801,7 @@ function ninja_forms_ability_rollback_field_insertion( $form_id, $original_order
 	if ( is_wp_error( $verified ) ) {
 		return new WP_Error(
 			'transaction_rollback_failed',
-			__( 'The field write failed and its database rollback could not be verified.', 'ninja-forms' )
+			'The field write failed and its database rollback could not be verified.'
 		);
 	}
 
@@ -843,11 +852,11 @@ function ninja_forms_ability_clear_form_cache( $form_id ) {
 function ninja_forms_ability_add_field( $input ) {
 	// Validate required inputs
 	if ( empty( $input['form_id'] ) ) {
-		return new WP_Error( 'invalid_input', __( 'Form ID is required', 'ninja-forms' ) );
+		return new WP_Error( 'invalid_input', 'Form ID is required' );
 	}
 
 	if ( empty( $input['type'] ) ) {
-		return new WP_Error( 'invalid_input', __( 'Field type is required', 'ninja-forms' ) );
+		return new WP_Error( 'invalid_input', 'Field type is required' );
 	}
 
 	$input = ninja_forms_ability_normalize_field_input( $input, 'add' );
@@ -862,7 +871,7 @@ function ninja_forms_ability_add_field( $input ) {
 			'form_not_found',
 			sprintf(
 				/* translators: %d: Form ID. */
-				__( 'Form with ID %1$d not found', 'ninja-forms' ),
+				'Form with ID %1$d not found',
 				$input['form_id']
 			)
 		);
@@ -884,13 +893,13 @@ function ninja_forms_ability_update_field( $input ) {
 	if ( empty( $input['form_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Form ID is required', 'ninja-forms' ),
+			'message' => 'Form ID is required',
 		);
 	}
 	if ( empty( $input['field_id'] ) ) {
 		return array(
 			'success' => false,
-			'message' => __( 'Field ID is required', 'ninja-forms' ),
+			'message' => 'Field ID is required',
 		);
 	}
 
@@ -902,7 +911,7 @@ function ninja_forms_ability_update_field( $input ) {
 	if ( ! $form || ! $form->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ),
+			'message' => sprintf( 'Form with ID %d not found', $form_id ),
 		);
 	}
 
@@ -911,7 +920,7 @@ function ninja_forms_ability_update_field( $input ) {
 	if ( ! $field || ! $field->get_id() ) {
 		return array(
 			'success' => false,
-			'message' => sprintf( __( 'Field with ID %d not found in form %d', 'ninja-forms' ), $field_id, $form_id ),
+			'message' => sprintf( 'Field with ID %d not found in form %d', $field_id, $form_id ),
 		);
 	}
 	$input = ninja_forms_ability_normalize_field_input(
@@ -948,7 +957,7 @@ function ninja_forms_ability_update_field( $input ) {
 
 	// If no settings to update, return error
 	if ( empty( $settings_to_update ) ) {
-		return new WP_Error( 'no_settings', __( 'No settings provided to update', 'ninja-forms' ) );
+		return new WP_Error( 'no_settings', 'No settings provided to update' );
 	}
 
 	// Update the field settings
@@ -969,7 +978,7 @@ function ninja_forms_ability_update_field( $input ) {
 		'form_id'  => $form_id,
 		'field_id' => $field_id,
 		'updated'  => $settings_to_update,
-		'message'  => sprintf( __( 'Successfully updated field "%s" (ID: %d) in form %d. Updated %d setting(s).', 'ninja-forms' ), $field_label, $field_id, $form_id, count( $settings_to_update ) ),
+		'message'  => sprintf( 'Successfully updated field "%s" (ID: %d) in form %d. Updated %d setting(s).', $field_label, $field_id, $form_id, count( $settings_to_update ) ),
 	);
 }
 
@@ -1024,7 +1033,7 @@ function ninja_forms_count_submissions_with_field_data( $form_id, $field_id ) {
 function ninja_forms_export_field_data_to_csv( $form_id, $field_id ) {
 	$field = Ninja_Forms()->form( $form_id )->get_field( $field_id );
 	if ( ! $field ) {
-		return new WP_Error( 'field_not_found', __( 'Field not found', 'ninja-forms' ) );
+		return new WP_Error( 'field_not_found', 'Field not found' );
 	}
 
 	$field_key   = $field->get_setting( 'key' );
@@ -1070,7 +1079,7 @@ function ninja_forms_export_field_data_to_csv( $form_id, $field_id ) {
 	// Write CSV file
 	$fp = fopen( $file_path, 'w' );
 	if ( ! $fp ) {
-		return new WP_Error( 'export_failed', __( 'Failed to create export file', 'ninja-forms' ) );
+		return new WP_Error( 'export_failed', 'Failed to create export file' );
 	}
 
 	foreach ( $csv_data as $row ) {
@@ -1132,10 +1141,10 @@ function ninja_forms_get_field_sample_data( $form_id, $field_id, $limit = 5 ) {
 function ninja_forms_ability_remove_field( $input ) {
 	// Validate required inputs
 	if ( empty( $input['form_id'] ) ) {
-		return new WP_Error( 'invalid_input', __( 'Form ID is required', 'ninja-forms' ) );
+		return new WP_Error( 'invalid_input', 'Form ID is required' );
 	}
 	if ( empty( $input['field_id'] ) ) {
-		return new WP_Error( 'invalid_input', __( 'Field ID is required', 'ninja-forms' ) );
+		return new WP_Error( 'invalid_input', 'Field ID is required' );
 	}
 
 	$form_id  = (int) $input['form_id'];
@@ -1146,7 +1155,7 @@ function ninja_forms_ability_remove_field( $input ) {
 		return new WP_Error(
 			'bulk_removal_blocked',
 			sprintf(
-				__( 'This ability can only remove ONE field at a time. You provided %d fields. Please process each field individually with full confirmation workflow.', 'ninja-forms' ),
+				'This ability can only remove ONE field at a time. You provided %d fields. Please process each field individually with full confirmation workflow.',
 				count( $field_id )
 			)
 		);
@@ -1159,7 +1168,7 @@ function ninja_forms_ability_remove_field( $input ) {
 	if ( ! $form || ! $form->get_id() ) {
 		return new WP_Error(
 			'form_not_found',
-			sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id )
+			sprintf( 'Form with ID %d not found', $form_id )
 		);
 	}
 
@@ -1168,7 +1177,7 @@ function ninja_forms_ability_remove_field( $input ) {
 	if ( ! $field || ! $field->get_id() ) {
 		return new WP_Error(
 			'field_not_found',
-			sprintf( __( 'Field with ID %d not found in form %d', 'ninja-forms' ), $field_id, $form_id )
+			sprintf( 'Field with ID %d not found in form %d', $field_id, $form_id )
 		);
 	}
 
@@ -1200,12 +1209,12 @@ function ninja_forms_ability_remove_field( $input ) {
 				'export_filename'        => $export_result['filename'],
 				'sample_data'            => ninja_forms_get_field_sample_data( $form_id, $field_id, 5 ),
 				'message'                => sprintf(
-					__( 'Field data exported to %s. Contains %d values. Review the data and provide confirmation to proceed with deletion.', 'ninja-forms' ),
+					'Field data exported to %s. Contains %d values. Review the data and provide confirmation to proceed with deletion.',
 					$export_result['filename'],
 					$submissions_with_data
 				),
 				'next_step'              => sprintf(
-					__( 'To proceed, call again with export_completed: true and user_confirmation_phrase: "DELETE %s DATA FROM %d SUBMISSIONS"', 'ninja-forms' ),
+					'To proceed, call again with export_completed: true and user_confirmation_phrase: "DELETE %s DATA FROM %d SUBMISSIONS"',
 					strtoupper( $field_label ),
 					$submissions_with_data
 				),
@@ -1225,7 +1234,7 @@ function ninja_forms_ability_remove_field( $input ) {
 			return new WP_Error(
 				'invalid_confirmation',
 				sprintf(
-					__( 'Invalid confirmation phrase. You must type EXACTLY: "%s"\n\nThis ensures you understand that %d submission values will be permanently deleted.', 'ninja-forms' ),
+					'Invalid confirmation phrase. You must type EXACTLY: "%s"\n\nThis ensures you understand that %d submission values will be permanently deleted.',
 					$required_phrase,
 					$submissions_with_data
 				)
@@ -1295,7 +1304,7 @@ function ninja_forms_ability_remove_field( $input ) {
 		return new WP_Error(
 			'deletion_failed',
 			sprintf(
-				__( 'Failed to delete field "%s": %s. No data was modified.', 'ninja-forms' ),
+				'Failed to delete field "%s": %s. No data was modified.',
 				$field_label,
 				$e->getMessage()
 			)
@@ -1308,11 +1317,11 @@ function ninja_forms_ability_remove_field( $input ) {
 		'field_id'             => $field_id,
 		'submissions_affected' => $submissions_with_data,
 		'message'              => sprintf(
-			__( 'Field "%s" safely removed from form. %s', 'ninja-forms' ),
+			'Field "%s" safely removed from form. %s',
 			$field_label,
 			$submissions_with_data > 0
-				? sprintf( __( 'Data deleted from %d submissions. Backup was created before deletion.', 'ninja-forms' ), $submissions_with_data )
-				: __( 'Field had no submission data.', 'ninja-forms' )
+				? sprintf( 'Data deleted from %d submissions. Backup was created before deletion.', $submissions_with_data )
+				: 'Field had no submission data.'
 		),
 		'deletion_method'      => 'controlled_safe_deletion',
 	);
@@ -1327,10 +1336,10 @@ function ninja_forms_ability_remove_field( $input ) {
 function ninja_forms_ability_reorder_fields( $input ) {
 	// Validate required inputs
 	if ( empty( $input['form_id'] ) ) {
-		return new WP_Error( 'invalid_input', __( 'Form ID is required', 'ninja-forms' ) );
+		return new WP_Error( 'invalid_input', 'Form ID is required' );
 	}
 	if ( empty( $input['field_order'] ) || ! is_array( $input['field_order'] ) ) {
-		return new WP_Error( 'invalid_input', __( 'Field order mapping is required and must be an array', 'ninja-forms' ) );
+		return new WP_Error( 'invalid_input', 'Field order mapping is required and must be an array' );
 	}
 
 	$form_id = (int) $input['form_id'];
@@ -1339,7 +1348,7 @@ function ninja_forms_ability_reorder_fields( $input ) {
 	// Check if form exists
 	$form = Ninja_Forms()->form( $form_id )->get();
 	if ( ! $form || ! $form->get_id() ) {
-		return new WP_Error( 'form_not_found', sprintf( __( 'Form with ID %d not found', 'ninja-forms' ), $form_id ) );
+		return new WP_Error( 'form_not_found', sprintf( 'Form with ID %d not found', $form_id ) );
 	}
 
 	$reordered_count = 0;
@@ -1366,7 +1375,7 @@ function ninja_forms_ability_reorder_fields( $input ) {
 	}
 
 	if ( $reordered_count === 0 ) {
-		return new WP_Error( 'no_fields_reordered', __( 'No valid fields were reordered', 'ninja-forms' ) );
+		return new WP_Error( 'no_fields_reordered', 'No valid fields were reordered' );
 	}
 
 	return array(
@@ -1374,7 +1383,7 @@ function ninja_forms_ability_reorder_fields( $input ) {
 		'form_id'     => $form_id,
 		'reordered'   => $reordered_count,
 		'field_order' => $updated_order,
-		'message'     => sprintf( __( 'Successfully reordered %d field(s) in form %d.', 'ninja-forms' ), $reordered_count, $form_id ),
+		'message'     => sprintf( 'Successfully reordered %d field(s) in form %d.', $reordered_count, $form_id ),
 	);
 }
 
@@ -1389,7 +1398,7 @@ function ninja_forms_ability_list_field_types( $input ) {
 	$field_types_config = Ninja_Forms()->fields;
 
 	if ( empty( $field_types_config ) ) {
-		return new WP_Error( 'no_field_types', __( 'No field types are registered', 'ninja-forms' ) );
+		return new WP_Error( 'no_field_types', 'No field types are registered' );
 	}
 
 	$field_types = array();
@@ -1437,6 +1446,6 @@ function ninja_forms_ability_list_field_types( $input ) {
 		'success'     => true,
 		'field_types' => $field_types,
 		'count'       => $count,
-		'message'     => sprintf( __( 'Found %d field type(s)', 'ninja-forms' ), $count ),
+		'message'     => sprintf( 'Found %d field type(s)', $count ),
 	);
 }

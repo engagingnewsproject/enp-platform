@@ -172,10 +172,31 @@ jQuery(document).ready(function($) {
             'security': nfAdmin.nonce
         };
 
+        var $box = $( that ).closest( '.postbox' );
+        $box.find( '.nf-saved-field-delete-error' ).remove();
+
+        var showError = function() {
+            $box.find( '.nf-saved-field-delete-error' ).remove();
+            $box.find( '.inside' ).prepend( '<div class="notice notice-error inline nf-saved-field-delete-error"><p>' + nfAdmin.i18n.deleteSavedFieldFailed + '</p></div>' );
+        };
+
         $.post( nfAdmin.ajax_url, data )
             .done( function( response ) {
-                $( that ).closest( 'tr').fadeOut().remove();
-            });
+                // Only remove the row once the server confirms the delete.
+                try {
+                    response = typeof response === 'string' ? JSON.parse( response ) : response;
+                } catch ( e ) {
+                    response = null;
+                }
+                if ( ! response || ! response.data || response.data.errors || ( response.errors && response.errors.length ) ) {
+                    showError();
+                    return;
+                }
+                $( that ).closest( 'tr' ).fadeOut( function() {
+                    $( this ).remove();
+                });
+            })
+            .fail( showError );
     });
 
 	$( document ).on( 'click', '#delete_on_uninstall', function( e ) {

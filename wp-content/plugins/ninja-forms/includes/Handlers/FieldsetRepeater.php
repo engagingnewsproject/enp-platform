@@ -424,6 +424,14 @@ class NF_Handlers_FieldsetRepeater
 
         $return = array();
 
+        // A visitor who leaves the fieldset alone stores an empty string, not a
+        // collection of repeats. There is nothing to extract, and nothing to
+        // warn about: the caller gets the same empty collection it would get
+        // from a fieldset holding no values for this field.
+        if (!is_array($fieldSubmissionValue)) {
+            return $return;
+        }
+
         foreach ($fieldSubmissionValue as $submissionId => $submissionValueArray) {
             $exploded = explode($this->submissionIndexDelimiter, $submissionId);
 

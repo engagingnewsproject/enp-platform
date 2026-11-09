@@ -23,7 +23,7 @@ class NF_Fields_ListSelect extends NF_Abstracts_List
     {
         parent::__construct();
 
-        $this->_nicename = esc_html__( 'Select', 'ninja-forms' );
+        $this->_nicename = esc_html_x( 'Select', 'field type name: dropdown list', 'ninja-forms' );
 
         add_filter( 'ninja_forms_merge_tag_calc_value_' . $this->_type, array( $this, 'get_calc_value' ), 10, 2 );
     }

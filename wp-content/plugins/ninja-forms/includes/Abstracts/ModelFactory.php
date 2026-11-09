@@ -67,7 +67,12 @@ class NF_Abstracts_ModelFactory
 
         $this->_object = $this->_form = new NF_Database_Models_Form( $this->_db, $id );
 
-        if(WPN_Helper::use_cache()) {
+        /*
+         * A form with no id has nothing cached against it, and a new-form
+         * factory is now built per call rather than once per request, so
+         * looking one up would add a query per call for a guaranteed miss.
+         */
+        if( $id && WPN_Helper::use_cache()) {
             $form_cache = WPN_Helper::get_nf_cache( $id );
 
             if( $form_cache && isset ( $form_cache[ 'settings' ] ) ){
@@ -218,6 +223,21 @@ class NF_Abstracts_ModelFactory
      */
     public function get_field( $id )
     {
+        /*
+         * A blank-id factory is built per call (#8177), so its own $_fields can't carry
+         * a field between calls. Keep one per id for the request, as the shared factory
+         * did, or every lookup reloads the field.
+         */
+        static $blank_id_fields = array();
+
+        if( ! $this->_form->get_id() ){
+            if( ! isset( $blank_id_fields[ $id ] ) ){
+                $blank_id_fields[ $id ] = new NF_Database_Models_Field( $this->_db, $id, $this->_form->get_id() );
+            }
+
+            return $blank_id_fields[ $id ];
+        }
+
     	if( isset( $this->_fields[ $id ] ) ){
             return $this->_fields[ $id ];
         }

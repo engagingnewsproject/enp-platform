@@ -23,7 +23,7 @@ class NF_Fields_PasswordConfirm extends NF_Fields_Password
 
         $this->_nicename = esc_html__( 'Password Confirm', 'ninja-forms' );
 
-        $this->_settings[ 'confirm_field' ][ 'value' ] = esc_attr__( 'password', 'ninja-forms' );
+        $this->_settings[ 'confirm_field' ][ 'value' ] = 'password';
         $this->_settings[ 'confirm_field' ][ 'field_types' ] = array( 'password' );
         $this->_settings[ 'confirm_field' ][ 'field_value_format' ] = 'key';
 

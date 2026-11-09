@@ -98,9 +98,9 @@ class NF_Dispatcher
             return false;
         }
 
-        $factory = new ConstructNfSiteEntity();
-        $siteEntity = $factory->handle();
-        $be_data = get_option( 'nf_be_data', [] );
+        $siteData = $this->constructSiteData();
+        // Only the 3.8.18 report stores and acknowledges the legacy backlog.
+        $be_data = $slug === '3.8.18' ? NF_Telemetry_BehavioralQueue::legacyBacklog() : [];
 
         /*
          * Send our data using wp_remote_post.
@@ -111,14 +111,56 @@ class NF_Dispatcher
                 'body' => array(
                     'slug'          => $slug,
                     'data'          => wp_json_encode( $data ),
-                    'site_data'     => wp_json_encode( $siteEntity->jsonSerialize()),
+                    'site_data'     => wp_json_encode($siteData),
                     'be_data'       => wp_json_encode( $be_data )
                 ),
             )
         );
 
-        if ( !is_wp_error( $response ) ) {
-            delete_option( 'nf_be_data' );
+        if ($slug === '3.8.18') {
+            $ack = !is_wp_error($response) && wp_remote_retrieve_response_code($response) === 201
+                ? json_decode(wp_remote_retrieve_body($response), true) : null;
+            NF_Telemetry_BehavioralQueue::settleLegacy($be_data, $ack);
         }
+    }
+
+    protected function constructSiteData(): array
+    {
+        $factory = new ConstructNfSiteEntity();
+        return $factory->handle()->jsonSerialize();
+    }
+
+    /** Deliver independently of monthly environment collection; retry without data loss. */
+    public function sendBehavioralData()
+    {
+        if (!$this->should_we_send()) {
+            return false;
+        }
+        $events = NF_Telemetry_BehavioralQueue::pending();
+        if (!$events) {
+            return true;
+        }
+        $site = $this->constructSiteData();
+        $batch = wp_generate_uuid4();
+        $response = wp_remote_post($this->api_url, [
+            'timeout' => 20,
+            'body' => [
+                'slug' => 'behavioral_v2',
+                'data' => wp_json_encode(['site_url' => $site['url'], 'batch_id' => $batch, 'events' => $events]),
+            ],
+        ]);
+        $ack = !is_wp_error($response) && wp_remote_retrieve_response_code($response) === 201
+            ? json_decode(wp_remote_retrieve_body($response), true) : null;
+        $accepted = is_array($ack) && isset($ack['batch_id'], $ack['schema_version'])
+            && $ack['batch_id'] === $batch && $ack['schema_version'] === 2;
+        if ($accepted) {
+            NF_Telemetry_BehavioralQueue::acknowledge($events, $ack);
+        }
+        $attempt = $accepted ? 0 : min(6, (int) get_option('nf_be_delivery_attempt', 0) + 1);
+        update_option('nf_be_delivery_attempt', $attempt, false);
+        if (NF_Telemetry_BehavioralQueue::pending(1)) {
+            NF_Telemetry_BehavioralQueue::schedule(min(21600, 900 * (2 ** $attempt)));
+        }
+        return $accepted;
     }
 }

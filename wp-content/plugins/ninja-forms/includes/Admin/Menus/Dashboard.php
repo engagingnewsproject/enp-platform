@@ -76,6 +76,10 @@ final class NF_Admin_Menus_Dashboard extends NF_Abstracts_Submenu
                 $addons_data = $addons_instance->display();
                 $services_data = Ninja_Forms()->config( 'DashboardServices' );
                 wp_localize_script('ninja_forms_admin_dashboard', 'ninja_forms_admin_dashboard_data', [
+                    'payments'                          =>  NF_PayPal_Connection::is_connected() ? [ 'PayPal' ] : [],
+                    'paymentsAvailable'                 =>  ! NF_PayPal_ExistingIntegration::exists(),
+                    'paypalConnection'                  =>  NF_PayPal_Connection::for_dashboard(),
+                    'paypalNonce'                       =>  wp_create_nonce( 'ninja_forms_paypal_connect' ),
                     'addonsData'                        =>  $addons_data,
                     'servicesData'                      =>  $services_data,
                     'siteUrl'                           =>  esc_url_raw( site_url() ),
@@ -122,7 +126,10 @@ final class NF_Admin_Menus_Dashboard extends NF_Abstracts_Submenu
                 wp_enqueue_script('nf-be-data-script', Ninja_Forms::$url . 'build/nf-behavioral.js', $nf_be_data_asset_php["dependencies"], $nf_be_data_asset_php["version"], true);
                 wp_localize_script('nf-be-data-script', 'nfBeData', [
                     'restUrl'               =>  esc_url_raw( get_rest_url() ),
-                    'token'                 =>  wp_create_nonce( 'wp_rest' )
+                    'token'                 =>  wp_create_nonce( 'wp_rest' ),
+                    'userId'                =>  get_current_user_id(),
+                    'clientVersion'         =>  Ninja_Forms::VERSION,
+                    'enabled'               =>  current_user_can('manage_options') && Ninja_Forms()->dispatcher()->should_we_send(),
                 ]);
             }
             

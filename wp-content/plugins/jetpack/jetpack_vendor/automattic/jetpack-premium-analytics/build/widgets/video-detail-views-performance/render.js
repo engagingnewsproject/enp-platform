@@ -7,9 +7,14 @@
 // loaders are pinned to the .min.js sibling.
 
 __( "Views", "jetpack-premium-analytics-pkg" );
+/* translators: %s: number of views. */
+_n( "%s View", "%s Views", 1, "jetpack-premium-analytics-pkg" );
 __( "Impressions", "jetpack-premium-analytics-pkg" );
+/* translators: %s: number of impressions. */
+_n( "%s Impression", "%s Impressions", 1, "jetpack-premium-analytics-pkg" );
 __( "Hours watched", "jetpack-premium-analytics-pkg" );
 __( "Retention rate", "jetpack-premium-analytics-pkg" );
 __( "Video metric", "jetpack-premium-analytics-pkg" );
 __( "We couldn't load this video's performance. Please try again in a moment.", "jetpack-premium-analytics-pkg" );
 __( "Open a video report to see its performance here.", "jetpack-premium-analytics-pkg" );
+__( "Video performance", "jetpack-premium-analytics-pkg" );

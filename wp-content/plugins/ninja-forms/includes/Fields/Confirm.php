@@ -23,7 +23,7 @@ class NF_Fields_Confirm extends NF_Abstracts_Input
     {
         parent::__construct();
 
-        $this->_nicename = esc_html__( 'Confirm', 'ninja-forms' );
+        $this->_nicename = esc_html_x( 'Confirm', 'field type name', 'ninja-forms' );
         $this->_settings[ 'confirm_field' ][ 'field_value_format' ] = 'key';
 
         add_filter( 'nf_sub_hidden_field_types', array( $this, 'hide_field_type' ) );
@@ -37,6 +37,7 @@ class NF_Fields_Confirm extends NF_Abstracts_Input
 
     public function validate( $field, $data )
     {
+        $errors = array();
         if( false ){
             $errors[] = esc_html__( 'Fields do not match.', 'ninja-forms' );
         }

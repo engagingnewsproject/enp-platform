@@ -38,10 +38,9 @@ class NF_Php_Version_Whip
             ),
             admin_url() . 'admin.php'
         );
-        $admin_display_link = sprintf( esc_html__('%sDismiss this for 4 weeks.%s', 'ninja-forms'),
-            '<a href="' . esc_url($dismiss_url) . '" target="_self">',
-            '</a>'
-        );
+        $admin_display_link = '<a href="' . esc_url($dismiss_url) . '" target="_self">'
+            . esc_html__( 'Dismiss this for 4 weeks.', 'ninja-forms' )
+            . '</a>';
         $admin_display_msg = '<p>' . sprintf( esc_html__( 'We have detected that your website is currently running an older version of PHP than is %srecommended by WordPress%s. This may cause security vulnerabilities, performance issues, and compatibility problems with many modern plugins including Ninja Forms.', 'ninja-forms' ), '<a href="https://wordpress.org/about/requirements/" target="_blank">', '</a>' ); 
         $admin_display_msg .= '</p><p>';
         $admin_display_msg .= esc_html__( 'Please contact your hosting provider to upgrade your PHP version and prevent these issues. You should also make sure that your plugins and theme are tested with and support PHP version 7.2 or higher.', 'ninja-forms' );

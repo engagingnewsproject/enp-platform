@@ -42,7 +42,7 @@ class NF_Fields_Note extends NF_Fields_Hidden
         $this->_settings[ 'default' ][ 'type' ] = 'rte';
         $this->_settings[ 'default' ][ 'group' ] = 'advanced';
 
-        $this->_settings[ 'value_mirror' ][ 'value' ] = $this->_settings[ 'default' ][ 'value' ] = esc_html__( 'Note text can be edited in the note field\'s advanced settings below.' );
+        $this->_settings[ 'value_mirror' ][ 'value' ] = $this->_settings[ 'default' ][ 'value' ] = esc_html__( 'Note text can be edited in the note field\'s advanced settings below.', 'ninja-forms' );
 
         $this->_nicename = esc_html__( 'Note', 'ninja-forms' );
 

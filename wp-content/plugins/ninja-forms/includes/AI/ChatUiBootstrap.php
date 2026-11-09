@@ -209,7 +209,7 @@ class ChatUiBootstrap
             'providerChoose' => __('Choose a model', 'ninja-forms'),
             'providerRequired' => __('Choose an AI model before sending your message.', 'ninja-forms'),
             'providerDisconnected' => __(
-                'The model selected for this form is no longer available. Choose another model to continue.',
+                'The AI model attached to this form is no longer available. Choose another model to continue.',
                 'ninja-forms'
             ),
             'selectionPersistError' => __(

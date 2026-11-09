@@ -20,7 +20,7 @@ final class NF_Admin_Menus_Licenses
 
         if( ! isset( $_POST[ 'ninja_forms_license' ] ) || ! $_POST[ 'ninja_forms_license' ] ) return;
 
-        if ( ! wp_verify_nonce( $_POST[ 'ninja_forms_license' ][ 'nonce' ], $_POST[ 'ninja_forms_license' ][ 'name' ] . "-nonce" ) ) die( __( 'Security failed', 'ninja-forms' ) ); 
+        if ( ! wp_verify_nonce( $_POST[ 'ninja_forms_license' ][ 'nonce' ], $_POST[ 'ninja_forms_license' ][ 'name' ] . "-nonce" ) ) die( __( 'Your request could not be verified. Please try again.', 'ninja-forms' ) ); 
 
         $key    = sanitize_text_field( $_POST[ 'ninja_forms_license' ][ 'key' ]    );
         $name   = sanitize_text_field( $_POST[ 'ninja_forms_license' ][ 'name' ]   );
@@ -45,7 +45,7 @@ final class NF_Admin_Menus_Licenses
     {
         add_meta_box(
             'nf_settings_licenses',
-            esc_html__( 'Add-On Licenses', 'ninja-forms' ) . ' <a href="
+            esc_html__( 'Add-on Licenses', 'ninja-forms' ) . ' <a href="
             https://ninjaforms.com/docs/licensing/?utm_source=Ninja+Forms+Plugin&utm_medium=Settings&utm_campaign=Documentation&utm_content=Licensing+Documentation" target="_blank"><img src="' . Ninja_Forms::$url . 'assets/img/help_icon.png" alt="Documentation Link" width="35" height="35"></a>',
             array( $this, 'display' ),
             'nf_settings_licenses'

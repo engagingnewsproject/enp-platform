@@ -104,7 +104,7 @@ class NF_Display_Render
         // $form->update_settings( $settings );
 
         if( $form->get_setting( 'logged_in' ) && ! is_user_logged_in() ){
-            echo do_shortcode( $form->get_setting( 'not_logged_in_msg' ));
+            echo do_shortcode( WPN_Helper::maybe_kses_form_message( $form->get_setting( 'not_logged_in_msg' ) ) );
             return;
         }
 
@@ -118,7 +118,7 @@ class NF_Display_Render
             AND p.post_status = 'publish'");
 
             if( intval( $result->count ) >= $form->get_setting( 'sub_limit_number' ) ) {
-                echo do_shortcode( apply_filters( 'nf_sub_limit_reached_msg', $form->get_setting( 'sub_limit_msg' ), $form_id ));
+                echo do_shortcode( apply_filters( 'nf_sub_limit_reached_msg', WPN_Helper::maybe_kses_form_message( $form->get_setting( 'sub_limit_msg' ) ), $form_id ));
                 return;
             }
         }
@@ -266,22 +266,17 @@ class NF_Display_Render
 
                 $default_value = ( isset( $settings[ 'default' ] ) ) ? $settings[ 'default' ] : null;
                 $default_value = apply_filters('ninja_forms_render_default_value', $default_value, $field_type, $settings);
-                if ( $default_value ) {
+                // Number templates read default before value on a clean field.
+                if ( 'number' === $field_type ) {
+                    $default_value = is_numeric( $default_value ) ? trim( (string) $default_value ) : '';
+                    $settings['default'] = $default_value;
+                }
+                if ( $default_value || ( 'number' === $field_type && '0' === $default_value ) ) {
 
                     $default_value = preg_replace( '/{[^}]}/', '', $default_value );
 
-                    if ($default_value) {
-                        $settings['value'] = $default_value;
-
-                        if( ! is_array( $default_value ) ) {
-                            ob_start();
-                            do_shortcode( $settings['value'] );
-                            $ob = ob_get_clean();
-
-                            if( ! $ob ) {
-                                $settings['value'] = do_shortcode( $settings['value'] );
-                            }
-                        }
+                    if ( $default_value || ( 'number' === $field_type && '0' === $default_value ) ) {
+                        $settings['value'] = WPN_Helper::process_default_value_shortcodes( $default_value );
                     }
                 }
 
@@ -619,7 +614,7 @@ class NF_Display_Render
         }
 
         if( isset( $form[ 'settings' ][ 'logged_in' ] ) && $form[ 'settings' ][ 'logged_in' ] && ! is_user_logged_in() ){
-            echo do_shortcode( $form[ 'settings' ][ 'not_logged_in_msg' ]);
+            echo do_shortcode( WPN_Helper::maybe_kses_form_message( $form[ 'settings' ][ 'not_logged_in_msg' ] ) );
             return;
         }
 
@@ -712,22 +707,17 @@ class NF_Display_Render
 
                 $default_value = ( isset( $field[ 'settings' ][ 'default' ] ) ) ? $field[ 'settings' ][ 'default' ] : null;
                 $default_value = apply_filters( 'ninja_forms_render_default_value', $default_value, $field_type, $field[ 'settings' ]);
-                if( $default_value ){
+                // Keep the preview's numeric default consistent with the published form.
+                if ( 'number' === $field_type ) {
+                    $default_value = is_numeric( $default_value ) ? trim( (string) $default_value ) : '';
+                    $field['settings']['default'] = $default_value;
+                }
+                if ( $default_value || ( 'number' === $field_type && '0' === $default_value ) ) {
 
                     $default_value = preg_replace( '/{.*}/', '', $default_value );
 
-                    if ($default_value) {
-                        $field['settings']['value'] = $default_value;
-
-                        if( ! is_array( $default_value ) ) {
-                            ob_start();
-                            do_shortcode( $field['settings']['value'] );
-                            $ob = ob_get_clean();
-
-                            if( ! $ob ) {
-                                $field['settings']['value'] = do_shortcode( $field['settings']['value'] );
-                            }
-                        }
+                    if ( $default_value || ( 'number' === $field_type && '0' === $default_value ) ) {
+                        $field['settings']['value'] = WPN_Helper::process_default_value_shortcodes( $default_value );
                     }
                 }
 
@@ -901,6 +891,25 @@ class NF_Display_Render
         if( $is_preview || in_array( $form_id, self::$form_uses_react_fields ) ) {
             self::enqueue_react_field_assets();
         }
+
+        /*
+         * Keep our own reference to Underscore.
+         *
+         * The front-end application reads the `_` global while it runs, but the
+         * global belongs to the page, not to us: any other script whose bundle
+         * does `root._ = <its own library>` replaces it, and our code then calls
+         * a function that is no longer there. Stashing the reference the instant
+         * after WordPress's own underscore script has run means a later
+         * replacement cannot reach us. See issue #8211.
+         *
+         * This is a private handle for the bundle wrapper in gulpfile.js. It
+         * never writes to `_` itself, so other plugins keep whatever they set.
+         */
+        wp_add_inline_script(
+            'underscore',
+            'window.nfUnderscore = window.nfUnderscore || window._;',
+            'after'
+        );
 
         wp_enqueue_script( 'nf-front-end-deps', $js_dir . 'front-end-deps.js', array( 'jquery', 'backbone' ), $ver );
         wp_enqueue_script( 'nf-front-end',      $js_dir . 'front-end.js',      array( 'nf-front-end-deps'  ), $ver );

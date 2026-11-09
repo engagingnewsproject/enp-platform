@@ -30,8 +30,8 @@ final class NF_Admin_Menus_MockData extends NF_Abstracts_Submenu
     {
         // Fallback if not redirected.
         $this->mock_data();
-        echo '<div class="wrap">' . esc_html__( 'Migrations and Mock Data complete. ', 'ninja-forms' ) . '<a href="' .
-            admin_url( "admin.php?page=ninja-forms" ) . '">' . esc_html__( 'View Forms', 'ninja-forms' ) . '</a></div>';
+        echo '<div class="wrap">' . 'Migrations and Mock Data complete. ' . '<a href="' .
+            admin_url( "admin.php?page=ninja-forms" ) . '">' . 'View Forms' . '</a></div>';
     }
 
     private function mock_data()

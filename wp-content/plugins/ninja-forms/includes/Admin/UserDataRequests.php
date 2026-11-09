@@ -62,7 +62,7 @@ class NF_Admin_UserDataRequests {
 	 */
 	function plugin_register_erasers( $erasers = array() ) {
 		$erasers[] = array(
-			'eraser_friendly_name' => esc_html__( 'Ninja Forms Submissions Data', 'ninja-forms' ),
+			'eraser_friendly_name' => esc_html__( 'Ninja Forms Submission Data', 'ninja-forms' ),
 			'callback'               => array( $this, 'plugin_user_data_eraser' ),
 		);
 		return $erasers;

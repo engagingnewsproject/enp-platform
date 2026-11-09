@@ -30,7 +30,7 @@ function ninja_forms_ability_verify_nonce( $request ) {
 	if ( empty( $nonce ) ) {
 		return new WP_Error(
 			'rest_csrf_protection',
-			__( 'CSRF token is missing. Please refresh the page and try again.', 'ninja-forms' ),
+			'CSRF token is missing. Please refresh the page and try again.',
 			array( 'status' => 403 )
 		);
 	}
@@ -38,7 +38,7 @@ function ninja_forms_ability_verify_nonce( $request ) {
 	if ( ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
 		return new WP_Error(
 			'rest_csrf_invalid',
-			__( 'CSRF token is invalid. Please refresh the page and try again.', 'ninja-forms' ),
+			'CSRF token is invalid. Please refresh the page and try again.',
 			array( 'status' => 403 )
 		);
 	}
@@ -56,7 +56,7 @@ function ninja_forms_ability_validate_calculation_formula( $formula ) {
 	if ( empty( $formula ) ) {
 		return new WP_Error(
 			'empty_formula',
-			__( 'Calculation formula cannot be empty.', 'ninja-forms' ),
+			'Calculation formula cannot be empty.',
 			array( 'status' => 400 )
 		);
 	}
@@ -76,7 +76,7 @@ function ninja_forms_ability_validate_calculation_formula( $formula ) {
 		if ( preg_match( $pattern, $formula ) ) {
 			return new WP_Error(
 				'dangerous_formula',
-				__( 'Formula contains potentially dangerous code and has been rejected.', 'ninja-forms' ),
+				'Formula contains potentially dangerous code and has been rejected.',
 				array( 'status' => 400 )
 			);
 		}
@@ -87,7 +87,7 @@ function ninja_forms_ability_validate_calculation_formula( $formula ) {
 	if ( ! preg_match( $allowed_pattern, $formula ) ) {
 		return new WP_Error(
 			'invalid_formula_chars',
-			__( 'Formula contains invalid characters.', 'ninja-forms' ),
+			'Formula contains invalid characters.',
 			array( 'status' => 400 )
 		);
 	}
@@ -106,7 +106,7 @@ function ninja_forms_ability_can_manage_forms_with_csrf( $request = null ) {
 	if ( ! current_user_can( 'manage_options' ) && ! current_user_can( 'nf_edit_forms' ) ) {
 		return new WP_Error(
 			'rest_forbidden',
-			__( 'Sorry, you are not allowed to manage Ninja Forms.', 'ninja-forms' ),
+			'Sorry, you are not allowed to manage Ninja Forms.',
 			array( 'status' => 403 )
 		);
 	}

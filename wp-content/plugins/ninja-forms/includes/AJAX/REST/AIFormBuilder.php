@@ -213,7 +213,7 @@ class NF_AJAX_REST_AIFormBuilder extends NF_AJAX_REST_Controller
 
         // The ability's count includes the auto-added submit button.
         $field_count = isset($result['field_count']) ? max(0, (int) $result['field_count'] - 1) : 0;
-        $title = isset($result['title']) ? $result['title'] : __('your form', 'ninja-forms');
+        $title = isset($result['title']) ? $result['title'] : 'your form';
         $stored = ConversationStore::appendAccepted(
             $result['form_id'],
             array(
@@ -226,10 +226,13 @@ class NF_AJAX_REST_AIFormBuilder extends NF_AJAX_REST_Controller
                 array(
                     'role'    => 'assistant',
                     'content' => sprintf(
-                        /* translators: 1: form title, 2: number of fields */
-                        __(
-                            'I built “%1$s” from your description — %2$d fields plus a submit button, '
+                        /* translators: 1: form title, 2: number of fields. */
+                        _n(
+                            'I built “%1$s” from your description: %2$d field plus a submit button, '
                             . 'with starting actions to match. Ask me here any time you want to change it.',
+                            'I built “%1$s” from your description: %2$d fields plus a submit button, '
+                            . 'with starting actions to match. Ask me here any time you want to change it.',
+                            $field_count,
                             'ninja-forms'
                         ),
                         $title,

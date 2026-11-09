@@ -47,6 +47,7 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
     public function readErrorLog( array $logFiles )
     {
         $errorLog = [];
+        $seenDeprecations = [];
 
         foreach ( $this->uniqueLogFiles( $logFiles ) as $logFile ) {
             $lines = preg_split( '/\R/', $this->readLogTail( $logFile ) );
@@ -59,9 +60,29 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
                     continue;
                 }
 
-                // Only capture warnings and fatal errors
-                if ( ! preg_match( '/\[(.*?)\]\s*PHP (Warning|Error|Fatal error|Parse error):/i', $line ) ) {
+                // Only capture warnings, fatal errors and deprecation notices
+                if ( ! preg_match( '/\[(.*?)\]\s*PHP (Warning|Error|Fatal error|Parse error|Deprecated):/i', $line, $entryKind ) ) {
                     continue;
+                }
+
+                if ( 0 === strcasecmp( 'Deprecated', $entryKind[ 2 ] ) ) {
+                    // A deprecation is only listed when it comes from one of
+                    // our own plugins (issue #8152). Third party deprecations
+                    // are plentiful on newer PHP versions and would push the
+                    // site's real errors out of this list.
+                    if ( ! $this->isNinjaFormsEntry( $line ) ) {
+                        continue;
+                    }
+
+                    // The same notice fires on every affected request. List it
+                    // once, keeping the most recent occurrence.
+                    $signature = $this->deprecationSignature( $line );
+
+                    if ( isset( $seenDeprecations[ $signature ] ) ) {
+                        continue;
+                    }
+
+                    $seenDeprecations[ $signature ] = true;
                 }
 
                 $errorLog[] = $line;
@@ -73,6 +94,51 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
         }
 
         return $errorLog;
+    }
+
+    /**
+     * Whether a log entry was produced by a file inside a Ninja Forms plugin.
+     *
+     * A log entry names the file that produced it, as " in <path> on line <n>".
+     * An entry counts as ours when that file sits in a plugin directory whose
+     * name begins with "ninja-forms", which covers the core plugin and every
+     * add-on without a list to maintain as add-ons ship.
+     *
+     * @param string $line A single log entry.
+     * @return bool
+     */
+    protected function isNinjaFormsEntry( $line )
+    {
+        if ( ! preg_match( '/ in (.+) on line \d+\s*$/i', $line, $matched ) ) {
+            return false;
+        }
+
+        // Normalise Windows paths so one rule covers every host.
+        $path = str_replace( '\\', '/', $matched[ 1 ] );
+
+        // The last plugin directory named is the one that produced the entry;
+        // an earlier one may simply be quoted in the message text.
+        if ( ! preg_match( '#^.*/plugins/([^/]+)/#', $path, $pluginFolder ) ) {
+            return false;
+        }
+
+        return 0 === stripos( $pluginFolder[ 1 ], 'ninja-forms' );
+    }
+
+    /**
+     * Identify a deprecation notice independently of when it was written.
+     *
+     * One notice fires on every affected request, so occurrences differ only
+     * by their timestamp. Dropping that prefix lets repeats of a single notice
+     * collapse to one listed entry while two genuinely different notices, even
+     * from the same file, stay apart.
+     *
+     * @param string $line A single log entry.
+     * @return string
+     */
+    protected function deprecationSignature( $line )
+    {
+        return trim( preg_replace( '/^\[[^\]]*\]\s*/', '', $line ) );
     }
 
     /**
@@ -252,7 +318,8 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
         //curl
         if ( extension_loaded( 'curl' ) && function_exists( 'curl_version' ) ) {
             $curl_version = curl_version();
-            $curl = esc_html__( 'Version' . ' ' . $curl_version['version'], 'ninja-forms' );
+            /* translators: %s is the version number of the cURL library on the server. */
+            $curl = sprintf( esc_html__( 'Version %s', 'ninja-forms' ), esc_html( $curl_version['version'] ) );
         } else {
             $curl = esc_html__( 'No', 'ninja-forms' );
         }
@@ -273,9 +340,9 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
 
         //NF Legacy Submissions check
         if ( Ninja_Forms()->get_setting('load_legacy_submissions') ) {
-            $legacy_submissions = esc_html__( 'enabled', 'ninja-forms' );
+            $legacy_submissions = esc_html__( 'Enabled', 'ninja-forms' );
         } else {
-            $legacy_submissions = esc_html__( 'disabled', 'ninja-forms' );
+            $legacy_submissions = esc_html__( 'Disabled', 'ninja-forms' );
         }
 
         // NF Opinionated Styles
@@ -323,7 +390,8 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
                     $plugin_name = '<a href="' . esc_attr( $plugin_data[ 'PluginURI' ] ) . '" title="' . esc_html__( 'Visit plugin homepage' , 'ninja-forms' ) . '">' . $plugin_name . '</a>';
                 }
 
-                $all_plugins[] = $plugin_name . ' ' . esc_html__( 'by', 'ninja-forms' ) . ' ' . $plugin_data['Author'] . ' ' . esc_html__( 'version', 'ninja-forms' ) . ' ' . $plugin_data['Version'] . $version_string;
+                /* translators: Row of the installed plugins list. 1: plugin name. 2: author. 3: version number. */
+                $all_plugins[] = sprintf( esc_html__( '%1$s by %2$s version %3$s', 'ninja-forms' ), $plugin_name, $plugin_data['Author'], $plugin_data['Version'] ) . $version_string;
             }
         }
 
@@ -352,7 +420,8 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
                     $plugin_name = '<a href="' . esc_attr($plugin_data['PluginURI']) . '" title="' . esc_html__('Visit plugin homepage', 'ninja-forms') . '">' . $plugin_name . '</a>';
                 }
 
-                $all_inactive_plugins[] = $plugin_name . ' ' . esc_html__('by', 'ninja-forms') . ' ' . $plugin_data['Author'] . ' ' . esc_html__('version', 'ninja-forms') . ' ' . $plugin_data['Version'] . $version_string;
+                /* translators: Row of the installed plugins list. 1: plugin name. 2: author. 3: version number. */
+                $all_inactive_plugins[] = sprintf( esc_html__( '%1$s by %2$s version %3$s', 'ninja-forms' ), $plugin_name, $plugin_data['Author'], $plugin_data['Version'] ) . $version_string;
             }
         }
 
@@ -501,17 +570,17 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
             esc_html__( 'Server IP Address', 'ninja-forms' ) => $server_ip,
             esc_html__( 'Host Name', 'ninja-forms' ) => $host_name,
             esc_html__( 'SMTP','ninja-forms' ) => ini_get('SMTP'),
-            esc_html__( 'smtp_port','ninja-forms' ) => ini_get('smtp_port'),
+            esc_html__( 'SMTP Port','ninja-forms' ) => ini_get('smtp_port'),
         );
         $php_extensions = array(
-            esc_html__( 'CURL Installed','ninja-forms' ) => $curl,
+            esc_html__( 'cURL Installed','ninja-forms' ) => $curl,
             esc_html__( 'mbstring Installed','ninja-forms' ) => $mbstring,
             esc_html__( 'SUHOSIN Installed','ninja-forms' ) => $suhosin,
         );
         $NF_environment = array(
             esc_html__( 'Ninja Forms DB Version', 'ninja-forms' ) => get_option( 'ninja_forms_db_version' ),
             esc_html__( 'Ninja Forms Gatekeeper', 'ninja-forms' ) => WPN_Helper::get_zuul(),
-            esc_html__( 'Ninja Forms "Dev Mode"', 'ninja-forms' ) => ( $dev_mode ) ? esc_html__('Enabled') : esc_html__('Disabled'),
+            esc_html__( 'Ninja Forms "Dev Mode"', 'ninja-forms' ) => ( $dev_mode ) ? esc_html__('Enabled', 'ninja-forms') : esc_html__('Disabled', 'ninja-forms'),
             esc_html__( 'Currency','ninja-forms' ) => Ninja_Forms()->get_setting('currency'),
             esc_html__( 'Date Format','ninja-forms' ) => Ninja_Forms()->get_setting( 'date_format' ),
             esc_html__( 'Opinionated Styles','ninja-forms' ) => $opinionated_styles,

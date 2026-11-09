@@ -137,7 +137,7 @@ NinjaOnboarding.prototype.drawerOpened = function () {
 }
 
 NinjaOnboarding.prototype.step = function (step = 0) {
-    if(step > 0) this.currentStep = step;
+    this.currentStep = step;
     switch (step) {
         case 1:
             /* Dashboard */
@@ -308,7 +308,10 @@ NinjaOnboarding.prototype.step = function (step = 0) {
             // OR the drawer is open
             let safeDrawer = [ '', 'newForm' ];
             if(this.builderClean || !safeDrawer.includes(this.builderCurrentDrawer)) {
-                this.step(0);
+                // Temporarily hide guidance while keeping the active publish step.
+                this.mute();
+                this.curtain(true);
+                this.beacon();
                 break;
             }
             this.say(nfOBi18n.step9);

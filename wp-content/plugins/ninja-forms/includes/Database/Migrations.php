@@ -231,6 +231,38 @@ class NF_Database_Migrations
 
         /* Delete background processing flags */
         $wpdb->query( "DELETE FROM `{$wpdb->options}` WHERE `option_name` LIKE 'wp_nf_update_fields_%'" );
+
+        $this->_nuke_paypal_settings();
+    }
+
+    /**
+     * Delete what the core PayPal connection stores.
+     *
+     * nf_paypal_connect holds the site's PayPal service identity and signing
+     * credential, so "delete all data" must not leave it behind. A merchant
+     * who reinstalls connects again and is issued a fresh credential.
+     *
+     * Names are spelled out rather than read from the PayPal classes so the
+     * cleanup does not depend on loading them.
+     */
+    protected function _nuke_paypal_settings()
+    {
+        global $wpdb;
+
+        delete_option( 'nf_paypal_connect' );              // NF_PayPal_Connection::OPTION
+        delete_option( 'nf_paypal_first_payment_notice' ); // NF_PayPal_FirstPaymentNotice::SEEN_OPTION
+
+        // Named for an object cache, which the LIKE below cannot reach.
+        delete_transient( 'nf_paypal_status_checked' );    // NF_AJAX_Controllers_PayPalConnect::STATUS_CHECKED
+        delete_transient( 'nf_paypal_attempt_checked' );   // NF_AJAX_Controllers_PayPalConnect::ATTEMPT_CHECKED
+
+        // Every PayPal transient in the options table, including one
+        // nf_paypal_sync_<entry id> per paid entry viewed (NF_PayPal_PaymentSync).
+        $wpdb->query( $wpdb->prepare(
+            "DELETE FROM `{$wpdb->options}` WHERE `option_name` LIKE %s OR `option_name` LIKE %s",
+            $wpdb->esc_like( '_transient_nf_paypal_' ) . '%',
+            $wpdb->esc_like( '_transient_timeout_nf_paypal_' ) . '%'
+        ) );
     }
 
 

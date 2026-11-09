@@ -73,7 +73,7 @@ class NF_Abilities_Response {
 			'rest_forbidden',
 			sprintf(
 				/* translators: %s: resource name */
-				__( 'Sorry, you are not allowed to manage %s.', 'ninja-forms' ),
+				'Sorry, you are not allowed to manage %s.',
 				$resource
 			),
 			array( 'status' => 403 )
@@ -91,7 +91,7 @@ class NF_Abilities_Response {
 		if ( empty( $message ) ) {
 			$message = sprintf(
 				/* translators: %s: field name */
-				__( 'Invalid value for field: %s', 'ninja-forms' ),
+				'Invalid value for field: %s',
 				$field
 			);
 		}
@@ -119,7 +119,7 @@ class NF_Abilities_Response {
 			'database_error',
 			sprintf(
 				/* translators: %s: operation name */
-				__( 'Database error occurred during %s operation.', 'ninja-forms' ),
+				'Database error occurred during %s operation.',
 				$operation
 			),
 			array( 'status' => 500 )
@@ -136,14 +136,14 @@ class NF_Abilities_Response {
 	public static function not_found( $resource, $id = '' ) {
 		$message = sprintf(
 			/* translators: %s: resource type */
-			__( '%s not found.', 'ninja-forms' ),
+			'%s not found.',
 			ucfirst( $resource )
 		);
 		
 		if ( ! empty( $id ) ) {
 			$message = sprintf(
 				/* translators: %1$s: resource type, %2$s: resource ID */
-				__( '%1$s with ID %2$s not found.', 'ninja-forms' ),
+				'%1$s with ID %2$s not found.',
 				ucfirst( $resource ),
 				$id
 			);
@@ -171,7 +171,7 @@ class NF_Abilities_Response {
 			'required_field',
 			sprintf(
 				/* translators: %s: field name */
-				__( '%s is required.', 'ninja-forms' ),
+				'%s is required.',
 				ucfirst( str_replace( '_', ' ', $field ) )
 			),
 			array( 'field' => $field )

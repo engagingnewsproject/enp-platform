@@ -194,11 +194,11 @@
 </script>
 
 <script id="tmpl-nf-app-header-publish-button" type="text/template">
-    <a href="#" style="width:{{{ data.publishWidth }}} !important" class="nf-button primary {{{ data.maybeDisabled() }}} publish" title="<?php esc_html_e( 'Publish', 'ninja-forms' ); ?>" data-testid="nf-publish"><?php esc_html_e( 'PUBLISH', 'ninja-forms' ); ?></a>
+    <a href="#" style="width:{{{ data.publishWidth }}} !important" class="nf-button primary {{{ data.maybeDisabled() }}} publish" title="<?php esc_html_e( 'Publish', 'ninja-forms' ); ?>" data-testid="nf-publish"><?php esc_html_e( 'Publish', 'ninja-forms' ); ?></a>
 </script>
 
 <script id="tmpl-nf-add-header-publish-loading" type="text/template">
-    <a href="#" {{{ data.publishWidth }}} class="nf-button primary {{{ data.maybeDisabled() }}} publish" title="<?php esc_html_e( 'Loading', 'ninja-forms' ); ?>">
+    <a href="#" {{{ data.publishWidth }}} class="nf-button primary {{{ data.maybeDisabled() }}} publish" title="<?php esc_html_e( 'Loading...', 'ninja-forms' ); ?>">
         <div class="nf-loading">
             <ul>
                 <li></li>
@@ -256,7 +256,7 @@
     <tr>
         <td colspan="4">
             <h3><?php esc_html_e( 'Add form actions', 'ninja-forms' ); ?></h3>
-            <p><?php esc_html_e( "Get started by adding your first form field. Just click the plus and select the actions you want. It's that easy.", 'ninja-forms' ); ?></p>
+            <p><?php esc_html_e( 'Get started by adding your first form action. Just click the plus and select the actions you want. It\'s that easy.', 'ninja-forms' ); ?></p>
         </td>
     </tr>
 </script>
@@ -345,7 +345,7 @@
         <?php
         printf(
             /* translators: %s: URL to the Ninja Forms Developer Mode setting. */
-            wp_kses_post( __( 'For more technical features, <a href="%s">enable Developer Mode</a>.', 'ninja-forms' ) ),
+            wp_kses_post( __( 'For more technical features, <a href="%s">enable Dev Mode</a>.', 'ninja-forms' ) ),
             esc_url( add_query_arg( 'page', 'nf-settings', admin_url( 'admin.php' ) ) . '#ninja_forms[builder_dev_mode]' )
         );
         ?>
@@ -523,7 +523,7 @@
 <script id="tmpl-nf-drawer-header-view-changes" type="text/template">
     <header class="nf-drawer-header">
         <div>
-            <a href="#" title="<?php esc_html_e( 'Undo All', 'ninja-forms' ); ?>" class="nf-button secondary undoChanges" style="float:left;" tabindex="-1"><span class="dashicons dashicons-backup"></span><?php esc_html_e( ' Undo All', 'ninja-forms' ); ?></a>
+            <a href="#" title="<?php esc_html_e( 'Undo All', 'ninja-forms' ); ?>" class="nf-button secondary undoChanges" style="float:left;" tabindex="-1"><span class="dashicons dashicons-backup"></span> <?php esc_html_e( 'Undo All', 'ninja-forms' ); ?></a>
         </div>
         <a href="#" title="<?php esc_html_e( 'Done', 'ninja-forms' ); ?>" class="nf-button primary nf-close-drawer" tabindex="-1"><?php esc_html_e( 'Done', 'ninja-forms' ); ?></a>
     </header>
@@ -638,7 +638,7 @@
         {{{ data.renderSetting() }}}
         <span class="nf-setting-error"></span>
         <span class="nf-dev-import-options" style="display:none">
-            <?php esc_html_e( 'Please use the following format', 'ninja-forms' ); ?>:
+            <?php esc_html_e( 'Please use the following format:', 'ninja-forms' ); ?>
             <br>
             <br>
             <strong><?php esc_html_e( 'Label, Value, Calc Value', 'ninja-forms' ); ?></strong>
@@ -750,9 +750,10 @@ Label Three
     <label for="{{{ data.name }}}" class="nf-select">{{{ data.label }}} {{{ data.renderTooltip() }}}
         <select id="{{{ data.name }}}" class="setting">
             <#
+            var optionText = Backbone.Radio.channel( 'app' ).request( 'get:optionText' );
             _.each( data.options, function( option ) {
                 #>
-                <option value="{{{ option.value }}}" {{{ ( data.value == option.value ) ? 'selected="selected"' : '' }}}>{{{ option.label }}}</option>
+                <option value="{{ optionText( option.value ) }}" {{{ ( data.value == option.value ) ? 'selected="selected"' : '' }}}>{{ optionText( option.label ) }}</option>
                 <#
             } );
             #>
@@ -772,9 +773,10 @@ Label Three
     <label for="{{{ data.name }}}" class="nf-select">{{{ data.label }}} {{{ data.renderTooltip() }}}
         <select id="{{{ data.name }}}" class="setting">
             <#
+            var optionText = Backbone.Radio.channel( 'app' ).request( 'get:optionText' );
             _.each( data.options, function( option ) {
                 #>
-                <option value="{{{ option.value }}}" {{{ ( data.value == option.value ) ? 'selected="selected"' : '' }}}>{{{ option.label }}}</option>
+                <option value="{{ optionText( option.value ) }}" {{{ ( data.value == option.value ) ? 'selected="selected"' : '' }}}>{{ optionText( option.label ) }}</option>
                 <#
             } );
             #>
@@ -801,8 +803,12 @@ Label Three
 <script id="tmpl-nf-edit-setting-toggle" type="text/template">
 
     <span class="nf-setting-label">{{{ data.label }}}{{{ data.renderTooltip() }}}</span>
-    <input type="checkbox" data-setting="{{{ data.settingName }}}" id="{{{ data.name }}}" class="nf-toggle setting" {{{ ( 1 == data.value ) ? 'checked' : '' }}} />
+    <input type="checkbox" data-setting="{{{ data.settingName }}}" id="{{{ data.name }}}" class="nf-toggle setting" <# if ( 'disable_browser_autocomplete' === data.name ) { #>aria-describedby="nf-autocomplete-guidance"<# } #> {{{ ( 1 == data.value ) ? 'checked' : '' }}} />
     <label for="{{{ data.name }}}">{{{ data.label }}}</label>
+
+    <# if ( 'disable_browser_autocomplete' === data.name ) { #>
+    <p id="nf-autocomplete-guidance">{{ data.help }}</p>
+    <# } #>
 
 </script>
 
@@ -811,10 +817,11 @@ Label Three
 
     <span class="nf-setting-label">{{{ data.label }}}{{{ data.renderTooltip() }}}</span>
     <#
+    var optionText = Backbone.Radio.channel( 'app' ).request( 'get:optionText' );
     _.each( data.options, function( option ) {
     #>
-    <span class="nf-setting-label">{{{ option.label }}}</span>
-    <input type="radio" value="{{{ option.value }}}" name="{{{ data.name }}}" {{{ data.value == option.value ? "checked" : '' }}}></option>
+    <span class="nf-setting-label">{{ optionText( option.label ) }}</span>
+    <input type="radio" value="{{ optionText( option.value ) }}" name="{{{ data.name }}}" {{{ data.value == option.value ? "checked" : '' }}}></option>
     <#
     } );
     #>
@@ -829,17 +836,18 @@ Label Three
     <# } #>
 	<div class="nf-setting button-toggle">
 		<#
+		var optionText = Backbone.Radio.channel( 'app' ).request( 'get:optionText' );
 		_.each( data.options, function( option ) {
 		#>
-			<label for="field-{{{ option.value }}}"
-				data-option_value="{{{ option.value }}}">
-				<input type="radio" id="field-{{{ option.value }}}"
+			<label for="field-{{ optionText( option.value ) }}"
+				data-option_value="{{ optionText( option.value ) }}">
+				<input type="radio" id="field-{{ optionText( option.value ) }}"
 			       style="display:none;"
 			       class="nf-button-toggle setting"
-					value="{{{ option.value }}}" name="{{{data.name }}}"
+					value="{{ optionText( option.value ) }}" name="{{{data.name }}}"
 	                {{{ data.value == option.value ? "checked" : '' }}}>
 				<span class="nf-button primary {{{ data.value != option.value ?
-				"disabled": "" }}}">{{{ option.label }}}</span>
+				"disabled": "" }}}">{{ optionText( option.label ) }}</span>
 			</label>
 			<#
 		} );
@@ -1084,7 +1092,7 @@ Label Three
         Text
         <input type="url" class="widefat code link-text"> <br />
         <label>
-            <input type="checkbox" class="link-new-window"><?php esc_html_e( ' Open in new window', 'ninja-forms' ); ?>
+            <input type="checkbox" class="link-new-window"> <?php esc_html_e( 'Open in new window', 'ninja-forms' ); ?>
         </label>
         <input type="button" class="cancel-link extra" value="Cancel">
         <input type="button" class="insert-link extra" value="Insert">

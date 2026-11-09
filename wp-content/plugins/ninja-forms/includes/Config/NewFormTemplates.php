@@ -29,13 +29,13 @@ $templates = array(
     'formtemplate-eventregistration'    => array(
         'id'                            => 'formtemplate-eventregistration',
         'title'                         => esc_html__( 'Event Registration', 'ninja-forms' ),
-        'template-desc'                 => esc_html__( 'Allow user to register for your next event this easy to complete form. You can add and remove fields as needed.', 'ninja-forms' ),
+        'template-desc'                 => esc_html__( 'Allow users to register for your next event with this easy to complete form. You can add and remove fields as needed.', 'ninja-forms' ),
     ),
 
     'formtemplate-enquiry'              => array(
         'id'                            => 'formtemplate-enquiry',
-        'title'                         => esc_html__( 'General Enquiry', 'ninja-forms' ),
-        'template-desc'                 => esc_html__( 'Collect user enquiries with this simple, generic form. You can add and remove fields as needed.', 'ninja-forms' ),
+        'title'                         => esc_html__( 'General Inquiry', 'ninja-forms' ),
+        'template-desc'                 => esc_html__( 'Collect user inquiries with this simple, generic form. You can add and remove fields as needed.', 'ninja-forms' ),
     ),
 
     'formtemplate-feedback'             => array(
@@ -76,8 +76,8 @@ $ads = array(
 
     'mailchimp-signup'                  => array(
         'id'                            => 'mailchimp-signup',
-        'title'                         => esc_html__( 'MailChimp Signup', 'ninja-forms' ),
-        'template-desc'                 => esc_html__( 'Add a user to a list in MailChimp. You can add and remove fields as needed.', 'ninja-forms' ),
+        'title'                         => esc_html__( 'Mailchimp Signup', 'ninja-forms' ),
+        'template-desc'                 => esc_html__( 'Add a user to a list in Mailchimp. You can add and remove fields as needed.', 'ninja-forms' ),
         'type'                          => 'ad',
         'modal-title'                   => 'Get MailChimp for Ninja Forms',
         'modal-content'                 => '<div class="modal-template">

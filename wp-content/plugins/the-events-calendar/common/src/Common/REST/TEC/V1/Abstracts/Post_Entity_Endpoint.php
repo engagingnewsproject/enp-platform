@@ -282,6 +282,7 @@ abstract class Post_Entity_Endpoint extends Endpoint implements Post_Entity_Endp
 	 * Formats a post into a post entity.
 	 *
 	 * @since 6.9.0
+	 * @since 6.13.3 The edit context is only served to users who can edit the post.
 	 *
 	 * @param WP_Post $post The post to format.
 	 *
@@ -290,7 +291,18 @@ abstract class Post_Entity_Endpoint extends Endpoint implements Post_Entity_Endp
 	public function get_formatted_entity( WP_Post $post ): array {
 		$rest_controller = new WP_REST_Posts_Controller( $this->get_post_type() );
 		$request         = $this->get_request();
-		$data            = $rest_controller->prepare_item_for_response( $post, $request );
+
+		/*
+		 * Core rejects `context=edit` from anyone who cannot edit the post. Checked per post,
+		 * not per request, because linked posts (an Event's Organizers and Venues) are formatted
+		 * with the same request and editing the Event grants nothing on them.
+		 */
+		if ( 'edit' === $request['context'] && ! current_user_can( $this->get_post_type_object()->cap->edit_post, $post->ID ) ) {
+			$request = clone $request;
+			$request->set_param( 'context', 'view' );
+		}
+
+		$data = $rest_controller->prepare_item_for_response( $post, $request );
 
 		return $this->transform_entity( $this->add_properties_to_model( $rest_controller->prepare_response_for_collection( $data ), $post ) );
 	}
@@ -299,16 +311,35 @@ abstract class Post_Entity_Endpoint extends Endpoint implements Post_Entity_Endp
 	 * Adds properties to the model.
 	 *
 	 * @since 6.9.0
+	 * @since 6.13.0 Update the additional properties logic to support aliases defined by the model `get_properties_to_add`
+	 *        method.
 	 *
-	 * @param array   $formatted_post The formatted post.
-	 * @param WP_Post $original_post  The original post.
+	 * @param array<string,mixed> $formatted_post The formatted post.
+	 * @param WP_Post             $original_post  The original post.
 	 *
-	 * @return array The response with the properties added.
+	 * @return array<string,mixed> The response with the properties added.
 	 */
 	protected function add_properties_to_model( array $formatted_post, WP_Post $original_post ): array {
 		$properties_to_add = $this->get_model_class()::get_properties_to_add();
 
-		$data = array_merge( (array) $formatted_post, array_intersect_key( (array) $original_post, $properties_to_add ) );
+		$additional_properties = [];
+		foreach ( (array) $original_post as $key => $value ) {
+			if ( ! isset( $properties_to_add[ $key ] ) ) {
+				continue;
+			}
+
+			$property_value = $properties_to_add[ $key ];
+
+			if ( is_string( $property_value ) ) {
+				// Alias.
+				$additional_properties[ $property_value ] = $value;
+			} elseif ( $property_value === true ) {
+				// Add as is. Strict check to keep the previous logic.
+				$additional_properties[ $key ] = $value;
+			}
+		}
+
+		$data = array_merge( (array) $formatted_post, $additional_properties );
 
 		$data['link'] = $data['permalink'] ?? $data['link'];
 		unset(
