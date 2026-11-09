@@ -442,9 +442,16 @@ class NF_Actions_Email extends SotAction implements InterfacesSotAction
         $csv_array[0][] = 'Date Submitted';
         $csv_array[1][] = $today;
 
-        foreach ($fields as $field) {
+        /*
+         * Field types the rest of the plugin hides from submission data. The
+         * Save action drops these from the stored submission through this same
+         * filter, which is why reCAPTCHA never reaches the Submissions page
+         * export but did reach this attachment. See issue #7164.
+         */
+        $hidden_field_types = apply_filters('nf_sub_hidden_field_types', array());
 
-            $ignore = array(
+        $ignore = array_values(array_unique(array_merge(
+            array(
                 'hr',
                 'submit',
                 'html',
@@ -453,9 +460,17 @@ class NF_Actions_Email extends SotAction implements InterfacesSotAction
                 'creditcardfullname',
                 'creditcardnumber',
                 'creditcardzip',
-            );
+            ),
+            $hidden_field_types
+        )));
 
-            $ignore = apply_filters('ninja_forms_csv_ignore_fields', $ignore);
+        /*
+         * Field types that opt out of this attachment alone, such as the
+         * password fields, add themselves here.
+         */
+        $ignore = apply_filters('ninja_forms_csv_ignore_fields', $ignore);
+
+        foreach ($fields as $field) {
 
             if (! isset($field['label'])) continue;
             if (in_array($field['type'], $ignore)) continue;

@@ -29,6 +29,21 @@ class NF_Fields_Date extends NF_Fields_Textbox
 
         $this->_nicename = esc_html__( 'Date/Time', 'ninja-forms' );
 
+        /*
+         * The inherited placeholder is written onto the date input, which is
+         * hidden in time-only mode - the hour and minute dropdowns carry their
+         * own labels instead. Offer the setting only in the modes that show the
+         * date input, following the same date_mode dependency the format, year
+         * range, and default-to-current settings already use. See #7065.
+         */
+        $this->_settings[ 'placeholder' ][ 'deps' ] = array(
+            'settings' => array(
+                array( 'name' => 'date_mode', 'value' => 'date_only' ),
+                array( 'name' => 'date_mode', 'value' => 'date_and_time' ),
+            ),
+            'match' => 'any',
+        );
+
         add_filter( 'ninja_forms_localize_field_date', [ $this,'localizeField'], 10, 2);
         add_filter( 'ninja_forms_localize_field_date_preview', [ $this,'localizeField'], 10, 2);
         add_filter( 'ninja_forms_custom_columns', [ $this, 'custom_columns' ], 10, 2 );

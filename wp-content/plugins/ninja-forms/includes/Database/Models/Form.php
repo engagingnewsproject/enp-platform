@@ -29,7 +29,20 @@ final class NF_Database_Models_Form extends NF_Abstracts_Model
 
     public function __construct( $db, $id = '' )
     {
-        add_action( 'ninja_forms_before_import_form', array( $this, 'import_form_backwards_compatibility' ) );
+        /*
+         * Every model shares one listener. The callback keeps no per-form state, and a
+         * blank-id factory is built per call (#8177), so a listener per object would
+         * retain each one and run the conversion once per object on every import.
+         * WordPress keeps one entry for a repeated object callback, so re-adding it
+         * here is safe, and survives the hook being reset.
+         */
+        static $import_listener = null;
+
+        if ( null === $import_listener ) {
+            $import_listener = $this;
+        }
+
+        add_action( 'ninja_forms_before_import_form', array( $import_listener, 'import_form_backwards_compatibility' ) );
         parent::__construct( $db, $id );
     }
 

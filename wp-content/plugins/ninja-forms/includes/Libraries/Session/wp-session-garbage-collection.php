@@ -15,7 +15,16 @@
  * requests. So this file carries the collector alone, is loaded on every
  * request, and schedules from `init`, which fires on every request type.
  *
+ * Because it loads on every request, it must never declare the WP Session
+ * library's own function names (wp_session_cleanup(),
+ * wp_session_register_garbage_collection()). Other plugins bundle that library,
+ * some without function_exists() guards, and declaring those names first stops
+ * the whole site with "Cannot redeclare". The collector and its scheduler use
+ * Ninja Forms names instead, which also guarantees it is Ninja Forms' collector
+ * that runs rather than whichever copy of the library loaded first.
+ *
  * @see https://github.com/Saturday-Drive/ninja-forms/issues/8133
+ * @see https://github.com/Saturday-Drive/ninja-forms/issues/8296
  *
  * @package Ninja Forms
  * @subpackage Libraries/Session
@@ -88,7 +97,7 @@ if ( ! function_exists( 'nf_session_collect_expired_option_names' ) ) {
     }
 }
 
-if ( ! function_exists( 'wp_session_cleanup' ) ) {
+if ( ! function_exists( 'nf_session_cleanup' ) ) {
     /**
      * Clean up expired sessions by removing data and their expiration entries from
      * the WordPress options table.
@@ -104,7 +113,7 @@ if ( ! function_exists( 'wp_session_cleanup' ) ) {
      *
      * @return void
      */
-    function wp_session_cleanup() {
+    function nf_session_cleanup() {
         global $wpdb;
 
         if ( defined( 'WP_SETUP_CONFIG' ) ) {
@@ -146,9 +155,9 @@ if ( ! function_exists( 'wp_session_cleanup' ) ) {
     }
 }
 
-add_action( 'wp_session_garbage_collection', 'wp_session_cleanup' );
+add_action( 'wp_session_garbage_collection', 'nf_session_cleanup' );
 
-if ( ! function_exists( 'wp_session_register_garbage_collection' ) ) {
+if ( ! function_exists( 'nf_session_register_garbage_collection' ) ) {
     /**
      * Register the garbage collector as a twice daily event.
      *
@@ -161,11 +170,11 @@ if ( ! function_exists( 'wp_session_register_garbage_collection' ) ) {
      *
      * @return void
      */
-    function wp_session_register_garbage_collection() {
+    function nf_session_register_garbage_collection() {
         if ( ! wp_next_scheduled( 'wp_session_garbage_collection' ) ) {
             wp_schedule_event( time(), 'twicedaily', 'wp_session_garbage_collection' );
         }
     }
 }
 
-add_action( 'init', 'wp_session_register_garbage_collection' );
+add_action( 'init', 'nf_session_register_garbage_collection' );

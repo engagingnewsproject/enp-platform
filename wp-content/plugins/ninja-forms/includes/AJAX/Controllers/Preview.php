@@ -133,7 +133,18 @@ class NF_AJAX_Controllers_Preview extends NF_Abstracts_Controller
             if( is_string( $form_id ) ){
                 $form = Ninja_Forms()->form()->get();
                 $form_data['id'] = $form_id;
-                $form_data[ 'settings' ] = array();
+                /*
+                 * A form that has never been published has no stored settings to
+                 * read, so these lists start empty here instead. A published form
+                 * always carries them, and the front end resolves a conditional
+                 * logic rule against them: without the calculations list a rule
+                 * that depends on a calculation cannot find it. Anything the
+                 * builder sends overwrites these in update(). See issue #7232.
+                 */
+                $form_data[ 'settings' ] = array(
+                    'calculations' => array(),
+                    'conditions'   => array(),
+                );
                 $form_data[ 'fields' ] = array();
                 $form_data[ 'actions' ] = array();
             } else {

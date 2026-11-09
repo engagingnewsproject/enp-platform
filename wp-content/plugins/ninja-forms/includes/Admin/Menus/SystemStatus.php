@@ -47,6 +47,7 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
     public function readErrorLog( array $logFiles )
     {
         $errorLog = [];
+        $seenDeprecations = [];
 
         foreach ( $this->uniqueLogFiles( $logFiles ) as $logFile ) {
             $lines = preg_split( '/\R/', $this->readLogTail( $logFile ) );
@@ -59,9 +60,29 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
                     continue;
                 }
 
-                // Only capture warnings and fatal errors
-                if ( ! preg_match( '/\[(.*?)\]\s*PHP (Warning|Error|Fatal error|Parse error):/i', $line ) ) {
+                // Only capture warnings, fatal errors and deprecation notices
+                if ( ! preg_match( '/\[(.*?)\]\s*PHP (Warning|Error|Fatal error|Parse error|Deprecated):/i', $line, $entryKind ) ) {
                     continue;
+                }
+
+                if ( 0 === strcasecmp( 'Deprecated', $entryKind[ 2 ] ) ) {
+                    // A deprecation is only listed when it comes from one of
+                    // our own plugins (issue #8152). Third party deprecations
+                    // are plentiful on newer PHP versions and would push the
+                    // site's real errors out of this list.
+                    if ( ! $this->isNinjaFormsEntry( $line ) ) {
+                        continue;
+                    }
+
+                    // The same notice fires on every affected request. List it
+                    // once, keeping the most recent occurrence.
+                    $signature = $this->deprecationSignature( $line );
+
+                    if ( isset( $seenDeprecations[ $signature ] ) ) {
+                        continue;
+                    }
+
+                    $seenDeprecations[ $signature ] = true;
                 }
 
                 $errorLog[] = $line;
@@ -73,6 +94,51 @@ final class NF_Admin_Menus_SystemStatus extends NF_Abstracts_Submenu
         }
 
         return $errorLog;
+    }
+
+    /**
+     * Whether a log entry was produced by a file inside a Ninja Forms plugin.
+     *
+     * A log entry names the file that produced it, as " in <path> on line <n>".
+     * An entry counts as ours when that file sits in a plugin directory whose
+     * name begins with "ninja-forms", which covers the core plugin and every
+     * add-on without a list to maintain as add-ons ship.
+     *
+     * @param string $line A single log entry.
+     * @return bool
+     */
+    protected function isNinjaFormsEntry( $line )
+    {
+        if ( ! preg_match( '/ in (.+) on line \d+\s*$/i', $line, $matched ) ) {
+            return false;
+        }
+
+        // Normalise Windows paths so one rule covers every host.
+        $path = str_replace( '\\', '/', $matched[ 1 ] );
+
+        // The last plugin directory named is the one that produced the entry;
+        // an earlier one may simply be quoted in the message text.
+        if ( ! preg_match( '#^.*/plugins/([^/]+)/#', $path, $pluginFolder ) ) {
+            return false;
+        }
+
+        return 0 === stripos( $pluginFolder[ 1 ], 'ninja-forms' );
+    }
+
+    /**
+     * Identify a deprecation notice independently of when it was written.
+     *
+     * One notice fires on every affected request, so occurrences differ only
+     * by their timestamp. Dropping that prefix lets repeats of a single notice
+     * collapse to one listed entry while two genuinely different notices, even
+     * from the same file, stay apart.
+     *
+     * @param string $line A single log entry.
+     * @return string
+     */
+    protected function deprecationSignature( $line )
+    {
+        return trim( preg_replace( '/^\[[^\]]*\]\s*/', '', $line ) );
     }
 
     /**

@@ -53,7 +53,8 @@ final class NF_Actions_Recaptcha extends SotAction implements InterfacesSotActio
 		parent::__construct();
 
 		$this->_name = 'recaptcha';
-		$this->_timing = 'normal';
+		// Spam filtering must decide the submission before any action processes it. See issue #6372.
+		$this->_timing = 'early';
 		$this->_priority = '10';
 		$this->_group = 'core';
 
