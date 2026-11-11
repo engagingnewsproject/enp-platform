@@ -1,12 +1,16 @@
 const teamFilters = document.querySelector(".filter--team-menu");
 
-// This handleclick deals with the execution of show and hide the past interns of a semester
+// Show or hide the past-interns list for a given slug (e.g. "alumni").
 function toggleSemester(arg) {
   const class_name_1 = "past-interns-title__" + arg;
   const class_name_2 = "past-interns-list__" + arg;
 
   const title = document.getElementsByClassName(class_name_1);
   const content = document.getElementsByClassName(class_name_2);
+
+  if (!title[0] || !content[0]) {
+    return;
+  }
 
   var x = title[0].getAttribute("aria-expanded");
   var y = content[0].getAttribute("aria-hidden");
@@ -33,10 +37,13 @@ function toggleSemester(arg) {
   content[0].setAttribute("aria-hidden", y);
 }
 
-// this change the direction of the arrow of a semester of past interns
+// Flip the arrow on a past-interns title for the given slug.
 function changeArrowDirection(arg) {
   const class_name = "past-interns-title__" + arg;
   const title = document.getElementsByClassName(class_name);
+  if (!title[0]) {
+    return;
+  }
   var x = title[0].getAttribute("aria-expanded");
   if (x == "true") {
     title[0].setAttribute("data-toggle-arrow", "\u25bc");
@@ -45,43 +52,35 @@ function changeArrowDirection(arg) {
   }
 }
 
-// these values are to be manaully added or deleted to ensure the semester selected are on file
-var semesters = [
-  "2022-2023",
-  "2021-2022",
-  "2020-2021",
-  "2019-2020",
-  "2018-2019",
-  "spring-2018",
-  "alumni",
-  "journalisim",
-];
+// Bind every past-interns title on the page; slug comes from past-interns-title__{slug}.
+document.querySelectorAll(".past-interns-title").forEach(function (titleElement) {
+  const slugClass = Array.from(titleElement.classList).find(function (className) {
+    return className.indexOf("past-interns-title__") === 0;
+  });
+  if (!slugClass) {
+    return;
+  }
+  const semester = slugClass.replace("past-interns-title__", "");
 
-// In this forEach(), every iteration deals with one semester of past MEI interns
-semesters.forEach(function (semester) {
-  const class_name = "past-interns-title__" + semester;
-  const title_element = document.getElementsByClassName(class_name);
-  if (title_element.length > 0) {
-    title_element[0].addEventListener(
-      "click",
-      function () {
+  titleElement.addEventListener(
+    "click",
+    function () {
+      toggleSemester(semester);
+      changeArrowDirection(semester);
+    },
+    false,
+  );
+  titleElement.addEventListener(
+    "keydown",
+    function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
         toggleSemester(semester);
         changeArrowDirection(semester);
-      },
-      false,
-    );
-    title_element[0].addEventListener(
-      "keydown",
-      function (e) {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          toggleSemester(semester);
-          changeArrowDirection(semester);
-        }
-      },
-      false,
-    );
-  }
+      }
+    },
+    false,
+  );
 });
 
 // Modal pause video
