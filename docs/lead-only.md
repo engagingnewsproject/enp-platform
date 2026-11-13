@@ -77,6 +77,27 @@ du -h --max-depth 1                               # directory sizes
 
 Prefer Local’s **Site Shell** for local WP-CLI.
 
+## WP-CLI updates
+
+Run from Local **Site Shell** (or SSH on WPE), from the WordPress root:
+
+```bash
+wp core update
+wp plugin update --all
+wp theme update --all
+```
+
+Single item: `wp plugin update <slug>` / `wp theme update <slug>`.  
+List outdated: `wp plugin list --status=update-available`.
+
+Before `wp core update`, note `wp core version`. To roll back:
+
+```bash
+wp core update --version=6.4.2
+```
+
+(Use the version you noted or a known-good release from [wordpress.org](https://wordpress.org/support/wordpress-versions/).)
+
 ## Legacy / emergency: WP Engine git remotes
 
 Primary deploys should go through **GitHub Actions** (above). Some machines still have direct WPE remotes:
@@ -101,5 +122,5 @@ git push -f production stable
 
 ## Related
 
-- Short deploy notes also live in the [README](../Readme.md#deployment-for-project-leads-only)
+- Short project overview: [README](../Readme.md)
 - [Git](git.md) — what undergrads should follow instead

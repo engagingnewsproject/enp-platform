@@ -1,250 +1,41 @@
-<!----- Conversion time: 1.029 seconds.
+# mediaengagement.org
 
+WordPress site for the [Center for Media Engagement](https://mediaengagement.org/) at the University of Texas at Austin. The public theme is **engage-2-x** (Timber / Twig).
 
-Using this Markdown file:
+This repo is the full WordPress install used with Local + WP Engine. **Day-to-day code changes belong in `wp-content/themes/engage-2-x`** (and approved plugins) — avoid editing core or unrelated plugin files.
 
-1. Cut and paste this output into your source file.
-2. See the notes and action items below regarding this conversion run.
-3. Check the rendered output (headings, lists, code blocks, tables) for proper
-   formatting and use a linkchecker before you publish this page.
+## Get started
 
-Conversion notes:
+### Installation
 
-* Docs to Markdown version 1.0β21
-* Thu Apr 02 2020 11:55:39 GMT-0700 (PDT)
-* Source doc: CME Updated Readme.md
------>
-
-# Engage Theme for CME
-
-Engage is a [Timber](https://timber.github.io/docs/)-powered WordPress theme for [The Center for Media Engagement](https://mediaengagement.org/) at the University of Texas at Austin.
-
-> **Note:** This repo includes the entire WordPress installation. However, the only directory you should work on is `wp-content/themes/engage-2-x`. Avoid making changes to other files as they are tied to live sites.
-
-## Installation
-
-### Summary
-
-1. Install [WP Engine Local App](http://localwp.com/).
-2. Connect with the CME WP Engine account.
-3. Download `mediaengagement.org` from Local App.
+1. Install [Local](http://localwp.com/).
+2. Connect Local to the CME WP Engine account.
+3. Pull `mediaengagement.org` (cmengage) to Local.
 4. Point the site at this GitHub repo and sync `master`.
 5. In `wp-content/themes/engage-2-x`, run `yarn`.
 6. Start development with `yarn watch`.
 
-Full installation: [docs/getting-started.md](docs/getting-started.md).
+Full install guide: [docs/getting-started.md](docs/getting-started.md).
 
-## Local Development
-
-Engage 2.x is forked from the [Timber Starter Theme](https://github.com/timber/starter-theme). You can follow the [Timber Composer installation guide](https://timber.github.io/docs/getting-started/switch-to-composer/) for additional setup details.
-
-### Steps:
-
-1. Clone the repo and navigate to the theme directory:
-
-   ```bash
-   cd yourSiteName/app/public/wp-content/themes/engage-2-x
-   ```
-
-2. Check Node and Yarn versions:
-
-   ```bash
-   node -v
-   yarn -v
-   ```
-
-3. Install dependencies:
-
-   ```bash
-   yarn
-   ```
-
-4. Install Timber via Composer:
-
-   ```bash
-   composer require timber/timber
-   ```
-
-5. Activate the `engage-2-x` theme from WP Admin → Appearance.
-
-6. Run the development server:
-
-   ```bash
-   yarn watch
-   ```
-
-7. Before pushing changes, compile assets for production:
-
-   ```bash
-   yarn prod
-   ```
-
-## Debugging Local App Connection
-
-If you encounter issues with the Engage theme:
-
-1. **Check the Local App setup:**
-
-   - Switch the web server to nginx.
-   - Ensure PHP version is 8.2.10 or higher.
-
-2. **Switch to a default theme:**
-
-   - Rename the `engage` theme folder to force WordPress to switch to a default theme.
-   - Disable all plugins except for ACF.
-   - Rename the theme back and reactivate it in WP Admin.
-
-3. **Install Timber Dump Extension (if needed):**
-
-   ```bash
-   composer require hellonico/timber-dump-extension
-   ```
-
-4. **Deactivate the Engaging Quiz Plugin:** It is known to cause issues.
-
-## Deployment (for project leads only)
-
-Full checklist: [docs/lead-only.md](docs/lead-only.md).
-
-Github Actions deploy to each site via `public/.github/workflows/*.yml` files. See [WP Engine Branched Deploys to WP Engine with GitHub Actions](https://wpengine.com/builders/branched-deploys-wp-engine-github-actions/) for instructions and [mediaengagement Actions](https://github.com/engagingnewsproject/mediaengagement/actions) to view workflow processing. _Pushing changes to the `master` branch does not deploy to the dev site._
-
-1. **Notify Kat** before pushing updates to the live site.
-2. Compile production assets:
-
-   ```bash
-   yarn prod
-   ```
-
-3. Merge and push changes to the development site:
-
-   ```bash
-   git checkout dev && git merge master && git push
-   ```
-
-4. Merge and push changes to the staging site:
-
-   ```bash
-   git checkout stage && git merge master && git push
-   ```
-
-5. **Notify Kat** before pushing to the live site.
-6. Merge changes to the production site:
-
-   ```bash
-   git checkout stable && git merge master
-   ```
-
-   `:wq` + enter
-
-7. Push to the production site:
-
-   ```bash
-   git push
-   ```
-
-### Sync Production Database → Development
-
-> **Only for your Dev environment.** This will not touch uploads or code—just the DB.
-
-1. Make sure you’ve set your SSH keys as described in `ssh/sync-db.sh`.
-2. Confirm you have the Yarn script in your `package.json`:
-   ```jsonc
-   {
-   	"scripts": {
-   		"sync-db": "bash ssh/sync-db.sh"
-   	}
-   }
-   ```
-3. From the theme root, run:
-
-   #### Dev Site
-
-   ```bash
-   yarn sync-db-dev
-   ```
-
-   This will:
-
-   - Export the Production database
-   - Stream it into Development
-   - Search-replace your live URL with the dev URL
-   - Flush the WP cache
-
-   #### Staging Site
-
-   ```bash
-   yarn sync-db-staging
-   ```
-
-   This will:
-
-   - Export the Production database
-   - Stream it into Staging
-   - Search-replace your live URL with the staging URL
-   - Flush the WP cache
-
-4. **Verify** by spot-checking a few pages and custom post types in your Dev site.
-
-## ACF Field Group Syncing
-
-### Overview
-
-ACF field groups are automatically synced across environments via JSON files in the `acf-json` directory.
-
-### Steps to Sync:
-
-1. **Field group changes are automatically saved as JSON** in `acf-json` when updated in WP Admin.
-2. **Pull changes** from the repo to sync ACF fields on your local environment.
-3. **Commit and push** any changes after updating field groups to share them with the team.
-
-### Hiding ACF Admin in Production:
-
-- The ACF admin is hidden on production and non-local environments by checking `WP_ENVIRONMENT_TYPE`. It is only visible in local environments.
-
-## WP-CLI updates
-
-**Local users:** Run WP-CLI from the Local app’s **Site Shell** (right‑click the site → “Open site shell” or equivalent). Commands run from your normal terminal can’t reach the database and will fail with “Error establishing a database connection.”
-
-Run the commands below from the WordPress root (e.g. `app/public` in your local site folder) or use `--path`:
+### Local development
 
 ```bash
-wp core update
-wp plugin update --all
-wp theme update --all
+cd wp-content/themes/engage-2-x
+yarn
+yarn watch   # rebuild assets while you work
+yarn prod    # production build before a lead deploys
 ```
 
-To update a single plugin or theme: `wp plugin update <slug>` or `wp theme update <slug>`. List what’s outdated with `wp plugin list --status=update-available` and `wp theme list --status=update-available`.
+Activate the **engage-2-x** theme in WP Admin → Appearance. Use Local’s **Site Shell** for WP-CLI.
 
-### Reverting a bad core update
+More detail: [docs/getting-started.md](docs/getting-started.md) · [docs/coding.md](docs/coding.md) · [docs/git.md](docs/git.md).
 
-Before running `wp core update`, note your current version: `wp core version`. If the site breaks after updating, reinstall the previous version:
+## Get help
 
-```bash
-wp core update --version=6.4.2
-```
+- Team docs: [docs/README.md](docs/README.md)
+- Slack: Website channel or **@luke** (see wiki footer)
+- GitHub issues: [engagingnewsproject/mediaengagement](https://github.com/engagingnewsproject/mediaengagement/issues)
 
-Use the version number you noted (or the last known good release from [wordpress.org/support/wordpress-versions](https://wordpress.org/support/wordpress-versions/)).
+## Maintainers
 
-## Cookiebot (consent) via Google Tag Manager
-
-Consent for **mediaengagement.org** is managed with **Cookiebot** loaded through **Google Tag Manager**, not the WordPress plugin.
-
-- **Cookiebot admin:** [https://admin.cookiebot.com/](https://admin.cookiebot.com/)
-- **Official GTM deployment guide:** [Google Tag Manager deployment (Cookiebot)](https://support.cookiebot.com/hc/en-us/articles/360003793854-Google-Tag-Manager-deployment)
-
-### Quick reference for developers
-
-1. **Templates ≠ tags** — Adding the *Cookiebot CMP* template under GTM **Templates** only makes the tag type available. You still create a real tag under **Tags** → **New** → Cookiebot CMP.
-2. **Trigger** — Fire the Cookiebot CMP tag on **`Consent Initialization - All Pages`**, not on a regular Page View trigger, so default consent is set before analytics/ads tags run.
-3. **Cookiebot ID** — Use the **Domain Group ID** from Cookiebot (Your Scripts / domain group settings) in the tag.
-4. **Other tags** — GA4, Google Ads, etc. should use GTM **Consent** settings (e.g. require `analytics_storage` / `ad_storage`) so they respect choices.
-5. **Testing** — Tag Assistant can show Cookiebot firing even when the banner does not appear: try incognito or clear Cookiebot/consent cookies; confirm the domain group includes the exact hostname (`www` vs non-`www`); check Cookiebot dialog/geo settings if the banner is still missing.
-
-## Additional Information
-
-- [Timber Documentation](https://timber.github.io/docs/)
-- [Docs index](docs/README.md) — Getting Started, Coding, Git, How To, WordPress, Lead Only
-
-## Long-form documentation
-
-Team docs live in this repo under [`docs/`](docs/README.md). Start with the full install guide: [Getting Started](docs/getting-started.md).
+Maintained by the CME web team. Project lead: Luke. Undergrads contribute via issues and PRs into `master`; deploy is lead-only ([docs/lead-only.md](docs/lead-only.md)).

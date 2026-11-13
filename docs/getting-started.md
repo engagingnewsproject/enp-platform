@@ -138,6 +138,13 @@ Quiz config lives in `wp-content/enp-quiz-config.php` and (on servers) `enp-quiz
 
 In Local, use **Open site** and **WP Admin**. Prefer Local’s **Site Shell** for WP-CLI so commands can reach the database.
 
+### Troubleshooting local setup
+
+1. **Local app:** use nginx; PHP 8.2.10 or higher.
+2. **Theme won’t load:** temporarily rename `engage-2-x`, leave ACF on, then restore and reactivate the theme.
+3. **Timber dump (optional):** `composer require hellonico/timber-dump-extension` in the theme.
+4. **Quiz plugin issues:** deactivating Engaging Quiz can unblock theme debugging.
+
 ## Important links
 
 - [Center for Media Engagement on GitHub](https://github.com/engagingnewsproject)
