@@ -14,7 +14,7 @@
                 </div>
             </div>
         {% endif %}
-        {% include 'partial/teammates_new.twig' with { mates: filtered_posts[category], format: "excerpt", category: category } %}
+        {% include 'partial/teammates.twig' with { mates: filtered_posts[category], format: "excerpt", category: category } %}
     {% endfor %}
 </div>
 {% endblock %}
