@@ -28,11 +28,11 @@ Engage is a [Timber](https://timber.github.io/docs/)-powered WordPress theme for
 1. Install [WP Engine Local App](http://localwp.com/).
 2. Connect with the CME WP Engine account.
 3. Download `mediaengagement.org` from Local App.
-4. Clone this GitHub repo and fetch.
-5. Install npm dependencies.
-6. Start development.
+4. Point the site at this GitHub repo and sync `master`.
+5. In `wp-content/themes/engage-2-x`, run `yarn`.
+6. Start development with `yarn watch`.
 
-For full installation instructions, refer to the [development guide](https://docs.mediaengagement.org/mediaengagement/#installation).
+Full installation: [docs/getting-started.md](docs/getting-started.md).
 
 ## Local Development
 
@@ -103,6 +103,8 @@ If you encounter issues with the Engage theme:
 4. **Deactivate the Engaging Quiz Plugin:** It is known to cause issues.
 
 ## Deployment (for project leads only)
+
+Full checklist: [docs/lead-only.md](docs/lead-only.md).
 
 Github Actions deploy to each site via `public/.github/workflows/*.yml` files. See [WP Engine Branched Deploys to WP Engine with GitHub Actions](https://wpengine.com/builders/branched-deploys-wp-engine-github-actions/) for instructions and [mediaengagement Actions](https://github.com/engagingnewsproject/mediaengagement/actions) to view workflow processing. _Pushing changes to the `master` branch does not deploy to the dev site._
 
@@ -241,4 +243,8 @@ Consent for **mediaengagement.org** is managed with **Cookiebot** loaded through
 ## Additional Information
 
 - [Timber Documentation](https://timber.github.io/docs/)
-- [Local Development](https://docs.mediaengagement.org/mediaengagement/#local-development)
+- [Docs index](docs/README.md) — Getting Started, Coding, Git, How To, WordPress, Lead Only
+
+## Long-form documentation
+
+Team docs live in this repo under [`docs/`](docs/README.md). Start with the full install guide: [Getting Started](docs/getting-started.md).
