@@ -15,3 +15,5 @@ jobs:
       with:
         WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
         WPE_ENV: cmedev
+        # Replace action defaults when setting FLAGS; keep -azvr --inplace --exclude=.*
+        FLAGS: -azvr --inplace --exclude=.* --exclude=docs/
