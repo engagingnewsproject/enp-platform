@@ -93,3 +93,6 @@ wp-content/plugins/admin-bar-disabler/
 wp-content/plugins/seo-by-rank-math/
 wp-content/plugins/seo-by-rank-math-pro/
 wp-content/plugins/download-monitor/
+
+# Repo docs stay on GitHub only — do not sync to the web root
+docs/
