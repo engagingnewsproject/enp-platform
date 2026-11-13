@@ -54,11 +54,18 @@ include uploads-proxy.conf;
 
 ### Export / import ACF field groups
 
-Field groups also sync via `acf-json` in the theme when that workflow is in use — prefer committing JSON when possible (see README). Manual Tools export/import:
+ACF field groups sync via JSON in `engage-2-x/acf-json`:
+
+1. Edits in WP Admin save JSON into `acf-json` automatically.
+2. Pull the repo so other environments pick up the JSON.
+3. Commit and push field-group JSON with your PR.
+
+The ACF admin UI is hidden on production / non-local via `WP_ENVIRONMENT_TYPE` (visible locally only).
+
+Manual Tools export/import (if needed):
 
 1. Local WP Admin → **Custom Fields → Tools** → export selected groups.
-2. On Dev / Staging / Production (as needed) → **Custom Fields → Tools** → import.
-3. Prefer shipping JSON through git so environments stay aligned without one-off imports.
+2. On Dev / Staging / Production → **Custom Fields → Tools** → import.
 
 ### Notes on post type archive queries
 
@@ -81,3 +88,18 @@ Checklist (theme paths under `engage-2-x`):
 8. Update `archive.php` (or the relevant archive template) for the filter menu.
 9. In ACF Options → Archive Landing Pages, add the post type slug as a landing page type option.
 10. Test archives and single views locally.
+
+## Cookiebot (consent) via Google Tag Manager
+
+Consent on **mediaengagement.org** uses **Cookiebot** through **Google Tag Manager**, not the WordPress plugin.
+
+- [Cookiebot admin](https://admin.cookiebot.com/)
+- [GTM deployment guide (Cookiebot)](https://support.cookiebot.com/hc/en-us/articles/360003793854-Google-Tag-Manager-deployment)
+
+Quick reference:
+
+1. Adding the Cookiebot CMP **template** is not enough — create a **Tag** that uses it.
+2. Fire on **`Consent Initialization - All Pages`**, not a normal Page View.
+3. Use the Cookiebot **Domain Group ID** in the tag.
+4. GA4 / Ads tags should respect GTM Consent (`analytics_storage` / `ad_storage`).
+5. If the banner is missing: try incognito, clear consent cookies, check `www` vs bare hostname, and Cookiebot geo/dialog settings.
